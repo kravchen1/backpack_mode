@@ -82,6 +82,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         Debug.Log("GlobalPosition:" + (Vector2)cellTransform.position);
         Debug.Log(collision.name + " Trigger " + this.name);
         Debug.Log("OnTriggerEnterVectorListCount:" + vectorList.Count.ToString());
+        collision.GetComponent<Image>().color = Color.red;
         //this.GetComponent<Image>().color = new Color32(255, 255, 225, 100);
         //PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level") + 1);
         //// globaltest.text = PlayerPrefs.GetInt("level").ToString();
@@ -96,6 +97,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             vectorList.Remove(cellTransform.localPosition);
         Debug.Log(collision.name + " AnTrigger " + this.name);
         Debug.Log("OnTriggerExitVectorListCount:" + vectorList.Count.ToString());
+        collision.GetComponent<Image>().color = imageColor;
         //this.GetComponent<Image>().color = color;
     }
 }
