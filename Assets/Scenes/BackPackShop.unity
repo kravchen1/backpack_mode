@@ -1976,6 +1976,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 0}
+  floatHeight: 0
+  liftForce: 0
+  damping: 0
 --- !u!225 &375439263
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3498,6 +3501,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 0}
+  floatHeight: 0
+  liftForce: 0
+  damping: 0
 --- !u!225 &695229517
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -7843,6 +7849,7 @@ RectTransform:
   - {fileID: 375439256}
   - {fileID: 1418415093}
   - {fileID: 707650591}
+  - {fileID: 1779761178}
   - {fileID: 695229514}
   m_Father: {fileID: 863444140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7984,7 +7991,6 @@ RectTransform:
   - {fileID: 1934644351}
   - {fileID: 1080190028}
   - {fileID: 979355633}
-  - {fileID: 1779761178}
   m_Father: {fileID: 1609504433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -8204,13 +8210,13 @@ GameObject:
   - component: {fileID: 1779761178}
   - component: {fileID: 1779761183}
   - component: {fileID: 1779761182}
-  - component: {fileID: 1779761180}
   - component: {fileID: 1779761184}
   - component: {fileID: 1779761185}
+  - component: {fileID: 1779761180}
   - component: {fileID: 1779761188}
   - component: {fileID: 1779761187}
   - component: {fileID: 1779761186}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: bag
   m_TagString: bag
   m_Icon: {fileID: 0}
@@ -8225,15 +8231,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779761177}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10.000054}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1708212500}
+  m_Father: {fileID: 1609504433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 262.50003, y: -101.100006}
+  m_AnchoredPosition: {x: 58.64904, y: -44.33101}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1779761180
@@ -8266,7 +8272,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -8333,6 +8339,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 0}
+  floatHeight: 0
+  liftForce: 0
+  damping: 0
 --- !u!225 &1779761185
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -8375,7 +8384,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -8421,7 +8430,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -8467,7 +8476,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

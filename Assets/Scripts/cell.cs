@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class cell : MonoBehaviour
 {
+    private bool EmptyBag;
+    private bool EmptyItem;
+
     public bool hide;
     public float SpeedActivation;
 

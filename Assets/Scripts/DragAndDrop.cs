@@ -5,18 +5,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Audio;
 
-public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragAndDrop : Item, IBeginDragHandler, IEndDragHandler, IDragHandler 
 {
     public RectTransform rectTransform;
     private Image image;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
     private Color imageColor;
+
+
     //private List<Transform> cellList = new List<Transform>();
+
     private List<Vector2> vectorList = new List<Vector2>();
     private List<Collider2D> colliders = new List<Collider2D>();
     private Vector3 offset;
     private Transform bagTransform;
+
+    private List<RaycastHit2D> hits = new List<RaycastHit2D>();
+    private List<RaycastHit2D> Carehits = new List<RaycastHit2D>();
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -24,15 +31,67 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
         imageColor = image.color;
-    }
-    private void Start()
-    {
+
         var collidersArray = rectTransform.GetComponents<Collider2D>();
         for (int i = 0; i < collidersArray.Count(); i++)
         {
             colliders.Add(collidersArray[i]);
         }
     }
+    /*
+     // If no registred hitobject => Entering
+                if( hitObject == null )
+                {
+                    go.SendMessage ("OnHitEnter"); 
+                }
+                // If hit object is the same as the registered one => Stay
+                else if( hitObject.GetInstanceID() == go.GetInstanceID() )
+                {
+                    hitObject.SendMessage( "OnHitStay" );
+                }
+                // If new object hit => Exit last + Enter new
+                else
+                {
+                    hitObject.SendMessage( "OnHitExit" );
+                    go.SendMessage ("OnHitEnter");
+                }
+
+                hitting = true ;
+                hitObject = go ;
+    */
+    void Update()
+    {
+        hits.Clear();
+        foreach (var collider in colliders)
+        {
+            hits.Add(Physics2D.Raycast(collider.bounds.center, -Vector2.up));
+        }
+
+        foreach (var Carehit in Carehits.ToList())
+        {
+            if (hits.Where(e => e == Carehit).Count() == 0)
+            {
+                Carehit.collider.GetComponent<Image>().color = Color.blue;
+                Carehits.Remove(Carehit);
+                Carehits.IsDeleted = true;
+            }
+        }
+
+        Debug.Log("startforeach");
+        Debug.Log(hits.Count());
+
+        foreach (var hit in hits)
+        {
+            var zal = hit.collider.GetComponent<cell>();
+            if (hit.collider != null)
+            {
+                //Debug.Log(hit.collider.name);
+                hit.collider.GetComponent<Image>().color = Color.red;
+                Carehits.Add(hit);//מבתוךעû
+            }
+        }
+    }
+ 
     public void OnBeginDrag(PointerEventData eventData)
     {
         image.color = new Color(0f, 255f, 200f, 0.7f);
@@ -73,6 +132,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         }
         vectorList.Clear();
     }
+
+ 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var cellTransform = collision.GetComponent<RectTransform>();
@@ -82,7 +144,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
         Debug.Log("GlobalPosition:" + (Vector2)cellTransform.position);
         Debug.Log(collision.name + " Trigger " + this.name);
         Debug.Log("OnTriggerEnterVectorListCount:" + vectorList.Count.ToString());
-        collision.GetComponent<Image>().color = Color.red;
+       // collision.GetComponent<Image>().color = Color.red;
         //this.GetComponent<Image>().color = new Color32(255, 255, 225, 100);
         //PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level") + 1);
         //// globaltest.text = PlayerPrefs.GetInt("level").ToString();
@@ -97,7 +159,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
             vectorList.Remove(cellTransform.localPosition);
         Debug.Log(collision.name + " AnTrigger " + this.name);
         Debug.Log("OnTriggerExitVectorListCount:" + vectorList.Count.ToString());
-        collision.GetComponent<Image>().color = imageColor;
+       // collision.GetComponent<Image>().color = imageColor;
         //this.GetComponent<Image>().color = color;
     }
 }
