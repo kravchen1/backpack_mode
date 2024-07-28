@@ -17,6 +17,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
     private Color imageColor;
+    private bool needToRotate;
 
     //лучи
     private List<Collider2D> itemColliders = new List<Collider2D>();
@@ -33,6 +34,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
         imageColor = image.color;
+        needToRotate = false;
 
         var collidersArray = rectTransform.GetComponents<Collider2D>();
         for (int i = 0; i < collidersArray.Count(); i++)
@@ -42,15 +44,20 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         colliderCount = collidersArray.Count();
     }
 
-    
+
 
     void Update()
     {
-        var КЕ = 1;
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && needToRotate)
         {
-            rectTransform.Rotate(Vector2.left);
-            Debug.Log("123");
+            rectTransform.Rotate(0, 0, 90);
+            foreach (var Carehit in careHits)
+            {
+                Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
+                Carehit.isDeleted = true;
+            }
+            careHits.RemoveAll(e => e.isDeleted == true);
+            RaycastEvent();
         }
     }
 
@@ -125,6 +132,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        needToRotate = true;
         //image.color. = 0.5f;
         //image.raycastTarget = false;
         //canvasGroup.blocksRaycasts = false;
