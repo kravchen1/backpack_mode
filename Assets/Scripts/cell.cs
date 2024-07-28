@@ -11,6 +11,7 @@ public class cell : MonoBehaviour
     public float SpeedActivation;
 
     public Text globaltest;
+    private Item item;
     Color32 color;
 
     public bool IsContent = false;

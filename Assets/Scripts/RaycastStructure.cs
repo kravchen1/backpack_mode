@@ -1,7 +1,15 @@
 using UnityEngine;
 
-public class RaycastStructure : MonoBehaviour
+public class RaycastStructure : ScriptableObject
 {
-    private bool isDeleted = false;
-    private RaycastHit2D raycastHit;
+    public bool isDeleted = false;
+    public RaycastHit2D raycastHit;
+
+    public RaycastStructure(RaycastHit2D raycastHit)
+    {
+        this.raycastHit = raycastHit;
+    }
+
 }
+
+
