@@ -8,12 +8,13 @@ using UnityEditor.Rendering;
 using UnityEngine.UIElements;
 using static UnityEngine.RectTransform;
 using System.Threading;
+using Unity.VisualScripting;
 
 public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     private string Name;
     private int colliderCount;
-    private  RectTransform rectTransform;
+    private RectTransform rectTransform;
 
     private UnityEngine.UI.Image image;
     private Canvas canvas;
@@ -37,11 +38,11 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         itemColliders.Clear();
         for (int i = 0; i < collidersArray.Count(); i++)
         {
-            Debug.Log(collidersArray[i].bounds.center.ToString());
+            //Debug.Log(collidersArray[i].bounds.center.ToString());
             itemColliders.Add(collidersArray[i]);
         }
         colliderCount = collidersArray.Count();
-    }    
+    }
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -50,9 +51,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         canvasGroup = GetComponent<CanvasGroup>();
         imageColor = image.color;
         needToRotate = false;
-       
+
         initializationItemColliders();
-        
+
     }
 
 
@@ -109,7 +110,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         careHits.RemoveAll(e => e.isDeleted == true);
 
-        buildCareRayCast();            
+        buildCareRayCast();
     }
 
 
@@ -145,43 +146,81 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     public Vector2 calculateOffset(List<Collider2D> itemColliders)
     {
-        var minX = itemColliders[0].bounds.center.x;
+        //var minX = itemColliders[0].bounds.center.x;
+        //var maxY = itemColliders[0].bounds.center.y;
+       //Vector2 offset = itemColliders[0].offset;
+
+        //for (int i = 1; i < itemColliders.Count; i++)
+        //{
+        //    if (itemColliders[i].bounds.center.x <= minX && itemColliders[i].bounds.center.y >= maxY)
+        //    {
+        //        minX = itemColliders[i].bounds.center.x;
+        //        maxY = itemColliders[i].bounds.center.y;
+        //        offset = itemColliders[i].offset;
+        //    }
+        //}
+
         var maxY = itemColliders[0].bounds.center.y;
         Vector2 offset = itemColliders[0].offset;
 
         for (int i = 1; i < itemColliders.Count; i++)
         {
-            if (itemColliders[i].bounds.center.x <= minX && itemColliders[i].bounds.center.y >= maxY)
+            if (itemColliders[i].bounds.center.y >= maxY)
             {
-                minX = itemColliders[i].bounds.center.x;
                 maxY = itemColliders[i].bounds.center.y;
-                offset = itemColliders[i].offset;
             }
         }
-        
-
-        Debug.Log(rectTransform.eulerAngles.z);
-        
-        if (offset.y > 0)
+        var newListItemColiders = itemColliders.Where(e => e.bounds.center.y == maxY).ToList();
+        var minX = newListItemColiders[0].bounds.center.x;
+        //foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
+        // {
+        //Debug.Log(careHit.raycastHit.collider.transform.localPosition);
+        //}
+        //Debug.Log(minX);
+        //Debug.Log(maxY);
+        foreach (var itemColider in newListItemColiders)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
         {
-            offset = -offset;
-        }
-
-
-        if (rectTransform.eulerAngles.z == 90f || rectTransform.eulerAngles.z == 270f)
-        {
-            if (offset.y < 0)
+            //Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
+            if (itemColider.bounds.center.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
             {
-                offset = -offset;
+                if (itemColider.bounds.center.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                {
+                    minX = itemColider.bounds.center.x;
+                    offset = itemColider.offset;
+                    //Debug.Log("-------");
+                }
             }
+        }
+        //Physics2D.SyncTransforms();
+        //Debug.Log(minX.ToString() + ';' + maxY.ToString())
+
+
+
+
+        if (rectTransform.eulerAngles.z == 90f)
+        {
 
             var i = offset.x;
             offset.x = offset.y;
             offset.y = i;
 
+            offset.y = -offset.y;
+
         }
+        if (rectTransform.eulerAngles.z == 270f)
+        {
 
+            var i = offset.x;
+            offset.x = offset.y;
+            offset.y = i;
 
+            offset.x = -offset.x;
+
+        }
+        if (rectTransform.eulerAngles.z == 0)
+        {
+            offset = -offset;
+        }
 
         return offset;
     }
@@ -194,35 +233,73 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         image.raycastTarget = true;
         canvasGroup.blocksRaycasts = true;
         //var tre = careHits.AsQueryable().Distinct().Count();
-       // var tre2 = careHits.AsQueryable().Distinct();
-        
+        // var tre2 = careHits.AsQueryable().Distinct();
+
         if (careHits.Count() == colliderCount)
         {
             if (hits.Where(e => e.collider == null).Count() == 0)
             {
-                var minX = careHits[0].raycastHit.collider.transform.localPosition.x;
                 var maxY = careHits[0].raycastHit.collider.transform.localPosition.y;
                 Vector2 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
-            
+
                 for (int i = 1; i < careHits.Count; i++)
                 {
-                    if (careHits[i].raycastHit.collider.transform.localPosition.x <= minX && careHits[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                    if (careHits[i].raycastHit.collider.transform.localPosition.y >= maxY)
                     {
-                        minX = careHits[i].raycastHit.collider.transform.localPosition.x;
                         maxY = careHits[i].raycastHit.collider.transform.localPosition.y;
-                        colliderPos = careHits[i].raycastHit.collider.transform.localPosition;
                     }
                 }
+                var newListCareHits = careHits.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
+                var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
+                //foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
+               // {
+                    //Debug.Log(careHit.raycastHit.collider.transform.localPosition);
+                //}
+                //Debug.Log(minX);
+                //Debug.Log(maxY);
+                foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
+                {
+                    //Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
+                    if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                    {
+                        if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                        {
+                            minX = careHit.raycastHit.collider.transform.localPosition.x;
+                            colliderPos = careHit.raycastHit.collider.transform.localPosition;
+                            //Debug.Log("-------");
+                        }
+                    }
+                }
+                //Debug.Log(colliderPos);
+                //for (int i = 1; i < careHits.Count; i++)
+                //{
+                //    if (careHits[i].raycastHit.collider.transform.localPosition.x <= minX && careHits[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                //    {
+                //        minX = careHits[i].raycastHit.collider.transform.localPosition.x;
+                //        maxY = careHits[i].raycastHit.collider.transform.localPosition.y;
+                //        colliderPos = careHits[i].raycastHit.collider.transform.localPosition;
+                //    }
+                //}
+
+                //for (int i = 1; i < careHits.Count; i++)
+                //{
+                //    if (careHits[i].raycastHit.collider.transform.localPosition.x <= minX && careHits[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                //    {
+                //        minX = careHits[i].raycastHit.collider.transform.localPosition.x;
+                //        maxY = careHits[i].raycastHit.collider.transform.localPosition.y;
+                //        colliderPos = careHits[i].raycastHit.collider.transform.localPosition;
+                //    }
+                //}
                 rectTransform.SetParent(bagTransform);
+                var offset = calculateOffset(itemColliders);
                 Debug.Log(rectTransform.localPosition);
                 Debug.Log(colliderPos);
-                Debug.Log(itemColliders[0].offset);
-                
-                    rectTransform.localPosition = colliderPos + calculateOffset(itemColliders);
+                Debug.Log(offset);
+                rectTransform.localPosition = offset + colliderPos;
 
-                
-                Debug.Log(calculateOffset(itemColliders));
-                foreach(var careHit in careHits)
+
+                //Debug.Log(calculateOffset(itemColliders));
+                foreach (var careHit in careHits)
                 {
                     careHit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
                 }
@@ -233,7 +310,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             }
         }
         careHits.Clear();
-        
+
     }
 
 }
