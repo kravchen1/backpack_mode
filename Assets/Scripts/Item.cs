@@ -165,12 +165,14 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         for (int i = 1; i < itemColliders.Count; i++)
         {
+            Debug.Log("0) " + itemColliders[i].bounds.center.y);
+            Debug.Log("0)Round " + Mathf.Round(itemColliders[i].bounds.center.y * 10.0f) * 0.1f );
             if (itemColliders[i].bounds.center.y >= maxY)
             {
                 maxY = itemColliders[i].bounds.center.y;
             }
         }
-        var newListItemColiders = itemColliders.Where(e => e.bounds.center.y == maxY).ToList();
+        var newListItemColiders = itemColliders.Where(e => Mathf.Round(e.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f).ToList();
         var minX = newListItemColiders[0].bounds.center.x;
         //foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
         // {
@@ -180,8 +182,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         //Debug.Log(maxY);
         foreach (var itemColider in newListItemColiders)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
         {
-            //Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
-            if (itemColider.bounds.center.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+            Debug.Log("1) " + itemColider.bounds.center.x);
+            if (Mathf.Round(itemColider.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
             {
                 if (itemColider.bounds.center.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
                 {
@@ -221,7 +223,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             offset = -offset;
         }
-
+        Debug.Log(rectTransform.eulerAngles.z);
         return offset;
     }
 
@@ -259,7 +261,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 //Debug.Log(maxY);
                 foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
                 {
-                    //Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
+                    Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
                     if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
                     {
                         if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
@@ -296,7 +298,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 Debug.Log(colliderPos);
                 Debug.Log(offset);
                 rectTransform.localPosition = offset + colliderPos;
-
+                Debug.Log(rectTransform.localPosition);
 
                 //Debug.Log(calculateOffset(itemColliders));
                 foreach (var careHit in careHits)
