@@ -8,6 +8,7 @@ public class RaycastStructure : ScriptableObject
     public RaycastStructure(RaycastHit2D raycastHit)
     {
         this.raycastHit = raycastHit;
+        this.isDeleted = false;
     }
 
 }

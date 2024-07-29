@@ -6,6 +6,8 @@ using System.Linq;
 using UnityEngine.Audio;
 using UnityEditor.Rendering;
 using UnityEngine.UIElements;
+using static UnityEngine.RectTransform;
+using System.Threading;
 
 public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
@@ -26,7 +28,20 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //не лучи
     private Transform bagTransform;
+    private Collider2D[] collidersArray;
 
+
+    void initializationItemColliders()
+    {
+        collidersArray = rectTransform.GetComponents<Collider2D>();
+        itemColliders.Clear();
+        for (int i = 0; i < collidersArray.Count(); i++)
+        {
+            Debug.Log(collidersArray[i].bounds.center.ToString());
+            itemColliders.Add(collidersArray[i]);
+        }
+        colliderCount = collidersArray.Count();
+    }    
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -35,13 +50,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         canvasGroup = GetComponent<CanvasGroup>();
         imageColor = image.color;
         needToRotate = false;
-
-        var collidersArray = rectTransform.GetComponents<Collider2D>();
-        for (int i = 0; i < collidersArray.Count(); i++)
-        {
-            itemColliders.Add(collidersArray[i]);
-        }
-        colliderCount = collidersArray.Count();
+       
+        initializationItemColliders();
+        
     }
 
 
@@ -50,18 +61,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         if (Input.GetKeyDown(KeyCode.R) && needToRotate)
         {
-            rectTransform.Rotate(0, 0, 90);
-            foreach (var Carehit in careHits)
-            {
-                Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
-                Carehit.isDeleted = true;
-            }
-            careHits.RemoveAll(e => e.isDeleted == true);
+            Vector3 newRotation = new Vector3(0, 0, 90);
+            rectTransform.Rotate(newRotation);
+            //rectTransform.SyncTransforms()
+            Physics2D.SyncTransforms();
             RaycastEvent();
         }
     }
 
-    void CreateRaycast(List<Collider2D> itemColliders)
+    void createRaycast()
     {
         foreach (var collider in itemColliders)
         {
@@ -69,54 +77,13 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
     }
 
-    public void RaycastEvent()
+    void buildCareRayCast()
     {
-        hits.Clear();
-        foreach (var collider in itemColliders)
-        {
-            hits.Add(Physics2D.Raycast(collider.bounds.center, -Vector2.up));
-        }
-        
-        foreach (var Carehit in careHits)
-        {
-            //foreach (var h in hits.Where(e => e.collider.name == Carehit.raycastHit.collider.name))
-               // Debug.Log("h " + h.collider.name);
-            //Debug.Log("res " + hits.Where(e => e.collider.name == Carehit.raycastHit.collider.name).Count().ToString());
-
-            if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0 /*&& careHits.Count != colliderCount*/) || hits.Where(e => e.collider == null).Count() == colliderCount)
-            {
-                Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
-                Carehit.isDeleted = true;
-            }
-
-
-
-            /*
-            hits: 1,2,3,4 
-            careHits: 1,2,3,4
-
-
-            hits:1,2,null,null
-            careHits: 1,2,3,4
-
-            */
-        }
-
-        /*
-        foreach(var careHit in careHits.Where(e => e.isDeleted == true))
-        {
-            careHit.raycastHit.collider.GetComponent<Image>().color = imageColor;
-        }*/
-        careHits.RemoveAll(e => e.isDeleted == true);
-
-
         foreach (var hit in hits)
         {
-           
+
             if (hit.collider != null)
             {
-                //Debug.Log(hit.collider.name);
-                
                 if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
                     hit.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
@@ -124,9 +91,25 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                     bagTransform = hit.transform.parent.transform;
                 }
             }
-
-
         }
+    }
+
+    public void RaycastEvent()
+    {
+        hits.Clear();
+        createRaycast();
+        foreach (var Carehit in careHits)
+        {
+            if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hits.Where(e => e.collider == null).Count() == colliderCount)
+            {
+                Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
+                Carehit.isDeleted = true;
+            }
+        }
+
+        careHits.RemoveAll(e => e.isDeleted == true);
+
+        buildCareRayCast();            
     }
 
 
@@ -142,7 +125,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-
+        /*
         float mw = Input.GetAxis("Mouse ScrollWheel");
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -156,12 +139,57 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             rectTransform.Rotate(Vector2.right);
         }
-
+        */
         RaycastEvent();
     }
+
+    public Vector2 calculateOffset(List<Collider2D> itemColliders)
+    {
+        var minX = itemColliders[0].bounds.center.x;
+        var maxY = itemColliders[0].bounds.center.y;
+        Vector2 offset = itemColliders[0].offset;
+
+        for (int i = 1; i < itemColliders.Count; i++)
+        {
+            if (itemColliders[i].bounds.center.x <= minX && itemColliders[i].bounds.center.y >= maxY)
+            {
+                minX = itemColliders[i].bounds.center.x;
+                maxY = itemColliders[i].bounds.center.y;
+                offset = itemColliders[i].offset;
+            }
+        }
+        
+
+        Debug.Log(rectTransform.eulerAngles.z);
+        
+        if (offset.y > 0)
+        {
+            offset = -offset;
+        }
+
+
+        if (rectTransform.eulerAngles.z == 90f || rectTransform.eulerAngles.z == 270f)
+        {
+            if (offset.y < 0)
+            {
+                offset = -offset;
+            }
+
+            var i = offset.x;
+            offset.x = offset.y;
+            offset.y = i;
+
+        }
+
+
+
+        return offset;
+    }
+
+
     public void OnEndDrag(PointerEventData eventData)
     {
-        
+        needToRotate = false;
         image.color = imageColor;
         image.raycastTarget = true;
         canvasGroup.blocksRaycasts = true;
@@ -186,7 +214,14 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                     }
                 }
                 rectTransform.SetParent(bagTransform);
-                rectTransform.localPosition = colliderPos - itemColliders[0].offset;
+                Debug.Log(rectTransform.localPosition);
+                Debug.Log(colliderPos);
+                Debug.Log(itemColliders[0].offset);
+                
+                    rectTransform.localPosition = colliderPos + calculateOffset(itemColliders);
+
+                
+                Debug.Log(calculateOffset(itemColliders));
                 foreach(var careHit in careHits)
                 {
                     careHit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
