@@ -19,7 +19,7 @@ public class MainScriptMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        carePoint.gameObject.GetComponent<Image>().color = Color.Lerp(Color.green, Color.red, Mathf.PingPong(Time.time, 1));
+        carePoint.gameObject.GetComponent<Image>().color = Color.Lerp(Color.green, startColorCarePoint, Mathf.PingPong(Time.time, 1));
         //Cube.GetComponent<Renderer>().material.color = lerpedColor;
     }
 
