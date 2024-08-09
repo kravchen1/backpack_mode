@@ -28,8 +28,9 @@ public class generateMapScript : MonoBehaviour
     private Vector3 moveDownVector = new Vector3(0f, -25.0f, 0.0f);
 
 
-    private GameObject bossTile;
-    private GameObject startTile;
+    public GameObject bossTile;
+    public GameObject startTile;
+    public Vector3 startTilePosition;
 
     private bool roadToBoss = false;
 
@@ -92,6 +93,8 @@ public class generateMapScript : MonoBehaviour
         }
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
+        startTilePosition = new Vector3(x, y, 0); 
+        Debug.Log(startTilePosition);
     }
 
 
