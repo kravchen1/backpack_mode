@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine.UIElements;
+using System.IO;
+using System.Text;
 //using System;
 
-public class generateMapScript : MonoBehaviour
+public class generateMapScript : Map
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //public GameObject carePoint;
@@ -19,18 +21,14 @@ public class generateMapScript : MonoBehaviour
     private GameObject battlePoint;
     private GameObject shopPoint;
     private GameObject greenStandart;
-    private List<Vector2> tilePositions = new List<Vector2>();
-    private List<Vector2> pointInterestPoisitions = new List<Vector2>();
-    private List<InterestPointStructure> pointInterestStructure = new List<InterestPointStructure>();
+
     private carePosition carePosition = new carePosition();
 
     private float width, height;
     private Vector3 moveDownVector = new Vector3(0f, -25.0f, 0.0f);
 
 
-    public GameObject bossTile;
-    public GameObject startTile;
-    public Vector3 startTilePosition;
+
 
     private bool roadToBoss = false;
 
@@ -42,14 +40,10 @@ public class generateMapScript : MonoBehaviour
         battlePoint = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle");
         shopPoint = Resources.Load<GameObject>("greenStandart(1)PointInterestShop");
         greenStandart = Resources.Load<GameObject>("greenStandart");
-
-
-
-
     }
 
     void generateBossTile()
-    {//greenStandart(1)PointStart
+    {
         bossTile = Instantiate(boss, new Vector3(0, 0, 0), Quaternion.identity);
         bossTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
         bossTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
@@ -93,7 +87,7 @@ public class generateMapScript : MonoBehaviour
         }
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
-        startTilePosition = new Vector3(x, y, 0); 
+        startPlayerPosition = new Vector3(x, y, 0); 
         Debug.Log(startTilePosition);
     }
 
@@ -106,183 +100,6 @@ public class generateMapScript : MonoBehaviour
 
         startTile.GetComponent<RectTransform>().anchoredPosition = position;
     }
-
-
-
-
-    void moveAndGenerateRoadAndPointDown(int countRoad, Vector3 moveVector)
-    {
-        for (int i = 0; i < countRoad; i++)
-        {
-            carePosition.position += moveVector;
-            generateTile(road, carePosition.position);
-        }
-        carePosition.position += moveVector;
-
-        int randomPlace = Random.Range(1, 3);
-
-        switch (randomPlace)
-        {
-            case 1:
-                generateTile(shopPoint, carePosition.position);
-                break;
-            case 2:
-                generateTile(battlePoint, carePosition.position);
-                break;
-            default:
-                Debug.Log("ты долбоёб?");
-                break;
-        }
-    }
-
-
-
-    void fullRoadGeneration() //пока ток вниз)
-    {
-        int randomCountRoads, randomLength;
-
-
-
-        randomCountRoads = Random.Range(1, 2);
-
-
-        for (int i = 0; i < randomCountRoads; i++)
-        {
-            randomLength = Random.Range(2, 4);
-            if (i == 0)
-            {
-                //if (carePosition.position.x <= 0)
-                moveAndGenerateRoadAndPointDown(randomLength, moveDownVector);
-            }
-
-        }
-    }
-
-    public void GenerateRandomTile(Vector3 carePosition, List<Vector3> tilePositions)
-    {
-        bool itInterestPoint = false;
-        int randomPlace = Random.Range(1, 3);
-        int roadOrInterestPoint = Random.Range(1, 3);
-
-
-        if (roadOrInterestPoint == 1 || itInterestPoint)
-        {
-            generateTile(road, carePosition);
-            itInterestPoint = false;
-        }
-        else
-        {
-            switch (randomPlace)
-            {
-                case 1:
-                    generateTile(shopPoint, carePosition);
-                    itInterestPoint = true;
-                    break;
-                case 2:
-                    generateTile(battlePoint, carePosition);
-                    itInterestPoint = true;
-                    break;
-                default:
-                    Debug.Log("ты долбоёб?");
-                    break;
-            }
-        }
-        tilePositions.Add(carePosition);
-    }
-
-    //public void RoadGeneration(Vector3 bossTilePosition, Vector3 startTilePosition)
-    //{
-    //    var carePosition = bossTilePosition - new Vector3(0, 25f, 0);
-    //    bool itInterestPoint = false;
-    //    List<Vector3> tilePositions = new List<Vector3>();
-    //    tilePositions.Add(bossTilePosition);
-    //    tilePositions.Add(startTilePosition);
-    //    var movingVector = new Vector3(0, 0, 0);
-    //    if (startTilePosition.x == 0)
-    //        movingVector = new Vector3(-25f, 0, 0);
-    //    else
-    //        movingVector = new Vector3(25f, 0, 0);
-    //    for (int i = 0; i < 3; i++)
-    //    {
-    //        switch (i)
-    //        {
-    //            case 0:
-    //                if (startTilePosition.x == bossTilePosition.x)
-    //                {
-    //                    movingVector = new Vector3(0, -25f, 0);
-    //                    while (carePosition.y != startTilePosition.y)
-    //                    {
-    //                        //Генерация от босса к старту по Y
-    //                        GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    movingVector = new Vector3(0, -25f, 0);
-    //                    while (carePosition.y >= startTilePosition.y)
-    //                    {
-    //                        GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                    }
-    //                    //carePosition = bossTilePosition;
-    //                    if (startTilePosition.x == 0)
-    //                    {
-    //                        movingVector = new Vector3(-25f, 0, 0);
-    //                        while (carePosition.x >= startTilePosition.x)
-    //                        {
-    //                            GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                        }
-    //                    }
-    //                    else
-    //                    {
-    //                        movingVector = new Vector3(25f, 0, 0);
-    //                        while (carePosition.x <= startTilePosition.x)
-    //                        {
-    //                            GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                        }
-    //                    }
-    //                }
-    //                break;
-    //            case 1:
-    //                if (startTilePosition.x == bossTilePosition.x)
-    //                {
-    //                    movingVector = new Vector3(0, -25f, 0);
-    //                    while (carePosition.y != startTilePosition.y)
-    //                    {
-    //                        //Генерация от босса к старту по Y
-    //                        GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    movingVector = new Vector3(0, -25f, 0);
-    //                    while (carePosition.y >= startTilePosition.y)
-    //                    {
-    //                        GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                    }
-    //                    carePosition = bossTilePosition;
-    //                    if (startTilePosition.x == 0)
-    //                    {
-    //                        movingVector = new Vector3(-25f, 0, 0);
-    //                        while (carePosition.x >= startTilePosition.x)
-    //                        {
-    //                            GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                        }
-    //                    }
-    //                    else
-    //                    {
-    //                        movingVector = new Vector3(25f, 0, 0);
-    //                        while (carePosition.x <= startTilePosition.x)
-    //                        {
-    //                            GenerateRandomTile(carePosition, tilePositions, movingVector);
-    //                        }
-    //                    }
-    //                }
-    //                break;
-    //        }
-    //    }
-
-    //}
-
     public class VectorStructure
     {
         public Vector2 movingVector;
@@ -303,91 +120,6 @@ public class generateMapScript : MonoBehaviour
             this.canBuild = canBuild;
         }
     }
-
-    public Vector2 Recursiya(Vector2 carePoint)
-    {
-        Dictionary<int, VectorStructure> movingVectors = new Dictionary<int, VectorStructure>();
-        movingVectors.Add(0, new VectorStructure(new Vector2(0, 25f)));
-        movingVectors.Add(1, new VectorStructure(new Vector2(0, -25f)));
-        movingVectors.Add(2, new VectorStructure(new Vector2(-25f, 0)));
-        movingVectors.Add(3, new VectorStructure(new Vector2(25f, 0)));
-        foreach(var vector in movingVectors)
-        {
-            if (tilePositions.Any(e => e == bossTile.GetComponent<RectTransform>().anchoredPosition + vector.Value.movingVector))
-            {
-                roadToBoss = true;
-                return carePoint;
-            }
-        }
-        
-        var bossPos = bossTile.GetComponent<RectTransform>().anchoredPosition;
-        var newCarePoint = carePoint;
-        if ((carePoint + movingVectors[0].movingVector).y >= height || tilePositions.Any(e => e == carePoint + movingVectors[0].movingVector))
-            movingVectors[0].canMove = false;
-        else
-            movingVectors[0].canMove = true;
-        if ((carePoint + movingVectors[1].movingVector).y < 0 || tilePositions.Any(e => e == carePoint + movingVectors[1].movingVector))
-            movingVectors[1].canMove = false;
-        else
-            movingVectors[1].canMove = true;
-        if ((carePoint + movingVectors[2].movingVector).x < 0 || tilePositions.Any(e => e == carePoint + movingVectors[2].movingVector))
-            movingVectors[2].canMove = false;
-        else
-            movingVectors[2].canMove = true;
-        if ((carePoint + movingVectors[3].movingVector).x >= width || tilePositions.Any(e => e == carePoint + movingVectors[3].movingVector))
-            movingVectors[3].canMove = false;
-        else
-            movingVectors[3].canMove = true;
-        Dictionary<int, Vector2> existVectors = new Dictionary<int, Vector2>();
-        int vectorIndex = 0;
-        foreach (var vector in movingVectors.Where(e => e.Value.canMove == true))
-        {
-            existVectors.Add(vectorIndex, vector.Value.movingVector);
-            vectorIndex++;
-        }
-        var randomVector = Random.Range(0, existVectors.Count());
-        if (existVectors.Count() == 0)
-        {
-            return carePoint;
-        }
-        else
-        {
-            //while(newCarePoint + existVectors[randomVector] * 3 > )
-            for (int i = 0; i < 2; i++)
-            {
-                newCarePoint += existVectors[randomVector];
-                if (!tilePositions.Any(e => e == newCarePoint))
-                {
-                    tilePositions.Add(newCarePoint);
-                    generateTile(road, newCarePoint);
-                }
-                else
-                    break;
-            }
-            int randomPlace = Random.Range(1, 3);
-            newCarePoint += existVectors[randomVector];
-            if (!tilePositions.Any(e => e == newCarePoint))
-            {
-                tilePositions.Add(newCarePoint);
-                pointInterestPoisitions.Add(newCarePoint);
-                switch (randomPlace)
-                {
-                    case 1:
-                        generateTile(shopPoint, newCarePoint);
-                        break;
-                    case 2:
-                        generateTile(battlePoint, newCarePoint);
-                        break;
-                    default:
-                        Debug.Log("ты долбоёб?");
-                        break;
-                }
-            }
-            //GenerateRandomTile(newCarePoint, tilePositions);
-            return Recursiya(newCarePoint);
-        }
-    }
-
     public void MapGenerator(InterestPointStructure carePoint)
     {
         if (carePoint.canBuild)
@@ -405,7 +137,7 @@ public class generateMapScript : MonoBehaviour
             movingVectors.Add(3, new VectorStructure(new Vector2(25f, 0)));
             foreach (var vector in movingVectors)
             {
-                if (tilePositions.Any(e => e == bossTile.GetComponent<RectTransform>().anchoredPosition + vector.Value.movingVector))
+                if (tiles.Any(e => e.tilePosition == bossTile.GetComponent<RectTransform>().anchoredPosition + vector.Value.movingVector))
                 {
                     roadToBoss = true;
                 }
@@ -413,19 +145,19 @@ public class generateMapScript : MonoBehaviour
 
             var bossPos = bossTile.GetComponent<RectTransform>().anchoredPosition;
             var newCarePoint = carePoint.position;
-            if ((carePoint.position + movingVectors[0].movingVector).y >= height || tilePositions.Any(e => e == carePoint.position + movingVectors[0].movingVector))
+            if ((carePoint.position + movingVectors[0].movingVector).y >= height || tiles.Any(e => e.tilePosition == carePoint.position + movingVectors[0].movingVector))
                 movingVectors[0].canMove = false;
             else
                 movingVectors[0].canMove = true;
-            if ((carePoint.position + movingVectors[1].movingVector).y < 0 || tilePositions.Any(e => e == carePoint.position + movingVectors[1].movingVector))
+            if ((carePoint.position + movingVectors[1].movingVector).y < 0 || tiles.Any(e => e.tilePosition == carePoint.position + movingVectors[1].movingVector))
                 movingVectors[1].canMove = false;
             else
                 movingVectors[1].canMove = true;
-            if ((carePoint.position + movingVectors[2].movingVector).x < 0 || tilePositions.Any(e => e == carePoint.position + movingVectors[2].movingVector))
+            if ((carePoint.position + movingVectors[2].movingVector).x < 0 || tiles.Any(e => e.tilePosition == carePoint.position + movingVectors[2].movingVector))
                 movingVectors[2].canMove = false;
             else
                 movingVectors[2].canMove = true;
-            if ((carePoint.position + movingVectors[3].movingVector).x >= width || tilePositions.Any(e => e == carePoint.position + movingVectors[3].movingVector))
+            if ((carePoint.position + movingVectors[3].movingVector).x >= width || tiles.Any(e => e.tilePosition == carePoint.position + movingVectors[3].movingVector))
                 movingVectors[3].canMove = false;
             else
                 movingVectors[3].canMove = true;
@@ -443,18 +175,13 @@ public class generateMapScript : MonoBehaviour
             }
             else
             {
-                //while(newCarePoint + existVectors[randomVector] * 3 > )
                 var randomRoadCount = Random.Range(2, 4);
-                //if (randomRoadCount == 0)
-                //{
-                //    return;
-                //}
                 for (int i = 0; i < randomRoadCount; i++)
                 {
                     newCarePoint += existVectors[randomVector];
-                    if (!tilePositions.Any(e => e == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % 25)))
+                    if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % 25)))
                     {
-                        tilePositions.Add(newCarePoint);
+                        tiles.Add(new Tile(road.name,newCarePoint));
                         generateTile(road, newCarePoint);
                     }
                     else
@@ -462,18 +189,19 @@ public class generateMapScript : MonoBehaviour
                 }
                 int randomPlace = Random.Range(1, 3);
                 newCarePoint += existVectors[randomVector];
-                if (!tilePositions.Any(e => e == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % 25)))
+                if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % 25)))
                 {
-                    tilePositions.Add(newCarePoint);
                     //pointInterestPoisitions.Add(newCarePoint);
                     pointInterestStructure.Add(new InterestPointStructure(newCarePoint));
                     switch (randomPlace)
                     {
                         case 1:
                             generateTile(shopPoint, newCarePoint);
+                            tiles.Add(new Tile(shopPoint.name, newCarePoint));
                             break;
                         case 2:
                             generateTile(battlePoint, newCarePoint);
+                            tiles.Add(new Tile(battlePoint.name, newCarePoint));
                             break;
                         default:
                             Debug.Log("ты долбоёб?");
@@ -485,42 +213,29 @@ public class generateMapScript : MonoBehaviour
         else
             return;
     }
-    void Start()
+
+    public void InitializateGenerationMap()
     {
-        var canvas = GetComponent<Canvas>();
-        width = canvas.GetComponent<RectTransform>().rect.size.x;
-        height = canvas.GetComponent<RectTransform>().rect.size.y;
-        var square = 0;
+        //using (FileStream fileStream = new FileStream("C:\\text.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite))
+        //{
+        //    fileStream.Seek(0, SeekOrigin.End);
+        //    byte[] buffer = Encoding.Default.GetBytes("zalupa");
+        //    fileStream.Write(buffer, 0, buffer.Length);
+        //}
         generateBossTile();
         generateStartTile();
-
         var bossTilePosition = bossTile.GetComponent<RectTransform>().anchoredPosition;
         var startTilePosition = startTile.GetComponent<RectTransform>().anchoredPosition;
 
-        tilePositions.Add(bossTilePosition);
-        tilePositions.Add(startTilePosition);
+        tiles.Add(new Tile(boss.name, bossTilePosition));
+        tiles.Add(new Tile(start.name, startTilePosition));
 
         var carePoint = startTilePosition;
-        //Recursiya(startTilePosition);
         var countInterestPoint = Random.Range(5, 10);
         pointInterestPoisitions.Add(startTilePosition);
         pointInterestStructure.Add(new InterestPointStructure(startTilePosition));
         var index = pointInterestPoisitions.Count() - 1;
         var countCycle = 0;
-        //while (!roadToBoss)
-        //{
-        //    countCycle++;
-        //    var countPoints = pointInterestPoisitions.Count();
-        //    for (int i = 0; i < countPoints; i++)
-        //    {
-        //        MapGenerator(pointInterestPoisitions[i]);
-        //    }
-        //    if (countCycle > 100)
-        //    {
-        //        Debug.Log("Мы закциклились епта");
-        //        break;
-        //    }
-        //}
         while (!roadToBoss)
         {
             countCycle++;
@@ -535,32 +250,51 @@ public class generateMapScript : MonoBehaviour
                 break;
             }
         }
-        for (int i = 0; i < height; i+=25)
+        for (int i = 0; i < height; i += 25)
         {
-            for (int j = 0; j < width; j+=25)
+            for (int j = 0; j < width; j += 25)
             {
-                if (!tilePositions.Any(e => e == new Vector2(j,i)))
+                var vector = new Vector2(j, i);
+                if (!tiles.Any(e => e.tilePosition == vector))
                 {
-                    generateTile(greenStandart, new Vector2(j, i));
+                    tiles.Add(new Tile(greenStandart.name, vector));
+                    generateTile(greenStandart, vector);
                 }
             }
         }
-        Debug.Log(pointInterestStructure.Where(e => e.canBuild == false).Count());
-        Debug.Log(roadToBoss);
+    }
 
+    void GenerateMapFromFile()
+    {
+        LoadData();
+        foreach (var tile in mapData.tiles)
+        {
+            var careGameObject = Resources.Load<GameObject>(tile.tileName);
+            var careTile = Instantiate(careGameObject, new Vector3(0, 0, 0), Quaternion.identity);
+            careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
+            careTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
+            careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
+        }
+    }
 
+    void Start()
+    {
+        var canvas = this.GetComponent<Canvas>();
+        width = canvas.GetComponent<RectTransform>().rect.size.x;
+        height = canvas.GetComponent<RectTransform>().rect.size.y;
 
-        //RoadGeneration(bossTilePosition, startTilePosition);
-        //Debug.Log((height%25));
-
-        //fullRoadGeneration();
-
+        //var z = ScriptableObject.CreateInstance<Map>();
+        if (!File.Exists(mapDataFilePath))
+            InitializateGenerationMap();
+        else
+            GenerateMapFromFile();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
     }
 
 

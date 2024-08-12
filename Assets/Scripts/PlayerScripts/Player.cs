@@ -7,9 +7,10 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject goMap;
 
-    private generateMapScript map;
-    private RectTransform rectTransform;
+    //private generateMapScript map;
 
+    private Map map;
+    private RectTransform rectTransform;
 
 
     private Rigidbody2D rb;
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
 
     private GameObject activePoint;
     private Color trueActivePointColor;
+
+
 
     private bool startMove = false;
     private void Awake()
@@ -81,7 +84,10 @@ public class Player : MonoBehaviour
         {
             if (activePoint != null && activePoint.name.Contains("Shop"))
             {
+                Time.timeScale = 0f;
+                map.SaveData();
                 SceneManager.LoadScene("BackPackShop");
+                Time.timeScale = 1f;
             }
         }
             
@@ -89,7 +95,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Invoke("Initialize",1);       
+        Invoke("Initialize",1);
     }
 
     // Update is called once per frame

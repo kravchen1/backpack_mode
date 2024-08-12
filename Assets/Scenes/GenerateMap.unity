@@ -232,9 +232,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600b2457175d8874d9f89bb7af96e24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilePositions: []
+  pointInterestPoisitions: []
   bossTile: {fileID: 0}
   startTile: {fileID: 0}
   startTilePosition: {x: 0, y: 0, z: 0}
+  startPlayerPosition: {x: 0, y: 0}
+  mapDataFilePath: Assets/Saves/mapData.json
 --- !u!1 &416639953
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 15.000061, y: 14.999084}
+  m_AnchoredPosition: {x: 15, y: 14.999023}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!50 &735313692
