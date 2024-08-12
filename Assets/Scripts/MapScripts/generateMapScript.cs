@@ -88,7 +88,7 @@ public class generateMapScript : Map
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         startPlayerPosition = new Vector3(x, y, 0); 
-        Debug.Log(startTilePosition);
+        Debug.Log(startPlayerPosition);
     }
 
 
@@ -274,7 +274,9 @@ public class generateMapScript : Map
             careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
             careTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
             careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
+            tiles.Add(tile);
         }
+        startPlayerPosition = mapData.playerPosition;
     }
 
     void Start()
@@ -284,7 +286,7 @@ public class generateMapScript : Map
         height = canvas.GetComponent<RectTransform>().rect.size.y;
 
         //var z = ScriptableObject.CreateInstance<Map>();
-        if (!File.Exists(mapDataFilePath))
+       if (!File.Exists(mapDataFilePath))
             InitializateGenerationMap();
         else
             GenerateMapFromFile();

@@ -6,20 +6,18 @@ using static generateMapScript;
 [Serializable]
 public class MapData
 {
+    //public Tiles tiles = new Tiles();
     [HideInInspector] public List<Tile> tiles = new List<Tile>();
-    public MapData(List<Tile> tiles)
+    [HideInInspector] public Vector2 playerPosition = new Vector2(0,0);
+    //public Tile tile;
+
+    //public List<string> tileName;
+    //public List<Vector2> tilePosition;
+
+    public MapData(List<Tile> tiles, Vector2 vector)
     {
         this.tiles = tiles;
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        this.playerPosition = vector;
+        //this.tile = new Tile("Ёзалуп", new Vector2(0, 0));
     }
 }

@@ -74,7 +74,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         foreach (var collider in itemColliders)
         {
-            hits.Add(Physics2D.Raycast(collider.bounds.center, -Vector2.up));
+            hits.Add(Physics2D.Raycast(collider.bounds.center, -Vector2.up, 0, 128));
+            //Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)
         }
     }
 

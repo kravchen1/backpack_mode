@@ -35,8 +35,8 @@ public class Player : MonoBehaviour
     void SetStartPosition()
     {
 
-        rectTransform.anchoredPosition = map.startTilePosition;
-        Debug.Log(map.startTilePosition);
+        rectTransform.anchoredPosition = map.startPlayerPosition;
+        Debug.Log(map.startPlayerPosition);
         Debug.Log(rectTransform.anchoredPosition);
     }
 
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
             //Debug.Log(activePoint.name);
         }
 
-        if(hit.collider == null || activePoint != hit.collider.gameObject.GameObject())
+        if(activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
             activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1,1,1);
         }
@@ -84,7 +84,9 @@ public class Player : MonoBehaviour
         {
             if (activePoint != null && activePoint.name.Contains("Shop"))
             {
+
                 Time.timeScale = 0f;
+                map.startPlayerPosition = rectTransform.anchoredPosition;
                 map.SaveData();
                 SceneManager.LoadScene("BackPackShop");
                 Time.timeScale = 1f;
@@ -95,7 +97,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Invoke("Initialize",1);
+        Invoke("Initialize",0.1f);
     }
 
     // Update is called once per frame

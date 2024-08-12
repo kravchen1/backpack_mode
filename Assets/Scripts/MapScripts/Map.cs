@@ -5,10 +5,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 using static generateMapScript;
-using Newtonsoft.Json;
 using System.IO.Pipes;
-using Newtonsoft.Json.Linq;
 using System;
+using UnityEditor.Overlays;
 
 public class Map : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class Map : MonoBehaviour
     [HideInInspector] public GameObject startTile;
     [HideInInspector] public Vector3 startTilePosition;
     [HideInInspector] public Vector2 startPlayerPosition;
-    [HideInInspector] public List<Tile> tiles = new List<Tile>();
+    [HideInInspector] public List<Tile> tiles;// = new List<Tile>();
 
     [HideInInspector] public MapData mapData;//= ScriptableObject.CreateInstance<MapData>();
     [HideInInspector] public string mapDataFilePath;
@@ -40,30 +39,36 @@ public class Map : MonoBehaviour
     public void SaveData()
     {
         mapDataFilePath = "Assets/Saves/mapData.json";
-        mapData = new MapData(tiles);
-        var saveData = "[\n";
-        foreach (var tile in mapData.tiles)
+        mapData = new MapData(tiles, startPlayerPosition);
+
+        //var saveData = "[";
+        var saveData = JsonUtility.ToJson(mapData);
+        //saveData += "]";
+
+        if (File.Exists(mapDataFilePath))
         {
-            saveData += JsonUtility.ToJson(tile) + ",\n";
+            File.Delete(mapDataFilePath);
         }
-        saveData += "]";
+
+
         using (FileStream fileStream = new FileStream(mapDataFilePath, FileMode.Create, FileAccess.ReadWrite))
         {
             fileStream.Seek(0, SeekOrigin.End);
             byte[] buffer = Encoding.Default.GetBytes(saveData);
-            fileStream.Write(buffer, 0, buffer.Length);
+           fileStream.Write(buffer, 0, buffer.Length);
         }
     }
     public void LoadData()
     {
-        mapData = new MapData(tiles);
+        mapData = new MapData(tiles, new Vector2(0,0));
         if (File.Exists(mapDataFilePath))
         {
-            foreach (var line in File.ReadLines(mapDataFilePath))
-            {
-                if(line!="[" &&  line!="]")
-                    mapData.tiles.Add(JsonUtility.FromJson<Tile>(line.Substring(0, line.Length-1)));
-            }
+            //foreach (var line in File.ReadLines(mapDataFilePath))
+            //{
+            //    if (line != "[" && line != "]")
+            //        mapData.tiles.Add(JsonUtility.FromJson<Tile>(line.Substring(0, line.Length - 1)));
+            //}
+            mapData = JsonUtility.FromJson<MapData>(File.ReadAllText(mapDataFilePath));
         }
         else
             Debug.LogError("There is no save data!");
