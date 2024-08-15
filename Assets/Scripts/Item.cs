@@ -12,32 +12,35 @@ using Unity.VisualScripting;
 
 public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    private string Name;
-    private int colliderCount;
-    private RectTransform rectTransform;
-    private float startRectTransformZ;
+    protected string Name;
+    protected int colliderCount;
 
-    private UnityEngine.UI.Image image;
-    private Canvas canvas;
-    private CanvasGroup canvasGroup;
-    private Color imageColor;
-    private bool needToRotate;
-    private bool needToDynamic = false;
-    private bool needToRotateToStartRotation = false;
+    protected float startRectTransformZ;
+
+    protected UnityEngine.UI.Image image;
+    protected Canvas canvas;
+    protected CanvasGroup canvasGroup;
+    protected Color imageColor;
+
 
     //лучи
-    private List<Collider2D> itemColliders = new List<Collider2D>();
-    private List<RaycastHit2D> hits = new List<RaycastHit2D>();
-    private List<RaycastStructure> careHits = new List<RaycastStructure>();
+    protected List<Collider2D> itemColliders = new List<Collider2D>();
+    protected List<RaycastHit2D> hits = new List<RaycastHit2D>();
+    protected List<RaycastStructure> careHits = new List<RaycastStructure>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //не лучи
-    private Transform bagTransform;
-    private Collider2D[] collidersArray;
+    protected Transform bagTransform;
+    protected Collider2D[] collidersArray;
 
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
 
-    private bool firstTap = true; //костыль, но сори
+    protected RectTransform rectTransform;
+
+    protected bool firstTap = true; //костыль, но сори
+    protected bool needToRotate;
+    protected bool needToDynamic = false;
+    protected bool needToRotateToStartRotation = false;
 
 
     void initializationItemColliders()
@@ -118,7 +121,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         foreach (var collider in itemColliders)
         {
-            hits.Add(Physics2D.Raycast(collider.bounds.center, -Vector2.up, 0, 128));
+            //todo!!
+            if(gameObject.name.Contains("bag"))
+                hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 128));
+            else
+                hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 256));
+
             //Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)
         }
     }
@@ -127,17 +135,22 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         foreach (var hit in hits)
         {
-
+            Debug.Log(hit.collider.gameObject.name + " " + hit.collider.GetComponent<RectTransform>().position);
             if (hit.collider != null)
             {
                 if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
                     hit.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
                     careHits.Add(new RaycastStructure(hit));//объекты
-                    bagTransform = hit.transform.parent.transform;
+                    
+                    if (gameObject.name.Contains("bag"))
+                        bagTransform = hit.transform.parent.transform;
+                    else
+                        bagTransform = hit.transform.parent.parent.transform;
                 }
             }
         }
+        Debug.Log(";");
     }
 
     public void RaycastEvent()
@@ -159,7 +172,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     }
 
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         if(firstTap)
         {
@@ -288,16 +301,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         return offset;
     }
 
-
-    public void OnEndDrag(PointerEventData eventData)
+    public void CorrectEndPoint()
     {
-        needToRotate = false;
-        image.color = imageColor;
-        image.raycastTarget = true;
-        canvasGroup.blocksRaycasts = true;
-        //var tre = careHits.AsQueryable().Distinct().Count();
-        // var tre2 = careHits.AsQueryable().Distinct();
-
         if (careHits.Count() == colliderCount)
         {
             if (hits.Where(e => e.collider == null).Count() == 0)
@@ -315,8 +320,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 var newListCareHits = careHits.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
                 var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
                 //foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
-               // {
-                    //Debug.Log(careHit.raycastHit.collider.transform.localPosition);
+                // {
+                //Debug.Log(careHit.raycastHit.collider.transform.localPosition);
                 //}
                 //Debug.Log(minX);
                 //Debug.Log(maxY);
@@ -368,12 +373,24 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                     careHit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
                 }
             }
-            
+
         }
         else
         {
             needToDynamic = true;
         }
+    }
+    public virtual void OnEndDrag(PointerEventData eventData)
+    {
+        needToRotate = false;
+        image.color = imageColor;
+        image.raycastTarget = true;
+        canvasGroup.blocksRaycasts = true;
+        //var tre = careHits.AsQueryable().Distinct().Count();
+        // var tre2 = careHits.AsQueryable().Distinct();
+        CorrectEndPoint();
+
+
         careHits.Clear();
 
     }

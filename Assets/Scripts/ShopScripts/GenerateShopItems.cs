@@ -6,6 +6,7 @@ public class GenerateShopItems : MonoBehaviour
     private GameObject axe;
     private GameObject sword;
     private GameObject bag4x4;
+    private GameObject bag4x4_;
 
     private Collider2D[] collidersArray;
 
@@ -17,6 +18,7 @@ public class GenerateShopItems : MonoBehaviour
         axe = Resources.Load<GameObject>("Axe"); 
         sword = Resources.Load<GameObject>("SwordStandart");
         bag4x4 = Resources.Load<GameObject>("bagStandart4x4");
+        bag4x4_ = Resources.Load<GameObject>("bagStandart4x4_1");
 
 
     }
@@ -26,7 +28,13 @@ public class GenerateShopItems : MonoBehaviour
     void Generation(GameObject generationObject, Vector3 place)
     {
         var generationObjectShop = Instantiate(generationObject, place, Quaternion.identity, GetComponent<RectTransform>());
-        
+        for (int i = 0; i < generationObjectShop.transform.childCount; i++)
+        {
+            generationObjectShop.transform.GetChild(i).gameObject.name = generationObjectShop.transform.GetChild(i).gameObject.name + Random.Range(0, 10000);
+        }
+        generationObjectShop.name = generationObject.name + Random.Range(0, 10000);
+
+
     }
 
 
@@ -35,20 +43,33 @@ public class GenerateShopItems : MonoBehaviour
        int r;
        for (int i = 0; i < collidersArray.Length; i++)
         {
-            r = Random.Range(0, 3);
-            switch (r)
+            
+            if(i == 0)
             {
-                case 0:
-                    Generation(axe, collidersArray[i].bounds.center);
-                    break;
-                case 1:
-                    Generation(sword, collidersArray[i].bounds.center);
-                    break;
-                case 2:
-                    Generation(bag4x4, collidersArray[i].bounds.center);
-                    break;
+                Generation(sword, collidersArray[i].bounds.center);
             }
-           
+            else
+            {
+                Generation(bag4x4, collidersArray[i].bounds.center);
+            }
+
+            //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
+
+            //r = Random.Range(0, 3);
+            //switch (r)
+            //{
+
+            //    case 0:
+            //        Generation(axe, collidersArray[i].bounds.center);
+            //        break;
+            //    case 1:
+            //        Generation(sword, collidersArray[i].bounds.center);
+            //        break;
+            //    case 2:
+            //        Generation(bag4x4, collidersArray[i].bounds.center);
+            //        break;
+            //}
+
         }
 
     }
