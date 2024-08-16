@@ -24,13 +24,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
 
     //лучи
-    protected List<Collider2D> itemColliders = new List<Collider2D>();
+    protected List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     protected List<RaycastHit2D> hits = new List<RaycastHit2D>();
+    protected List<RaycastHit2D> hitsForBackpack= new List<RaycastHit2D>();
     protected List<RaycastStructure> careHits = new List<RaycastStructure>();
+    protected List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //не лучи
     protected Transform bagTransform;
-    protected Collider2D[] collidersArray;
+    protected BoxCollider2D[] collidersArray;
 
     protected Rigidbody2D rb;
 
@@ -45,7 +47,14 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     void initializationItemColliders()
     {
-        collidersArray = rectTransform.GetComponents<Collider2D>();
+        if (gameObject.name.Contains("bag"))
+        {
+            collidersArray = new BoxCollider2D[rectTransform.childCount];
+            for (int i = 0; i < rectTransform.childCount; i++)
+                collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
+        }
+        else
+            collidersArray = rectTransform.GetComponents<BoxCollider2D>();
         itemColliders.Clear();
         for (int i = 0; i < collidersArray.Count(); i++)
         {
@@ -122,10 +131,13 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         foreach (var collider in itemColliders)
         {
             //todo!!
-            if(gameObject.name.Contains("bag"))
+            if (gameObject.name.Contains("bag"))
                 hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 128));
             else
+            {
+                hitsForBackpack.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 128));
                 hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 256));
+            }
 
             //Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)
         }
@@ -135,27 +147,39 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         foreach (var hit in hits)
         {
-            Debug.Log(hit.collider.gameObject.name + " " + hit.collider.GetComponent<RectTransform>().position);
+            //Debug.Log(hit.collider.gameObject.name + " " + hit.collider.GetComponent<RectTransform>().position);
             if (hit.collider != null)
             {
                 if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                    hit.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    //this.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    if(!gameObject.name.Contains("bag"))
+                        hit.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
                     careHits.Add(new RaycastStructure(hit));//объекты
-                    
                     if (gameObject.name.Contains("bag"))
                         bagTransform = hit.transform.parent.transform;
                     else
-                        bagTransform = hit.transform.parent.parent.transform;
+                        bagTransform = hitsForBackpack[0].transform.parent.transform;
                 }
             }
         }
-        Debug.Log(";");
+        foreach (var hit in hitsForBackpack)
+        {
+            if (hit.collider != null)
+            {
+                if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
+                {
+                    careHitsForBackpack.Add(new RaycastStructure(hit));//объекты
+                }
+            }
+        }
+        //Debug.Log(";");
     }
 
     public void RaycastEvent()
     {
         hits.Clear();
+        hitsForBackpack.Clear();
         createRaycast();
         foreach (var Carehit in careHits)
         {
@@ -167,6 +191,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
 
         careHits.RemoveAll(e => e.isDeleted == true);
+
+        foreach (var Carehit in careHitsForBackpack)
+        {
+            if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hits.Where(e => e.collider == null).Count() == colliderCount)
+            {
+                Carehit.isDeleted = true;
+            }
+        }
+
+        careHitsForBackpack.RemoveAll(e => e.isDeleted == true);
 
         buildCareRayCast();
     }
@@ -191,6 +225,11 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         needToDynamic = false;
         
+        foreach (var careHit in careHits)
+        {
+            careHit.raycastHit.collider.GetComponent<Cell>().nestedObject = null;
+        }
+
         //image.color. = 0.5f;
         //image.raycastTarget = false;
         //canvasGroup.blocksRaycasts = false;
@@ -200,6 +239,21 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (gameObject.name.Contains("bag"))
+        {
+            if (careHits.Count() == colliderCount)
+            {
+                foreach (var collider in itemColliders)
+                {
+                    collider.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.green;
+                }
+            }
+            else
+                foreach (var collider in itemColliders)
+                {
+                    collider.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                }
+        }
         /*
         float mw = Input.GetAxis("Mouse ScrollWheel");
         if (Input.GetKeyDown(KeyCode.R))
@@ -218,7 +272,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         RaycastEvent();
     }
 
-    public Vector2 calculateOffset(List<Collider2D> itemColliders)
+    public virtual Vector2 calculateOffset(List<BoxCollider2D> itemColliders)
     {
         //var minX = itemColliders[0].bounds.center.x;
         //var maxY = itemColliders[0].bounds.center.y;
@@ -236,6 +290,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         var maxY = itemColliders[0].bounds.center.y;
         Vector2 offset = itemColliders[0].offset;
+        //Vector2 offset = new Vector2(-itemColliders[0].bounds.size.x / 2, itemColliders[0].bounds.size.y / 2);
+        //Vector2 offset = new Vector2(itemColliders[0].size.x / 2, itemColliders[0].size.y / 2);
 
         for (int i = 1; i < itemColliders.Count; i++)
         {
@@ -262,7 +318,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 if (itemColider.bounds.center.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
                 {
                     minX = itemColider.bounds.center.x;
-                    offset = itemColider.offset;
+                    offset = itemColider.offset; //new Vector2(itemColider.size.x / 2, itemColider.size.y / 2);
                     //Debug.Log("-------");
                 }
             }
@@ -301,23 +357,23 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         return offset;
     }
 
-    public void CorrectEndPoint()
+    public virtual bool CorrectEndPoint()
     {
-        if (careHits.Count() == colliderCount)
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
             if (hits.Where(e => e.collider == null).Count() == 0)
             {
-                var maxY = careHits[0].raycastHit.collider.transform.localPosition.y;
-                Vector2 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
+                var maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
+                Vector2 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
 
-                for (int i = 1; i < careHits.Count; i++)
+                for (int i = 1; i < careHitsForBackpack.Count; i++)
                 {
-                    if (careHits[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                    if (careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y >= maxY)
                     {
-                        maxY = careHits[i].raycastHit.collider.transform.localPosition.y;
+                        maxY = careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y;
                     }
                 }
-                var newListCareHits = careHits.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
+                var newListCareHits = careHitsForBackpack.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
                 var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
                 //foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
                 // {
@@ -360,24 +416,25 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 //}
                 rectTransform.SetParent(bagTransform);
                 var offset = calculateOffset(itemColliders);
-                Debug.Log(rectTransform.localPosition);
-                Debug.Log(colliderPos);
-                Debug.Log(offset);
+                Debug.Log("localPosition: " + rectTransform.localPosition);
+                Debug.Log("colliderPos: " + colliderPos);
+                Debug.Log("offset: " + offset);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
-                Debug.Log(rectTransform.localPosition);
+                Debug.Log("localPosition(2): " + rectTransform.localPosition);
 
                 //Debug.Log(calculateOffset(itemColliders));
-                foreach (var careHit in careHits)
+                foreach (var careHit in careHitsForBackpack)
                 {
                     careHit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
                 }
             }
-
+            return true;
         }
         else
         {
             needToDynamic = true;
+            return false;
         }
     }
     public virtual void OnEndDrag(PointerEventData eventData)
@@ -388,10 +445,19 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         canvasGroup.blocksRaycasts = true;
         //var tre = careHits.AsQueryable().Distinct().Count();
         // var tre2 = careHits.AsQueryable().Distinct();
-        CorrectEndPoint();
+        if(CorrectEndPoint())
+        {
+            foreach (var Carehit in careHits)
+            {
+                Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
+            }
+        }
 
-
-        careHits.Clear();
+        foreach (var Carehit in careHits)
+        {
+            Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
+        }
+        //careHits.Clear();
 
     }
 

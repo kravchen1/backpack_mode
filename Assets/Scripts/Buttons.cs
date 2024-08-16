@@ -16,9 +16,9 @@ public class Buttons : MonoBehaviour
     {
         transform.localScale = new Vector2(0.35f, 0.35f);
 
-        if(scenary == 1)
+        if(scenary == 3)
         {
-            PlayerPrefs.DeleteAll();
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
         }
 
         SceneManager.LoadScene(scene1.name);
