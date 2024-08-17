@@ -21,6 +21,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     protected Canvas canvas;
     protected CanvasGroup canvasGroup;
     protected Color imageColor;
+    public string prefabOriginalName;
 
 
     //лучи
@@ -71,7 +72,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         image = GetComponent<UnityEngine.UI.Image>();
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
-        imageColor = image.color;
+        //imageColor = image.color;
+        imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
 
         initializationItemColliders();
@@ -459,6 +461,19 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         //careHits.Clear();
 
+    }
+    private Vector3 offset;
+    void OnMouseDown()
+    {
+
+        offset = gameObject.transform.position -
+            Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f));
+    }
+
+    void OnMouseDrag()
+    {
+        Vector3 newPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f);
+        transform.position = Camera.main.ScreenToWorldPoint(newPosition) + offset;
     }
 
 }

@@ -1,41 +1,40 @@
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class BackpackData : MonoBehaviour
 {
-    //public Tiles tiles = new Tiles();
-    public List<ItemData> items;
-    public string backpackDataFilePath;
+    private string backpackDataFilePath;
+    public ItemData itemData;
     //public Tile tile;
 
     //public List<string> tileName;
     //public List<Vector2> tilePosition;
 
-    public BackpackData(List<ItemData> items)
-    {
-        this.items = items;
-    }
 
     public void SaveData()
     {
-        backpackDataFilePath = "Assets/Saves/backpackData.json";
+        List<Data> data = new List<Data>();
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             var childGO = gameObject.transform.GetChild(i).gameObject;
             if (childGO.layer != 7)
             {
-                items.Add(new ItemData(childGO.name, childGO.transform.localPosition));
+                data.Add(new Data(childGO.GetComponent<Item>().prefabOriginalName, childGO.transform.localPosition, childGO.transform.rotation));
             }
         }
         //var backpackData = new BackpackData();
 
         //var saveData = "[";
-        var saveData = JsonUtility.ToJson(backpackDataFilePath);
+        itemData.items = data;
+        var saveData = JsonUtility.ToJson(itemData);
         //saveData += "]";
 
         if (File.Exists(backpackDataFilePath))
@@ -53,18 +52,20 @@ public class BackpackData : MonoBehaviour
     }
     public void LoadData()
     {
-        //    mapData = new MapData(tiles, new Vector2(0, 0));
-        //    if (File.Exists(mapDataFilePath))
-        //    {
-        //        //foreach (var line in File.ReadLines(mapDataFilePath))
-        //        //{
-        //        //    if (line != "[" && line != "]")
-        //        //        mapData.tiles.Add(JsonUtility.FromJson<Tile>(line.Substring(0, line.Length - 1)));
-        //        //}
-        //        mapData = JsonUtility.FromJson<MapData>(File.ReadAllText(mapDataFilePath));
-        //    }
-        //    else
-        //        Debug.LogError("There is no save data!");
-        //}
+        if (File.Exists(backpackDataFilePath))
+        {
+            //foreach (var line in File.ReadLines(mapDataFilePath))
+            //{
+            //    if (line != "[" && line != "]")
+            //        mapData.tiles.Add(JsonUtility.FromJson<Tile>(line.Substring(0, line.Length - 1)));
+            //}
+            itemData = JsonUtility.FromJson<ItemData>(File.ReadAllText(backpackDataFilePath));
+        }
+        else
+            Debug.LogError("There is no save data!");
+    }
+    private void Start()
+    {
+        backpackDataFilePath = "Assets/Saves/backpackData.json";
     }
 }

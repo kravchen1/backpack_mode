@@ -27,12 +27,14 @@ public class GenerateShopItems : MonoBehaviour
 
     void Generation(GameObject generationObject, Vector3 place)
     {
-        var generationObjectShop = Instantiate(generationObject, place, Quaternion.identity, GetComponent<RectTransform>());
+        var generationObjectShop = Instantiate(generationObject, place, Quaternion.identity, GetComponent<RectTransform>().parent.transform);
         for (int i = 0; i < generationObjectShop.transform.childCount; i++)
         {
             generationObjectShop.transform.GetChild(i).gameObject.name = generationObjectShop.transform.GetChild(i).gameObject.name + Random.Range(0, 10000);
         }
         generationObjectShop.name = generationObject.name + Random.Range(0, 10000);
+
+        generationObjectShop.GetComponent<Item>().prefabOriginalName = generationObject.name;
 
 
     }
@@ -48,10 +50,10 @@ public class GenerateShopItems : MonoBehaviour
             {
                 Generation(sword, collidersArray[i].bounds.center);
             }
-            else
-            {
-                Generation(bag4x4, collidersArray[i].bounds.center);
-            }
+            //else
+            //{
+            //    Generation(bag4x4, collidersArray[i].bounds.center);
+            //}
 
             //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
 
