@@ -5,5 +5,5 @@ using UnityEngine.UI;
 
 public class Cell : MonoBehaviour
 {
-    public GameObject nestedObject;
+    public GameObject nestedObject = null;
 }

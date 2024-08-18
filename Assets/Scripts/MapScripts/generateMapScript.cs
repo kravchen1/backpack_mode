@@ -88,7 +88,7 @@ public class generateMapScript : Map
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         startPlayerPosition = new Vector3(x, y, 0); 
-        Debug.Log(startPlayerPosition);
+        //Debug.Log(startPlayerPosition);
     }
 
 

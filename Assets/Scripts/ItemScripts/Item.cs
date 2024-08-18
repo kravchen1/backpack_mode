@@ -17,9 +17,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     protected float startRectTransformZ;
 
-    protected UnityEngine.UI.Image image;
+    protected SpriteRenderer image;
     protected Canvas canvas;
-    protected CanvasGroup canvasGroup;
+    //protected CanvasGroup canvasGroup;
     protected Color imageColor;
     public string prefabOriginalName;
 
@@ -69,9 +69,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         rb = GetComponent<Rigidbody2D>();
         rectTransform = GetComponent<RectTransform>();
         startRectTransformZ = rectTransform.eulerAngles.z;// rectTransform.rotation.z;
-        image = GetComponent<UnityEngine.UI.Image>();
+        image = GetComponent<SpriteRenderer>();
         canvas = GetComponentInParent<Canvas>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        //canvasGroup = GetComponent<CanvasGroup>();
         //imageColor = image.color;
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
@@ -119,8 +119,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             else
             {
                 rectTransform.Rotate(0, 0, 500 * Time.deltaTime);
-                Debug.Log(rectTransform.rotation.z);
-                Debug.Log(startRectTransformZ);
+                //Debug.Log(rectTransform.rotation.z);
+                //Debug.Log(startRectTransformZ);
             }
 
         }
@@ -154,9 +154,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             {
                 if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                    //this.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    //this.collider.GetComponent<SpriteRender>().color = Color.red;
                     if(!gameObject.name.Contains("bag"))
-                        hit.collider.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                        hit.collider.GetComponent<SpriteRenderer>().color = Color.red;
                     careHits.Add(new RaycastStructure(hit));//מבתוךעû
                     if (gameObject.name.Contains("bag"))
                         bagTransform = hit.transform.parent.transform;
@@ -187,7 +187,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hits.Where(e => e.collider == null).Count() == colliderCount)
             {
-                Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
+                Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
                 Carehit.isDeleted = true;
             }
         }
@@ -226,6 +226,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
            
         }
         needToDynamic = false;
+
+
+
+        var cellList = GameObject.Find("backpack").GetComponentsInChildren<Cell>();
+
+        foreach (var cell in cellList)
+        {
+            if (cell.nestedObject != null && cell.nestedObject.name == gameObject.name)
+                cell.nestedObject = null;
+        }
         
         foreach (var careHit in careHits)
         {
@@ -247,13 +257,13 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             {
                 foreach (var collider in itemColliders)
                 {
-                    collider.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.green;
+                    collider.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
                 }
             }
             else
                 foreach (var collider in itemColliders)
                 {
-                    collider.gameObject.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                    collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 }
         }
         /*
@@ -297,8 +307,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         for (int i = 1; i < itemColliders.Count; i++)
         {
-            Debug.Log("0) " + itemColliders[i].bounds.center.y);
-            Debug.Log("0)Round " + Mathf.Round(itemColliders[i].bounds.center.y * 10.0f) * 0.1f );
+            //Debug.Log("0) " + itemColliders[i].bounds.center.y);
+            //Debug.Log("0)Round " + Mathf.Round(itemColliders[i].bounds.center.y * 10.0f) * 0.1f );
             if (itemColliders[i].bounds.center.y >= maxY)
             {
                 maxY = itemColliders[i].bounds.center.y;
@@ -314,7 +324,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         //Debug.Log(maxY);
         foreach (var itemColider in newListItemColiders)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
         {
-            Debug.Log("1) " + itemColider.bounds.center.x);
+            //Debug.Log("1) " + itemColider.bounds.center.x);
             if (Mathf.Round(itemColider.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
             {
                 if (itemColider.bounds.center.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
@@ -355,7 +365,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             offset = -offset;
         }
-        Debug.Log(rectTransform.eulerAngles.z);
+        //Debug.Log(rectTransform.eulerAngles.z);
         return offset;
     }
 
@@ -385,7 +395,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 //Debug.Log(maxY);
                 foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
                 {
-                    Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
+                    //Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
                     if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
                     {
                         if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
@@ -418,17 +428,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 //}
                 rectTransform.SetParent(bagTransform);
                 var offset = calculateOffset(itemColliders);
-                Debug.Log("localPosition: " + rectTransform.localPosition);
-                Debug.Log("colliderPos: " + colliderPos);
-                Debug.Log("offset: " + offset);
+                //Debug.Log("localPosition: " + rectTransform.localPosition);
+                //Debug.Log("colliderPos: " + colliderPos);
+                //Debug.Log("offset: " + offset);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
-                Debug.Log("localPosition(2): " + rectTransform.localPosition);
+                //Debug.Log("localPosition(2): " + rectTransform.localPosition);
 
                 //Debug.Log(calculateOffset(itemColliders));
                 foreach (var careHit in careHitsForBackpack)
                 {
-                    careHit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
+                    careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
                 }
             }
             return true;
@@ -443,8 +453,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         needToRotate = false;
         image.color = imageColor;
-        image.raycastTarget = true;
-        canvasGroup.blocksRaycasts = true;
+        //image.raycastTarget = true;
+        //canvasGroup.blocksRaycasts = true;
         //var tre = careHits.AsQueryable().Distinct().Count();
         // var tre2 = careHits.AsQueryable().Distinct();
         if(CorrectEndPoint())
@@ -457,23 +467,10 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         foreach (var Carehit in careHits)
         {
-            Carehit.raycastHit.collider.GetComponent<UnityEngine.UI.Image>().color = imageColor;
+            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
         }
-        //careHits.Clear();
+        careHits.Clear();
 
-    }
-    private Vector3 offset;
-    void OnMouseDown()
-    {
-
-        offset = gameObject.transform.position -
-            Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f));
-    }
-
-    void OnMouseDrag()
-    {
-        Vector3 newPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10.0f);
-        transform.position = Camera.main.ScreenToWorldPoint(newPosition) + offset;
     }
 
 }

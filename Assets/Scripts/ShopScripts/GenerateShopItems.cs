@@ -50,10 +50,10 @@ public class GenerateShopItems : MonoBehaviour
             {
                 Generation(sword, collidersArray[i].bounds.center);
             }
-            //else
-            //{
-            //    Generation(bag4x4, collidersArray[i].bounds.center);
-            //}
+            else
+            {
+                Generation(bag4x4, collidersArray[i].bounds.center);
+            }
 
             //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
 
