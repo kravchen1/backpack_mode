@@ -80,8 +80,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     }
 
-
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) && needToRotate)
@@ -207,15 +205,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         buildCareRayCast();
     }
 
-
-    public virtual void OnBeginDrag(PointerEventData eventData)
+    public void TapFirst()
     {
-        if(firstTap)
+        if (firstTap)
         {
             firstTap = false;
             rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
+    }
 
+    public void TapRotate()
+    {
         needToRotate = true;
         if (needToDynamic)
         {
@@ -223,24 +223,37 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         else
         {
-           
+
         }
         needToDynamic = false;
+    }
 
+    public void TapShowBackPack()
+    {
+        
+
+        
+    }
+
+    public virtual void OnBeginDrag(PointerEventData eventData)
+    {
+        TapFirst();
+        TapRotate();
 
 
         var cellList = GameObject.Find("backpack").GetComponentsInChildren<Cell>();
-
         foreach (var cell in cellList)
         {
             if (cell.nestedObject != null && cell.nestedObject.name == gameObject.name)
-                cell.nestedObject = null;
+                cell.nestedObject = null;//норм манёвр
         }
-        
         foreach (var careHit in careHits)
         {
             careHit.raycastHit.collider.GetComponent<Cell>().nestedObject = null;
         }
+
+
+
 
         //image.color. = 0.5f;
         //image.raycastTarget = false;
