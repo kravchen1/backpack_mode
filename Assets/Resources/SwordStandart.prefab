@@ -149,7 +149,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d78e5b9c6d08a447a04f042e22cfbf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
+  itemColliders: []
+  careHits: []
+  careHitsForBackpack: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
 --- !u!225 &7684188554242906299
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -322,7 +340,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1920
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

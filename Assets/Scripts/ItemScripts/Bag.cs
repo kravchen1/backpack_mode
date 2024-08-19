@@ -11,68 +11,136 @@ public class Bag : Item
 {
     private GameObject backpack;
     private List<RaycastStructure> careHitsNow = new List<RaycastStructure>();
+    private List<ObjectInCells> objectsInCells = new List<ObjectInCells>();
 
     void OnTriggerEnter2D(Collider2D col)
     {
         if(!col.gameObject.name.Contains("Image"))
             Debug.Log(col.gameObject.name);
     }
-    public override void OnBeginDrag(PointerEventData eventData)
+
+    //var allCellsList = backpack.GetComponentsInChildren<Cell>().ToList();
+    public void StayParentForChild()
     {
-        foreach (var collider in itemColliders)
-        {
-            collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        }
         var cellList = gameObject.GetComponentsInChildren<Cell>().ToList();
         foreach (var cell in cellList.Where(e => e.nestedObject != null))
         {
             cell.nestedObject.transform.SetParent(gameObject.transform);
+            objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
         }
+    }
 
-
-        var allCellsList = GameObject.Find("backpack").GetComponentsInChildren<Cell>().ToList();
-
-
-        foreach (var cell in cellList)//GameObject.Find("backpack").GetComponentsInChildren<Cell>())
-        {
-            foreach (var cell2 in allCellsList.Where(e => e.nestedObject == cell.nestedObject && e.transform.parent != cell.transform.parent))//GameObject.Find("backpack").GetComponentsInChildren<Cell>())
-            {
-                cell2.nestedObject = null;
-            }
-        }
-        //if (careHitsNow.Count > 0)
-        //{
-        //    foreach (var careHit in careHitsNow)
-        //    {
-        //        careHit.raycastHit.collider.gameObject.SetActive(true);
-        //    }
-        //    careHitsNow.Clear();
-        //}
-
+    public new void TapFirst()
+    {
         if (firstTap)
         {
             firstTap = false;
             rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             backpack = GameObject.Find("backpack");
         }
-
+    }
+    public new void TapRotate()
+    {
         needToRotate = true;
         if (needToDynamic)
         {
             needToRotateToStartRotation = true;
         }
-        else
-        {
-
-        }
         needToDynamic = false;
-        for (int i = 0; i < backpack.transform.childCount; i++) 
+    }
+
+    public void TapShowBackPack()
+    {
+        for (int i = 0; i < backpack.transform.childCount; i++)
         {
             if (backpack.transform.GetChild(i).gameObject.name.Contains("Image"))
             {
                 backpack.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
+    }
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        StayParentForChild();
+       
+        TapFirst();
+        TapRotate();
+        TapShowBackPack();
+    }
+
+
+    public void CreateRaycast()
+    {
+        foreach (var collider in itemColliders)
+        {
+            hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 128));
+        }
+    }
+    public override void CreateCareRayñast()
+    {
+        foreach (var hit in hits)
+        {
+            if (hit.collider != null)
+            {
+                if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
+                {
+                    careHits.Add(new RaycastStructure(hit));//îáúåêòû
+                    bagTransform = hit.transform.parent.transform;
+                }
+            }
+        }
+        foreach (var hit in hitsForBackpack)
+        {
+            if (hit.collider != null)
+            {
+                if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
+                {
+                    careHitsForBackpack.Add(new RaycastStructure(hit));//îáúåêòû
+                }
+            }
+        }
+    }
+    public override void RaycastEvent()
+    {
+        hits.Clear();
+        hitsForBackpack.Clear();
+
+        foreach(var objectInCell in objectsInCells)
+        {
+            objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
+            objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycast(128);
+            objectInCell.gameObject.ClearCareRaycast();
+            objectInCell.gameObject.CreateCareRayñast();
+            //Item:
+            //hitsForBackpack = CreateRaycast(128);
+            //hits = CreateRaycast(256);
+        }
+
+        CreateRaycast();
+
+        ClearCareRaycast();
+        CreateCareRayñast();
+    }
+    public void ChangeColorMyCells()
+    {
+        if (careHits.Count() == colliderCount)
+        {
+            foreach (var collider in itemColliders)
+            {
+                collider.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+        }
+        else
+            foreach (var collider in itemColliders)
+            {
+                collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+    }
+    public override void OnDrag(PointerEventData eventData)
+    {
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        RaycastEvent();
+        ChangeColorMyCells();
     }
     public override bool CorrectEndPoint()
     {
@@ -127,18 +195,15 @@ public class Bag : Item
             return false;
         }
     }
-    public override void OnEndDrag(PointerEventData eventData)
+    public void ChangeColorToDefault()
     {
         foreach (var collider in itemColliders)
         {
             collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
-        needToRotate = false;
-        image.color = imageColor;
-        //image.raycastTarget = true;
-        //canvasGroup.blocksRaycasts = true;
-        CorrectEndPoint();
-        
+    }
+    public void DisableBackpackCells()
+    {
         for (int i = 0; i < backpack.transform.childCount; i++)
         {
             if (backpack.transform.GetChild(i).gameObject.name.Contains("Image"))
@@ -146,19 +211,44 @@ public class Bag : Item
                 backpack.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
+    }
+    public void ClearParentForChild()
+    {
         var cellList = gameObject.GetComponentsInChildren<Cell>();
         foreach (var cell in cellList)
         {
-            if(cell.nestedObject != null)
+            if (cell.nestedObject != null)
+            {
                 cell.nestedObject.transform.SetParent(backpack.transform);
+            }
         }
-        //foreach (var careHit in careHits)
-        //{
-        //    careHitsNow.Add(careHit);
-        //    //careHit.raycastHit.collider.gameObject.SetActive(false);
-        //}
-
+    }
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        ChangeColorToDefault();
+        needToRotate = false;
+        CorrectEndPoint();
+        DisableBackpackCells();
+        ClearParentForChild();
         careHits.Clear();
 
+
+
+        var cellList = gameObject.GetComponentsInChildren<Cell>().ToList();
+        foreach (var cell in cellList.Where(e => e.nestedObject != null))
+        {
+            cell.nestedObject = null ;
+            //objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
+        }
+        
+        foreach (var objectInCell in objectsInCells)
+        {
+            //objectInCell.gameObject.OnEndDrag(eventData);
+            if (!objectInCell.gameObject.CorrectEndPoint())
+            {
+                objectInCell.gameObject.transform.SetParent(backpack.transform);
+                objectInCell.gameObject.needToDynamic = true;
+            }
+        }
     }
 }

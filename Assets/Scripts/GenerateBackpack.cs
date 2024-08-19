@@ -12,7 +12,6 @@ public class GenerateBackpack : MonoBehaviour
     }
     void Generation(GameObject generationObject, Vector3 place, Quaternion rotation)//уволен
     {
-
         var generationObjectItem = Instantiate(generationObject, place, rotation, GameObject.Find("Shop").transform);
         for (int i = 0; i < generationObject.transform.childCount; i++)
         {
