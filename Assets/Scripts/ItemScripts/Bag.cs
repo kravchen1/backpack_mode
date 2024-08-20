@@ -13,23 +13,23 @@ public class Bag : Item
     private List<RaycastStructure> careHitsNow = new List<RaycastStructure>();
     private List<ObjectInCells> objectsInCells = new List<ObjectInCells>();
 
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if(!col.gameObject.name.Contains("Image"))
-            Debug.Log(col.gameObject.name);
-    }
-
-    //var allCellsList = backpack.GetComponentsInChildren<Cell>().ToList();
     public void StayParentForChild()
     {
         var cellList = gameObject.GetComponentsInChildren<Cell>().ToList();
         foreach (var cell in cellList.Where(e => e.nestedObject != null))
         {
             cell.nestedObject.transform.SetParent(gameObject.transform);
-            objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
+            if (!objectsInCells.Any(e => e.gameObject.name == cell.nestedObject.name))
+            {
+                objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
+
+            }
+        }
+        foreach(var objectInCell in objectsInCells)
+        {
+            objectInCell.gameObject.DeleteNestedObject();
         }
     }
-
     public new void TapFirst()
     {
         if (firstTap)
@@ -66,6 +66,7 @@ public class Bag : Item
         TapFirst();
         TapRotate();
         TapShowBackPack();
+        DeleteNestedObject();
     }
 
 
@@ -111,9 +112,6 @@ public class Bag : Item
             objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycast(128);
             objectInCell.gameObject.ClearCareRaycast();
             objectInCell.gameObject.CreateCareRayñast();
-            //Item:
-            //hitsForBackpack = CreateRaycast(128);
-            //hits = CreateRaycast(256);
         }
 
         CreateRaycast();
@@ -123,7 +121,7 @@ public class Bag : Item
     }
     public void ChangeColorMyCells()
     {
-        if (careHits.Count() == colliderCount)
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
             foreach (var collider in itemColliders)
             {
@@ -144,7 +142,7 @@ public class Bag : Item
     }
     public override bool CorrectEndPoint()
     {
-        if (careHits.Count() == colliderCount)
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
             if (hits.Where(e => e.collider == null).Count() == 0)
             {
@@ -163,7 +161,6 @@ public class Bag : Item
                 var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
                 foreach (var careHit in newListCareHits)
                 {
-                    //Debug.Log(careHit.raycastHit.collider.transform.localPosition.x);
                     if (careHit.raycastHit.collider.transform.localPosition.y == maxY)
                     {
                         if (careHit.raycastHit.collider.transform.localPosition.x <= minX)
@@ -175,11 +172,6 @@ public class Bag : Item
                 }
                 rectTransform.SetParent(bagTransform);
                 var offset = new Vector2(itemColliders[0].size.x / 2, -itemColliders[0].size.y / 2);
-                //Debug.Log("localPosition: " + rectTransform.localPosition);
-                //Debug.Log("position: " + rectTransform.position);
-                //Debug.Log("colliderPos: " + colliderPos);
-               // Debug.Log("colliderPos2: " + colliderPos2);
-                //Debug.Log("offset: " + offset);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
                 foreach (var careHit in careHits)
@@ -195,7 +187,7 @@ public class Bag : Item
             return false;
         }
     }
-    public void ChangeColorToDefault()
+    public new void ChangeColorToDefault()
     {
         foreach (var collider in itemColliders)
         {
@@ -223,32 +215,51 @@ public class Bag : Item
             }
         }
     }
+    public void EndDragForChildObjects(bool canEndDragParent)
+    {
+        foreach (var objectInCell in objectsInCells)
+        {
+            if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
+            {
+                objectInCell.gameObject.SetNestedObject();
+            }
+            else
+            {   
+                objectInCell.gameObject.transform.SetParent(backpack.transform);
+                objectInCell.gameObject.needToDynamic = true;
+            }
+
+            objectInCell.gameObject.ChangeColorToDefault();
+        }
+    }    
+    public new void SetNestedObject()
+    {
+        foreach (var Carehit in careHits)
+        {
+            Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
+        }
+    }
+
     public override void OnEndDrag(PointerEventData eventData)
     {
         ChangeColorToDefault();
         needToRotate = false;
-        CorrectEndPoint();
+        if(CorrectEndPoint())
+        {
+            SetNestedObject();
+            EndDragForChildObjects(true);
+        }
+        else
+        {
+            EndDragForChildObjects(false);
+        }
         DisableBackpackCells();
         ClearParentForChild();
-        careHits.Clear();
-
-
-
-        var cellList = gameObject.GetComponentsInChildren<Cell>().ToList();
-        foreach (var cell in cellList.Where(e => e.nestedObject != null))
-        {
-            cell.nestedObject = null ;
-            //objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
-        }
         
-        foreach (var objectInCell in objectsInCells)
-        {
-            //objectInCell.gameObject.OnEndDrag(eventData);
-            if (!objectInCell.gameObject.CorrectEndPoint())
-            {
-                objectInCell.gameObject.transform.SetParent(backpack.transform);
-                objectInCell.gameObject.needToDynamic = true;
-            }
-        }
+        careHits.Clear();     
+
+        
+
+
     }
 }

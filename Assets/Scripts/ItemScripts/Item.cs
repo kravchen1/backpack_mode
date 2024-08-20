@@ -152,7 +152,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         foreach (var cell in cellList)
         {
             if (cell.nestedObject != null && cell.nestedObject.name == gameObject.name)
+            {
                 cell.nestedObject = null;
+            }
         }
     }
     public virtual void OnBeginDrag(PointerEventData eventData)
@@ -160,6 +162,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         TapFirst();
         TapRotate();
         DeleteNestedObject();
+        gameObject.transform.SetParent(GameObject.Find("backpack").transform);
     }
 
     void Update()
@@ -188,7 +191,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                 {
                     hit.collider.GetComponent<SpriteRenderer>().color = Color.red;
                     careHits.Add(new RaycastStructure(hit));//îáúåêòû
-                    bagTransform = hitsForBackpack[0].transform.parent.transform;
                 }
             }
         }
@@ -238,17 +240,11 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         ClearCareRaycast();
         CreateCareRayñast();
     }
-
-   
-
     public virtual void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         RaycastEvent();
     }
-
-
-
     public virtual Vector2 calculateOffset(List<BoxCollider2D> itemColliders)
     {
         var maxY = itemColliders[0].bounds.center.y;
@@ -300,12 +296,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         {
             offset = -offset;
         }
-        //Debug.Log(rectTransform.eulerAngles.z);
+
         return offset;
     }
-
     public virtual bool CorrectEndPoint()
     {
+
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
             return true;
@@ -315,7 +311,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             return false;
         }
     }
-
     public void CorrectPosition()
     {
         if (hits.Where(e => e.collider == null).Count() == 0)
@@ -340,12 +335,10 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
                     {
                         minX = careHit.raycastHit.collider.transform.localPosition.x;
                         colliderPos = careHit.raycastHit.collider.transform.localPosition;
-                        //Debug.Log("-------");
+
                     }
                 }
             }
-
-            rectTransform.SetParent(bagTransform);
             var offset = calculateOffset(itemColliders);
             rectTransform.localPosition = offset + colliderPos;
             needToDynamic = false;
@@ -353,6 +346,20 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             {
                 careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
             }
+        }
+    }
+    public void ChangeColorToDefault()
+    {
+        foreach (var Carehit in careHits)
+        {
+            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
+        }
+    }
+    public void SetNestedObject()
+    {
+        foreach (var Carehit in careHits)
+        {
+            Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
         }
     }
     public virtual void OnEndDrag(PointerEventData eventData)
@@ -363,20 +370,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         if(CorrectEndPoint())
         {
             CorrectPosition();
-            foreach (var Carehit in careHits)
-            {
-                Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
-            }
+            SetNestedObject();
         }
         else
         {
             needToDynamic = true;
+            //gameObject.transform.SetParent(backpack.transform);
         }
+        ChangeColorToDefault();
 
-        foreach (var Carehit in careHits)
-        {
-            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
-        }
+
         careHits.Clear();
 
     }
