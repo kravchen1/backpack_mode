@@ -48,6 +48,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     public bool needToRotateToStartRotation = false;
 
 
+
+
     void initializationItemColliders()
     {
         if (gameObject.name.Contains("bag"))
@@ -65,7 +67,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         colliderCount = collidersArray.Count();
     }
-
     public void Initialization()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -82,8 +83,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     {
         Initialization();
     }
-
-
     public void Rotate()
     {
         if (Input.GetKeyDown(KeyCode.R) && needToRotate)
@@ -94,7 +93,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             RaycastEvent();
         }
     }
-
     public void SwitchDynamicStatic()
     {
         if (needToDynamic)
@@ -106,7 +104,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             rb.bodyType = RigidbodyType2D.Static;
         }
     }
-
     public void RotationToStartRotation()
     {
         if (needToRotateToStartRotation)
@@ -122,7 +119,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             }
         }
     }
-
     public void TapFirst()
     {
         if (firstTap)
@@ -131,7 +127,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
     }
-
     public void TapRotate()
     {
         needToRotate = true;
@@ -145,7 +140,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         needToDynamic = false;
     }
-
     public void DeleteNestedObject()
     {
         var cellList = GameObject.Find("backpack").GetComponentsInChildren<Cell>();
@@ -164,7 +158,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         DeleteNestedObject();
         gameObject.transform.SetParent(GameObject.Find("backpack").transform);
     }
-
     void Update()
     {
         Rotate();
@@ -180,7 +173,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         }
         return rayCasts;
      }
-
     public virtual void CreateCareRayÒast()
     {
         foreach (var hit in hits)
@@ -205,7 +197,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
             }
         }
     }
-
     public virtual void ClearCareRaycast()
     {
         foreach (var Carehit in careHits)
@@ -229,7 +220,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         careHitsForBackpack.RemoveAll(e => e.isDeleted == true);
     }
-
     public virtual void RaycastEvent()
     {
         hits.Clear();
@@ -382,6 +372,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
         careHits.Clear();
 
+    }
+
+
+
+    public virtual void ShowDiscriptionActivation()
+    {
+        Debug.Log("ŒÔËÒ‡ÌËÂ: Ë‰Ë Ì‡ ıÛÈ!");
+    }
+    public virtual void Activation()
+    {
+        Debug.Log("Ë‰Ë Ì‡ ıÛÈ!");
     }
 
 }
