@@ -32,7 +32,7 @@ public class Sword : Weapon
         }
     }
 
-
+    
     private void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -52,5 +52,13 @@ public class Sword : Weapon
             }
             Activation();
         }
+
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        {
+            Rotate();
+            SwitchDynamicStatic();
+            RotationToStartRotation();
+        }
     }
+    
 }

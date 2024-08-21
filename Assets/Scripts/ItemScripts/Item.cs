@@ -33,6 +33,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     private Canvas CanvasDescription;
     private bool showCanvasBefore = false;
     protected bool canShowDescription = true;
+    private bool Exit = false;
 
     //лучи
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
@@ -173,6 +174,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         Rotate();
         SwitchDynamicStatic();
         RotationToStartRotation();
+        Debug.Log(needToDynamic);
     }
     public List<RaycastHit2D> CreateRaycast(System.Int32 mask)
     {
@@ -395,7 +397,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         Debug.Log("Активация " + this.name);
     }
 
-    private bool Exit = false;
     IEnumerator ShowDescription()
     {
         yield return new WaitForSeconds(.25f);
