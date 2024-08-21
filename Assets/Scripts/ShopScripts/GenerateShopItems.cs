@@ -35,8 +35,6 @@ public class GenerateShopItems : MonoBehaviour
         generationObjectShop.name = generationObject.name + Random.Range(0, 10000);
 
         generationObjectShop.GetComponent<Item>().prefabOriginalName = generationObject.name;
-
-
     }
 
 
