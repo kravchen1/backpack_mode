@@ -11,7 +11,8 @@ using System.Threading;
 using Unity.VisualScripting;
 using System;
 
-public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+
+public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler     , IPointerEnterHandler , IPointerExitHandler    
 {
     public int speedRotation = 500;
     public string Name;
@@ -21,11 +22,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
 
     public SpriteRenderer image;
     public Canvas canvas;
+    
     //protected CanvasGroup canvasGroup;
     public Color imageColor;
     public string prefabOriginalName;
-
-
+    public GameObject Description;
+    private GameObject showCanvas;
     //лучи
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     public List<RaycastHit2D> hits = new List<RaycastHit2D>();
@@ -46,6 +48,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
     public bool needToRotate;
     public bool needToDynamic = false;
     public bool needToRotateToStartRotation = false;
+
 
 
     void initializationItemColliders()
@@ -383,5 +386,29 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler, IEndDragHandler, 
         careHits.Clear();
 
     }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log(Description.name + "вошёл");
+        /*
+        if (showCanvas == null)
+        {
+            showCanvas = Instantiate(Description, new Vector3(900,780,0), Quaternion.identity, GameObject.Find("canvas").GetComponent<RectTransform>().parent.transform);
+            //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
+        }
+        else
+        {
+           // showCanvas. = true;
+        }
+        */
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log(Description.name + "вышел");
+        // Debug.Log("убрали курсор");
+        //showCanvas.enabled = false;
+    }
+
+
 
 }
