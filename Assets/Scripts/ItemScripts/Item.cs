@@ -57,10 +57,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> feature/rdv/developShowItem
     void initializationItemColliders()
     {
         if (gameObject.name.Contains("bag"))
@@ -389,18 +386,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
 
 
-<<<<<<< HEAD
-
     public virtual void ShowDiscriptionActivation()
     {
-        Debug.Log("Описание: иди на хуй!");
+        Debug.Log("Описание: описание!");
     }
     public virtual void Activation()
     {
-        Debug.Log("иди на хуй!");
+        Debug.Log("Активация " + this.name);
     }
 
-=======
     private bool Exit = false;
     IEnumerator ShowDescription()
     {
@@ -443,5 +437,4 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
 
 
->>>>>>> feature/rdv/developShowItem
 }

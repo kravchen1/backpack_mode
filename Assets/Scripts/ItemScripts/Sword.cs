@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Sword : Weapon
 {
@@ -34,20 +35,22 @@ public class Sword : Weapon
 
     private void Update()
     {
-        
-        if (timer_locked_out == true)
+        if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
+            if (timer_locked_out == true)
             {
-                timer = timer_cooldown;
-                timer_locked_out = false;
+                timer -= Time.deltaTime;
 
-                // a delayed action could be called from here
-                // once the lock-out period expires
+                if (timer <= 0)
+                {
+                    timer = timer_cooldown;
+                    timer_locked_out = false;
+
+                    // a delayed action could be called from here
+                    // once the lock-out period expires
+                }
             }
+            Activation();
         }
-        Activation();
     }
 }
