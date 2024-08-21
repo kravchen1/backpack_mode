@@ -10,6 +10,7 @@ using static UnityEngine.RectTransform;
 using System.Threading;
 using Unity.VisualScripting;
 using System;
+using System.Collections;
 
 
 public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler     , IPointerEnterHandler , IPointerExitHandler    
@@ -26,8 +27,13 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     //protected CanvasGroup canvasGroup;
     public Color imageColor;
     public string prefabOriginalName;
-    public GameObject Description;
-    private GameObject showCanvas;
+
+
+    public Canvas Description;
+    private Canvas CanvasDescription;
+    private bool showCanvasBefore = false;
+    private bool canShowDescription = true;
+
     //лучи
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     public List<RaycastHit2D> hits = new List<RaycastHit2D>();
@@ -166,6 +172,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         TapRotate();
         DeleteNestedObject();
         gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+        OnPointerExit(eventData);
+        canShowDescription = false;
     }
 
     void Update()
@@ -384,29 +392,48 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
 
         careHits.Clear();
-
+        canShowDescription = true;
     }
+
+
+    private bool Exit = false;
+    IEnumerator ShowDescription()
+    {
+        yield return new WaitForSeconds(.25f);
+        if (!Exit)
+        {
+            if (canShowDescription)
+            {
+                if (!showCanvasBefore)
+                {
+                    showCanvasBefore = true;
+                    CanvasDescription = Instantiate(Description, GameObject.Find("Canvas").GetComponent<RectTransform>().transform);
+                    //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
+                }
+                else
+                {
+                    CanvasDescription.enabled = true;
+                }
+            }
+        }
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(Description.name + "вошёл");
-        /*
-        if (showCanvas == null)
-        {
-            showCanvas = Instantiate(Description, new Vector3(900,780,0), Quaternion.identity, GameObject.Find("canvas").GetComponent<RectTransform>().parent.transform);
-            //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
-        }
-        else
-        {
-           // showCanvas. = true;
-        }
-        */
+        Exit = false;
+        Debug.Log(Description.gameObject.name + "вошёл");
+        StartCoroutine(ShowDescription());
+           
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log(Description.name + "вышел");
-        // Debug.Log("убрали курсор");
-        //showCanvas.enabled = false;
+        //Debug.Log(Description.gameObject.name + "вышел");
+        Exit = true;
+         Debug.Log("убрали курсор");
+        if (canShowDescription && CanvasDescription != null)
+        {
+            CanvasDescription.enabled = false;
+        }
     }
 
 
