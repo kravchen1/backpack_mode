@@ -32,7 +32,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public Canvas Description;
     private Canvas CanvasDescription;
     private bool showCanvasBefore = false;
-    private bool canShowDescription = true;
+    protected bool canShowDescription = true;
 
     //лучи
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
@@ -393,6 +393,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
         careHits.Clear();
         canShowDescription = true;
+        OnPointerEnter(eventData);
     }
 
 

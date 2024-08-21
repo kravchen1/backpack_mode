@@ -67,6 +67,8 @@ public class Bag : Item
         TapRotate();
         TapShowBackPack();
         DeleteNestedObject();
+        OnPointerExit(eventData);
+        canShowDescription = false;
     }
 
 
@@ -256,9 +258,11 @@ public class Bag : Item
         DisableBackpackCells();
         ClearParentForChild();
         
-        careHits.Clear();     
+        careHits.Clear();
+        canShowDescription = true;
+        OnPointerEnter(eventData);
 
-        
+
 
 
     }
