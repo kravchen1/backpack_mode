@@ -7279,7 +7279,7 @@ GameObject:
   - component: {fileID: 811143283}
   - component: {fileID: 811143285}
   m_Layer: 5
-  m_Name: Character2
+  m_Name: CharacterEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7360,7 +7360,8 @@ MonoBehaviour:
   hp: 84
   maxHP: 100
   stamina: 10
-  maxStamina: 100
+  staminaMax: 100
+  staminaRegenerate: 10
 --- !u!1 &818018085
 GameObject:
   m_ObjectHideFlags: 0
@@ -9352,7 +9353,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991582215}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9398,9 +9399,9 @@ RectTransform:
   - {fileID: 1594079595}
   - {fileID: 104886200}
   m_Father: {fileID: 1609504433}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.56933326, y: 0.565}
-  m_AnchorMax: {x: 0.9675625, y: 0.96700007}
+  m_AnchorMax: {x: 0.96639585, y: 0.96700007}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -19956,7 +19957,7 @@ GameObject:
   - component: {fileID: 1961914289}
   - component: {fileID: 1961914291}
   m_Layer: 5
-  m_Name: Character1
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20037,7 +20038,8 @@ MonoBehaviour:
   hp: 74
   maxHP: 100
   stamina: 74
-  maxStamina: 100
+  staminaMax: 100
+  staminaRegenerate: 10
 --- !u!1 &1974007740
 GameObject:
   m_ObjectHideFlags: 0

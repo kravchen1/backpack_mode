@@ -11,7 +11,9 @@ public class PlayerBackpackBattle : MonoBehaviour
     public float maxHP = 100f;
 
     public float stamina = 74f;
-    public float maxStamina = 100f;
+    public float staminaMax = 100f;
+    public float staminaRegenerate = 1f;
+
     void Start()
     {
         
@@ -21,6 +23,11 @@ public class PlayerBackpackBattle : MonoBehaviour
     void Update()
     {
         hpBar.GetComponent<Image>().fillAmount = hp / maxHP;
-        staminaBar.GetComponent<Image>().fillAmount = stamina / maxStamina;
+        staminaBar.GetComponent<Image>().fillAmount = stamina / staminaMax;
+        if (stamina < staminaMax)
+        {
+            stamina += staminaRegenerate * Time.deltaTime;
+        }
+
     }
 }

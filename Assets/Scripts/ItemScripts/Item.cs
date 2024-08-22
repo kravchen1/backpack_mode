@@ -11,6 +11,7 @@ using System.Threading;
 using Unity.VisualScripting;
 using System;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler     , IPointerEnterHandler , IPointerExitHandler    
@@ -56,6 +57,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public bool needToDynamic = false;
     public bool needToRotateToStartRotation = false;
 
+    protected PlayerBackpackBattle Player;
+    protected PlayerBackpackBattle Enemy;
+    public Animator animator;
+
+
+    public bool Impulse = false;
 
 
 
@@ -85,8 +92,27 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         canvas = GetComponentInParent<Canvas>();
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
-
+        if (GetComponent<Animator>() != null)
+        {
+            animator = GetComponent<Animator>();
+            animator.enabled = false;
+        }
         initializationItemColliders();
+
+        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        {
+            if(gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
+            {
+                Player = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
+                Enemy = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
+            }
+
+            if (gameObject.transform.parent.name == GameObject.Find("backpackEnemy").transform.name)
+            {
+                Player = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
+                Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
+            }
+        }         
     }
     void Awake()
     {
@@ -107,10 +133,24 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         if (needToDynamic)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
+            
         }
         else
         {
             rb.bodyType = RigidbodyType2D.Static;
+        }
+    }
+    public void OnImpulse()
+    {
+        if (Impulse)
+        {
+            Impulse = false;
+            rb.mass = 0.1f;
+            rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
+            rb.AddTorque(15);
+           // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
+            Debug.Log(Input.GetAxis("Mouse X"));
+            Debug.Log(Input.GetAxis("Mouse Y"));
         }
     }
     public void RotationToStartRotation()
@@ -162,19 +202,22 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        TapFirst();
-        TapRotate();
-        DeleteNestedObject();
-        gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-        OnPointerExit(eventData);
-        canShowDescription = false;
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        {
+            TapFirst();
+            TapRotate();
+            DeleteNestedObject();
+            gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+            OnPointerExit(eventData);
+            canShowDescription = false;
+        }
     }
     void Update()
     {
         Rotate();
         SwitchDynamicStatic();
+        OnImpulse();
         RotationToStartRotation();
-        Debug.Log(needToDynamic);
     }
     public List<RaycastHit2D> CreateRaycast(System.Int32 mask)
     {
@@ -244,8 +287,11 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public virtual void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-        RaycastEvent();
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        {
+            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+            RaycastEvent();
+        }
     }
     public virtual Vector2 calculateOffset(List<BoxCollider2D> itemColliders)
     {
@@ -366,28 +412,31 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        needToRotate = false;
-        image.color = imageColor;
-
-        if(CorrectEndPoint())
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
         {
-            CorrectPosition();
-            SetNestedObject();
-        }
-        else
-        {
-            needToDynamic = true;
-            //gameObject.transform.SetParent(backpack.transform);
-        }
-        ChangeColorToDefault();
+            needToRotate = false;
+            image.color = imageColor;
+
+            if (CorrectEndPoint())
+            {
+                CorrectPosition();
+                SetNestedObject();
+            }
+            else
+            {
+                needToDynamic = true;
+                Impulse = true;
+                //gameObject.transform.SetParent(backpack.transform);
+
+            }
+            ChangeColorToDefault();
 
 
-        careHits.Clear();
-        canShowDescription = true;
-        OnPointerEnter(eventData);
+            careHits.Clear();
+            canShowDescription = true;
+            OnPointerEnter(eventData);
+        }
     }
-
-
     public virtual void ShowDiscriptionActivation()
     {
         Debug.Log("Описание: описание!");
@@ -396,7 +445,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         Debug.Log("Активация " + this.name);
     }
-
     IEnumerator ShowDescription()
     {
         yield return new WaitForSeconds(.25f);
@@ -417,7 +465,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             }
         }
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         Exit = false;
@@ -435,7 +482,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             CanvasDescription.enabled = false;
         }
     }
-
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        //if (col.gameObject.tag == "InvisibleWalls")
+        //    rb.AddForce(transform.right * 1, ForceMode2D.Impulse);
+        //todo
+    }
 
 
 }

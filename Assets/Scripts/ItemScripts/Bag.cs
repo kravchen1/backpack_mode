@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEngine.U2D;
+using UnityEngine.SceneManagement;
 
 public class Bag : Item
 {
@@ -61,14 +62,17 @@ public class Bag : Item
     }
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        StayParentForChild();
-       
-        TapFirst();
-        TapRotate();
-        TapShowBackPack();
-        DeleteNestedObject();
-        OnPointerExit(eventData);
-        canShowDescription = false;
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        {
+            StayParentForChild();
+
+            TapFirst();
+            TapRotate();
+            TapShowBackPack();
+            DeleteNestedObject();
+            OnPointerExit(eventData);
+            canShowDescription = false;
+        }
     }
 
 
@@ -138,9 +142,12 @@ public class Bag : Item
     }
     public override void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-        RaycastEvent();
-        ChangeColorMyCells();
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        {
+            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+            RaycastEvent();
+            ChangeColorMyCells();
+        }
     }
     public override bool CorrectEndPoint()
     {
@@ -229,10 +236,12 @@ public class Bag : Item
             {   
                 objectInCell.gameObject.transform.SetParent(backpack.transform);
                 objectInCell.gameObject.needToDynamic = true;
+                objectInCell.gameObject.Impulse = true;
             }
 
             objectInCell.gameObject.ChangeColorToDefault();
         }
+        objectsInCells.Clear();
     }    
     public new void SetNestedObject()
     {
@@ -244,23 +253,27 @@ public class Bag : Item
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        ChangeColorToDefault();
-        needToRotate = false;
-        if(CorrectEndPoint())
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
         {
-            SetNestedObject();
-            EndDragForChildObjects(true);
+            ChangeColorToDefault();
+            needToRotate = false;
+            if (CorrectEndPoint())
+            {
+                SetNestedObject();
+                EndDragForChildObjects(true);
+            }
+            else
+            {
+                EndDragForChildObjects(false);
+                Impulse = true;
+            }
+            DisableBackpackCells();
+            ClearParentForChild();
+
+            careHits.Clear();
+            canShowDescription = true;
+            OnPointerEnter(eventData);
         }
-        else
-        {
-            EndDragForChildObjects(false);
-        }
-        DisableBackpackCells();
-        ClearParentForChild();
-        
-        careHits.Clear();
-        canShowDescription = true;
-        OnPointerEnter(eventData);
 
 
 
