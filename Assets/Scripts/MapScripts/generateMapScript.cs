@@ -25,9 +25,9 @@ public class generateMapScript : Map
     private carePosition carePosition = new carePosition();
 
     private float width, height;
-    private Vector3 moveDownVector = new Vector3(0f, -25.0f, 0.0f);
 
-
+    private float stepSize = 100;
+    private float imageScale = 1;
 
 
     private bool roadToBoss = false;
@@ -46,10 +46,10 @@ public class generateMapScript : Map
     {
         bossTile = Instantiate(boss, new Vector3(0, 0, 0), Quaternion.identity);
         bossTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-        bossTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
+        bossTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
 
-        var x = width / 2 - (width / 2) % 25 - 25;
-        var y = height - ((height % 25) + 25);
+        var x = width / 2 - (width / 2) % stepSize - stepSize;
+        var y = height - ((height % stepSize) + stepSize);
 
         bossTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         carePosition.position = new Vector3(x, y, 0);
@@ -59,7 +59,7 @@ public class generateMapScript : Map
     {
         startTile = Instantiate(start, new Vector3(0, 0, 0), Quaternion.identity);
         startTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-        startTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
+        startTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
 
         int r = Random.Range(1, 4);
         //Debug.Log(r);
@@ -68,7 +68,7 @@ public class generateMapScript : Map
         switch (r)
         {
             case 1:
-                x = width / 2 - (width / 2) % 25 - 25;
+                x = width / 2 - (width / 2) % stepSize - stepSize;
                 y = 0;
                 break;
             case 2:
@@ -76,7 +76,7 @@ public class generateMapScript : Map
                 y = 0;
                 break;
             case 3:
-                x = width - ((width % 25) + 25);
+                x = width - ((width % stepSize) + stepSize);
                 y = 0;
                 break;
             default:
@@ -96,7 +96,7 @@ public class generateMapScript : Map
     {
         startTile = Instantiate(gameObject, new Vector3(0, 0, 0), Quaternion.identity);
         startTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-        startTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
+        startTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
 
         startTile.GetComponent<RectTransform>().anchoredPosition = position;
     }
@@ -131,10 +131,10 @@ public class generateMapScript : Map
                 return;
             }
             Dictionary<int, VectorStructure> movingVectors = new Dictionary<int, VectorStructure>();
-            movingVectors.Add(0, new VectorStructure(new Vector2(0, 25f)));
-            movingVectors.Add(1, new VectorStructure(new Vector2(0, -25f)));
-            movingVectors.Add(2, new VectorStructure(new Vector2(-25f, 0)));
-            movingVectors.Add(3, new VectorStructure(new Vector2(25f, 0)));
+            movingVectors.Add(0, new VectorStructure(new Vector2(0, stepSize)));
+            movingVectors.Add(1, new VectorStructure(new Vector2(0, -stepSize)));
+            movingVectors.Add(2, new VectorStructure(new Vector2(-stepSize, 0)));
+            movingVectors.Add(3, new VectorStructure(new Vector2(stepSize, 0)));
             foreach (var vector in movingVectors)
             {
                 if (tiles.Any(e => e.tilePosition == bossTile.GetComponent<RectTransform>().anchoredPosition + vector.Value.movingVector))
@@ -179,7 +179,7 @@ public class generateMapScript : Map
                 for (int i = 0; i < randomRoadCount; i++)
                 {
                     newCarePoint += existVectors[randomVector];
-                    if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % 25)))
+                    if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % stepSize)))
                     {
                         tiles.Add(new Tile(road.name,newCarePoint));
                         generateTile(road, newCarePoint);
@@ -189,7 +189,7 @@ public class generateMapScript : Map
                 }
                 int randomPlace = Random.Range(1, 3);
                 newCarePoint += existVectors[randomVector];
-                if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % 25)))
+                if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % stepSize)))
                 {
                     //pointInterestPoisitions.Add(newCarePoint);
                     pointInterestStructure.Add(new InterestPointStructure(newCarePoint));
@@ -250,9 +250,9 @@ public class generateMapScript : Map
                 break;
             }
         }
-        for (int i = 0; i < height; i += 25)
+        for (int i = 0; i < height; i += (int)stepSize)
         {
-            for (int j = 0; j < width; j += 25)
+            for (int j = 0; j < width; j += (int)stepSize)
             {
                 var vector = new Vector2(j, i);
                 if (!tiles.Any(e => e.tilePosition == vector))
@@ -272,7 +272,7 @@ public class generateMapScript : Map
             var careGameObject = Resources.Load<GameObject>(tile.tileName);
             var careTile = Instantiate(careGameObject, new Vector3(0, 0, 0), Quaternion.identity);
             careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-            careTile.GetComponent<RectTransform>().localScale = new Vector2(0.25f, 0.25f);
+            careTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
             careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
             tiles.Add(tile);
         }

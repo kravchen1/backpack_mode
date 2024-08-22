@@ -88,6 +88,7 @@ public class Player : MonoBehaviour
                 Time.timeScale = 0f;
                 map.startPlayerPosition = rectTransform.anchoredPosition;
                 map.SaveData();
+                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackShop");
                 Time.timeScale = 1f;
             }
@@ -103,22 +104,22 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (startMove)
-        {
-            moveVector.x = Input.GetAxis("Horizontal");
-            moveVector.y = Input.GetAxis("Vertical");
-            rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
-            RaycastEvent();
-
-
-            pressF();
-        }
 
 
     }
 
     private void Update()
     {
-        
+        if (startMove)
+        {
+            moveVector.x = Input.GetAxis("Horizontal");
+            moveVector.y = Input.GetAxis("Vertical");
+            //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
+            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
+            RaycastEvent();
+
+
+            pressF();
+        }
     }
 }

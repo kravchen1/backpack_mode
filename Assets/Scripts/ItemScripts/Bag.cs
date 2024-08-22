@@ -60,10 +60,30 @@ public class Bag : Item
             }
         }
     }
+
+
+    public void SetOrderLayerPriority(string layerNameBag, string layerNameNestedObject, int weaponOrder)
+    {
+        image.sortingLayerName = layerNameBag; 
+        var cellsTransforms = gameObject.GetComponentsInChildren<Transform>().ToList();
+        cellsTransforms.Remove(gameObject.transform);
+        foreach (var cellSprite in cellsTransforms)
+        {
+            cellSprite.GetComponent<SpriteRenderer>().sortingLayerName = layerNameBag;
+        }
+        foreach (var cellSprite in cellsTransforms.Where(e => e.GetComponent<Cell>().nestedObject != null))
+        {
+            var nestedObjectSprite = cellSprite.GetComponent<Cell>().nestedObject.GetComponent<SpriteRenderer>();
+            nestedObjectSprite.sortingLayerName = layerNameNestedObject;
+            nestedObjectSprite.sortingOrder = weaponOrder;
+        }
+    }
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop")
         {
+            SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
             StayParentForChild();
 
             TapFirst();
@@ -273,6 +293,7 @@ public class Bag : Item
             careHits.Clear();
             canShowDescription = true;
             OnPointerEnter(eventData);
+            SetOrderLayerPriority("Bag", "Weapon", 0);
         }
 
 
