@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
 public class GenerateShopItems : MonoBehaviour
 {
-    private GameObject axe;
+    public List<GameObject> generateItems;
+    private GameObject axeCommon2Hand;
     private GameObject sword;
     private GameObject bag4x4;
     private GameObject bag4x4_;
@@ -15,7 +17,7 @@ public class GenerateShopItems : MonoBehaviour
         collidersArray = GetComponent<RectTransform>().GetComponents<Collider2D>();
 
 
-        axe = Resources.Load<GameObject>("Axe"); 
+        axeCommon2Hand = Resources.Load<GameObject>("AxeCommon2Hand"); 
         sword = Resources.Load<GameObject>("SwordStandart");
         bag4x4 = Resources.Load<GameObject>("bagStandart4x4");
         bag4x4_ = Resources.Load<GameObject>("bagStandart4x4_1");
@@ -44,31 +46,21 @@ public class GenerateShopItems : MonoBehaviour
        for (int i = 0; i < collidersArray.Length; i++)
         {
             
-            if(i == 0)
-            {
-                Generation(sword, collidersArray[i].bounds.center);
-            }
-            else
-            {
-                Generation(bag4x4, collidersArray[i].bounds.center);
-            }
+            //if(i == 0)
+            //{
+            //    Generation(sword, collidersArray[i].bounds.center);
+            //}
+            //else
+            //{
+            //    Generation(bag4x4, collidersArray[i].bounds.center);
+            //}
 
             //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
 
-            //r = Random.Range(0, 3);
-            //switch (r)
-            //{
-
-            //    case 0:
-            //        Generation(axe, collidersArray[i].bounds.center);
-            //        break;
-            //    case 1:
-            //        Generation(sword, collidersArray[i].bounds.center);
-            //        break;
-            //    case 2:
-            //        Generation(bag4x4, collidersArray[i].bounds.center);
-            //        break;
-            //}
+            r = Random.Range(0, generateItems.Count);
+            Generation(generateItems[r], collidersArray[i].bounds.center);
+            
+            
 
         }
 

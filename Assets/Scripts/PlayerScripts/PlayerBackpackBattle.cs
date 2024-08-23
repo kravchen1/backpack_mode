@@ -24,6 +24,7 @@ public class PlayerBackpackBattle : MonoBehaviour
     {
         hpBar.GetComponent<Image>().fillAmount = hp / maxHP;
         staminaBar.GetComponent<Image>().fillAmount = stamina / staminaMax;
+
         if (stamina < staminaMax)
         {
             stamina += staminaRegenerate * Time.deltaTime;
