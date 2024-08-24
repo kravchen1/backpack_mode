@@ -7,10 +7,11 @@ public class FuckSword : MeleeWeapon
     private void Start()
     {
         timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
-            animator.speed = 1f / timer_cooldown;
-            animator.enabled = true;
+
+                animator.speed = 1f / timer_cooldown;
+                animator.enabled = true;
         }
     }
 
@@ -55,15 +56,17 @@ public class FuckSword : MeleeWeapon
             }
         }
     }
+
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
-            CoolDown();
-            Activation();
+
+                CoolDown();
+                Activation();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             Rotate();
             SwitchDynamicStatic();

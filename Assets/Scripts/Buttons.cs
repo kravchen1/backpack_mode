@@ -19,6 +19,7 @@ public class Buttons : MonoBehaviour
         if(scenary == 3)
         {
             GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+            GameObject.Find("Character").GetComponent<CharacterStats>().SaveData();
         }
 
         SceneManager.LoadScene(scene1.name);

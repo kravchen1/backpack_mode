@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 94256147}
   - component: {fileID: 94256146}
   - component: {fileID: 94256145}
-  - component: {fileID: 94256144}
+  - component: {fileID: 94256148}
   m_Layer: 5
   m_Name: Button_LoadGame
   m_TagString: Untagged
@@ -158,20 +158,6 @@ RectTransform:
   m_AnchoredPosition: {x: 65.80689, y: 0}
   m_SizeDelta: {x: 412.49, y: 274}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &94256144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94256142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1731a1ce39691a48961204ba320b12e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scenary: 2
-  scene1: {fileID: 102900000, guid: 014fe420dbf79cf4eb4922f5e8fa8a26, type: 3}
 --- !u!61 &94256145
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -206,7 +192,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0004005432, y: 0}
+  m_Offset: {x: -0.08312225, y: -0.000038146973}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -216,7 +202,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 257.5, y: 246.71}
+  m_Size: {x: 412.41467, y: 230.94289}
   m_EdgeRadius: 0
 --- !u!114 &94256146
 MonoBehaviour:
@@ -256,6 +242,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94256142}
   m_CullTransparentMesh: 1
+--- !u!114 &94256148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94256142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9a1daa86a88c243b1c2228facd2d51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &416639953
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +886,7 @@ GameObject:
   - component: {fileID: 1844411167}
   - component: {fileID: 1844411166}
   - component: {fileID: 1844411164}
-  - component: {fileID: 1844411168}
+  - component: {fileID: 1844411169}
   m_Layer: 5
   m_Name: Button_NewGame
   m_TagString: Untagged
@@ -950,7 +948,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0004005432, y: 0}
+  m_Offset: {x: 1.9718628, y: 0.0008201599}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -960,7 +958,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 257.5, y: 246.71}
+  m_Size: {x: 406.00958, y: 228.31131}
   m_EdgeRadius: 0
 --- !u!114 &1844411166
 MonoBehaviour:
@@ -1000,7 +998,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844411162}
   m_CullTransparentMesh: 1
---- !u!114 &1844411168
+--- !u!114 &1844411169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1009,11 +1007,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1844411162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1731a1ce39691a48961204ba320b12e, type: 3}
+  m_Script: {fileID: 11500000, guid: cd9a1daa86a88c243b1c2228facd2d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenary: 1
-  scene1: {fileID: 102900000, guid: 10d077132d3d57d459acbbca97917a01, type: 3}
 --- !u!1 &1899323921
 GameObject:
   m_ObjectHideFlags: 0

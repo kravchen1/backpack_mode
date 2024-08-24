@@ -81,7 +81,7 @@ public class Bag : Item
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
             StayParentForChild();
@@ -162,7 +162,7 @@ public class Bag : Item
     }
     public override void OnDrag(PointerEventData eventData)
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
             RaycastEvent();
@@ -273,7 +273,7 @@ public class Bag : Item
 
     public override void OnEndDrag(PointerEventData eventData)
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             ChangeColorToDefault();
             needToRotate = false;
@@ -284,16 +284,17 @@ public class Bag : Item
             }
             else
             {
+                
                 EndDragForChildObjects(false);
                 Impulse = true;
             }
             DisableBackpackCells();
             ClearParentForChild();
-
+            SetOrderLayerPriority("Bag", "Weapon", 0);
             careHits.Clear();
             canShowDescription = true;
             OnPointerEnter(eventData);
-            SetOrderLayerPriority("Bag", "Weapon", 0);
+
         }
 
 

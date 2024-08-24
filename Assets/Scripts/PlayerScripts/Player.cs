@@ -1,6 +1,9 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +15,10 @@ public class Player : MonoBehaviour
     private Map map;
     private RectTransform rectTransform;
 
+    // [SerializeField] private Canvas backpackCanvas;
+    //[SerializeField] private Canvas mapCanvas;
+
+    private CharacterStats characterStats;
 
     private Rigidbody2D rb;
     private float speed = 5f;
@@ -25,12 +32,19 @@ public class Player : MonoBehaviour
     private Color trueActivePointColor;
 
 
-
     private bool startMove = false;
     private void Awake()
     {
+        Time.timeScale = 1f;
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        
+    }
+    void LoadCharacterStats()
+    {
+        characterStats = GetComponent<CharacterStats>();
+        characterStats.LoadData();
+        characterStats.InitializeCharacterStats();
     }
     void SetStartPosition()
     {
@@ -40,13 +54,14 @@ public class Player : MonoBehaviour
         Debug.Log(rectTransform.anchoredPosition);
     }
 
+
     void Initialize()
     {
         rectTransform = GetComponent<RectTransform>();
         map = goMap.GetComponent<generateMapScript>();
 
         SetStartPosition();
-
+        LoadCharacterStats();
 
 
         startMove = true;
@@ -88,13 +103,51 @@ public class Player : MonoBehaviour
                 Time.timeScale = 0f;
                 map.startPlayerPosition = rectTransform.anchoredPosition;
                 map.SaveData();
+                characterStats.SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackShop");
-                Time.timeScale = 1f;
+            }
+            if (activePoint != null && activePoint.name.Contains("Battle"))
+            {
+
+                Time.timeScale = 0f;
+                map.startPlayerPosition = rectTransform.anchoredPosition;
+                map.SaveData();
+                characterStats.SaveData();
+                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+                SceneManager.LoadScene("BackPackBattle");
             }
         }
             
     }
+
+    void pressI()
+    {
+        //if (!backpackCanvas.gameObject.activeInHierarchy)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.I))
+        //    {
+        //        mapCanvas.gameObject.SetActive(false);
+        //        backpackCanvas.gameObject.SetActive(true);
+        //    }
+        //}
+        //else
+        //{
+        //    if (Input.GetKeyDown(KeyCode.I))
+        //    {
+        //        mapCanvas.gameObject.SetActive(true);
+        //        backpackCanvas.gameObject.SetActive(false);
+        //    }
+        //}
+    }
+
+    //void pressEsc()
+    //{
+    //    if (backpackCanvas.gameObject.activeInHierarchy && Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        backpackCanvas.gameObject.SetActive(false);
+    //    }
+    //}
 
     void Start()
     {
@@ -120,6 +173,7 @@ public class Player : MonoBehaviour
 
 
             pressF();
+            //pressI();
         }
     }
 }
