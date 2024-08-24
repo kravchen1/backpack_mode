@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RaycastStructure
+public class RaycastStructure : ScriptableObject
 {
     public bool isDeleted = false;
     public RaycastHit2D raycastHit;
