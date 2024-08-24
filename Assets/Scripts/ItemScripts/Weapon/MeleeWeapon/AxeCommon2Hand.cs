@@ -27,8 +27,27 @@ public class AxeCommon2Hand : MeleeWeapon
                 Player.stamina -= stamina;
                 if (Random.Range(0, 100) <= Accuracy)
                 {
-                    Debug.Log("Топор ёбнул");
-                    Enemy.hp -= Random.Range(attackMin, attackMax + 1);
+                    float armorBefore = Enemy.armor;
+                    int attack = Random.Range(attackMin, attackMax + 1);
+                    if (Enemy.armor > 0)
+                    {
+                        Enemy.armor -= attack;
+
+                        if (Enemy.armor < 0)
+                        {
+                            Enemy.hp = Enemy.hp + Enemy.armor - attack;
+                            Debug.Log("Топор ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
+                        }
+                        else
+                        {
+                            Debug.Log("Топор ломает " + armorBefore + " брони");
+                        }
+                    }
+                    else
+                    {
+                        Enemy.hp -= attack;
+                        Debug.Log("Топор плоть на " + attack + " здоровья");
+                    }
                 }
                 else
                 {
