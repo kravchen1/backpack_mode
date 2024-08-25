@@ -64,6 +64,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public bool Impulse = false;
 
+    public List<GameObject> stars;
+    public List<GameObject> nestedObjectStars;
+    public Sprite emptyStar;
+    public Sprite fillStar;
+
+
 
 
     void initializationItemColliders()
@@ -209,6 +215,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             DeleteNestedObject();
             gameObject.transform.SetParent(GameObject.Find("backpack").transform);
             OnPointerExit(eventData);
+            ChangeShowStars(true);
             canShowDescription = false;
         }
     }
@@ -465,8 +472,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             }
         }
     }
+
+    public void ChangeShowStars(bool show)
+    {
+        foreach (GameObject star in stars)
+        {
+            star.GetComponent<SpriteRenderer>().enabled = show;
+        }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        ChangeShowStars(true);
         if (eventData.pointerDrag == null)
         {
             Exit = false;
@@ -479,7 +495,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         //Debug.Log(Description.gameObject.name + "вышел");
         Exit = true;
-         Debug.Log("убрали курсор");
+        ChangeShowStars(false);
+        Debug.Log("убрали курсор");
         if (canShowDescription && CanvasDescription != null)
         {
             CanvasDescription.enabled = false;
