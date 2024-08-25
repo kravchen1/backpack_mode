@@ -57,7 +57,7 @@ public class CharacterStats : MonoBehaviour
             int x = 500;
             int y = 2;
             requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
-            hpText.text = playerHP.ToString();
+            //hpText.text = playerHP.ToString();
             lvlText.text = playerLvl.ToString();
             coinsText.text = playerCoins.ToString();
             expText.text = playerExp.ToString() + " / " + requiredExp.ToString();

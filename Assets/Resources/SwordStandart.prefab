@@ -17,8 +17,8 @@ GameObject:
   - component: {fileID: 5958809262900620766}
   - component: {fileID: 4395557369125489448}
   - component: {fileID: 3890748479298879546}
-  - component: {fileID: 2122875173472738946}
   - component: {fileID: 9124525518775655016}
+  - component: {fileID: 4910575480749540794}
   m_Layer: 9
   m_Name: SwordStandart
   m_TagString: 3cellObject
@@ -315,44 +315,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2122875173472738946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4893893753055956186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8367cee5267a2de41a4385aec5c7e5f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 1810994062760394068, guid: eab2437466b31274e8613b6dfa8d0e3f, type: 3}
-  itemColliders: []
-  careHits: []
-  careHitsForBackpack: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  attackMin: 1
-  attackMax: 5
-  stamina: 5
-  Accuracy: 50
-  timer_cooldown: 3
 --- !u!95 &9124525518775655016
 Animator:
   serializedVersion: 7
@@ -361,7 +323,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4893893753055956186}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: db2d80a9cf31cd640ba5ed45d3ac953d, type: 2}
   m_CullingMode: 0
@@ -375,3 +337,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4910575480749540794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893893753055956186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053d898c7c347064b96921a1c5be97e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 1810994062760394068, guid: eab2437466b31274e8613b6dfa8d0e3f, type: 3}
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  Impulse: 0
+  timer_cooldown: 3
+  attackMin: 10
+  attackMax: 20
+  stamina: 15
+  Accuracy: 95

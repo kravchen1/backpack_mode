@@ -59,7 +59,7 @@ public class EndOfBattle : MonoBehaviour
             timeSpeed.interactable = false;
             playerBackpackBattle.hp = 0;
             playerBackpackBattle.characterStats.playerHP = 0;
-            playerBackpackBattle.characterStats.hpText.text = playerBackpackBattle.characterStats.playerHP.ToString();
+            //playerBackpackBattle.characterStats.hpText.text = playerBackpackBattle.characterStats.playerHP.ToString();
 
             playerBackpackBattle.expBar.GetComponent<Image>().fillAmount = (float)((float)playerBackpackBattle.characterStats.playerExp / (float)playerBackpackBattle.characterStats.requiredExp);
             endOfBattleCanvas.SetActive(true);

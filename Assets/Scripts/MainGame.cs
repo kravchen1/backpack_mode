@@ -10,7 +10,7 @@ public class MainGame : MonoBehaviour
         {
             PlayerPrefs.SetInt("level", 0);
         }
-        globaltest.text = PlayerPrefs.GetInt("level").ToString();
+       // globaltest.text = PlayerPrefs.GetInt("level").ToString();
     }
 
 }

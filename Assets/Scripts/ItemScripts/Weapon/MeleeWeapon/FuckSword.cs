@@ -10,8 +10,8 @@ public class FuckSword : MeleeWeapon
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
 
-                animator.speed = 1f / timer_cooldown;
-                animator.enabled = true;
+               animator.speed = 1f / timer_cooldown;
+               animator.enabled = true;
         }
     }
 
@@ -28,8 +28,29 @@ public class FuckSword : MeleeWeapon
                 Player.stamina -= stamina;
                 if (Random.Range(0, 100) <= Accuracy)
                 {
+                    float armorBefore = Enemy.armor;
                     Debug.Log("Иди на хуй");
-                    Enemy.hp -= Random.Range(attackMin, attackMax + 1);
+                    int attack = Random.Range(attackMin, attackMax + 1);
+                    if (Enemy.armor > 0)
+                    {
+                        Enemy.armor -= attack;
+
+                        if (Enemy.armor < 0)
+                        {
+                            Enemy.hp = Enemy.hp + Enemy.armor - attack;
+                            Debug.Log("Меч ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
+                        } 
+                        else
+                        {
+                            Debug.Log("Меч ломает " + armorBefore + " брони");
+                        }
+                    }
+                    else
+                    {
+                        Enemy.hp -= attack;
+                        Debug.Log("Меч режет плоть на " + attack + " здоровья");
+                    }
+
                 }
                 else
                 {
