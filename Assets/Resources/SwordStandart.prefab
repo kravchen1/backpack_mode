@@ -337,8 +337,6 @@ MonoBehaviour:
   prefabOriginalName: 
   Description: {fileID: 1810994062760394068, guid: eab2437466b31274e8613b6dfa8d0e3f, type: 3}
   itemColliders: []
-  careHits: []
-  careHitsForBackpack: []
   bagTransform: {fileID: 0}
   collidersArray: []
   rb: {fileID: 0}
@@ -348,11 +346,12 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
-  attackMin: 1
-  attackMax: 5
+  Impulse: 0
+  timer_cooldown: 3
+  attackMin: 10
+  attackMax: 30
   stamina: 5
   Accuracy: 50
-  timer_cooldown: 3
 --- !u!95 &9124525518775655016
 Animator:
   serializedVersion: 7
@@ -361,7 +360,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4893893753055956186}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: db2d80a9cf31cd640ba5ed45d3ac953d, type: 2}
   m_CullingMode: 0

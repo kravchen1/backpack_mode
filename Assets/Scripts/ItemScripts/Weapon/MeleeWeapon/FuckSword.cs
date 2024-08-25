@@ -28,8 +28,29 @@ public class FuckSword : MeleeWeapon
                 Player.stamina -= stamina;
                 if (Random.Range(0, 100) <= Accuracy)
                 {
+                    float armorBefore = Enemy.armor;
                     Debug.Log("Иди на хуй");
-                    Enemy.hp -= Random.Range(attackMin, attackMax + 1);
+                    int attack = Random.Range(attackMin, attackMax + 1);
+                    if (Enemy.armor > 0)
+                    {
+                        Enemy.armor -= attack;
+
+                        if (Enemy.armor < 0)
+                        {
+                            Enemy.hp = Enemy.hp + Enemy.armor - attack;
+                            Debug.Log("Меч ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
+                        } 
+                        else
+                        {
+                            Debug.Log("Меч ломает " + armorBefore + " брони");
+                        }
+                    }
+                    else
+                    {
+                        Enemy.hp -= attack;
+                        Debug.Log("Меч плоть на " + attack + " здоровья");
+                    }
+
                 }
                 else
                 {
