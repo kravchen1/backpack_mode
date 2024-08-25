@@ -9,6 +9,7 @@ public class PlayerBackpackBattle : MonoBehaviour
     public GameObject armorBar;
     public GameObject hpBar;
     public GameObject staminaBar;
+    public GameObject expBar;
 
     public float armor = 0f;
     public float armorMax = 0f;
@@ -45,39 +46,8 @@ public class PlayerBackpackBattle : MonoBehaviour
 
     }
 
-    public void ShowArmorBar()
-    {
-        if(armor > 0)
-        {
-            canvas.enabled = true;
-            for (int i = 0; i < textBarArmor.Length; i++)
-            {
-                if (textBarArmor[i] != null)
-                {
-                    if (textBarArmor[i].tag == "TextBar")
-                    {
-                        textBarArmor[i].enabled = true;
-                    }
-                }
-            }
-        }
-        else
-        {
-            canvas.enabled = false;
-            for (int i = 0; i < textBarArmor.Length; i++)
-            {
-                if (textBarArmor[i] != null)
-                {
-                    if (textBarArmor[i].tag == "TextBar")
-                    {
-                        textBarArmor[i].enabled = false;
-                    }
-                }
-            }
-        }
-
-    }
-    void changeImages(Image[] images,Text[] texts, float currentValue, float maxValue)
+    // Update is called once per frame
+    void Update()
     {
         for (int i = 0; i < images.Length; i++)
         {

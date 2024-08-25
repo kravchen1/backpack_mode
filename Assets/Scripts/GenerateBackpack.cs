@@ -10,6 +10,7 @@ public class GenerateBackpack : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         backpackData = GetComponent<BackpackData>();
         backpackData.LoadData();
         //Invoke("GenerationBackpack", 1.0f);
@@ -24,37 +25,51 @@ public class GenerateBackpack : MonoBehaviour
         }
         generationObjectItem.name = generationObject.name + Random.Range(0, 10000);
 
-        generationObjectItem.GetComponent<Item>().prefabOriginalName = generationObject.name;
+        var componentItem = generationObjectItem.GetComponent<Item>();
+        var componentBag = generationObjectItem.GetComponent<Bag>();
+        componentItem.prefabOriginalName = generationObject.name;
 
         generationObjectItem.transform.SetParent(GetComponent<RectTransform>());
         generationObjectItem.transform.localPosition = place;
         //var z = GameObject.Find("backpack");
-        generationObjectItem.GetComponent<Item>().hits = new List<RaycastHit2D>();
+        componentItem.hits = new List<RaycastHit2D>();
         Physics2D.SyncTransforms();
-        if (generationObjectItem.GetComponent<Item>().prefabOriginalName.ToUpper().Contains("BAG"))
+        if (componentItem.prefabOriginalName.ToUpper().Contains("BAG"))
         {
-            generationObjectItem.GetComponent<Bag>().RaycastEvent();
-            generationObjectItem.GetComponent<Bag>().SetNestedObject();
+            componentBag.RaycastEvent();
+            componentBag.SetNestedObject();
         }
         else
         {
-            generationObjectItem.GetComponent<Item>().hitsForBackpack = new List<RaycastHit2D>();
-            generationObjectItem.GetComponent<Item>().RaycastEvent();
-            generationObjectItem.GetComponent<Item>().SetNestedObject();
-            generationObjectItem.GetComponent<Item>().ChangeColorToDefault();
+            componentItem.hitsForBackpack = new List<RaycastHit2D>();
+            componentItem.RaycastEvent();
+            if (componentItem.CorrectEndPoint() && ObjectInBag(componentItem))
+                componentItem.SetNestedObject();
+            componentItem.ChangeColorToDefault();
         }
         //generationObjectItem.GetComponent<Bag>().SetNestedObject();
         //generationObjectItem.GetComponent<Item>().RaycastEvent();
     }
     public void GenerationBackpack()
     {
-        if(backpackData.itemData.items.Count != 0 )
+        if (backpackData.itemData.items.Count != 0)
         {
-            foreach(var item in backpackData.itemData.items)
+            foreach (var item in backpackData.itemData.items)
             {
                 Generation(Resources.Load<GameObject>(item.name), item.position, item.rotation);
             }
         }
+    }
+
+    public bool ObjectInBag(Item item)
+    {
+        var rect = gameObject.GetComponent<RectTransform>().rect;
+        if (item.transform.localPosition.x > rect.max.x || item.transform.localPosition.y > rect.max.y || item.transform.localPosition.x < rect.min.x || item.transform.localPosition.y < rect.min.y)
+        {
+            return false;
+        }
+        else
+            return true;
     }
 
 }

@@ -202,7 +202,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             TapFirst();
             TapRotate();
@@ -287,7 +287,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
             RaycastEvent();
@@ -412,7 +412,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             needToRotate = false;
             image.color = imageColor;
@@ -484,6 +484,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         {
             CanvasDescription.enabled = false;
         }
+    }
+    public bool ObjectInBag()
+    {
+        var rectTransform = gameObject.GetComponent<RectTransform>().parent.GetComponent<RectTransform>();
+
+        if (gameObject.transform.localPosition.x > rectTransform.rect.max.x || gameObject.transform.localPosition.y > rectTransform.rect.max.y || gameObject.transform.localPosition.x < rectTransform.rect.min.x || gameObject.transform.localPosition.y < rectTransform.rect.min.y)
+        {
+            return false;
+        }
+        else
+            return true;
     }
     void OnCollisionEnter2D(Collision2D col)
     {
