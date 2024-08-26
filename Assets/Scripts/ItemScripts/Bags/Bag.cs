@@ -200,6 +200,7 @@ public class Bag : Item
                     }
                 }
                 rectTransform.SetParent(bagTransform);
+                gameObject.transform.SetAsFirstSibling();
                 var offset = new Vector2(itemColliders[0].size.x / 2, -itemColliders[0].size.y / 2);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
@@ -275,6 +276,8 @@ public class Bag : Item
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
+            List<GameObject> gameObjects = new List<GameObject>();
+            ItemInGameObject("backpack", gameObjects);
             ChangeColorToDefault();
             needToRotate = false;
             if (CorrectEndPoint())

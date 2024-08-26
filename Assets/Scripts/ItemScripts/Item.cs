@@ -36,6 +36,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     protected bool canShowDescription = true;
     private bool Exit = false;
 
+
+    public float itemCost;
+
     //лучи
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     public List<RaycastHit2D> hits = new List<RaycastHit2D>();
@@ -49,6 +52,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public Rigidbody2D rb;
 
+    public ShopData shopData;
 
     public RectTransform rectTransform;
 
@@ -61,15 +65,29 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     protected PlayerBackpackBattle Enemy;
     public Animator animator;
 
-
     public bool Impulse = false;
 
     public List<GameObject> stars;
     public Sprite emptyStar;
     public Sprite fillStar;
 
-
-
+    //void SetItemCost()
+    //{
+    //    if (gameObject.name.ToUpper().Contains("BAG"))
+    //        itemCost = 4;
+    //    if (gameObject.name.ToUpper().Contains("SWORD") && gameObject.name.ToUpper().Contains("CURSE"))
+    //    {
+    //        itemCost = 7;
+    //    }
+    //    if (gameObject.name.ToUpper().Contains("SWORD"))
+    //    {
+    //        itemCost = 3;
+    //    }
+    //    if (gameObject.name.ToUpper().Contains("SWORD"))
+    //    {
+    //        itemCost = 3;
+    //    }
+    //}
 
     void initializationItemColliders()
     {
@@ -97,6 +115,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         canvas = GetComponentInParent<Canvas>();
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
+        var listShopData = GameObject.FindObjectsByType<ShopData>(FindObjectsSortMode.None);
+        shopData = listShopData[0];
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
@@ -209,6 +229,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
+            List<GameObject> list = new List<GameObject>();
+            if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
+                shopData.BuyItem(gameObject.GetComponent<Item>());
             TapFirst();
             TapRotate();
             DeleteNestedObject();
@@ -444,7 +467,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         {
             needToRotate = false;
             image.color = imageColor;
-
+            List<GameObject> list = new List<GameObject>();
+            if (!ItemInGameObject("Shop", list))
+                shopData.BuyItem(gameObject.GetComponent<Item>());
             if (CorrectEndPoint())
             {
                 CorrectPosition();
@@ -535,7 +560,23 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     public bool ObjectInBag()
     {
-        var rectTransform = gameObject.GetComponent<RectTransform>().parent.GetComponent<RectTransform>();
+        List<GameObject> backpack = new List<GameObject>();
+        GameObject.FindGameObjectsWithTag("backpack", backpack);
+
+        var rectTransform = backpack[0].GetComponent<RectTransform>();
+
+        if (gameObject.transform.localPosition.x > rectTransform.rect.max.x || gameObject.transform.localPosition.y > rectTransform.rect.max.y || gameObject.transform.localPosition.x < rectTransform.rect.min.x || gameObject.transform.localPosition.y < rectTransform.rect.min.y)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
+    public bool ItemInGameObject(string gameObjectName, List<GameObject> gameObjectList)
+    {
+        GameObject.FindGameObjectsWithTag(gameObjectName, gameObjectList);
+
+        var rectTransform = gameObjectList[0].GetComponent<RectTransform>();
 
         if (gameObject.transform.localPosition.x > rectTransform.rect.max.x || gameObject.transform.localPosition.y > rectTransform.rect.max.y || gameObject.transform.localPosition.x < rectTransform.rect.min.x || gameObject.transform.localPosition.y < rectTransform.rect.min.y)
         {

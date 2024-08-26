@@ -38,6 +38,7 @@ public class GenerateBackpack : MonoBehaviour
         {
             componentBag.RaycastEvent();
             componentBag.SetNestedObject();
+            gameObject.transform.SetAsFirstSibling();
         }
         else
         {

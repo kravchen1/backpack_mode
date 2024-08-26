@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
-public class GenerateShopItems : MonoBehaviour
+public class GenerateShopItems : ShopData
 {
     public List<GameObject> generateItems;
     private GameObject axeCommon2Hand;
@@ -11,6 +13,12 @@ public class GenerateShopItems : MonoBehaviour
     private GameObject bag4x4_;
 
     private Collider2D[] collidersArray;
+
+
+    [SerializeField] private TextMeshProUGUI leftPrice;
+    [SerializeField] private TextMeshProUGUI rightPrice;
+
+    
 
     private void Awake()
     {
@@ -27,7 +35,7 @@ public class GenerateShopItems : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
 
-    void Generation(GameObject generationObject, Vector3 place)
+    void Generation(GameObject generationObject, Vector3 place, int colliderId)
     {
         var generationObjectShop = Instantiate(generationObject, place, Quaternion.identity, GetComponent<RectTransform>().parent.transform);
         for (int i = 0; i < generationObjectShop.transform.childCount; i++)
@@ -36,9 +44,26 @@ public class GenerateShopItems : MonoBehaviour
         }
         generationObjectShop.name = generationObject.name + Random.Range(0, 10000);
 
-        generationObjectShop.GetComponent<Item>().prefabOriginalName = generationObject.name;
+        var item = generationObjectShop.GetComponent<Item>();
+        item.prefabOriginalName = generationObject.name;
+        shopItems.Add(item);
+        SetItemCost(item, colliderId);
     }
 
+
+    void SetItemCost(Item item, int colliderId)
+    {
+        switch (colliderId)
+        {
+            case 0:
+                leftPrice.text = item.itemCost.ToString();
+                break;
+            case 1:
+                rightPrice.text = item.itemCost.ToString();
+                break;
+        }
+
+    }
 
     void Start()
     {
@@ -58,7 +83,7 @@ public class GenerateShopItems : MonoBehaviour
             //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
 
             r = Random.Range(0, generateItems.Count);
-            Generation(generateItems[r], collidersArray[i].bounds.center);
+            Generation(generateItems[r], collidersArray[i].bounds.center, i);
             
             
 
