@@ -65,7 +65,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public bool Impulse = false;
 
     public List<GameObject> stars;
-    public List<GameObject> nestedObjectStars;
     public Sprite emptyStar;
     public Sprite fillStar;
 
@@ -235,6 +234,28 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         }
         return rayCasts;
      }
+
+    public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
+    {
+        RaycastHit2D raycast;
+        foreach (var star in stars)
+        {
+            //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
+            raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
+            if(raycast.collider != null && raycast.collider.gameObject.tag == tag/*"gloves"*/)//6787
+            {
+                star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
+                star.GetComponent<SpriteRenderer>().sprite = fillStar;
+            }
+            else
+            {
+                star.GetComponent<Cell>().nestedObject = null;
+                star.GetComponent<SpriteRenderer>().sprite = emptyStar;
+            }
+        }
+    }
+
+
     public virtual void CreateCareRayсast()
     {
         foreach (var hit in hits)
@@ -468,6 +489,11 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                 else
                 {
                     CanvasDescription.enabled = true;
+                    var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
+                    if (starsDesctiprion != null)
+                    {
+                        starsDesctiprion.enabled = false;
+                    }
                 }
             }
         }
@@ -486,7 +512,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         if (eventData.pointerDrag == null)
         {
             Exit = false;
-            Debug.Log(Description.gameObject.name + "вошёл");
+            //Debug.Log(Description.gameObject.name + "вошёл");
             StartCoroutine(ShowDescription());
         }
            
@@ -496,10 +522,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         //Debug.Log(Description.gameObject.name + "вышел");
         Exit = true;
         ChangeShowStars(false);
-        Debug.Log("убрали курсор");
+       // Debug.Log("убрали курсор");
         if (canShowDescription && CanvasDescription != null)
         {
             CanvasDescription.enabled = false;
+            var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
+            if (starsDesctiprion != null)
+            {
+                starsDesctiprion.enabled = false;
+            }
         }
     }
     public bool ObjectInBag()

@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 9104302343269131060}
   m_Layer: 9
   m_Name: AxeCommon2Hand
-  m_TagString: 3cellObject
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,10 +45,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.15715611, y: 0.32362244}
-  m_AnchorMax: {x: 0.5, y: 0.84300005}
-  m_AnchoredPosition: {x: -1.5, y: 4.9000015}
-  m_SizeDelta: {x: -59, y: -18.5}
+  m_AnchorMin: {x: 0.24800001, y: 0.3365556}
+  m_AnchorMax: {x: 0.48452085, y: 0.82900006}
+  m_AnchoredPosition: {x: -0.6099777, y: 0.26000214}
+  m_SizeDelta: {x: -0.7799988, y: 0.21000671}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3918780645155194289
 SpriteRenderer:
@@ -604,6 +604,9 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 9124525518775655016}
   Impulse: 0
+  stars: []
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
   attackMin: 20
   attackMax: 35
   stamina: 50

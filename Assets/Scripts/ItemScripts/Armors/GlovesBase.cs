@@ -3,19 +3,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class DecoratedLates : Armor
+public class GlovesBase : Armor
 {
-    public float howActivation = 30; //при 30%(можно менять) или ниже произойдёт активация
-    public float percentHP = 20; //скок процентов сразу восстановит
-    public float percentRegenerate = 5; //скок процентов будет регенерировать
-    public float timerRegenerate = 1; //как часто в секундах будет происходить регенерация
-    public float maxTimeRegenerate = 4; //скольо раз будет происходить регенерация
+    public float acceleration = 0.1f;
     private bool isUse = false;
     private bool usable = false;
     private int currentTick = 0;
     private void Start()
     {
-        timer = timerRegenerate;
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             //animator.speed = 1f / timer_cooldown;
@@ -29,10 +24,18 @@ public class DecoratedLates : Armor
     {
         if (!isUse)
         {
-            Player.armor = Player.armor + startBattleArmorCount;
-            Player.armorMax = Player.armorMax + startBattleArmorCount;
-            isUse = true;
-            Debug.Log("декоративные латы накинули " + startBattleArmorCount + " брони");
+            FillnestedObjectStarsStars(512, "Weapon");
+            foreach (var go in gameObject.GetComponentsInChildren<Cell>())
+            {
+                if (go.nestedObject != null)
+                {
+                    var weaponNested = go.nestedObject.GetComponent<Weapon>();
+                    weaponNested.timer_cooldown = weaponNested.timer_cooldown - (weaponNested.timer_cooldown * acceleration);
+                    weaponNested.animator.speed = 1f/weaponNested.timer_cooldown;
+                    Debug.Log(weaponNested.gameObject.name + " ускорен на " + 1 / acceleration + "%");
+                }
+            }
+           
         }
     }
 
@@ -55,6 +58,7 @@ public class DecoratedLates : Armor
     //}
     private void Update()
     {
+        FillnestedObjectStarsStars(512, "Weapon");
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
            // Activation();

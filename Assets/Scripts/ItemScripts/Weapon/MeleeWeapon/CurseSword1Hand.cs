@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CurseSword1Hand : MeleeWeapon
 {
@@ -9,6 +11,7 @@ public class CurseSword1Hand : MeleeWeapon
     public float burningDamage = 5f;
     private void Start()
     {
+        FillnestedObjectStarsStars(256, "gloves");
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
@@ -29,10 +32,10 @@ public class CurseSword1Hand : MeleeWeapon
             if (Player.stamina - stamina >= 0)
             {
                 Player.stamina -= stamina;
-                if (Random.Range(0, 100) <= Accuracy)
+                if (UnityEngine.Random.Range(0, 100) <= Accuracy)
                 {
                     float armorBefore = Enemy.armor;
-                    int attack = Random.Range(attackMin, attackMax + 1);
+                    int attack = UnityEngine.Random.Range(attackMin, attackMax + 1);
                     if (Enemy.armor > 0)
                     {
                         Enemy.armor -= attack;
@@ -71,7 +74,7 @@ public class CurseSword1Hand : MeleeWeapon
         {
             timer1sec = 1f;
 
-            if (nestedObjectStars.Where(e => e.gameObject != null).Count() == 0)
+            if (gameObject.GetComponentsInChildren<Cell>().Where(e => e.nestedObject != null).Count() == 0)
             {
                 Player.hp -= burningDamage;
                 Debug.Log("Персонаж горит из-за проклятого кинжала и теряет " + burningDamage + " здоровья");
@@ -101,6 +104,7 @@ public class CurseSword1Hand : MeleeWeapon
 
     private void Update()
     {
+        FillnestedObjectStarsStars(512, "Gloves");
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
             Burning();

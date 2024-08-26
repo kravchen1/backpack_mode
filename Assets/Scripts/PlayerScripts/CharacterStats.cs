@@ -61,7 +61,7 @@ public class CharacterStats : MonoBehaviour
             lvlText.text = playerLvl.ToString();
             coinsText.text = playerCoins.ToString();
             expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
-            Debug.Log(playerExp.ToString() + " / " + requiredExp.ToString());
+            //Debug.Log(playerExp.ToString() + " / " + requiredExp.ToString());
             expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
             hpBar.GetComponent<Image>().fillAmount = playerHP / maxHp;
         }

@@ -33,6 +33,7 @@ public class BackpackData : MonoBehaviour
         //var backpackData = new BackpackData();
 
         //var saveData = "[";
+        //data.Sort(Data.name);
         itemData.items = data;
         var saveData = JsonUtility.ToJson(itemData);
         //saveData += "]";

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4910575480749540794}
   m_Layer: 9
   m_Name: SwordStandart
-  m_TagString: 3cellObject
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -369,8 +369,11 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
   Impulse: 0
-  timer_cooldown: 3
+  stars: []
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
   attackMin: 10
   attackMax: 20
   stamina: 15
   Accuracy: 95
+  timer_cooldown: 3
