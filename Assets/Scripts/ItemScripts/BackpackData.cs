@@ -30,6 +30,7 @@ public class BackpackData : MonoBehaviour
                 data.Add(new Data(childGO.GetComponent<Item>().prefabOriginalName, childGO.transform.localPosition, childGO.transform.rotation));
             }
         }
+        //var storage = GameObject.Find("Storage");
         //var backpackData = new BackpackData();
 
         //var saveData = "[";
@@ -65,8 +66,17 @@ public class BackpackData : MonoBehaviour
         else
             Debug.LogError("There is no save data!");
     }
-    private void Start()
+    private void Awake()
     {
-        backpackDataFilePath = "Assets/Saves/backpackData.json";
+        switch(gameObject.name)
+        {
+            case "backpack":
+                backpackDataFilePath = "Assets/Saves/backpackData.json";
+                break;
+            case "Storage":
+                backpackDataFilePath = "Assets/Saves/storageData.json";
+                break;
+        }
+        
     }
 }

@@ -7,7 +7,7 @@ public class AxeCommon2Hand : MeleeWeapon
     private void Start()
     {
         timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
             animator.speed = 1f / timer_cooldown;
             animator.enabled = true;
@@ -76,13 +76,13 @@ public class AxeCommon2Hand : MeleeWeapon
     }
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
             CoolDown();
             Activation();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        if (SceneManager.GetActiveScene().name == "BackPackShop" && ObjectInBag())
         {
             Rotate();
             SwitchDynamicStatic();

@@ -33,7 +33,7 @@ public class CharacterStats : MonoBehaviour
             Debug.Log("LoadStaticData");
             playerHP = 100;
             playerExp = 0;
-            playerCoins = 12;
+            playerCoins = 1000;
             playerLvl = 1;
             int x = 500;
             int y = 2;

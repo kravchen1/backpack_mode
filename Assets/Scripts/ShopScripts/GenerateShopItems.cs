@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
-public class GenerateShopItems : ShopData
+public class GenerateShopItems : MonoBehaviour
 {
     public List<GameObject> generateItems;
     private GameObject axeCommon2Hand;
@@ -14,6 +14,7 @@ public class GenerateShopItems : ShopData
 
     private Collider2D[] collidersArray;
 
+    public List<ShopData> shopData;
 
     [SerializeField] private TextMeshProUGUI leftPrice;
     [SerializeField] private TextMeshProUGUI rightPrice;
@@ -46,7 +47,8 @@ public class GenerateShopItems : ShopData
 
         var item = generationObjectShop.GetComponent<Item>();
         item.prefabOriginalName = generationObject.name;
-        shopItems.Add(item);
+        
+        generationObjectShop.AddComponent<ShopItem>();
         SetItemCost(item, colliderId);
     }
 
@@ -56,10 +58,14 @@ public class GenerateShopItems : ShopData
         switch (colliderId)
         {
             case 0:
+                shopData.Add(new ShopData(item, leftPrice));
                 leftPrice.text = item.itemCost.ToString();
+                //leftPrice.transform.SetParent(transform);
                 break;
             case 1:
+                shopData.Add(new ShopData(item, rightPrice));
                 rightPrice.text = item.itemCost.ToString();
+                //rightPrice.transform.SetParent(transform);
                 break;
         }
 

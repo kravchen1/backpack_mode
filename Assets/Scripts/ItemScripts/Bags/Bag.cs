@@ -26,7 +26,7 @@ public class Bag : Item
 
             }
         }
-        foreach(var objectInCell in objectsInCells)
+        foreach (var objectInCell in objectsInCells)
         {
             objectInCell.gameObject.DeleteNestedObject();
         }
@@ -64,7 +64,7 @@ public class Bag : Item
 
     public void SetOrderLayerPriority(string layerNameBag, string layerNameNestedObject, int weaponOrder)
     {
-        image.sortingLayerName = layerNameBag; 
+        image.sortingLayerName = layerNameBag;
         var cellsTransforms = gameObject.GetComponentsInChildren<Transform>().ToList();
         cellsTransforms.Remove(gameObject.transform);
         foreach (var cellSprite in cellsTransforms)
@@ -83,15 +83,38 @@ public class Bag : Item
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
-            StayParentForChild();
+            if (GetComponent<ShopItem>() != null)
+            {
+                shopItem = GetComponent<ShopItem>();
+                if (shopItem.CanBuy(GetComponent<Item>()))
+                {
+                    SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
+                    StayParentForChild();
 
-            TapFirst();
-            TapRotate();
-            TapShowBackPack();
-            DeleteNestedObject();
-            OnPointerExit(eventData);
-            canShowDescription = false;
+                    TapFirst();
+                    TapRotate();
+                    TapShowBackPack();
+                    DeleteNestedObject();
+                    OnPointerExit(eventData);
+                    canShowDescription = false;
+                }
+                else
+                {
+                    eventData.pointerDrag = null;
+                }
+            }
+            else
+            {
+                SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
+                StayParentForChild();
+
+                TapFirst();
+                TapRotate();
+                TapShowBackPack();
+                DeleteNestedObject();
+                OnPointerExit(eventData);
+                canShowDescription = false;
+            }
         }
     }
 
@@ -132,7 +155,7 @@ public class Bag : Item
         hits.Clear();
         hitsForBackpack.Clear();
 
-        foreach(var objectInCell in objectsInCells)
+        foreach (var objectInCell in objectsInCells)
         {
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
             objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycast(128);
@@ -254,7 +277,7 @@ public class Bag : Item
                 objectInCell.gameObject.SetNestedObject();
             }
             else
-            {   
+            {
                 objectInCell.gameObject.transform.SetParent(backpack.transform);
                 objectInCell.gameObject.needToDynamic = true;
                 objectInCell.gameObject.Impulse = true;
@@ -263,7 +286,7 @@ public class Bag : Item
             objectInCell.gameObject.ChangeColorToDefault();
         }
         objectsInCells.Clear();
-    }    
+    }
     public new void SetNestedObject()
     {
         foreach (var Carehit in careHits)
@@ -276,8 +299,12 @@ public class Bag : Item
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            List<GameObject> gameObjects = new List<GameObject>();
-            ItemInGameObject("backpack", gameObjects);
+            //List<GameObject> gameObjects = new List<GameObject>();
+            //ItemInGameObject("backpack", gameObjects);
+            if (shopItem != null)
+            {
+                shopItem.BuyItem(gameObject.GetComponent<Item>());
+            }
             ChangeColorToDefault();
             needToRotate = false;
             if (CorrectEndPoint())
@@ -287,9 +314,10 @@ public class Bag : Item
             }
             else
             {
-                
+                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 EndDragForChildObjects(false);
                 Impulse = true;
+                MoveObjectOnEndDrag();
             }
             DisableBackpackCells();
             ClearParentForChild();

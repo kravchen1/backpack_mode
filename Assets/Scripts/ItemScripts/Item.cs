@@ -12,6 +12,9 @@ using Unity.VisualScripting;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Progress;
+using static UnityEngine.UI.Image;
+using UnityEditor.SceneManagement;
 
 
 public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler     , IPointerEnterHandler , IPointerExitHandler    
@@ -52,7 +55,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public Rigidbody2D rb;
 
-    public ShopData shopData;
+    public Vector3 lastItemPosition;
 
     public RectTransform rectTransform;
 
@@ -70,6 +73,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public List<GameObject> stars;
     public Sprite emptyStar;
     public Sprite fillStar;
+
+    public ShopItem shopItem;
 
     //void SetItemCost()
     //{
@@ -115,8 +120,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         canvas = GetComponentInParent<Canvas>();
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
-        var listShopData = GameObject.FindObjectsByType<ShopData>(FindObjectsSortMode.None);
-        shopData = listShopData[0];
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
@@ -229,16 +232,37 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            List<GameObject> list = new List<GameObject>();
-            if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
-                shopData.BuyItem(gameObject.GetComponent<Item>());
-            TapFirst();
-            TapRotate();
-            DeleteNestedObject();
-            gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-            OnPointerExit(eventData);
-            ChangeShowStars(true);
-            canShowDescription = false;
+            lastItemPosition = gameObject.transform.position;
+            if (GetComponent<ShopItem>() != null)
+            {
+                shopItem = GetComponent<ShopItem>();
+                if (shopItem.CanBuy(GetComponent<Item>()))
+                {
+                    TapFirst();
+                    TapRotate();
+                    DeleteNestedObject();
+                    //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                    OnPointerExit(eventData);
+                    ChangeShowStars(true);
+                    canShowDescription = false;
+                }
+                else
+                {
+                    eventData.pointerDrag = null;
+                }
+            }
+            else
+            {
+                //List<GameObject> list = new List<GameObject>();
+                //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
+                TapFirst();
+                TapRotate();
+                DeleteNestedObject();
+                //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                OnPointerExit(eventData);
+                ChangeShowStars(true);
+                canShowDescription = false;
+            }
         }
     }
     void Update()
@@ -467,18 +491,26 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         {
             needToRotate = false;
             image.color = imageColor;
-            List<GameObject> list = new List<GameObject>();
-            if (!ItemInGameObject("Shop", list))
-                shopData.BuyItem(gameObject.GetComponent<Item>());
+            if (shopItem != null)
+            {
+                shopItem.BuyItem(gameObject.GetComponent<Item>());
+            }
+            //List<GameObject> list = new List<GameObject>();
+            //if (!ItemInGameObject("Shop", list) && gameObject.transform.parent == shopData.GetComponent<RectTransform>().parent && shopData.CanBuy(gameObject.GetComponent<Item>()))
+            //    shopData.BuyItem(gameObject.GetComponent<Item>());
             if (CorrectEndPoint())
             {
+                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 CorrectPosition();
                 SetNestedObject();
             }
             else
             {
+                
+                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 needToDynamic = true;
                 Impulse = true;
+                MoveObjectOnEndDrag();
                 //gameObject.transform.SetParent(backpack.transform);
 
             }
@@ -490,6 +522,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             OnPointerEnter(eventData);
         }
     }
+
+    public void MoveObjectOnEndDrag()
+    {
+        //List<GameObject> list = new List<GameObject>();
+        //if (ItemInGameObject("Storage", list))
+        StartCoroutine(moveObject(GameObject.Find("Storage").transform.position));
+        //else
+        //    StartCoroutine(moveObject(lastItemPosition));
+    }
+
     public virtual void ShowDiscriptionActivation()
     {
         Debug.Log("Описание: описание!");
@@ -584,6 +626,21 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         }
         else
             return true;
+    }
+
+    public IEnumerator moveObject(Vector3 destination)
+    {
+        var origin = transform.position;
+        //var destination = GameObject.Find("Storage").transform.position;
+        //var destination = new Vector3(0,0,0);
+        float totalMovementTime = 0.5f; //the amount of time you want the movement to take
+        float currentMovementTime = 0f;//The amount of time that has passed
+        while (Vector3.Distance(transform.position, destination) > 1)
+        {
+            currentMovementTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(origin, destination, currentMovementTime / totalMovementTime);
+            yield return null;
+        }
     }
     void OnCollisionEnter2D(Collision2D col)
     {

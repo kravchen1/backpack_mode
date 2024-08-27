@@ -11,7 +11,7 @@ public class GlovesBase : Armor
     private int currentTick = 0;
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
             //animator.speed = 1f / timer_cooldown;
             animator.enabled = true;

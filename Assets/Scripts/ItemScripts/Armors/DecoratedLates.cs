@@ -16,7 +16,7 @@ public class DecoratedLates : Armor
     private void Start()
     {
         timer = timerRegenerate;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
             //animator.speed = 1f / timer_cooldown;
             animator.enabled = true;

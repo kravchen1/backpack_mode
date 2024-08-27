@@ -1,30 +1,20 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
-public class ShopData : MonoBehaviour
+[Serializable]
+public class ShopData
 {
-    public List<Item> shopItems = new List<Item>();
+    public Item item;
 
-    public CharacterStats characterStats;
-    public void BuyItem(Item item)
+    public TextMeshProUGUI textPrice;
+    
+    public ShopData(Item item, TextMeshProUGUI textPrice)
     {
-        var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
-        characterStats = listCharacterStats[0];
-
-        characterStats.playerCoins = characterStats.playerCoins - item.itemCost;
-
-        characterStats.coinsText.text = characterStats.playerCoins.ToString();
-    }
-
-    public bool CanBuy(Item item)
-    {
-        if (characterStats.playerCoins - item.itemCost < 0)
-        {
-            return false;
-        }
-        else
-            return true;
+        this.item = item;
+        this.textPrice = textPrice;
     }
 }
