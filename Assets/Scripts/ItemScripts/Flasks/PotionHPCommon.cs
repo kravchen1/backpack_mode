@@ -30,13 +30,16 @@ public class PotionHPCommon : Flask
     {
         if (!isUse)
         {
-            if (Player.hp <= f_ToPercent(Player.maxHP, howActivation) )
+            if (Player != null)
             {
-                isUse = true;
-                usable = true;
-                Player.hp += f_ToPercent(Player.maxHP, percentHP);
-                Debug.Log("выпили фласочку");
-                image.color = Color.gray;
+                if (Player.hp <= f_ToPercent(Player.maxHP, howActivation))
+                {
+                    isUse = true;
+                    usable = true;
+                    Player.hp += f_ToPercent(Player.maxHP, percentHP);
+                    Debug.Log("выпили фласочку");
+                    image.color = Color.gray;
+                }
             }
         }
     }

@@ -27,39 +27,41 @@ public class CurseSword1Hand : MeleeWeapon
         if (timer_locked_out == false)
         {
             timer_locked_out = true;
-
-            // do things
-            if (Player.stamina - stamina >= 0)
+            if (Player != null)
             {
-                Player.stamina -= stamina;
-                if (UnityEngine.Random.Range(0, 100) <= Accuracy)
+                // do things
+                if (Player.stamina - stamina >= 0)
                 {
-                    float armorBefore = Enemy.armor;
-                    int attack = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Enemy.armor > 0)
+                    Player.stamina -= stamina;
+                    if (UnityEngine.Random.Range(0, 100) <= Accuracy)
                     {
-                        Enemy.armor -= attack;
-
-                        if (Enemy.armor < 0)
+                        float armorBefore = Enemy.armor;
+                        int attack = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                        if (Enemy.armor > 0)
                         {
-                            Enemy.hp = Enemy.hp + Enemy.armor - attack;
-                            Debug.Log("Проклятый одноручный кинжал ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
-                        } 
+                            Enemy.armor -= attack;
+
+                            if (Enemy.armor < 0)
+                            {
+                                Enemy.hp = Enemy.hp + Enemy.armor - attack;
+                                Debug.Log("Проклятый одноручный кинжал ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
+                            }
+                            else
+                            {
+                                Debug.Log("Проклятый одноручный кинжал ломает " + armorBefore + " брони");
+                            }
+                        }
                         else
                         {
-                            Debug.Log("Проклятый одноручный кинжал ломает " + armorBefore + " брони");
+                            Enemy.hp -= attack;
+                            Debug.Log("Проклятый одноручный кинжал режет плоть на " + attack + " здоровья");
                         }
+
                     }
                     else
                     {
-                        Enemy.hp -= attack;
-                        Debug.Log("Проклятый одноручный кинжал режет плоть на " + attack + " здоровья");
+                        Debug.Log("miss");
                     }
-
-                }
-                else
-                {
-                    Debug.Log("miss");
                 }
             }
             
@@ -76,8 +78,11 @@ public class CurseSword1Hand : MeleeWeapon
 
             if (gameObject.GetComponentsInChildren<Cell>().Where(e => e.nestedObject != null).Count() == 0)
             {
-                Player.hp -= burningDamage;
-                Debug.Log("Персонаж горит из-за проклятого кинжала и теряет " + burningDamage + " здоровья");
+                if (Player != null)
+                {
+                    Player.hp -= burningDamage;
+                    Debug.Log("Персонаж горит из-за проклятого кинжала и теряет " + burningDamage + " здоровья");
+                }
             }
         }
     }

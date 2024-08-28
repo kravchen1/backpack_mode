@@ -52,16 +52,16 @@ public class BackpackData : MonoBehaviour
             fileStream.Write(buffer, 0, buffer.Length);
         }
     }
-    public void LoadData()
+    public void LoadData(String fileName)
     {
-        if (File.Exists(backpackDataFilePath))
+        if (File.Exists(fileName))
         {
             //foreach (var line in File.ReadLines(mapDataFilePath))
             //{
             //    if (line != "[" && line != "]")
             //        mapData.tiles.Add(JsonUtility.FromJson<Tile>(line.Substring(0, line.Length - 1)));
             //}
-            itemData = JsonUtility.FromJson<ItemData>(File.ReadAllText(backpackDataFilePath));
+            itemData = JsonUtility.FromJson<ItemData>(File.ReadAllText(fileName));
         }
         else
             Debug.LogError("There is no save data!");

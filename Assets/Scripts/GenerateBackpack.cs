@@ -12,9 +12,25 @@ public class GenerateBackpack : MonoBehaviour
     {
         Time.timeScale = 1f;
         backpackData = GetComponent<BackpackData>();
-        backpackData.LoadData();
+
+        if (gameObject.name == "backpackEnemy")
+        {
+            getEnemy(1);
+        }
+        else
+        {
+            backpackData.LoadData("Assets/Saves/backpackData.json");
+        }
         //Invoke("GenerationBackpack", 1.0f);
         GenerationBackpack();
+    }
+
+    int getEnemy(int lvl)
+    {
+        int r = 0;
+        r = 1;//Random.Range(0, 3);//toDo 20
+        backpackData.LoadData("Assets/Enemys/backpackDataEnemy" + lvl + "_" + r + ".json");
+        return 0;
     }
     void Generation(GameObject generationObject, Vector3 place, Quaternion rotation)//уволен
     {
