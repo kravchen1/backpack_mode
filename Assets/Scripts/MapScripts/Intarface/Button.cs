@@ -35,7 +35,7 @@ public class Button : MonoBehaviour
                 LoadBackpack();
                 break;
             case "EndOfBattleButtonOK":
-                GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+                GameObject.Find("backpack").GetComponent<CharacterStats>().SaveData();
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Button_NewGame":

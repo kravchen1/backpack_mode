@@ -7986,6 +7986,7 @@ GameObject:
   - component: {fileID: 811143284}
   - component: {fileID: 811143283}
   - component: {fileID: 811143285}
+  - component: {fileID: 811143286}
   m_Layer: 5
   m_Name: CharacterEnemy
   m_TagString: Untagged
@@ -8077,6 +8078,29 @@ MonoBehaviour:
   enemyExp: 0
   enemyCoins: 0
   characterStats: {fileID: 0}
+--- !u!114 &811143286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811143281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHP: 0
+  playerExp: 0
+  playerCoins: 0
+  requiredExp: 0
+  playerLvl: 0
+  hpText: {fileID: 0}
+  lvlText: {fileID: 1343622401}
+  coinsText: {fileID: 136049540}
+  expText: {fileID: 991587908}
+  hpBar: {fileID: 1691206038}
+  expBar: {fileID: 698682389}
 --- !u!1 &818018085
 GameObject:
   m_ObjectHideFlags: 0
@@ -22790,7 +22814,7 @@ MonoBehaviour:
   armor: 0
   armorMax: 0
   hp: 74
-  maxHP: 100
+  maxHP: 133
   stamina: 74
   staminaMax: 100
   staminaRegenerate: 10

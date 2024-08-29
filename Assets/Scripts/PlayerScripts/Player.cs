@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     void LoadCharacterStats()
     {
         characterStats = GetComponent<CharacterStats>();
-        characterStats.LoadData();
+        characterStats.LoadData("Assets/Saves/characterStatsData.json");
         characterStats.InitializeCharacterStats();
     }
     void SetStartPosition()

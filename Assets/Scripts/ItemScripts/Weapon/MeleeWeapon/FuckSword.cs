@@ -23,38 +23,41 @@ public class FuckSword : MeleeWeapon
             timer_locked_out = true;
 
             // do things
-            if (Player.stamina - stamina >= 0)
+            if (Player != null)
             {
-                Player.stamina -= stamina;
-                if (Random.Range(0, 100) <= Accuracy)
+                if (Player.stamina - stamina >= 0)
                 {
-                    float armorBefore = Enemy.armor;
-                    Debug.Log("Иди на хуй");
-                    int attack = Random.Range(attackMin, attackMax + 1);
-                    if (Enemy.armor > 0)
+                    Player.stamina -= stamina;
+                    if (Random.Range(0, 100) <= Accuracy)
                     {
-                        Enemy.armor -= attack;
-
-                        if (Enemy.armor < 0)
+                        float armorBefore = Enemy.armor;
+                        Debug.Log("Иди на хуй");
+                        int attack = Random.Range(attackMin, attackMax + 1);
+                        if (Enemy.armor > 0)
                         {
-                            Enemy.hp = Enemy.hp + Enemy.armor - attack;
-                            Debug.Log("Меч ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
-                        } 
+                            Enemy.armor -= attack;
+
+                            if (Enemy.armor < 0)
+                            {
+                                Enemy.hp = Enemy.hp + Enemy.armor - attack;
+                                Debug.Log("Меч ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
+                            }
+                            else
+                            {
+                                Debug.Log("Меч ломает " + armorBefore + " брони");
+                            }
+                        }
                         else
                         {
-                            Debug.Log("Меч ломает " + armorBefore + " брони");
+                            Enemy.hp -= attack;
+                            Debug.Log("Меч режет плоть на " + attack + " здоровья");
                         }
+
                     }
                     else
                     {
-                        Enemy.hp -= attack;
-                        Debug.Log("Меч режет плоть на " + attack + " здоровья");
+                        Debug.Log("miss");
                     }
-
-                }
-                else
-                {
-                    Debug.Log("miss");
                 }
             }
             

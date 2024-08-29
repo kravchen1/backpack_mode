@@ -1,4 +1,6 @@
 using System;
+using System.Xml.Linq;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,6 +40,8 @@ public class PlayerBackpackBattle : MonoBehaviour
     private Text[] textBarStamina;
     private Text[] textBarArmor;
 
+    private string characterStatsDataFilePath;
+    private CharacterStatsData characterStatsData;
     void Start()
     {
         InitializeData();
@@ -56,19 +60,29 @@ public class PlayerBackpackBattle : MonoBehaviour
         textBarArmor = armorBar.GetComponentsInChildren<Text>();
 
 
-        if (gameObject.name == "Character")
+
+        switch (gameObject.name)
         {
-            characterStats = GetComponent<CharacterStats>();
-            characterStats.LoadData();
-            characterStats.InitializeCharacterStats();
-            hp = characterStats.playerHP;
+            case "Character":
+                characterStats = GetComponent<CharacterStats>();
+                characterStats.LoadData("Assets/Saves/characterStatsData.json");
+                characterStats.InitializeCharacterStats();
+                hp = characterStats.playerHP;
+                maxHP = characterStats.playerHP; //todo
+                break;
+            case "CharacterEnemy":
+                characterStats = GetComponent<CharacterStats>();
+                characterStats.LoadData("Assets/Enemys/statsDataEnemy1.json");//todo
+                characterStats.InitializeCharacterStats();
+                hp = characterStats.playerHP;
+                maxHP = characterStats.playerHP; //todo
+                break;
         }
-        else
-        {
-            enemyExp = 100;
-            enemyCoins = 10;
-        }
+        enemyExp = 100;
+        enemyCoins = 10;
+        
     }
+
 
 
     void changeBar(Image[] images, Text[] texts, float currentValue, float maxValue)

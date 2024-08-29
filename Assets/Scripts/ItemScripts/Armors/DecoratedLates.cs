@@ -29,10 +29,13 @@ public class DecoratedLates : Armor
     {
         if (!isUse)
         {
-            Player.armor = Player.armor + startBattleArmorCount;
-            Player.armorMax = Player.armorMax + startBattleArmorCount;
-            isUse = true;
-            Debug.Log("декоративные латы накинули " + startBattleArmorCount + " брони");
+            if (Player != null)
+            {
+                Player.armor = Player.armor + startBattleArmorCount;
+                Player.armorMax = Player.armorMax + startBattleArmorCount;
+                isUse = true;
+                Debug.Log("декоративные латы накинули " + startBattleArmorCount + " брони");
+            }
         }
     }
 

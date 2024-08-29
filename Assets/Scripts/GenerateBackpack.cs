@@ -13,22 +13,26 @@ public class GenerateBackpack : MonoBehaviour
         Time.timeScale = 1f;
         backpackData = GetComponent<BackpackData>();
 
-        if (gameObject.name == "backpackEnemy")
+        switch (gameObject.name)
         {
-            getEnemy(1);
+            case "backpack":
+                backpackData.LoadData("Assets/Saves/backpackData.json");
+                break;
+            case "Storage":
+                backpackData.LoadData("Assets/Saves/storageData.json");
+                break;
+            case "backpackEnemy":
+                getEnemy(1);
+                break;
         }
-        else
-        {
-            backpackData.LoadData("Assets/Saves/backpackData.json");
-        }
-        //Invoke("GenerationBackpack", 1.0f);
+
         GenerationBackpack();
     }
 
     int getEnemy(int lvl)
     {
         int r = 0;
-        r = 1;//Random.Range(0, 3);//toDo 20
+        r = Random.Range(1, 4);//toDo 20
         backpackData.LoadData("Assets/Enemys/backpackDataEnemy" + lvl + "_" + r + ".json");
         return 0;
     }

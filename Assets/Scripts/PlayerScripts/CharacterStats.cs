@@ -23,7 +23,7 @@ public class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
-        LoadData();
+        LoadData("Assets/Saves/characterStatsData.json");
         InitializeCharacterStats();
     }
     public void InitializeCharacterStats()
@@ -57,7 +57,10 @@ public class CharacterStats : MonoBehaviour
             int x = 500;
             int y = 2;
             requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
-            //hpText.text = playerHP.ToString();
+            if (hpText != null)
+            {
+                hpText.text = playerHP.ToString();
+            }
             lvlText.text = playerLvl.ToString();
             coinsText.text = playerCoins.ToString();
             expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
@@ -89,18 +92,18 @@ public class CharacterStats : MonoBehaviour
             fileStream.Write(buffer, 0, buffer.Length);
         }
     }
-    public CharacterStatsData LoadData()
+    public CharacterStatsData LoadData(String filePath)
     {
-        characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
+        //characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
         characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl);
-        if (File.Exists(characterStatsDataFilePath))
+        if (File.Exists(filePath))
         {
             //foreach (var line in File.ReadLines(mapDataFilePath))
             //{
             //    if (line != "[" && line != "]")
             //        mapData.tiles.Add(JsonUtility.FromJson<Tile>(line.Substring(0, line.Length - 1)));
             //}
-            characterStatsData = JsonUtility.FromJson<CharacterStatsData>(File.ReadAllText(characterStatsDataFilePath));
+            characterStatsData = JsonUtility.FromJson<CharacterStatsData>(File.ReadAllText(filePath));
         }
         else
             Debug.LogError("There is no save data!");

@@ -88,8 +88,15 @@ public class GenerateShopItems : MonoBehaviour
 
             //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
 
-            r = Random.Range(0, generateItems.Count);
-            Generation(generateItems[r], collidersArray[i].bounds.center, i);
+            r = Random.Range(0, 12);
+            if (r < generateItems.Count)
+            {
+                Generation(generateItems[r], collidersArray[i].bounds.center, i);
+            }
+            else
+            {
+                Generation(bag4x4, collidersArray[i].bounds.center, i);
+            }
             
             
 
