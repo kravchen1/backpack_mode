@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 using UnityEngine.UIElements;
 using System.IO;
 using System.Text;
-//using System;
 
 public class generateMapScript : Map
 {
@@ -21,6 +20,9 @@ public class generateMapScript : Map
     private GameObject battlePoint;
     private GameObject shopPoint;
     private GameObject greenStandart;
+    private GameObject treeStandart1;
+    private GameObject treeStandart2;
+    private GameObject treeStandart3;
 
     private carePosition carePosition = new carePosition();
 
@@ -40,6 +42,9 @@ public class generateMapScript : Map
         battlePoint = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle");
         shopPoint = Resources.Load<GameObject>("greenStandart(1)PointInterestShop");
         greenStandart = Resources.Load<GameObject>("greenStandart");
+        treeStandart1 = Resources.Load<GameObject>("treeStandart1");
+        treeStandart2 = Resources.Load<GameObject>("treeStandart2");
+        treeStandart3 = Resources.Load<GameObject>("treeStandart3");
     }
 
     void generateBossTile()
@@ -261,6 +266,32 @@ public class generateMapScript : Map
                     generateTile(greenStandart, vector);
                 }
             }
+        }
+        GenerateTileOnTile();
+    }
+
+    void GenerateTileOnTile()
+    {
+        int randomTree = 0;
+        foreach(var tile in tiles.Where(e => e.tileName == "greenStandart"))
+        {
+            randomTree = Random.Range(0, 3);
+            switch(randomTree)
+            {
+                case 0:
+                    //tiles.Add(new Tile(treeStandart1.name, tile.tilePosition));
+                    generateTile(treeStandart1, tile.tilePosition);
+                    break;
+                case 1:
+                    //tiles.Add(new Tile(treeStandart2.name, tile.tilePosition));
+                    generateTile(treeStandart2, tile.tilePosition);
+                    break;
+                case 2:
+                    //tiles.Add(new Tile(treeStandart3.name, tile.tilePosition));
+                    generateTile(treeStandart3, tile.tilePosition);
+                    break;
+            }
+            
         }
     }
 
