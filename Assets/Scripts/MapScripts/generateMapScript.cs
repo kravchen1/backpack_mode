@@ -273,26 +273,30 @@ public class generateMapScript : Map
     void GenerateTileOnTile()
     {
         int randomTree = 0;
-        foreach(var tile in tiles.Where(e => e.tileName == "greenStandart"))
+        List<Tile> tilesTree = new List<Tile>();
+        foreach (var tile in tiles.Where(e => e.tileName == "greenStandart"))
         {
             randomTree = Random.Range(0, 3);
             switch(randomTree)
             {
                 case 0:
-                    //tiles.Add(new Tile(treeStandart1.name, tile.tilePosition));
+                    tilesTree.Add(new Tile(treeStandart1.name, tile.tilePosition));
                     generateTile(treeStandart1, tile.tilePosition);
                     break;
                 case 1:
-                    //tiles.Add(new Tile(treeStandart2.name, tile.tilePosition));
+                    tilesTree.Add(new Tile(treeStandart2.name, tile.tilePosition));
                     generateTile(treeStandart2, tile.tilePosition);
                     break;
                 case 2:
-                    //tiles.Add(new Tile(treeStandart3.name, tile.tilePosition));
+                    tilesTree.Add(new Tile(treeStandart3.name, tile.tilePosition));
                     generateTile(treeStandart3, tile.tilePosition);
                     break;
-            }
-            
+            }          
         }
+        foreach (var tile in tilesTree)
+        {
+            tiles.Add(tile);
+        }       
     }
 
     void GenerateMapFromFile()
