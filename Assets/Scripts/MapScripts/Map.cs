@@ -15,10 +15,12 @@ public class Map : MonoBehaviour
     [HideInInspector] public List<Vector2> pointInterestPoisitions = new List<Vector2>();
     [HideInInspector] public List<InterestPointStructure> pointInterestStructure = new List<InterestPointStructure>();
 
-    [HideInInspector] public GameObject bossTile;
+    [HideInInspector] public GameObject endPointTile;
     [HideInInspector] public GameObject startTile;
+    [HideInInspector] public GameObject portalTile;
     [HideInInspector] public Vector3 startTilePosition;
     [HideInInspector] public Vector2 startPlayerPosition;
+    [HideInInspector] public int mapLevel;
     [HideInInspector] public List<Tile> tiles;// = new List<Tile>();
 
     [HideInInspector] public MapData mapData;//= ScriptableObject.CreateInstance<MapData>();
@@ -38,7 +40,6 @@ public class Map : MonoBehaviour
     }
     public void SaveData()
     {
-        mapDataFilePath = "Assets/Saves/mapData.json";
         mapData = new MapData(tiles, startPlayerPosition);
 
         //var saveData = "[";
@@ -72,5 +73,12 @@ public class Map : MonoBehaviour
         }
         else
             Debug.LogError("There is no save data!");
+    }
+    public void DeleteData(string mapDataFilePath)
+    {
+        if (File.Exists(mapDataFilePath))
+        {
+            File.Delete(mapDataFilePath);
+        }
     }
 }

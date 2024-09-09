@@ -14,7 +14,7 @@ public class generateMapScript : Map
     //public GameObject carePoint;
     //private Color startColorCarePoint;
     //private LineRenderer2D lineRenderer;
-    private GameObject boss;
+    private GameObject endPoint;
     private GameObject start;
     private GameObject road;
     private GameObject battlePoint;
@@ -36,7 +36,15 @@ public class generateMapScript : Map
 
     private void Awake()
     {
-        boss = Resources.Load<GameObject>("greenStandart(1)PointInterestBoss");
+        
+    }
+
+    void InitializePrefabs()
+    {
+        if (PlayerPrefs.GetInt("mapLevel") == 7)
+            endPoint = Resources.Load<GameObject>("greenStandart(1)PointInterestBoss");
+        else
+            endPoint = Resources.Load<GameObject>("greenStandart(1)PointInterestPortal");
         start = Resources.Load<GameObject>("greenStandart(1)PointStart");
         road = Resources.Load<GameObject>("roadStandart");
         battlePoint = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle");
@@ -47,16 +55,16 @@ public class generateMapScript : Map
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
     }
 
-    void generateBossTile()
+    void generateEndPointTile()
     {
-        bossTile = Instantiate(boss, new Vector3(0, 0, 0), Quaternion.identity);
-        bossTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-        bossTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
+        endPointTile = Instantiate(endPoint, new Vector3(0, 0, 0), Quaternion.identity);
+        endPointTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
+        endPointTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
 
         var x = width / 2 - (width / 2) % stepSize - stepSize;
         var y = height - ((height % stepSize) + stepSize);
 
-        bossTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
+        endPointTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         carePosition.position = new Vector3(x, y, 0);
     }
 
@@ -142,13 +150,13 @@ public class generateMapScript : Map
             movingVectors.Add(3, new VectorStructure(new Vector2(stepSize, 0)));
             foreach (var vector in movingVectors)
             {
-                if (tiles.Any(e => e.tilePosition == bossTile.GetComponent<RectTransform>().anchoredPosition + vector.Value.movingVector))
+                if (tiles.Any(e => e.tilePosition == endPointTile.GetComponent<RectTransform>().anchoredPosition + vector.Value.movingVector))
                 {
                     roadToBoss = true;
                 }
             }
 
-            var bossPos = bossTile.GetComponent<RectTransform>().anchoredPosition;
+            var bossPos = endPointTile.GetComponent<RectTransform>().anchoredPosition;
             var newCarePoint = carePoint.position;
             if ((carePoint.position + movingVectors[0].movingVector).y >= height || tiles.Any(e => e.tilePosition == carePoint.position + movingVectors[0].movingVector))
                 movingVectors[0].canMove = false;
@@ -192,7 +200,7 @@ public class generateMapScript : Map
                     else
                         break;
                 }
-                int randomPlace = Random.Range(1, 3);
+                int randomPlace = Random.Range(1, 10);
                 newCarePoint += existVectors[randomVector];
                 if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % stepSize)))
                 {
@@ -204,12 +212,13 @@ public class generateMapScript : Map
                             generateTile(shopPoint, newCarePoint);
                             tiles.Add(new Tile(shopPoint.name, newCarePoint));
                             break;
-                        case 2:
+                        //case 2:
+                        //    generateTile(battlePoint, newCarePoint);
+                        //    tiles.Add(new Tile(battlePoint.name, newCarePoint));
+                        //    break;
+                        default:
                             generateTile(battlePoint, newCarePoint);
                             tiles.Add(new Tile(battlePoint.name, newCarePoint));
-                            break;
-                        default:
-                            Debug.Log("עû המכבמ¸ב?");
                             break;
                     }
                 }
@@ -227,12 +236,12 @@ public class generateMapScript : Map
         //    byte[] buffer = Encoding.Default.GetBytes("zalupa");
         //    fileStream.Write(buffer, 0, buffer.Length);
         //}
-        generateBossTile();
+        generateEndPointTile();
         generateStartTile();
-        var bossTilePosition = bossTile.GetComponent<RectTransform>().anchoredPosition;
+        var endPointTilePosition = endPointTile.GetComponent<RectTransform>().anchoredPosition;
         var startTilePosition = startTile.GetComponent<RectTransform>().anchoredPosition;
 
-        tiles.Add(new Tile(boss.name, bossTilePosition));
+        tiles.Add(new Tile(endPoint.name, endPointTilePosition));
         tiles.Add(new Tile(start.name, startTilePosition));
 
         var carePoint = startTilePosition;
@@ -321,8 +330,15 @@ public class generateMapScript : Map
         height = canvas.GetComponent<RectTransform>().rect.size.y;
 
         //var z = ScriptableObject.CreateInstance<Map>();
-       if (!File.Exists(mapDataFilePath))
+        if (!File.Exists(mapDataFilePath))
+        {
+            if(!PlayerPrefs.HasKey("mapLevel"))
+                PlayerPrefs.SetInt("mapLevel", 1);
+            else
+                PlayerPrefs.SetInt("mapLevel", PlayerPrefs.GetInt("mapLevel")+1);
+            InitializePrefabs();
             InitializateGenerationMap();
+        }
         else
             GenerateMapFromFile();
 

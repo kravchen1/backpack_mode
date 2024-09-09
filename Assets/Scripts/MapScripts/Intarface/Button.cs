@@ -39,6 +39,7 @@ public class Button : MonoBehaviour
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Button_NewGame":
+                PlayerPrefs.DeleteKey("mapLevel");
                 DeleteAllData();
                 SceneManager.LoadScene("GenerateMap");
                 break;

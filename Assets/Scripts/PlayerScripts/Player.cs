@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -9,7 +11,7 @@ public class Player : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject goMap;
-
+    public Animator animator;
     //private generateMapScript map;
 
     private Map map;
@@ -21,7 +23,7 @@ public class Player : MonoBehaviour
     private CharacterStats characterStats;
 
     private Rigidbody2D rb;
-    private float speed = 5f;
+    private float speed = 3f;
     private Vector2 moveVector;
 
     private RaycastHit2D hit;
@@ -31,14 +33,15 @@ public class Player : MonoBehaviour
     private GameObject activePoint;
     private Color trueActivePointColor;
 
-
+    private List<SpriteRenderer> sprites;
     private bool startMove = false;
+    bool B_FacingRight = true;
     private void Awake()
     {
         Time.timeScale = 1f;
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        
+        sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
     }
     void LoadCharacterStats()
     {
@@ -117,6 +120,14 @@ public class Player : MonoBehaviour
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackBattle");
             }
+            if (activePoint != null && activePoint.name.Contains("Portal"))
+            {
+
+                Time.timeScale = 0f;
+                map.DeleteData("Assets/Saves/mapData.json");
+                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+                SceneManager.LoadScene("GenerateMap");
+            }
         }
             
     }
@@ -161,14 +172,35 @@ public class Player : MonoBehaviour
 
     }
 
+    void Filp()
+    {
+        B_FacingRight = !B_FacingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+
+        transform.localScale = theScale;
+    }
     private void Update()
     {
         if (startMove)
         {
-            moveVector.x = Input.GetAxis("Horizontal");
-            moveVector.y = Input.GetAxis("Vertical");
+
+            if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
+            {
+                    Filp();
+            }
+            else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
+            {
+                    Filp();
+            }
+            //moveVector.x = Input.GetAxis("Horizontal");
+            //moveVector.y = Input.GetAxis("Vertical");
             //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
+            animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
+            
+            
             RaycastEvent();
 
 
