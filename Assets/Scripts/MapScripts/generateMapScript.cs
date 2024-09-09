@@ -17,7 +17,7 @@ public class generateMapScript : Map
     private GameObject endPoint;
     private GameObject start;
     private GameObject road;
-    private GameObject battlePoint;
+    private GameObject battlePoint1, battlePoint2, battlePoint3, battlePoint4, battlePoint5;
     private GameObject shopPoint;
     private GameObject greenStandart;
     private GameObject treeStandart1;
@@ -47,7 +47,11 @@ public class generateMapScript : Map
             endPoint = Resources.Load<GameObject>("greenStandart(1)PointInterestPortal");
         start = Resources.Load<GameObject>("greenStandart(1)PointStart");
         road = Resources.Load<GameObject>("roadStandart");
-        battlePoint = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle");
+        battlePoint1 = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle1");
+        battlePoint2 = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle2");
+        battlePoint3 = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle3");
+        battlePoint4 = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle4");
+        battlePoint5 = Resources.Load<GameObject>("greenStandart(1)PointInterestBattle5");
         shopPoint = Resources.Load<GameObject>("greenStandart(1)PointInterestShop");
         greenStandart = Resources.Load<GameObject>("greenStandart");
         treeStandart1 = Resources.Load<GameObject>("treeStandart1");
@@ -201,6 +205,7 @@ public class generateMapScript : Map
                         break;
                 }
                 int randomPlace = Random.Range(1, 10);
+                int randomBattlePoint = 0;
                 newCarePoint += existVectors[randomVector];
                 if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % stepSize)))
                 {
@@ -217,9 +222,32 @@ public class generateMapScript : Map
                         //    tiles.Add(new Tile(battlePoint.name, newCarePoint));
                         //    break;
                         default:
-                            generateTile(battlePoint, newCarePoint);
-                            tiles.Add(new Tile(battlePoint.name, newCarePoint));
+                            randomBattlePoint = Random.Range(1, 6);
+                            switch(randomBattlePoint)
+                            {
+                                case 1:
+                                    generateTile(battlePoint1, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint1.name, newCarePoint));
+                                    break;
+                                case 2:
+                                    generateTile(battlePoint2, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint2.name, newCarePoint));
+                                    break;
+                                case 3:
+                                    generateTile(battlePoint3, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint3.name, newCarePoint));
+                                    break;
+                                case 4:
+                                    generateTile(battlePoint4, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint4.name, newCarePoint));
+                                    break;
+                                case 5:
+                                    generateTile(battlePoint5, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
+                                    break;
+                            }
                             break;
+                            
                     }
                 }
             }
