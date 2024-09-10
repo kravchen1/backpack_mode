@@ -65,11 +65,12 @@ public class Player : MonoBehaviour
 
         SetStartPosition();
         LoadCharacterStats();
-
+        if(characterStats.playerTime >= 9f)
+        {
+            map.ChangeMapRedTimeZone();
+        }
 
         startMove = true;
-
-        
     }
 
 
@@ -94,8 +95,6 @@ public class Player : MonoBehaviour
             activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1,1,1);
         }
     }
-
-
     void pressF()
     {
         if(Input.GetButton("Jump"))
@@ -105,6 +104,7 @@ public class Player : MonoBehaviour
 
                 Time.timeScale = 0f;
                 map.startPlayerPosition = rectTransform.anchoredPosition;
+                characterStats.playerTime += 1f;
                 map.SaveData();
                 characterStats.SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
 
                 Time.timeScale = 0f;
                 map.startPlayerPosition = rectTransform.anchoredPosition;
+                characterStats.playerTime += 2f;
                 map.SaveData();
                 characterStats.SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
@@ -124,6 +125,8 @@ public class Player : MonoBehaviour
             {
 
                 Time.timeScale = 0f;
+                characterStats.playerTime = 0f;
+                characterStats.SaveData();
                 map.DeleteData("Assets/Saves/mapData.json");
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("GenerateMap");
@@ -131,7 +134,6 @@ public class Player : MonoBehaviour
         }
             
     }
-
     void pressI()
     {
         //if (!backpackCanvas.gameObject.activeInHierarchy)

@@ -58,7 +58,6 @@ public class generateMapScript : Map
         treeStandart2 = Resources.Load<GameObject>("treeStandart2");
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
     }
-
     void generateEndPointTile()
     {
         endPointTile = Instantiate(endPoint, new Vector3(0, 0, 0), Quaternion.identity);
@@ -71,7 +70,6 @@ public class generateMapScript : Map
         endPointTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         carePosition.position = new Vector3(x, y, 0);
     }
-
     void generateStartTile()
     {
         startTile = Instantiate(start, new Vector3(0, 0, 0), Quaternion.identity);
@@ -107,8 +105,6 @@ public class generateMapScript : Map
         startPlayerPosition = new Vector3(x, y, 0); 
         //Debug.Log(startPlayerPosition);
     }
-
-
     void generateTile(GameObject gameObject, Vector3 position, bool Place = false)
     {
         startTile = Instantiate(gameObject, new Vector3(0, 0, 0), Quaternion.identity);
@@ -255,7 +251,6 @@ public class generateMapScript : Map
         else
             return;
     }
-
     public void InitializateGenerationMap()
     {
         //using (FileStream fileStream = new FileStream("C:\\text.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite))
@@ -306,7 +301,6 @@ public class generateMapScript : Map
         }
         GenerateTileOnTile();
     }
-
     void GenerateTileOnTile()
     {
         int randomTree = 0;
@@ -335,7 +329,6 @@ public class generateMapScript : Map
             tiles.Add(tile);
         }       
     }
-
     void GenerateMapFromFile()
     {
         LoadData();
@@ -350,7 +343,7 @@ public class generateMapScript : Map
         }
         startPlayerPosition = mapData.playerPosition;
     }
-
+    
     void Start()
     {
         var canvas = this.GetComponent<Canvas>();

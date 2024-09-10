@@ -8,6 +8,7 @@ using static generateMapScript;
 using System.IO.Pipes;
 using System;
 using UnityEditor.Overlays;
+using System.Linq;
 
 public class Map : MonoBehaviour
 {
@@ -30,13 +31,13 @@ public class Map : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void SaveData()
     {
@@ -56,12 +57,12 @@ public class Map : MonoBehaviour
         {
             fileStream.Seek(0, SeekOrigin.End);
             byte[] buffer = Encoding.Default.GetBytes(saveData);
-           fileStream.Write(buffer, 0, buffer.Length);
+            fileStream.Write(buffer, 0, buffer.Length);
         }
     }
     public void LoadData()
     {
-        mapData = new MapData(tiles, new Vector2(0,0));
+        mapData = new MapData(tiles, new Vector2(0, 0));
         if (File.Exists(mapDataFilePath))
         {
             //foreach (var line in File.ReadLines(mapDataFilePath))
@@ -79,6 +80,17 @@ public class Map : MonoBehaviour
         if (File.Exists(mapDataFilePath))
         {
             File.Delete(mapDataFilePath);
+        }
+    }
+    public void ChangeMapRedTimeZone()
+    {
+        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            enemy.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        foreach (var enemy in GameObject.FindGameObjectsWithTag("EnemyDemon"))
+        {
+            enemy.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
 }

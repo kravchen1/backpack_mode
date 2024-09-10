@@ -10,8 +10,10 @@ using UnityEngine.UI;
 public class CharacterStats : MonoBehaviour
 {
     public float playerHP, playerExp, playerCoins, requiredExp, playerLvl;
+    public float playerTime = 0f;
 
     public TextMeshProUGUI hpText, lvlText, coinsText, expText;
+    public GameObject arrowTime;
 
     public GameObject hpBar;
     public GameObject expBar;
@@ -26,6 +28,14 @@ public class CharacterStats : MonoBehaviour
         LoadData("Assets/Saves/characterStatsData.json");
         InitializeCharacterStats();
     }
+
+    public void InitializedTime()
+    {
+        Vector3 newRotation = new Vector3(0, 0, 90f - (30f * playerTime));
+        arrowTime.transform.rotation = Quaternion.Euler(newRotation);
+            //Rotate(newRotation);
+    }
+
     public void InitializeCharacterStats()
     {
         if (characterStatsData.playerHP == 0)
@@ -46,6 +56,7 @@ public class CharacterStats : MonoBehaviour
 
             expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
             hpBar.GetComponent<Image>().fillAmount = playerHP / maxHp;
+            playerTime = 0f;
         }
         else
         {
@@ -54,6 +65,7 @@ public class CharacterStats : MonoBehaviour
             playerExp = characterStatsData.playerExp;
             playerCoins = characterStatsData.playerCoins;
             playerLvl = characterStatsData.playerLvl;
+            playerTime = characterStatsData.playerTime;
             int x = 500;
             int y = 2;
             requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
@@ -68,12 +80,14 @@ public class CharacterStats : MonoBehaviour
             expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
             hpBar.GetComponent<Image>().fillAmount = playerHP / maxHp;
         }
+
+        InitializedTime();
     }
 
     public void SaveData()
     {
         characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
-        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl);
+        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime);
 
         //var saveData = "[";
         var saveData = JsonUtility.ToJson(characterStatsData);
@@ -95,7 +109,7 @@ public class CharacterStats : MonoBehaviour
     public CharacterStatsData LoadData(String filePath)
     {
         //characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
-        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl);
+        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime);
         if (File.Exists(filePath))
         {
             //foreach (var line in File.ReadLines(mapDataFilePath))
