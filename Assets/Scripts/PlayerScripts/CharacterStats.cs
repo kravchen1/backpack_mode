@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
@@ -26,14 +27,26 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
     {
         LoadData("Assets/Saves/characterStatsData.json");
+        if(SceneManager.GetActiveScene().name == "GenerateMap")
+            InitializeObjects();
         InitializeCharacterStats();
     }
 
-    public void InitializedTime()
+    public void InitializeObjects()
     {
+        hpBar = GameObject.FindGameObjectWithTag("HPBar");
+        expBar = GameObject.FindGameObjectWithTag("ExpBar");
+        hpText = GameObject.FindGameObjectWithTag("HPTxt").GetComponent<TextMeshProUGUI>();
+        lvlText = GameObject.FindGameObjectWithTag("HPTxt").GetComponent<TextMeshProUGUI>();
+        coinsText = GameObject.FindGameObjectWithTag("CoinTxt").GetComponent<TextMeshProUGUI>();
+        expText = GameObject.FindGameObjectWithTag("ExpTxt").GetComponent<TextMeshProUGUI>();
+        arrowTime = GameObject.FindGameObjectWithTag("ArrowTime");
+    }
+    public void InitializedTime()
+    { 
         Vector3 newRotation = new Vector3(0, 0, 90f - (30f * playerTime));
         arrowTime.transform.rotation = Quaternion.Euler(newRotation);
-            //Rotate(newRotation);
+        //Rotate(newRotation);
     }
 
     public void InitializeCharacterStats()
@@ -53,7 +66,6 @@ public class CharacterStats : MonoBehaviour
             coinsText.text = playerCoins.ToString();
             
             expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
-
             expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
             hpBar.GetComponent<Image>().fillAmount = playerHP / maxHp;
             playerTime = 0f;
@@ -80,8 +92,8 @@ public class CharacterStats : MonoBehaviour
             expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
             hpBar.GetComponent<Image>().fillAmount = playerHP / maxHp;
         }
-
-        InitializedTime();
+        if (SceneManager.GetActiveScene().name == "GenerateMap")
+            InitializedTime();
     }
 
     public void SaveData()

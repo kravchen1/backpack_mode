@@ -18,6 +18,7 @@ public class Map : MonoBehaviour
 
     [HideInInspector] public GameObject endPointTile;
     [HideInInspector] public GameObject startTile;
+    [HideInInspector] public GameObject player;
     [HideInInspector] public GameObject portalTile;
     [HideInInspector] public Vector3 startTilePosition;
     [HideInInspector] public Vector2 startPlayerPosition;

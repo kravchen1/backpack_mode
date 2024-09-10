@@ -7987,6 +7987,7 @@ GameObject:
   - component: {fileID: 811143283}
   - component: {fileID: 811143285}
   - component: {fileID: 811143286}
+  - component: {fileID: 811143287}
   m_Layer: 5
   m_Name: CharacterEnemy
   m_TagString: Untagged
@@ -8008,10 +8009,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1609504433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.70387506, y: 0}
-  m_AnchorMax: {x: 1, y: 0.39528129}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1635.5, y: 213.5}
+  m_SizeDelta: {x: 569, y: 427}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &811143283
 MonoBehaviour:
@@ -8020,7 +8021,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811143281}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -8095,12 +8096,26 @@ MonoBehaviour:
   playerCoins: 0
   requiredExp: 0
   playerLvl: 0
+  playerTime: 0
   hpText: {fileID: 0}
   lvlText: {fileID: 1343622401}
   coinsText: {fileID: 136049540}
   expText: {fileID: 991587908}
+  arrowTime: {fileID: 0}
   hpBar: {fileID: 1691206038}
   expBar: {fileID: 698682389}
+--- !u!114 &811143287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811143281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab6bb82315a2234ab6f2e36e0a04764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &818018085
 GameObject:
   m_ObjectHideFlags: 0
@@ -16298,7 +16313,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416802922}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -18902,9 +18917,11 @@ GameObject:
   - component: {fileID: 1609504435}
   - component: {fileID: 1609504434}
   - component: {fileID: 1609504437}
+  - component: {fileID: 1609504439}
+  - component: {fileID: 1609504438}
   m_Layer: 6
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Main Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19024,6 +19041,44 @@ MonoBehaviour:
   newGameButton: {fileID: 846426365}
   endOfBattleCanvas: {fileID: 1590516784}
   timeSpeed: {fileID: 556830625}
+--- !u!114 &1609504438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609504432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 6614864936622515086, guid: bfff10f615463cf4b8de1cc8b9f77ab4, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1609504439
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609504432}
+  m_CullTransparentMesh: 1
 --- !u!1 &1619271099
 GameObject:
   m_ObjectHideFlags: 0
@@ -22730,6 +22785,7 @@ GameObject:
   - component: {fileID: 1961914289}
   - component: {fileID: 1961914291}
   - component: {fileID: 1961914292}
+  - component: {fileID: 1961914293}
   m_Layer: 5
   m_Name: Character
   m_TagString: Untagged
@@ -22763,7 +22819,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961914287}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -22838,12 +22894,26 @@ MonoBehaviour:
   playerCoins: 0
   requiredExp: 0
   playerLvl: 0
+  playerTime: 0
   hpText: {fileID: 0}
   lvlText: {fileID: 1343622401}
   coinsText: {fileID: 136049540}
   expText: {fileID: 991587908}
+  arrowTime: {fileID: 0}
   hpBar: {fileID: 1691206038}
   expBar: {fileID: 698682389}
+--- !u!114 &1961914293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961914287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab6bb82315a2234ab6f2e36e0a04764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1974007740
 GameObject:
   m_ObjectHideFlags: 0

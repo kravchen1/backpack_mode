@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
+        goMap = GameObject.FindGameObjectWithTag("GoMap");
     }
     void LoadCharacterStats()
     {
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         map = goMap.GetComponent<generateMapScript>();
 
-        SetStartPosition();
+        //SetStartPosition();
         LoadCharacterStats();
         if(characterStats.playerTime >= 9f)
         {
@@ -119,6 +120,7 @@ public class Player : MonoBehaviour
                 map.SaveData();
                 characterStats.SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+                PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
                 SceneManager.LoadScene("BackPackBattle");
             }
             if (activePoint != null && activePoint.name.Contains("Portal"))

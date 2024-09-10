@@ -27,7 +27,7 @@ public class Button : MonoBehaviour
         SceneManager.LoadScene("BackpackView");
     }
 
-    void OnMouseUpAsButton()
+    virtual public void OnMouseUpAsButton()
     {
         switch (gameObject.name)
         {
@@ -38,7 +38,14 @@ public class Button : MonoBehaviour
                 GameObject.Find("Character").GetComponent<CharacterStats>().SaveData();
                 SceneManager.LoadScene("GenerateMap");
                 break;
-            case "Button_NewGame":
+            case "Player_agl":
+                PlayerPrefs.SetString("characterClass", gameObject.name);
+                PlayerPrefs.DeleteKey("mapLevel");
+                DeleteAllData();
+                SceneManager.LoadScene("GenerateMap");
+                break;
+            case "Player_str":
+                PlayerPrefs.SetString("characterClass", gameObject.name);
                 PlayerPrefs.DeleteKey("mapLevel");
                 DeleteAllData();
                 SceneManager.LoadScene("GenerateMap");
@@ -52,6 +59,7 @@ public class Button : MonoBehaviour
             case "Button_LoadGame":
                 SceneManager.LoadScene("GenerateMap");
                 break;
+                
         }
     }
     void DeleteAllData()

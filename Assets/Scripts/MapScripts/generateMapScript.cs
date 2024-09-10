@@ -24,6 +24,7 @@ public class generateMapScript : Map
     private GameObject treeStandart2;
     private GameObject treeStandart3;
 
+    private GameObject playerPrefab;
     private carePosition carePosition = new carePosition();
 
     private float width, height;
@@ -57,6 +58,8 @@ public class generateMapScript : Map
         treeStandart1 = Resources.Load<GameObject>("treeStandart1");
         treeStandart2 = Resources.Load<GameObject>("treeStandart2");
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
+        playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
+
     }
     void generateEndPointTile()
     {
@@ -102,7 +105,9 @@ public class generateMapScript : Map
         }
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
-        startPlayerPosition = new Vector3(x, y, 0); 
+        startPlayerPosition = new Vector3(x, y, 0);
+        player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+        player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
         //Debug.Log(startPlayerPosition);
     }
     void generateTile(GameObject gameObject, Vector3 position, bool Place = false)
@@ -341,7 +346,11 @@ public class generateMapScript : Map
             careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
             tiles.Add(tile);
         }
-        startPlayerPosition = mapData.playerPosition;
+        Debug.Log("PlayerPos1:" + mapData.playerPosition);
+        player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+        player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
+        Debug.Log("PlayerPos1:" + player.transform.position);
+        //startPlayerPosition = mapData.playerPosition;
     }
     
     void Start()
@@ -351,13 +360,14 @@ public class generateMapScript : Map
         height = canvas.GetComponent<RectTransform>().rect.size.y;
 
         //var z = ScriptableObject.CreateInstance<Map>();
+        InitializePrefabs();
         if (!File.Exists(mapDataFilePath))
         {
             if(!PlayerPrefs.HasKey("mapLevel"))
                 PlayerPrefs.SetInt("mapLevel", 1);
             else
                 PlayerPrefs.SetInt("mapLevel", PlayerPrefs.GetInt("mapLevel")+1);
-            InitializePrefabs();
+            //InitializePrefabs();
             InitializateGenerationMap();
         }
         else
