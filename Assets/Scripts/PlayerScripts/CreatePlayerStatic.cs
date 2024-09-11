@@ -16,6 +16,15 @@ public class CreatePlayerStatic : MonoBehaviour
 
     }
 
+    public bool isDemon()
+    {
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player.GetComponent<CharacterStats>().playerTime >= 9)
+            return true;
+        else
+            return false;
+    }
+
     void InstantinateCharacterModel()
     {
         switch (gameObject.name)
@@ -26,9 +35,26 @@ public class CreatePlayerStatic : MonoBehaviour
             case "CharacterEnemy":
                 var enemy = Instantiate(Resources.Load<GameObject>(PlayerPrefs.GetString("enemyName")), gameObject.transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
                 enemy.transform.localScale = new Vector3(-5, 5, 5);
-                enemy.GetComponent<RectTransform>().anchoredPosition = new Vector2(gameObject.GetComponent<RectTransform>().anchoredPosition.x + enemy.GetComponent<RectTransform>().rect.width * Math.Abs(enemy.transform.localScale.x) / 2
-                    , gameObject.GetComponent<RectTransform>().anchoredPosition.y - enemy.GetComponent<RectTransform>().rect.height * enemy.transform.localScale.y / 2);
+                var ap = enemy.GetComponent<RectTransform>().anchoredPosition;
+                ap = new Vector2(ap.x + enemy.GetComponent<RectTransform>().rect.width * Math.Abs(enemy.transform.localScale.x) / 2
+                    , ap.y - enemy.GetComponent<RectTransform>().rect.height * enemy.transform.localScale.y / 2);
                 enemy.GetComponent<Image>().enabled = false;
+
+                if(isDemon())
+                {
+                    for(int i = 0; i < enemy.transform.childCount; i++)
+                    {
+                        if(enemy.transform.GetChild(i).name == "pointInterestBattleDemon")
+                        {
+                            enemy.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = true;
+                        }
+                        if (enemy.transform.GetChild(i).name == "pointInterestBattle")
+                        {
+                            enemy.transform.GetChild(i).GetComponent<SpriteRenderer>().enabled = false;
+                        }
+                    }
+                }
+
                 break;
         }
     }

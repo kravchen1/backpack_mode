@@ -50,6 +50,10 @@ public class Button : MonoBehaviour
                 DeleteAllData();
                 SceneManager.LoadScene("GenerateMap");
                 break;
+            case "Button_NewGame":
+                DeleteAllData();
+                SceneManager.LoadScene("Main");
+                break;
             case "Button_GoMap":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();

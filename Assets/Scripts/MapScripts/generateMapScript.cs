@@ -193,7 +193,7 @@ public class generateMapScript : Map
             }
             else
             {
-                var randomRoadCount = Random.Range(2, 4);
+                var randomRoadCount = Random.Range(1, 3);
                 for (int i = 0; i < randomRoadCount; i++)
                 {
                     newCarePoint += existVectors[randomVector];
@@ -264,8 +264,8 @@ public class generateMapScript : Map
         //    byte[] buffer = Encoding.Default.GetBytes("zalupa");
         //    fileStream.Write(buffer, 0, buffer.Length);
         //}
-        generateEndPointTile();
         generateStartTile();
+        generateEndPointTile();    
         var endPointTilePosition = endPointTile.GetComponent<RectTransform>().anchoredPosition;
         var startTilePosition = startTile.GetComponent<RectTransform>().anchoredPosition;
 
