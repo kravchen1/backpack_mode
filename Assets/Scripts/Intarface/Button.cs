@@ -13,12 +13,13 @@ public class Button : MonoBehaviour
 
     private void Awake()
     {
-
+        
     }
 
     public void LoadBackpack()
     {
-        player = GameObject.Find("Player");
+        //player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         buttonColor = GetComponent<Image>().color;
         map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
         player.GetComponent<Player>().GetComponent<CharacterStats>().SaveData();
@@ -33,6 +34,17 @@ public class Button : MonoBehaviour
         {
             case "BackpackButton":
                 LoadBackpack();
+                break;
+            case "StoreButton":
+                player = GameObject.FindGameObjectWithTag("Player");
+                Time.timeScale = 0f;
+                map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
+                map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
+                player.GetComponent<CharacterStats>().playerTime += 1f;
+                map.SaveData();
+                player.GetComponent<CharacterStats>().SaveData();
+                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+                SceneManager.LoadScene("BackPackShop");
                 break;
             case "EndOfBattleButtonOK":
                 GameObject.Find("Character").GetComponent<CharacterStats>().SaveData();
@@ -74,13 +86,14 @@ public class Button : MonoBehaviour
             File.Delete(file);
         }
     }
-    void OnMouseDown()
-    {
-        GetComponent<Image>().color = Color.red;
-    }
+    //void OnMouseDown()
+    //{
+    //    buttonColor = GetComponent<Image>().color;
+    //    GetComponent<Image>().color = Color.red;
+    //}
 
-    void OnMouseUp()
-    {
-        GetComponent<Image>().color = buttonColor;
-    }
+    //void OnMouseUp()
+    //{
+    //    GetComponent<Image>().color = buttonColor;
+    //}
 }

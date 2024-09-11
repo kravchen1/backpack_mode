@@ -36,6 +36,12 @@ public class Player : MonoBehaviour
     private List<SpriteRenderer> sprites;
     private bool startMove = false;
     bool B_FacingRight = true;
+
+    bool createdDialogCanvas = false;
+
+
+    public GameObject dialogCanvas;
+
     private void Awake()
     {
         Time.timeScale = 1f;
@@ -88,12 +94,24 @@ public class Player : MonoBehaviour
         {
             activePoint = hit.collider.gameObject.GameObject();
             activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+            if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
+            {
+                if (!createdDialogCanvas)
+                {
+                    Time.timeScale = 0f;
+                    var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
+                    canvas.gameObject.SetActive(true);
+                    canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+                    createdDialogCanvas = true;
+                }
+            }
             //Debug.Log(activePoint.name);
         }
 
         if(activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
             activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1,1,1);
+            createdDialogCanvas = false;
         }
     }
     void pressF()
@@ -185,6 +203,14 @@ public class Player : MonoBehaviour
 
         transform.localScale = theScale;
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+    }
+
+
     private void Update()
     {
         if (startMove)
@@ -192,24 +218,29 @@ public class Player : MonoBehaviour
 
             if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
             {
-                    Filp();
+                Filp();
             }
             else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
             {
-                    Filp();
+                Filp();
             }
             //moveVector.x = Input.GetAxis("Horizontal");
             //moveVector.y = Input.GetAxis("Vertical");
             //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
             animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
-            
-            
+
+
             RaycastEvent();
 
 
             pressF();
             //pressI();
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, 0);
+            animator.SetFloat("Move", 0);
         }
     }
 }

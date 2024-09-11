@@ -215,8 +215,8 @@ public class generateMapScript : Map
                     switch (randomPlace)
                     {
                         case 1:
-                            generateTile(shopPoint, newCarePoint);
-                            tiles.Add(new Tile(shopPoint.name, newCarePoint));
+                            //generateTile(shopPoint, newCarePoint);
+                            //tiles.Add(new Tile(shopPoint.name, newCarePoint));
                             break;
                         //case 2:
                         //    generateTile(battlePoint, newCarePoint);

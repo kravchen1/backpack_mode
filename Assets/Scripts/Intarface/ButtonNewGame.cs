@@ -10,17 +10,18 @@ public class ButtonNewGame : Button
         switch (gameObject.name)
         {
             case "Button_MainMenu":
-                ChangeActive(false);
+                ChangeActive();
                 break;
             case "Button_NewGame":
-                ChangeActive(true);
+                Time.timeScale = 1f;
+                ChangeActive();
                 break;
         }
     }
 
-    void ChangeActive(bool active)
+    void ChangeActive()
     {
-        mainCanvas.SetActive(!active);
-        chooseCharCanvas.SetActive(active);
+        mainCanvas.SetActive(!mainCanvas.activeSelf);
+        chooseCharCanvas.SetActive(!chooseCharCanvas.activeSelf);
     }
 }
