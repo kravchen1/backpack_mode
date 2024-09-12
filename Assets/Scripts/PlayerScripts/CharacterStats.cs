@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,9 @@ public class CharacterStats : MonoBehaviour
 
     private string characterStatsDataFilePath;
     private CharacterStatsData characterStatsData;
+
+    public Tile activeTile;
+
 
     private void Awake()
     {
@@ -78,6 +82,7 @@ public class CharacterStats : MonoBehaviour
             playerCoins = characterStatsData.playerCoins;
             playerLvl = characterStatsData.playerLvl;
             playerTime = characterStatsData.playerTime;
+            activeTile = characterStatsData.activeTile;
             int x = 500;
             int y = 2;
             requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
@@ -99,7 +104,7 @@ public class CharacterStats : MonoBehaviour
     public void SaveData()
     {
         characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
-        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime);
+        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime, activeTile);
 
         //var saveData = "[";
         var saveData = JsonUtility.ToJson(characterStatsData);
@@ -121,7 +126,7 @@ public class CharacterStats : MonoBehaviour
     public CharacterStatsData LoadData(String filePath)
     {
         //characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
-        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime);
+        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime, activeTile);
         if (File.Exists(filePath))
         {
             //foreach (var line in File.ReadLines(mapDataFilePath))

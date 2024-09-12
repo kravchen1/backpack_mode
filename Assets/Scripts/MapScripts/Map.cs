@@ -26,7 +26,7 @@ public class Map : MonoBehaviour
     [HideInInspector] public List<Tile> tiles;// = new List<Tile>();
 
     [HideInInspector] public MapData mapData;//= ScriptableObject.CreateInstance<MapData>();
-    [HideInInspector] public string mapDataFilePath;
+    //[HideInInspector] public string mapDataFilePath;
 
     //[HideInInspector] public MapData mapData;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,10 +40,12 @@ public class Map : MonoBehaviour
     {
 
     }
-    public void SaveData()
+    public void SaveData(string mapDataFilePath, MapData mapData2 = null)
     {
-        mapData = new MapData(tiles, startPlayerPosition);
-
+        if(mapData2 == null)
+            mapData = new MapData(tiles, startPlayerPosition);
+        else 
+            mapData = mapData2;
         //var saveData = "[";
         var saveData = JsonUtility.ToJson(mapData);
         //saveData += "]";
@@ -61,7 +63,7 @@ public class Map : MonoBehaviour
             fileStream.Write(buffer, 0, buffer.Length);
         }
     }
-    public void LoadData()
+    public void LoadData(string mapDataFilePath)
     {
         mapData = new MapData(tiles, new Vector2(0, 0));
         if (File.Exists(mapDataFilePath))

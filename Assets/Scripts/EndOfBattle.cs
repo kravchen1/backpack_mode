@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +15,10 @@ public class EndOfBattle : MonoBehaviour
     [SerializeField] private Slider timeSpeed;
     private PlayerBackpackBattle playerBackpackBattle;
     private PlayerBackpackBattle enemyBackpackBattle;
+
+
+    private Map map = new Map();
+
 
     private bool awardsReceived = false;
     private void Awake()
@@ -32,6 +38,22 @@ public class EndOfBattle : MonoBehaviour
             Time.timeScale = 0f;
             timeSpeed.value = 0f;
             timeSpeed.interactable = false;
+            map.LoadData("Assets/Saves/mapData.json");
+            //Tile activeTile = new Tile(null, new Vector2(0, 0));
+            for (int i = 0; i < map.mapData.tiles.Count(); i++)
+            {
+                if (map.mapData.tiles[i].tileName == player.GetComponent<CharacterStats>().activeTile.tileName && map.mapData.tiles[i].tilePosition == player.GetComponent<CharacterStats>().activeTile.tilePosition)
+                {
+                    map.mapData.tiles[i].tileName = "roadStandart";
+                    break;
+                }
+            }
+            map.SaveData("Assets/Saves/mapData.json", map.mapData);
+            //if (activeTile.tileName != null)
+            //{
+            //    map.mapData.tiles.Remove(activeTile);
+            //    map.SaveData("Assets/Saves/mapData.json", map.mapData);
+            //}
             if (playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp >= playerBackpackBattle.characterStats.requiredExp)
             {
                 playerBackpackBattle.characterStats.playerLvl++;

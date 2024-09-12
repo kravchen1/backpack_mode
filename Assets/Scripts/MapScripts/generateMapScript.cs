@@ -336,7 +336,7 @@ public class generateMapScript : Map
     }
     void GenerateMapFromFile()
     {
-        LoadData();
+        LoadData("Assets/Saves/mapData.json");
         foreach (var tile in mapData.tiles)
         {
             var careGameObject = Resources.Load<GameObject>(tile.tileName);
@@ -361,7 +361,7 @@ public class generateMapScript : Map
 
         //var z = ScriptableObject.CreateInstance<Map>();
         InitializePrefabs();
-        if (!File.Exists(mapDataFilePath))
+        if (!File.Exists("Assets/Saves/mapData.json"))
         {
             if(!PlayerPrefs.HasKey("mapLevel"))
                 PlayerPrefs.SetInt("mapLevel", 1);

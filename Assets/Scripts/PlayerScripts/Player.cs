@@ -22,11 +22,11 @@ public class Player : MonoBehaviour
 
     private CharacterStats characterStats;
 
-    private Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     private float speed = 3f;
     private Vector2 moveVector;
 
-    private RaycastHit2D hit;
+    [HideInInspector] public RaycastHit2D hit;
 
     private Collider2D collider;
 
@@ -34,11 +34,12 @@ public class Player : MonoBehaviour
     private Color trueActivePointColor;
 
     private List<SpriteRenderer> sprites;
-    private bool startMove = false;
+    [HideInInspector] public bool startMove = false;
     bool B_FacingRight = true;
 
     bool createdDialogCanvas = false;
 
+    [HideInInspector] public Collider2D lastCrossCollider;
 
     public GameObject dialogCanvas;
 
@@ -92,18 +93,24 @@ public class Player : MonoBehaviour
 
         if (hit.collider != null)
         {
-            activePoint = hit.collider.gameObject.GameObject();
-            activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
             if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
             {
+                activePoint = hit.collider.gameObject.GameObject();
+                activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
                 if (!createdDialogCanvas)
                 {
+                    startMove = false;
                     Time.timeScale = 0f;
                     var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
                     canvas.gameObject.SetActive(true);
-                    canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+                    //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+                    //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
                     createdDialogCanvas = true;
                 }
+            }
+            else
+            {
+                lastCrossCollider = hit.collider;
             }
             //Debug.Log(activePoint.name);
         }
@@ -124,7 +131,7 @@ public class Player : MonoBehaviour
                 Time.timeScale = 0f;
                 map.startPlayerPosition = rectTransform.anchoredPosition;
                 characterStats.playerTime += 1f;
-                map.SaveData();
+                map.SaveData("Assets/Saves/mapData.json");
                 characterStats.SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackShop");
@@ -135,7 +142,7 @@ public class Player : MonoBehaviour
                 Time.timeScale = 0f;
                 map.startPlayerPosition = rectTransform.anchoredPosition;
                 characterStats.playerTime += 2f;
-                map.SaveData();
+                map.SaveData("Assets/Saves/mapData.json");
                 characterStats.SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
@@ -229,7 +236,6 @@ public class Player : MonoBehaviour
             //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
             animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
-
 
             RaycastEvent();
 

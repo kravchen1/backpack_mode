@@ -24,7 +24,7 @@ public class Button : MonoBehaviour
         map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
         player.GetComponent<Player>().GetComponent<CharacterStats>().SaveData();
         map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-        map.SaveData();
+        map.SaveData("Assets/Saves/mapData.json");
         SceneManager.LoadScene("BackpackView");
     }
 
@@ -41,7 +41,7 @@ public class Button : MonoBehaviour
                 map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
                 map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
                 player.GetComponent<CharacterStats>().playerTime += 1f;
-                map.SaveData();
+                map.SaveData("Assets/Saves/mapData.json");
                 player.GetComponent<CharacterStats>().SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackShop");
