@@ -25,6 +25,7 @@ public class generateMapScript : Map
     private GameObject treeStandart3;
 
     private GameObject playerPrefab;
+    private GameObject fountainPrefab;
     private carePosition carePosition = new carePosition();
 
     private float width, height;
@@ -59,7 +60,7 @@ public class generateMapScript : Map
         treeStandart2 = Resources.Load<GameObject>("treeStandart2");
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
         playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
-
+        fountainPrefab = Resources.Load<GameObject>("greenStandart(1)Fountain");
     }
     void generateEndPointTile()
     {
@@ -215,8 +216,8 @@ public class generateMapScript : Map
                     switch (randomPlace)
                     {
                         case 1:
-                            //generateTile(shopPoint, newCarePoint);
-                            //tiles.Add(new Tile(shopPoint.name, newCarePoint));
+                            generateTile(fountainPrefab, newCarePoint);
+                            tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
                             break;
                         //case 2:
                         //    generateTile(battlePoint, newCarePoint);
