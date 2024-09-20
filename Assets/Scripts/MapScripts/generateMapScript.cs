@@ -16,7 +16,7 @@ public class generateMapScript : Map
     //private LineRenderer2D lineRenderer;
     private GameObject endPoint;
     private GameObject start;
-    private GameObject road;
+    [HideInInspector] public GameObject road;
     private GameObject battlePoint1, battlePoint2, battlePoint3, battlePoint4, battlePoint5;
     private GameObject shopPoint;
     private GameObject greenStandart;
@@ -111,7 +111,7 @@ public class generateMapScript : Map
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
         //Debug.Log(startPlayerPosition);
     }
-    void generateTile(GameObject gameObject, Vector3 position, bool Place = false)
+    public void generateTile(GameObject gameObject, Vector3 position, bool Place = false)
     {
         startTile = Instantiate(gameObject, new Vector3(0, 0, 0), Quaternion.identity);
         startTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());

@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public Animator animator;
     //private generateMapScript map;
 
-    private Map map;
+    [HideInInspector] public Map map;
     private RectTransform rectTransform;
 
     // [SerializeField] private Canvas backpackCanvas;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     private Collider2D collider;
 
-    private GameObject activePoint;
+    [HideInInspector] public GameObject activePoint;
     private Color trueActivePointColor;
 
     private List<SpriteRenderer> sprites;
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public Collider2D lastCrossCollider;
 
-    public GameObject dialogCanvas;
+    private GameObject dialogCanvas;
 
     private void Awake()
     {
@@ -82,6 +82,33 @@ public class Player : MonoBehaviour
     }
 
 
+    public void InstantinateDialog()
+    {
+        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain"))
+        {
+            activePoint = hit.collider.gameObject.GameObject();
+            activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+            if (!createdDialogCanvas)
+            {
+                startMove = false;
+                //Time.timeScale = 0f;
+                if(hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
+                    dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
+                else if(hit.collider.gameObject.name.Contains("Fountain"))
+                    dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
+                var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
+                canvas.gameObject.SetActive(true);
+                //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+                //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+                createdDialogCanvas = true;
+            }
+        }
+        else
+        {
+            lastCrossCollider = hit.collider;
+        }
+    }
+
     public void RaycastEvent()
     {
         if (rectTransform != null)
@@ -93,25 +120,7 @@ public class Player : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
-            {
-                activePoint = hit.collider.gameObject.GameObject();
-                activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-                if (!createdDialogCanvas)
-                {
-                    startMove = false;
-                    Time.timeScale = 0f;
-                    var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
-                    canvas.gameObject.SetActive(true);
-                    //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-                    //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-                    createdDialogCanvas = true;
-                }
-            }
-            else
-            {
-                lastCrossCollider = hit.collider;
-            }
+            InstantinateDialog();
             //Debug.Log(activePoint.name);
         }
 

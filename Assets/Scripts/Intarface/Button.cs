@@ -75,7 +75,10 @@ public class Button : MonoBehaviour
             case "Button_LoadGame":
                 SceneManager.LoadScene("GenerateMap");
                 break;
-                
+            case "Button_Home":
+                SceneManager.LoadScene("Main");
+                break;
+
         }
     }
     void DeleteAllData()

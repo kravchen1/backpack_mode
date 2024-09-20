@@ -1,67 +1,81 @@
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class FountainButtonYesNO : Button
 {
-    private Collider2D pointInterestCollision;
-    private Collider2D lastCrossCollider;
     private GameObject player;
     private Map map;
     private Player classPlayer;
-
+    private CharacterStats characterStats;
 
     public override void OnMouseUpAsButton()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         classPlayer = player.GetComponent<Player>();
         map = classPlayer.goMap.GetComponent<generateMapScript>();
-        pointInterestCollision = classPlayer.hit.collider;
-        lastCrossCollider = classPlayer.lastCrossCollider;
+        characterStats = player.GetComponent<CharacterStats>();
         switch (gameObject.name)
         {
             case "Button_Yes":
-                LoadPointInterest();
+                ActivateFountain();
+                Destroy(transform.parent.gameObject);
+                ChangeTile();
                 break;
             case "Button_No":
-                ReturnPlayer();
-                Time.timeScale = 1f;
                 Destroy(transform.parent.gameObject);
                 break;
         }
-    }
-
-    void ReturnPlayer()
-    {
-        Input.ResetInputAxes();
-        classPlayer.animator.SetFloat("Move", 0);
-        player.GetComponent<RectTransform>().anchoredPosition = lastCrossCollider.GetComponent<RectTransform>().anchoredPosition;
         classPlayer.startMove = true;
     }
 
-    void LoadPointInterest()
+    void ActivateFountain()
     {
-        Time.timeScale = 0f;
-        var characterStats = player.GetComponent<CharacterStats>();
-        characterStats.activeTile = new Tile(pointInterestCollision.gameObject.name.Replace("(Clone)", ""), pointInterestCollision.gameObject.GetComponent<RectTransform>().anchoredPosition);
-        if (pointInterestCollision.gameObject.name.Contains("Battle"))
+        var randomHeal = Random.Range(1, 4);
+        switch(randomHeal)
         {
-            Time.timeScale = 0f;
-            map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-            characterStats.playerTime += 2f;
-            map.SaveData("Assets/Saves/mapData.json");
-            characterStats.SaveData();
-            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-            PlayerPrefs.SetString("enemyName", pointInterestCollision.gameObject.name.Replace("(Clone)", ""));
-            SceneManager.LoadScene("BackPackBattle");
+            case 1:
+                RestoreHP(30);
+                Debug.Log("ActiveFountain Restore 30");
+                break;
+            case 2:
+                RestoreHP(40);
+                Debug.Log("ActiveFountain Restore 40");
+                break;
+            case 3:
+                RestoreHP(50);
+                Debug.Log("ActiveFountain Restore 30");
+                break;
         }
-        if (pointInterestCollision.gameObject.name.Contains("Portal"))
+    }
+
+    void RestoreHP(int percentHeal)
+    {
+       var healValue = characterStats.playerMaxHp / 100 * percentHeal;
+        if(characterStats.playerHP + healValue <= characterStats.playerMaxHp)
         {
-            Time.timeScale = 0f;
-            characterStats.playerTime = 0f;
-            characterStats.SaveData();
-            map.DeleteData("Assets/Saves/mapData.json");
-            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-            SceneManager.LoadScene("GenerateMap");
+            characterStats.playerHP += healValue;
+        }
+        else
+        {
+            characterStats.playerHP = characterStats.playerMaxHp;
+        }
+    }
+
+    void ChangeTile()
+    {
+        for (int i = 0; i < map.tiles.Count(); i++)
+        {
+            if (map.tiles[i].tileName == classPlayer.activePoint.name.Replace("(Clone)","") && map.tiles[i].tilePosition == classPlayer.activePoint.GetComponent<RectTransform>().anchoredPosition)
+            {
+                var generateMap = classPlayer.map.GetComponent<generateMapScript>();
+                generateMap.generateTile(generateMap.road, map.tiles[i].tilePosition);
+                map.tiles.Add(new Tile(generateMap.road.name, map.tiles[i].tilePosition));
+                Destroy(classPlayer.activePoint);
+                map.tiles.Remove(map.tiles[i]);
+                break;
+            }
         }
     }
 }
