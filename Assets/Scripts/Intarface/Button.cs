@@ -70,6 +70,7 @@ public class Button : MonoBehaviour
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+                GameObject.Find("Shop").GetComponent<Shop>().SaveData("Assets/Saves/shopData.json");
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Button_LoadGame":

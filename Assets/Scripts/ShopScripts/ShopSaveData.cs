@@ -6,21 +6,24 @@ using TMPro;
 using UnityEngine;
 
 [Serializable]
-public class ShopData
+public class ShopSaveData
 {
-    public Item item;
-
-    public TextMeshPro textPrice;
-
     public string slotName;
 
     public string prefabName;
-    
-    public ShopData(Item item, TextMeshPro textPrice, string slotName, string prefabName)
+
+    public bool locking;
+
+    public ShopSaveData(string slotName, string prefabName, bool locking)
     {
-        this.item = item;
-        this.textPrice = textPrice;
         this.slotName = slotName;
         this.prefabName = prefabName;
+        this.locking = locking;
     }
+}
+
+[Serializable]
+public class ListShopSaveData
+{
+    public List<ShopSaveData> listShopSaveData;
 }

@@ -23,6 +23,8 @@ public class ShopItem : MonoBehaviour
                 data.shopData.textPrice.text = "";
                 data.GetComponent<Price>().LockItem(false);
                 data.shopData.item = null;
+                data.shopData.prefabName = "";
+                data.shopData.slotName = "";
             }
         }
         Destroy(GetComponent<ShopItem>());

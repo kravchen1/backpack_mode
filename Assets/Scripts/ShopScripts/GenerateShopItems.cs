@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class GenerateShopItems : MonoBehaviour
 
     [SerializeField] private TextMeshPro priceTxt;
 
+
+    private List<ShopSaveData> listShopData;
     
 
     private void Awake()
@@ -60,13 +63,13 @@ public class GenerateShopItems : MonoBehaviour
         item.prefabOriginalName = generationObject.name;
         
         generationObjectShop.AddComponent<ShopItem>();
-        SetItemCost(item);
+        SetItemCost(item, generationObject.name);
     }
 
 
-    void SetItemCost(Item item)
+    void SetItemCost(Item item, string prefabName)
     {
-        shopData = new ShopData(item, priceTxt);
+        shopData = new ShopData(item, priceTxt, gameObject.name, prefabName);
         priceTxt.text = item.itemCost.ToString();
     }
 
@@ -84,9 +87,26 @@ public class GenerateShopItems : MonoBehaviour
         }
     }
 
+    void LoadSlot()
+    {
+        var shop = GameObject.FindGameObjectWithTag("Shop").GetComponent<Shop>();
+        shop.LoadData("Assets/Saves/shopData.json");
+        listShopData = shop.listShopSaveData.listShopSaveData;
+        if (listShopData != null)
+        {
+            foreach (var sd in listShopData.Where(e => e.slotName == gameObject.name))
+            {
+                Generation(Resources.Load<GameObject>(sd.prefabName), placeForItemCollider.bounds.center);
+                GetComponent<Price>().LockItem(sd.locking);
+            }
+        }
+    }
+
     void Start()
     {
-        GenerateRandomItem();
+        LoadSlot();
+        if (listShopData == null || listShopData.Count == 0)
+            GenerateRandomItem();
     }
 
     // Update is called once per frame
