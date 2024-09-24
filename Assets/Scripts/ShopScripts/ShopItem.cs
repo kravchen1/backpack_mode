@@ -18,10 +18,11 @@ public class ShopItem : MonoBehaviour
         var listShopData = GameObject.FindObjectsByType<GenerateShopItems>(FindObjectsSortMode.None);
         foreach (var data in listShopData)
         {
-            foreach (var obj in data.shopData.Where(e => e.textPrice.isActiveAndEnabled))
+            if (data.shopData.item == item)
             {
-                if(obj.item == item)
-                    obj.textPrice.gameObject.SetActive(false);
+                data.shopData.textPrice.text = "";
+                data.GetComponent<Price>().LockItem(false);
+                data.shopData.item = null;
             }
         }
         Destroy(GetComponent<ShopItem>());

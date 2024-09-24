@@ -18,7 +18,7 @@ public class GenerateShopItems : MonoBehaviour
 
     private Collider2D placeForItemCollider;
 
-    public List<ShopData> shopData;
+    public ShopData shopData;
 
     [SerializeField] private TextMeshPro priceTxt;
 
@@ -66,43 +66,27 @@ public class GenerateShopItems : MonoBehaviour
 
     void SetItemCost(Item item)
     {
-        shopData.Add(new ShopData(item, priceTxt));
+        shopData = new ShopData(item, priceTxt);
         priceTxt.text = item.itemCost.ToString();
+    }
+
+    public void GenerateRandomItem()
+    {
+        int r;
+        r = Random.Range(0, 12);
+        if (r < generateItems.Count)
+        {
+            Generation(generateItems[r], placeForItemCollider.bounds.center);
+        }
+        else
+        {
+            Generation(bag4x4, placeForItemCollider.bounds.center);
+        }
     }
 
     void Start()
     {
-       int r;
-       //for (int i = 0; i < collidersArray.Length; i++)
-       // {
-            
-            //if(i == 0)
-            //{
-            //    Generation(sword, collidersArray[i].bounds.center);
-            //}
-            //else
-            //{
-            //    Generation(bag4x4, collidersArray[i].bounds.center);
-            //}
-
-            //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
-
-
-            
-            r = Random.Range(0, 12);
-            if (r < generateItems.Count)
-            {
-                Generation(generateItems[r], placeForItemCollider.bounds.center);
-            }
-            else
-            {
-                Generation(bag4x4, placeForItemCollider.bounds.center);
-            }
-            
-            
-
-        //}
-
+        GenerateRandomItem();
     }
 
     // Update is called once per frame

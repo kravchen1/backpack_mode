@@ -3,17 +3,17 @@ using UnityEngine;
 public class Price : MonoBehaviour
 {
 
-    [SerializeField] private GameObject lockForItem;
-
+    [SerializeField] public GameObject lockForItem;
     void OnMouseUpAsButton()
     {
-        LockItem();
+        if(GetComponent<GenerateShopItems>().shopData.item != null)
+            LockItem(!lockForItem.activeSelf);
     }
 
 
-    void LockItem()
+    public void LockItem(bool locking)
     {
-        lockForItem.SetActive(!lockForItem.activeSelf);
+        lockForItem.SetActive(locking);
     }
 
     // Update is called once per frame
