@@ -11,32 +11,43 @@ public class GenerateShopItems : MonoBehaviour
     private GameObject sword;
     private GameObject bag4x4;
     private GameObject bag4x4_;
+    private GameObject curseSword1Hand;
+    private GameObject decoratedLates;
+    private GameObject potionHPCommon;
+    private GameObject glovesBase;
 
-    private Collider2D[] collidersArray;
+    private Collider2D placeForItemCollider;
 
     public List<ShopData> shopData;
 
-    [SerializeField] private TextMeshProUGUI leftPrice;
-    [SerializeField] private TextMeshProUGUI rightPrice;
+    [SerializeField] private TextMeshPro priceTxt;
 
     
 
     private void Awake()
     {
-        collidersArray = GetComponent<RectTransform>().GetComponents<Collider2D>();
+        placeForItemCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
 
-        axeCommon2Hand = Resources.Load<GameObject>("AxeCommon2Hand"); 
+        axeCommon2Hand = Resources.Load<GameObject>("AxeCommon2Hand");
+        generateItems.Add(axeCommon2Hand);
         sword = Resources.Load<GameObject>("SwordStandart");
+        generateItems.Add(sword);
         bag4x4 = Resources.Load<GameObject>("bagStandart4x4");
-        bag4x4_ = Resources.Load<GameObject>("bagStandart4x4_1");
-
-
+        generateItems.Add(bag4x4);
+        curseSword1Hand = Resources.Load<GameObject>("CurseSword1Hand");
+        generateItems.Add(curseSword1Hand);
+        decoratedLates = Resources.Load<GameObject>("DecoratedLates");
+        generateItems.Add(decoratedLates);
+        potionHPCommon = Resources.Load<GameObject>("PotionHPCommon");
+        generateItems.Add(potionHPCommon);
+        glovesBase = Resources.Load<GameObject>("GlovesBase");
+        generateItems.Add(glovesBase);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
 
-    void Generation(GameObject generationObject, Vector3 place, int colliderId)
+    void Generation(GameObject generationObject, Vector3 place)
     {
         var generationObjectShop = Instantiate(generationObject, place, Quaternion.identity, GetComponent<RectTransform>().parent.transform);
         for (int i = 0; i < generationObjectShop.transform.childCount; i++)
@@ -49,33 +60,21 @@ public class GenerateShopItems : MonoBehaviour
         item.prefabOriginalName = generationObject.name;
         
         generationObjectShop.AddComponent<ShopItem>();
-        SetItemCost(item, colliderId);
+        SetItemCost(item);
     }
 
 
-    void SetItemCost(Item item, int colliderId)
+    void SetItemCost(Item item)
     {
-        switch (colliderId)
-        {
-            case 0:
-                shopData.Add(new ShopData(item, leftPrice));
-                leftPrice.text = item.itemCost.ToString();
-                //leftPrice.transform.SetParent(transform);
-                break;
-            case 1:
-                shopData.Add(new ShopData(item, rightPrice));
-                rightPrice.text = item.itemCost.ToString();
-                //rightPrice.transform.SetParent(transform);
-                break;
-        }
-
+        shopData.Add(new ShopData(item, priceTxt));
+        priceTxt.text = item.itemCost.ToString();
     }
 
     void Start()
     {
        int r;
-       for (int i = 0; i < collidersArray.Length; i++)
-        {
+       //for (int i = 0; i < collidersArray.Length; i++)
+       // {
             
             //if(i == 0)
             //{
@@ -88,19 +87,21 @@ public class GenerateShopItems : MonoBehaviour
 
             //Generation(bag4x4_, collidersArray[i].bounds.center - new Vector3(0,10,0));
 
+
+            
             r = Random.Range(0, 12);
             if (r < generateItems.Count)
             {
-                Generation(generateItems[r], collidersArray[i].bounds.center, i);
+                Generation(generateItems[r], placeForItemCollider.bounds.center);
             }
             else
             {
-                Generation(bag4x4, collidersArray[i].bounds.center, i);
+                Generation(bag4x4, placeForItemCollider.bounds.center);
             }
             
             
 
-        }
+        //}
 
     }
 

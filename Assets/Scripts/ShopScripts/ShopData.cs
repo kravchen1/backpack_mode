@@ -10,9 +10,9 @@ public class ShopData
 {
     public Item item;
 
-    public TextMeshProUGUI textPrice;
+    public TextMeshPro textPrice;
     
-    public ShopData(Item item, TextMeshProUGUI textPrice)
+    public ShopData(Item item, TextMeshPro textPrice)
     {
         this.item = item;
         this.textPrice = textPrice;
