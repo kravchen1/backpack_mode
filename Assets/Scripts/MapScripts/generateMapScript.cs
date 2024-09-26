@@ -26,6 +26,7 @@ public class generateMapScript : Map
 
     private GameObject playerPrefab;
     private GameObject fountainPrefab;
+    private GameObject ChestOfFortune;
     private carePosition carePosition = new carePosition();
 
     private float width, height;
@@ -61,15 +62,14 @@ public class generateMapScript : Map
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
         playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
         fountainPrefab = Resources.Load<GameObject>("greenStandart(1)Fountain");
+        ChestOfFortune = Resources.Load<GameObject>("greenStandart(1)ChestOfFortune");
+        
     }
-    void generateEndPointTile()
+    void generateEndPointTile(float x, float y)
     {
         endPointTile = Instantiate(endPoint, new Vector3(0, 0, 0), Quaternion.identity);
         endPointTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
         endPointTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
-
-        var x = width / 2 - (width / 2) % stepSize - stepSize;
-        var y = height - ((height % stepSize) + stepSize);
 
         endPointTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         carePosition.position = new Vector3(x, y, 0);
@@ -80,23 +80,25 @@ public class generateMapScript : Map
         startTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
         startTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
 
-        int r = Random.Range(1, 4);
+        int r = Random.Range(2, 4);
         //Debug.Log(r);
         float x = 0f, y = 0f;
 
         switch (r)
         {
-            case 1:
-                x = width / 2 - (width / 2) % stepSize - stepSize;
-                y = 0;
-                break;
+            //case 1:
+            //    x = width / 2 - (width / 2) % stepSize - stepSize;
+            //    y = 0;
+            //    break;
             case 2:
                 x = 0;
                 y = 0;
+                generateEndPointTile(width - ((width % stepSize) + stepSize), height - ((height % stepSize) + stepSize));
                 break;
             case 3:
                 x = width - ((width % stepSize) + stepSize);
                 y = 0;
+                generateEndPointTile(0, height - ((height % stepSize) + stepSize));
                 break;
             default:
                 x = 0;
@@ -107,11 +109,17 @@ public class generateMapScript : Map
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         startPlayerPosition = new Vector3(x, y, 0);
-       // var str1 = PlayerPrefs.GetString("characterClass");
         player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
-        //Debug.Log(startPlayerPosition);
     }
+
+    public void GenerateStartAndBossTiles()
+    {
+        generateStartTile();
+       // generateEndPointTile();
+    }
+
+
     public void generateTile(GameObject gameObject, Vector3 position, bool Place = false)
     {
         startTile = Instantiate(gameObject, new Vector3(0, 0, 0), Quaternion.identity);
@@ -220,10 +228,10 @@ public class generateMapScript : Map
                             generateTile(fountainPrefab, newCarePoint);
                             tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
                             break;
-                        //case 2:
-                        //    generateTile(battlePoint, newCarePoint);
-                        //    tiles.Add(new Tile(battlePoint.name, newCarePoint));
-                        //    break;
+                        case 2:
+                            generateTile(ChestOfFortune, newCarePoint);
+                            tiles.Add(new Tile(ChestOfFortune.name, newCarePoint));
+                            break;
                         default:
                             randomBattlePoint = Random.Range(1, 6);
                             switch(randomBattlePoint)
@@ -266,8 +274,8 @@ public class generateMapScript : Map
         //    byte[] buffer = Encoding.Default.GetBytes("zalupa");
         //    fileStream.Write(buffer, 0, buffer.Length);
         //}
-        generateStartTile();
-        generateEndPointTile();    
+        GenerateStartAndBossTiles();
+           
         var endPointTilePosition = endPointTile.GetComponent<RectTransform>().anchoredPosition;
         var startTilePosition = startTile.GetComponent<RectTransform>().anchoredPosition;
 

@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
 
     public void InstantinateDialog()
     {
-        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain"))
+        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune"))
         {
             activePoint = hit.collider.gameObject.GameObject();
             activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
@@ -92,10 +92,16 @@ public class Player : MonoBehaviour
             {
                 startMove = false;
                 //Time.timeScale = 0f;
-                if(hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
+                if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
                     dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
-                else if(hit.collider.gameObject.name.Contains("Fountain"))
+                else if (hit.collider.gameObject.name.Contains("Fountain"))
                     dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
+                else if (hit.collider.gameObject.name.Contains("ChestOfFortune"))
+                {
+                    dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
+                    dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
+                }
+
                 var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
                 canvas.gameObject.SetActive(true);
                 //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
@@ -130,46 +136,46 @@ public class Player : MonoBehaviour
             createdDialogCanvas = false;
         }
     }
-    void pressF()
-    {
-        if(Input.GetButton("Jump"))
-        {
-            if (activePoint != null && activePoint.name.Contains("Shop"))
-            {
+    //void pressF()
+    //{
+    //    if(Input.GetButton("Jump"))
+    //    {
+    //        if (activePoint != null && activePoint.name.Contains("Shop"))
+    //        {
 
-                Time.timeScale = 0f;
-                map.startPlayerPosition = rectTransform.anchoredPosition;
-                characterStats.playerTime += 1f;
-                map.SaveData("Assets/Saves/mapData.json");
-                characterStats.SaveData();
-                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-                SceneManager.LoadScene("BackPackShop");
-            }
-            if (activePoint != null && activePoint.name.Contains("Battle"))
-            {
+    //            Time.timeScale = 0f;
+    //            map.startPlayerPosition = rectTransform.anchoredPosition;
+    //            characterStats.playerTime += 1f;
+    //            map.SaveData("Assets/Saves/mapData.json");
+    //            characterStats.SaveData();
+    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+    //            SceneManager.LoadScene("BackPackShop");
+    //        }
+    //        if (activePoint != null && activePoint.name.Contains("Battle"))
+    //        {
 
-                Time.timeScale = 0f;
-                map.startPlayerPosition = rectTransform.anchoredPosition;
-                characterStats.playerTime += 2f;
-                map.SaveData("Assets/Saves/mapData.json");
-                characterStats.SaveData();
-                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-                PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
-                SceneManager.LoadScene("BackPackBattle");
-            }
-            if (activePoint != null && activePoint.name.Contains("Portal"))
-            {
+    //            Time.timeScale = 0f;
+    //            map.startPlayerPosition = rectTransform.anchoredPosition;
+    //            characterStats.playerTime += 2f;
+    //            map.SaveData("Assets/Saves/mapData.json");
+    //            characterStats.SaveData();
+    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+    //            PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
+    //            SceneManager.LoadScene("BackPackBattle");
+    //        }
+    //        if (activePoint != null && activePoint.name.Contains("Portal"))
+    //        {
 
-                Time.timeScale = 0f;
-                characterStats.playerTime = 0f;
-                characterStats.SaveData();
-                map.DeleteData("Assets/Saves/mapData.json");
-                //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-                SceneManager.LoadScene("GenerateMap");
-            }
-        }
+    //            Time.timeScale = 0f;
+    //            characterStats.playerTime = 0f;
+    //            characterStats.SaveData();
+    //            map.DeleteData("Assets/Saves/mapData.json");
+    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+    //            SceneManager.LoadScene("GenerateMap");
+    //        }
+    //    }
             
-    }
+    //}
     void pressI()
     {
         //if (!backpackCanvas.gameObject.activeInHierarchy)
@@ -249,7 +255,7 @@ public class Player : MonoBehaviour
             RaycastEvent();
 
 
-            pressF();
+            //pressF();
             //pressI();
         }
         else
