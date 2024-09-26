@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ButtonNewGame : Button
 {
-    [SerializeField] private GameObject mainCanvas;
-    [SerializeField] private GameObject chooseCharCanvas;
+    [SerializeField] protected GameObject mainCanvas;
+    [SerializeField] protected GameObject chooseCharCanvas;
 
     public override void OnMouseUpAsButton()
     {
@@ -19,7 +19,7 @@ public class ButtonNewGame : Button
         }
     }
 
-    void ChangeActive()
+    protected void ChangeActive()
     {
         mainCanvas.SetActive(!mainCanvas.activeSelf);
         chooseCharCanvas.SetActive(!chooseCharCanvas.activeSelf);
