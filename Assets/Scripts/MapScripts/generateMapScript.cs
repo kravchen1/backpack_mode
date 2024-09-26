@@ -107,6 +107,7 @@ public class generateMapScript : Map
 
         startTile.GetComponent<RectTransform>().anchoredPosition = new Vector3(x, y, 0);
         startPlayerPosition = new Vector3(x, y, 0);
+       // var str1 = PlayerPrefs.GetString("characterClass");
         player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
         //Debug.Log(startPlayerPosition);

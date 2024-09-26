@@ -51,13 +51,15 @@ public class Button : MonoBehaviour
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Player_agl":
-                PlayerPrefs.SetString("characterClass", gameObject.name);
+                PlayerPrefs.DeleteAll();
+                PlayerPrefs.SetString("characterClass", gameObject.name.Replace("Static",""));
                 PlayerPrefs.DeleteKey("mapLevel");
                 DeleteAllData();
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Player_str":
-                PlayerPrefs.SetString("characterClass", gameObject.name);
+                PlayerPrefs.DeleteAll();
+                PlayerPrefs.SetString("characterClass", gameObject.name.Replace("Static", ""));
                 PlayerPrefs.DeleteKey("mapLevel");
                 DeleteAllData();
                 SceneManager.LoadScene("GenerateMap");
