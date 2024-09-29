@@ -581,9 +581,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             Exit = false;
             //Debug.Log(Description.gameObject.name + "вошёл");
             StartCoroutine(ShowDescription());
-        }
-           
+        }   
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
         //Debug.Log(Description.gameObject.name + "вышел");

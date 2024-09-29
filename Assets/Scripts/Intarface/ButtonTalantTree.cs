@@ -14,5 +14,7 @@ public class ButtonTalantTree : ButtonNewGame
                 ChangeActive();
                 break;
         }
+
+        GameObject.FindGameObjectWithTag("TalantTreeStats").GetComponent<TalantTreeStats>().SaveData();
     }
 }
