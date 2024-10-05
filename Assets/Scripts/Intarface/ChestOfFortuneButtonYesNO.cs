@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,6 +12,10 @@ public class ChestOfFortuneButtonYesNO : Button
     private Player classPlayer;
     private CharacterStats characterStats;
 
+    public GameObject chestCanvas;
+    private GameObject mainCanvas;
+
+    private Chest chest;
     public override void OnMouseUpAsButton()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -20,6 +26,7 @@ public class ChestOfFortuneButtonYesNO : Button
         {
             case "Button_Yes":
                 //ActivateFountain();
+                OpenChest();
                 Destroy(transform.parent.gameObject);
                 ChangeTile();
                 break;
@@ -30,17 +37,40 @@ public class ChestOfFortuneButtonYesNO : Button
         classPlayer.startMove = true;
     }
 
-    void RestoreHP(int percentHeal)
+    void SetActiveCanvases()
     {
-       var healValue = characterStats.playerMaxHp / 100 * percentHeal;
-        if(characterStats.playerHP + healValue <= characterStats.playerMaxHp)
+        var allObjects = Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var obj in allObjects)
         {
-            characterStats.playerHP += healValue;
+            if (obj.name == "ChestCanvas")
+            {
+                chestCanvas = obj;
+                break;
+            }
         }
-        else
+        mainCanvas = GameObject.FindGameObjectWithTag("Main Canvas");
+        chestCanvas.SetActive(mainCanvas.activeSelf);
+        mainCanvas.SetActive(!chestCanvas.activeSelf);
+    }
+
+    void OpenChest()
+    {
+        SetActiveCanvases();
+        chest = chestCanvas.transform.GetChild(0).GetComponent<Chest>();
+        chest.animator.enabled = true;
+        //TO DO поробовать сделать шаблон для тегов предмтов(Contains(chest_..))
+        List<string> tagNames = new List<string>() { "ChestItem" };//, "Gloves", "bag" };
+        foreach (var tag in tagNames)
         {
-            characterStats.playerHP = characterStats.playerMaxHp;
+            chest.LoadChestItems(tag);
+            chest.LoadChestItems(tag);
+            chest.LoadChestItems(tag);
+            chest.LoadChestItems(tag);
+            chest.LoadChestItems(tag);
         }
+        chest.SetWinner();
+        chest.foolItemChestList = true;
+        chest.AddNewItemInStorage();
     }
 
     void ChangeTile()

@@ -18,7 +18,28 @@ public class BackpackData : MonoBehaviour
     //public List<string> tileName;
     //public List<Vector2> tilePosition;
 
+    public void SaveDataFromChest(string filePath)
+    {
+        if (itemData != null)
+        {
+            backpackDataFilePath = filePath;
+            var saveData = JsonUtility.ToJson(itemData);
+            //saveData += "]";
 
+            if (File.Exists(backpackDataFilePath))
+            {
+                File.Delete(backpackDataFilePath);
+            }
+
+
+            using (FileStream fileStream = new FileStream(backpackDataFilePath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                fileStream.Seek(0, SeekOrigin.End);
+                byte[] buffer = Encoding.Default.GetBytes(saveData);
+                fileStream.Write(buffer, 0, buffer.Length);
+            }
+        }
+    }
     public void SaveData()
     {
         List<Data> data = new List<Data>();
@@ -68,7 +89,7 @@ public class BackpackData : MonoBehaviour
     }
     private void Awake()
     {
-        switch(gameObject.name)
+        switch (gameObject.name)
         {
             case "backpack":
                 backpackDataFilePath = "Assets/Saves/backpackData.json";
@@ -77,6 +98,6 @@ public class BackpackData : MonoBehaviour
                 backpackDataFilePath = "Assets/Saves/storageData.json";
                 break;
         }
-        
+
     }
 }
