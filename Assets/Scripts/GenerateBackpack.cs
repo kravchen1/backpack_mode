@@ -70,6 +70,14 @@ public class GenerateBackpack : MonoBehaviour
         }
         //generationObjectItem.GetComponent<Bag>().SetNestedObject();
         //generationObjectItem.GetComponent<Item>().RaycastEvent();
+        if(generationObjectItem.transform.parent.name == "Storage")
+        {
+
+            componentItem.needToDynamic = true;
+            componentItem.Impulse = true;
+            componentItem.MoveObjectOnEndDrag();
+            //componentBag.MoveObjectOnEndDrag();
+        }
     }
     public void GenerationBackpack()
     {

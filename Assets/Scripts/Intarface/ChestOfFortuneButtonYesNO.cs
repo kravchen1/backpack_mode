@@ -60,13 +60,12 @@ public class ChestOfFortuneButtonYesNO : Button
         chest.animator.enabled = true;
         //TO DO поробовать сделать шаблон для тегов предмтов(Contains(chest_..))
         List<string> tagNames = new List<string>() { "ChestItem" };//, "Gloves", "bag" };
-        foreach (var tag in tagNames)
+        while (chest.chestItems.Count < 25) 
         {
-            chest.LoadChestItems(tag);
-            chest.LoadChestItems(tag);
-            chest.LoadChestItems(tag);
-            chest.LoadChestItems(tag);
-            chest.LoadChestItems(tag);
+            foreach (var tag in tagNames)
+            {
+                chest.LoadChestItems(tag);
+            }
         }
         chest.SetWinner();
         chest.foolItemChestList = true;

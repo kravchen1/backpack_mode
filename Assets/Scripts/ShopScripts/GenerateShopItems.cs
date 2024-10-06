@@ -46,6 +46,8 @@ public class GenerateShopItems : MonoBehaviour
         generateItems.Add(potionHPCommon);
         glovesBase = Resources.Load<GameObject>("GlovesBase");
         generateItems.Add(glovesBase);
+        generateItems.Add(Resources.Load<GameObject>("CurseDoubleSword"));
+        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 

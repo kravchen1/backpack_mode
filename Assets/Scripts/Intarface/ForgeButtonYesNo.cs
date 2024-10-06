@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class ForgeButtonYesNo : Button
     private Player classPlayer;
     private CharacterStats characterStats;
 
+    public GameObject forgeCanvas;
+    private GameObject mainCanvas;
+    private Forge forge;
     public override void OnMouseUpAsButton()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -21,7 +25,10 @@ public class ForgeButtonYesNo : Button
             case "Button_Yes":
                 //ActivateFountain();
                 Destroy(transform.parent.gameObject);
-                ChangeTile();
+                SetActiveCanvases();
+                ForgeActivate();
+                //ChangeTile();
+
                 break;
             case "Button_No":
                 Destroy(transform.parent.gameObject);
@@ -30,37 +37,36 @@ public class ForgeButtonYesNo : Button
         classPlayer.startMove = true;
     }
 
-    void ActivateFountain()
+    void SetActiveCanvases()
     {
-        var randomHeal = Random.Range(1, 4);
-        switch(randomHeal)
+        var allObjects = Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var obj in allObjects)
         {
-            case 1:
-                RestoreHP(30);
-                Debug.Log("ActiveFountain Restore 30");
+            if (obj.name == "ForgeCanvas")
+            {
+                forgeCanvas = obj;
                 break;
-            case 2:
-                RestoreHP(40);
-                Debug.Log("ActiveFountain Restore 40");
-                break;
-            case 3:
-                RestoreHP(50);
-                Debug.Log("ActiveFountain Restore 30");
-                break;
+            }
         }
+        mainCanvas = GameObject.FindGameObjectWithTag("Main Canvas");
+        forgeCanvas.SetActive(mainCanvas.activeSelf);
+        mainCanvas.SetActive(!forgeCanvas.activeSelf);
     }
 
-    void RestoreHP(int percentHeal)
+
+    void ForgeActivate()
     {
-       var healValue = characterStats.playerMaxHp / 100 * percentHeal;
-        if(characterStats.playerHP + healValue <= characterStats.playerMaxHp)
+        forge = forgeCanvas.transform.GetChild(0).GetComponent<Forge>();
+        List<string> tagNames = new List<string>() { "ForgeItem" };
+        foreach (var tag in tagNames)
         {
-            characterStats.playerHP += healValue;
+            forge.LoadForgeItems(tag);
+            forge.LoadForgeItems(tag);
+            forge.LoadForgeItems(tag);
+            forge.LoadForgeItems(tag);
         }
-        else
-        {
-            characterStats.playerHP = characterStats.playerMaxHp;
-        }
+        forge.InitializatedForgeItems();
+
     }
 
     void ChangeTile()
