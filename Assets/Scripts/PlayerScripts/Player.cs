@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
 
     public void InstantinateDialog()
     {
-        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune"))
+        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune") || hit.collider.gameObject.name.Contains("Forge"))
         {
             activePoint = hit.collider.gameObject.GameObject();
             activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
@@ -100,6 +100,11 @@ public class Player : MonoBehaviour
                 {
                     dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
                     dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
+                }
+                else if (hit.collider.gameObject.name.Contains("Forge"))
+                {
+                    dialogCanvas = Resources.Load<GameObject>("DialogForgeCanvas");
+                    //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
                 }
 
                 var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);

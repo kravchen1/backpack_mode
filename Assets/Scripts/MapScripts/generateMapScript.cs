@@ -27,6 +27,7 @@ public class generateMapScript : Map
     private GameObject playerPrefab;
     private GameObject fountainPrefab;
     private GameObject ChestOfFortune;
+    private GameObject Forge;
     private carePosition carePosition = new carePosition();
 
     private float width, height;
@@ -63,7 +64,8 @@ public class generateMapScript : Map
         playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
         fountainPrefab = Resources.Load<GameObject>("greenStandart(1)Fountain");
         ChestOfFortune = Resources.Load<GameObject>("greenStandart(1)ChestOfFortune");
-        
+        Forge = Resources.Load<GameObject>("greenStandart(1)Forge");
+
     }
     void generateEndPointTile(float x, float y)
     {
@@ -231,6 +233,10 @@ public class generateMapScript : Map
                         case 2:
                             generateTile(ChestOfFortune, newCarePoint);
                             tiles.Add(new Tile(ChestOfFortune.name, newCarePoint));
+                            break;
+                        case 3:
+                            generateTile(Forge, newCarePoint);
+                            tiles.Add(new Tile(Forge.name, newCarePoint));
                             break;
                         default:
                             randomBattlePoint = Random.Range(1, 6);
