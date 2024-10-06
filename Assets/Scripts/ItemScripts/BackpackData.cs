@@ -84,8 +84,8 @@ public class BackpackData : MonoBehaviour
             //}
             itemData = JsonUtility.FromJson<ItemData>(File.ReadAllText(fileName));
         }
-        else
-            Debug.LogError("There is no save data!");
+        //else
+        //    Debug.LogError("There is no save data!");
     }
     private void Awake()
     {

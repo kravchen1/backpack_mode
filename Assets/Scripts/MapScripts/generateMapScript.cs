@@ -356,10 +356,10 @@ public class generateMapScript : Map
             careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
             tiles.Add(tile);
         }
-        Debug.Log("PlayerPos1:" + mapData.playerPosition);
+        //Debug.Log("PlayerPos1:" + mapData.playerPosition);
         player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
-        Debug.Log("PlayerPos1:" + player.transform.position);
+        //Debug.Log("PlayerPos1:" + player.transform.position);
         //startPlayerPosition = mapData.playerPosition;
     }
     

@@ -177,12 +177,14 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
             rb.AddTorque(15);
            // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
-            Debug.Log(Input.GetAxis("Mouse X"));
-            Debug.Log(Input.GetAxis("Mouse Y"));
+           // Debug.Log(Input.GetAxis("Mouse X"));
+            //Debug.Log(Input.GetAxis("Mouse Y"));
         }
     }
     public void RotationToStartRotation()
     {
+       // Debug.Log(needToRotateToStartRotation);
+       // Debug.Log(rectTransform.eulerAngles.z);
         if (needToRotateToStartRotation)
         {
             if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
@@ -434,6 +436,24 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             return false;
         }
     }
+
+    private int ExtendedCorrectEndPoint()
+    {
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+        {
+            return 1; //точки совпадают и нет предметов
+        } 
+        else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
+        {
+            return 2; //точки совпадают, но есть предметы
+        }
+        else
+        {
+            return 3; //точки не совпадают
+        }
+    }
+
+
     public void CorrectPosition()
     {
         if (hits.Where(e => e.collider == null).Count() == 0)
@@ -495,25 +515,53 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             {
                 shopItem.BuyItem(gameObject.GetComponent<Item>());
             }
-            //List<GameObject> list = new List<GameObject>();
-            //if (!ItemInGameObject("Shop", list) && gameObject.transform.parent == shopData.GetComponent<RectTransform>().parent && shopData.CanBuy(gameObject.GetComponent<Item>()))
-            //    shopData.BuyItem(gameObject.GetComponent<Item>());
-            if (CorrectEndPoint())
-            {
-                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                CorrectPosition();
-                SetNestedObject();
-            }
-            else
-            {
-                
-                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                needToDynamic = true;
-                Impulse = true;
-                MoveObjectOnEndDrag();
-                //gameObject.transform.SetParent(backpack.transform);
 
+            //if (CorrectEndPoint())
+            //{
+            //    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+            //    CorrectPosition();
+            //    SetNestedObject();
+            //}
+            //else
+            //{
+                
+            //    gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+            //    needToDynamic = true;
+            //    Impulse = true;
+            //    MoveObjectOnEndDrag();
+            //    //gameObject.transform.SetParent(backpack.transform);
+            //}
+
+
+            switch(ExtendedCorrectEndPoint())
+            {
+                case 1:
+                    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                    CorrectPosition();
+                    SetNestedObject();
+                    break;
+                case 2:
+                    foreach(var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+                    {
+                        var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
+                        nestedObjectItem.MoveObjectOnEndDrag();
+                        nestedObjectItem.DeleteNestedObject();
+                        nestedObjectItem.needToDynamic = true;
+                        nestedObjectItem.Impulse = true;
+                    }
+                    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                    CorrectPosition();
+                    SetNestedObject();
+
+                    break;
+                case 3:
+                    gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                    needToDynamic = true;
+                    Impulse = true;
+                    MoveObjectOnEndDrag();
+                    break;
             }
+
             ChangeColorToDefault();
 
 

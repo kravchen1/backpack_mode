@@ -7,8 +7,8 @@ public class GlovesBase : Armor
 {
     public float acceleration = 0.1f;
     private bool isUse = false;
-    private bool usable = false;
-    private int currentTick = 0;
+    //private bool usable = false;
+    //private int currentTick = 0;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())

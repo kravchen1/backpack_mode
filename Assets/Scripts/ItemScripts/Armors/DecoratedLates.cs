@@ -11,8 +11,7 @@ public class DecoratedLates : Armor
     public float timerRegenerate = 1; //как часто в секундах будет происходить регенерация
     public float maxTimeRegenerate = 4; //скольо раз будет происходить регенерация
     private bool isUse = false;
-    private bool usable = false;
-    private int currentTick = 0;
+    //private bool usable = false;
     private void Start()
     {
         timer = timerRegenerate;

@@ -55,7 +55,7 @@ public class CharacterStats : MonoBehaviour
     {
         if (characterStatsData.playerHP == 0)
         {
-            Debug.Log("LoadStaticData");
+            //Debug.Log("LoadStaticData");
             playerHP = 100;
             playerExp = 0;
             playerCoins = 1000;
@@ -68,7 +68,7 @@ public class CharacterStats : MonoBehaviour
         }
         else
         {
-            Debug.Log("LoadFromFile");
+            //Debug.Log("LoadFromFile");
             playerHP = characterStatsData.playerHP;
             playerExp = characterStatsData.playerExp;
             playerCoins = characterStatsData.playerCoins;
@@ -119,8 +119,8 @@ public class CharacterStats : MonoBehaviour
             //}
             characterStatsData = JsonUtility.FromJson<CharacterStatsData>(File.ReadAllText(filePath));
         }
-        else
-            Debug.LogError("There is no save data!");
+        //else
+        //    Debug.LogError("There is no save data!");
         return characterStatsData;
     }
 

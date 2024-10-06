@@ -7,7 +7,7 @@ public class DialogCanvas : MonoBehaviour
     public void GenerateEvent()
     {
         int r = 0;
-        r = Random.RandomRange(1, 3);
+        r = Random.Range(1, 3);
         switch(r)
         {
                 case 1:

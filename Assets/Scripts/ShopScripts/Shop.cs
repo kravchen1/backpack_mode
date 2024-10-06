@@ -48,8 +48,8 @@ public class Shop : MonoBehaviour
             //}
             listShopSaveData = JsonUtility.FromJson<ListShopSaveData>(File.ReadAllText(shopDataFilePath));
         }
-        else
-            Debug.LogError("There is no save data!");
+        //else
+        //    Debug.LogError("There is no save data!");
     }
 
     public void DeleteData(string shopDataFilePath)

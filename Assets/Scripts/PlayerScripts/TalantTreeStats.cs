@@ -55,8 +55,8 @@ public class TalantTreeStats : MonoBehaviour
             //}
             talantTreeStatsData = JsonUtility.FromJson<TalantTreeStatData>(File.ReadAllText(filePath));
         }
-        else
-            Debug.LogError("There is no save data!");
+        //else
+        //    Debug.LogError("There is no save data!");
         return talantTreeStatsData;
     }
 

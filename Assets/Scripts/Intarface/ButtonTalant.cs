@@ -12,14 +12,12 @@ using UnityEngine.UI;
 public class ButtonTalant : Button
 {
     private Color buttonColorNoActive = new Color(0.5f,0.5f,0.5f), buttonColorActive = new Color(1f, 1f, 1f);
-    private bool activated = false;
+    //private bool activated = false;
     public List<GameObject> connectedLines;
     public bool startTalant = false;
 
     private TalantTreeStats talantTreeStats;
 
-
-    private bool exitPointerEnter = false;
 
     private bool CheckoutActive()
     {
@@ -46,7 +44,7 @@ public class ButtonTalant : Button
         if (CheckoutActive())
         {
             GetComponent<SpriteRenderer>().color = buttonColorActive;
-            activated = true;
+            //activated = true;
 
             foreach (var line in connectedLines)
             {
@@ -63,7 +61,7 @@ public class ButtonTalant : Button
     private void IgnoreActivate()
     {
         GetComponent<SpriteRenderer>().color = buttonColorActive;
-        activated = true;
+        //activated = true;
         foreach (var line in connectedLines)
         {
             line.GetComponent<TalantLine>().Activate(true);
@@ -107,15 +105,11 @@ public class ButtonTalant : Button
 
     public void OnMouseEnter()
     {   
-            exitPointerEnter = false;
-            //Debug.Log(Description.gameObject.name + "вошёл");
             ShowDescription();
     }
 
     public void OnMouseExit()
     {
-        //Debug.Log(Description.gameObject.name + "вышел");
-        exitPointerEnter = true;
         if (CanvasDescription != null)
         {
             CanvasDescription.enabled = false;

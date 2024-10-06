@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public RaycastHit2D hit;
 
-    private Collider2D collider;
+    private new Collider2D collider;
 
     [HideInInspector] public GameObject activePoint;
     private Color trueActivePointColor;
