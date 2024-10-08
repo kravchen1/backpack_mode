@@ -234,10 +234,10 @@ public class generateMapScript : Map
                             generateTile(ChestOfFortune, newCarePoint);
                             tiles.Add(new Tile(ChestOfFortune.name, newCarePoint));
                             break;
-                        case 3:
-                            generateTile(Forge, newCarePoint);
-                            tiles.Add(new Tile(Forge.name, newCarePoint));
-                            break;
+                        //case 3:
+                        //    generateTile(Forge, newCarePoint);
+                        //    tiles.Add(new Tile(Forge.name, newCarePoint));
+                        //    break;
                         default:
                             randomBattlePoint = Random.Range(1, 6);
                             switch(randomBattlePoint)

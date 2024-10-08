@@ -81,6 +81,15 @@ public class Button : MonoBehaviour
             case "Button_Home":
                 SceneManager.LoadScene("Main");
                 break;
+            case "Button_GoMapFromForge":
+                GameObject.FindGameObjectWithTag("Forge").GetComponent<Forge>().SaveData("Assets/Saves/forgeData.json");
+                GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>().SaveData();
+                SceneManager.LoadScene("GenerateMap");
+                break;
+            case "ForgeButton":
+                SceneManager.LoadScene("Forge");
+                break;
+
 
         }
     }

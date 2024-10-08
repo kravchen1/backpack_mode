@@ -24,3 +24,5 @@ public class ShopData
         this.prefabName = prefabName;
     }
 }
+
+

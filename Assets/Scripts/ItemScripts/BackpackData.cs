@@ -18,7 +18,7 @@ public class BackpackData : MonoBehaviour
     //public List<string> tileName;
     //public List<Vector2> tilePosition;
 
-    public void SaveDataFromChest(string filePath)
+    public void SaveData(string filePath)
     {
         if (itemData != null)
         {

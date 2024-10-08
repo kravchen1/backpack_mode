@@ -56,16 +56,16 @@ public class ForgeButtonYesNo : Button
 
     void ForgeActivate()
     {
-        forge = forgeCanvas.transform.GetChild(0).GetComponent<Forge>();
-        List<string> tagNames = new List<string>() { "ForgeItem" };
-        foreach (var tag in tagNames)
-        {
-            forge.LoadForgeItems(tag);
-            forge.LoadForgeItems(tag);
-            forge.LoadForgeItems(tag);
-            forge.LoadForgeItems(tag);
-        }
-        forge.InitializatedForgeItems();
+        //forge = forgeCanvas.transform.GetChild(0).GetComponent<Forge>();
+        //List<string> tagNames = new List<string>() { "ForgeItem" };
+        //foreach (var tag in tagNames)
+        //{
+        //    forge.LoadForgeItems(tag);
+        //    forge.LoadForgeItems(tag);
+        //    forge.LoadForgeItems(tag);
+        //    forge.LoadForgeItems(tag);
+        //}
+        //forge.InitializatedForgeItems();
 
     }
 

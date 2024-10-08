@@ -92,7 +92,7 @@ public class Chest : MonoBehaviour
     {
         storageData.LoadData("Assets/Saves/storageData.json");
         storageData.itemData.items.Add(new Data(chestItems[winnerIndex].name, new Vector2(0,0)));
-        storageData.SaveDataFromChest("Assets/Saves/storageData.json");
+        storageData.SaveData("Assets/Saves/storageData.json");
     }
 
     private bool isEnding = false;
