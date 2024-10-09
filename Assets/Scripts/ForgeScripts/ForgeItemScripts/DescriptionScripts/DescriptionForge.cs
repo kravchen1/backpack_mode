@@ -7,7 +7,7 @@ public class DescriptionForge : MonoBehaviour
     public int needCountItem1;
     public string needItemName1;
     public string craftedItem;
-    public GameObject textMesh1;
+    public GameObject textMesh1, textMesh1_need;
 
     
     public int haveCountItem1 = 0;
@@ -30,6 +30,7 @@ public class DescriptionForge : MonoBehaviour
 
 
         textMesh1.GetComponent<TextMeshPro>().text = haveCountItem1.ToString();
+        textMesh1_need.GetComponent<TextMeshPro>().text = "/" + needCountItem1.ToString();
     }
 
     public void CreateAndDeleteItemsFromBackPackAndStorage()
