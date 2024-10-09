@@ -47,13 +47,14 @@ public class DescriptionForge : MonoBehaviour
             }
             for (int i = 0; i < listBackPack.Count() && countDeletedItems < needCountItem1; i++)
             {
-                backPackAndStorageData.storageData.itemData.items.Remove(listBackPack[i]);
+                backPackAndStorageData.backPackData.itemData.items.Remove(listBackPack[i]);
                 countDeletedItems++;
             }
         }
 
         backPackAndStorageData.storageData.itemData.items.Add(new Data(craftedItem, new Vector2(0,0)));
         backPackAndStorageData.storageData.SaveData("Assets/Saves/storageData.json");
+        backPackAndStorageData.backPackData.SaveData("Assets/Saves/backpackData.json");
 
     }
 
