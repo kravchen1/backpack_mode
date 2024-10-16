@@ -285,12 +285,15 @@ public class generateMapScript : Map
         //    fileStream.Write(buffer, 0, buffer.Length);
         //}
         GenerateStartAndBossTiles();
-           
+        
+
+
         var endPointTilePosition = endPointTile.GetComponent<RectTransform>().anchoredPosition;
         var startTilePosition = startTile.GetComponent<RectTransform>().anchoredPosition;
 
         tiles.Add(new Tile(endPoint.name, endPointTilePosition));
         tiles.Add(new Tile(start.name, startTilePosition));
+        GenerateRoom();
 
         var carePoint = startTilePosition;
         var countInterestPoint = Random.Range(5, 10);
@@ -312,6 +315,8 @@ public class generateMapScript : Map
                 break;
             }
         }
+
+
         for (int i = 0; i < height; i += (int)stepSize)
         {
             for (int j = 0; j < width; j += (int)stepSize)
@@ -324,7 +329,7 @@ public class generateMapScript : Map
                 }
             }
         }
-        GenerateChestsAndFontain();
+       // GenerateChestsAndFontain();
         GenerateTree();
 
     }
@@ -403,6 +408,160 @@ public class generateMapScript : Map
         }
     }
 
+    void GenerateRoom()
+    {
+        int randomX = 0, randomY = 0;
+        List<Tile> tilesRoom = new List<Tile>();
+        
+
+        if(startTilePosition.x == 0)
+        {
+            randomX = Random.Range(3, 15);
+        }
+        else
+        {
+            randomX = Random.Range(0, 10);
+        }
+        randomY = Random.Range(2, 5);
+
+
+        Vector2 carePosition2 = new Vector2(stepSize * randomX, stepSize * randomY);
+
+        Dictionary<int, VectorStructure> movingVectors = new Dictionary<int, VectorStructure>();
+        movingVectors.Add(0, new VectorStructure(new Vector2(0, stepSize)));
+        movingVectors.Add(1, new VectorStructure(new Vector2(0, -stepSize)));
+        movingVectors.Add(2, new VectorStructure(new Vector2(-stepSize, 0)));
+        movingVectors.Add(3, new VectorStructure(new Vector2(stepSize, 0)));
+
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+
+        /* * x * *
+         * x x x * 
+         * x p x *
+         * x x x */
+
+
+
+        carePosition2 += movingVectors[0].movingVector;    //up
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);                                                  //
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+        carePosition2 += movingVectors[0].movingVector; //up
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+        carePosition2 += movingVectors[0].movingVector; //up
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+
+        carePosition2 += movingVectors[3].movingVector; //right
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+        carePosition2 += movingVectors[3].movingVector; //right
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+        carePosition2 += movingVectors[3].movingVector; //right
+        tilesRoom.Add(new Tile(battlePoint1.name, carePosition2));
+        generateTile(battlePoint1, carePosition2);
+
+
+        carePosition2 += movingVectors[0].movingVector; //up
+        tilesRoom.Add(new Tile(road.name, carePosition2));
+        generateTile(road, carePosition2);
+
+
+        carePosition2 += movingVectors[1].movingVector; //down
+
+
+        carePosition2 += movingVectors[3].movingVector; //right
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+
+        carePosition2 += movingVectors[1].movingVector; //down
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+        carePosition2 += movingVectors[1].movingVector; //down
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+        carePosition2 += movingVectors[1].movingVector; //down
+        tilesRoom.Add(new Tile(greenStandart.name, carePosition2));
+        generateTile(greenStandart, carePosition2);
+        tilesRoom.Add(new Tile(treeStandart1.name, carePosition2));
+        generateTile(treeStandart1, carePosition2);
+
+
+        carePosition2 += movingVectors[2].movingVector; //left
+        tilesRoom.Add(new Tile(battlePoint2.name, carePosition2));
+        generateTile(battlePoint2, carePosition2);
+
+        carePosition2 += movingVectors[2].movingVector; //left
+        tilesRoom.Add(new Tile(battlePoint2.name, carePosition2));
+        generateTile(battlePoint2, carePosition2);
+
+        carePosition2 += movingVectors[2].movingVector; //left
+        tilesRoom.Add(new Tile(battlePoint2.name, carePosition2));
+        generateTile(battlePoint2, carePosition2);
+
+
+        carePosition2 += movingVectors[0].movingVector;    //up                               
+        tilesRoom.Add(new Tile(battlePoint3.name, carePosition2));
+        generateTile(battlePoint3, carePosition2);
+
+        carePosition2 += movingVectors[0].movingVector;    //up                               
+        tilesRoom.Add(new Tile(battlePoint4.name, carePosition2));
+        generateTile(battlePoint4, carePosition2);
+
+
+        carePosition2 += movingVectors[3].movingVector; //right
+        tilesRoom.Add(new Tile(battlePoint5.name, carePosition2));
+        generateTile(battlePoint5, carePosition2);
+
+        carePosition2 += movingVectors[3].movingVector; //right
+        tilesRoom.Add(new Tile(battlePoint4.name, carePosition2));
+        generateTile(battlePoint4, carePosition2);
+
+
+        carePosition2 += movingVectors[1].movingVector; //down
+        tilesRoom.Add(new Tile(battlePoint3.name, carePosition2));
+        generateTile(battlePoint3, carePosition2);
+
+
+        carePosition2 += movingVectors[2].movingVector; //left
+        tilesRoom.Add(new Tile(ChestOfFortune.name, carePosition2));
+        generateTile(ChestOfFortune, carePosition2);
+
+
+        foreach (var tile in tilesRoom)
+        {
+            tiles.Add(tile);
+        }
+    }
 
     void GenerateMapFromFile()
     {
