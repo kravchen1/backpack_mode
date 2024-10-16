@@ -224,16 +224,20 @@ public class generateMapScript : Map
                 {
                     //pointInterestPoisitions.Add(newCarePoint);
                     pointInterestStructure.Add(new InterestPointStructure(newCarePoint));
+                    
                     switch (randomPlace)
                     {
-                        case 1:
-                            generateTile(fountainPrefab, newCarePoint);
-                            tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
-                            break;
-                        case 2:
-                            generateTile(ChestOfFortune, newCarePoint);
-                            tiles.Add(new Tile(ChestOfFortune.name, newCarePoint));
-                            break;
+                        //case 1:
+                        //    generateTile(fountainPrefab, newCarePoint);
+                        //    tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
+
+                        //    Debug.Log(fountainPrefab.name + " : " + CheckFreeWay(startTilePosition, existVectors, newCarePoint));
+                        //    break;
+                        //case 2:
+                        //    generateTile(ChestOfFortune, newCarePoint);
+                        //    tiles.Add(new Tile(ChestOfFortune.name, newCarePoint));
+                        //    Debug.Log(ChestOfFortune.name + " : " + CheckFreeWay(startTilePosition, existVectors, newCarePoint));
+                        //    break;
                         //case 3:
                         //    generateTile(Forge, newCarePoint);
                         //    tiles.Add(new Tile(Forge.name, newCarePoint));
@@ -320,9 +324,11 @@ public class generateMapScript : Map
                 }
             }
         }
-        GenerateTileOnTile();
+        GenerateChestsAndFontain();
+        GenerateTree();
+
     }
-    void GenerateTileOnTile()
+    void GenerateTree()
     {
         int randomTree = 0;
         List<Tile> tilesTree = new List<Tile>();
@@ -350,6 +356,54 @@ public class generateMapScript : Map
             tiles.Add(tile);
         }       
     }
+
+    void GenerateChestsAndFontain()
+    {
+        int random = 0;
+        List<Tile> tilesChestsAndFontain = new List<Tile>();
+        foreach (var tile in tiles.Where(e => e.tileName.Contains("Battle")))
+        {
+            
+            Vector2 position = new Vector2(0, 0);
+            if (tile.tilePosition.x > startTilePosition.x)
+            {
+                position.x = tile.tilePosition.x + stepSize;
+            }
+            else
+            {
+                position.x = tile.tilePosition.x - stepSize;
+            }
+            if (tile.tilePosition.y > startTilePosition.y)
+            {
+                position.y = tile.tilePosition.y + stepSize;
+            }
+            else
+            {
+                position.y = tile.tilePosition.y - stepSize;
+            }
+            if (!tiles.Any(e => e.tilePosition == position))
+            {
+                random = Random.Range(0, 2);
+                if (random == 0)
+                {
+                    tilesChestsAndFontain.Add(new Tile(ChestOfFortune.name, position));
+                    generateTile(ChestOfFortune, position);
+                }
+                else
+                {
+                    tilesChestsAndFontain.Add(new Tile(fountainPrefab.name, position));
+                    generateTile(fountainPrefab, position);
+                }
+            }
+        }
+
+        foreach (var tile in tilesChestsAndFontain)
+        {
+            tiles.Add(tile);
+        }
+    }
+
+
     void GenerateMapFromFile()
     {
         LoadData("Assets/Saves/mapData.json");
@@ -362,11 +416,8 @@ public class generateMapScript : Map
             careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
             tiles.Add(tile);
         }
-        //Debug.Log("PlayerPos1:" + mapData.playerPosition);
         player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
-        //Debug.Log("PlayerPos1:" + player.transform.position);
-        //startPlayerPosition = mapData.playerPosition;
     }
     
     void Start()
@@ -375,7 +426,6 @@ public class generateMapScript : Map
         width = canvas.GetComponent<RectTransform>().rect.size.x;
         height = canvas.GetComponent<RectTransform>().rect.size.y;
 
-        //var z = ScriptableObject.CreateInstance<Map>();
         InitializePrefabs();
         if (!File.Exists("Assets/Saves/mapData.json"))
         {
@@ -383,7 +433,6 @@ public class generateMapScript : Map
                 PlayerPrefs.SetInt("mapLevel", 1);
             else
                 PlayerPrefs.SetInt("mapLevel", PlayerPrefs.GetInt("mapLevel")+1);
-            //InitializePrefabs();
             InitializateGenerationMap();
         }
         else
@@ -391,11 +440,6 @@ public class generateMapScript : Map
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
 
 }
