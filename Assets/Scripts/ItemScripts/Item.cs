@@ -100,7 +100,10 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         {
             collidersArray = new BoxCollider2D[rectTransform.childCount];
             for (int i = 0; i < rectTransform.childCount; i++)
-                collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
+                if (rectTransform.GetChild(i).gameObject.name.Contains("€чейка"))
+                {
+                    collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
+                }
         }
         else
             collidersArray = rectTransform.GetComponents<BoxCollider2D>();
