@@ -119,13 +119,13 @@ public class Bag : Item
     }
 
 
-    public void CreateRaycast()
-    {
-        foreach (var collider in itemColliders)
-        {
-            hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, 128));
-        }
-    }
+    //public void CreateRaycast(int layerMask = 128)
+    //{
+    //    foreach (var collider in itemColliders)
+    //    {
+    //        hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, layerMask));
+    //    }
+    //}
     public override void CreateCareRayñast()
     {
         foreach (var hit in hits)
@@ -154,7 +154,7 @@ public class Bag : Item
     {
         hits.Clear();
         hitsForBackpack.Clear();
-
+        hitSellChest.Clear();
         foreach (var objectInCell in objectsInCells)
         {
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
@@ -163,7 +163,8 @@ public class Bag : Item
             objectInCell.gameObject.CreateCareRayñast();
         }
 
-        CreateRaycast();
+        hits = CreateRaycast(128);
+        hitSellChest = CreateRaycast(32768);
 
         ClearCareRaycast();
         CreateCareRayñast();
@@ -190,6 +191,7 @@ public class Bag : Item
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
             RaycastEvent();
             ChangeColorMyCells();
+            SellChest();
         }
     }
     public override bool CorrectEndPoint()
@@ -304,6 +306,15 @@ public class Bag : Item
             if (shopItem != null)
             {
                 shopItem.BuyItem(gameObject.GetComponent<Item>());
+            }
+
+            if (isSellChest)
+            {
+                SellItem();
+                //gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                //EndDragForChildObjects(false);
+                //Impulse = true;
+                //MoveObjectOnEndDrag();
             }
             ChangeColorToDefault();
             needToRotate = false;

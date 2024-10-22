@@ -48,6 +48,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public List<RaycastHit2D> hitsForBackpack= new List<RaycastHit2D>();
     public List<RaycastStructure> careHits = new List<RaycastStructure>();
     public List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
+    public List<RaycastHit2D> hitSellChest = new List<RaycastHit2D>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //íå ëó÷è
     public Transform bagTransform;
@@ -67,7 +68,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     protected PlayerBackpackBattle Player;
     protected PlayerBackpackBattle Enemy;
     public Animator animator;
-
+    Animator sellChestAnimator;
     public bool Impulse = false;
 
     public List<GameObject> stars;
@@ -75,6 +76,10 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public Sprite fillStar;
 
     public ShopItem shopItem;
+
+    public bool isSellChest = false;
+
+
 
     //void SetItemCost()
     //{
@@ -285,7 +290,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             rayCasts.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
         }
         return rayCasts;
-     }
+    }
 
     public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
     {
@@ -361,16 +366,40 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         hitsForBackpack.Clear();
         hitsForBackpack = CreateRaycast(128);
         hits = CreateRaycast(256);
-
+        hitSellChest.Clear();
+        hitSellChest = CreateRaycast(32768);
         ClearCareRaycast();
         CreateCareRayñast();
     }
+
+    public virtual void SellChest()
+    {
+        if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
+        {
+            foreach (var hit in hitSellChest.Where(e => e.collider != null && e.collider.name == "SellChest"))
+            {
+                if (!isSellChest)
+                {
+                    sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
+                    sellChestAnimator.Play("Metal Chest Opening",0, 2);
+                    isSellChest = true;
+                }
+            }
+        }
+        else if (isSellChest)
+        {
+            sellChestAnimator.Play("Metal Chest Closed");
+            isSellChest = false;
+        }
+    }
+
     public virtual void OnDrag(PointerEventData eventData)
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
             RaycastEvent();
+            SellChest();
         }
     }
     public virtual Vector2 calculateOffset(List<BoxCollider2D> itemColliders)
@@ -508,6 +537,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
         }
     }
+
+    public virtual void SellItem()
+    {
+        var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
+        var characterStats = listCharacterStats[0];
+        characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost/2);
+        characterStats.coinsText.text = characterStats.playerCoins.ToString();
+        sellChestAnimator.Play("Metal Chest Closed");
+        Destroy(gameObject);
+    }
     public virtual void OnEndDrag(PointerEventData eventData)
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
@@ -517,6 +556,11 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             if (shopItem != null)
             {
                 shopItem.BuyItem(gameObject.GetComponent<Item>());
+            }
+
+            if(isSellChest)
+            {
+                SellItem();
             }
 
             //if (CorrectEndPoint())
