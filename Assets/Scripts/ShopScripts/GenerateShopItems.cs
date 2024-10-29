@@ -10,7 +10,7 @@ public class GenerateShopItems : MonoBehaviour
     public List<GameObject> generateItems;
     private GameObject axeCommon2Hand;
     private GameObject sword;
-    private GameObject bagStartFire, bagStartIce;
+    private GameObject bagStartFire, bagStartIce, bagStartEarth, bagStartWind;
     private GameObject curseSword1Hand;
     private GameObject decoratedLates;
     private GameObject potionHPCommon;
@@ -35,10 +35,16 @@ public class GenerateShopItems : MonoBehaviour
         generateItems.Add(axeCommon2Hand);
         sword = Resources.Load<GameObject>("SwordStandart");
         generateItems.Add(sword);
+
         bagStartFire = Resources.Load<GameObject>("bagStartFire");
         generateItems.Add(bagStartFire);
         bagStartIce = Resources.Load<GameObject>("bagStartIce");
         generateItems.Add(bagStartFire);
+        bagStartEarth = Resources.Load<GameObject>("bagStartEarth");
+        generateItems.Add(bagStartEarth);
+        bagStartWind = Resources.Load<GameObject>("bagStartWind");
+        generateItems.Add(bagStartWind);
+
         curseSword1Hand = Resources.Load<GameObject>("CurseSword1Hand");
         generateItems.Add(curseSword1Hand);
         decoratedLates = Resources.Load<GameObject>("DecoratedLates");
