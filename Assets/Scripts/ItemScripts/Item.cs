@@ -105,10 +105,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         {
             collidersArray = new BoxCollider2D[rectTransform.childCount];
             for (int i = 0; i < rectTransform.childCount; i++)
-                if (rectTransform.GetChild(i).gameObject.name.Contains("€чейка"))
-                {
                     collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
-                }
         }
         else
             collidersArray = rectTransform.GetComponents<BoxCollider2D>();
@@ -343,7 +340,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         {
             if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hits.Where(e => e.collider == null).Count() == colliderCount)
             {
-                Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
+                Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
                 Carehit.isDeleted = true;
             }
         }
@@ -519,7 +516,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             needToDynamic = false;
             foreach (var careHit in careHitsForBackpack)
             {
-                careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
+                careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
             }
         }
     }
@@ -527,7 +524,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         foreach (var Carehit in careHits)
         {
-            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
+            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
     public void SetNestedObject()

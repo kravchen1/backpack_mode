@@ -226,12 +226,15 @@ public class Bag : Item
                 }
                 rectTransform.SetParent(bagTransform);
                 gameObject.transform.SetAsFirstSibling();
-                var offset = new Vector2(itemColliders[0].size.x / 2, -itemColliders[0].size.y / 2);
+                var offset = new Vector2(itemColliders[0].size.x, -itemColliders[0].size.y);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
+                Debug.Log("offset: " + offset.ToString());
+                Debug.Log("colliderPos: " + colliderPos.ToString());
+                Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
                 foreach (var careHit in careHits)
                 {
-                    careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = imageColor;
+                    careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
                 }
             }
             return true;
@@ -246,7 +249,7 @@ public class Bag : Item
     {
         foreach (var collider in itemColliders)
         {
-            collider.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            collider.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
     public void DisableBackpackCells()
