@@ -33,7 +33,7 @@ public class PointInterestButtonYesNO : Button
     void ReturnPlayer()
     {
         Input.ResetInputAxes();
-        classPlayer.animator.SetFloat("Move", 0);
+        //classPlayer.animator.SetFloat("Move", 0);
         player.GetComponent<RectTransform>().anchoredPosition = lastCrossCollider.GetComponent<RectTransform>().anchoredPosition;
         classPlayer.startMove = true;
     }

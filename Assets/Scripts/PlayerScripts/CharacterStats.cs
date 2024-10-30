@@ -29,7 +29,7 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
     {
         LoadData("Assets/Saves/characterStatsData.json");
-        if(SceneManager.GetActiveScene().name == "GenerateMap")
+        if(SceneManager.GetActiveScene().name == "GenerateMap" || SceneManager.GetActiveScene().name == "GenerateMapTest")
             InitializeObjects();
         InitializeCharacterStats();
     }

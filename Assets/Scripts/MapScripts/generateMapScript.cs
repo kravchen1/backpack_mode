@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine.UIElements;
 using System.IO;
 using System.Text;
+using TMPro;
 
 public class generateMapScript : Map
 {
@@ -61,7 +62,8 @@ public class generateMapScript : Map
         treeStandart1 = Resources.Load<GameObject>("treeStandart1");
         treeStandart2 = Resources.Load<GameObject>("treeStandart2");
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
-        playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
+        //playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
+        playerPrefab = Resources.Load<GameObject>("Player_gnome");
         fountainPrefab = Resources.Load<GameObject>("greenStandart(1)Fountain");
         ChestOfFortune = Resources.Load<GameObject>("greenStandart(1)ChestOfFortune");
         Forge = Resources.Load<GameObject>("greenStandart(1)Forge");
@@ -113,6 +115,7 @@ public class generateMapScript : Map
         startPlayerPosition = new Vector3(x, y, 0);
         player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
+        player.GetComponent<Player>().targetPosition = startPlayerPosition;
     }
 
     public void GenerateStartAndBossTiles()
