@@ -17,7 +17,7 @@ using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
 
 
-public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler     , IPointerEnterHandler , IPointerExitHandler    
+public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler , IPointerExitHandler    
 {
     public int speedRotation = 500;
     public string Name;
@@ -81,6 +81,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
 
 
+    
+
     //void SetItemCost()
     //{
     //    if (gameObject.name.ToUpper().Contains("BAG"))
@@ -128,7 +130,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
-            animator.enabled = false;
+            //animator.enabled = false;
         }
         initializationItemColliders();
 
@@ -150,6 +152,31 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     void Awake()
     {
         Initialization();
+    }
+
+    // Метод, который будет вызываться при нажатии на объект
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // Проверяем, был ли нажат левый кнопка мыши
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            Debug.Log("Объект был нажат!");
+            animator.Play("ItemClick");
+            // Здесь можно добавить код, который будет выполняться при нажатии
+        }
+    }
+
+    // Метод, который будет вызываться при отпускания объекта без перетягивания
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // Проверяем, был ли клик левой кнопкой мыши
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            //RaycastEvent();
+            Debug.Log("Объект был кликнут!");
+            animator.Play("ItemClickOff");
+            // Здесь можно добавить код, который будет выполняться при клике
+        }
     }
     public void Rotate()
     {
