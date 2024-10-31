@@ -175,6 +175,10 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             //RaycastEvent();
             Debug.Log("Объект был кликнут!");
             animator.Play("ItemClickOff");
+            if (GetComponent<AnimationStart>() != null)
+            {
+                GetComponent<AnimationStart>().Play();
+            }
             // Здесь можно добавить код, который будет выполняться при клике
         }
     }
@@ -661,7 +665,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
     IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
             if (canShowDescription)
@@ -695,6 +699,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public void OnPointerEnter(PointerEventData eventData)
     {
         ChangeShowStars(true);
+        Debug.Log(Description.gameObject.name + "вошёл");
+        if(gameObject.name == "FireDagger1")
+         animator.Play("ItemAiming");
         if (eventData.pointerDrag == null)
         {
             Exit = false;
