@@ -339,7 +339,7 @@ public class Bag : Item
             }
             DisableBackpackCells();
             ClearParentForChild();
-            SetOrderLayerPriority("Bag", "Weapon", 0);
+            SetOrderLayerPriority("Bag", "Weapon", 1);
             careHits.Clear();
             canShowDescription = true;
             OnPointerEnter(eventData);
