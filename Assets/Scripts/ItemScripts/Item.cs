@@ -38,6 +38,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     private bool showCanvasBefore = false;
     protected bool canShowDescription = true;
     private bool Exit = false;
+    public float rbMass = 0.1f;
 
 
     public float itemCost;
@@ -103,22 +104,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     void initializationItemColliders()
     {
-        if (gameObject.name.Contains("bag"))
-        {
-            collidersArray = gameObject.GetComponentsInChildren<BoxCollider2D>();
-            // new BoxCollider2D[rectTransform.childCount];
-            //for (int i = 0; i < rectTransform.childCount; i++)
-            //        collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
-
-
-            //var cellsTransforms = gameObject.GetComponentsInChildren<BoxCollider2D>();
-            //// cellsTransforms.Remove(gameObject.GetComponent<Box>);
-
-            //collidersArray = cellsTransforms.ToArray();
-            //cellsTransforms = cellsTransforms.Where(e => e.GetComponent<Cell>() != null).ToList();
-        }
-        else
-            collidersArray = rectTransform.GetComponents<BoxCollider2D>();
+        collidersArray = gameObject.GetComponentsInChildren<BoxCollider2D>();
         itemColliders.Clear();
         for (int i = 0; i < collidersArray.Count(); i++)
         {
@@ -214,12 +200,22 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             rb.bodyType = RigidbodyType2D.Static;
         }
     }
+
+    public float baseMass = 1f  // Базовая масса
+                ,massMultiplier = 0.3f;// Множитель для настройки массы
     public void OnImpulse()
     {
         if (Impulse)
         {
             Impulse = false;
-            rb.mass = 0.1f;
+           // float screenWidth = Camera.main.orthographicSize * 2 * Screen.width / Screen.height;
+           // float screenHeight = Camera.main.orthographicSize * 2;
+
+            var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
+
+            //Debug.Log(screenHeightInWorldUnits.ToString() + "_" + Screen.height.ToString());
+
+            rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
             rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
             rb.AddTorque(15);
            // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
@@ -227,6 +223,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             //Debug.Log(Input.GetAxis("Mouse Y"));
         }
     }
+    private int countRotate = 0, maxCountRotate = 50;
     public void RotationToStartRotation()
     {
        // Debug.Log(needToRotateToStartRotation);
@@ -240,7 +237,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             }
             else
             {
-                rectTransform.Rotate(0, 0, speedRotation * Time.deltaTime);
+                if (countRotate < maxCountRotate)
+                {
+                    rectTransform.Rotate(0, 0, speedRotation * Time.deltaTime);
+                    countRotate++;
+                }
+                else
+                {
+                    countRotate = 0;
+                    needToRotateToStartRotation = false;
+                    rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                }
             }
         }
     }
@@ -658,6 +665,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             careHits.Clear();
             canShowDescription = true;
             OnPointerEnter(eventData);
+
+            needToRotateToStartRotation = false;
+            if (animator != null) animator.Play("ItemClickOff");
         }
     }
 
@@ -665,9 +675,18 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         //List<GameObject> list = new List<GameObject>();
         //if (ItemInGameObject("Storage", list))
-        StartCoroutine(moveObject(GameObject.Find("Storage").transform.position));
-        //else
-        //    StartCoroutine(moveObject(lastItemPosition));
+        var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
+        int storageWidthDelenie = 3;
+        if (gameObject.transform.localPosition.x > storageRect.min.x + storageRect.width / storageWidthDelenie 
+            && 
+            gameObject.transform.localPosition.x < storageRect.max.x - storageRect.width / storageWidthDelenie)
+        {
+            //StartCoroutine(moveObject(storage.transform.position));
+            //storageRect.position
+        }
+        else
+            //StartCoroutine(moveObject(lastItemPosition));
+            StartCoroutine(moveObject(GameObject.Find("Storage").transform.position));
     }
 
     public virtual void ShowDiscriptionActivation()

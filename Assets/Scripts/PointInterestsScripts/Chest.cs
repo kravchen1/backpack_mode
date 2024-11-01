@@ -85,7 +85,6 @@ public class Chest : MonoBehaviour
             prefabs = Resources.LoadAll<GameObject>("");
         }
         chestItems.AddRange(prefabs.Where(e => e.tag == tagName).ToList());
-
     }
 
     public void AddNewItemInStorage()

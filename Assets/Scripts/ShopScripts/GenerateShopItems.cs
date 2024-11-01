@@ -8,13 +8,7 @@ using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 public class GenerateShopItems : MonoBehaviour
 {
     public List<GameObject> generateItems;
-    private GameObject axeCommon2Hand;
-    private GameObject sword;
-    private GameObject bagStartFire, bagStartIce, bagStartEarth, bagStartWind;
-    private GameObject curseSword1Hand;
-    private GameObject decoratedLates;
-    private GameObject potionHPCommon;
-    private GameObject glovesBase;
+    private GameObject[] prefabs;
 
     private Collider2D placeForItemCollider;
 
@@ -24,37 +18,24 @@ public class GenerateShopItems : MonoBehaviour
 
 
     private List<ShopSaveData> listShopData;
-    
+
+    public void LoadChestItems(string tagName)
+    {
+        if (prefabs == null)
+        {
+            prefabs = Resources.LoadAll<GameObject>("");
+        }
+        generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
+    }
 
     private void Awake()
     {
         placeForItemCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
+        LoadChestItems("RAREWEAPON");
 
-        axeCommon2Hand = Resources.Load<GameObject>("AxeCommon2Hand");
-        generateItems.Add(axeCommon2Hand);
-        sword = Resources.Load<GameObject>("SwordStandart");
-        generateItems.Add(sword);
 
-        bagStartFire = Resources.Load<GameObject>("bagStartFire");
-        generateItems.Add(bagStartFire);
-        bagStartIce = Resources.Load<GameObject>("bagStartIce");
-        generateItems.Add(bagStartFire);
-        bagStartEarth = Resources.Load<GameObject>("bagStartEarth");
-        generateItems.Add(bagStartEarth);
-        bagStartWind = Resources.Load<GameObject>("bagStartWind");
-        generateItems.Add(bagStartWind);
 
-        curseSword1Hand = Resources.Load<GameObject>("CurseSword1Hand");
-        generateItems.Add(curseSword1Hand);
-        decoratedLates = Resources.Load<GameObject>("DecoratedLates");
-        generateItems.Add(decoratedLates);
-        potionHPCommon = Resources.Load<GameObject>("PotionHPCommon");
-        generateItems.Add(potionHPCommon);
-        glovesBase = Resources.Load<GameObject>("GlovesBase");
-        generateItems.Add(glovesBase);
-        generateItems.Add(Resources.Load<GameObject>("CurseDoubleSword"));
-        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -85,15 +66,15 @@ public class GenerateShopItems : MonoBehaviour
     public void GenerateRandomItem()
     {
         int r;
-        r = Random.Range(0, 12);
+        r = Random.Range(0, generateItems.Count);
         if (r < generateItems.Count)
         {
             Generation(generateItems[r], placeForItemCollider.bounds.center);
         }
-        else
-        {
-            Generation(bagStartIce, placeForItemCollider.bounds.center);
-        }
+        //else
+        //{
+        //    Generation(generateItems[r], placeForItemCollider.bounds.center);
+        //}
     }
 
     void LoadSlot()
