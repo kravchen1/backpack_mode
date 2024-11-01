@@ -67,10 +67,13 @@ public class Bag : Item
         image.sortingLayerName = layerNameBag;
         var cellsTransforms = gameObject.GetComponentsInChildren<Transform>().ToList();
         cellsTransforms.Remove(gameObject.transform);
+        cellsTransforms = cellsTransforms.Where(e => e.GetComponent<Cell>() != null).ToList();//удал€ем не €чейки
+
         foreach (var cellSprite in cellsTransforms)
         {
             cellSprite.GetComponent<SpriteRenderer>().sortingLayerName = layerNameBag;
         }
+
         foreach (var cellSprite in cellsTransforms.Where(e => e.GetComponent<Cell>().nestedObject != null))
         {
             var nestedObjectSprite = cellSprite.GetComponent<Cell>().nestedObject.GetComponent<SpriteRenderer>();
@@ -279,6 +282,7 @@ public class Bag : Item
         {
             if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
             {
+                //objectInCell.gameObject.ExtendedCorrectPosition();
                 objectInCell.gameObject.SetNestedObject();
             }
             else

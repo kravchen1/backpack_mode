@@ -105,9 +105,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         if (gameObject.name.Contains("bag"))
         {
-            collidersArray = new BoxCollider2D[rectTransform.childCount];
-            for (int i = 0; i < rectTransform.childCount; i++)
-                    collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
+            collidersArray = gameObject.GetComponentsInChildren<BoxCollider2D>();
+            // new BoxCollider2D[rectTransform.childCount];
+            //for (int i = 0; i < rectTransform.childCount; i++)
+            //        collidersArray[i] = rectTransform.GetChild(i).GetComponent<BoxCollider2D>();
+
+
+            //var cellsTransforms = gameObject.GetComponentsInChildren<BoxCollider2D>();
+            //// cellsTransforms.Remove(gameObject.GetComponent<Box>);
+
+            //collidersArray = cellsTransforms.ToArray();
+            //cellsTransforms = cellsTransforms.Where(e => e.GetComponent<Cell>() != null).ToList();
         }
         else
             collidersArray = rectTransform.GetComponents<BoxCollider2D>();
@@ -161,7 +169,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             Debug.Log("Объект был нажат!");
-            animator.Play("ItemClick");
+            if (animator != null)
+                animator.Play("ItemClick");
             // Здесь можно добавить код, который будет выполняться при нажатии
         }
     }
@@ -173,8 +182,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             //RaycastEvent();
-            Debug.Log("Объект был кликнут!");
-            animator.Play("ItemClickOff");
+            //Debug.Log("Объект был кликнут!");
+            if(animator != null)
+                animator.Play("ItemClickOff");
             if (GetComponent<AnimationStart>() != null)
             {
                 GetComponent<AnimationStart>().Play();
@@ -513,6 +523,37 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         }
     }
 
+    public void ExtendedCorrectPosition()
+    {
+        switch (ExtendedCorrectEndPoint())
+        {
+            case 1:
+                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                CorrectPosition();
+                SetNestedObject();
+                break;
+            case 2:
+                foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+                {
+                    var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
+                    nestedObjectItem.MoveObjectOnEndDrag();
+                    nestedObjectItem.DeleteNestedObject();
+                    nestedObjectItem.needToDynamic = true;
+                    nestedObjectItem.Impulse = true;
+                }
+                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                CorrectPosition();
+                SetNestedObject();
+
+                break;
+            case 3:
+                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                needToDynamic = true;
+                Impulse = true;
+                MoveObjectOnEndDrag();
+                break;
+        }
+    }
 
     public void CorrectPosition()
     {
@@ -599,7 +640,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             //}
             //else
             //{
-                
+
             //    gameObject.transform.SetParent(GameObject.Find("Storage").transform);
             //    needToDynamic = true;
             //    Impulse = true;
@@ -607,35 +648,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             //    //gameObject.transform.SetParent(backpack.transform);
             //}
 
+            ExtendedCorrectPosition();
 
-            switch(ExtendedCorrectEndPoint())
-            {
-                case 1:
-                    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                    CorrectPosition();
-                    SetNestedObject();
-                    break;
-                case 2:
-                    foreach(var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
-                    {
-                        var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
-                        nestedObjectItem.MoveObjectOnEndDrag();
-                        nestedObjectItem.DeleteNestedObject();
-                        nestedObjectItem.needToDynamic = true;
-                        nestedObjectItem.Impulse = true;
-                    }
-                    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                    CorrectPosition();
-                    SetNestedObject();
 
-                    break;
-                case 3:
-                    gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                    needToDynamic = true;
-                    Impulse = true;
-                    MoveObjectOnEndDrag();
-                    break;
-            }
 
             ChangeColorToDefault();
 
@@ -699,11 +714,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public void OnPointerEnter(PointerEventData eventData)
     {
         ChangeShowStars(true);
-        Debug.Log(Description.gameObject.name + "вошёл");
-        if(gameObject.name == "FireDagger1")
-         animator.Play("ItemAiming");
+        
         if (eventData.pointerDrag == null)
         {
+                if(animator != null)
+                    animator.Play("ItemAiming");
+                //Debug.Log(Description.gameObject.name + " ItemAiming");
             Exit = false;
             //Debug.Log(Description.gameObject.name + "вошёл");
             StartCoroutine(ShowDescription());
@@ -713,6 +729,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public void OnPointerExit(PointerEventData eventData)
     {
         //Debug.Log(Description.gameObject.name + "вышел");
+        if (eventData.pointerDrag == null)
+        {
+            if (animator != null)
+            {
+                animator.Play("ItemAimingOff");
+                animator.Play(gameObject.name);
+            }
+                //Debug.Log(Description.gameObject.name + " ItemAiming");
+        }
         Exit = true;
         ChangeShowStars(false);
        // Debug.Log("убрали курсор");
