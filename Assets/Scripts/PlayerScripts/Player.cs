@@ -1,18 +1,20 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayerOld : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject goMap;
     public Animator animator;
-    //private generateMapScript map;
+    private generateMapScript generateMapScript;
 
     [HideInInspector] public Map map;
     private RectTransform rectTransform;
@@ -29,19 +31,26 @@ public class PlayerOld : MonoBehaviour
     [HideInInspector] public RaycastHit2D hit;
 
     private new Collider2D collider;
-
+    private float careY;
     [HideInInspector] public GameObject activePoint;
     private Color trueActivePointColor;
 
     private List<SpriteRenderer> sprites;
     [HideInInspector] public bool startMove = false;
-    bool B_FacingRight = true;
+    bool B_FacingRight = false;
 
     bool createdDialogCanvas = false;
 
     [HideInInspector] public Collider2D lastCrossCollider;
 
     private GameObject dialogCanvas;
+
+    public Vector2 targetPosition;
+
+    private bool needToRaycast = true;
+
+
+
 
     private void Awake()
     {
@@ -59,8 +68,8 @@ public class PlayerOld : MonoBehaviour
     }
     void SetStartPosition()
     {
-
         rectTransform.anchoredPosition = map.startPlayerPosition;
+        //startMove = true;
         Debug.Log(map.startPlayerPosition);
         Debug.Log(rectTransform.anchoredPosition);
     }
@@ -70,14 +79,13 @@ public class PlayerOld : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         map = goMap.GetComponent<generateMapScript>();
-
+        generateMapScript = goMap.GetComponent<generateMapScript>();
         //SetStartPosition();
         LoadCharacterStats();
-        if(characterStats.playerTime >= 9f)
+        if (characterStats.playerTime >= 9f)
         {
             map.ChangeMapRedTimeZone();
         }
-
         startMove = true;
     }
 
@@ -124,7 +132,7 @@ public class PlayerOld : MonoBehaviour
     {
         if (rectTransform != null)
         {
-            hit = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f,0.0f));
+            hit = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f));
             //Debug.Log(hit.);
         }
 
@@ -135,9 +143,9 @@ public class PlayerOld : MonoBehaviour
             //Debug.Log(activePoint.name);
         }
 
-        if(activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
+        if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
-            activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1,1,1);
+            activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
             createdDialogCanvas = false;
         }
     }
@@ -179,7 +187,7 @@ public class PlayerOld : MonoBehaviour
     //            SceneManager.LoadScene("GenerateMap");
     //        }
     //    }
-            
+
     //}
     void pressI()
     {
@@ -211,7 +219,7 @@ public class PlayerOld : MonoBehaviour
 
     void Start()
     {
-        Invoke("Initialize",0.1f);
+        Invoke("Initialize", 0.1f);
     }
 
     // Update is called once per frame
@@ -242,31 +250,99 @@ public class PlayerOld : MonoBehaviour
     {
         if (startMove)
         {
-
-            if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
+            if (needToRaycast)
             {
-                Filp();
+                if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
+                {
+                    Filp();
+                }
+                else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
+                {
+                    Filp();
+                }
+                // Получаем ввод от пользователя
+                if (Input.GetKeyDown(KeyCode.W)) // Вверх
+                {
+                    targetPosition = rectTransform.anchoredPosition + new Vector2(0, 100);
+                    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.y < generateMapScript.height)
+                    {
+                        needToRaycast = false;
+                        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.S)) // Вниз
+                {
+                    targetPosition = rectTransform.anchoredPosition + new Vector2(0, -100);
+                    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.y >= 0)
+                    {
+                        needToRaycast = false;
+                        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.A)) // Влево
+                {
+                    targetPosition = rectTransform.anchoredPosition + new Vector2(-100, 0);
+                    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.x >= 0)
+                    {
+                        needToRaycast = false;
+                        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.D)) // Вправо
+                {
+                    targetPosition = rectTransform.anchoredPosition + new Vector2(100, 0);
+                    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.x < generateMapScript.width)
+                    {
+                        needToRaycast = false;
+                        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                    }
+                }
+
+                if (needToRaycast)
+                    RaycastEvent();
+
             }
-            else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
-            {
-                Filp();
-            }
-            //moveVector.x = Input.GetAxis("Horizontal");
-            //moveVector.y = Input.GetAxis("Vertical");
-            //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
-            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
-            animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
-
-            RaycastEvent();
-
-
             //pressF();
             //pressI();
         }
-        else
+    }
+    public float duration = 2f; // Время, за которое объект переместится
+
+    //private void Start()
+    //{
+    //    // Запускаем корутину для перемещения объекта
+    //    StartCoroutine(MoveAlongParabola());
+    //}
+
+    private IEnumerator MoveAlongParabola(Vector2 startPoint, Vector2 endPoint)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
         {
-            rb.velocity = new Vector2(0, 0);
-            animator.SetFloat("Move", 0);
+            // Вычисляем процент завершения движения
+            float t = elapsedTime / duration;
+
+            Debug.Log(t);
+            // Вычисляем положение по параболе
+            Vector2 newPosition = CalculateParabola(t, startPoint, endPoint, 100f); // 100f - высота параболы
+            rectTransform.anchoredPosition = newPosition;
+
+            elapsedTime += Time.deltaTime * 10;
+            yield return null; // Ждем следующий кадр
         }
+
+        // Убедимся, что объект точно на конечной позиции
+        rectTransform.anchoredPosition = endPoint;
+        needToRaycast = true;
+    }
+
+    private Vector2 CalculateParabola(float t, Vector3 startPoint, Vector3 endPoint, float height)
+    {
+        // Вычисляем положение по параболе
+        float x = Mathf.Lerp(startPoint.x, endPoint.x, t);
+        float y = Mathf.Lerp(startPoint.y, endPoint.y, t) + height * Mathf.Sin(t * Mathf.PI); // Высота параболы
+
+        return new Vector2(x, y);
     }
 }

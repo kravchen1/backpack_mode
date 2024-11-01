@@ -31,9 +31,9 @@ public class generateMapScript : Map
     private GameObject Forge;
     private carePosition carePosition = new carePosition();
 
-    private float width, height;
+    public float width, height;
 
-    private float stepSize = 100;
+    public float stepSize = 100;
     private float imageScale = 1;
 
 
