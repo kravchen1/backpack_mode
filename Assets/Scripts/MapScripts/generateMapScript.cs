@@ -333,7 +333,7 @@ public class generateMapScript : Map
             }
         }
        // GenerateChestsAndFontain();
-        GenerateTree();
+        //GenerateTree();
 
     }
     void GenerateTree()

@@ -8,8 +8,21 @@ public class GenerateBackpack : MonoBehaviour
 {
     private BackpackData backpackData;
 
+    private GameObject[] prefabs;
+    public List<GameObject> generateItems;
+    public void LoadChestItems(string tagName)
+    {
+        if (prefabs == null)
+        {
+            prefabs = Resources.LoadAll<GameObject>("");
+        }
+        generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
+    }
     void Start()
     {
+
+
+
         Time.timeScale = 1f;
         backpackData = GetComponent<BackpackData>();
 
@@ -25,6 +38,11 @@ public class GenerateBackpack : MonoBehaviour
                 getEnemy(1);
                 break;
         }
+
+        LoadChestItems("RAREWEAPON");
+        LoadChestItems("STARTBAG");
+
+
 
         GenerationBackpack();
     }
@@ -85,7 +103,14 @@ public class GenerateBackpack : MonoBehaviour
         {
             foreach (var item in backpackData.itemData.items)
             {
-                Generation(Resources.Load<GameObject>(item.name), item.position, item.rotation);
+                foreach (var generateItem in generateItems)
+                {
+                    if (generateItem.name == item.name)
+                    {
+                        Generation(generateItem, item.position, item.rotation);
+                    }
+                }
+                
             }
         }
     }

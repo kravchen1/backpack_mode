@@ -283,16 +283,43 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             }
         }
     }
+
+    public Camera mainCamera;
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
+       // Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(eventData.position, Vector2.zero);
+
+        Debug.Log(hit.collider);
+        Debug.Log(eventData.position);
+        // Проверяем, попали ли мы в коллайдер
+        // if (hit.collider != null && hit.collider is PolygonCollider2D)
+        // {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        {
-            lastItemPosition = gameObject.transform.position;
-            if (GetComponent<ShopItem>() != null)
             {
-                shopItem = GetComponent<ShopItem>();
-                if (shopItem.CanBuy(GetComponent<Item>()))
+                lastItemPosition = gameObject.transform.position;
+                if (GetComponent<ShopItem>() != null)
                 {
+                    shopItem = GetComponent<ShopItem>();
+                    if (shopItem.CanBuy(GetComponent<Item>()))
+                    {
+                        TapFirst();
+                        TapRotate();
+                        DeleteNestedObject();
+                        //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        OnPointerExit(eventData);
+                        ChangeShowStars(true);
+                        canShowDescription = false;
+                    }
+                    else
+                    {
+                        eventData.pointerDrag = null;
+                    }
+                }
+                else
+                {
+                    //List<GameObject> list = new List<GameObject>();
+                    //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
                     TapFirst();
                     TapRotate();
                     DeleteNestedObject();
@@ -301,24 +328,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                     ChangeShowStars(true);
                     canShowDescription = false;
                 }
-                else
-                {
-                    eventData.pointerDrag = null;
-                }
             }
-            else
-            {
-                //List<GameObject> list = new List<GameObject>();
-                //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
-                TapFirst();
-                TapRotate();
-                DeleteNestedObject();
-                //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                OnPointerExit(eventData);
-                ChangeShowStars(true);
-                canShowDescription = false;
-            }
-        }
+       // }
     }
     void Update()
     {
@@ -332,6 +343,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         List<RaycastHit2D> rayCasts = new List<RaycastHit2D>();
         foreach (var collider in itemColliders)
         {
+            //несколько лучей пуляем? ToDo
             rayCasts.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
         }
         return rayCasts;

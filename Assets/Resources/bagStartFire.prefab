@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 8678873262253325574}
   m_Layer: 10
   m_Name: bagStartFire
-  m_TagString: bag
+  m_TagString: StartBag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -907,6 +907,7 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 5133667609676939103, guid: b75f6ea7b57c5e74a923a186173f9cff, type: 3}
+  rbMass: 0.1
   itemCost: 4
   itemColliders: []
   bagTransform: {fileID: 0}
@@ -925,6 +926,8 @@ MonoBehaviour:
   fillStar: {fileID: 0}
   shopItem: {fileID: 0}
   isSellChest: 0
+  baseMass: 1
+  massMultiplier: 0.3
 --- !u!222 &3491815996177857175
 CanvasRenderer:
   m_ObjectHideFlags: 0

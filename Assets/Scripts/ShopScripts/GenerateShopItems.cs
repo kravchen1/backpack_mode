@@ -33,6 +33,7 @@ public class GenerateShopItems : MonoBehaviour
         placeForItemCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
         LoadChestItems("RAREWEAPON");
+        LoadChestItems("STARTBAG");
 
 
 
@@ -86,8 +87,15 @@ public class GenerateShopItems : MonoBehaviour
         {
             foreach (var sd in listShopData.Where(e => e.slotName == gameObject.name))
             {
-                Generation(Resources.Load<GameObject>(sd.prefabName), placeForItemCollider.bounds.center);
-                GetComponent<Price>().LockItem(sd.locking);
+                foreach(var generateItem in generateItems)
+                {
+                    if(generateItem.name == sd.prefabName)
+                    {
+                        Generation(generateItem, placeForItemCollider.bounds.center);
+                        GetComponent<Price>().LockItem(sd.locking);
+                    }
+                }
+                //
             }
         }
     }
