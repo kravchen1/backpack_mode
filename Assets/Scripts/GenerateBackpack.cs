@@ -70,7 +70,7 @@ public class GenerateBackpack : MonoBehaviour
         generationObjectItem.transform.SetParent(GetComponent<RectTransform>());
         generationObjectItem.transform.localPosition = place;
         //var z = GameObject.Find("backpack");
-        componentItem.hits = new List<RaycastHit2D>();
+        componentItem.hits = new List<HitsStructure>();
         Physics2D.SyncTransforms();
         if (componentItem.prefabOriginalName.ToUpper().Contains("BAG"))
         {

@@ -133,12 +133,12 @@ public class Bag : Item
     {
         foreach (var hit in hits)
         {
-            if (hit.collider != null)
+            if (hit.hits[0].collider != null)
             {
-                if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
+                if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                 {
-                    careHits.Add(new RaycastStructure(hit));//îáúåêòû
-                    bagTransform = hit.transform.parent.transform;
+                    careHits.Add(new RaycastStructure(hit.hits[0]));//îáúåêòû
+                    bagTransform = hit.hits[0].transform.parent.transform;
                 }
             }
         }
@@ -161,13 +161,13 @@ public class Bag : Item
         foreach (var objectInCell in objectsInCells)
         {
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
-            objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycast(128);
+            objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycastForSellChest(128);
             objectInCell.gameObject.ClearCareRaycast();
             objectInCell.gameObject.CreateCareRayñast();
         }
 
         hits = CreateRaycast(128);
-        hitSellChest = CreateRaycast(32768);
+        hitSellChest = CreateRaycastForSellChest(32768);
 
         ClearCareRaycast();
         CreateCareRayñast();
@@ -201,7 +201,7 @@ public class Bag : Item
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
-            if (hits.Where(e => e.collider == null).Count() == 0)
+            if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
             {
                 var maxY = careHits[0].raycastHit.collider.transform.localPosition.y;
                 Vector2 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
