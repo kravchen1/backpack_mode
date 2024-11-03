@@ -308,7 +308,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                         DeleteNestedObject();
                         //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                         OnPointerExit(eventData);
-                        ChangeShowStars(true);
+                        //ChangeShowStars(true);
                         canShowDescription = false;
                     }
                     else
@@ -325,7 +325,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                     DeleteNestedObject();
                     //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                     OnPointerExit(eventData);
-                    ChangeShowStars(true);
+                    //ChangeShowStars(true);
                     canShowDescription = false;
                 }
             }
@@ -344,6 +344,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         foreach (var collider in itemColliders)
         {
             //несколько лучей пуляем? ToDo
+
             rayCasts.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
         }
         return rayCasts;
@@ -735,16 +736,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         }
     }
 
-    public void ChangeShowStars(bool show)
-    {
-        foreach (GameObject star in stars)
-        {
-            star.GetComponent<SpriteRenderer>().enabled = show;
-        }
-    }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ChangeShowStars(true);
+        //ChangeShowStars(true);
         
         if (eventData.pointerDrag == null)
         {
@@ -765,12 +759,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             if (animator != null)
             {
                 animator.Play("ItemAimingOff");
-                animator.Play(gameObject.name);
+                if (GetComponent<AnimationStart>() != null)
+                {
+                    GetComponent<AnimationStart>().Play();
+                }
             }
                 //Debug.Log(Description.gameObject.name + " ItemAiming");
         }
         Exit = true;
-        ChangeShowStars(false);
+        //ChangeShowStars(false);
        // Debug.Log("убрали курсор");
         if (canShowDescription && CanvasDescription != null)
         {

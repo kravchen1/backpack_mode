@@ -44,11 +44,16 @@ public class GenerateShopItems : MonoBehaviour
     void Generation(GameObject generationObject, Vector3 place)
     {
         var generationObjectShop = Instantiate(generationObject, place, Quaternion.identity, GetComponent<RectTransform>().parent.transform);
-        for (int i = 0; i < generationObjectShop.transform.childCount; i++)
+        var animatorAS = generationObjectShop.GetComponent<AnimationStart>();
+        if (animatorAS != null)
         {
-            generationObjectShop.transform.GetChild(i).gameObject.name = generationObjectShop.transform.GetChild(i).gameObject.name + Random.Range(0, 10000);
+            animatorAS.Play();
         }
-        generationObjectShop.name = generationObject.name + Random.Range(0, 10000);
+        //for (int i = 0; i < generationObjectShop.transform.childCount; i++)
+        //{
+        //    generationObjectShop.transform.GetChild(i).gameObject.name = generationObjectShop.transform.GetChild(i).gameObject.name + Random.Range(0, 10000);
+        //}
+        //generationObjectShop.name = generationObject.name + Random.Range(0, 10000);
 
         var item = generationObjectShop.GetComponent<Item>();
         item.prefabOriginalName = generationObject.name;

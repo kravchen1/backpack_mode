@@ -9,7 +9,7 @@ public class AnimationStart : MonoBehaviour
     public void Play()
     {
         animator = GetComponent<Animator>();
-        animator.Play(gameObject.name);
+        animator.Play(gameObject.name.Replace("(Clone)",""));
     }
     void Start()
     {

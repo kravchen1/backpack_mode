@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private CharacterStats characterStats;
 
     [HideInInspector] public Rigidbody2D rb;
-    private float speed = 3f;
+    //private float speed = 3f;
     private Vector2 moveVector;
 
     [HideInInspector] public RaycastHit2D hit;
