@@ -362,7 +362,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             //несколько лучей пуляем? ToDo
             List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
-           // hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
+            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
             //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
             //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
             //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
@@ -376,14 +376,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             corners[2] = collider.bounds.max; // Верхний правый угол
             corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // Нижний правый угол
 
+            // Коэффициент для 1/3 пути
+            float t = 1f / 4f;
             // Получаем центр коллайдера
             Vector2 center = collider.bounds.center;
 
             // Запускаем лучи из середины отрезка между центром и каждым углом
             for (int i = 0; i < corners.Length; i++)
             {
-                Vector2 midPoint = (center + corners[i]) / 2; // Находим середину между центром и углом
+                Vector2 midPoint = center + t * (corners[i] - center); // Находим середину между центром и углом
                 hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); // Запускаем луч
+                //hits.Add(Physics2D.Raycast(center, Vector2.zero, 0, mask)); // Запускаем луч из центра
             }
 
             rayCasts.Add(new HitsStructure(hits));
@@ -433,11 +436,19 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public virtual void CreateCareRayсast()
     {
+        bool createCareHit = true;
         foreach (var hit in hits)
         {
-            foreach (var hitSmall in hit.hits)
+            if (hit.hits.Where(e => e.collider != null).Count() == 4)
             {
-                if (hit.hits.Where(e => e.collider != null).Count() == 4)
+                foreach (var hitSmall in hit.hits)
+                {
+                    if(hitSmall.collider.name != hit.hits[0].collider.name)
+                    {
+                        createCareHit = false;
+                    }
+                }
+                if (createCareHit)
                 {
                     if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                     {
@@ -445,6 +456,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                         careHits.Add(new RaycastStructure(hit.hits[0]));//объекты
                     }
                 }
+
             }
         }
         foreach (var hit in hitsForBackpack)
