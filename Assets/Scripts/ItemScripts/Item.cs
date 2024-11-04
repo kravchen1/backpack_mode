@@ -377,7 +377,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // Нижний правый угол
 
             // Коэффициент для 1/3 пути
-            float t = 1f / 4f;
+            float t = 1f / 5f;
             // Получаем центр коллайдера
             Vector2 center = collider.bounds.center;
 
@@ -456,7 +456,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                         careHits.Add(new RaycastStructure(hit.hits[0]));//объекты
                     }
                 }
-
             }
         }
         foreach (var hit in hitsForBackpack)
