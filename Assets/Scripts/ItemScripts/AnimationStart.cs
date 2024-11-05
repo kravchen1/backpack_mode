@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class AnimationStart : MonoBehaviour
@@ -9,7 +10,8 @@ public class AnimationStart : MonoBehaviour
     public void Play()
     {
         animator = GetComponent<Animator>();
-        animator.Play(gameObject.name.Replace("(Clone)",""));
+        animator.Play(Regex.Replace(gameObject.name.Replace("(Clone)", ""), @"\d", ""));
+        
     }
     void Start()
     {

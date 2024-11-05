@@ -21,9 +21,9 @@ using UnityEditor.SceneManagement;
 public class HitsStructure
 {
     public List<RaycastHit2D> hits = new List<RaycastHit2D>();
-    //0 левый верхник
-    //1 правый верхний
-    //2 ну ты понял
+    //0 пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    //1 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    //2 пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
     public HitsStructure(List<RaycastHit2D> hits)
     {
@@ -57,7 +57,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public float itemCost;
 
-    //лучи
+    //пїЅпїЅпїЅпїЅ
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     public List<HitsStructure> hits = new List<HitsStructure>();
 
@@ -67,17 +67,18 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
     public List<RaycastHit2D> hitSellChest = new List<RaycastHit2D>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //не лучи
+    //пїЅпїЅ пїЅпїЅпїЅпїЅ
     public Transform bagTransform;
     public BoxCollider2D[] collidersArray;
 
     public Rigidbody2D rb;
+    public PolygonCollider2D collider;
 
     public Vector3 lastItemPosition;
 
     public RectTransform rectTransform;
 
-    public bool firstTap = true; //костыль, но сори
+    public bool firstTap = true; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ
     public bool needToRotate;
     public bool needToDynamic = false;
     public bool needToRotateToStartRotation = false;
@@ -96,7 +97,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public bool isSellChest = false;
 
-
+    //private float CoolDownBeforeStatic = 5f;
 
     
 
@@ -137,6 +138,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         canvas = GetComponentInParent<Canvas>();
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
+        collider = GetComponent<PolygonCollider2D>();
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
@@ -164,34 +166,31 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         Initialization();
     }
 
-    // Метод, который будет вызываться при нажатии на объект
     public void OnPointerDown(PointerEventData eventData)
     {
-        // Проверяем, был ли нажат левый кнопка мыши
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log("Объект был нажат!");
+            //Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!");
             if (animator != null)
                 animator.Play("ItemClick");
-            // Здесь можно добавить код, который будет выполняться при нажатии
+            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            IgnoreCollisionObject(true);
         }
     }
 
-    // Метод, который будет вызываться при отпускания объекта без перетягивания
     public void OnPointerClick(PointerEventData eventData)
     {
-        // Проверяем, был ли клик левой кнопкой мыши
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            //RaycastEvent();
-            //Debug.Log("Объект был кликнут!");
             if(animator != null)
                 animator.Play("ItemClickOff");
             if (GetComponent<AnimationStart>() != null)
             {
                 GetComponent<AnimationStart>().Play();
             }
-            // Здесь можно добавить код, который будет выполняться при клике
+
+            IgnoreCollisionObject(false);
         }
     }
     public void Rotate()
@@ -204,12 +203,23 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             RaycastEvent();
         }
     }
+    public void IgnoreCollisionObject(bool ignoreCollisionObject)//true - ignotr //false - not ignore
+    {
+        Collider2D[] colliders = FindObjectsByType<Collider2D>(FindObjectsSortMode.None);
+        foreach (var otherCollider in colliders)
+        {
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            if (otherCollider != collider && otherCollider.attachedRigidbody != null)
+            {
+                Physics2D.IgnoreCollision(collider, otherCollider, ignoreCollisionObject);
+            }
+        }
+    }
     public void SwitchDynamicStatic()
     {
         if (needToDynamic)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
-            
         }
         else
         {
@@ -217,8 +227,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         }
     }
 
-    public float baseMass = 1f  // Базовая масса
-                ,massMultiplier = 0.3f;// Множитель для настройки массы
+    public float baseMass = 1f  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                ,massMultiplier = 0.3f;// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     public void OnImpulse()
     {
         if (Impulse)
@@ -231,7 +241,8 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
             //Debug.Log(screenHeightInWorldUnits.ToString() + "_" + Screen.height.ToString());
 
-            rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
+            //rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
+            rb.mass = 0.2f;
             rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
             rb.AddTorque(15);
            // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
@@ -308,7 +319,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
         Debug.Log(hit.collider);
         Debug.Log(eventData.position);
-        // Проверяем, попали ли мы в коллайдер
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         // if (hit.collider != null && hit.collider is PolygonCollider2D)
         // {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
@@ -359,7 +370,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         List<HitsStructure> rayCasts = new List<HitsStructure>();
         foreach (var collider in itemColliders)
         {
-            //несколько лучей пуляем? ToDo
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ? ToDo
             List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
             //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
@@ -369,24 +380,24 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             //Physics2D.Raycast hit1 = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
 
 
-            // Получаем координаты углов коллайдера
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Vector2[] corners = new Vector2[4];
-            corners[0] = collider.bounds.min; // Нижний левый угол
-            corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // Верхний левый угол
-            corners[2] = collider.bounds.max; // Верхний правый угол
-            corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // Нижний правый угол
+            corners[0] = collider.bounds.min; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            corners[2] = collider.bounds.max; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 
-            // Коэффициент для 1/3 пути
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ 1/3 пїЅпїЅпїЅпїЅ
             float t = 1f / 5f;
-            // Получаем центр коллайдера
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Vector2 center = collider.bounds.center;
 
-            // Запускаем лучи из середины отрезка между центром и каждым углом
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             for (int i = 0; i < corners.Length; i++)
             {
-                Vector2 midPoint = center + t * (corners[i] - center); // Находим середину между центром и углом
-                hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); // Запускаем луч
-                //hits.Add(Physics2D.Raycast(center, Vector2.zero, 0, mask)); // Запускаем луч из центра
+                Vector2 midPoint = center + t * (corners[i] - center); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+                hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+                //hits.Add(Physics2D.Raycast(center, Vector2.zero, 0, mask)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             }
 
             rayCasts.Add(new HitsStructure(hits));
@@ -434,26 +445,29 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     }
 
 
-    public virtual void CreateCareRayсast()
+    public virtual void CreateCareRaycast()
     {
         bool createCareHit = true;
         foreach (var hit in hits)
         {
-            if (hit.hits.Where(e => e.collider != null).Count() == 4)
+            if (hit.hits[0].collider != null && hit.hits[0].collider.gameObject.GetComponentInParent<ShopItem>() == null)
             {
-                foreach (var hitSmall in hit.hits)
+                if (hit.hits.Where(e => e.collider != null).Count() == 4)
                 {
-                    if(hitSmall.collider.name != hit.hits[0].collider.name)
+                    foreach (var hitSmall in hit.hits)
                     {
-                        createCareHit = false;
+                        if (hitSmall.collider.name != hit.hits[0].collider.name)
+                        {
+                            createCareHit = false;
+                        }
                     }
-                }
-                if (createCareHit)
-                {
-                    if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
+                    if (createCareHit)
                     {
-                        hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.red;
-                        careHits.Add(new RaycastStructure(hit.hits[0]));//объекты
+                        if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
+                        {
+                            hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.red;
+                            careHits.Add(new RaycastStructure(hit.hits[0]));//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        }
                     }
                 }
             }
@@ -464,7 +478,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             {
                 if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                    careHitsForBackpack.Add(new RaycastStructure(hit));//объекты
+                    careHitsForBackpack.Add(new RaycastStructure(hit));//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 }
             }
         }
@@ -510,7 +524,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         hitSellChest.Clear();
         hitSellChest = CreateRaycastForSellChest(32768);
         ClearCareRaycast();
-        CreateCareRayсast();
+        CreateCareRaycast();
     }
 
     public virtual void SellChest()
@@ -614,15 +628,15 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
-            return 1; //точки совпадают и нет предметов
+            return 1; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         } 
         else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
         {
-            return 2; //точки совпадают, но есть предметы
+            return 2; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
         else
         {
-            return 3; //точки не совпадают
+            return 3; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
     }
 
@@ -654,6 +668,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                 needToDynamic = true;
                 Impulse = true;
                 MoveObjectOnEndDrag();
+                IgnoreCollisionObject(false);
                 break;
         }
     }
@@ -773,25 +788,27 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         //if (ItemInGameObject("Storage", list))
         var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
         int storageWidthDelenie = 3;
-        if (gameObject.transform.localPosition.x > storageRect.min.x + storageRect.width / storageWidthDelenie 
-            && 
+        if (gameObject.transform.localPosition.x > storageRect.min.x + storageRect.width / storageWidthDelenie
+            &&
             gameObject.transform.localPosition.x < storageRect.max.x - storageRect.width / storageWidthDelenie)
         {
             //StartCoroutine(moveObject(storage.transform.position));
             //storageRect.position
         }
         else
+        {
             //StartCoroutine(moveObject(lastItemPosition));
-            StartCoroutine(moveObject(GameObject.Find("Storage").transform.position));
+            StartCoroutine(moveObject(new Vector3(GameObject.Find("Storage").transform.position.x - 1, transform.position.y + 3, 0f)));
+        }
     }
 
     public virtual void ShowDiscriptionActivation()
     {
-        Debug.Log("Описание: описание!");
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
     }
     public virtual void Activation()
     {
-        Debug.Log("Активация " + this.name);
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ " + this.name);
     }
     IEnumerator ShowDescription()
     {
@@ -829,14 +846,14 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                     animator.Play("ItemAiming");
                 //Debug.Log(Description.gameObject.name + " ItemAiming");
             Exit = false;
-            //Debug.Log(Description.gameObject.name + "вошёл");
+            //Debug.Log(Description.gameObject.name + "пїЅпїЅпїЅпїЅпїЅ");
             StartCoroutine(ShowDescription());
         }   
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //Debug.Log(Description.gameObject.name + "вышел");
+        //Debug.Log(Description.gameObject.name + "пїЅпїЅпїЅпїЅпїЅ");
         if (eventData.pointerDrag == null)
         {
             if (animator != null)
@@ -851,7 +868,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         }
         Exit = true;
         //ChangeShowStars(false);
-       // Debug.Log("убрали курсор");
+       // Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
         if (canShowDescription && CanvasDescription != null)
         {
             CanvasDescription.enabled = false;
@@ -892,7 +909,9 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public IEnumerator moveObject(Vector3 destination)
     {
+        //IgnoreCollisionObject(true);//РІРєР»СЋС‡Р°РµРј РёРіРЅРѕСЂРёСЂРѕРІР°РЅРёРµ
         var origin = transform.position;
+
         //var destination = GameObject.Find("Storage").transform.position;
         //var destination = new Vector3(0,0,0);
         float totalMovementTime = 0.5f; //the amount of time you want the movement to take
@@ -903,12 +922,25 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             transform.position = Vector3.Lerp(origin, destination, currentMovementTime / totalMovementTime);
             yield return null;
         }
+
+        //now, we need replace item tuda, gde net perese4eniy collisions
+        
+        //while (IsColliding())
+        //{
+        //    origin = transform.position;
+        //    //transform.position = Vector3.Lerp(origin, new Vector3(origin.x, origin.y + 0.2f, 0f), currentMovementTime / totalMovementTime);
+        //    rb.AddForce(new Vector2(0f, 0.5f), ForceMode2D.Impulse);
+        //    yield return null;
+        //}
+        //IgnoreCollisionObject(false);
     }
-    void OnCollisionEnter2D(Collision2D col)
+
+    bool IsColliding()//return true, if have collisions
     {
-        //if (col.gameObject.tag == "InvisibleWalls")
-        //    rb.AddForce(transform.right * 1, ForceMode2D.Impulse);
-        //todo
+        Collider2D[] colliders = new Collider2D[10];
+        int overlapCount = Physics2D.OverlapCollider(collider, new ContactFilter2D(), colliders);
+
+        return overlapCount > 0;
     }
 
 

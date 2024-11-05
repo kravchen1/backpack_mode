@@ -23,7 +23,6 @@ public class Bag : Item
             if (!objectsInCells.Any(e => e.gameObject.name == cell.nestedObject.name))
             {
                 objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
-
             }
         }
         foreach (var objectInCell in objectsInCells)
@@ -129,7 +128,7 @@ public class Bag : Item
     //        hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, layerMask));
     //    }
     //}
-    public override void CreateCareRayñast()
+    public override void CreateCareRaycast()
     {
         foreach (var hit in hits)
         {
@@ -163,14 +162,14 @@ public class Bag : Item
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
             objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycastForSellChest(128);
             objectInCell.gameObject.ClearCareRaycast();
-            objectInCell.gameObject.CreateCareRayñast();
+            objectInCell.gameObject.CreateCareRaycast();
         }
 
         hits = CreateRaycast(128);
         hitSellChest = CreateRaycastForSellChest(32768);
 
         ClearCareRaycast();
-        CreateCareRayñast();
+        CreateCareRaycast();
     }
     public void ChangeColorMyCells()
     {
@@ -289,7 +288,7 @@ public class Bag : Item
             {
                 objectInCell.gameObject.transform.SetParent(backpack.transform);
                 objectInCell.gameObject.needToDynamic = true;
-                objectInCell.gameObject.Impulse = true;
+                objectInCell.gameObject.MoveObjectOnEndDrag();
             }
 
             objectInCell.gameObject.ChangeColorToDefault();
