@@ -231,9 +231,9 @@ public class Bag : Item
                 var offset = new Vector2(itemColliders[0].size.x, -itemColliders[0].size.y);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
-                Debug.Log("offset: " + offset.ToString());
-                Debug.Log("colliderPos: " + colliderPos.ToString());
-                Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
+                //Debug.Log("offset: " + offset.ToString());
+                //Debug.Log("colliderPos: " + colliderPos.ToString());
+                //Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
                 foreach (var careHit in careHits)
                 {
                     careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
@@ -286,7 +286,7 @@ public class Bag : Item
             }
             else
             {
-                objectInCell.gameObject.transform.SetParent(backpack.transform);
+                objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 objectInCell.gameObject.needToDynamic = true;
                 objectInCell.gameObject.MoveObjectOnEndDrag();
             }
