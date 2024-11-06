@@ -314,21 +314,14 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     public Camera mainCamera;
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
-       // Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(eventData.position, Vector2.zero);
-
-        Debug.Log(hit.collider);
-        Debug.Log(eventData.position);
-        // ���������, ������ �� �� � ���������
-        // if (hit.collider != null && hit.collider is PolygonCollider2D)
-        // {
+      
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
             {
                 lastItemPosition = gameObject.transform.position;
                 if (GetComponent<ShopItem>() != null)
                 {
                     shopItem = GetComponent<ShopItem>();
-                    if (shopItem.CanBuy(GetComponent<Item>()))
+                    if (shopItem.CanBuy(GetComponent<ItemNew>()))
                     {
                         TapFirst();
                         TapRotate();
@@ -623,7 +616,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             return false;
         }
     }
-
     private int ExtendedCorrectEndPoint()
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
@@ -639,7 +631,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             return 3; //����� �� ���������
         }
     }
-
     public void ExtendedCorrectPosition()
     {
         switch (ExtendedCorrectEndPoint())
@@ -672,7 +663,6 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                 break;
         }
     }
-
     public void CorrectPosition()
     {
         if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
@@ -749,27 +739,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             {
                 SellItem();
             }
-
-            //if (CorrectEndPoint())
-            //{
-            //    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-            //    CorrectPosition();
-            //    SetNestedObject();
-            //}
-            //else
-            //{
-
-            //    gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-            //    needToDynamic = true;
-            //    Impulse = true;
-            //    MoveObjectOnEndDrag();
-            //    //gameObject.transform.SetParent(backpack.transform);
-            //}
-
             ExtendedCorrectPosition();
-
-
-
             ChangeColorToDefault();
 
 

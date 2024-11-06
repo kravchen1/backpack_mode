@@ -30,7 +30,7 @@ public class ShopItem : MonoBehaviour
         Destroy(GetComponent<ShopItem>());
     }
 
-    public bool CanBuy(Item item)
+    public bool CanBuy(ItemNew item)
     {
         var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
         characterStats = listCharacterStats[0];

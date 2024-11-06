@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class ObjectInCells : ScriptableObject
 {
-    public Item gameObject;
+    public ItemNew gameObject;
     public bool canInsert;
 
-    public ObjectInCells(Item gameObject)
+    public ObjectInCells(ItemNew gameObject)
     {
         this.gameObject = gameObject;
         this.canInsert = false;
