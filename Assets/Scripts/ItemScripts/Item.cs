@@ -293,6 +293,7 @@ public abstract class Item : MonoBehaviour
                 gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 CorrectPosition();
                 SetNestedObject();
+                IgnoreCollisionObject(true);
                 break;
             case 2:
                 foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
@@ -306,7 +307,7 @@ public abstract class Item : MonoBehaviour
                 gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 CorrectPosition();
                 SetNestedObject();
-
+                //IgnoreCollisionObject(true);
                 break;
             case 3:
                 gameObject.transform.SetParent(GameObject.Find("Storage").transform);
