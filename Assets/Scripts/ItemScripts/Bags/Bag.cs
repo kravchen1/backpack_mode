@@ -297,6 +297,7 @@ public class Bag : Item
     {
         foreach (var objectInCell in objectsInCells)
         {
+            /*
             if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
             {
                 objectInCell.gameObject.ExtendedCorrectPosition();
@@ -308,7 +309,8 @@ public class Bag : Item
                 objectInCell.gameObject.needToDynamic = true;
                 objectInCell.gameObject.MoveObjectOnEndDrag();
             }
-
+            */
+            objectInCell.gameObject.ExtendedCorrectPosition();
             objectInCell.gameObject.ChangeColorToDefault();
         }
         objectsInCells.Clear();
