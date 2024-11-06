@@ -22,7 +22,7 @@ public class BagNew : ItemNew
             cell.nestedObject.transform.SetParent(gameObject.transform);
             if (!objectsInCells.Any(e => e.gameObject.name == cell.nestedObject.name))
             {
-                objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<ItemNew>()));
+                objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
             }
         }
         foreach (var objectInCell in objectsInCells)
@@ -91,7 +91,7 @@ public class BagNew : ItemNew
             if (GetComponent<ShopItem>() != null)
             {
                 shopItem = GetComponent<ShopItem>();
-                if (shopItem.CanBuy(GetComponent<ItemNew>()))
+                if (shopItem.CanBuy(GetComponent<Item>()))
                 {
                     SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
                     StayParentForChild();

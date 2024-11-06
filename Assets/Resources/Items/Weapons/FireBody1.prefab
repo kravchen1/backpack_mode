@@ -217,6 +217,7 @@ MonoBehaviour:
   bagTransform: {fileID: 0}
   collidersArray: []
   rb: {fileID: 0}
+  collider: {fileID: 0}
   lastItemPosition: {x: 0, y: 0, z: 0}
   rectTransform: {fileID: 0}
   firstTap: 1
@@ -233,9 +234,8 @@ MonoBehaviour:
   fillStar: {fileID: 3328512122456274535, guid: 756cd4d089dea5643a5e800a7a0557d6, type: 3}
   shopItem: {fileID: 0}
   isSellChest: 0
-  baseMass: 1
-  massMultiplier: 0.01
-  mainCamera: {fileID: 0}
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
   attackMin: 7
   attackMax: 15
   stamina: 10
@@ -1080,7 +1080,7 @@ GameObject:
   - component: {fileID: 1048312830140773185}
   - component: {fileID: 6267988473600856602}
   - component: {fileID: 6165274102540966314}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: collidersRaycast
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -150,7 +150,7 @@ public class ItemNew : MonoBehaviour
             if (GetComponent<ShopItem>() != null)
             {
                 shopItem = GetComponent<ShopItem>();
-                if (shopItem.CanBuy(GetComponent<ItemNew>()))
+                if (shopItem.CanBuy(GetComponent<Item>()))
                 {
                     TapFirst();
                     TapRotate();

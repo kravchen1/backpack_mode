@@ -1416,6 +1416,7 @@ GameObject:
   - component: {fileID: 5509650259576768080}
   - component: {fileID: 857267054600962239}
   - component: {fileID: 7387290521230418896}
+  - component: {fileID: -1858600554271065644}
   m_Layer: 10
   m_Name: bagStartEarth
   m_TagString: StartBag
@@ -1558,7 +1559,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2798660718690119974}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6e7516f95e288f4e8549240b6c515d4, type: 3}
   m_Name: 
@@ -1814,6 +1815,49 @@ PolygonCollider2D:
       - {x: 157.08333, y: -147.5}
       - {x: 162.08333, y: -143.33333}
   m_UseDelaunayMesh: 0
+--- !u!114 &-1858600554271065644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798660718690119974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb0a66188c6f9b4e9ceb131362ffb81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 5133667609676939103, guid: b75f6ea7b57c5e74a923a186173f9cff, type: 3}
+  rbMass: 0.1
+  itemCost: 4
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  Impulse: 0
+  stars: []
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &2868997613604393521
 GameObject:
   m_ObjectHideFlags: 0

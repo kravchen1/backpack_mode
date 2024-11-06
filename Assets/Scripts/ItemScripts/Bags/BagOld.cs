@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine.U2D;
 using UnityEngine.SceneManagement;
 
-public class Bag : Item
+public class BagOld : ItemOld
 {
     private GameObject backpack;
     private List<RaycastStructure> careHitsNow = new List<RaycastStructure>();
@@ -81,11 +81,8 @@ public class Bag : Item
         }
     }
 
-    public override void OnMouseDown()
+    public override void OnBeginDrag(PointerEventData eventData)
     {
-        if (animator != null)
-            animator.Play("ItemClick");
-        IgnoreCollisionObject(true);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (GetComponent<ShopItem>() != null)
@@ -100,16 +97,12 @@ public class Bag : Item
                     TapRotate();
                     TapShowBackPack();
                     DeleteNestedObject();
+                    OnPointerExit(eventData);
                     canShowDescription = false;
-
-                    // Начинаем перетаскивание
-                    isDragging = true;
-                    // Вычисляем смещение между курсором и объектом
-                    offset = transform.position - GetMouseWorldPosition();
                 }
                 else
                 {
-
+                    eventData.pointerDrag = null;
                 }
             }
             else
@@ -121,12 +114,8 @@ public class Bag : Item
                 TapRotate();
                 TapShowBackPack();
                 DeleteNestedObject();
+                OnPointerExit(eventData);
                 canShowDescription = false;
-
-                // Начинаем перетаскивание
-                isDragging = true;
-                // Вычисляем смещение между курсором и объектом
-                offset = transform.position - GetMouseWorldPosition();
             }
         }
     }
@@ -197,22 +186,15 @@ public class Bag : Item
                 collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
     }
-    public override void Update()
+    public override void OnDrag(PointerEventData eventData)
     {
-        if (isDragging)
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-            {
-                transform.position = GetMouseWorldPosition() + offset;
-                RaycastEvent();
-                ChangeColorMyCells();
-                SellChest();
-            }
+            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+            RaycastEvent();
+            ChangeColorMyCells();
+            SellChest();
         }
-        Rotate();
-        SwitchDynamicStatic();
-        OnImpulse();
-        RotationToStartRotation();
     }
     public override bool CorrectEndPoint()
     {
@@ -299,7 +281,7 @@ public class Bag : Item
         {
             if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
             {
-                objectInCell.gameObject.ExtendedCorrectPosition();
+                //objectInCell.gameObject.ExtendedCorrectPosition();
                 objectInCell.gameObject.SetNestedObject();
             }
             else
@@ -321,15 +303,8 @@ public class Bag : Item
         }
     }
 
-    public override void OnMouseUp()
+    public override void OnEndDrag(PointerEventData eventData)
     {
-        if (animator != null)
-            animator.Play("ItemClickOff");
-        if (GetComponent<AnimationStart>() != null)
-        {
-            GetComponent<AnimationStart>().Play();
-        }
-        IgnoreCollisionObject(false);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             //List<GameObject> gameObjects = new List<GameObject>();
@@ -366,9 +341,8 @@ public class Bag : Item
             SetOrderLayerPriority("Bag", "Weapon", 1);
             careHits.Clear();
             canShowDescription = true;
+            OnPointerEnter(eventData);
 
-            // Заканчиваем перетаскивание
-            isDragging = false;
         }
 
 
