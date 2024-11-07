@@ -102,10 +102,6 @@ public class CurseSword1Hand : MeleeWeapon
                 // once the lock-out period expires
             }
         }
-
-
-       
-        
     }
 
     //private void Update()

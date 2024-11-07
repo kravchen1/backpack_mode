@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
+using System.Timers;
 
 
 public class HitsStructure
@@ -254,6 +255,7 @@ public abstract class Item : MonoBehaviour
         SwitchDynamicStatic();
         OnImpulse();
         RotationToStartRotation();
+        CoolDownStatic();
     }
 
 
@@ -302,6 +304,7 @@ public abstract class Item : MonoBehaviour
                     nestedObjectItem.MoveObjectOnEndDrag();
                     nestedObjectItem.DeleteNestedObject();
                     nestedObjectItem.needToDynamic = true;
+                    timerStatic_locked_out = true;
                     //nestedObjectItem.Impulse = true;
                     nestedObjectItem.rb.excludeLayers = 0;
                     nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
@@ -314,6 +317,7 @@ public abstract class Item : MonoBehaviour
             case 3:
                 gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 needToDynamic = true;
+                timerStatic_locked_out = true;
                 //Impulse = true;
                 MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
@@ -862,5 +866,26 @@ public abstract class Item : MonoBehaviour
         }
         else
             return true;
+    }
+
+    private float timer_cooldownStatic = 12.4f;
+    protected float timerStatic = 12.5f;
+    protected bool timerStatic_locked_out = true;
+    public void CoolDownStatic()
+    {
+        if (timerStatic_locked_out == true)
+        {
+            timerStatic -= Time.deltaTime;
+
+            if (timerStatic <= 0)
+            {
+                timerStatic = timer_cooldownStatic;
+                timerStatic_locked_out = false;
+                needToDynamic = false;
+
+                // a delayed action could be called from here
+                // once the lock-out period expires
+            }
+        }
     }
 }

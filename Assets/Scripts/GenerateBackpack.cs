@@ -90,7 +90,6 @@ public class GenerateBackpack : MonoBehaviour
         //generationObjectItem.GetComponent<Item>().RaycastEvent();
         if(generationObjectItem.transform.parent.name == "Storage")
         {
-
             componentItem.needToDynamic = true;
             componentItem.Impulse = true;
             componentItem.MoveObjectOnEndDrag();
@@ -100,6 +99,7 @@ public class GenerateBackpack : MonoBehaviour
         {
             componentItem.rb.excludeLayers = (1 << 9) | (1 << 10);
         }
+
     }
     public void GenerationBackpack()
     {
