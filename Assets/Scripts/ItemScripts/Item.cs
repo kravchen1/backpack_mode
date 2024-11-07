@@ -95,7 +95,7 @@ public abstract class Item : MonoBehaviour
     private Camera mainCamera;
     public bool isDragging = false;
     public Vector3 offset;
-    private int countClickRotate = 0, maxCountClickRotate = 50;
+    private int countClickRotate = 0, maxCountClickRotate = 100;
 
     void Awake()
     {
@@ -151,7 +151,7 @@ public abstract class Item : MonoBehaviour
         if (animator != null)
             animator.Play("ItemClick");
         IgnoreCollisionObject(true);
-
+        needToDynamic = true;
 
 
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
@@ -618,6 +618,7 @@ public abstract class Item : MonoBehaviour
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
         sellChestAnimator.Play("Metal Chest Closed");
         Destroy(gameObject);
+        Destroy(CanvasDescription);
     }
 
 
