@@ -270,7 +270,7 @@ public abstract class Item : MonoBehaviour
             return false;
         }
     }
-    private int ExtendedCorrectEndPoint()
+    public int ExtendedCorrectEndPoint()
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
@@ -293,7 +293,7 @@ public abstract class Item : MonoBehaviour
                 gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 CorrectPosition();
                 SetNestedObject();
-                IgnoreCollisionObject(true);
+                rb.excludeLayers = (1 << 9) | (1 << 10);
                 break;
             case 2:
                 foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
@@ -302,19 +302,22 @@ public abstract class Item : MonoBehaviour
                     nestedObjectItem.MoveObjectOnEndDrag();
                     nestedObjectItem.DeleteNestedObject();
                     nestedObjectItem.needToDynamic = true;
-                    nestedObjectItem.Impulse = true;
+                    //nestedObjectItem.Impulse = true;
+                    nestedObjectItem.rb.excludeLayers = 0;
+                    nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 }
                 gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 CorrectPosition();
                 SetNestedObject();
-                //IgnoreCollisionObject(true);
+                rb.excludeLayers = (1 << 9) | (1 << 10);
                 break;
             case 3:
                 gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 needToDynamic = true;
-                Impulse = true;
+                //Impulse = true;
                 MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
+                rb.excludeLayers = 0;// (1 << 9);
                 break;
         }
     }
@@ -780,35 +783,41 @@ public abstract class Item : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        // Код, который выполнится при наведении курсора на коллайдер
-        if (animator != null)
-            animator.Play("ItemAiming");
-        Exit = false;
-        StartCoroutine(ShowDescription());
+        if (!isDragging)
+        {
+            // Код, который выполнится при наведении курсора на коллайдер
+            if (animator != null)
+                animator.Play("ItemAiming");
+            Exit = false;
+            StartCoroutine(ShowDescription());
+        }
     }
 
     private void OnMouseExit()
     {
-        //Debug.Log(Description.gameObject.name + "�����");
-        if (animator != null)
+        if (!isDragging)
         {
-            animator.Play("ItemAimingOff");
-            if (GetComponent<AnimationStart>() != null)
+            //Debug.Log(Description.gameObject.name + "�����");
+            if (animator != null)
             {
-                GetComponent<AnimationStart>().Play();
+                animator.Play("ItemAimingOff");
+                if (GetComponent<AnimationStart>() != null)
+                {
+                    GetComponent<AnimationStart>().Play();
+                }
             }
-        }
             //Debug.Log(Description.gameObject.name + " ItemAiming");
-        Exit = true;
-        //ChangeShowStars(false);
-        // Debug.Log("������ ������");
-        if (canShowDescription && CanvasDescription != null)
-        {
-            CanvasDescription.enabled = false;
-            var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-            if (starsDesctiprion != null)
+            Exit = true;
+            //ChangeShowStars(false);
+            // Debug.Log("������ ������");
+            if (canShowDescription && CanvasDescription != null)
             {
-                starsDesctiprion.enabled = false;
+                CanvasDescription.enabled = false;
+                var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
+                if (starsDesctiprion != null)
+                {
+                    starsDesctiprion.enabled = false;
+                }
             }
         }
     }

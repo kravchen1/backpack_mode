@@ -96,6 +96,10 @@ public class GenerateBackpack : MonoBehaviour
             componentItem.MoveObjectOnEndDrag();
             //componentBag.MoveObjectOnEndDrag();
         }
+        else
+        {
+            componentItem.rb.excludeLayers = (1 << 9) | (1 << 10);
+        }
     }
     public void GenerationBackpack()
     {

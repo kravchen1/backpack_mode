@@ -295,13 +295,46 @@ public class Bag : Item
     }
     public void EndDragForChildObjects(bool canEndDragParent)
     {
+        
         foreach (var objectInCell in objectsInCells)
         {
-            /*
-            if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
+            if (canEndDragParent)
             {
-                objectInCell.gameObject.ExtendedCorrectPosition();
-                objectInCell.gameObject.SetNestedObject();
+                switch (objectInCell.gameObject.ExtendedCorrectEndPoint())
+                {
+                    case 1:
+                        objectInCell.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        //objectInCell.gameObject.CorrectPosition();
+                        objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
+                        objectInCell.gameObject.SetNestedObject();
+                        objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
+                        break;
+                    case 2:
+                        foreach (var Carehit in objectInCell.gameObject.careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+                        {
+                            var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
+                            nestedObjectItem.MoveObjectOnEndDrag();
+                            nestedObjectItem.DeleteNestedObject();
+                            nestedObjectItem.needToDynamic = true;
+                            //nestedObjectItem.Impulse = true;
+                            nestedObjectItem.rb.excludeLayers = 0;
+                            nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                        }
+                        objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        //objectInCell.gameObject.CorrectPosition();
+                        objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
+                        objectInCell.gameObject.SetNestedObject();
+                        objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
+                        break;
+                    case 3:
+                        objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                        objectInCell.gameObject.needToDynamic = true;
+                        //objectInCell.gameObject.Impulse = true;
+                        objectInCell.gameObject.MoveObjectOnEndDrag();
+                        objectInCell.gameObject.IgnoreCollisionObject(false);
+                        objectInCell.gameObject.rb.excludeLayers = 0;// (1 << 9);
+                        break;
+                }
             }
             else
             {
@@ -309,8 +342,19 @@ public class Bag : Item
                 objectInCell.gameObject.needToDynamic = true;
                 objectInCell.gameObject.MoveObjectOnEndDrag();
             }
-            */
-            objectInCell.gameObject.ExtendedCorrectPosition();
+            //if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
+            //{
+            //    //objectInCell.gameObject.ExtendedCorrectPosition();
+            //    objectInCell.gameObject.SetNestedObject();
+            //}
+            //else
+            //{
+            //    objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+            //    objectInCell.gameObject.needToDynamic = true;
+            //    objectInCell.gameObject.MoveObjectOnEndDrag();
+            //}
+            
+            //objectInCell.gameObject.ExtendedCorrectPosition();
             objectInCell.gameObject.ChangeColorToDefault();
         }
         objectsInCells.Clear();
@@ -355,6 +399,7 @@ public class Bag : Item
             {
                 SetNestedObject();
                 EndDragForChildObjects(true);
+                rb.excludeLayers = (1 << 9) | (1 << 10);
             }
             else
             {
@@ -362,6 +407,7 @@ public class Bag : Item
                 EndDragForChildObjects(false);
                 Impulse = true;
                 MoveObjectOnEndDrag();
+                rb.excludeLayers = 0;
             }
             DisableBackpackCells();
             ClearParentForChild();
