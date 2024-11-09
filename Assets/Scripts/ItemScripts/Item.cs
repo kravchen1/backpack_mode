@@ -96,6 +96,9 @@ public abstract class Item : MonoBehaviour
     public bool isDragging = false;
     public Vector3 offset;
     private int countClickRotate = 0, maxCountClickRotate = 100;
+    private float timer_cooldownStatic = 12.5f;
+    protected float timerStatic = 12.5f;
+    protected bool timerStatic_locked_out = true;
 
     void Awake()
     {
@@ -305,6 +308,7 @@ public abstract class Item : MonoBehaviour
                     nestedObjectItem.DeleteNestedObject();
                     nestedObjectItem.needToDynamic = true;
                     timerStatic_locked_out = true;
+                    timerStatic = timer_cooldownStatic;
                     //nestedObjectItem.Impulse = true;
                     nestedObjectItem.rb.excludeLayers = 0;
                     nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
@@ -318,6 +322,8 @@ public abstract class Item : MonoBehaviour
                 gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 needToDynamic = true;
                 timerStatic_locked_out = true;
+                timerStatic = timer_cooldownStatic;
+
                 //Impulse = true;
                 MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
@@ -869,20 +875,18 @@ public abstract class Item : MonoBehaviour
             return true;
     }
 
-    private float timer_cooldownStatic = 12.4f;
-    protected float timerStatic = 12.5f;
-    protected bool timerStatic_locked_out = true;
+    
     public void CoolDownStatic()
     {
         if (timerStatic_locked_out == true)
         {
             timerStatic -= Time.deltaTime;
-
+            Debug.Log(gameObject.name + " " + timerStatic.ToString());
             if (timerStatic <= 0)
             {
                 timerStatic = timer_cooldownStatic;
                 timerStatic_locked_out = false;
-                needToDynamic = false;
+                this.needToDynamic = false;
 
                 // a delayed action could be called from here
                 // once the lock-out period expires
