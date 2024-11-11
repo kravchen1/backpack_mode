@@ -1,12 +1,9 @@
 using UnityEngine;
 
-public class MainCamera : MonoBehaviour
+public class MoveCamera : MonoBehaviour
 {
+    private Player player;
 
-    public void MoveCamera(Vector2 vector)
-    {
-        gameObject.transform.position = vector;
-    }
     void Start()
     {
 
@@ -15,6 +12,13 @@ public class MainCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        }
+        else
+        {
+            gameObject.transform.localPosition = new Vector3(player.rectTransform.anchoredPosition.x - 885, player.rectTransform.anchoredPosition.y - 400, -10800);
+        }
     }
 }

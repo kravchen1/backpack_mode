@@ -118,14 +118,40 @@ public class generateMapScript : Map
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
         player.GetComponent<Player>().targetPosition = startPlayerPosition;
 
-        //player.GetComponent<Player>().mainCamera.transform.position = new Vector3(startPlayerPosition.x - 1385, startPlayerPosition.y - 300, -10800);
 
-
+        /*
         if (startPlayerPosition.x >= 1400)
-            player.GetComponent<Player>().mainCamera.transform.position = new Vector3(515, -300, -10800);
+            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(515, -300, -10800);
         else
-            player.GetComponent<Player>().mainCamera.transform.position = new Vector3(startPlayerPosition.x - 985, startPlayerPosition.y - 200, -10800);
+            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(startPlayerPosition.x - 985, startPlayerPosition.y - 200, -10800);
+        */
+        //player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(startPlayerPosition.x - 885, startPlayerPosition.y - 400, -10800);
+    }
 
+
+    void GenerateMapFromFile()
+    {
+        LoadData("Assets/Saves/mapData.json");
+        foreach (var tile in mapData.tiles)
+        {
+            var careGameObject = Resources.Load<GameObject>(tile.tileName);
+            var careTile = Instantiate(careGameObject, new Vector3(0, 0, 0), Quaternion.identity);
+            careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
+            careTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
+            careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
+            tiles.Add(tile);
+        }
+        player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+        player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
+
+
+        //player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(mapData.playerPosition.x - 885, mapData.playerPosition.y - 400, -10800);
+        /*
+        if (mapData.playerPosition.x >= 1400)
+            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(515, mapData.playerPosition.y - 200, -10800);
+        else
+            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(mapData.playerPosition.x - 985, mapData.playerPosition.y - 200, -10800);
+        */
     }
 
     public void GenerateStartAndBossTiles()
@@ -610,24 +636,7 @@ public class generateMapScript : Map
         }
     }
 
-    void GenerateMapFromFile()
-    {
-        LoadData("Assets/Saves/mapData.json");
-        foreach (var tile in mapData.tiles)
-        {
-            var careGameObject = Resources.Load<GameObject>(tile.tileName);
-            var careTile = Instantiate(careGameObject, new Vector3(0, 0, 0), Quaternion.identity);
-            careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-            careTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
-            careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
-            tiles.Add(tile);
-        }
-        player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
-        player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
-
-        player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(mapData.playerPosition.x - 1285, mapData.playerPosition.y - 300, -10800);
-
-    }
+    
     
     void Start()
     {
