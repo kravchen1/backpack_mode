@@ -36,6 +36,7 @@ public class generateMapScript : Map
     public float stepSize = 100;
     private float imageScale = 1;
 
+    private bool closeRoad = false;
 
     private bool roadToBoss = false;
 
@@ -157,7 +158,7 @@ public class generateMapScript : Map
     {
         if (carePoint.canBuild)
         {
-            var canBuild = Random.Range(0, 2);
+            var canBuild = Random.Range(0, 5);
             if (canBuild == 0 && roadToBoss)
             {
                 carePoint.canBuild = false;
@@ -208,10 +209,44 @@ public class generateMapScript : Map
             }
             else
             {
-                var randomRoadCount = Random.Range(1, 3);
-                for (int i = 0; i < randomRoadCount; i++)
+                var randomRoadCount = Random.Range(1, 100);
+                var roadCount = 0;
+                var notNeedVector = -1;
+                switch (randomVector)
+                {
+                    case 0:
+                        notNeedVector = 1;
+                        break;
+                    case 1: 
+                        notNeedVector = 0; 
+                        break;
+                    case 2:
+                        notNeedVector = 3; 
+                        break;
+                    case 3:
+                        notNeedVector = 2;
+                        break;
+                }
+                if (randomRoadCount > 20)
+                    roadCount = Random.Range(3, 5);
+                else
+                    roadCount = 2;
+                for (int i = 0; i < roadCount; i++)
                 {
                     newCarePoint += existVectors[randomVector];
+                    for (int j = 0; j < movingVectors.Count(); j++)
+                    {
+                        if (movingVectors[j].movingVector != -existVectors[randomVector])
+                        {
+                            newCarePoint += movingVectors[j].movingVector;
+                            if (tiles.Any(e => e.tilePosition == newCarePoint && !e.tileName.ToUpper().Contains("PORTAL")))
+                            {
+                                //carePoint.canBuild = false;
+                                return;
+                            }
+                            newCarePoint -= movingVectors[j].movingVector;
+                        }
+                    }
                     if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % stepSize)))
                     {
                         tiles.Add(new Tile(road.name,newCarePoint));
@@ -246,7 +281,7 @@ public class generateMapScript : Map
                         //    tiles.Add(new Tile(Forge.name, newCarePoint));
                         //    break;
                         default:
-                            randomBattlePoint = Random.Range(1, 6);
+                            randomBattlePoint = Random.Range(1, 5);
                             switch(randomBattlePoint)
                             {
                                 case 1:
@@ -265,10 +300,10 @@ public class generateMapScript : Map
                                     generateTile(battlePoint4, newCarePoint);
                                     tiles.Add(new Tile(battlePoint4.name, newCarePoint));
                                     break;
-                                case 5:
-                                    generateTile(battlePoint5, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
-                                    break;
+                                //case 5:
+                                //    generateTile(battlePoint5, newCarePoint);
+                                //    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
+                                //    break;
                             }
                             break;
                             
@@ -296,7 +331,7 @@ public class generateMapScript : Map
 
         tiles.Add(new Tile(endPoint.name, endPointTilePosition));
         tiles.Add(new Tile(start.name, startTilePosition));
-        GenerateRoom();
+        //GenerateRoom();
 
         var carePoint = startTilePosition;
         var countInterestPoint = Random.Range(5, 10);
