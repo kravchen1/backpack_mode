@@ -49,6 +49,10 @@ public class Player : MonoBehaviour
 
     private bool needToRaycast = true;
 
+    public GameObject mainCamera;
+
+    public MainCamera scriptMainCamera;
+    private float movingStepCamera = 0.9f;
 
 
 
@@ -59,6 +63,8 @@ public class Player : MonoBehaviour
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         goMap = GameObject.FindGameObjectWithTag("GoMap");
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        scriptMainCamera = mainCamera.GetComponent<MainCamera>();
     }
     void LoadCharacterStats()
     {
@@ -267,6 +273,7 @@ public class Player : MonoBehaviour
                     if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.y < generateMapScript.height)
                     {
                         needToRaycast = false;
+
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
                     }
                 }
