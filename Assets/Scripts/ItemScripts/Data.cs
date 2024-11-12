@@ -5,15 +5,15 @@ using UnityEngine;
 public class Data
 {
     public string name;
-    public Vector2 position;
+    public Vector3 position;
     public Quaternion rotation;
 
-    public Data(string name, Vector2 position)
+    public Data(string name, Vector3 position)
     {
         this.name = name;
         this.position = position;
     }
-    public Data(string name, Vector2 position, Quaternion rotation)
+    public Data(string name, Vector3 position, Quaternion rotation)
     {
         this.name = name;
         this.position = position;

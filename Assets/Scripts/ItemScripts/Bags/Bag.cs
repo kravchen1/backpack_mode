@@ -23,7 +23,6 @@ public class Bag : Item
             if (!objectsInCells.Any(e => e.gameObject.name == cell.nestedObject.name))
             {
                 objectsInCells.Add(new ObjectInCells(cell.nestedObject.GetComponent<Item>()));
-
             }
         }
         foreach (var objectInCell in objectsInCells)
@@ -82,8 +81,11 @@ public class Bag : Item
         }
     }
 
-    public override void OnBeginDrag(PointerEventData eventData)
+    public override void OnMouseDown()
     {
+        if (animator != null)
+            animator.Play("ItemClick");
+        IgnoreCollisionObject(true);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (GetComponent<ShopItem>() != null)
@@ -98,12 +100,16 @@ public class Bag : Item
                     TapRotate();
                     TapShowBackPack();
                     DeleteNestedObject();
-                    OnPointerExit(eventData);
                     canShowDescription = false;
+
+                    // Начинаем перетаскивание
+                    isDragging = true;
+                    // Вычисляем смещение между курсором и объектом
+                    offset = transform.position - GetMouseWorldPosition();
                 }
                 else
                 {
-                    eventData.pointerDrag = null;
+
                 }
             }
             else
@@ -115,8 +121,12 @@ public class Bag : Item
                 TapRotate();
                 TapShowBackPack();
                 DeleteNestedObject();
-                OnPointerExit(eventData);
                 canShowDescription = false;
+
+                // Начинаем перетаскивание
+                isDragging = true;
+                // Вычисляем смещение между курсором и объектом
+                offset = transform.position - GetMouseWorldPosition();
             }
         }
     }
@@ -129,16 +139,16 @@ public class Bag : Item
     //        hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, layerMask));
     //    }
     //}
-    public override void CreateCareRayсast()
+    public override void CreateCareRaycast()
     {
         foreach (var hit in hits)
         {
-            if (hit.collider != null)
+            if (hit.hits[0].collider != null)
             {
-                if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
+                if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                 {
-                    careHits.Add(new RaycastStructure(hit));//объекты
-                    bagTransform = hit.transform.parent.transform;
+                    careHits.Add(new RaycastStructure(hit.hits[0]));//объекты
+                    bagTransform = hit.hits[0].transform.parent.transform;
                 }
             }
         }
@@ -161,16 +171,16 @@ public class Bag : Item
         foreach (var objectInCell in objectsInCells)
         {
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
-            objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycast(128);
+            objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycastForSellChest(128);
             objectInCell.gameObject.ClearCareRaycast();
-            objectInCell.gameObject.CreateCareRayсast();
+            objectInCell.gameObject.CreateCareRaycast();
         }
 
         hits = CreateRaycast(128);
-        hitSellChest = CreateRaycast(32768);
+        hitSellChest = CreateRaycastForSellChest(32768);
 
         ClearCareRaycast();
-        CreateCareRayсast();
+        CreateCareRaycast();
     }
     public void ChangeColorMyCells()
     {
@@ -187,21 +197,28 @@ public class Bag : Item
                 collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
     }
-    public override void OnDrag(PointerEventData eventData)
+    public override void Update()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        if (isDragging)
         {
-            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-            RaycastEvent();
-            ChangeColorMyCells();
-            SellChest();
+            if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+            {
+                transform.position = GetMouseWorldPosition() + offset;
+                RaycastEvent();
+                ChangeColorMyCells();
+                SellChest();
+            }
         }
+        Rotate();
+        SwitchDynamicStatic();
+        OnImpulse();
+        RotationToStartRotation();
     }
     public override bool CorrectEndPoint()
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
-            if (hits.Where(e => e.collider == null).Count() == 0)
+            if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
             {
                 var maxY = careHits[0].raycastHit.collider.transform.localPosition.y;
                 Vector2 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
@@ -232,9 +249,9 @@ public class Bag : Item
                 var offset = new Vector2(itemColliders[0].size.x, -itemColliders[0].size.y);
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
-                Debug.Log("offset: " + offset.ToString());
-                Debug.Log("colliderPos: " + colliderPos.ToString());
-                Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
+                //Debug.Log("offset: " + offset.ToString());
+                //Debug.Log("colliderPos: " + colliderPos.ToString());
+                //Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
                 foreach (var careHit in careHits)
                 {
                     careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
@@ -278,20 +295,66 @@ public class Bag : Item
     }
     public void EndDragForChildObjects(bool canEndDragParent)
     {
+        
         foreach (var objectInCell in objectsInCells)
         {
-            if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
+            if (canEndDragParent)
             {
-                //objectInCell.gameObject.ExtendedCorrectPosition();
-                objectInCell.gameObject.SetNestedObject();
+                switch (objectInCell.gameObject.ExtendedCorrectEndPoint())
+                {
+                    case 1:
+                        objectInCell.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        //objectInCell.gameObject.CorrectPosition();
+                        objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
+                        objectInCell.gameObject.SetNestedObject();
+                        objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
+                        break;
+                    case 2:
+                        foreach (var Carehit in objectInCell.gameObject.careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+                        {
+                            var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
+                            nestedObjectItem.MoveObjectOnEndDrag();
+                            nestedObjectItem.DeleteNestedObject();
+                            nestedObjectItem.needToDynamic = true;
+                            //nestedObjectItem.Impulse = true;
+                            nestedObjectItem.rb.excludeLayers = 0;
+                            nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                        }
+                        objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        //objectInCell.gameObject.CorrectPosition();
+                        objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
+                        objectInCell.gameObject.SetNestedObject();
+                        objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
+                        break;
+                    case 3:
+                        objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                        objectInCell.gameObject.needToDynamic = true;
+                        //objectInCell.gameObject.Impulse = true;
+                        objectInCell.gameObject.MoveObjectOnEndDrag();
+                        objectInCell.gameObject.IgnoreCollisionObject(false);
+                        objectInCell.gameObject.rb.excludeLayers = 0;// (1 << 9);
+                        break;
+                }
             }
             else
             {
-                objectInCell.gameObject.transform.SetParent(backpack.transform);
+                objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 objectInCell.gameObject.needToDynamic = true;
-                objectInCell.gameObject.Impulse = true;
+                objectInCell.gameObject.MoveObjectOnEndDrag();
             }
-
+            //if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
+            //{
+            //    //objectInCell.gameObject.ExtendedCorrectPosition();
+            //    objectInCell.gameObject.SetNestedObject();
+            //}
+            //else
+            //{
+            //    objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+            //    objectInCell.gameObject.needToDynamic = true;
+            //    objectInCell.gameObject.MoveObjectOnEndDrag();
+            //}
+            
+            //objectInCell.gameObject.ExtendedCorrectPosition();
             objectInCell.gameObject.ChangeColorToDefault();
         }
         objectsInCells.Clear();
@@ -304,8 +367,15 @@ public class Bag : Item
         }
     }
 
-    public override void OnEndDrag(PointerEventData eventData)
+    public override void OnMouseUp()
     {
+        if (animator != null)
+            animator.Play("ItemClickOff");
+        if (GetComponent<AnimationStart>() != null)
+        {
+            GetComponent<AnimationStart>().Play();
+        }
+        IgnoreCollisionObject(false);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             //List<GameObject> gameObjects = new List<GameObject>();
@@ -329,6 +399,7 @@ public class Bag : Item
             {
                 SetNestedObject();
                 EndDragForChildObjects(true);
+                rb.excludeLayers = (1 << 9) | (1 << 10);
             }
             else
             {
@@ -336,14 +407,16 @@ public class Bag : Item
                 EndDragForChildObjects(false);
                 Impulse = true;
                 MoveObjectOnEndDrag();
+                rb.excludeLayers = 0;
             }
             DisableBackpackCells();
             ClearParentForChild();
             SetOrderLayerPriority("Bag", "Weapon", 1);
             careHits.Clear();
             canShowDescription = true;
-            OnPointerEnter(eventData);
 
+            // Заканчиваем перетаскивание
+            isDragging = false;
         }
 
 

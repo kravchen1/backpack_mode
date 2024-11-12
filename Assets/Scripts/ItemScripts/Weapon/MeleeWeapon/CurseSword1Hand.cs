@@ -102,31 +102,27 @@ public class CurseSword1Hand : MeleeWeapon
                 // once the lock-out period expires
             }
         }
-
-
-       
-        
     }
 
-    private void Update()
-    {
-        FillnestedObjectStarsStars(512, "Gloves");
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
-        {
-            Burning();
-            CoolDown();
-            Activation();
-        }
+    //private void Update()
+    //{
+    //    FillnestedObjectStarsStars(512, "Gloves");
+    //    if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+    //    {
+    //        Burning();
+    //        CoolDown();
+    //        Activation();
+    //    }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        {
-            Rotate();
-            SwitchDynamicStatic();
-            OnImpulse();
-            RotationToStartRotation();
+    //    if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+    //    {
+    //        Rotate();
+    //        SwitchDynamicStatic();
+    //        OnImpulse();
+    //        RotationToStartRotation();
             
-        }
-    }
+    //    }
+    //}
 
 
 }

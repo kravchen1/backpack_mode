@@ -70,7 +70,7 @@ public class GenerateBackpack : MonoBehaviour
         generationObjectItem.transform.SetParent(GetComponent<RectTransform>());
         generationObjectItem.transform.localPosition = place;
         //var z = GameObject.Find("backpack");
-        componentItem.hits = new List<RaycastHit2D>();
+        componentItem.hits = new List<HitsStructure>();
         Physics2D.SyncTransforms();
         if (componentItem.prefabOriginalName.ToUpper().Contains("BAG"))
         {
@@ -90,12 +90,16 @@ public class GenerateBackpack : MonoBehaviour
         //generationObjectItem.GetComponent<Item>().RaycastEvent();
         if(generationObjectItem.transform.parent.name == "Storage")
         {
-
             componentItem.needToDynamic = true;
             componentItem.Impulse = true;
             componentItem.MoveObjectOnEndDrag();
             //componentBag.MoveObjectOnEndDrag();
         }
+        else
+        {
+            componentItem.rb.excludeLayers = (1 << 9) | (1 << 10);
+        }
+
     }
     public void GenerationBackpack()
     {

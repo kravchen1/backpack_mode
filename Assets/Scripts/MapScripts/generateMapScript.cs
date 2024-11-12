@@ -36,9 +36,12 @@ public class generateMapScript : Map
     public float stepSize = 100;
     private float imageScale = 1;
 
+    private bool closeRoad = false;
 
     private bool roadToBoss = false;
 
+
+    private float minX = 450, minY = 250, maxX = 1550, maxY = 750;
     private void Awake()
     {
         
@@ -63,7 +66,7 @@ public class generateMapScript : Map
         treeStandart2 = Resources.Load<GameObject>("treeStandart2");
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
         //playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
-        playerPrefab = Resources.Load<GameObject>("Player_gnome");
+        playerPrefab = Resources.Load<GameObject>("Player_war");
         fountainPrefab = Resources.Load<GameObject>("greenStandart(1)Fountain");
         ChestOfFortune = Resources.Load<GameObject>("greenStandart(1)ChestOfFortune");
         Forge = Resources.Load<GameObject>("greenStandart(1)Forge");
@@ -116,6 +119,34 @@ public class generateMapScript : Map
         player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
         player.GetComponent<Player>().targetPosition = startPlayerPosition;
+
+
+
+        player.GetComponent<Player>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(startPlayerPosition, false);
+
+       
+
+
+    }
+
+
+    void GenerateMapFromFile()
+    {
+        LoadData("Assets/Saves/mapData.json");
+        foreach (var tile in mapData.tiles)
+        {
+            var careGameObject = Resources.Load<GameObject>(tile.tileName);
+            var careTile = Instantiate(careGameObject, new Vector3(0, 0, 0), Quaternion.identity);
+            careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
+            careTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
+            careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
+            tiles.Add(tile);
+        }
+        player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+        player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
+
+
+        player.GetComponent<Player>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(mapData.playerPosition, false);
     }
 
     public void GenerateStartAndBossTiles()
@@ -157,7 +188,7 @@ public class generateMapScript : Map
     {
         if (carePoint.canBuild)
         {
-            var canBuild = Random.Range(0, 2);
+            var canBuild = Random.Range(0, 5);
             if (canBuild == 0 && roadToBoss)
             {
                 carePoint.canBuild = false;
@@ -208,10 +239,44 @@ public class generateMapScript : Map
             }
             else
             {
-                var randomRoadCount = Random.Range(1, 3);
-                for (int i = 0; i < randomRoadCount; i++)
+                var randomRoadCount = Random.Range(1, 100);
+                var roadCount = 0;
+                var notNeedVector = -1;
+                switch (randomVector)
+                {
+                    case 0:
+                        notNeedVector = 1;
+                        break;
+                    case 1: 
+                        notNeedVector = 0; 
+                        break;
+                    case 2:
+                        notNeedVector = 3; 
+                        break;
+                    case 3:
+                        notNeedVector = 2;
+                        break;
+                }
+                if (randomRoadCount > 20)
+                    roadCount = Random.Range(3, 5);
+                else
+                    roadCount = 2;
+                for (int i = 0; i < roadCount; i++)
                 {
                     newCarePoint += existVectors[randomVector];
+                    for (int j = 0; j < movingVectors.Count(); j++)
+                    {
+                        if (movingVectors[j].movingVector != -existVectors[randomVector])
+                        {
+                            newCarePoint += movingVectors[j].movingVector;
+                            if (tiles.Any(e => e.tilePosition == newCarePoint && !e.tileName.ToUpper().Contains("PORTAL")))
+                            {
+                                //carePoint.canBuild = false;
+                                return;
+                            }
+                            newCarePoint -= movingVectors[j].movingVector;
+                        }
+                    }
                     if (!tiles.Any(e => e.tilePosition == newCarePoint) && newCarePoint.x >= 0 && newCarePoint.y >= 0 && newCarePoint.x < width && newCarePoint.y < height - ((height % stepSize)))
                     {
                         tiles.Add(new Tile(road.name,newCarePoint));
@@ -246,30 +311,32 @@ public class generateMapScript : Map
                         //    tiles.Add(new Tile(Forge.name, newCarePoint));
                         //    break;
                         default:
-                            randomBattlePoint = Random.Range(1, 6);
-                            switch(randomBattlePoint)
-                            {
-                                case 1:
-                                    generateTile(battlePoint1, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint1.name, newCarePoint));
-                                    break;
-                                case 2:
-                                    generateTile(battlePoint2, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint2.name, newCarePoint));
-                                    break;
-                                case 3:
-                                    generateTile(battlePoint3, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint3.name, newCarePoint));
-                                    break;
-                                case 4:
-                                    generateTile(battlePoint4, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint4.name, newCarePoint));
-                                    break;
-                                case 5:
-                                    generateTile(battlePoint5, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
-                                    break;
-                            }
+                            randomBattlePoint = Random.Range(1, 5);
+                            generateTile(fountainPrefab, newCarePoint);
+                            tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
+                            //switch(randomBattlePoint)
+                            //{
+                            //    case 1:
+                            //        generateTile(battlePoint1, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint1.name, newCarePoint));
+                            //        break;
+                            //    case 2:
+                            //        generateTile(battlePoint2, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint2.name, newCarePoint));
+                            //        break;
+                            //    case 3:
+                            //        generateTile(battlePoint3, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint3.name, newCarePoint));
+                            //        break;
+                            //    case 4:
+                            //        generateTile(battlePoint4, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint4.name, newCarePoint));
+                            //        break;
+                            //    //case 5:
+                            //    //    generateTile(battlePoint5, newCarePoint);
+                            //    //    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
+                            //    //    break;
+                            //}
                             break;
                             
                     }
@@ -296,7 +363,7 @@ public class generateMapScript : Map
 
         tiles.Add(new Tile(endPoint.name, endPointTilePosition));
         tiles.Add(new Tile(start.name, startTilePosition));
-        GenerateRoom();
+        //GenerateRoom();
 
         var carePoint = startTilePosition;
         var countInterestPoint = Random.Range(5, 10);
@@ -333,7 +400,7 @@ public class generateMapScript : Map
             }
         }
        // GenerateChestsAndFontain();
-        //GenerateTree();
+        GenerateTree();
 
     }
     void GenerateTree()
@@ -566,21 +633,7 @@ public class generateMapScript : Map
         }
     }
 
-    void GenerateMapFromFile()
-    {
-        LoadData("Assets/Saves/mapData.json");
-        foreach (var tile in mapData.tiles)
-        {
-            var careGameObject = Resources.Load<GameObject>(tile.tileName);
-            var careTile = Instantiate(careGameObject, new Vector3(0, 0, 0), Quaternion.identity);
-            careTile.GetComponent<RectTransform>().SetParent(this.GetComponent<RectTransform>());
-            careTile.GetComponent<RectTransform>().localScale = new Vector2(imageScale, imageScale);
-            careTile.GetComponent<RectTransform>().anchoredPosition = tile.tilePosition;
-            tiles.Add(tile);
-        }
-        player = Instantiate(playerPrefab, mapData.playerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
-        player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
-    }
+    
     
     void Start()
     {

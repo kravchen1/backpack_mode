@@ -15,9 +15,18 @@ using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
+using System.Timers;
 
 
-public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  , IEndDragHandler , IEventSystemHandler, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler , IPointerExitHandler    
+public class HitsStructure
+{
+    public List<RaycastHit2D> hits = new List<RaycastHit2D>();
+    public HitsStructure(List<RaycastHit2D> hits)
+    {
+        this.hits = hits;
+    }
+}
+public abstract class Item : MonoBehaviour
 {
     public int speedRotation = 500;
     public string Name;
@@ -27,7 +36,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public SpriteRenderer image;
     public Canvas canvas;
-    
+
     //protected CanvasGroup canvasGroup;
     public Color imageColor;
     public string prefabOriginalName;
@@ -43,25 +52,28 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public float itemCost;
 
-    //лучи
+    //пїЅпїЅпїЅпїЅ
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
-    public List<RaycastHit2D> hits = new List<RaycastHit2D>();
-    public List<RaycastHit2D> hitsForBackpack= new List<RaycastHit2D>();
+    public List<HitsStructure> hits = new List<HitsStructure>();
+
+
+    public List<RaycastHit2D> hitsForBackpack = new List<RaycastHit2D>();
     public List<RaycastStructure> careHits = new List<RaycastStructure>();
     public List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
     public List<RaycastHit2D> hitSellChest = new List<RaycastHit2D>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //не лучи
+    //пїЅпїЅ пїЅпїЅпїЅпїЅ
     public Transform bagTransform;
     public BoxCollider2D[] collidersArray;
 
     public Rigidbody2D rb;
+    public PolygonCollider2D collider;
 
     public Vector3 lastItemPosition;
 
     public RectTransform rectTransform;
 
-    public bool firstTap = true; //костыль, но сори
+    public bool firstTap = true; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ
     public bool needToRotate;
     public bool needToDynamic = false;
     public bool needToRotateToStartRotation = false;
@@ -80,37 +92,17 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
     public bool isSellChest = false;
 
+    private Camera mainCamera;
+    public bool isDragging = false;
+    public Vector3 offset;
+    private int countClickRotate = 0, maxCountClickRotate = 100;
+    private float timer_cooldownStatic = 12.5f;
+    protected float timerStatic = 12.5f;
+    protected bool timerStatic_locked_out = true;
 
-
-    
-
-    //void SetItemCost()
-    //{
-    //    if (gameObject.name.ToUpper().Contains("BAG"))
-    //        itemCost = 4;
-    //    if (gameObject.name.ToUpper().Contains("SWORD") && gameObject.name.ToUpper().Contains("CURSE"))
-    //    {
-    //        itemCost = 7;
-    //    }
-    //    if (gameObject.name.ToUpper().Contains("SWORD"))
-    //    {
-    //        itemCost = 3;
-    //    }
-    //    if (gameObject.name.ToUpper().Contains("SWORD"))
-    //    {
-    //        itemCost = 3;
-    //    }
-    //}
-
-    void initializationItemColliders()
+    void Awake()
     {
-        collidersArray = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        itemColliders.Clear();
-        for (int i = 0; i < collidersArray.Count(); i++)
-        {
-            itemColliders.Add(collidersArray[i]);
-        }
-        colliderCount = collidersArray.Count();
+        Initialization();
     }
     public void Initialization()
     {
@@ -121,16 +113,18 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         canvas = GetComponentInParent<Canvas>();
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
+        collider = GetComponent<PolygonCollider2D>();
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
             //animator.enabled = false;
         }
+        mainCamera = Camera.main;
         initializationItemColliders();
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            if(gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
+            if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
             {
                 Player = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
                 Enemy = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
@@ -141,116 +135,367 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                 Player = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
                 Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
             }
-        }         
-    }
-    void Awake()
-    {
-        Initialization();
-    }
-
-    // Метод, который будет вызываться при нажатии на объект
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // Проверяем, был ли нажат левый кнопка мыши
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            Debug.Log("Объект был нажат!");
-            if (animator != null)
-                animator.Play("ItemClick");
-            // Здесь можно добавить код, который будет выполняться при нажатии
         }
     }
-
-    // Метод, который будет вызываться при отпускания объекта без перетягивания
-    public void OnPointerClick(PointerEventData eventData)
+    void initializationItemColliders()
     {
-        // Проверяем, был ли клик левой кнопкой мыши
-        if (eventData.button == PointerEventData.InputButton.Left)
+        collidersArray = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        itemColliders.Clear();
+        for (int i = 0; i < collidersArray.Count(); i++)
         {
-            //RaycastEvent();
-            //Debug.Log("Объект был кликнут!");
-            if(animator != null)
-                animator.Play("ItemClickOff");
-            if (GetComponent<AnimationStart>() != null)
+            itemColliders.Add(collidersArray[i]);
+        }
+        colliderCount = collidersArray.Count();
+    }
+
+
+    public virtual void OnMouseDown()
+    {
+        if (animator != null)
+            animator.Play("ItemClick");
+        IgnoreCollisionObject(true);
+        needToDynamic = true;
+
+
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        {
+            lastItemPosition = gameObject.transform.position;
+            if (GetComponent<ShopItem>() != null)
             {
-                GetComponent<AnimationStart>().Play();
-            }
-            // Здесь можно добавить код, который будет выполняться при клике
-        }
-    }
-    public void Rotate()
-    {
-        if (Input.GetKeyDown(KeyCode.R) && needToRotate)
-        {
-            Vector3 newRotation = new Vector3(0, 0, 90);
-            rectTransform.Rotate(newRotation);
-            Physics2D.SyncTransforms();
-            RaycastEvent();
-        }
-    }
-    public void SwitchDynamicStatic()
-    {
-        if (needToDynamic)
-        {
-            rb.bodyType = RigidbodyType2D.Dynamic;
-            
-        }
-        else
-        {
-            rb.bodyType = RigidbodyType2D.Static;
-        }
-    }
-
-    public float baseMass = 1f  // Базовая масса
-                ,massMultiplier = 0.3f;// Множитель для настройки массы
-    public void OnImpulse()
-    {
-        if (Impulse)
-        {
-            Impulse = false;
-           // float screenWidth = Camera.main.orthographicSize * 2 * Screen.width / Screen.height;
-           // float screenHeight = Camera.main.orthographicSize * 2;
-
-            var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
-
-            //Debug.Log(screenHeightInWorldUnits.ToString() + "_" + Screen.height.ToString());
-
-            rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
-            rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
-            rb.AddTorque(15);
-           // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
-           // Debug.Log(Input.GetAxis("Mouse X"));
-            //Debug.Log(Input.GetAxis("Mouse Y"));
-        }
-    }
-    private int countRotate = 0, maxCountRotate = 50;
-    public void RotationToStartRotation()
-    {
-       // Debug.Log(needToRotateToStartRotation);
-       // Debug.Log(rectTransform.eulerAngles.z);
-        if (needToRotateToStartRotation)
-        {
-            if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
-            {
-                needToRotateToStartRotation = false;
-                rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            }
-            else
-            {
-                if (countRotate < maxCountRotate)
+                shopItem = GetComponent<ShopItem>();
+                if (shopItem.CanBuy(GetComponent<Item>()))
                 {
-                    rectTransform.Rotate(0, 0, speedRotation * Time.deltaTime);
-                    countRotate++;
+                    TapFirst();
+                    TapRotate();
+                    DeleteNestedObject();
+                    //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                    //ChangeShowStars(true);
+                    canShowDescription = false;
+
+                    // РќР°С‡РёРЅР°РµРј РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ
+                    isDragging = true;
+                    // Р’С‹С‡РёСЃР»СЏРµРј СЃРјРµС‰РµРЅРёРµ РјРµР¶РґСѓ РєСѓСЂСЃРѕСЂРѕРј Рё РѕР±СЉРµРєС‚РѕРј
+                    offset = transform.position - GetMouseWorldPosition();
                 }
                 else
                 {
-                    countRotate = 0;
-                    needToRotateToStartRotation = false;
-                    rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+
+                }
+            }
+            else
+            {
+                //List<GameObject> list = new List<GameObject>();
+                //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
+                TapFirst();
+                TapRotate();
+                DeleteNestedObject();
+                //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                //ChangeShowStars(true);
+                canShowDescription = false;
+
+
+                // РќР°С‡РёРЅР°РµРј РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ
+                isDragging = true;
+                // Р’С‹С‡РёСЃР»СЏРµРј СЃРјРµС‰РµРЅРёРµ РјРµР¶РґСѓ РєСѓСЂСЃРѕСЂРѕРј Рё РѕР±СЉРµРєС‚РѕРј
+                offset = transform.position - GetMouseWorldPosition();
+            }
+        }
+
+    }
+
+    public virtual void OnMouseUp()
+    {
+        if (animator != null)
+            animator.Play("ItemClickOff");
+        if (GetComponent<AnimationStart>() != null)
+        {
+            GetComponent<AnimationStart>().Play();
+        }
+        IgnoreCollisionObject(false);
+
+
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        {
+            needToRotate = false;
+            image.color = imageColor;
+            if (shopItem != null)
+            {
+                shopItem.BuyItem(gameObject.GetComponent<Item>());
+            }
+
+            if (isSellChest)
+            {
+                SellItem();
+            }
+            ExtendedCorrectPosition();
+            ChangeColorToDefault();
+
+
+            careHits.Clear();
+            canShowDescription = true;
+
+            needToRotateToStartRotation = false;
+            if (animator != null) animator.Play("ItemClickOff");
+        }
+
+        // Р—Р°РєР°РЅС‡РёРІР°РµРј РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ
+        isDragging = false;
+    }
+
+    public virtual void Update()
+    {
+        if (isDragging)
+        {
+            // РџРµСЂРµРјРµС‰Р°РµРј РѕР±СЉРµРєС‚ РІ РїРѕР·РёС†РёСЋ РєСѓСЂСЃРѕСЂР° СЃ СѓС‡РµС‚РѕРј СЃРјРµС‰РµРЅРёСЏ   
+            if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+            {
+                transform.position = GetMouseWorldPosition() + offset;
+                RaycastEvent();
+                SellChest();
+            }
+        }
+        Rotate();
+        SwitchDynamicStatic();
+        OnImpulse();
+        RotationToStartRotation();
+        CoolDownStatic();
+    }
+
+
+
+    public virtual bool CorrectEndPoint()
+    {
+
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public int ExtendedCorrectEndPoint()
+    {
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+        {
+            return 1; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        }
+        else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
+        {
+            return 2; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        }
+        else
+        {
+            return 3; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        }
+    }
+    public void ExtendedCorrectPosition()
+    {
+        switch (ExtendedCorrectEndPoint())
+        {
+            case 1:
+                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                CorrectPosition();
+                SetNestedObject();
+                rb.excludeLayers = (1 << 9) | (1 << 10);
+                break;
+            case 2:
+                foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+                {
+                    var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
+                    nestedObjectItem.MoveObjectOnEndDrag();
+                    nestedObjectItem.DeleteNestedObject();
+                    nestedObjectItem.needToDynamic = true;
+                    timerStatic_locked_out = true;
+                    timerStatic = timer_cooldownStatic;
+                    //nestedObjectItem.Impulse = true;
+                    nestedObjectItem.rb.excludeLayers = 0;
+                    nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                }
+                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                CorrectPosition();
+                SetNestedObject();
+                rb.excludeLayers = (1 << 9) | (1 << 10);
+                break;
+            case 3:
+                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                needToDynamic = true;
+                timerStatic_locked_out = true;
+                timerStatic = timer_cooldownStatic;
+
+                //Impulse = true;
+                MoveObjectOnEndDrag();
+                IgnoreCollisionObject(false);
+                rb.excludeLayers = 0;// (1 << 9);
+                break;
+        }
+    }
+
+    public virtual Vector3 calculateOffset(List<BoxCollider2D> itemColliders)
+    {
+        var maxY = itemColliders[0].bounds.center.y;
+        Vector3 offset = itemColliders[0].offset;
+
+        for (int i = 1; i < itemColliders.Count; i++)
+        {
+            if (itemColliders[i].bounds.center.y >= maxY)
+            {
+                maxY = itemColliders[i].bounds.center.y;
+            }
+        }
+
+        var newListItemColiders = itemColliders.Where(e => Mathf.Round(e.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f).ToList();
+        var minX = newListItemColiders[0].bounds.center.x;
+        foreach (var itemColider in newListItemColiders)
+        {
+            if (Mathf.Round(itemColider.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f)
+            {
+                if (itemColider.bounds.center.x <= minX)
+                {
+                    minX = itemColider.bounds.center.x;
+                    offset = itemColider.offset;
                 }
             }
         }
+
+        if (rectTransform.eulerAngles.z == 90f)
+        {
+
+            var i = offset.x;
+            offset.x = offset.y;
+            offset.y = i;
+
+            offset.y = -offset.y;
+
+        }
+        if (rectTransform.eulerAngles.z == 270f)
+        {
+
+            var i = offset.x;
+            offset.x = offset.y;
+            offset.y = i;
+
+            offset.x = -offset.x;
+
+        }
+        if (rectTransform.eulerAngles.z == 0)
+        {
+            offset = -offset;
+        }
+
+        return offset;
     }
+    public void CorrectPosition()
+    {
+        if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
+        {
+            var maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
+            Vector3 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
+
+            for (int i = 1; i < careHitsForBackpack.Count; i++)
+            {
+                if (careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                {
+                    maxY = careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y;
+                }
+            }
+            var newListCareHits = careHitsForBackpack.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
+            var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
+            foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
+            {
+                if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                {
+                    if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                    {
+                        minX = careHit.raycastHit.collider.transform.localPosition.x;
+                        colliderPos = careHit.raycastHit.collider.transform.localPosition;
+
+                    }
+                }
+            }
+            var offset = calculateOffset(itemColliders);
+            rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -1f);
+            needToDynamic = false;
+            foreach (var careHit in careHitsForBackpack)
+            {
+                careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+            }
+        }
+    }
+    public void ChangeColorToDefault()
+    {
+        foreach (var Carehit in careHits)
+        {
+            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+        }
+    }
+    public void SetNestedObject()
+    {
+        foreach (var Carehit in careHits)
+        {
+            Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
+        }
+    }
+
+    public void MoveObjectOnEndDrag()
+    {
+        //List<GameObject> list = new List<GameObject>();
+        //if (ItemInGameObject("Storage", list))
+        var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
+        int storageWidthDelenie = 3;
+        if (gameObject.transform.localPosition.x > storageRect.min.x + storageRect.width / storageWidthDelenie
+            &&
+            gameObject.transform.localPosition.x < storageRect.max.x - storageRect.width / storageWidthDelenie)
+        {
+            //StartCoroutine(moveObject(storage.transform.position));
+            //storageRect.position
+        }
+        else
+        {
+            //StartCoroutine(moveObject(lastItemPosition));
+            StartCoroutine(moveObject(new Vector3(GameObject.Find("Storage").transform.position.x - 1, transform.position.y + 3, 0f)));
+        }
+    }
+    public IEnumerator moveObject(Vector3 destination)
+    {
+        //IgnoreCollisionObject(true);//РІРєР»СЋС‡Р°РµРј РёРіРЅРѕСЂРёСЂРѕРІР°РЅРёРµ
+        var origin = transform.position;
+
+        //var destination = GameObject.Find("Storage").transform.position;
+        //var destination = new Vector3(0,0,0);
+        float totalMovementTime = 0.5f; //the amount of time you want the movement to take
+        float currentMovementTime = 0f;//The amount of time that has passed
+        while (Vector3.Distance(transform.position, destination) > 1)
+        {
+            currentMovementTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(origin, destination, currentMovementTime / totalMovementTime);
+            yield return null;
+        }
+    }
+
+    public virtual void SellChest()
+    {
+        if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
+        {
+            foreach (var hit in hitSellChest.Where(e => e.collider != null && e.collider.name == "SellChest"))
+            {
+                if (!isSellChest)
+                {
+                    sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
+                    sellChestAnimator.Play("Metal Chest Opening", 0, 2);
+                    isSellChest = true;
+                }
+            }
+        }
+        else if (isSellChest)
+        {
+            sellChestAnimator.Play("Metal Chest Closed");
+            isSellChest = false;
+        }
+    }
+
+
     public void TapFirst()
     {
         if (firstTap)
@@ -283,104 +528,185 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             }
         }
     }
-
-    public Camera mainCamera;
-    public virtual void OnBeginDrag(PointerEventData eventData)
+    public void RotationToStartRotation()
     {
-       // Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(eventData.position, Vector2.zero);
-
-        Debug.Log(hit.collider);
-        Debug.Log(eventData.position);
-        // Проверяем, попали ли мы в коллайдер
-        // if (hit.collider != null && hit.collider is PolygonCollider2D)
-        // {
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        // Debug.Log(needToRotateToStartRotation);
+        // Debug.Log(rectTransform.eulerAngles.z);
+        if (needToRotateToStartRotation)
+        {
+            if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
             {
-                lastItemPosition = gameObject.transform.position;
-                if (GetComponent<ShopItem>() != null)
+                needToRotateToStartRotation = false;
+                rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            }
+            else
+            {
+                if (countClickRotate < maxCountClickRotate)
                 {
-                    shopItem = GetComponent<ShopItem>();
-                    if (shopItem.CanBuy(GetComponent<Item>()))
-                    {
-                        TapFirst();
-                        TapRotate();
-                        DeleteNestedObject();
-                        //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                        OnPointerExit(eventData);
-                        //ChangeShowStars(true);
-                        canShowDescription = false;
-                    }
-                    else
-                    {
-                        eventData.pointerDrag = null;
-                    }
+                    rectTransform.Rotate(0, 0, speedRotation * Time.deltaTime);
+                    countClickRotate++;
                 }
                 else
                 {
-                    //List<GameObject> list = new List<GameObject>();
-                    //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
-                    TapFirst();
-                    TapRotate();
-                    DeleteNestedObject();
-                    //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                    OnPointerExit(eventData);
-                    //ChangeShowStars(true);
-                    canShowDescription = false;
+                    countClickRotate = 0;
+                    needToRotateToStartRotation = false;
+                    rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 }
             }
-       // }
+        }
     }
-    void Update()
+    public void OnImpulse()
     {
-        Rotate();
-        SwitchDynamicStatic();
-        OnImpulse();
-        RotationToStartRotation();
+        if (Impulse)
+        {
+            Impulse = false;
+            // float screenWidth = Camera.main.orthographicSize * 2 * Screen.width / Screen.height;
+            // float screenHeight = Camera.main.orthographicSize * 2;
+
+            var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
+
+            //Debug.Log(screenHeightInWorldUnits.ToString() + "_" + Screen.height.ToString());
+
+            //rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
+            rb.mass = 0.2f;
+            rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
+            rb.AddTorque(15);
+            // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
+            // Debug.Log(Input.GetAxis("Mouse X"));
+            //Debug.Log(Input.GetAxis("Mouse Y"));
+        }
     }
-    public List<RaycastHit2D> CreateRaycast(System.Int32 mask)
+    public void SwitchDynamicStatic()
+    {
+        if (needToDynamic)
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+        else
+        {
+            rb.bodyType = RigidbodyType2D.Static;
+        }
+    }
+    public void Rotate()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && needToRotate)
+        {
+            Vector3 newRotation = new Vector3(0, 0, 90);
+            rectTransform.Rotate(newRotation);
+            Physics2D.SyncTransforms();
+            RaycastEvent();
+        }
+    }
+    public Vector3 GetMouseWorldPosition()
+    {
+        // РџРѕР»СѓС‡Р°РµРј РїРѕР·РёС†РёСЋ РєСѓСЂСЃРѕСЂР° РІ РјРёСЂРѕРІС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…
+        Vector3 mouseScreenPosition = Input.mousePosition;
+        mouseScreenPosition.z = mainCamera.nearClipPlane; // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј Z, С‡С‚РѕР±С‹ РїРѕР»СѓС‡РёС‚СЊ РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ 3D РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµ
+        return mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+    }
+    public void IgnoreCollisionObject(bool ignoreCollisionObject)//true - ignotr //false - not ignore
+    {
+        Collider2D[] colliders = FindObjectsByType<Collider2D>(FindObjectsSortMode.None);
+        foreach (var otherCollider in colliders)
+        {
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            if (otherCollider != collider && otherCollider.attachedRigidbody != null)
+            {
+                Physics2D.IgnoreCollision(collider, otherCollider, ignoreCollisionObject);
+            }
+        }
+    }
+    public virtual void SellItem()
+    {
+        var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
+        var characterStats = listCharacterStats[0];
+        characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost / 2);
+        characterStats.coinsText.text = characterStats.playerCoins.ToString();
+        sellChestAnimator.Play("Metal Chest Closed");
+        Destroy(gameObject);
+        Destroy(CanvasDescription);
+    }
+
+
+    public List<HitsStructure> CreateRaycast(System.Int32 mask)
+    {
+        List<HitsStructure> rayCasts = new List<HitsStructure>();
+        foreach (var collider in itemColliders)
+        {
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ? ToDo
+            List<RaycastHit2D> hits = new List<RaycastHit2D>();
+
+            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
+            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
+            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
+            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
+            //Physics2D.Raycast hit1 = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
+
+
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            Vector2[] corners = new Vector2[4];
+            corners[0] = collider.bounds.min; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            corners[2] = collider.bounds.max; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ 1/3 пїЅпїЅпїЅпїЅ
+            float t = 1f / 5f;
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            Vector2 center = collider.bounds.center;
+
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            for (int i = 0; i < corners.Length; i++)
+            {
+                Vector2 midPoint = center + t * (corners[i] - center); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+                hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+                //hits.Add(Physics2D.Raycast(center, Vector2.zero, 0, mask)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            }
+
+            rayCasts.Add(new HitsStructure(hits));
+        }
+        return rayCasts;
+    }
+    public List<RaycastHit2D> CreateRaycastForSellChest(System.Int32 mask)
     {
         List<RaycastHit2D> rayCasts = new List<RaycastHit2D>();
         foreach (var collider in itemColliders)
         {
-            //несколько лучей пуляем? ToDo
+            List<RaycastHit2D> hits = new List<RaycastHit2D>();
+
+            hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
+
+            //Physics2D.Raycast hit1 = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
+
 
             rayCasts.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
         }
         return rayCasts;
     }
-
-    public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
+    public virtual void CreateCareRaycast()
     {
-        RaycastHit2D raycast;
-        foreach (var star in stars)
-        {
-            //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
-            raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
-            if(raycast.collider != null && raycast.collider.gameObject.tag == tag/*"gloves"*/)//6787
-            {
-                star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
-                star.GetComponent<SpriteRenderer>().sprite = fillStar;
-            }
-            else
-            {
-                star.GetComponent<Cell>().nestedObject = null;
-                star.GetComponent<SpriteRenderer>().sprite = emptyStar;
-            }
-        }
-    }
-
-
-    public virtual void CreateCareRayсast()
-    {
+        bool createCareHit = true;
         foreach (var hit in hits)
         {
-            if (hit.collider != null)
+            if (hit.hits[0].collider != null && hit.hits[0].collider.gameObject.GetComponentInParent<ShopItem>() == null)
             {
-                if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
+                if (hit.hits.Where(e => e.collider != null).Count() == 4)
                 {
-                    hit.collider.GetComponent<SpriteRenderer>().color = Color.red;
-                    careHits.Add(new RaycastStructure(hit));//объекты
+                    foreach (var hitSmall in hit.hits)
+                    {
+                        if (hitSmall.collider.name != hit.hits[0].collider.name)
+                        {
+                            createCareHit = false;
+                        }
+                    }
+                    if (createCareHit)
+                    {
+                        if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
+                        {
+                            hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.red;
+                            careHits.Add(new RaycastStructure(hit.hits[0]));//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                        }
+                    }
                 }
             }
         }
@@ -390,7 +716,7 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             {
                 if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                    careHitsForBackpack.Add(new RaycastStructure(hit));//объекты
+                    careHitsForBackpack.Add(new RaycastStructure(hit));//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 }
             }
         }
@@ -399,10 +725,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         foreach (var Carehit in careHits)
         {
-            if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hits.Where(e => e.collider == null).Count() == colliderCount)
+            foreach (var hit in hits)
             {
-                Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-                Carehit.isDeleted = true;
+
+                // 1 hit
+                // 4 hits
+                if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount * 4)//ToDo
+                {
+                    Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                    Carehit.isDeleted = true;
+                }
             }
         }
 
@@ -410,9 +742,12 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
 
         foreach (var Carehit in careHitsForBackpack)
         {
-            if ((hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hits.Where(e => e.collider == null).Count() == colliderCount)
+            foreach (var hit in hits)
             {
-                Carehit.isDeleted = true;
+                if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount)
+                {
+                    Carehit.isDeleted = true;
+                }
             }
         }
 
@@ -422,294 +757,16 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
     {
         hits.Clear();
         hitsForBackpack.Clear();
-        hitsForBackpack = CreateRaycast(128);
+        hitsForBackpack = CreateRaycastForSellChest(128);//ToDo
         hits = CreateRaycast(256);
         hitSellChest.Clear();
-        hitSellChest = CreateRaycast(32768);
+        hitSellChest = CreateRaycastForSellChest(32768);
         ClearCareRaycast();
-        CreateCareRayсast();
+        CreateCareRaycast();
     }
 
-    public virtual void SellChest()
-    {
-        if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
-        {
-            foreach (var hit in hitSellChest.Where(e => e.collider != null && e.collider.name == "SellChest"))
-            {
-                if (!isSellChest)
-                {
-                    sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
-                    sellChestAnimator.Play("Metal Chest Opening",0, 2);
-                    isSellChest = true;
-                }
-            }
-        }
-        else if (isSellChest)
-        {
-            sellChestAnimator.Play("Metal Chest Closed");
-            isSellChest = false;
-        }
-    }
-
-    public virtual void OnDrag(PointerEventData eventData)
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        {
-            rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-            RaycastEvent();
-            SellChest();
-        }
-    }
-    public virtual Vector2 calculateOffset(List<BoxCollider2D> itemColliders)
-    {
-        var maxY = itemColliders[0].bounds.center.y;
-        Vector2 offset = itemColliders[0].offset;
-
-        for (int i = 1; i < itemColliders.Count; i++)
-        {
-            if (itemColliders[i].bounds.center.y >= maxY)
-            {
-                maxY = itemColliders[i].bounds.center.y;
-            }
-        }
-
-        var newListItemColiders = itemColliders.Where(e => Mathf.Round(e.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f).ToList();
-        var minX = newListItemColiders[0].bounds.center.x;
-        foreach (var itemColider in newListItemColiders)
-        {
-            if (Mathf.Round(itemColider.bounds.center.y * 10.0f) * 0.1f == Mathf.Round(maxY * 10.0f) * 0.1f)
-            {
-                if (itemColider.bounds.center.x <= minX)
-                {
-                    minX = itemColider.bounds.center.x;
-                    offset = itemColider.offset; 
-                }
-            }
-        }
-
-        if (rectTransform.eulerAngles.z == 90f)
-        {
-
-            var i = offset.x;
-            offset.x = offset.y;
-            offset.y = i;
-
-            offset.y = -offset.y;
-
-        }
-        if (rectTransform.eulerAngles.z == 270f)
-        {
-
-            var i = offset.x;
-            offset.x = offset.y;
-            offset.y = i;
-
-            offset.x = -offset.x;
-
-        }
-        if (rectTransform.eulerAngles.z == 0)
-        {
-            offset = -offset;
-        }
-
-        return offset;
-    }
-    public virtual bool CorrectEndPoint()
-    {
-
-        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private int ExtendedCorrectEndPoint()
-    {
-        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
-        {
-            return 1; //точки совпадают и нет предметов
-        } 
-        else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
-        {
-            return 2; //точки совпадают, но есть предметы
-        }
-        else
-        {
-            return 3; //точки не совпадают
-        }
-    }
-
-    public void ExtendedCorrectPosition()
-    {
-        switch (ExtendedCorrectEndPoint())
-        {
-            case 1:
-                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                CorrectPosition();
-                SetNestedObject();
-                break;
-            case 2:
-                foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
-                {
-                    var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
-                    nestedObjectItem.MoveObjectOnEndDrag();
-                    nestedObjectItem.DeleteNestedObject();
-                    nestedObjectItem.needToDynamic = true;
-                    nestedObjectItem.Impulse = true;
-                }
-                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                CorrectPosition();
-                SetNestedObject();
-
-                break;
-            case 3:
-                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                needToDynamic = true;
-                Impulse = true;
-                MoveObjectOnEndDrag();
-                break;
-        }
-    }
-
-    public void CorrectPosition()
-    {
-        if (hits.Where(e => e.collider == null).Count() == 0)
-        {
-            var maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
-            Vector2 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
-
-            for (int i = 1; i < careHitsForBackpack.Count; i++)
-            {
-                if (careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y >= maxY)
-                {
-                    maxY = careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y;
-                }
-            }
-            var newListCareHits = careHitsForBackpack.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
-            var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
-            foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
-            {
-                if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
-                {
-                    if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
-                    {
-                        minX = careHit.raycastHit.collider.transform.localPosition.x;
-                        colliderPos = careHit.raycastHit.collider.transform.localPosition;
-
-                    }
-                }
-            }
-            var offset = calculateOffset(itemColliders);
-            rectTransform.localPosition = offset + colliderPos;
-            needToDynamic = false;
-            foreach (var careHit in careHitsForBackpack)
-            {
-                careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-            }
-        }
-    }
-    public void ChangeColorToDefault()
-    {
-        foreach (var Carehit in careHits)
-        {
-            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-        }
-    }
-    public void SetNestedObject()
-    {
-        foreach (var Carehit in careHits)
-        {
-            Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject = gameObject;
-        }
-    }
-
-    public virtual void SellItem()
-    {
-        var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
-        var characterStats = listCharacterStats[0];
-        characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost/2);
-        characterStats.coinsText.text = characterStats.playerCoins.ToString();
-        sellChestAnimator.Play("Metal Chest Closed");
-        Destroy(gameObject);
-    }
-    public virtual void OnEndDrag(PointerEventData eventData)
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        {
-            needToRotate = false;
-            image.color = imageColor;
-            if (shopItem != null)
-            {
-                shopItem.BuyItem(gameObject.GetComponent<Item>());
-            }
-
-            if(isSellChest)
-            {
-                SellItem();
-            }
-
-            //if (CorrectEndPoint())
-            //{
-            //    gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-            //    CorrectPosition();
-            //    SetNestedObject();
-            //}
-            //else
-            //{
-
-            //    gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-            //    needToDynamic = true;
-            //    Impulse = true;
-            //    MoveObjectOnEndDrag();
-            //    //gameObject.transform.SetParent(backpack.transform);
-            //}
-
-            ExtendedCorrectPosition();
 
 
-
-            ChangeColorToDefault();
-
-
-            careHits.Clear();
-            canShowDescription = true;
-            OnPointerEnter(eventData);
-
-            needToRotateToStartRotation = false;
-            if (animator != null) animator.Play("ItemClickOff");
-        }
-    }
-
-    public void MoveObjectOnEndDrag()
-    {
-        //List<GameObject> list = new List<GameObject>();
-        //if (ItemInGameObject("Storage", list))
-        var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
-        int storageWidthDelenie = 3;
-        if (gameObject.transform.localPosition.x > storageRect.min.x + storageRect.width / storageWidthDelenie 
-            && 
-            gameObject.transform.localPosition.x < storageRect.max.x - storageRect.width / storageWidthDelenie)
-        {
-            //StartCoroutine(moveObject(storage.transform.position));
-            //storageRect.position
-        }
-        else
-            //StartCoroutine(moveObject(lastItemPosition));
-            StartCoroutine(moveObject(GameObject.Find("Storage").transform.position));
-    }
-
-    public virtual void ShowDiscriptionActivation()
-    {
-        Debug.Log("Описание: описание!");
-    }
-    public virtual void Activation()
-    {
-        Debug.Log("Активация " + this.name);
-    }
     IEnumerator ShowDescription()
     {
         yield return new WaitForSeconds(.1f);
@@ -735,27 +792,23 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
             }
         }
     }
-
-    public void OnPointerEnter(PointerEventData eventData)
+    private void OnMouseEnter()
     {
-        //ChangeShowStars(true);
-        
-        if (eventData.pointerDrag == null)
+        if (!isDragging)
         {
-                if(animator != null)
-                    animator.Play("ItemAiming");
-                //Debug.Log(Description.gameObject.name + " ItemAiming");
+            // РљРѕРґ, РєРѕС‚РѕСЂС‹Р№ РІС‹РїРѕР»РЅРёС‚СЃСЏ РїСЂРё РЅР°РІРµРґРµРЅРёРё РєСѓСЂСЃРѕСЂР° РЅР° РєРѕР»Р»Р°Р№РґРµСЂ
+            if (animator != null)
+                animator.Play("ItemAiming");
             Exit = false;
-            //Debug.Log(Description.gameObject.name + "вошёл");
             StartCoroutine(ShowDescription());
-        }   
+        }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    private void OnMouseExit()
     {
-        //Debug.Log(Description.gameObject.name + "вышел");
-        if (eventData.pointerDrag == null)
+        if (!isDragging)
         {
+            //Debug.Log(Description.gameObject.name + "пїЅпїЅпїЅпїЅпїЅ");
             if (animator != null)
             {
                 animator.Play("ItemAimingOff");
@@ -764,18 +817,46 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
                     GetComponent<AnimationStart>().Play();
                 }
             }
-                //Debug.Log(Description.gameObject.name + " ItemAiming");
-        }
-        Exit = true;
-        //ChangeShowStars(false);
-       // Debug.Log("убрали курсор");
-        if (canShowDescription && CanvasDescription != null)
-        {
-            CanvasDescription.enabled = false;
-            var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-            if (starsDesctiprion != null)
+            //Debug.Log(Description.gameObject.name + " ItemAiming");
+            Exit = true;
+            //ChangeShowStars(false);
+            // Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+            if (canShowDescription && CanvasDescription != null)
             {
-                starsDesctiprion.enabled = false;
+                CanvasDescription.enabled = false;
+                var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
+                if (starsDesctiprion != null)
+                {
+                    starsDesctiprion.enabled = false;
+                }
+            }
+        }
+    }
+
+
+
+
+
+    public virtual void Activation()
+    {
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ " + this.name);
+    }
+    public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
+    {
+        RaycastHit2D raycast;
+        foreach (var star in stars)
+        {
+            //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
+            raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
+            if (raycast.collider != null && raycast.collider.gameObject.tag == tag/*"gloves"*/)//6787
+            {
+                star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
+                star.GetComponent<SpriteRenderer>().sprite = fillStar;
+            }
+            else
+            {
+                star.GetComponent<Cell>().nestedObject = null;
+                star.GetComponent<SpriteRenderer>().sprite = emptyStar;
             }
         }
     }
@@ -793,40 +874,23 @@ public abstract class Item : MonoBehaviour, IBeginDragHandler  , IDragHandler  ,
         else
             return true;
     }
-    public bool ItemInGameObject(string gameObjectName, List<GameObject> gameObjectList)
+
+    
+    public void CoolDownStatic()
     {
-        GameObject.FindGameObjectsWithTag(gameObjectName, gameObjectList);
-
-        var rectTransform = gameObjectList[0].GetComponent<RectTransform>();
-
-        if (gameObject.transform.localPosition.x > rectTransform.rect.max.x || gameObject.transform.localPosition.y > rectTransform.rect.max.y || gameObject.transform.localPosition.x < rectTransform.rect.min.x || gameObject.transform.localPosition.y < rectTransform.rect.min.y)
+        if (timerStatic_locked_out == true)
         {
-            return false;
-        }
-        else
-            return true;
-    }
+            timerStatic -= Time.deltaTime;
+            Debug.Log(gameObject.name + " " + timerStatic.ToString());
+            if (timerStatic <= 0)
+            {
+                timerStatic = timer_cooldownStatic;
+                timerStatic_locked_out = false;
+                this.needToDynamic = false;
 
-    public IEnumerator moveObject(Vector3 destination)
-    {
-        var origin = transform.position;
-        //var destination = GameObject.Find("Storage").transform.position;
-        //var destination = new Vector3(0,0,0);
-        float totalMovementTime = 0.5f; //the amount of time you want the movement to take
-        float currentMovementTime = 0f;//The amount of time that has passed
-        while (Vector3.Distance(transform.position, destination) > 1)
-        {
-            currentMovementTime += Time.deltaTime;
-            transform.position = Vector3.Lerp(origin, destination, currentMovementTime / totalMovementTime);
-            yield return null;
+                // a delayed action could be called from here
+                // once the lock-out period expires
+            }
         }
     }
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        //if (col.gameObject.tag == "InvisibleWalls")
-        //    rb.AddForce(transform.right * 1, ForceMode2D.Impulse);
-        //todo
-    }
-
-
 }

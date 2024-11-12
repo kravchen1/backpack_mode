@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private generateMapScript generateMapScript;
 
     [HideInInspector] public Map map;
-    private RectTransform rectTransform;
+    [HideInInspector] public RectTransform rectTransform;
 
     // [SerializeField] private Canvas backpackCanvas;
     //[SerializeField] private Canvas mapCanvas;
@@ -49,6 +49,10 @@ public class Player : MonoBehaviour
 
     private bool needToRaycast = true;
 
+    public GameObject mainCamera;
+
+    //public MainCamera scriptMainCamera;
+    //private float movingStepCamera = 0.9f;
 
 
 
@@ -59,6 +63,8 @@ public class Player : MonoBehaviour
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         goMap = GameObject.FindGameObjectWithTag("GoMap");
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        //scriptMainCamera = mainCamera.GetComponent<MainCamera>();
     }
     void LoadCharacterStats()
     {
@@ -115,7 +121,7 @@ public class Player : MonoBehaviour
                     //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
                 }
 
-                var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
+                var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Camera Canvas").GetComponent<RectTransform>().transform);
                 canvas.gameObject.SetActive(true);
                 //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
                 //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
@@ -268,6 +274,7 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.S)) // Вниз
@@ -277,6 +284,7 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.A)) // Влево
@@ -286,6 +294,7 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.D)) // Вправо
@@ -295,12 +304,19 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
 
                 if (needToRaycast)
+                {
                     RaycastEvent();
-
+                }
+                    
+            }
+            else
+            {
+                
             }
             //pressF();
             //pressI();
