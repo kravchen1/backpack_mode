@@ -40,6 +40,8 @@ public class generateMapScript : Map
 
     private bool roadToBoss = false;
 
+
+    private float minX = 450, minY = 250, maxX = 1550, maxY = 750;
     private void Awake()
     {
         
@@ -119,13 +121,12 @@ public class generateMapScript : Map
         player.GetComponent<Player>().targetPosition = startPlayerPosition;
 
 
-        /*
-        if (startPlayerPosition.x >= 1400)
-            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(515, -300, -10800);
-        else
-            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(startPlayerPosition.x - 985, startPlayerPosition.y - 200, -10800);
-        */
-        //player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(startPlayerPosition.x - 885, startPlayerPosition.y - 400, -10800);
+
+        player.GetComponent<Player>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(startPlayerPosition, false);
+
+       
+
+
     }
 
 
@@ -145,13 +146,7 @@ public class generateMapScript : Map
         player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
 
 
-        //player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(mapData.playerPosition.x - 885, mapData.playerPosition.y - 400, -10800);
-        /*
-        if (mapData.playerPosition.x >= 1400)
-            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(515, mapData.playerPosition.y - 200, -10800);
-        else
-            player.GetComponent<Player>().mainCamera.transform.localPosition = new Vector3(mapData.playerPosition.x - 985, mapData.playerPosition.y - 200, -10800);
-        */
+        player.GetComponent<Player>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(mapData.playerPosition, false);
     }
 
     public void GenerateStartAndBossTiles()
@@ -317,29 +312,31 @@ public class generateMapScript : Map
                         //    break;
                         default:
                             randomBattlePoint = Random.Range(1, 5);
-                            switch(randomBattlePoint)
-                            {
-                                case 1:
-                                    generateTile(battlePoint1, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint1.name, newCarePoint));
-                                    break;
-                                case 2:
-                                    generateTile(battlePoint2, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint2.name, newCarePoint));
-                                    break;
-                                case 3:
-                                    generateTile(battlePoint3, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint3.name, newCarePoint));
-                                    break;
-                                case 4:
-                                    generateTile(battlePoint4, newCarePoint);
-                                    tiles.Add(new Tile(battlePoint4.name, newCarePoint));
-                                    break;
-                                //case 5:
-                                //    generateTile(battlePoint5, newCarePoint);
-                                //    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
-                                //    break;
-                            }
+                            generateTile(fountainPrefab, newCarePoint);
+                            tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
+                            //switch(randomBattlePoint)
+                            //{
+                            //    case 1:
+                            //        generateTile(battlePoint1, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint1.name, newCarePoint));
+                            //        break;
+                            //    case 2:
+                            //        generateTile(battlePoint2, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint2.name, newCarePoint));
+                            //        break;
+                            //    case 3:
+                            //        generateTile(battlePoint3, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint3.name, newCarePoint));
+                            //        break;
+                            //    case 4:
+                            //        generateTile(battlePoint4, newCarePoint);
+                            //        tiles.Add(new Tile(battlePoint4.name, newCarePoint));
+                            //        break;
+                            //    //case 5:
+                            //    //    generateTile(battlePoint5, newCarePoint);
+                            //    //    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
+                            //    //    break;
+                            //}
                             break;
                             
                     }
@@ -403,7 +400,7 @@ public class generateMapScript : Map
             }
         }
        // GenerateChestsAndFontain();
-        //GenerateTree();
+        GenerateTree();
 
     }
     void GenerateTree()

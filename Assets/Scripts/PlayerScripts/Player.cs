@@ -274,8 +274,7 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-
-                        mainCamera.transform.localPosition += new Vector3(0, 100, 0);
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.S)) // Вниз
@@ -285,8 +284,7 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-
-                        mainCamera.transform.localPosition += new Vector3(0, -100, 0);
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.A)) // Влево
@@ -296,8 +294,7 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-
-                        mainCamera.transform.localPosition += new Vector3(-100, 0, 0);
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.D)) // Вправо
@@ -307,14 +304,19 @@ public class Player : MonoBehaviour
                     {
                         needToRaycast = false;
                         StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-
-                        mainCamera.transform.localPosition += new Vector3(100, 0, 0);
+                        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
                     }
                 }
 
                 if (needToRaycast)
+                {
                     RaycastEvent();
-
+                }
+                    
+            }
+            else
+            {
+                
             }
             //pressF();
             //pressI();
