@@ -227,11 +227,12 @@ public abstract class Item : MonoBehaviour
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
                     careHits.Clear();
-                    canShowDescription = true;
 
                     needToRotateToStartRotation = false;
                     if (animator != null) animator.Play("ItemClickOff");
                 }
+                canShowDescription = true;
+                if (animator != null) animator.Play("ItemClickOff");
             }
             else
             {

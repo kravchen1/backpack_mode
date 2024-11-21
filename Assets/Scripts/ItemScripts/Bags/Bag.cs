@@ -430,7 +430,7 @@ public class Bag : Item
             }
 
 
-
+            canShowDescription = true;
             ChangeColorToDefault();
             // Заканчиваем перетаскивание
             isDragging = false;
