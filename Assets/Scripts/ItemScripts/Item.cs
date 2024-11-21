@@ -483,7 +483,7 @@ public abstract class Item : MonoBehaviour
                 if (!isSellChest)
                 {
                     sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
-                    sellChestAnimator.Play("Metal Chest Opening", 0, 2);
+                    sellChestAnimator.Play("Metal Chest Opening");//, 0, 2);sellChestAnimator.Play("Metal Chest Opening", 0, 2);
                     isSellChest = true;
                 }
             }
