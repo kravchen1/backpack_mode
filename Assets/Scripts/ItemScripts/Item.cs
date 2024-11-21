@@ -483,14 +483,14 @@ public abstract class Item : MonoBehaviour
                 if (!isSellChest)
                 {
                     sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
-                    sellChestAnimator.Play("Metal Chest Opening");//, 0, 2);sellChestAnimator.Play("Metal Chest Opening", 0, 2);
+                    sellChestAnimator.Play("SellChestOpen");
                     isSellChest = true;
                 }
             }
         }
         else if (isSellChest)
         {
-            sellChestAnimator.Play("Metal Chest Closed");
+            sellChestAnimator.Play("SellChestClose");
             isSellChest = false;
         }
     }
@@ -622,9 +622,9 @@ public abstract class Item : MonoBehaviour
         var characterStats = listCharacterStats[0];
         characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost / 2);
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
-        sellChestAnimator.Play("Metal Chest Closed");
+        sellChestAnimator.Play("SellChestClose");
         Destroy(gameObject);
-        Destroy(CanvasDescription);
+        Destroy(CanvasDescription.gameObject);
     }
 
 
