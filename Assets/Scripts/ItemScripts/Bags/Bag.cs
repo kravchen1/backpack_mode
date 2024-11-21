@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEngine.U2D;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Bag : Item
 {
@@ -30,12 +31,16 @@ public class Bag : Item
             objectInCell.gameObject.DeleteNestedObject();
         }
     }
+    private Vector3 shopItemStartPosition;
     public new void TapFirst()
     {
         if (firstTap)
         {
             firstTap = false;
             rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            shopItem = GetComponent<ShopItem>();
+            if(shopItem != null)
+                shopItemStartPosition = shopItem.transform.position;
             backpack = GameObject.Find("backpack");
         }
     }
@@ -88,9 +93,8 @@ public class Bag : Item
         IgnoreCollisionObject(true);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            if (GetComponent<ShopItem>() != null)
+            if (shopItem != null)
             {
-                shopItem = GetComponent<ShopItem>();
                 if (shopItem.CanBuy(GetComponent<Item>()))
                 {
                     SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
@@ -367,6 +371,33 @@ public class Bag : Item
         }
     }
 
+    private void EndDrag()
+    {
+        ChangeColorToDefault();
+        needToRotate = false;
+        if (CorrectEndPoint())
+        {
+            SetNestedObject();
+            EndDragForChildObjects(true);
+            rb.excludeLayers = (1 << 9) | (1 << 10);
+        }
+        else
+        {
+            gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+            EndDragForChildObjects(false);
+            Impulse = true;
+            MoveObjectOnEndDrag();
+            rb.excludeLayers = 0;
+        }
+        DisableBackpackCells();
+        ClearParentForChild();
+        //SetOrderLayerPriority("Bag", "Weapon", 1);
+        careHits.Clear();
+        canShowDescription = true;
+    }
+
+
+
     public override void OnMouseUp()
     {
         if (animator != null)
@@ -382,39 +413,25 @@ public class Bag : Item
             //ItemInGameObject("backpack", gameObjects);
             if (shopItem != null)
             {
-                shopItem.BuyItem(gameObject.GetComponent<Item>());
+                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1)
+                {
+                    shopItem.BuyItem(gameObject.GetComponent<Item>());
+                    EndDrag();
+                }
+            }
+            else
+            {
+                EndDrag();
             }
 
             if (isSellChest)
             {
                 SellItem();
-                //gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                //EndDragForChildObjects(false);
-                //Impulse = true;
-                //MoveObjectOnEndDrag();
             }
-            ChangeColorToDefault();
-            needToRotate = false;
-            if (CorrectEndPoint())
-            {
-                SetNestedObject();
-                EndDragForChildObjects(true);
-                rb.excludeLayers = (1 << 9) | (1 << 10);
-            }
-            else
-            {
-                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                EndDragForChildObjects(false);
-                Impulse = true;
-                MoveObjectOnEndDrag();
-                rb.excludeLayers = 0;
-            }
-            DisableBackpackCells();
-            ClearParentForChild();
-            SetOrderLayerPriority("Bag", "Weapon", 1);
-            careHits.Clear();
-            canShowDescription = true;
 
+
+
+            ChangeColorToDefault();
             // Заканчиваем перетаскивание
             isDragging = false;
         }

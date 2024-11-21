@@ -148,7 +148,7 @@ public abstract class Item : MonoBehaviour
         colliderCount = collidersArray.Count();
     }
 
-
+    private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
         if (animator != null)
@@ -160,9 +160,9 @@ public abstract class Item : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             lastItemPosition = gameObject.transform.position;
-            if (GetComponent<ShopItem>() != null)
+            if (shopItem != null)
             {
-                shopItem = GetComponent<ShopItem>();
+                
                 if (shopItem.CanBuy(GetComponent<Item>()))
                 {
                     TapFirst();
@@ -220,22 +220,38 @@ public abstract class Item : MonoBehaviour
             image.color = imageColor;
             if (shopItem != null)
             {
-                shopItem.BuyItem(gameObject.GetComponent<Item>());
+                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1)
+                {
+                    shopItem.BuyItem(gameObject.GetComponent<Item>());
+
+                    ExtendedCorrectPosition();
+                    ChangeColorToDefault();
+                    careHits.Clear();
+                    canShowDescription = true;
+
+                    needToRotateToStartRotation = false;
+                    if (animator != null) animator.Play("ItemClickOff");
+                }
+            }
+            else
+            {
+                ExtendedCorrectPosition();
+                ChangeColorToDefault();
+                careHits.Clear();
+                canShowDescription = true;
+
+                needToRotateToStartRotation = false;
+                if (animator != null) animator.Play("ItemClickOff");
             }
 
             if (isSellChest)
             {
                 SellItem();
             }
-            ExtendedCorrectPosition();
-            ChangeColorToDefault();
+            
 
 
-            careHits.Clear();
-            canShowDescription = true;
-
-            needToRotateToStartRotation = false;
-            if (animator != null) animator.Play("ItemClickOff");
+           
         }
 
         // Заканчиваем перетаскивание
@@ -501,6 +517,9 @@ public abstract class Item : MonoBehaviour
         if (firstTap)
         {
             firstTap = false;
+            shopItem = GetComponent<ShopItem>();
+            if (shopItem != null)
+                shopItemStartPosition = shopItem.transform.position;
             rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
     }
