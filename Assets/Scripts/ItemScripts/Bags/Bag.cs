@@ -391,10 +391,15 @@ public class Bag : Item
         }
         DisableBackpackCells();
         ClearParentForChild();
-        //SetOrderLayerPriority("Bag", "Weapon", 1);
+        SetOrderLayerPriority("Bag", "Weapon", 1);
         careHits.Clear();
         canShowDescription = true;
+        
     }
+
+    //var armor1 = -30;
+    //Debug.Log(armor1)
+    //-30 * 0.06 / 1 - (-30 * 0.06) = 
 
 
 
