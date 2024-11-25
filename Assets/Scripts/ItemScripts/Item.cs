@@ -161,7 +161,7 @@ public abstract class Item : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             lastItemPosition = gameObject.transform.position;
-            if (shopItem != null)
+            if (shopItem != null)//покупка
             {
                 
                 if (shopItem.CanBuy(GetComponent<Item>()))
@@ -170,7 +170,7 @@ public abstract class Item : MonoBehaviour
                     TapRotate();
                     DeleteNestedObject();
                     //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                    //ChangeShowStars(true);
+                    ChangeShowStars(true);
                     canShowDescription = false;
 
                     // Начинаем перетаскивание
@@ -191,7 +191,7 @@ public abstract class Item : MonoBehaviour
                 TapRotate();
                 DeleteNestedObject();
                 //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
-                //ChangeShowStars(true);
+                ChangeShowStars(true);
                 canShowDescription = false;
 
 
@@ -281,7 +281,13 @@ public abstract class Item : MonoBehaviour
     }
 
 
-
+    public void ChangeShowStars(bool enabled)
+    {
+        foreach(var star in stars)
+        {
+            star.gameObject.SetActive(enabled);
+        }
+    }
     public virtual bool CorrectEndPoint()
     {
 
@@ -794,6 +800,7 @@ public abstract class Item : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
+            ChangeShowStars(true);
             if (canShowDescription)
             {
                 if (!showCanvasBefore)
@@ -841,7 +848,7 @@ public abstract class Item : MonoBehaviour
             }
             //Debug.Log(Description.gameObject.name + " ItemAiming");
             Exit = true;
-            //ChangeShowStars(false);
+            ChangeShowStars(false);
             // Debug.Log("������ ������");
             if (canShowDescription && CanvasDescription != null)
             {
