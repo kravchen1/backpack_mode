@@ -12,7 +12,7 @@ public class CurseSword1Hand : MeleeWeapon
     public float burningDamage = 5f;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "gloves");
+        FillnestedObjectStarsStars(256, "RareWeapon");
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {

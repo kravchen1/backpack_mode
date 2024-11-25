@@ -143,9 +143,10 @@ public abstract class Item : MonoBehaviour
         itemColliders.Clear();
         for (int i = 0; i < collidersArray.Count(); i++)
         {
-            itemColliders.Add(collidersArray[i]);
+            if(!collidersArray[i].name.Contains("Star"))
+                itemColliders.Add(collidersArray[i]);
         }
-        colliderCount = collidersArray.Count();
+        colliderCount = itemColliders.Count();
     }
 
     private Vector3 shopItemStartPosition;
@@ -206,7 +207,7 @@ public abstract class Item : MonoBehaviour
     public virtual void OnMouseUp()
     {
         if (animator != null)
-            animator.Play("ItemClickOff");
+            animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();
@@ -220,7 +221,7 @@ public abstract class Item : MonoBehaviour
             image.color = imageColor;
             if (shopItem != null)
             {
-                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1)
+                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1 || Math.Abs(GetMouseWorldPosition().y - shopItemStartPosition.y) > 1)
                 {
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
 
@@ -276,6 +277,7 @@ public abstract class Item : MonoBehaviour
         OnImpulse();
         RotationToStartRotation();
         CoolDownStatic();
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
 
 
@@ -550,8 +552,6 @@ public abstract class Item : MonoBehaviour
     }
     public void RotationToStartRotation()
     {
-        // Debug.Log(needToRotateToStartRotation);
-        // Debug.Log(rectTransform.eulerAngles.z);
         if (needToRotateToStartRotation)
         {
             if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
@@ -585,15 +585,12 @@ public abstract class Item : MonoBehaviour
 
             var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
 
-            //Debug.Log(screenHeightInWorldUnits.ToString() + "_" + Screen.height.ToString());
 
             //rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
             rb.mass = 0.2f;
             rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
             rb.AddTorque(15);
             // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
-            // Debug.Log(Input.GetAxis("Mouse X"));
-            //Debug.Log(Input.GetAxis("Mouse Y"));
         }
     }
     public void SwitchDynamicStatic()
@@ -737,6 +734,8 @@ public abstract class Item : MonoBehaviour
                 if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
                     careHitsForBackpack.Add(new RaycastStructure(hit));//�������
+                    hit.collider.GetComponent<SpriteRenderer>().color = Color.yellow;
+                    hit.collider.GetComponent<SpriteRenderer>().enabled = true;
                 }
             }
         }
@@ -767,6 +766,8 @@ public abstract class Item : MonoBehaviour
                 if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount)
                 {
                     Carehit.isDeleted = true;
+                    Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                    Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().enabled = false;
                 }
             }
         }
@@ -778,6 +779,7 @@ public abstract class Item : MonoBehaviour
         hits.Clear();
         hitsForBackpack.Clear();
         hitsForBackpack = CreateRaycastForSellChest(128);//ToDo
+
         hits = CreateRaycast(256);
         hitSellChest.Clear();
         hitSellChest = CreateRaycastForSellChest(32768);
@@ -859,7 +861,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void Activation()
     {
-        Debug.Log("��������� " + this.name);
+        //Debug.Log("��������� " + this.name);
     }
     public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
     {
@@ -901,7 +903,7 @@ public abstract class Item : MonoBehaviour
         if (timerStatic_locked_out == true)
         {
             timerStatic -= Time.deltaTime;
-            Debug.Log(gameObject.name + " " + timerStatic.ToString());
+            //Debug.Log(gameObject.name + " " + timerStatic.ToString());
             if (timerStatic <= 0)
             {
                 timerStatic = timer_cooldownStatic;

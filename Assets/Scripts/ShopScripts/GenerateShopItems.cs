@@ -33,7 +33,8 @@ public class GenerateShopItems : MonoBehaviour
         placeForItemCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
         LoadChestItems("RAREWEAPON");
-        LoadChestItems("STARTBAG");
+        LoadChestItems("BAG");
+        //LoadChestItems("STARTBAG");
 
 
 

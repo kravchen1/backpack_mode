@@ -218,6 +218,10 @@ public class Bag : Item
         OnImpulse();
         RotationToStartRotation();
     }
+
+
+
+
     public override bool CorrectEndPoint()
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
@@ -250,12 +254,33 @@ public class Bag : Item
                 }
                 rectTransform.SetParent(bagTransform);
                 gameObject.transform.SetAsFirstSibling();
-                var offset = new Vector2(itemColliders[0].size.x, -itemColliders[0].size.y);
+                Vector2 offset;
+                //offset = calculateOffset(itemColliders);
+                if (itemColliders.Count == 4)
+                    offset = new Vector2(itemColliders[0].size.x / 2, -itemColliders[0].size.y / 2);
+                else if (itemColliders.Count == 9)
+                    offset = new Vector2(itemColliders[0].size.x, -itemColliders[0].size.y);
+                else if (itemColliders.Count == 2)
+                {
+                    if (rectTransform.eulerAngles.z == 90f || rectTransform.eulerAngles.z == 270f)
+                    {
+                        offset = new Vector2(0, -itemColliders[0].size.y / 2);
+                    }
+                    else
+                    {
+                        offset = new Vector2(itemColliders[0].size.x / 2, 0);
+                    }
+                }
+                else
+                {
+                    offset = new Vector2(0, 0);
+                }
+
                 rectTransform.localPosition = offset + colliderPos;
                 needToDynamic = false;
-                //Debug.Log("offset: " + offset.ToString());
-                //Debug.Log("colliderPos: " + colliderPos.ToString());
-                //Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
+                Debug.Log("offset: " + offset.ToString());
+                Debug.Log("colliderPos: " + colliderPos.ToString());
+                Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
                 foreach (var careHit in careHits)
                 {
                     careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
@@ -418,7 +443,7 @@ public class Bag : Item
             //ItemInGameObject("backpack", gameObjects);
             if (shopItem != null)
             {
-                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1)
+                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1 || Math.Abs(GetMouseWorldPosition().y - shopItemStartPosition.y) > 1)
                 {
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
                     EndDrag();
