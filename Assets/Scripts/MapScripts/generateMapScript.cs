@@ -312,31 +312,31 @@ public class generateMapScript : Map
                         //    break;
                         default:
                             randomBattlePoint = Random.Range(1, 5);
-                            generateTile(fountainPrefab, newCarePoint);
-                            tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
-                            //switch(randomBattlePoint)
-                            //{
-                            //    case 1:
-                            //        generateTile(battlePoint1, newCarePoint);
-                            //        tiles.Add(new Tile(battlePoint1.name, newCarePoint));
-                            //        break;
-                            //    case 2:
-                            //        generateTile(battlePoint2, newCarePoint);
-                            //        tiles.Add(new Tile(battlePoint2.name, newCarePoint));
-                            //        break;
-                            //    case 3:
-                            //        generateTile(battlePoint3, newCarePoint);
-                            //        tiles.Add(new Tile(battlePoint3.name, newCarePoint));
-                            //        break;
-                            //    case 4:
-                            //        generateTile(battlePoint4, newCarePoint);
-                            //        tiles.Add(new Tile(battlePoint4.name, newCarePoint));
-                            //        break;
-                            //    //case 5:
-                            //    //    generateTile(battlePoint5, newCarePoint);
-                            //    //    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
-                            //    //    break;
-                            //}
+                            //generateTile(fountainPrefab, newCarePoint);
+                            //tiles.Add(new Tile(fountainPrefab.name, newCarePoint));
+                            switch (randomBattlePoint)
+                            {
+                                case 1:
+                                    generateTile(battlePoint1, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint1.name, newCarePoint));
+                                    break;
+                                case 2:
+                                    generateTile(battlePoint2, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint2.name, newCarePoint));
+                                    break;
+                                case 3:
+                                    generateTile(battlePoint3, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint3.name, newCarePoint));
+                                    break;
+                                case 4:
+                                    generateTile(battlePoint4, newCarePoint);
+                                    tiles.Add(new Tile(battlePoint4.name, newCarePoint));
+                                    break;
+                                    //case 5:
+                                    //    generateTile(battlePoint5, newCarePoint);
+                                    //    tiles.Add(new Tile(battlePoint5.name, newCarePoint));
+                                    //    break;
+                            }
                             break;
                             
                     }

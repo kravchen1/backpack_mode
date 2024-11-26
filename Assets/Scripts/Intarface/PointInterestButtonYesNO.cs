@@ -48,7 +48,7 @@ public class PointInterestButtonYesNO : Button
             Time.timeScale = 0f;
             map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
             characterStats.playerTime += 2f;
-            map.SaveData("Assets/Saves/mapData.json");
+            //map.SaveData("Assets/Saves/mapData.json");
             characterStats.SaveData();
             //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
             PlayerPrefs.SetString("enemyName", pointInterestCollision.gameObject.name.Replace("(Clone)", ""));

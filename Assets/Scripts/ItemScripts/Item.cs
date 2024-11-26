@@ -152,14 +152,13 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
-        if (animator != null)
-            animator.Play("ItemClick");
-        IgnoreCollisionObject(true);
-        needToDynamic = true;
-
-
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
+            if (animator != null)
+                animator.Play("ItemClick");
+            IgnoreCollisionObject(true);
+            needToDynamic = true;
+
             lastItemPosition = gameObject.transform.position;
             if (shopItem != null)//покупка
             {
@@ -201,7 +200,6 @@ public abstract class Item : MonoBehaviour
                 offset = transform.position - GetMouseWorldPosition();
             }
         }
-
     }
 
     public virtual void OnMouseUp()
