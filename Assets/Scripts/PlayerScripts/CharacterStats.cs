@@ -126,15 +126,12 @@ public class CharacterStats : MonoBehaviour
 
     private void Update()
     {
-        if (hpText != null)
-        {
-            hpText.text = playerHP.ToString();
-        }
-        lvlText.text = playerLvl.ToString();
-        coinsText.text = playerCoins.ToString();
-        expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
+        if (hpText != null) hpText.text = playerHP.ToString();
+        if(lvlText != null) lvlText.text = playerLvl.ToString();
+        if (coinsText != null) coinsText.text = playerCoins.ToString();
+        if (expText != null) expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
         //Debug.Log(playerExp.ToString() + " / " + requiredExp.ToString());
-        expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
-        hpBar.GetComponent<Image>().fillAmount = playerHP / playerMaxHp;
+        if(expBar != null) expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
+        if (hpBar != null) hpBar.GetComponent<Image>().fillAmount = playerHP / playerMaxHp;
     }
 }

@@ -42,8 +42,8 @@ public abstract class Item : MonoBehaviour
     public string prefabOriginalName;
 
 
-    public Canvas Description;
-    private Canvas CanvasDescription;
+    public GameObject Description;
+    private GameObject CanvasDescription;
     private bool showCanvasBefore = false;
     protected bool canShowDescription = true;
     private bool Exit = false;
@@ -78,8 +78,11 @@ public abstract class Item : MonoBehaviour
     public bool needToDynamic = false;
     public bool needToRotateToStartRotation = false;
 
-    protected PlayerBackpackBattle Player;
+    protected PlayerBackpackBattle Player;  
     protected PlayerBackpackBattle Enemy;
+    protected GameObject placeForDescription;    
+
+
     public Animator animator;
     Animator sellChestAnimator;
     public bool Impulse = false;
@@ -126,12 +129,14 @@ public abstract class Item : MonoBehaviour
         {
             if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
             {
+                placeForDescription = GameObject.FindWithTag("DescriptionPlace");
                 Player = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
                 Enemy = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
             }
 
             if (gameObject.transform.parent.name == GameObject.Find("backpackEnemy").transform.name)
             {
+                placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
                 Player = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
                 Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
             }
@@ -804,17 +809,17 @@ public abstract class Item : MonoBehaviour
                 if (!showCanvasBefore)
                 {
                     showCanvasBefore = true;
-                    CanvasDescription = Instantiate(Description, GameObject.Find("Canvas").GetComponent<RectTransform>().transform);
+                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                     //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
                 }
                 else
                 {
-                    CanvasDescription.enabled = true;
-                    var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-                    if (starsDesctiprion != null)
-                    {
-                        starsDesctiprion.enabled = false;
-                    }
+                    CanvasDescription.SetActive(true);
+                    //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
+                    //if (starsDesctiprion != null)
+                    //{
+                    //    starsDesctiprion.enabled = true;
+                    //}
                 }
             }
         }
@@ -850,12 +855,12 @@ public abstract class Item : MonoBehaviour
             // Debug.Log("������ ������");
             if (canShowDescription && CanvasDescription != null)
             {
-                CanvasDescription.enabled = false;
-                var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-                if (starsDesctiprion != null)
-                {
-                    starsDesctiprion.enabled = false;
-                }
+                CanvasDescription.SetActive(false);
+                //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
+                //if (starsDesctiprion != null)
+                //{
+                //    starsDesctiprion.enabled = false;
+                //}
             }
         }
     }
