@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class FuckSword : MeleeWeapon
+public class FuckSword : Weapon
 {
     private void Start()
     {

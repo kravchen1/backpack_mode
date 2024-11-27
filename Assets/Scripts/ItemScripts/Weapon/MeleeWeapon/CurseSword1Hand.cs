@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CurseSword1Hand : MeleeWeapon
+public class CurseSword1Hand : Weapon
 {
     private float timer1sec = 1f;
     public float burningDamage = 5f;

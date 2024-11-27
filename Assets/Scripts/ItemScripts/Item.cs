@@ -263,7 +263,7 @@ public abstract class Item : MonoBehaviour
         isDragging = false;
     }
 
-    public virtual void Update()
+    public void defaultItemUpdate()
     {
         if (isDragging)
         {
@@ -281,6 +281,10 @@ public abstract class Item : MonoBehaviour
         RotationToStartRotation();
         CoolDownStatic();
         FillnestedObjectStarsStars(512, "RareWeapon");
+    }
+    public virtual void Update()
+    {
+        defaultItemUpdate();
     }
 
 
@@ -873,6 +877,11 @@ public abstract class Item : MonoBehaviour
     {
         //Debug.Log("��������� " + this.name);
     }
+    public virtual void StartActivation()
+    {
+        //Debug.Log("��������� " + this.name);
+    }
+
     public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
     {
         RaycastHit2D raycast;

@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CurseDoubleSword : MeleeWeapon
+public class CurseDoubleSword : Weapon
 {
     private float timer1sec = 1f;
     public float burningDamage = 25f;

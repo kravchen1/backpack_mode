@@ -201,7 +201,8 @@ public class Bag : Item
                 collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
     }
-    public override void Update()
+
+    public void BagDefauldUpdate()
     {
         if (isDragging)
         {
@@ -217,6 +218,10 @@ public class Bag : Item
         SwitchDynamicStatic();
         OnImpulse();
         RotationToStartRotation();
+    }
+    public override void Update()
+    {
+        BagDefauldUpdate();
     }
 
 

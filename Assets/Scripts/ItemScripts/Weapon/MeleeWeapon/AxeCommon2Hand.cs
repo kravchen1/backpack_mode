@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AxeCommon2Hand : MeleeWeapon
+public class AxeCommon2Hand : Weapon
 {
     private void Start()
     {
