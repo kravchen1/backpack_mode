@@ -4,14 +4,14 @@ using System.Linq;
 
 public class MenuFightIconData
 {
-    public GameObject iconType;
+    public GameObject icon;
     public int countStack;
 
     public GameObject sceneGameObjectIcon;
 
-    public MenuFightIconData(GameObject iconType, int countStack)
+    public MenuFightIconData(GameObject icon, int countStack)
     {
-        this.iconType = iconType;
+        this.icon = icon;
         this.countStack = countStack;
     }
 }
