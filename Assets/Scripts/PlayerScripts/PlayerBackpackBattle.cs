@@ -12,6 +12,7 @@ public class PlayerBackpackBattle : MonoBehaviour
     public GameObject hpBar;
     public GameObject staminaBar;
     public GameObject expBar;
+    public GameObject menuFightIcon;
 
 
     public float armor = 0f;
@@ -42,7 +43,8 @@ public class PlayerBackpackBattle : MonoBehaviour
 
     private string characterStatsDataFilePath;
     private CharacterStatsData characterStatsData;
-    void Start()
+    public FightMenuBuffAndDebuffs menuFightIconData;
+    void Awake()
     {
         InitializeData();
     }
@@ -59,7 +61,7 @@ public class PlayerBackpackBattle : MonoBehaviour
         textBarStamina = staminaBar.GetComponentsInChildren<Text>();
         textBarArmor = armorBar.GetComponentsInChildren<Text>();
 
-
+        menuFightIconData = menuFightIcon.GetComponent<FightMenuBuffAndDebuffs>();
 
         switch (gameObject.name)
         {

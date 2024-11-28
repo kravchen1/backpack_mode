@@ -11,9 +11,14 @@ using System;
 
 public class StartFireBag : Bag
 {
+    public int countBurnStack = 1;
     public override void Activation()
     {
-        base.Activation();
+        if (Player != null)
+        {
+            Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
+            Debug.Log("сумка огня наложила 1 ожёг");
+        }
     }
 
     public override void Update()

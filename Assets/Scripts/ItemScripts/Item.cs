@@ -80,7 +80,7 @@ public abstract class Item : MonoBehaviour
 
     protected PlayerBackpackBattle Player;  
     protected PlayerBackpackBattle Enemy;
-    protected GameObject placeForDescription;    
+    protected GameObject placeForDescription;
 
 
     public Animator animator;
@@ -102,6 +102,8 @@ public abstract class Item : MonoBehaviour
     private float timer_cooldownStatic = 12.5f;
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
+
+    
 
     void Awake()
     {

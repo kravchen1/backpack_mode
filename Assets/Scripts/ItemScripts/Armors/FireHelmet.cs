@@ -5,18 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class FireBody : Armor
+public class FireHelmet : Armor
 {
+    public float timer_cooldown = 2.1f;
+    protected bool timer_locked_out = true;
+    public int countBurnStack = 2;
+
     private bool isUse = false;
     //private bool usable = false;
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            animator.enabled = true;
-            StartActivation();
-        }
-        
+        StartActivation();
     }
  
 
@@ -57,6 +56,22 @@ public class FireBody : Armor
     }
 
 
+
+
+    public void CoolDown()
+    {
+        if (timer_locked_out == true)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                timer = timer_cooldown;
+                timer_locked_out = false;
+            }
+        }
+    }
+
     public override void StartActivation()
     {
         if (!isUse)
@@ -66,7 +81,21 @@ public class FireBody : Armor
                 Player.armor = Player.armor + startBattleArmorCount;
                 Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
-                Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                Debug.Log("FireHelmet give " + startBattleArmorCount + " armor");
+                CheckNestedObjectActivation("StartBag");
+            }
+        }
+    }
+
+    public override void Activation()
+    {
+        if (timer_locked_out == false)
+        {
+            timer_locked_out = true;
+            if (Enemy != null)
+            {
+                Enemy.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
+                Debug.Log("шлем наложил 2 ожёга на врага");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -76,7 +105,8 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-           // Activation();
+            CoolDown();
+            Activation();
         }
 
         if (SceneManager.GetActiveScene().name == "BackPackShop")

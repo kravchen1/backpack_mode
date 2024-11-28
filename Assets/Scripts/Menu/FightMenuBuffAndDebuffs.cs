@@ -37,18 +37,18 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     {
         //placeGenerationIcons = GameObject.FindGameObjectWithTag("PlaceBuffPlayer");
         LoadPrefabs("ICON");
-        foreach (GameObject icon in generateIcons)
-        {
-            AddBuff(1, icon.name);
-        }
-        foreach (GameObject icon in generateIcons)
-        {
-            AddBuff(1, icon.name);
-        }
+        //foreach (GameObject icon in generateIcons)
+        //{
+        //    AddBuff(1, icon.name);
+        //}
+        //foreach (GameObject icon in generateIcons)
+        //{
+        //    AddBuff(1, icon.name);
+        //}
 
-        DeleteBuff(5, "IconFrost");
+        //DeleteBuff(5, "IconFrost");
 
-        DeleteBuff(1, "IconBleed");
+        //DeleteBuff(1, "IconBleed");
 
     }
 
