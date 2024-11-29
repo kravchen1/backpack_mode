@@ -15,9 +15,12 @@ public class FireHelmet : Armor
     //private bool usable = false;
     private void Start()
     {
-        animator.speed = 1f / 0.5f;
-        timer = timer_cooldown;
-        animator.Play(originalName + "Activation");
+        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        {
+            animator.speed = 1f / 0.5f;
+            timer = timer_cooldown;
+            animator.Play(originalName + "Activation");
+        }
     }
  
 
