@@ -15,52 +15,20 @@ public class FireHelmet : Armor
     //private bool usable = false;
     private void Start()
     {
-        StartActivation();
+        animator.speed = 1f / 0.5f;
+        timer = timer_cooldown;
+        animator.Play(originalName + "Activation");
     }
  
 
-    public void CheckNestedObjectActivation(string objectActivation)
-    {
-        var bags = GameObject.FindGameObjectsWithTag(objectActivation);
-        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
-        List<Bag> bagsWithFireBody = new List<Bag>();
-
-        foreach (var bag in bags)
-        {
-            var bagCells = bag.GetComponentsInChildren<Cell>();
-            bool find = false;
-            foreach (var cell in bagCells)
-            {
-                if (!find)
-                {
-                    if (cell.nestedObject = gameObject)
-                    {
-                        bagsWithFireBody.Add(bag.GetComponent<Bag>());
-                        find = true;
-                        continue;
-                    }
-                }
-            }
-            if (find)
-            {
-                find = false;
-                continue;
-            }
-
-        }
-
-        foreach(var bag in bagsWithFireBody)
-        {
-            bag.Activation();
-        }
-    }
+    
 
 
 
 
     public void CoolDown()
     {
-        if (timer_locked_out == true)
+        if (!timer_locked_outStart && timer_locked_out == true)
         {
             timer -= Time.deltaTime;
 
@@ -71,6 +39,8 @@ public class FireHelmet : Armor
             }
         }
     }
+
+
 
     public override void StartActivation()
     {
@@ -89,7 +59,7 @@ public class FireHelmet : Armor
 
     public override void Activation()
     {
-        if (timer_locked_out == false)
+        if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
             if (Enemy != null)
@@ -101,10 +71,25 @@ public class FireHelmet : Armor
         }
     }
 
+    private void CoolDownStart()
+    {
+        if (timer_locked_outStart)
+        {
+            timerStart -= Time.deltaTime;
+
+            if (timerStart <= 0)
+            {
+                timer_locked_outStart = false;
+                animator.speed =  1f / timer_cooldown;
+                StartActivation();
+            }
+        }
+    }
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            CoolDownStart();
             CoolDown();
             Activation();
         }

@@ -103,7 +103,12 @@ public abstract class Item : MonoBehaviour
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
-    
+    public String originalName;
+
+
+
+    protected float timer_cooldownStart = 1f;
+    protected bool timer_locked_outStart = true;
 
     void Awake()
     {
@@ -171,8 +176,7 @@ public abstract class Item : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            if (animator != null)
-                animator.Play("ItemClick");
+            if (animator != null) animator.Play("ItemClick");
             IgnoreCollisionObject(true);
             needToDynamic = true;
 
@@ -221,8 +225,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
-        if (animator != null)
-            animator.Play("ItemAiming");
+        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();
@@ -247,10 +250,10 @@ public abstract class Item : MonoBehaviour
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
-                    if (animator != null) animator.Play("ItemClickOff");
+                    if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
                 }
                 canShowDescription = true;
-                if (animator != null) animator.Play("ItemClickOff");
+                if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
             }
             else
             {
@@ -260,7 +263,7 @@ public abstract class Item : MonoBehaviour
                 canShowDescription = true;
 
                 needToRotateToStartRotation = false;
-                if (animator != null) animator.Play("ItemClickOff");
+                if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
             }
             if (isSellChest)
             {
@@ -863,8 +866,7 @@ public abstract class Item : MonoBehaviour
         if (!isDragging)
         {
             // Код, который выполнится при наведении курсора на коллайдер
-            if (animator != null)
-                animator.Play("ItemAiming");
+            if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
             Exit = false;
             StartCoroutine(ShowDescription());
         }
@@ -875,14 +877,15 @@ public abstract class Item : MonoBehaviour
         if (!isDragging)
         {
             //Debug.Log(Description.gameObject.name + "�����");
-            if (animator != null)
-            {
-                animator.Play("ItemAimingOff");
-                if (GetComponent<AnimationStart>() != null)
+            if (SceneManager.GetActiveScene().name == "BackPackShop")
+                if (animator != null)
                 {
-                    GetComponent<AnimationStart>().Play();
+                    animator.Play("ItemAimingOff");
+                    if (GetComponent<AnimationStart>() != null)
+                    {
+                        GetComponent<AnimationStart>().Play();
+                    }
                 }
-            }
             //Debug.Log(Description.gameObject.name + " ItemAiming");
             Exit = true;
             ChangeShowStars(false);
@@ -902,7 +905,10 @@ public abstract class Item : MonoBehaviour
 
 
 
-
+    public virtual void StarActivation()
+    {
+        //Debug.Log("��������� " + this.name);
+    }
 
     public virtual void Activation()
     {
@@ -972,4 +978,7 @@ public abstract class Item : MonoBehaviour
             }
         }
     }
+
+
+    protected float timerStart = 0.5f;
 }

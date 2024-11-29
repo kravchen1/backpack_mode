@@ -88,8 +88,7 @@ public class Bag : Item
 
     public override void OnMouseDown()
     {
-        if (animator != null)
-            animator.Play("ItemClick");
+        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClick");
         IgnoreCollisionObject(true);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
@@ -435,8 +434,7 @@ public class Bag : Item
 
     public override void OnMouseUp()
     {
-        if (animator != null)
-            animator.Play("ItemClickOff");
+        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();

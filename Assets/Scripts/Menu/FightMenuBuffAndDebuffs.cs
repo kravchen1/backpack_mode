@@ -11,7 +11,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
     public List<GameObject> generateIcons;
     private GameObject[] prefabs;
-    private List<Icon> icons = new List<Icon>();
+    public List<Icon> icons = new List<Icon>();
 
     public GameObject placeGenerationIcons;
 

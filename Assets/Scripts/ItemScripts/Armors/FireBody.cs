@@ -8,54 +8,18 @@ using static UnityEngine.Rendering.DebugUI;
 public class FireBody : Armor
 {
     private bool isUse = false;
-    //private bool usable = false;
+    public int DamageForStack = 5;
+    public int SpendStack = 1;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            animator.enabled = true;
-            StartActivation();
+            animator.speed = 1f / 0.5f;
+            animator.Play(originalName + "Activation");
         }
         
     }
  
-
-    public void CheckNestedObjectActivation(string objectActivation)
-    {
-        var bags = GameObject.FindGameObjectsWithTag(objectActivation);
-        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
-        List<Bag> bagsWithFireBody = new List<Bag>();
-
-        foreach (var bag in bags)
-        {
-            var bagCells = bag.GetComponentsInChildren<Cell>();
-            bool find = false;
-            foreach (var cell in bagCells)
-            {
-                if (!find)
-                {
-                    if (cell.nestedObject = gameObject)
-                    {
-                        bagsWithFireBody.Add(bag.GetComponent<Bag>());
-                        find = true;
-                        continue;
-                    }
-                }
-            }
-            if (find)
-            {
-                find = false;
-                continue;
-            }
-
-        }
-
-        foreach(var bag in bagsWithFireBody)
-        {
-            bag.Activation();
-        }
-    }
-
 
     public override void StartActivation()
     {
@@ -72,12 +36,46 @@ public class FireBody : Armor
         }
     }
 
+    public override void StarActivation()
+    {
+        //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
+        if (Player != null && Enemy != null)
+        {
+            if (Player.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+            {
+                foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+                {
+                    if(icon.countStack >= SpendStack)
+                    {
+                        Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
+                        Enemy.hp -= DamageForStack;
+                        Debug.Log("FiryBody сняла 1 ожёг и нанесла 5 урона");
+                    }
+                }
+            }
+        }
+    }
+    private void CoolDownStart()
+    {
+        if (timer_locked_outStart)
+        {
+            timerStart -= Time.deltaTime;
+
+            if (timerStart <= 0)
+            {
+                timer_locked_outStart = false;
+                //animator.speed = 1f / timer_cooldown;
+                StartActivation();
+                animator.Play("New State");
+            }
+        }
+    }
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             FillnestedObjectStarsStars(512, "RareWeapon");
-            // Activation();
+            CoolDownStart();
         }
 
         if (SceneManager.GetActiveScene().name == "BackPackShop")

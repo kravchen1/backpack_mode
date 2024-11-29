@@ -12,7 +12,7 @@ using System;
 public class StartFireBag : Bag
 {
     public int countBurnStack = 1;
-    public override void Activation()
+    public override void StarActivation()
     {
         if (Player != null)
         {
