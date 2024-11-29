@@ -315,7 +315,7 @@ public abstract class Item : MonoBehaviour
     {
         foreach(var star in stars)
         {
-            star.gameObject.SetActive(enabled);
+            star.gameObject.GetComponent<SpriteRenderer>().enabled = enabled;//SetActive(enabled);
         }
     }
     public virtual bool CorrectEndPoint()

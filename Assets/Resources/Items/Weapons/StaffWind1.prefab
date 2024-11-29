@@ -641,7 +641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22, y: 0.285}
   m_AnchorMax: {x: 0.33, y: 0.855}
-  m_AnchoredPosition: {x: 5.800003, y: 0}
+  m_AnchoredPosition: {x: 5.799988, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2041863882082912716
@@ -819,6 +819,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  originalName: 
   attackMin: 7
   attackMax: 15
   stamina: 10
@@ -1037,7 +1038,7 @@ GameObject:
   - component: {fileID: 632248182468603198}
   m_Layer: 11
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: StarActivation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1068,7 +1069,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4011511880297256031}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1132,7 +1133,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
