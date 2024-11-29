@@ -105,7 +105,6 @@ public class Bag : Item
                     TapShowBackPack();
                     DeleteNestedObject();
                     canShowDescription = false;
-
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
@@ -212,6 +211,7 @@ public class Bag : Item
                 RaycastEvent();
                 ChangeColorMyCells();
                 SellChest();
+                DeleteAllDescriptions();
             }
         }
         Rotate();
@@ -452,6 +452,7 @@ public class Bag : Item
                 {
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
                     EndDrag();
+                    placeForDescription = GameObject.FindWithTag("DescriptionPlace");
                 }
             }
             else
@@ -469,6 +470,7 @@ public class Bag : Item
             ChangeColorToDefault();
             // Заканчиваем перетаскивание
             isDragging = false;
+            StartCoroutine(ShowDescription());
         }
 
 

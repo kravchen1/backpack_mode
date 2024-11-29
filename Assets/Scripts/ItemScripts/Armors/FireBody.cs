@@ -76,7 +76,8 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-           // Activation();
+            FillnestedObjectStarsStars(512, "RareWeapon");
+            // Activation();
         }
 
         if (SceneManager.GetActiveScene().name == "BackPackShop")

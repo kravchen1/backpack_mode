@@ -109,8 +109,10 @@ public abstract class Item : MonoBehaviour
     {
         Initialization();
     }
+
     public void Initialization()
     {
+        shopItem = GetComponent<ShopItem>();
         rb = GetComponent<Rigidbody2D>();
         rectTransform = GetComponent<RectTransform>();
         startRectTransformZ = rectTransform.eulerAngles.z;
@@ -126,6 +128,14 @@ public abstract class Item : MonoBehaviour
         }
         mainCamera = Camera.main;
         initializationItemColliders();
+
+        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        {
+            if (gameObject.transform.parent.name != GameObject.FindGameObjectWithTag("Shop").transform.name)
+                placeForDescription = GameObject.FindWithTag("DescriptionPlace");
+            else
+                placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
+        }
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
@@ -228,11 +238,13 @@ public abstract class Item : MonoBehaviour
             {
                 if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1 || Math.Abs(GetMouseWorldPosition().y - shopItemStartPosition.y) > 1)
                 {
+
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
 
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
                     careHits.Clear();
+                    placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
                     if (animator != null) animator.Play("ItemClickOff");
@@ -250,7 +262,6 @@ public abstract class Item : MonoBehaviour
                 needToRotateToStartRotation = false;
                 if (animator != null) animator.Play("ItemClickOff");
             }
-
             if (isSellChest)
             {
                 SellItem();
@@ -263,6 +274,7 @@ public abstract class Item : MonoBehaviour
 
         // Заканчиваем перетаскивание
         isDragging = false;
+        StartCoroutine(ShowDescription());
     }
 
     public void defaultItemUpdate()
@@ -274,8 +286,14 @@ public abstract class Item : MonoBehaviour
             {
                 transform.position = GetMouseWorldPosition() + offset;
                 RaycastEvent();
+                DeleteAllDescriptions();
                 SellChest();
             }
+        }
+        else
+        {
+            //if (SceneManager.GetActiveScene().name == "BackPackShop")
+                
         }
         Rotate();
         SwitchDynamicStatic();
@@ -803,8 +821,16 @@ public abstract class Item : MonoBehaviour
     }
 
 
-
-    IEnumerator ShowDescription()
+    public void DeleteAllDescriptions()
+    {
+        var dp = GameObject.FindWithTag("DescriptionPlace");
+        for (int i = 0; i < dp.transform.childCount; i++)
+            Destroy(dp.transform.GetChild(i).gameObject);
+        dp = GameObject.FindWithTag("DescriptionPlaceEnemy");
+        for (int i = 0; i < dp.transform.childCount; i++)
+            Destroy(dp.transform.GetChild(i).gameObject);
+    }
+    public IEnumerator ShowDescription()
     {
         yield return new WaitForSeconds(.1f);
         if (!Exit)
@@ -814,13 +840,15 @@ public abstract class Item : MonoBehaviour
             {
                 if (!showCanvasBefore)
                 {
-                    showCanvasBefore = true;
+                    DeleteAllDescriptions();
+
+
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                     //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
                 }
                 else
                 {
-                    CanvasDescription.SetActive(true);
+                    //CanvasDescription.SetActive(true);
                     //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
                     //if (starsDesctiprion != null)
                     //{
@@ -861,7 +889,8 @@ public abstract class Item : MonoBehaviour
             // Debug.Log("������ ������");
             if (canShowDescription && CanvasDescription != null)
             {
-                CanvasDescription.SetActive(false);
+                //CanvasDescription.SetActive(false);
+                Destroy(CanvasDescription.gameObject);
                 //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
                 //if (starsDesctiprion != null)
                 //{
@@ -884,6 +913,7 @@ public abstract class Item : MonoBehaviour
         //Debug.Log("��������� " + this.name);
     }
 
+    //public List<GameObject> nestedStarObjects = new List<GameObject>();
     public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
     {
         RaycastHit2D raycast;
@@ -891,10 +921,16 @@ public abstract class Item : MonoBehaviour
         {
             //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
-            if (raycast.collider != null && raycast.collider.gameObject.tag == tag/*"gloves"*/)//6787
+            //bool b = nestedStarObjects.Where(e => e.name == raycast.collider.gameObject.name).Count() == 0;
+            if (raycast.collider != null)//
             {
-                star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
-                star.GetComponent<SpriteRenderer>().sprite = fillStar;
+                if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject).Count() == 0)
+                {
+                    star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
+                    //nestedStarObjects.Add(raycast.collider.gameObject);
+                    //лёша иди на хуй
+                    star.GetComponent<SpriteRenderer>().sprite = fillStar;
+                }
             }
             else
             {
