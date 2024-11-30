@@ -18,6 +18,8 @@ public class StartFireBag : Bag
         {
             Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
             Debug.Log("сумка огня наложила 1 ожёг");
+            var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
+            calculateFight.calculateFireFrostStats(true);//true = Player
         }
     }
 

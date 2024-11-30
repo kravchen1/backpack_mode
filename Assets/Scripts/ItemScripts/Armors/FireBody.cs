@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -9,7 +10,7 @@ public class FireBody : Armor
 {
     private bool isUse = false;
     public int DamageForStack = 5;
-    public int SpendStack = 1;
+    public int SpendStack = 2;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -43,18 +44,31 @@ public class FireBody : Armor
         {
             if (Player.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
             {
+                bool b = false;
                 foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
                 {
                     if(icon.countStack >= SpendStack)
                     {
-                        Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
+                        //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
+                        b = true;
                         Enemy.hp -= DamageForStack;
-                        Debug.Log("FiryBody сняла 1 ожёг и нанесла 5 урона");
+                        Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
+                        animator.SetTrigger(originalName + "StarActivation");
+                        //animator.Play("New State");
+                        animator.Play(originalName + "Activation2", 0, 0f);
+                        //animator.StartPlayback
                     }
+                }
+                if(b)
+                {
+                    Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
+                    var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
+                    calculateFight.calculateFireStats(true);//true = Player
                 }
             }
         }
     }
+
     private void CoolDownStart()
     {
         if (timer_locked_outStart)
@@ -83,5 +97,7 @@ public class FireBody : Armor
             defaultItemUpdate();
         }
     }
-    
+
+
+
 }

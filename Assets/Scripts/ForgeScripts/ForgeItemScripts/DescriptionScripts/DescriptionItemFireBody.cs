@@ -5,7 +5,7 @@ using UnityEngine;
 public class DescriptionItemFireBody : DescriptionItem
 {
     public int DamageForStack = 5;
-    public int SpendStack = 1;
+    public int SpendStack = 2;
     public void SetTextBody()
     {
         string text = "start battle: give <u>" + Armor.ToString() + "</u>\r\n\r\nfire items      activate:  will spend <u>" 

@@ -34,19 +34,19 @@ public abstract class Item : MonoBehaviour
 
     public float startRectTransformZ;
 
-    public SpriteRenderer image;
-    public Canvas canvas;
+    [HideInInspector] public SpriteRenderer image;
+    [HideInInspector] public Canvas canvas;
 
     //protected CanvasGroup canvasGroup;
-    public Color imageColor;
+    [HideInInspector] public Color imageColor;
     public string prefabOriginalName;
 
 
     public GameObject Description;
-    private GameObject CanvasDescription;
+    [HideInInspector]  public GameObject CanvasDescription;
     private bool showCanvasBefore = false;
     protected bool canShowDescription = true;
-    private bool Exit = false;
+    [HideInInspector] public bool Exit = false;
     public float rbMass = 0.1f;
 
 
@@ -833,7 +833,7 @@ public abstract class Item : MonoBehaviour
         for (int i = 0; i < dp.transform.childCount; i++)
             Destroy(dp.transform.GetChild(i).gameObject);
     }
-    public IEnumerator ShowDescription()
+    public virtual IEnumerator ShowDescription()
     {
         yield return new WaitForSeconds(.1f);
         if (!Exit)
@@ -981,4 +981,6 @@ public abstract class Item : MonoBehaviour
 
 
     protected float timerStart = 0.5f;
+    [HideInInspector] public float timer_cooldown = 0f;
+    public float baseTimerCooldown = 0f;
 }

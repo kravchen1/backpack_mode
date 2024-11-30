@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Armor : Item
@@ -39,6 +40,17 @@ public class Armor : Item
         foreach (var bag in bagsWithFireBody)
         {
             bag.StarActivation();
+        }
+    }
+
+    public void CheckNestedObjectStarActivation()
+    {
+        var stars = GameObject.FindGameObjectsWithTag("StarActivation").Where(e => e.GetComponent<Cell>().nestedObject = gameObject);
+        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
+        List<Bag> bagsWithFireBody = new List<Bag>();
+        foreach(var star in stars)
+        {
+            star.GetComponentInParent<Item>().StarActivation();
         }
     }
 }

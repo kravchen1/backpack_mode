@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -7,7 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class FireHelmet : Armor
 {
-    public float timer_cooldown = 2.1f;
+    //public float timer_cooldown = 2.1f;
     protected bool timer_locked_out = true;
     public int countBurnStack = 2;
 
@@ -65,11 +66,15 @@ public class FireHelmet : Armor
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
-            if (Enemy != null)
+            if (Player != null)
             {
-                Enemy.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
-                Debug.Log("шлем наложил 2 ожёга на врага");
+                Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
+                Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
                 CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation();
+                var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
+                calculateFight.calculateFireFrostStats(true);//true = Player
+                animator.speed = 1f / timer_cooldown;
             }
         }
     }
@@ -102,5 +107,23 @@ public class FireHelmet : Armor
             defaultItemUpdate();
         }
     }
-    
+
+
+
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSeconds(.1f);
+        if (!Exit)
+        {
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                    DeleteAllDescriptions();
+                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                    CanvasDescription.GetComponent<DescriptionItemFireHelmet>().cooldown = timer_cooldown;
+                    CanvasDescription.GetComponent<DescriptionItemFireHelmet>().countStack = countBurnStack;
+                    CanvasDescription.GetComponent<DescriptionItemFireHelmet>().SetTextBody();
+            }
+        }
+    }
 }

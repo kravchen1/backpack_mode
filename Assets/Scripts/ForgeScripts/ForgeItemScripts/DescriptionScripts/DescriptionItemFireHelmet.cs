@@ -5,10 +5,10 @@ using UnityEngine;
 public class DescriptionItemFireHelmet : DescriptionItem
 {
     public int countStack = 1;
-    public float coolDown = 2.1f;
+    //public float coolDown = 2.1f;
     public void SetTextBody()
     {
-        string text = "Every <u>" + coolDown.ToString() + "</u> sec: applies <u>" + countStack.ToString() + "</u>    on enemy ";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: applies <u>" + countStack.ToString() + "</u>    on enemy ";
         textBody.text = text;
     }
 
