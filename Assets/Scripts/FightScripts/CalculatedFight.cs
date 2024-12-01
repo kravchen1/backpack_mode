@@ -54,4 +54,20 @@ public class CalculatedFight : MonoBehaviour
             }
         }
     }
+
+    public void calculateTakeDamage()
+    {
+
+    }
+
+    public int calculateInflictDamage()
+    {
+        return 1;
+    }
+
+    public void calculateHeal()
+    {
+
+    }
+
 }

@@ -120,9 +120,11 @@ public class FireHelmet : Armor
             {
                     DeleteAllDescriptions();
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                    CanvasDescription.GetComponent<DescriptionItemFireHelmet>().cooldown = timer_cooldown;
-                    CanvasDescription.GetComponent<DescriptionItemFireHelmet>().countStack = countBurnStack;
-                    CanvasDescription.GetComponent<DescriptionItemFireHelmet>().SetTextBody();
+
+                    var descr = CanvasDescription.GetComponent<DescriptionItemFireHelmet>();
+                    descr.cooldown = timer_cooldown;
+                    descr.countStack = countBurnStack;
+                    descr.SetTextBody();
             }
         }
     }
