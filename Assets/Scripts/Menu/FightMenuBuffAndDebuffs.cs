@@ -100,19 +100,21 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
         foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains(buffName.ToUpper())))
         {
-            icon.countStack -= count;
-            if (icon.countStack <= 0)
-                iconToRemove = icon;
-        }
-        if (iconToRemove != null)
-        {
-            foreach (var icon in icons)
+            if (icon.countStack - count <= 0)
             {
-                Destroy(icon.sceneGameObjectIcon);
+                icon.countStack = 0;
+                iconToRemove = icon;
             }
-            icons.Remove(iconToRemove);
+            else
+                icon.countStack -= count;
         }
 
+        foreach (var icon in icons)
+        {
+            Destroy(icon.sceneGameObjectIcon);
+        }
+
+        icons.Remove(iconToRemove);
         List<Icon> oldIcons = new List<Icon>(icons);
         icons.Clear();
         foreach (var icon in oldIcons)

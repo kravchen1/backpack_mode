@@ -53,7 +53,7 @@ public class FireBody : Armor
                         b = true;
                         Enemy.hp -= DamageForStack;
                         Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
-                        animator.SetTrigger(originalName + "StarActivation");
+                        //animator.SetTrigger(originalName + "StarActivation");
                         //animator.Play("New State");
                         animator.Play(originalName + "Activation2", 0, 0f);
                         //animator.StartPlayback
@@ -63,7 +63,7 @@ public class FireBody : Armor
                 {
                     Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                     var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                    calculateFight.calculateFireStats(true);//true = Player
+                    calculateFight.calculateFireFrostStats(true);//true = Player
                 }
             }
         }
@@ -98,6 +98,21 @@ public class FireBody : Armor
         }
     }
 
-
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSeconds(.1f);
+        if (!Exit)
+        {
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().SpendStack = SpendStack;
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().DamageForStack = DamageForStack;
+                CanvasDescription.GetComponent<DescriptionItemFireHelmet>().SetTextBody();
+            }
+        }
+    }
 
 }

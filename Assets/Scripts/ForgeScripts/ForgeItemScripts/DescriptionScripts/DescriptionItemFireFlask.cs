@@ -5,7 +5,7 @@ using UnityEngine;
 public class DescriptionItemFireFlask : DescriptionItem
 {
     public int countStack = 2;
-    public float giveStack = 30;
+    public int giveStack = 30;
     public void SetTextBody()
     {
         string text = "drink when you get <u>" + countStack.ToString() + "</u>\r\n give <u>" + giveStack.ToString() + "</u>";

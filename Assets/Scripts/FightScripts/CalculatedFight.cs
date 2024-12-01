@@ -32,19 +32,26 @@ public class CalculatedFight : MonoBehaviour
             MenuFightIcons = GameObject.FindGameObjectWithTag("MenuFightEnemy").GetComponent<FightMenuBuffAndDebuffs>();
         }
 
-        if (MenuFightIcons.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+        if (MenuFightIcons.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")) || MenuFightIcons.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONFROST")))
         {
-            foreach (var item in allItems)
+            int countBurn = 0, countFrost = 0;
+            foreach (var icon in MenuFightIcons.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
             {
-                foreach (var icon in MenuFightIcons.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-                {
-                    if (item.baseTimerCooldown - item.baseTimerCooldown * (countPercentFire * icon.countStack) > 0.1f)
-                        item.timer_cooldown = item.baseTimerCooldown - item.baseTimerCooldown * (countPercentFire * icon.countStack);
-                    else
-                        item.timer_cooldown = 0.1f;
-                }
+                countBurn = icon.countStack;
+            }
+            foreach (var icon in MenuFightIcons.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONFROST")))
+            {
+                countFrost = icon.countStack;
             }
 
+            foreach (var item in allItems)
+            {
+                var changeCD = item.baseTimerCooldown * (countPercentFire * (countBurn - countFrost));
+                if (item.baseTimerCooldown - changeCD > 0.1f)
+                    item.timer_cooldown = item.baseTimerCooldown - changeCD;
+                else
+                    item.timer_cooldown = 0.1f;
+            }
         }
     }
 }
