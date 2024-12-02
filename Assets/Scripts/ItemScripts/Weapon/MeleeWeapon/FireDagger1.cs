@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Linq;
@@ -9,11 +10,14 @@ using UnityEngine.UI;
 
 public class FireDagger1 : Weapon
 {
-    private float timer1sec = 1f;
-    public float burningDamage = 5f;
+    //private float timer1sec = 1f;
+    public int countBurnStackOnHit = 1;
+    public int dropFireStack;
+    public int dealDamageDropStack;
     private void Start()
     {
         //FillnestedObjectStarsStars(256, "RareWeapon");
+        timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
@@ -29,64 +33,74 @@ public class FireDagger1 : Weapon
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
-            if (Player != null)
+            if (HaveStamina())
             {
-                // do things
-                if (Player.stamina - stamina >= 0)
+                if (Player != null && Enemy != null)
                 {
-                    Player.stamina -= stamina;
-                    if (UnityEngine.Random.Range(0, 100) <= Accuracy)
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
                     {
-                        float armorBefore = Enemy.armor;
-                        int attack = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                        if (Enemy.armor > 0)
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
                         {
-                            Enemy.armor -= attack;
-
-                            if (Enemy.armor < 0)
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit())//крит
                             {
-                                Enemy.hp = Enemy.hp + Enemy.armor - attack;
-                                Debug.Log("Проклятый одноручный кинжал ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - attack) + " здоровья");
+                                resultDamage *= (int)(Player.menuFightIconData.CalculatePercentBaseCrit(baseDamageCrit));
                             }
-                            else
-                            {
-                                Debug.Log("Проклятый одноручный кинжал ломает " + armorBefore + " брони");
-                            }
+                            Attack(resultDamage);
+                            Player.menuFightIconData.CalculateVampire(resultDamage);
+                            Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
+                            Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            Enemy.menuFightIconData.CalculateFireFrostStats();
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation();
                         }
                         else
                         {
-                            Enemy.hp -= attack;
-                            Debug.Log("Проклятый одноручный кинжал режет плоть на " + attack + " здоровья");
+                            Debug.Log(gameObject.name + " уворот");
                         }
-
                     }
                     else
                     {
-                        Debug.Log("miss");
+                        Debug.Log(gameObject.name + " промах");
                     }
+
                 }
             }
-            
+            else
+            {
+                Debug.Log(gameObject.name + " не хватило стамины");
+            }
         }
     }
 
-    //public override void Activation()
-    //{
-    //    if (!timer_locked_outStart && !timer_locked_out)
-    //    {
-    //        timer_locked_out = true;
-    //        if (Player != null)
-    //        {
-    //            Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
-    //            Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-    //            CheckNestedObjectActivation("StartBag");
-    //            CheckNestedObjectStarActivation();
-    //            var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-    //            calculateFight.calculateFireFrostStats(true);//true = Player
-    //            animator.speed = 1f / timer_cooldown;
-    //        }
-    //    }
-    //}
+    public override void StarActivation()
+    {
+        //Активация звёздочек(предмет огня): снимает 2 эффекта горения с врага и наносит врагу 5 урона
+        if (Player != null && Enemy != null)
+        {
+            if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+            {
+                bool b = false;
+                foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+                {
+                    if (icon.countStack >= dropFireStack)
+                    {
+                        //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
+                        b = true;
+                        Enemy.hp -= dealDamageDropStack;
+                        Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
+                        //animator.Play(originalName + "Activation2", 0, 0f);
+                    }
+                }
+                if (b)
+                {
+                    Enemy.menuFightIconData.DeleteBuff(dropFireStack, "ICONBURN");
+                    Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
+                }
+            }
+        }
+    }
 
 
     //private void Burning()
@@ -119,6 +133,7 @@ public class FireDagger1 : Weapon
             {
                 timer = timer_cooldown;
                 timer_locked_out = false;
+                animator.speed = 1f / timer_cooldown;
             }
         }
     }
@@ -139,6 +154,7 @@ public class FireDagger1 : Weapon
             }
         }
     }
+
 
     public override void Update()
     {
@@ -167,10 +183,19 @@ public class FireDagger1 : Weapon
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemFireHelmet>();
-                //descr.cooldown = timer_cooldown;
-                //descr.countStack = countBurnStack;
+                var descr = CanvasDescription.GetComponent<DescriptionItemFireDagger>();
+                descr.hitFireStack = countBurnStackOnHit;
+                descr.dropFireStack = dropFireStack;
+                descr.dealDamageDropStack = dealDamageDropStack;
                 descr.SetTextBody();
+
+                descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();
+                descr.damageMax = attackMax + Player.menuFightIconData.CalculateAddPower();
+                descr.staminaCost = stamina;
+                descr.accuracyPercent = Player.menuFightIconData.ReturnBlindAndAccuracy(accuracy);
+                descr.baseDamageCrit = (int)((Player.menuFightIconData.CalculatePercentBaseCrit(baseDamageCrit)) * 100);
+                descr.cooldown = timer_cooldown;
+                descr.SetTextStat();
             }
         }
     }

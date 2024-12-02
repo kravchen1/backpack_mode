@@ -31,7 +31,7 @@ public class CurseDoubleSword : Weapon
                 if (Player.stamina - stamina >= 0)
                 {
                     Player.stamina -= stamina;
-                    if (UnityEngine.Random.Range(0, 100) <= Accuracy)
+                    if (UnityEngine.Random.Range(0, 100) <= accuracy)
                     {
                         float armorBefore = Enemy.armor;
                         int attack = UnityEngine.Random.Range(attackMin, attackMax + 1);

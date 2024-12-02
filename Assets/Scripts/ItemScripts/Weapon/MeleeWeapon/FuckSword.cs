@@ -28,7 +28,7 @@ public class FuckSword : Weapon
                 if (Player.stamina - stamina >= 0)
                 {
                     Player.stamina -= stamina;
-                    if (Random.Range(0, 100) <= Accuracy)
+                    if (Random.Range(0, 100) <= accuracy)
                     {
                         float armorBefore = Enemy.armor;
                         Debug.Log("Èäè íà õóé");

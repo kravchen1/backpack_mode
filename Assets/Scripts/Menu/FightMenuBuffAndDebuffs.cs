@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.TerrainTools;
+using System;
 
 public class FightMenuBuffAndDebuffs : MonoBehaviour
 {
@@ -22,6 +23,21 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
     private float stepSizeX = 65f;
     private float stepSizeY = -50f;
+
+
+
+    public float countPercentFire = 0.01f;
+    public float countPercentFrost = 0.01f;
+
+    public int countPercentEvasion = 2;
+    public int countPercentChanceCrit = 2;
+    public int countPercentBaseCrit = 5;
+    public int countPercentPoisonDegenHP = 5;
+    public int countPercentVampireRegenHP = 5;
+
+    public int countPercentBlind = 5;
+    public int countDamagePower = 1;
+
 
     public void LoadPrefabs(string tagName)//а можно сделать функцией?
     {
@@ -176,9 +192,170 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     //    }
     //}
 
-    private void FixedUpdate()
+    
+
+    public void CalculateFireFrostStats()
     {
-        //ShowIcons();
+        List<Item> allItems = new List<Item>();
+        GameObject backpack;
+        if (gameObject.tag == "MenuFightPlayer")
+        {
+            backpack = GameObject.FindGameObjectWithTag("backpack");
+            allItems = backpack.GetComponentsInChildren<Item>().ToList();
+        }
+        else
+        {
+            backpack = GameObject.FindGameObjectWithTag("backpackEnemy");
+            allItems = backpack.GetComponentsInChildren<Item>().ToList();
+        }
+
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN") || e.sceneGameObjectIcon.name.ToUpper().Contains("ICONFROST")))
+        {
+            int countBurn = 0, countFrost = 0;
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+            {
+                countBurn = icon.countStack;
+            }
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONFROST")))
+            {
+                countFrost = icon.countStack;
+            }
+
+            foreach (var item in allItems)
+            {
+                var changeCD = item.baseTimerCooldown * (countPercentFire * (countBurn - countFrost));
+                if (item.baseTimerCooldown - changeCD > 0.1f)
+                    item.timer_cooldown = item.baseTimerCooldown - changeCD;
+                else
+                    item.timer_cooldown = 0.1f;
+            }
+        }
+    }
+
+
+
+    public bool CalculateMissAccuracy(int accuracy)
+    {
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLIND")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLIND")))
+            {
+                accuracy -= (icon.countStack * countPercentBlind);
+            }
+        }
+
+        int random = UnityEngine.Random.Range(1, 101);
+        if (random <= accuracy)
+            return true;
+        else
+            return false;
+    }
+
+    public int ReturnBlindAndAccuracy(int accuracy)
+    {
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLIND")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLIND")))
+            {
+                accuracy -= (icon.countStack * countPercentBlind);
+            }
+        }
+        return accuracy;
+    }
+
+    public bool CalculateMissAvasion()
+    {
+        float evasion = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONEVASION")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONEVASION")))
+            {
+                evasion = (icon.countStack * countPercentEvasion);
+            }
+        }
+
+        int random = UnityEngine.Random.Range(1, 101);
+        if (random <= evasion)
+            return false; //false = увернулись
+        else
+            return true;
+    }
+
+    public int CalculateAddPower()
+    {
+        int result = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONPOWER")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONPOWER")))
+            {
+                result = (icon.countStack * countDamagePower);
+            }
+        }
+        return result;
+    }
+
+
+    public bool CalculateChanceCrit()
+    {
+        int countStackChanceCrit = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONCHANCECRIT")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONCHANCECRIT")))
+            {
+                countStackChanceCrit = (icon.countStack * countPercentChanceCrit);
+            }
+        }
+
+        int random = UnityEngine.Random.Range(1, 101);
+        if (random <= countStackChanceCrit)
+            return true; //крит!
+        else
+            return false;
+    }
+
+    public float CalculatePercentBaseCrit(int baseCrit)
+    {
+        int countBaseCrit = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBASECRIT")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBASECRIT")))
+            {
+                countBaseCrit = (icon.countStack * countPercentBaseCrit);
+            }
+        }
+        countBaseCrit += baseCrit;
+
+        return countBaseCrit / 100;
+    }
+
+    public void CalculateHeal(int heal)
+    {
+        int countPoison = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONPOISON")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONPOISON")))
+            {
+                countPoison = (icon.countStack * countPercentPoisonDegenHP);
+            }
+        }
+        
+        heal -= heal / 100 * countPoison;
+    }
+
+    public void CalculateVampire(int damage)
+    {
+        int countVampire = 0;
+        int countHeal = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONVAMPIRE")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONVAMPIRE")))
+            {
+                countVampire = (icon.countStack * countPercentVampireRegenHP);
+            }
+        }
+        countHeal = damage / 100 * countVampire;
+        if (countHeal > 0)
+            CalculateHeal(countHeal);
     }
 
 }

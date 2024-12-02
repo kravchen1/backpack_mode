@@ -18,6 +18,7 @@ public class FireHelmet : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            timer_cooldown = baseTimerCooldown;
             animator.speed = 1f / 0.5f;
             timer = timer_cooldown;
             animator.Play(originalName + "Activation");
@@ -40,6 +41,7 @@ public class FireHelmet : Armor
             {
                 timer = timer_cooldown;
                 timer_locked_out = false;
+                animator.speed = 1f / timer_cooldown;
             }
         }
     }
@@ -72,9 +74,8 @@ public class FireHelmet : Armor
                 Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation();
-                var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                calculateFight.calculateFireFrostStats(true);//true = Player
-                animator.speed = 1f / timer_cooldown;
+                //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
+                Player.menuFightIconData.CalculateFireFrostStats();//true = Player
             }
         }
     }

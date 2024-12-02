@@ -48,6 +48,7 @@ public class FireFlask : Flask
                         Debug.Log("FiryFlask дала " + giveStack.ToString() + " эффектов горения");
                         //animator.SetTrigger(originalName + "StarActivation");
                         //animator.Play("New State");
+
                         animator.speed = 5f;
                         animator.Play(originalName + "Activation", 0, 0f);
                     }
@@ -55,6 +56,10 @@ public class FireFlask : Flask
                 if (isUse)
                 {
                     Player.menuFightIconData.AddBuff(giveStack, "ICONBURN");
+                    Player.menuFightIconData.CalculateFireFrostStats();//true = Player
+                    CheckNestedObjectActivation("StartBag");
+                    CheckNestedObjectStarActivation();
+
                 }
             }
         }

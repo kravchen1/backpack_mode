@@ -25,7 +25,7 @@ public class AxeCommon2Hand : Weapon
             if (Player.stamina - stamina >= 0)
             {
                 Player.stamina -= stamina;
-                if (Random.Range(0, 100) <= Accuracy)
+                if (Random.Range(0, 100) <= accuracy)
                 {
                     float armorBefore = Enemy.armor;
                     int attack = Random.Range(attackMin, attackMax + 1);

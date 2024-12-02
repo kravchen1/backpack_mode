@@ -62,8 +62,7 @@ public class FireBody : Armor
                 if(b)
                 {
                     Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-                    var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                    calculateFight.calculateFireFrostStats(true);//true = Player
+                    Player.menuFightIconData.CalculateFireFrostStats();//true = Player
                 }
             }
         }
@@ -88,7 +87,7 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            FillnestedObjectStarsStars(512, "RareWeapon");
+            //FillnestedObjectStarsStars(512, "RareWeapon");
             CoolDownStart();
         }
 

@@ -158,6 +158,7 @@ public abstract class Item : MonoBehaviour
                 Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
             }
         }
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
     void initializationItemColliders()
     {
@@ -225,7 +226,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
+        //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();
@@ -269,15 +270,12 @@ public abstract class Item : MonoBehaviour
             {
                 SellItem();
             }
-            
-
-
-           
         }
 
         // Заканчиваем перетаскивание
         isDragging = false;
         StartCoroutine(ShowDescription());
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
 
     public void defaultItemUpdate()
@@ -303,7 +301,6 @@ public abstract class Item : MonoBehaviour
         OnImpulse();
         RotationToStartRotation();
         CoolDownStatic();
-        FillnestedObjectStarsStars(512, "RareWeapon");
     }
     public virtual void Update()
     {
@@ -821,6 +818,7 @@ public abstract class Item : MonoBehaviour
         hitSellChest = CreateRaycastForSellChest(32768);
         ClearCareRaycast();
         CreateCareRaycast();
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
 
 
@@ -928,7 +926,7 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
             //bool b = nestedStarObjects.Where(e => e.name == raycast.collider.gameObject.name).Count() == 0;
-            if (raycast.collider != null)//
+            if (raycast.collider != null && raycast.collider.gameObject != gameObject)//
             {
                 if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject).Count() == 0)
                 {
@@ -983,4 +981,54 @@ public abstract class Item : MonoBehaviour
     protected float timerStart = 0.5f;
     [HideInInspector] public float timer_cooldown = 0f;
     public float baseTimerCooldown = 0f;
+
+
+
+
+    public void CheckNestedObjectActivation(string objectActivation)
+    {
+        var bags = GameObject.FindGameObjectsWithTag(objectActivation);
+        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
+        List<Bag> bagsWithFireBody = new List<Bag>();
+
+        foreach (var bag in bags)
+        {
+            var bagCells = bag.GetComponentsInChildren<Cell>();
+            bool find = false;
+            foreach (var cell in bagCells)
+            {
+                if (!find)
+                {
+                    if (cell.nestedObject == gameObject)
+                    {
+                        bagsWithFireBody.Add(bag.GetComponent<Bag>());
+                        find = true;
+                        continue;
+                    }
+                }
+            }
+            if (find)
+            {
+                find = false;
+                continue;
+            }
+
+        }
+
+        foreach (var bag in bagsWithFireBody)
+        {
+            bag.StarActivation();
+        }
+    }
+
+    public void CheckNestedObjectStarActivation()
+    {
+        var stars = GameObject.FindGameObjectsWithTag("StarActivation").Where(e => e.GetComponent<Cell>().nestedObject == gameObject);
+        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
+        List<Bag> bagsWithFireBody = new List<Bag>();
+        foreach (var star in stars)
+        {
+            star.GetComponentInParent<Item>().StarActivation();
+        }
+    }
 }
