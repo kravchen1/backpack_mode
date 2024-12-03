@@ -1708,7 +1708,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'FireStack: For every 1 stack, deals 1/sec damage to the owner'
+  m_text: 'FireStack: For every 1 stack, all items activate 2% faster'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -2642,6 +2642,7 @@ MonoBehaviour:
   damageMax: 2
   staminaCost: 1
   accuracyPercent: 95
+  baseDamageCrit: 150
   cooldown: 1.1
   Armor: 0
   countNeedManaStack: 2
@@ -2975,7 +2976,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'poisonStack: For every 1 stack, deals 1/sec damage to the owner'
+  m_text: 'poisonStack: For every 1 stack, reduce incoming heal 5%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
