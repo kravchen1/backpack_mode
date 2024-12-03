@@ -55,7 +55,7 @@ public class FireBody : Armor
                         //Enemy.hp -= DamageForStack;
                         Attack(DamageForStack);
                         //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
-                        CreateLogMessage("FireBody inflict " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
+                        CreateLogMessage("FireBody removed " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
                         //animator.SetTrigger(originalName + "StarActivation");
                         //animator.Play("New State");
                         animator.Play(originalName + "Activation2", 0, 0f);
