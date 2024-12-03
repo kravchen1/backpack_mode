@@ -75,7 +75,7 @@ public class FireHelmet : Armor
                 //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
                 CreateLogMessage("FireHelmet give " + countBurnStack.ToString() + " burn");
                 CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation();
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                 //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
                 Player.menuFightIconData.CalculateFireFrostStats();//true = Player
             }

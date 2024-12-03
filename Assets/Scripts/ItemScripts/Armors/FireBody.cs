@@ -38,7 +38,7 @@ public class FireBody : Armor
         }
     }
 
-    public override void StarActivation()
+    public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
         if (Player != null && Enemy != null)
@@ -112,7 +112,7 @@ public class FireBody : Armor
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 CanvasDescription.GetComponent<DescriptionItemFireBody>().SpendStack = SpendStack;
                 CanvasDescription.GetComponent<DescriptionItemFireBody>().DamageForStack = DamageForStack;
-                CanvasDescription.GetComponent<DescriptionItemFireHelmet>().SetTextBody();
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().SetTextBody();
             }
         }
     }

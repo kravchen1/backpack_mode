@@ -909,7 +909,11 @@ public abstract class Item : MonoBehaviour
 
 
 
-    public virtual void StarActivation()
+    //public virtual void StarActivation()
+    //{
+    //    //Debug.Log("��������� " + this.name);
+    //}
+    public virtual void StarActivation(Item item)
     {
         //Debug.Log("��������� " + this.name);
     }
@@ -985,6 +989,7 @@ public abstract class Item : MonoBehaviour
 
 
     protected float timerStart = 0.5f;
+    [HideInInspector] public float timer = 0f;
     [HideInInspector] public float timer_cooldown = 0f;
     public float baseTimerCooldown = 0f;
 
@@ -1023,18 +1028,19 @@ public abstract class Item : MonoBehaviour
 
         foreach (var bag in bagsWithFireBody)
         {
-            bag.StarActivation();
+            bag.StarActivation(null);
         }
     }
 
-    public void CheckNestedObjectStarActivation()
+    public void CheckNestedObjectStarActivation(Item item)
     {
         var stars = GameObject.FindGameObjectsWithTag("StarActivation").Where(e => e.GetComponent<Cell>().nestedObject == gameObject);
         //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
         List<Bag> bagsWithFireBody = new List<Bag>();
         foreach (var star in stars)
         {
-            star.GetComponentInParent<Item>().StarActivation();
+            //star.GetComponentInParent<Item>().StarActivation();
+            star.GetComponentInParent<Item>().StarActivation(item);
         }
     }
 

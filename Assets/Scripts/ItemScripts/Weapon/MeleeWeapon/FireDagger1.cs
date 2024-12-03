@@ -54,7 +54,7 @@ public class FireDagger1 : Weapon
                             CreateLogMessage("FireDagger inflict " + countBurnStackOnHit.ToString() + " burn");
                             Enemy.menuFightIconData.CalculateFireFrostStats();
                             CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation();
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
@@ -78,7 +78,7 @@ public class FireDagger1 : Weapon
         }
     }
 
-    public override void StarActivation()
+    public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет огня): снимает 2 эффекта горения с врага и наносит врагу 5 урона
         if (Player != null && Enemy != null)
