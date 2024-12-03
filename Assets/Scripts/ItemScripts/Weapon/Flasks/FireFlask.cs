@@ -45,7 +45,7 @@ public class FireFlask : Flask
                     if (icon.countStack >= countStack)
                     {
                         isUse = true;
-                        Debug.Log("FiryFlask дала " + giveStack.ToString() + " эффектов горения");
+                        CreateLogMessage("FireBag give " + giveStack.ToString() + " burn");
                         //animator.SetTrigger(originalName + "StarActivation");
                         //animator.Play("New State");
 

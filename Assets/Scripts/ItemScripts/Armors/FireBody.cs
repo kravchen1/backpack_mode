@@ -31,7 +31,8 @@ public class FireBody : Armor
                 Player.armor = Player.armor + startBattleArmorCount;
                 Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
-                Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                CreateLogMessage("FireBody give " + startBattleArmorCount.ToString() + " armor");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -51,8 +52,10 @@ public class FireBody : Armor
                     {
                         //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                         b = true;
-                        Enemy.hp -= DamageForStack;
-                        Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
+                        //Enemy.hp -= DamageForStack;
+                        Attack(DamageForStack);
+                        //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
+                        CreateLogMessage("FireBody inflict " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
                         //animator.SetTrigger(originalName + "StarActivation");
                         //animator.Play("New State");
                         animator.Play(originalName + "Activation2", 0, 0f);

@@ -50,26 +50,30 @@ public class FireDagger1 : Weapon
                             Attack(resultDamage);
                             Player.menuFightIconData.CalculateVampire(resultDamage);
                             Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
-                            Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            CreateLogMessage("FireDagger inflict " + countBurnStackOnHit.ToString() + " burn");
                             Enemy.menuFightIconData.CalculateFireFrostStats();
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation();
                         }
                         else
                         {
-                            Debug.Log(gameObject.name + " уворот");
+                            //Debug.Log(gameObject.name + " уворот");
+                            CreateLogMessage("FireDagger miss");
                         }
                     }
                     else
                     {
-                        Debug.Log(gameObject.name + " промах");
+                        //Debug.Log(gameObject.name + " промах");
+                        CreateLogMessage("FireDagger miss");
                     }
 
                 }
             }
             else
             {
-                Debug.Log(gameObject.name + " не хватило стамины");
+                //Debug.Log(gameObject.name + " не хватило стамины");
+                CreateLogMessage("FireDagger no have stamina");
             }
         }
     }
@@ -88,8 +92,10 @@ public class FireDagger1 : Weapon
                     {
                         //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                         b = true;
-                        Enemy.hp -= dealDamageDropStack;
-                        Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
+                        //Enemy.hp -= dealDamageDropStack;
+                        //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
+                        Attack(dealDamageDropStack);
+                        CreateLogMessage("FireDagger removed " + dropFireStack.ToString() + " burn");
                         //animator.Play(originalName + "Activation2", 0, 0f);
                     }
                 }

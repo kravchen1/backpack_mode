@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class FireHelmet : Armor
@@ -47,7 +49,6 @@ public class FireHelmet : Armor
     }
 
 
-
     public override void StartActivation()
     {
         if (!isUse)
@@ -57,7 +58,7 @@ public class FireHelmet : Armor
                 Player.armor = Player.armor + startBattleArmorCount;
                 Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
-                Debug.Log("FireHelmet give " + startBattleArmorCount + " armor");
+                CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -71,7 +72,8 @@ public class FireHelmet : Armor
             if (Player != null)
             {
                 Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
-                Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
+                //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
+                CreateLogMessage("FireHelmet give " + countBurnStack.ToString() + " burn");
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation();
                 //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();

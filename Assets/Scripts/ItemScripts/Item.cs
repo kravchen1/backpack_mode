@@ -16,6 +16,7 @@ using static UnityEditor.Progress;
 using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
 using System.Timers;
+using TMPro;
 
 
 public class HitsStructure
@@ -43,7 +44,10 @@ public abstract class Item : MonoBehaviour
 
 
     public GameObject Description;
+    public GameObject DescriptionLog;
     [HideInInspector]  public GameObject CanvasDescription;
+
+
     private bool showCanvasBefore = false;
     protected bool canShowDescription = true;
     [HideInInspector] public bool Exit = false;
@@ -81,6 +85,7 @@ public abstract class Item : MonoBehaviour
     protected PlayerBackpackBattle Player;  
     protected PlayerBackpackBattle Enemy;
     protected GameObject placeForDescription;
+    protected GameObject placeForLogDescription;
 
 
     public Animator animator;
@@ -144,6 +149,7 @@ public abstract class Item : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
             if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
             {
                 placeForDescription = GameObject.FindWithTag("DescriptionPlace");
@@ -1029,6 +1035,42 @@ public abstract class Item : MonoBehaviour
         foreach (var star in stars)
         {
             star.GetComponentInParent<Item>().StarActivation();
+        }
+    }
+
+    public void CreateLogMessage(string message)
+    {
+        var obj = Instantiate(DescriptionLog, placeForLogDescription.GetComponent<RectTransform>().transform);
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
+        obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+
+    protected void Attack(int damage)
+    {
+        float armorBefore = Enemy.armor;
+        if (Enemy.armor > 0)
+        {
+            Enemy.armor -= damage;
+
+            if (Enemy.armor < 0)
+            {
+                Enemy.hp = Enemy.hp + Enemy.armor - damage;
+                //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - damage) + " здоровья");
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+
+            }
+            else
+            {
+                //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони");
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
+            }
+        }
+        else
+        {
+            Enemy.hp -= damage;
+            //Debug.Log(gameObject.name + "режет плоть на " + damage + " здоровья");
+            CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
         }
     }
 }

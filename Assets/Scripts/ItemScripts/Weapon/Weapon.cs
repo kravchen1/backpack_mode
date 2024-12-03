@@ -19,28 +19,5 @@ public class Weapon : Item
         else return false;
     }
 
-    protected void Attack(int damage)
-    {
-        float armorBefore = Enemy.armor;
-        if (Enemy.armor > 0)
-        {
-            Enemy.armor -= damage;
-
-            if (Enemy.armor < 0)
-            {
-                Enemy.hp = Enemy.hp + Enemy.armor - damage;
-                Debug.Log(gameObject.name + "ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - damage) + " здоровья");
-
-            }
-            else
-            {
-                Debug.Log(gameObject.name + "ломает " + armorBefore + " брони");
-            }
-        }
-        else
-        {
-            Enemy.hp -= damage;
-            Debug.Log(gameObject.name + "режет плоть на " + damage + " здоровья");
-        }
-    }
+   
 }
