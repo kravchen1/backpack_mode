@@ -83,7 +83,7 @@ public class ManaGloves : Armor
                             //Enemy.hp -= dealDamageDropStack;
                             //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
                             //Attack(dealDamageDropStack);
-                            CreateLogMessage("FireGloves steal " + countSteelManaStack.ToString() + " mana");
+                            CreateLogMessage("ManaGloves steal " + countSteelManaStack.ToString() + " mana");
                             //animator.Play(originalName + "Activation2", 0, 0f);
                         }
                     }
