@@ -8,11 +8,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ManaBoots : Armor
+public class ManaGloves : Armor
 {
     //public float timer_cooldown = 2.1f;
     protected bool timer_locked_out = true;
-    public int countManaStack = 2;
+    public int countSteelManaStack = 2;
 
     private bool isUse = false;
     //private bool usable = false;
@@ -69,15 +69,30 @@ public class ManaBoots : Armor
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
-            if (Player != null)
+            if (Player != null && Enemy != null)
             {
-                Player.menuFightIconData.AddBuff(countManaStack, "IconMana");
-                //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-                CreateLogMessage("ManaBoots give " + countManaStack.ToString() + " mana");
-                CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                //Player.menuFightIconData.CalculateFireFrostStats();//true = Player
+                if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
+                {
+                    bool b = false;
+                    foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
+                    {
+                        if (icon.countStack >= countSteelManaStack)
+                        {
+                            //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
+                            b = true;
+                            //Enemy.hp -= dealDamageDropStack;
+                            //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
+                            //Attack(dealDamageDropStack);
+                            CreateLogMessage("FireGloves steal " + countSteelManaStack.ToString() + " mana");
+                            //animator.Play(originalName + "Activation2", 0, 0f);
+                        }
+                    }
+                    if (b)
+                    {
+                        Enemy.menuFightIconData.DeleteBuff(countSteelManaStack, "ICONMANA");
+                        Player.menuFightIconData.AddBuff(countSteelManaStack, "ICONMANA");//true = Player
+                    }
+                }
             }
         }
     }
@@ -93,7 +108,6 @@ public class ManaBoots : Armor
                 timer_locked_outStart = false;
                 animator.speed =  1f / timer_cooldown;
                 animator.Play(originalName + "Activation");
-                //StartActivation();
             }
         }
     }
@@ -125,9 +139,9 @@ public class ManaBoots : Armor
                     DeleteAllDescriptions();
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemManaBoots>();
+                    var descr = CanvasDescription.GetComponent<DescriptionItemManaGloves>();
                     descr.cooldown = timer_cooldown;
-                    descr.countNeedManaStack = countManaStack;
+                    descr.countSteelManaStack = countSteelManaStack;
                     descr.SetTextBody();
             }
         }
