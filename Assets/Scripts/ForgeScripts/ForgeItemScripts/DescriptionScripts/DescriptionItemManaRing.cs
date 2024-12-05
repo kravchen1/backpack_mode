@@ -5,10 +5,11 @@ using UnityEngine;
 public class DescriptionItemManaRing : DescriptionItem
 {
     public int countNeedManaStack = 2;
-    public float coolDown = 1.1f;
+    public int countBurnStack = 2;
     public void SetTextBody()
     {
-        string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
+       // string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: spend <u>" + countNeedManaStack.ToString() + "</u>      and\r\ngive <u>" + countBurnStack.ToString() + "</u>\r\n";
         textBody.text = text;
     }
 

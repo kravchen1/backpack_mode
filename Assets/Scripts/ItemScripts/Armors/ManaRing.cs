@@ -8,12 +8,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ManaAmulet : Armor
+public class ManaRing : Armor
 {
     //public float timer_cooldown = 2.1f;
     protected bool timer_locked_out = true;
-    public int countManaStack = 2;
-    public int countDebuffStack = 2;
+    public int countNeedManaStack = 2;
+    public int countBurnStack = 2;
 
     private bool isUse = false;
     //private bool usable = false;
@@ -77,39 +77,21 @@ public class ManaAmulet : Armor
                     bool b = false;
                     foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
                     {
-                        if (icon.countStack >= countManaStack)
+                        if (icon.countStack >= countNeedManaStack)
                         {
                             b = true;
-                            CreateLogMessage("ManaAmulet removed " + countManaStack.ToString() + " mana and inflict " + countDebuffStack.ToString() + " debuffs");
-                            int r = Random.Range(0, 3);
-                            string text = "ICON";
-                            switch (r)
-                            {
-                                case 0:
-                                    text += "POISON";
-                                    break;
-                                case 1:
-                                    text += "BLEED";
-                                    break;
-                                case 2:
-                                    text += "FROST";
-                                    break;
-                            }
-                            Enemy.menuFightIconData.AddBuff(countManaStack, text);
-                            if(r==2)
-                                Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
+                            CreateLogMessage("ManaRing removed " + countNeedManaStack.ToString() + " mana and give " + countBurnStack.ToString() + " burn");
                         }
                     }
                     if (b)
                     {
-                        Player.menuFightIconData.DeleteBuff(countManaStack, "ICONMANA");
+                        Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
+                        Player.menuFightIconData.AddBuff(countBurnStack, "ICONBURN");
+                        Player.menuFightIconData.CalculateFireFrostStats();//true = Player
                         CheckNestedObjectActivation("StartBag");
                         CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                     }
                 }
-                //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-                //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                //Player.menuFightIconData.CalculateFireFrostStats();//true = Player
             }
         }
     }
@@ -157,10 +139,10 @@ public class ManaAmulet : Armor
                     DeleteAllDescriptions();
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemManaAmulet>();
+                    var descr = CanvasDescription.GetComponent<DescriptionItemManaRing>();
                     descr.cooldown = timer_cooldown;
-                    descr.countNeedManaStack = countManaStack;
-                    descr.countDebuffStack = countDebuffStack;
+                    descr.countNeedManaStack = countNeedManaStack;
+                    descr.countBurnStack = countBurnStack;
                     descr.SetTextBody();
             }
         }

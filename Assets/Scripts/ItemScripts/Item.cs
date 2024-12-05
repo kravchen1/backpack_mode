@@ -17,6 +17,7 @@ using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
 using System.Timers;
 using TMPro;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 public class HitsStructure
@@ -1057,11 +1058,14 @@ public abstract class Item : MonoBehaviour
         float armorBefore = Enemy.armor;
         if (Enemy.armor > 0)
         {
-            Enemy.armor -= damage;
+            if (Enemy.armor - damage < 0)
+                Enemy.armor = 0;
+            else
+                Enemy.armor -= damage;
 
-            if (Enemy.armor < 0)
+            if (Enemy.armor == 0)
             {
-                Enemy.hp = Enemy.hp + Enemy.armor - damage;
+                Enemy.hp = Enemy.hp + armorBefore - damage;
                 //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - damage) + " здоровья");
                 CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
 
