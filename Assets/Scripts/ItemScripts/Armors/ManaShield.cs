@@ -14,19 +14,12 @@ public class ManaShield : Armor
     public int countNeedManaStack = 1;
     public int blockDamage = 11;
     public int countStealManaStack = 1;
-
-    private int currentHP, currentArmor;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
-            if (Player != null)
-            {
-                currentHP = (int)Math.Round(Player.hp, 0);
-                currentArmor = (int)Math.Round(Player.armor, 0);
-            }
         }
         
     }
@@ -68,69 +61,37 @@ public class ManaShield : Armor
                 if(b)
                 {
                     Enemy.menuFightIconData.DeleteBuff(countStealManaStack, "ICONMANA");
-                    Enemy.menuFightIconData.AddBuff(countStealManaStack, "ICONMANA");
+                    Player.menuFightIconData.AddBuff(countStealManaStack, "ICONMANA");
                 }
             }
         }
     }
 
-    public override void Activation()
+    public override int BlockActivation()
     {
-        if (Player != null && (Player.hp != currentHP || Player.armor != currentArmor))
+        if (Player != null)
         {
-            if (Player.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
+            bool b = false;
+            foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
             {
-                bool b = false;
-                foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
+                if (icon.countStack >= countNeedManaStack)
                 {
-                    if (icon.countStack >= countNeedManaStack)
-                    {
-                        b = true;
-                        int resultBlockDamage = 0;
-                        if (Player.armor != currentArmor)
-                        {
-                            if(currentArmor - Player.armor >= blockDamage)
-                            {
-                                resultBlockDamage = blockDamage;
-                                Player.armor += resultBlockDamage;
-                                CreateLogMessage("ManaShield remove " + countNeedManaStack.ToString() + " mana and block" + resultBlockDamage.ToString() + "damage");
-                            }
-                            else
-                            {
-                                resultBlockDamage = currentArmor;
-                                int remain = blockDamage - resultBlockDamage;
-                                Player.armor += currentArmor;
-                                if (Player.hp != currentHP)
-                                {
-                                    if(currentHP - Player.hp >= remain)
-                                    {
-                                        resultBlockDamage += remain;
-                                        Player.hp += remain;
-                                        CreateLogMessage("ManaShield remove " + countNeedManaStack.ToString() + " mana and block" + resultBlockDamage.ToString() + "damage");
-                                    }
-                                    else
-                                    {
-                                        //todo
-                                    }
-                                }
-                            }
-                            if(currentArmor - Player.armor > blockDamage)
-                            {
-                                resultBlockDamage = 10;
-                            }
-                        }
-                        
-                        
-                    }
-                }
-                if (b)
-                {
-                    Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
+                    b = true;
+                    CreateLogMessage("ManaShield remove " + countNeedManaStack.ToString() + " mana and block" + blockDamage.ToString() + "damage");
                 }
             }
-            animator.Play(originalName + "Activation2", 0, 0f);
-
+            if (b)
+            {
+                Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
+                animator.Play(originalName + "Activation2", 0, 0f);
+                return blockDamage;
+            }
+            else
+            {
+                return 0;
+            }
         }
+        else return 0;
     }
 
     private void CoolDownStart()
@@ -144,7 +105,7 @@ public class ManaShield : Armor
                 timer_locked_outStart = false;
                 //animator.speed = 1f / timer_cooldown;
                 StartActivation();
-                animator.Play("New State");
+                //animator.Play("New State");
             }
         }
     }

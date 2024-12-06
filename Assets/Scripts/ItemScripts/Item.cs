@@ -923,6 +923,11 @@ public abstract class Item : MonoBehaviour
     {
         //Debug.Log("��������� " + this.name);
     }
+    public virtual int BlockActivation()
+    {
+        //Debug.Log("��������� " + this.name);
+        return 0;
+    }
     public virtual void StartActivation()
     {
         //Debug.Log("��������� " + this.name);
@@ -1056,31 +1061,50 @@ public abstract class Item : MonoBehaviour
     protected void Attack(int damage)
     {
         float armorBefore = Enemy.armor;
-        if (Enemy.armor > 0)
+        if(damage < Enemy.armor)
         {
-            if (Enemy.armor - damage < 0)
-                Enemy.armor = 0;
-            else
-                Enemy.armor -= damage;
-
-            if (Enemy.armor == 0)
-            {
-                Enemy.hp = Enemy.hp + armorBefore - damage;
-                //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - damage) + " здоровья");
-                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
-
-            }
-            else
-            {
-                //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони");
-                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
-            }
+            Enemy.armor -= damage;
+            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
         }
         else
         {
-            Enemy.hp -= damage;
-            //Debug.Log(gameObject.name + "режет плоть на " + damage + " здоровья");
-            CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            int dmgArmor = (int)Enemy.armor;
+            Enemy.armor = 0;
+            Enemy.hp -= dmgArmor;
+            if (armorBefore == 0)
+            {
+                CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            }
+            else
+            {
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            }
         }
+        //if (Enemy.armor > 0)
+        //{
+        //    if (Enemy.armor - damage < 0)
+        //        Enemy.armor = 0;
+        //    else
+        //        Enemy.armor -= damage;
+
+        //    if (Enemy.armor == 0)
+        //    {
+        //        Enemy.hp = Enemy.hp + armorBefore - damage;
+        //        //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони и режет плоть на " + (Enemy.armor - damage) + " здоровья");
+        //        CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+
+        //    }
+        //    else
+        //    {
+        //        //Debug.Log(gameObject.name + "ломает " + armorBefore + " брони");
+        //        CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
+        //    }
+        //}
+        //else
+        //{
+        //    Enemy.hp -= damage;
+        //    //Debug.Log(gameObject.name + "режет плоть на " + damage + " здоровья");
+        //    CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+        //}
     }
 }

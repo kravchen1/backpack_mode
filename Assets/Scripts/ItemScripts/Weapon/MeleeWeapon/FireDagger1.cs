@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,7 +22,6 @@ public class FireDagger1 : Weapon
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
-
                animator.speed = 1f / timer_cooldown;
                animator.enabled = true;
         }
@@ -47,6 +47,11 @@ public class FireDagger1 : Weapon
                             {
                                 resultDamage *= (int)(Player.menuFightIconData.CalculatePercentBaseCrit(baseDamageCrit));
                             }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
                             Attack(resultDamage);
                             Player.menuFightIconData.CalculateVampire(resultDamage);
                             Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
@@ -78,6 +83,18 @@ public class FireDagger1 : Weapon
         }
     }
 
+    public int BlockDamage()
+    {
+        var blockItems = this.Enemy.backpack.GetComponentsInChildren<Item>().ToList().Where(e => e.tag.Contains("Block"));
+        int resultBlock = 0;
+        foreach (var item in blockItems)
+        {
+            resultBlock += item.BlockActivation();
+        }
+
+        return resultBlock; 
+    }
+
     public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет огня): снимает 2 эффекта горения с врага и наносит врагу 5 урона
@@ -94,6 +111,7 @@ public class FireDagger1 : Weapon
                         b = true;
                         //Enemy.hp -= dealDamageDropStack;
                         //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
+
                         Attack(dealDamageDropStack);
                         CreateLogMessage("FireDagger removed " + dropFireStack.ToString() + " burn");
                         //animator.Play(originalName + "Activation2", 0, 0f);
