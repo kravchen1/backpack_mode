@@ -948,8 +948,8 @@ public abstract class Item : MonoBehaviour
                 {
                     star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
                     //nestedStarObjects.Add(raycast.collider.gameObject);
-                    //лёша иди на хуй
                     star.GetComponent<SpriteRenderer>().sprite = fillStar;
+                    FillStarEffect(raycast.collider.gameObject.GetComponent<Item>());
                 }
             }
             else
@@ -959,6 +959,12 @@ public abstract class Item : MonoBehaviour
             }
         }
     }
+
+    public virtual void FillStarEffect(Item item)
+    {
+        Debug.Log(gameObject.name + "   FillStarEffectItem");
+    }
+
     public bool ObjectInBag()
     {
         List<GameObject> backpack = new List<GameObject>();
