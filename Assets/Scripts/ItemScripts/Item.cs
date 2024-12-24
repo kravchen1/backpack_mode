@@ -949,7 +949,7 @@ public abstract class Item : MonoBehaviour
                     star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
                     //nestedStarObjects.Add(raycast.collider.gameObject);
                     star.GetComponent<SpriteRenderer>().sprite = fillStar;
-                    FillStarEffect(raycast.collider.gameObject.GetComponent<Item>());
+                    //FillStarEffect(raycast.collider.gameObject.GetComponent<Item>());
                 }
             }
             else
@@ -960,10 +960,10 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public virtual void FillStarEffect(Item item)
-    {
-        Debug.Log(gameObject.name + "   FillStarEffectItem");
-    }
+    //public virtual void FillStarEffect(Item item)
+    //{
+    //    Debug.Log(gameObject.name + "   FillStarEffectItem");
+    //}
 
     public bool ObjectInBag()
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class DescriptionItemVampireBody : DescriptionItem
     public void SetTextBody()
     {
         //string text = "Every <u>" + cooldown.ToString() + "</u> sec: give count        equal\r\n      on enemy";
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec: give count        equal\r\n      on enemy\r\n\r\nVampire items    activate:  applie <u>" + countBleedStack.ToString() + "</u>";
+        string text = "Every <u>" + Math.Round(cooldown,1).ToString() + "</u> sec: give count        equal\r\n      on enemy\r\n\r\nVampire items    activate:  applie <u>" + countBleedStack.ToString() + "</u>";
         textBody.text = text;
     }
 

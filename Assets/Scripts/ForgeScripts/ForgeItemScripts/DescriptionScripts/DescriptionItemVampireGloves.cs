@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DescriptionItemVampireGloves : DescriptionItem
 {
-    //public int countNeedManaStack = 2;
+    public int countBleedStack = 1;
     //public float coolDown = 1.1f;
     public void SetTextBody()
     {
-        string text = "ToDo";
+        string text = "when      item activate: apply <u>" + countBleedStack.ToString() + "</u>       on enemy";
         textBody.text = text;
     }
 
