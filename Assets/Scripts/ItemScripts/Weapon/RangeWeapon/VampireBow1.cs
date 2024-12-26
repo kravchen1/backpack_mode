@@ -9,12 +9,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class FireDagger1 : Weapon
+public class VampireBow1 : Weapon
 {
     //private float timer1sec = 1f;
-    public int countBurnStackOnHit = 1;
-    public int dropFireStack;
-    public int dealDamageDropStack;
+    public int countIncreasesCritDamage = 10;
+
     private void Start()
     {
         //FillnestedObjectStarsStars(256, "RareWeapon");
@@ -45,7 +44,8 @@ public class FireDagger1 : Weapon
                             resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
                             if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
                             {
-                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                                float flDmg = (float)resultDamage * Player.menuFightIconData.CalculateCritDamage(critDamage);
+                                resultDamage = (int)flDmg;
                             }
                             int block = BlockDamage();
                             if (resultDamage >= block)
@@ -54,23 +54,28 @@ public class FireDagger1 : Weapon
                                 resultDamage = 0;
                             Attack(resultDamage);
                             Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
-                            CreateLogMessage("FireDagger inflict " + countBurnStackOnHit.ToString() + " burn");
-                            Enemy.menuFightIconData.CalculateFireFrostStats();
+                            //добавление крита
+                            if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
+                            {
+                                foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
+                                {
+                                    critDamage += icon.countStack;
+                                }
+                            }
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("FireDagger miss");
+                            CreateLogMessage(gameObject.name + "miss");
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("FireDagger miss");
+                        CreateLogMessage(gameObject.name + "miss");
                     }
 
                 }
@@ -78,61 +83,16 @@ public class FireDagger1 : Weapon
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("FireDagger no have stamina");
+                CreateLogMessage(gameObject.name + "no have stamina");
             }
         }
     }
 
     public override void StarActivation(Item item)
     {
-        //Активация звёздочек(предмет огня): снимает 2 эффекта горения с врага и наносит врагу 5 урона
-        if (Player != null && Enemy != null)
-        {
-            if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-            {
-                bool b = false;
-                foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-                {
-                    if (icon.countStack >= dropFireStack)
-                    {
-                        //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-                        b = true;
-                        //Enemy.hp -= dealDamageDropStack;
-                        //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
-
-                        Attack(dealDamageDropStack);
-                        CreateLogMessage("FireDagger removed " + dropFireStack.ToString() + " burn");
-                        //animator.Play(originalName + "Activation2", 0, 0f);
-                    }
-                }
-                if (b)
-                {
-                    Enemy.menuFightIconData.DeleteBuff(dropFireStack, "ICONBURN");
-                    Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
-                }
-            }
-        }
+        item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
     }
 
-
-    //private void Burning()
-    //{
-    //    timer1sec -= Time.deltaTime;
-
-    //    if (timer1sec <= 0)
-    //    {
-    //        timer1sec = 1f;
-
-    //        if (gameObject.GetComponentsInChildren<Cell>().Where(e => e.nestedObject != null).Count() == 0)
-    //        {
-    //            if (Player != null)
-    //            {
-    //                Player.hp -= burningDamage;
-    //                Debug.Log("Персонаж горит из-за проклятого кинжала и теряет " + burningDamage + " здоровья");
-    //            }
-    //        }
-    //    }
-    //}
 
 
     public void CoolDown()
@@ -195,17 +155,15 @@ public class FireDagger1 : Weapon
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemFireDagger>();
-                descr.hitFireStack = countBurnStackOnHit;
-                descr.dropFireStack = dropFireStack;
-                descr.dealDamageDropStack = dealDamageDropStack;
+                var descr = CanvasDescription.GetComponent<DescriptionItemVampireBow>();
+                descr.countIncreasesCritDamage = countIncreasesCritDamage;
                 descr.SetTextBody();
 
                 descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();
                 descr.damageMax = attackMax + Player.menuFightIconData.CalculateAddPower();
                 descr.staminaCost = stamina;
                 descr.accuracyPercent = Player.menuFightIconData.ReturnBlindAndAccuracy(accuracy);
-                descr.critDamage = (int)((Player.menuFightIconData.CalculateCritDamage(critDamage)) * 100);
+                descr.critDamage = (int)(Player.menuFightIconData.CalculateCritDamage(critDamage) * 100);
                 descr.chanceCrit = chanceCrit + (int)Player.menuFightIconData.CalculateChanceCrit();
                 descr.cooldown = timer_cooldown;
                 descr.SetTextStat();

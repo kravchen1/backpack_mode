@@ -295,7 +295,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     }
 
 
-    public bool CalculateChanceCrit()
+    public bool CalculateChanceCrit(int baseChanceCrit)
     {
         int countStackChanceCrit = 0;
         if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONCHANCECRIT")))
@@ -307,13 +307,27 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
 
         int random = UnityEngine.Random.Range(1, 101);
-        if (random <= countStackChanceCrit)
+        if (random <= (countStackChanceCrit + baseChanceCrit))
             return true; //крит!
         else
             return false;
     }
 
-    public float CalculatePercentBaseCrit(int baseCrit)
+    public int CalculateChanceCrit()
+    {
+        int countStackChanceCrit = 0;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONCHANCECRIT")))
+        {
+            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONCHANCECRIT")))
+            {
+                countStackChanceCrit = (icon.countStack * countPercentChanceCrit);
+            }
+        }
+        return countStackChanceCrit; //скок шанса крита?!
+
+    }
+
+    public float CalculateCritDamage(int baseCrit)
     {
         int countBaseCrit = 0;
         if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBASECRIT")))
@@ -325,10 +339,10 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         countBaseCrit += baseCrit;
 
-        return countBaseCrit / 100;
+        return countBaseCrit / 100.0f;
     }
 
-    public void CalculateHeal(int heal)
+    public int CalculateHeal(int heal)
     {
         int countPoison = 0;
         if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONPOISON")))
@@ -340,9 +354,11 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         
         heal -= heal / 100 * countPoison;
+        return heal;
+        
     }
 
-    public void CalculateVampire(int damage)
+    public int CalculateVampire(int damage)
     {
         int countVampire = 0;
         int countHeal = 0;
@@ -355,7 +371,8 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         countHeal = damage / 100 * countVampire;
         if (countHeal > 0)
-            CalculateHeal(countHeal);
+            return CalculateHeal(countHeal);
+        else return 0;
     }
 
 }

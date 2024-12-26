@@ -15,15 +15,23 @@ public class DescriptionItemFireDagger : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "<size=200>On hit: applies <u>" + hitFireStack .ToString() 
-            + "</u>        on enemy                                fire items      activate:  Drop <u>" 
-            + dropFireStack .ToString() + "</u>          from enemy and deal <u>" + dealDamageDropStack + "</u> damage  </size>";
+        string text = "<size=200>On hit: applies <u>" + hitFireStack.ToString() + "</u>        on enemy\r\nfire items      activate:  Drop <u>" + dropFireStack.ToString() 
+            + "</u>       from enemy and deal <u>" + hitFireStack.ToString() + "</u> damage  </size>";
         textBody.text = text;
     }
 
     public void SetTextStat()
     {
-        string text = damageMin.ToString() + "-" + damageMax.ToString() + "   " + Mathf.Round(((damageMin + damageMax)/2 / cooldown)).ToString() + "/sec\r\n" + staminaCost.ToString() + "\r\n" + accuracyPercent.ToString() + "%\r\n" + cooldown.ToString() + " sec";
+        //string text = "<u>" + damageMin.ToString() + "</u>-<u>" + damageMax.ToString() + "</u>   " + Mathf.Round(((damageMin + damageMax)/2 / cooldown)).ToString() + "/sec\r\n<u>" 
+        //    + staminaCost.ToString() + "</u>\r\n<u>" 
+        //    + accuracyPercent.ToString() + "%\r\n" + cooldown.ToString() + " sec";
+        string text = "<u>" + damageMin.ToString() + "</u>-<u>" + damageMax.ToString() + "</u> (" + Mathf.Round(((damageMin + damageMax) / 2 / cooldown)).ToString() + ")/sec"
+            + "\r\n<u>" + chanceCrit.ToString() +
+            "</u>%\r\n<u>" + critDamage.ToString() +
+            "</u>%\r\n<u>" + staminaCost.ToString() +
+            "</u>\r\n<u>" + accuracyPercent.ToString() +
+            "</u>%\r\n<u>" + cooldown.ToString() + "</u> sec";
+
         Stats.text = text;
     }
 

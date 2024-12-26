@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 1207204050981324387}
   - component: {fileID: 3358859349449279670}
   - component: {fileID: 5834365569484801137}
-  - component: {fileID: 2032272096221923004}
   - component: {fileID: 5765195408499808784}
   - component: {fileID: 8968117233028547791}
   - component: {fileID: 8813010434442794888}
   - component: {fileID: 3413370301633109164}
+  - component: {fileID: 1637794557418340922}
   m_Layer: 9
   m_Name: VampireSword1
   m_TagString: RareWeapon
@@ -54,7 +54,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22, y: 0.4275}
   m_AnchorMax: {x: 0.33, y: 0.855}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 254, y: -249.1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1599203261140120775
@@ -189,56 +189,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2032272096221923004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67957833366473630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a23d1fa9266039469cf4383aa99b43d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 7676820336849355672, guid: 5330a0b278de61d4a9591004845209bf, type: 3}
-  rbMass: 0.25
-  itemCost: 7
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars: []
-  emptyStar: {fileID: -3852521101907696072, guid: 250438bb0237e854398ca66722824463, type: 3}
-  fillStar: {fileID: 3328512122456274535, guid: 756cd4d089dea5643a5e800a7a0557d6, type: 3}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  originalName: 
-  attackMin: 7
-  attackMax: 15
-  stamina: 10
-  Accuracy: 95
-  timer_cooldown: 2
-  burningDamage: 5
 --- !u!223 &5765195408499808784
 Canvas:
   m_ObjectHideFlags: 0
@@ -461,6 +411,63 @@ PolygonCollider2D:
       - {x: 8.333334, y: -104.333336}
       - {x: 8.333334, y: -94.333336}
   m_UseDelaunayMesh: 0
+--- !u!114 &1637794557418340922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67957833366473630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad977a0eb7b0b8a418aed9e8710e5232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 8392253496852928078, guid: 5330a0b278de61d4a9591004845209bf, type: 3}
+  DescriptionLog: {fileID: 455213964644552338, guid: a255c79dec40255499c9cf2b91a70377, type: 3}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
+  rbMass: 0.3
+  itemCost: 15
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  Impulse: 0
+  stars:
+  - {fileID: 1910977820159471370}
+  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
+  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  originalName: VampireSword1
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 3
+  attackMin: 15
+  attackMax: 25
+  stamina: 6
+  accuracy: 75
+  critDamage: 175
+  chanceCrit: 15
 --- !u!1 &797727024820017749
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +639,7 @@ SpriteRenderer:
   m_SortingLayerID: -717817303
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2412327967235283532, guid: 93b3d2c48f1d41d499ce6411eaf1925f, type: 3}
+  m_Sprite: {fileID: 3619466108840764251, guid: d64d246fe7b8985418c0c7f987392743, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -769,7 +776,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -63.060074, y: 98.28397}
+  m_AnchoredPosition: {x: 24, y: 102.00001}
   m_SizeDelta: {x: 42.23999, y: -40.167892}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7540765300308059447
