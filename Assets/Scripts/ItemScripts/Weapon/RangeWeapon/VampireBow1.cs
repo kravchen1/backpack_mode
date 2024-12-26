@@ -149,6 +149,7 @@ public class VampireBow1 : Weapon
         yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
+            FillnestedObjectStarsStars(512, "RareWeapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -159,12 +160,24 @@ public class VampireBow1 : Weapon
                 descr.countIncreasesCritDamage = countIncreasesCritDamage;
                 descr.SetTextBody();
 
-                descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();
-                descr.damageMax = attackMax + Player.menuFightIconData.CalculateAddPower();
+                
+                if (Player != null)
+                {
+                    descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();
+                    descr.damageMax = attackMax + Player.menuFightIconData.CalculateAddPower();
+                    descr.accuracyPercent = Player.menuFightIconData.ReturnBlindAndAccuracy(accuracy);
+                    descr.critDamage = (int)(Player.menuFightIconData.CalculateCritDamage(critDamage) * 100);
+                    descr.chanceCrit = chanceCrit + (int)Player.menuFightIconData.CalculateChanceCrit();
+                }
+                else
+                {
+                    descr.damageMin = attackMin;
+                    descr.damageMax = attackMax;
+                    descr.accuracyPercent = accuracy;
+                    descr.critDamage = critDamage;
+                    descr.chanceCrit = chanceCrit;
+                }
                 descr.staminaCost = stamina;
-                descr.accuracyPercent = Player.menuFightIconData.ReturnBlindAndAccuracy(accuracy);
-                descr.critDamage = (int)(Player.menuFightIconData.CalculateCritDamage(critDamage) * 100);
-                descr.chanceCrit = chanceCrit + (int)Player.menuFightIconData.CalculateChanceCrit();
                 descr.cooldown = timer_cooldown;
                 descr.SetTextStat();
             }

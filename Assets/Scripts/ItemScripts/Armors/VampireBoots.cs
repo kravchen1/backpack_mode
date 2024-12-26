@@ -78,6 +78,7 @@ public class VampireBoots : Armor
         yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
+            FillnestedObjectStarsStars(512, "RareWeapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {

@@ -18,13 +18,10 @@ public class ManaGloves : Armor
     //private bool usable = false;
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
             timer_cooldown = baseTimerCooldown;
             //animator.speed = 1f / 0.5f;
             timer = timer_cooldown;
             //animator.Play(originalName + "Activation");
-        }
     }
  
 
@@ -133,6 +130,7 @@ public class ManaGloves : Armor
         yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
+            FillnestedObjectStarsStars(512, "RareWeapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {
