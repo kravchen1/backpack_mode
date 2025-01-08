@@ -30,18 +30,18 @@ public class HitsStructure
 }
 public abstract class Item : MonoBehaviour
 {
-    public int speedRotation = 500;
-    public string Name;
-    public int colliderCount;
+    [HideInInspector] public int speedRotation = 500;
+    [HideInInspector] public string Name;
+    [HideInInspector] public int colliderCount;
 
-    public float startRectTransformZ;
+    [HideInInspector] public float startRectTransformZ;
 
     [HideInInspector] public SpriteRenderer image;
     [HideInInspector] public Canvas canvas;
 
     //protected CanvasGroup canvasGroup;
     [HideInInspector] public Color imageColor;
-    public string prefabOriginalName;
+    [HideInInspector] public string prefabOriginalName;
 
 
     public GameObject Description;
@@ -49,62 +49,62 @@ public abstract class Item : MonoBehaviour
     [HideInInspector]  public GameObject CanvasDescription;
 
 
-    private bool showCanvasBefore = false;
-    protected bool canShowDescription = true;
+    [HideInInspector] private bool showCanvasBefore = false;
+    [HideInInspector] protected bool canShowDescription = true;
     [HideInInspector] public bool Exit = false;
-    public float rbMass = 0.1f;
+    //public float rbMass = 0.1f;
 
 
     public float itemCost;
 
     //����
-    public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
-    public List<HitsStructure> hits = new List<HitsStructure>();
+    [HideInInspector] public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
+    [HideInInspector] public List<HitsStructure> hits = new List<HitsStructure>();
 
 
-    public List<RaycastHit2D> hitsForBackpack = new List<RaycastHit2D>();
-    public List<RaycastStructure> careHits = new List<RaycastStructure>();
-    public List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
-    public List<RaycastHit2D> hitSellChest = new List<RaycastHit2D>();
+    [HideInInspector] public List<RaycastHit2D> hitsForBackpack = new List<RaycastHit2D>();
+    [HideInInspector] public List<RaycastStructure> careHits = new List<RaycastStructure>();
+    [HideInInspector] public List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
+    [HideInInspector] public List<RaycastHit2D> hitSellChest = new List<RaycastHit2D>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //�� ����
-    public Transform bagTransform;
-    public BoxCollider2D[] collidersArray;
+    [HideInInspector] public Transform bagTransform;
+    [HideInInspector] public BoxCollider2D[] collidersArray;
 
-    public Rigidbody2D rb;
-    public PolygonCollider2D collider;
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public PolygonCollider2D collider;
 
-    public Vector3 lastItemPosition;
+    [HideInInspector] public Vector3 lastItemPosition;
 
-    public RectTransform rectTransform;
+    [HideInInspector] public RectTransform rectTransform;
 
-    public bool firstTap = true; //�������, �� ����
-    public bool needToRotate;
-    public bool needToDynamic = false;
-    public bool needToRotateToStartRotation = false;
+    [HideInInspector] public bool firstTap = true; //�������, �� ����
+    [HideInInspector] public bool needToRotate;
+    [HideInInspector] public bool needToDynamic = false;
+    [HideInInspector] public bool needToRotateToStartRotation = false;
 
-    protected PlayerBackpackBattle Player;  
-    protected PlayerBackpackBattle Enemy;
-    protected GameObject placeForDescription;
-    protected GameObject placeForLogDescription;
+    [HideInInspector] protected PlayerBackpackBattle Player;
+    [HideInInspector] protected PlayerBackpackBattle Enemy;
+    [HideInInspector] protected GameObject placeForDescription;
+    [HideInInspector] protected GameObject placeForLogDescription;
 
 
-    public Animator animator;
-    Animator sellChestAnimator;
-    public bool Impulse = false;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] Animator sellChestAnimator;
+    [HideInInspector] public bool Impulse = false;
 
     public List<GameObject> stars;
     public Sprite emptyStar;
     public Sprite fillStar;
 
-    public ShopItem shopItem;
+    [HideInInspector] public ShopItem shopItem;
 
-    public bool isSellChest = false;
+    [HideInInspector] public bool isSellChest = false;
 
-    private Camera mainCamera;
-    public bool isDragging = false;
-    public Vector3 offset;
-    private int countClickRotate = 0, maxCountClickRotate = 100;
+    [HideInInspector] private Camera mainCamera;
+    [HideInInspector] public bool isDragging = false;
+    [HideInInspector] public Vector3 offset;
+    [HideInInspector] private int countClickRotate = 0, maxCountClickRotate = 100;
     private float timer_cooldownStatic = 12.5f;
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
