@@ -18,9 +18,9 @@ public class FireBody : Armor
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
-        
+
     }
- 
+
 
     public override void StartActivation()
     {
@@ -31,13 +31,14 @@ public class FireBody : Armor
                 Player.armor = Player.armor + startBattleArmorCount;
                 Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
-                Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                CreateLogMessage("FireBody give " + startBattleArmorCount.ToString() + " armor");
                 CheckNestedObjectActivation("StartBag");
             }
         }
     }
 
-    public override void StarActivation()
+    public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
         if (Player != null && Enemy != null)
@@ -47,23 +48,24 @@ public class FireBody : Armor
                 bool b = false;
                 foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
                 {
-                    if(icon.countStack >= SpendStack)
+                    if (icon.countStack >= SpendStack)
                     {
                         //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                         b = true;
-                        Enemy.hp -= DamageForStack;
-                        Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
-                        animator.SetTrigger(originalName + "StarActivation");
+                        //Enemy.hp -= DamageForStack;
+                        Attack(DamageForStack);
+                        //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
+                        CreateLogMessage("FireBody removed " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
+                        //animator.SetTrigger(originalName + "StarActivation");
                         //animator.Play("New State");
                         animator.Play(originalName + "Activation2", 0, 0f);
                         //animator.StartPlayback
                     }
                 }
-                if(b)
+                if (b)
                 {
                     Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-                    var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                    calculateFight.calculateFireFrostStats(true);//true = Player
+                    Player.menuFightIconData.CalculateFireFrostStats();//true = Player
                 }
             }
         }
@@ -88,7 +90,7 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            FillnestedObjectStarsStars(512, "RareWeapon");
+            //FillnestedObjectStarsStars(512, "RareWeapon");
             CoolDownStart();
         }
 
@@ -98,6 +100,22 @@ public class FireBody : Armor
         }
     }
 
-
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSeconds(.1f);
+        if (!Exit)
+        {
+            FillnestedObjectStarsStars(512, "RareWeapon");
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().SpendStack = SpendStack;
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().DamageForStack = DamageForStack;
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().SetTextBody();
+            }
+        }
+    }
 
 }

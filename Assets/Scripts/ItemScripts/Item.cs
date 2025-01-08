@@ -916,7 +916,7 @@ public abstract class Item : MonoBehaviour
     //}
     public virtual void StarActivation(Item item)
     {
-        //Debug.Log("��������� " + this.name);
+        Debug.Log("��������� " + this.name);
     }
 
     public virtual void Activation()
