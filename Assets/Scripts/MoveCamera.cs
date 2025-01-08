@@ -1,13 +1,18 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class MoveCamera : MonoBehaviour
 {
-    private Player player;
+    private GameObject player;
     private float minX = 450, minY = 250, maxX = 1550, maxY = 750;
     public float durationMove = 1f;
-
-
+    private Coroutine currentCoroutine;
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     public void MoveCameraMethod(Vector2 vector2, bool needSlowMove = true)
     {
@@ -15,47 +20,83 @@ public class MoveCamera : MonoBehaviour
         {
             if (vector2.x < minX && vector2.y < minY) //слева и снизу
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(-535, -300, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(-535, -300, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(-535, -300, -10800);
             }
             else if (vector2.x < minX && vector2.y > maxY) //слева и сверху
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(-535, 300, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(-535, 300, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(-535, 300, -10800);
             }
             else if (vector2.x > maxX && vector2.y < minY) //справа и снизу
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(615, -300, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(615, -300, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(615, -300, -10800);
             }
             else if (vector2.x > maxX && vector2.y > maxY) //справа и сверху
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(615, 300, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(615, 300, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(615, 300, -10800);
             }
             else if (vector2.x < minX) //слева
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(-535, vector2.y - 400, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(-535, vector2.y - 400, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(-535, vector2.y - 400, -10800);
             }
             else if (vector2.y < minY) //снизу
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(vector2.x - 885, -300, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(vector2.x - 885, -300, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(vector2.x - 885, -300, -10800);
             }
             else if (vector2.y > maxY) //сверху
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(vector2.x - 885, 300, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(vector2.x - 885, 300, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(vector2.x - 885, 300, -10800);
             }
             else if (vector2.x > maxX) //справа
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(615, vector2.y - 400, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(615, vector2.y - 400, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(615, vector2.y - 400, -10800);
             }
             else
             {
-                StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(vector2.x - 885, vector2.y - 400, -10800), durationMove));
+                if (currentCoroutine != null)
+                {
+                    StopCoroutine(currentCoroutine);
+                }
+                currentCoroutine = StartCoroutine(MoveObject(gameObject.transform.localPosition, new Vector3(vector2.x - 885, vector2.y - 400, -10800), durationMove));
                 //gameObject.transform.localPosition = new Vector3(vector2.x - 885, vector2.y - 400, -10800);
             }
         }
@@ -110,18 +151,19 @@ public class MoveCamera : MonoBehaviour
     }
     private void Update()
     {
-        
+        //if(player.transform.localPosition.x >= gameObject.transform.localPosition.x + 100)
+        //{
+        gameObject.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, gameObject.transform.localPosition.z);
+        //}
     }
     // Корутина для плавного перемещения
     private IEnumerator MoveObject(Vector3 startPosition, Vector3 targetPosition, float duration)
     {
         float elapsedTime = 0; // Время, прошедшее с начала перехода
-
         while (elapsedTime < duration)
         {
             // Вычисляем текущую позицию
             transform.localPosition = Vector3.Lerp(startPosition, targetPosition, (elapsedTime / duration));
-            Debug.Log(elapsedTime);
             elapsedTime += Time.deltaTime; // Увеличиваем время
             yield return null; // Ждем следующего кадра
         }

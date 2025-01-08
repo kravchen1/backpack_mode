@@ -63,7 +63,7 @@ public class FireBody : Armor
                 {
                     Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                     var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                    calculateFight.calculateFireStats(true);//true = Player
+                    calculateFight.calculateFireFrostStats(true);//true = Player
                 }
             }
         }

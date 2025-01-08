@@ -10,7 +10,7 @@ public class Button : MonoBehaviour
     //[SerializeField] private GameObject goMap;
     private GameObject player;
     private Map map;
-
+    
     private void Awake()
     {
         
@@ -75,19 +75,23 @@ public class Button : MonoBehaviour
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Player_FireStatic":
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ChooseCharCamera>().CharacterSelection(gameObject);
+                break;
+            case "Button_GoPlay":
                 PlayerPrefs.DeleteAll();
-                PlayerPrefs.SetString("characterClass", gameObject.name.Replace("Static",""));
+                PlayerPrefs.SetString("characterClass", gameObject.transform.parent.name.Replace("Static", ""));
+                Debug.Log(gameObject.transform.parent.name.Replace("Static", ""));
                 PlayerPrefs.DeleteKey("mapLevel");
                 DeleteAllData();
                 StartBackPack();
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Player_EarthStatic":
-                PlayerPrefs.DeleteAll();
-                PlayerPrefs.SetString("characterClass", gameObject.name.Replace("Static", ""));
-                PlayerPrefs.DeleteKey("mapLevel");
-                DeleteAllData();
-                StartBackPack();
+                //PlayerPrefs.DeleteAll();
+                //PlayerPrefs.SetString("characterClass", gameObject.name.Replace("Static", ""));
+                //PlayerPrefs.DeleteKey("mapLevel");
+                //DeleteAllData();
+                //StartBackPack();
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Button_NewGame":

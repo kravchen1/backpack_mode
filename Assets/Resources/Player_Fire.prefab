@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7830989344951928768}
   - component: {fileID: -113782132108605915}
   - component: {fileID: 249020187512565457}
+  - component: {fileID: -8701842602142293238}
   m_Layer: 2
   m_Name: Player_Fire
   m_TagString: Player
@@ -156,11 +157,14 @@ MonoBehaviour:
   goMap: {fileID: 0}
   animator: {fileID: 0}
   map: {fileID: 0}
+  rectTransform: {fileID: 0}
   rb: {fileID: 0}
   activePoint: {fileID: 0}
   startMove: 0
   lastCrossCollider: {fileID: 0}
   targetPosition: {x: 0, y: 0}
+  mainCamera: {fileID: 0}
+  moveSpeed: 5
   duration: 2
 --- !u!114 &-113782132108605915
 MonoBehaviour:
@@ -213,3 +217,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &-8701842602142293238
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190157044284203237}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
