@@ -174,14 +174,14 @@ public class Bag : Item
         {
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
             objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycastForSellChest(128);
-            objectInCell.gameObject.ClearCareRaycast();
+            objectInCell.gameObject.ClearCareRaycast(true);
             objectInCell.gameObject.CreateCareRaycast();
         }
 
         hits = CreateRaycast(128);
         hitSellChest = CreateRaycastForSellChest(32768);
 
-        ClearCareRaycast();
+        ClearCareRaycast(false);
         CreateCareRaycast();
     }
     public void ChangeColorMyCells()
@@ -202,15 +202,17 @@ public class Bag : Item
 
     public void BagDefauldUpdate()
     {
-        if (isDragging)
+        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
-            if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+            if (isDragging)
             {
+
                 transform.position = GetMouseWorldPosition() + offset;
                 RaycastEvent();
                 ChangeColorMyCells();
                 SellChest();
                 DeleteAllDescriptions();
+
             }
         }
         Rotate();
@@ -233,7 +235,7 @@ public class Bag : Item
             if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
             {
                 var maxY = careHits[0].raycastHit.collider.transform.localPosition.y;
-                Vector2 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
+                Vector3 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
                 //Vector2 colliderPos2 = careHits[0].raycastHit.collider.transform.position;
 
                 for (int i = 1; i < careHits.Count; i++)
@@ -258,7 +260,7 @@ public class Bag : Item
                 }
                 rectTransform.SetParent(bagTransform);
                 gameObject.transform.SetAsFirstSibling();
-                Vector2 offset;
+                Vector3 offset;
                 //offset = calculateOffset(itemColliders);
                 if (itemColliders.Count == 4)
                     offset = new Vector2(itemColliders[0].size.x / 2, -itemColliders[0].size.y / 2);
@@ -280,11 +282,11 @@ public class Bag : Item
                     offset = new Vector2(0, 0);
                 }
 
-                rectTransform.localPosition = offset + colliderPos;
+                rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -1f);
                 needToDynamic = false;
-                Debug.Log("offset: " + offset.ToString());
-                Debug.Log("colliderPos: " + colliderPos.ToString());
-                Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
+                //Debug.Log("offset: " + offset.ToString());
+                //Debug.Log("colliderPos: " + colliderPos.ToString());
+                //Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
                 foreach (var careHit in careHits)
                 {
                     careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
@@ -346,7 +348,7 @@ public class Bag : Item
                         foreach (var Carehit in objectInCell.gameObject.careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
                         {
                             var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
-                            nestedObjectItem.MoveObjectOnEndDrag();
+                            //nestedObjectItem.MoveObjectOnEndDrag();
                             nestedObjectItem.DeleteNestedObject();
                             nestedObjectItem.needToDynamic = true;
                             //nestedObjectItem.Impulse = true;
@@ -363,7 +365,7 @@ public class Bag : Item
                         objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                         objectInCell.gameObject.needToDynamic = true;
                         //objectInCell.gameObject.Impulse = true;
-                        objectInCell.gameObject.MoveObjectOnEndDrag();
+                        //objectInCell.gameObject.MoveObjectOnEndDrag();
                         objectInCell.gameObject.IgnoreCollisionObject(false);
                         objectInCell.gameObject.rb.excludeLayers = 0;// (1 << 9);
                         break;
@@ -373,7 +375,7 @@ public class Bag : Item
             {
                 objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 objectInCell.gameObject.needToDynamic = true;
-                objectInCell.gameObject.MoveObjectOnEndDrag();
+                //objectInCell.gameObject.MoveObjectOnEndDrag();
             }
             //if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
             //{
@@ -415,7 +417,7 @@ public class Bag : Item
             gameObject.transform.SetParent(GameObject.Find("Storage").transform);
             EndDragForChildObjects(false);
             Impulse = true;
-            MoveObjectOnEndDrag();
+            //MoveObjectOnEndDrag();
             rb.excludeLayers = 0;
         }
         DisableBackpackCells();

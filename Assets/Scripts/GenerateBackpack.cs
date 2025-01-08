@@ -93,7 +93,7 @@ public class GenerateBackpack : MonoBehaviour
         {
             componentItem.needToDynamic = true;
             componentItem.Impulse = true;
-            componentItem.MoveObjectOnEndDrag();
+            //componentItem.MoveObjectOnEndDrag();
             //componentBag.MoveObjectOnEndDrag();
         }
         else

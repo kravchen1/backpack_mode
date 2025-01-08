@@ -186,6 +186,7 @@ public abstract class Item : MonoBehaviour
         {
             if (animator != null) animator.Play("ItemClick");
             IgnoreCollisionObject(true);
+            image.sortingOrder = 4;
             needToDynamic = true;
 
             lastItemPosition = gameObject.transform.position;
@@ -239,7 +240,7 @@ public abstract class Item : MonoBehaviour
             GetComponent<AnimationStart>().Play();
         }
         IgnoreCollisionObject(false);
-
+        
 
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
@@ -281,6 +282,8 @@ public abstract class Item : MonoBehaviour
 
         // Заканчиваем перетаскивание
         isDragging = false;
+        ClearCareRaycast(false);
+        image.sortingOrder = 3;
         StartCoroutine(ShowDescription());
         FillnestedObjectStarsStars(512, "RareWeapon");
     }
@@ -363,7 +366,7 @@ public abstract class Item : MonoBehaviour
                 foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
                 {
                     var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
-                    nestedObjectItem.MoveObjectOnEndDrag();
+                    //nestedObjectItem.MoveObjectOnEndDrag();
                     nestedObjectItem.DeleteNestedObject();
                     nestedObjectItem.needToDynamic = true;
                     timerStatic_locked_out = true;
@@ -384,7 +387,7 @@ public abstract class Item : MonoBehaviour
                 timerStatic = timer_cooldownStatic;
 
                 //Impulse = true;
-                MoveObjectOnEndDrag();
+                //MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
                 rb.excludeLayers = 0;// (1 << 9);
                 break;
@@ -474,7 +477,7 @@ public abstract class Item : MonoBehaviour
                 }
             }
             var offset = calculateOffset(itemColliders);
-            rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -1f);
+            rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
             needToDynamic = false;
             foreach (var careHit in careHitsForBackpack)
             {
@@ -594,25 +597,47 @@ public abstract class Item : MonoBehaviour
     {
         if (needToRotateToStartRotation)
         {
-            if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
+            float angle = rectTransform.eulerAngles.z;
+            if (angle < 45 || angle > 315)
             {
                 needToRotateToStartRotation = false;
                 rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             }
-            else
+            else if (angle >= 45 && angle < 135)
             {
-                if (countClickRotate < maxCountClickRotate)
-                {
-                    rectTransform.Rotate(0, 0, speedRotation * Time.deltaTime);
-                    countClickRotate++;
-                }
-                else
-                {
-                    countClickRotate = 0;
-                    needToRotateToStartRotation = false;
-                    rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                }
+                needToRotateToStartRotation = false;
+                rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
             }
+            else if (angle >= 135 && angle < 225)
+            {
+                needToRotateToStartRotation = false;
+                rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+            }
+            else // (angle >= 225 && angle < 315)
+            {
+                needToRotateToStartRotation = false;
+                rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 270));
+            }
+
+
+            //if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
+            //{
+                
+            //}
+            //else
+            //{
+            //    if (countClickRotate < maxCountClickRotate)
+            //    {
+            //        rectTransform.Rotate(0, 0, speedRotation * Time.deltaTime);
+            //        countClickRotate++;
+            //    }
+            //    else
+            //    {
+            //        countClickRotate = 0;
+            //        needToRotateToStartRotation = false;
+            //        rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            //    }
+            //}
         }
     }
     public void OnImpulse()
@@ -661,7 +686,7 @@ public abstract class Item : MonoBehaviour
         mouseScreenPosition.z = mainCamera.nearClipPlane; // Устанавливаем Z, чтобы получить координаты в 3D пространстве
         return mainCamera.ScreenToWorldPoint(mouseScreenPosition);
     }
-    public void IgnoreCollisionObject(bool ignoreCollisionObject)//true - ignotr //false - not ignore
+    public void IgnoreCollisionObject(bool ignoreCollisionObject)//true - ignore //false - not ignore
     {
         Collider2D[] colliders = FindObjectsByType<Collider2D>(FindObjectsSortMode.None);
         foreach (var otherCollider in colliders)
@@ -760,7 +785,7 @@ public abstract class Item : MonoBehaviour
                     {
                         if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                         {
-                            hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.red;
+                            hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
                             careHits.Add(new RaycastStructure(hit.hits[0]));//�������
                         }
                     }
@@ -780,7 +805,7 @@ public abstract class Item : MonoBehaviour
             }
         }
     }
-    public virtual void ClearCareRaycast()
+    public virtual void ClearCareRaycast(bool nested) //true - если внутри сумки, false - если без сумки
     {
         foreach (var Carehit in careHits)
         {
@@ -807,7 +832,8 @@ public abstract class Item : MonoBehaviour
                 {
                     Carehit.isDeleted = true;
                     Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-                    Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().enabled = false;
+                    if(!nested)
+                        Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().enabled = false;
                 }
             }
         }
@@ -823,7 +849,7 @@ public abstract class Item : MonoBehaviour
         hits = CreateRaycast(256);
         hitSellChest.Clear();
         hitSellChest = CreateRaycastForSellChest(32768);
-        ClearCareRaycast();
+        ClearCareRaycast(false);
         CreateCareRaycast();
         FillnestedObjectStarsStars(512, "RareWeapon");
     }

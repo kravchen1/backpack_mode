@@ -161,7 +161,7 @@ public class BagOld : ItemOld
         {
             objectInCell.gameObject.hits = objectInCell.gameObject.CreateRaycast(256);
             objectInCell.gameObject.hitsForBackpack = objectInCell.gameObject.CreateRaycastForSellChest(128);
-            objectInCell.gameObject.ClearCareRaycast();
+            objectInCell.gameObject.ClearCareRaycast(true);
             objectInCell.gameObject.CreateCareRaycast();
         }
 

@@ -763,11 +763,11 @@ public abstract class ItemOld : MonoBehaviour, IBeginDragHandler  , IDragHandler
 
     public virtual void ShowDiscriptionActivation()
     {
-        Debug.Log("��������: ��������!");
+        //Debug.Log("��������: ��������!");
     }
     public virtual void Activation()
     {
-        Debug.Log("��������� " + this.name);
+        //Debug.Log("��������� " + this.name);
     }
     IEnumerator ShowDescription()
     {
