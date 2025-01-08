@@ -557,6 +557,9 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 463675199095398185, guid: c09b6f1eb48ce43499cbd4880410324a, type: 3}
+  DescriptionLog: {fileID: 455213964644552338, guid: a255c79dec40255499c9cf2b91a70377, type: 3}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
   rbMass: 0.1
   itemCost: 0
   itemColliders: []
@@ -588,9 +591,12 @@ MonoBehaviour:
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
   originalName: FireBody1
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 0
   startBattleArmorCount: 20
   DamageForStack: 5
-  SpendStack: 3
+  SpendStack: 1
 --- !u!1 &1989746515085112163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,7 +2975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.75}
   m_AnchorMax: {x: 0.3, y: 1}
-  m_AnchoredPosition: {x: 113.09567, y: -6.528885}
+  m_AnchoredPosition: {x: 113.095665, y: -6.528885}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1322962407599926337

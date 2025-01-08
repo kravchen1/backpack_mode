@@ -12,14 +12,14 @@ using System;
 public class StartFireBag : Bag
 {
     public int countBurnStack = 1;
-    public override void StarActivation()
+    public override void StarActivation(Item item)
     {
         if (Player != null)
         {
             Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
-            Debug.Log("сумка огня наложила 1 ожёг");
-            var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-            calculateFight.calculateFireFrostStats(true);//true = Player
+            //Debug.Log("сумка огня наложила 1 ожёг");
+            CreateLogMessage("FireBag give " + countBurnStack.ToString() + " burn");
+            Player.menuFightIconData.CalculateFireFrostStats();//true = Player
         }
     }
 

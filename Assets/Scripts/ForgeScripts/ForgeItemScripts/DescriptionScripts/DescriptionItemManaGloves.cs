@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DescriptionItemManaGloves : DescriptionItem
 {
-    public int countNeedManaStack = 2;
-    public float coolDown = 1.1f;
+    public int countSteelManaStack = 2;
     public void SetTextBody()
     {
-        string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
+        //string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: steal <u>" + countSteelManaStack.ToString() + "</u>";
         textBody.text = text;
     }
 

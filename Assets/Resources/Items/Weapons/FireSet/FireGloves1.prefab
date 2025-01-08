@@ -1357,11 +1357,11 @@ GameObject:
   - component: {fileID: 3710303577264963686}
   - component: {fileID: 4953882396214213948}
   - component: {fileID: 4314662671069678524}
-  - component: {fileID: 7167347727835486407}
   - component: {fileID: 9123663966753378957}
   - component: {fileID: 266609607190954199}
   - component: {fileID: 7133700814664925296}
   - component: {fileID: 3713131481379676264}
+  - component: {fileID: 1292082528437863273}
   m_Layer: 9
   m_Name: FireGloves1
   m_TagString: RareWeapon
@@ -1398,7 +1398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.11, y: 0.7125}
   m_AnchorMax: {x: 0.33, y: 0.855}
-  m_AnchoredPosition: {x: 510.5, y: -240.2}
+  m_AnchoredPosition: {x: 420.3, y: -163.7}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1294443271709465440
@@ -1533,58 +1533,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7167347727835486407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9138683425467991078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a23d1fa9266039469cf4383aa99b43d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 5785548692116576654, guid: 7db90ebd870f6464c8d2b4a5105e01a8, type: 3}
-  rbMass: 0.25
-  itemCost: 7
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars:
-  - {fileID: 4591342256448022169}
-  - {fileID: 115569179741321408}
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  originalName: 
-  attackMin: 7
-  attackMax: 15
-  stamina: 10
-  Accuracy: 95
-  timer_cooldown: 2
-  burningDamage: 5
 --- !u!223 &9123663966753378957
 Canvas:
   m_ObjectHideFlags: 0
@@ -1790,3 +1738,58 @@ PolygonCollider2D:
       - {x: -2.4324324, y: -29.054052}
       - {x: 7.297297, y: -30.405403}
   m_UseDelaunayMesh: 0
+--- !u!114 &1292082528437863273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138683425467991078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb3000c3cdede2748b5aa4e38791ccb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 5785548692116576654, guid: 7db90ebd870f6464c8d2b4a5105e01a8, type: 3}
+  DescriptionLog: {fileID: 455213964644552338, guid: a255c79dec40255499c9cf2b91a70377, type: 3}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
+  rbMass: 0.1
+  itemCost: 0
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  Impulse: 0
+  stars:
+  - {fileID: 4591342256448022169}
+  - {fileID: 115569179741321408}
+  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
+  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  originalName: FireGloves
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 0
+  startBattleArmorCount: 0
+  countBurnStack: 3
+  coolDown: 50

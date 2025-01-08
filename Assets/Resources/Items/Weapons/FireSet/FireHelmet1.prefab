@@ -782,7 +782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.11, y: 0.7125}
   m_AnchorMax: {x: 0.33, y: 0.855}
-  m_AnchoredPosition: {x: 422.6, y: -242}
+  m_AnchoredPosition: {x: 429, y: -242}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6849980883317909666
@@ -1133,6 +1133,9 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 3655823176682277281, guid: 51793db4f7a839544a9a3a678daf4791, type: 3}
+  DescriptionLog: {fileID: 455213964644552338, guid: a255c79dec40255499c9cf2b91a70377, type: 3}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
   rbMass: 0.1
   itemCost: 0
   itemColliders: []
@@ -1156,9 +1159,11 @@ MonoBehaviour:
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
   originalName: FireHelmet1
-  startBattleArmorCount: 20
+  timer: 0
   timer_cooldown: 2.1
-  countBurnStack: 2
+  baseTimerCooldown: 4.4
+  startBattleArmorCount: 20
+  countBurnStack: 1
 --- !u!1 &7409802622768632517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1266,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -1436,7 +1441,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2510125584074607395}
   - component: {fileID: 1322962407599926337}
-  - component: {fileID: 2675736703004302695}
   m_Layer: 6
   m_Name: IconBurn
   m_TagString: Icon
@@ -1519,21 +1523,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2675736703004302695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8493900181629286201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaf167182fefa5e4383cd18f7983f6a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countText: {fileID: 5149740416458538058}
-  countStack: 0
-  sceneGameObjectIcon: {fileID: 0}
 --- !u!1 &8765888960454490976
 GameObject:
   m_ObjectHideFlags: 0

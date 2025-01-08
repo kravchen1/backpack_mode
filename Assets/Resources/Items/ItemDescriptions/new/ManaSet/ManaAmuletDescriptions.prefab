@@ -369,7 +369,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Every <u>2,1</u> sec: will spend <u>5</u>     and applie 1 of \n"
+  m_text: "Every <u>2,1</u> sec: will spend <u>5</u>     and applie <u>1</u> of \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -652,7 +652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23, y: 0.72210354}
   m_AnchorMax: {x: 0.3, y: 1}
-  m_AnchoredPosition: {x: 261.5, y: -121.80002}
+  m_AnchoredPosition: {x: 229.2, y: -121.80002}
   m_SizeDelta: {x: 0, y: -81.93499}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6822857563477016999
@@ -743,7 +743,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 156.2}
+  m_AnchoredPosition: {x: 0, y: 84.9}
   m_SizeDelta: {x: 0, y: 0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1968296373056226153
@@ -999,7 +999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3270492938115094037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1623,7 +1623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2779196124587844073
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1708,7 +1708,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'FireStack: For every 1 stack, deals 1/sec damage to the owner'
+  m_text: 'FireStack: For every 1 stack, all items activate 2% faster'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -1852,7 +1852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23, y: 0.72210354}
   m_AnchorMax: {x: 0.3, y: 1}
-  m_AnchoredPosition: {x: 185.5, y: -121.80002}
+  m_AnchoredPosition: {x: 153.2, y: -121.80002}
   m_SizeDelta: {x: 0, y: -81.93499}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6412207934516378279
@@ -2642,10 +2642,12 @@ MonoBehaviour:
   damageMax: 2
   staminaCost: 1
   accuracyPercent: 95
+  baseDamageCrit: 150
   cooldown: 1.1
   Armor: 0
   countNeedManaStack: 2
   coolDown: 1.1
+  countDebuffStack: 2
 --- !u!1 &6869931157377286246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,7 +2800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4492964580915700377
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2975,7 +2977,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'poisonStack: For every 1 stack, deals 1/sec damage to the owner'
+  m_text: 'poisonStack: For every 1 stack, reduce incoming heal 5%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -3119,7 +3121,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23, y: 0.72210354}
   m_AnchorMax: {x: 0.3, y: 1}
-  m_AnchoredPosition: {x: 220.3, y: -121.80002}
+  m_AnchoredPosition: {x: 188, y: -121.80002}
   m_SizeDelta: {x: 0, y: -81.93499}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7546411024923235625

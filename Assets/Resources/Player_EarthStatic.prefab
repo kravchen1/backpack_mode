@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7865993756311735659}
   - component: {fileID: 7146805672978454267}
   - component: {fileID: 5284385914287319337}
-  - component: {fileID: 3096949071898857007}
   - component: {fileID: 2338991165204763668}
   - component: {fileID: 25981125979839264}
   m_Layer: 2
@@ -141,29 +140,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 100, y: 103.53}
   m_EdgeRadius: 0
---- !u!114 &3096949071898857007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3774774474731307768}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81163bed3b1c88c4d887ed28e8c387a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goMap: {fileID: 0}
-  animator: {fileID: 0}
-  map: {fileID: 0}
-  rectTransform: {fileID: 0}
-  rb: {fileID: 0}
-  activePoint: {fileID: 0}
-  startMove: 0
-  lastCrossCollider: {fileID: 0}
-  targetPosition: {x: 0, y: 0}
-  mainCamera: {fileID: 0}
-  duration: 2
 --- !u!114 &2338991165204763668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,7 +147,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3774774474731307768}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
   m_Name: 

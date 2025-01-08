@@ -8,7 +8,7 @@ public class DescriptionItemFireHelmet : DescriptionItem
     //public float coolDown = 2.1f;
     public void SetTextBody()
     {
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec: applies <u>" + countStack.ToString() + "</u>    on enemy ";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: give you <u>" + countStack.ToString() + "</u>";
         textBody.text = text;
     }
 

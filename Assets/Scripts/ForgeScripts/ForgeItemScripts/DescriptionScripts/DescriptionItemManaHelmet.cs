@@ -1,14 +1,18 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class DescriptionItemManaHelmet: DescriptionItem
 {
-    public int countNeedManaStack = 2;
-    public float coolDown = 1.1f;
+    public int hpDrop = 71;
+    public int countArmorStack = 34;
+    public int countResistStack = 10;
+    public int countSpendManaStack = 2;
     public void SetTextBody()
     {
-        string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
+        string text = "health drop below <u>" + hpDrop.ToString() + "</u>%:\r\nspend <u>" + countSpendManaStack.ToString() + "</u>      give <u>" + countArmorStack.ToString() 
+            + "</u>        and <u>" + countResistStack.ToString() + "</u>";
         textBody.text = text;
     }
 

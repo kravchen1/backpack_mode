@@ -475,12 +475,12 @@ SpriteRenderer:
   m_SortingLayerID: -717817303
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: -4528246236754363592, guid: 93b3d2c48f1d41d499ce6411eaf1925f, type: 3}
+  m_Sprite: {fileID: -471984491548242429, guid: ee1f87e1b6881d44a8068836401c34cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 117.2, y: 149.1}
+  m_Size: {x: 115.66, y: 149.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1563,11 +1563,11 @@ GameObject:
   - component: {fileID: 3483181525579923445}
   - component: {fileID: 6871718067148024581}
   - component: {fileID: 1285717365010139065}
-  - component: {fileID: 1218760352871189710}
   - component: {fileID: 4901849648391442366}
   - component: {fileID: 7298137880529895463}
   - component: {fileID: 4668241222421645360}
   - component: {fileID: 2893015020968312654}
+  - component: {fileID: 4423938058255358521}
   m_Layer: 9
   m_Name: ManaBody1
   m_TagString: RareWeapon
@@ -1610,7 +1610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.11, y: 0.57}
   m_AnchorMax: {x: 0.33, y: 0.855}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 255, y: -242.19998}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6835530973219826703
@@ -1726,7 +1726,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6794429707961509293}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1745,64 +1745,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1218760352871189710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6794429707961509293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a23d1fa9266039469cf4383aa99b43d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 8348921864725243001, guid: 7c7b88a8851eddf4fa80eae820e4886a, type: 3}
-  rbMass: 0.25
-  itemCost: 7
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars:
-  - {fileID: 6885686634898301454}
-  - {fileID: 6238246311135675211}
-  - {fileID: 2551303041033417860}
-  - {fileID: 8104427224650808755}
-  - {fileID: 6703480715555866058}
-  - {fileID: 1852306027709717657}
-  - {fileID: 67918132350381422}
-  - {fileID: 647190341806743346}
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  originalName: 
-  attackMin: 7
-  attackMax: 15
-  stamina: 10
-  Accuracy: 95
-  timer_cooldown: 2
-  burningDamage: 5
 --- !u!223 &4901849648391442366
 Canvas:
   m_ObjectHideFlags: 0
@@ -2054,6 +1996,68 @@ PolygonCollider2D:
       - {x: 13.777778, y: -80.333336}
       - {x: 18, y: -79.44444}
   m_UseDelaunayMesh: 0
+--- !u!114 &4423938058255358521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794429707961509293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94590268cbd6e314590d391e4f60f19a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 8348921864725243001, guid: 7c7b88a8851eddf4fa80eae820e4886a, type: 3}
+  DescriptionLog: {fileID: 455213964644552338, guid: a255c79dec40255499c9cf2b91a70377, type: 3}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
+  rbMass: 0.1
+  itemCost: 0
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  Impulse: 0
+  stars:
+  - {fileID: 6885686634898301454}
+  - {fileID: 6238246311135675211}
+  - {fileID: 2551303041033417860}
+  - {fileID: 8104427224650808755}
+  - {fileID: 6703480715555866058}
+  - {fileID: 1852306027709717657}
+  - {fileID: 67918132350381422}
+  - {fileID: 647190341806743346}
+  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
+  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  originalName: ManaBody1
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 0
+  startBattleArmorCount: 30
+  countStarArmorStack: 5
+  countStarManaStack: 3
+  countManaStack: 1
 --- !u!1 &6885686634898301454
 GameObject:
   m_ObjectHideFlags: 0

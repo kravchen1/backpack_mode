@@ -1,14 +1,15 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class DescriptionItemVampireBody : DescriptionItem
 {
-    //public int countNeedManaStack = 2;
-    //public float coolDown = 1.1f;
+    public int countBleedStack = 2;
     public void SetTextBody()
     {
-        string text = "ToDo";
+        //string text = "Every <u>" + cooldown.ToString() + "</u> sec: give count        equal\r\n      on enemy";
+        string text = "Every <u>" + Math.Round(cooldown,1).ToString() + "</u> sec: give count        equal\r\n      on enemy\r\n\r\nVampire items    activate:  applie <u>" + countBleedStack.ToString() + "</u>";
         textBody.text = text;
     }
 

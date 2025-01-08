@@ -10,6 +10,8 @@ public class DescriptionItem : MonoBehaviour
     public int damageMin = 1, damageMax = 2;
     public int staminaCost = 1;
     public int accuracyPercent = 95;
+    public int chanceCrit = 5;
+    public int critDamage = 130;
     public float cooldown = 1.1f;
 
     public int Armor = 0;

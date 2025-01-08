@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class DescriptionItemVampireBoots : DescriptionItem
 {
-    //public int countNeedManaStack = 2;
+    public int countVampireStack = 2;
+    public int countArmorStack = 15;
     //public float coolDown = 1.1f;
     public void SetTextBody()
     {
-        string text = "ToDo";
+        string text = "start battle: give <u>" + countVampireStack.ToString() + " </u>        and <u>" + countArmorStack.ToString() + "</u>";
         textBody.text = text;
     }
 

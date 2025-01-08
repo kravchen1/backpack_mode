@@ -42,7 +42,7 @@ public class GenerateBackpack : MonoBehaviour
         LoadChestItems("RAREWEAPON");
         LoadChestItems("STARTBAG");
         LoadChestItems("BAG");
-
+        LoadChestItems("BLOCKMANAITEM");
 
 
         GenerationBackpack();

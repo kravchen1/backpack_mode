@@ -16,6 +16,8 @@ using static UnityEditor.Progress;
 using static UnityEngine.UI.Image;
 using UnityEditor.SceneManagement;
 using System.Timers;
+using TMPro;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 public class HitsStructure
@@ -43,7 +45,10 @@ public abstract class Item : MonoBehaviour
 
 
     public GameObject Description;
+    public GameObject DescriptionLog;
     [HideInInspector]  public GameObject CanvasDescription;
+
+
     private bool showCanvasBefore = false;
     protected bool canShowDescription = true;
     [HideInInspector] public bool Exit = false;
@@ -81,6 +86,7 @@ public abstract class Item : MonoBehaviour
     protected PlayerBackpackBattle Player;  
     protected PlayerBackpackBattle Enemy;
     protected GameObject placeForDescription;
+    protected GameObject placeForLogDescription;
 
 
     public Animator animator;
@@ -144,6 +150,7 @@ public abstract class Item : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
             if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
             {
                 placeForDescription = GameObject.FindWithTag("DescriptionPlace");
@@ -158,6 +165,7 @@ public abstract class Item : MonoBehaviour
                 Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
             }
         }
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
     void initializationItemColliders()
     {
@@ -225,7 +233,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
+        //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();
@@ -269,15 +277,12 @@ public abstract class Item : MonoBehaviour
             {
                 SellItem();
             }
-            
-
-
-           
         }
 
         // Заканчиваем перетаскивание
         isDragging = false;
         StartCoroutine(ShowDescription());
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
 
     public void defaultItemUpdate()
@@ -303,7 +308,6 @@ public abstract class Item : MonoBehaviour
         OnImpulse();
         RotationToStartRotation();
         CoolDownStatic();
-        FillnestedObjectStarsStars(512, "RareWeapon");
     }
     public virtual void Update()
     {
@@ -821,6 +825,7 @@ public abstract class Item : MonoBehaviour
         hitSellChest = CreateRaycastForSellChest(32768);
         ClearCareRaycast();
         CreateCareRaycast();
+        FillnestedObjectStarsStars(512, "RareWeapon");
     }
 
 
@@ -905,7 +910,11 @@ public abstract class Item : MonoBehaviour
 
 
 
-    public virtual void StarActivation()
+    //public virtual void StarActivation()
+    //{
+    //    //Debug.Log("��������� " + this.name);
+    //}
+    public virtual void StarActivation(Item item)
     {
         //Debug.Log("��������� " + this.name);
     }
@@ -913,6 +922,11 @@ public abstract class Item : MonoBehaviour
     public virtual void Activation()
     {
         //Debug.Log("��������� " + this.name);
+    }
+    public virtual int BlockActivation()
+    {
+        //Debug.Log("��������� " + this.name);
+        return 0;
     }
     public virtual void StartActivation()
     {
@@ -928,14 +942,14 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
             //bool b = nestedStarObjects.Where(e => e.name == raycast.collider.gameObject.name).Count() == 0;
-            if (raycast.collider != null)//
+            if (raycast.collider != null && raycast.collider.gameObject != gameObject)//
             {
                 if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject).Count() == 0)
                 {
                     star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
                     //nestedStarObjects.Add(raycast.collider.gameObject);
-                    //лёша иди на хуй
                     star.GetComponent<SpriteRenderer>().sprite = fillStar;
+                    //FillStarEffect(raycast.collider.gameObject.GetComponent<Item>());
                 }
             }
             else
@@ -945,6 +959,12 @@ public abstract class Item : MonoBehaviour
             }
         }
     }
+
+    //public virtual void FillStarEffect(Item item)
+    //{
+    //    Debug.Log(gameObject.name + "   FillStarEffectItem");
+    //}
+
     public bool ObjectInBag()
     {
         List<GameObject> backpack = new List<GameObject>();
@@ -981,6 +1001,116 @@ public abstract class Item : MonoBehaviour
 
 
     protected float timerStart = 0.5f;
+    [HideInInspector] public float timer = 0f;
     [HideInInspector] public float timer_cooldown = 0f;
     public float baseTimerCooldown = 0f;
+
+
+
+
+    public void CheckNestedObjectActivation(string objectActivation)
+    {
+        var bags = GameObject.FindGameObjectsWithTag(objectActivation);
+        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
+        List<Bag> bagsWithFireBody = new List<Bag>();
+
+        foreach (var bag in bags)
+        {
+            var bagCells = bag.GetComponentsInChildren<Cell>();
+            bool find = false;
+            foreach (var cell in bagCells)
+            {
+                if (!find)
+                {
+                    if (cell.nestedObject == gameObject)
+                    {
+                        bagsWithFireBody.Add(bag.GetComponent<Bag>());
+                        find = true;
+                        continue;
+                    }
+                }
+            }
+            if (find)
+            {
+                find = false;
+                continue;
+            }
+
+        }
+
+        foreach (var bag in bagsWithFireBody)
+        {
+            bag.StarActivation(null);
+        }
+    }
+
+    public void CheckNestedObjectStarActivation(Item item)
+    {
+        var stars = GameObject.FindGameObjectsWithTag("StarActivation").Where(e => e.GetComponent<Cell>().nestedObject == gameObject);
+        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
+        List<Bag> bagsWithFireBody = new List<Bag>();
+        foreach (var star in stars)
+        {
+            //star.GetComponentInParent<Item>().StarActivation();
+            star.GetComponentInParent<Item>().StarActivation(item);
+        }
+    }
+
+    public void CreateLogMessage(string message)
+    {
+        var obj = Instantiate(DescriptionLog, placeForLogDescription.GetComponent<RectTransform>().transform);
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
+        obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+
+
+    protected void Attack(int damage)
+    {
+        float armorBefore = Enemy.armor;
+        if (damage < armorBefore)
+        {
+            Enemy.armor -= damage;
+            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
+        }
+        else
+        {
+            int dmgArmor = (int)armorBefore;
+            Enemy.armor = 0;
+            Enemy.hp -= (damage - dmgArmor);
+            if (armorBefore == 0)
+            {
+                CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            }
+            else
+            {
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            }
+        }
+    }
+
+    protected void AttackSelf(int damage)
+    {
+        float armorBefore = Player.armor;
+        if (damage < Player.armor)
+        {
+            Player.armor -= damage;
+            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
+        }
+        else
+        {
+            int dmgArmor = (int)Player.armor;
+            Player.armor = 0;
+            Player.hp -= (damage - dmgArmor);
+            if (armorBefore == 0)
+            {
+                CreateLogMessage(gameObject.name + " apply " + Math.Abs((Player.armor - damage)).ToString() + " damage");
+            }
+            else
+            {
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Player.armor - damage)).ToString() + " damage");
+            }
+        }
+    }
+
 }
