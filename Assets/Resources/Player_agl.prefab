@@ -1507,6 +1507,7 @@ GameObject:
   - component: {fileID: 383232029582034989}
   - component: {fileID: 7317864997066427827}
   - component: {fileID: 8767397683010402757}
+  - component: {fileID: -7361106063844921634}
   m_Layer: 2
   m_Name: Player_agl
   m_TagString: Player
@@ -1523,7 +1524,7 @@ RectTransform:
   m_GameObject: {fileID: 4344006160119963866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 910826150755078926}
@@ -1542,7 +1543,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4344006160119963866}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1580,6 +1581,7 @@ MonoBehaviour:
   activePoint: {fileID: 0}
   startMove: 0
   lastCrossCollider: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!61 &383232029582034989
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1614,7 +1616,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.22529209, y: 0.7895005}
+  m_Offset: {x: -0.12885392, y: -1.0604564}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1624,7 +1626,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.172892, y: 4.0270967}
+  m_Size: {x: 0.9847748, y: 0.11116338}
   m_EdgeRadius: 0
 --- !u!114 &7317864997066427827
 MonoBehaviour:
@@ -1663,6 +1665,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4344006160119963866}
   m_CullTransparentMesh: 1
+--- !u!114 &-7361106063844921634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4344006160119963866}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81163bed3b1c88c4d887ed28e8c387a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goMap: {fileID: 0}
+  animator: {fileID: 0}
+  speed: 1e-10
+  map: {fileID: 0}
+  rectTransform: {fileID: 0}
+  rb: {fileID: 0}
+  activePoint: {fileID: 0}
+  startMove: 0
+  lastCrossCollider: {fileID: 0}
+  targetPosition: {x: 0, y: 0}
+  mainCamera: {fileID: 0}
+  moveSpeed: 0.5
+  duration: 2
 --- !u!1 &4360401458329503153
 GameObject:
   m_ObjectHideFlags: 0

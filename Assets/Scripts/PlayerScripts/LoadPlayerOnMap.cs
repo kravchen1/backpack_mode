@@ -14,7 +14,7 @@ public class LoadPlayerOnMap : MonoBehaviour
 
     void InstantinatePlayer()
     {
-        var startPlayerPosition = new Vector2(0,0);
+        var startPlayerPosition = new Vector2(400,400);
         player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
     }
