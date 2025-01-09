@@ -1542,7 +1542,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4344006160119963866}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1575,7 +1575,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goMap: {fileID: 0}
   animator: {fileID: 604832693210784989}
-  dialogCanvas: {fileID: 1628161853280587767, guid: 027d783c39083024a995d716c1ee7696, type: 3}
+  map: {fileID: 0}
+  rb: {fileID: 0}
+  activePoint: {fileID: 0}
+  startMove: 0
+  lastCrossCollider: {fileID: 0}
 --- !u!61 &383232029582034989
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1639,6 +1643,7 @@ MonoBehaviour:
   playerCoins: 0
   requiredExp: 0
   playerLvl: 0
+  playerMaxHp: 0
   playerTime: 0
   hpText: {fileID: 0}
   lvlText: {fileID: 0}
@@ -1647,6 +1652,9 @@ MonoBehaviour:
   arrowTime: {fileID: 0}
   hpBar: {fileID: 0}
   expBar: {fileID: 0}
+  activeTile:
+    tileName: 
+    tilePosition: {x: 0, y: 0}
 --- !u!222 &8767397683010402757
 CanvasRenderer:
   m_ObjectHideFlags: 0
