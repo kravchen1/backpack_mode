@@ -51,7 +51,7 @@ public class GenerateBackpack : MonoBehaviour
     int getEnemy(int lvl)
     {
         int r = 0;
-        r = Random.Range(1, 4);//toDo 20
+        r = 1;//Random.Range(1, 2);//toDo 20
         backpackData.LoadData("Assets/Enemys/backpackDataEnemy" + lvl + "_" + r + ".json");
         return 0;
     }
