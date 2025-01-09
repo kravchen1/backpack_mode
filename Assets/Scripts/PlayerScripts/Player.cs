@@ -147,8 +147,13 @@ public class Player : MonoBehaviour
 
         if (hit.collider != null)
         {
-            InstantinateDialog();
-            //Debug.Log(activePoint.name);
+            //InstantinateDialog();
+            //Debug.Log(hit.collider.tag);
+            if(hit.collider.tag == "AreaEvent")
+            {
+                activePoint = hit.collider.gameObject.GameObject();
+
+            }
         }
 
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
