@@ -12,8 +12,8 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject goMap;
-    public Animator animator;
+    [HideInInspector] public GameObject goMap;
+    [HideInInspector] public Animator animator;
     private generateMapScript generateMapScript;
 
     [HideInInspector] public Map map;
@@ -39,25 +39,27 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool startMove = false;
     bool B_FacingRight = false;
 
-    bool createdDialogCanvas = false;
+    [HideInInspector] bool createdDialogCanvas = false;
 
     [HideInInspector] public Collider2D lastCrossCollider;
 
     private GameObject dialogCanvas;
 
-    public Vector2 targetPosition;
+    [HideInInspector] public Vector2 targetPosition;
 
     private bool needToRaycast = true;
 
-    public GameObject mainCamera;
+    [HideInInspector] public GameObject mainCamera;
 
     private Vector2 movement;
-    public float moveSpeed = 0.5f;
+    [HideInInspector] public float moveSpeed = 0.5f;
     //public MainCamera scriptMainCamera;
     //private float movingStepCamera = 0.9f;
+    [HideInInspector] public float duration = 2f; // Время, за которое объект переместится
 
 
 
+    private TextMeshPro countdown;
     private void Awake()
     {
         Time.timeScale = 1f;
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         goMap = GameObject.FindGameObjectWithTag("GoMap");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        countdown = GameObject.FindGameObjectWithTag("Countdown").GetComponent<TextMeshPro>();
         //scriptMainCamera = mainCamera.GetComponent<MainCamera>();
     }
     void LoadCharacterStats()
@@ -98,44 +101,48 @@ public class Player : MonoBehaviour
     }
 
 
-    public void InstantinateDialog()
-    {
-        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune") || hit.collider.gameObject.name.Contains("Forge"))
-        {
-            activePoint = hit.collider.gameObject.GameObject();
-            activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            if (!createdDialogCanvas)
-            {
-                startMove = false;
-                //Time.timeScale = 0f;
-                if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
-                    dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
-                else if (hit.collider.gameObject.name.Contains("Fountain"))
-                    dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
-                else if (hit.collider.gameObject.name.Contains("ChestOfFortune"))
-                {
-                    dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
-                    dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
-                }
-                else if (hit.collider.gameObject.name.Contains("Forge"))
-                {
-                    dialogCanvas = Resources.Load<GameObject>("DialogForgeCanvas");
-                    //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
-                }
+    //public void InstantinateDialog()
+    //{
+    //    if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune") || hit.collider.gameObject.name.Contains("Forge"))
+    //    {
+    //        activePoint = hit.collider.gameObject.GameObject();
+    //        activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+    //        if (!createdDialogCanvas)
+    //        {
+    //            startMove = false;
+    //            //Time.timeScale = 0f;
+    //            if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
+    //                dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
+    //            else if (hit.collider.gameObject.name.Contains("Fountain"))
+    //                dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
+    //            else if (hit.collider.gameObject.name.Contains("ChestOfFortune"))
+    //            {
+    //                dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
+    //                dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
+    //            }
+    //            else if (hit.collider.gameObject.name.Contains("Forge"))
+    //            {
+    //                dialogCanvas = Resources.Load<GameObject>("DialogForgeCanvas");
+    //                //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
+    //            }
 
-                var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Camera Canvas").GetComponent<RectTransform>().transform);
-                canvas.gameObject.SetActive(true);
-                //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-                //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-                createdDialogCanvas = true;
-            }
-        }
-        else
-        {
-            lastCrossCollider = hit.collider;
-        }
-    }
+    //            var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Camera Canvas").GetComponent<RectTransform>().transform);
+    //            canvas.gameObject.SetActive(true);
+    //            //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+    //            //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+    //            createdDialogCanvas = true;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        lastCrossCollider = hit.collider;
+    //    }
+    //}
 
+
+    private bool isCollidingArea = false;
+    private Coroutine countdownCoroutine;
+    private Animator activatePointAnimator;
     public void RaycastEvent()
     {
         if (rectTransform != null)
@@ -147,63 +154,117 @@ public class Player : MonoBehaviour
 
         if (hit.collider != null)
         {
-            //InstantinateDialog();
-            //Debug.Log(hit.collider.tag);
             if(hit.collider.tag == "AreaEvent")
             {
                 activePoint = hit.collider.gameObject.GameObject();
-
+                isCollidingArea = true;
+                // Запускаем корутину обратного отсчета, если она не запущена
+                if (countdownCoroutine == null)
+                {
+                    activatePointAnimator = activePoint.GetComponent<Animator>();
+                    activatePointAnimator.Play("ActivateArea",0,0f);
+                    countdownCoroutine = StartCoroutine(Countdown());
+                }
             }
         }
 
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
-            activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
-            createdDialogCanvas = false;
+            //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
+            isCollidingArea = false;
         }
     }
-    //void pressF()
-    //{
-    //    if(Input.GetButton("Jump"))
-    //    {
-    //        if (activePoint != null && activePoint.name.Contains("Shop"))
-    //        {
 
-    //            Time.timeScale = 0f;
-    //            map.startPlayerPosition = rectTransform.anchoredPosition;
-    //            characterStats.playerTime += 1f;
-    //            map.SaveData("Assets/Saves/mapData.json");
-    //            characterStats.SaveData();
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            SceneManager.LoadScene("BackPackShop");
-    //        }
-    //        if (activePoint != null && activePoint.name.Contains("Battle"))
-    //        {
-
-    //            Time.timeScale = 0f;
-    //            map.startPlayerPosition = rectTransform.anchoredPosition;
-    //            characterStats.playerTime += 2f;
-    //            map.SaveData("Assets/Saves/mapData.json");
-    //            characterStats.SaveData();
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
-    //            SceneManager.LoadScene("BackPackBattle");
-    //        }
-    //        if (activePoint != null && activePoint.name.Contains("Portal"))
-    //        {
-
-    //            Time.timeScale = 0f;
-    //            characterStats.playerTime = 0f;
-    //            characterStats.SaveData();
-    //            map.DeleteData("Assets/Saves/mapData.json");
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            SceneManager.LoadScene("GenerateMap");
-    //        }
-    //    }
-
-    //}
-    void pressI()
+    private IEnumerator Countdown()
     {
+        countdown.enabled = true;
+        // Обратный отсчет
+        for (int i = 3; i > 0; i--)
+        {
+            // Если соединение все еще существует, продолжаем отсчет
+            if (isCollidingArea)
+            {
+                //Debug.Log(i); // Вывод каждого числа в консоль
+                countdown.text = i.ToString() + "...";
+                yield return new WaitForSeconds(1f);
+            }
+            else
+            {
+                // Если объекты больше не пересекаются, выходим из корутины
+                countdown.enabled = false;
+                countdownCoroutine = null;
+                //activePoint.GetComponent<Animator>().Play("ActivateArea",0,0);
+                //activePoint.GetComponent<Animator>().enabled = false;
+
+                // Остановка всей анимации
+                activatePointAnimator.Play("DeActivateArea");
+
+                yield break;
+            }
+        }
+        if (isCollidingArea)
+        {
+            // Здесь выполняем событие после окончания обратного отсчета
+            TriggerEvent();
+        }
+        else
+        {
+            activatePointAnimator.Play("DeActivateArea");
+        }
+        countdown.enabled = false;
+        countdownCoroutine = null;
+    }
+    private void TriggerEvent()
+    {
+        characterStats.SaveData();
+        activePoint.GetComponentInParent<Enemy>().StartBattle();
+        Debug.Log("Событие произошло!");
+        // Здесь ваше событие
+    }
+
+
+//void pressF()
+//{
+//    if(Input.GetButton("Jump"))
+//    {
+//        if (activePoint != null && activePoint.name.Contains("Shop"))
+//        {
+
+//            Time.timeScale = 0f;
+//            map.startPlayerPosition = rectTransform.anchoredPosition;
+//            characterStats.playerTime += 1f;
+//            map.SaveData("Assets/Saves/mapData.json");
+//            characterStats.SaveData();
+//            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+//            SceneManager.LoadScene("BackPackShop");
+//        }
+//        if (activePoint != null && activePoint.name.Contains("Battle"))
+//        {
+
+//            Time.timeScale = 0f;
+//            map.startPlayerPosition = rectTransform.anchoredPosition;
+//            characterStats.playerTime += 2f;
+//            map.SaveData("Assets/Saves/mapData.json");
+//            characterStats.SaveData();
+//            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+//            PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
+//            SceneManager.LoadScene("BackPackBattle");
+//        }
+//        if (activePoint != null && activePoint.name.Contains("Portal"))
+//        {
+
+//            Time.timeScale = 0f;
+//            characterStats.playerTime = 0f;
+//            characterStats.SaveData();
+//            map.DeleteData("Assets/Saves/mapData.json");
+//            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+//            SceneManager.LoadScene("GenerateMap");
+//        }
+//    }
+
+//}
+//void pressI()
+//    {
         //if (!backpackCanvas.gameObject.activeInHierarchy)
         //{
         //    if (Input.GetKeyDown(KeyCode.I))
@@ -220,7 +281,7 @@ public class Player : MonoBehaviour
         //        backpackCanvas.gameObject.SetActive(false);
         //    }
         //}
-    }
+    //}
 
     //void pressEsc()
     //{
@@ -236,11 +297,11 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        //rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+    //void FixedUpdate()
+    //{
+    //    //rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
 
-    }
+    //}
 
     void Filp()
     {
@@ -253,10 +314,10 @@ public class Player : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
 
-    }
+    //}
 
 
     private void Update()
@@ -330,7 +391,7 @@ public class Player : MonoBehaviour
             //pressI();
         }
     }
-    public float duration = 2f; // Время, за которое объект переместится
+
 
     //private void Start()
     //{

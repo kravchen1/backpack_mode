@@ -42,12 +42,12 @@ public class CharacterStats : MonoBehaviour
         lvlText = GameObject.FindGameObjectWithTag("LvlTxt").GetComponent<TextMeshProUGUI>();
         coinsText = GameObject.FindGameObjectWithTag("CoinTxt").GetComponent<TextMeshProUGUI>();
         expText = GameObject.FindGameObjectWithTag("ExpTxt").GetComponent<TextMeshProUGUI>();
-        arrowTime = GameObject.FindGameObjectWithTag("ArrowTime");
+        //arrowTime = GameObject.FindGameObjectWithTag("ArrowTime");
     }
     public void InitializedTime()
     { 
         Vector3 newRotation = new Vector3(0, 0, 90f - (30f * playerTime));
-        arrowTime.transform.rotation = Quaternion.Euler(newRotation);
+        //arrowTime.transform.rotation = Quaternion.Euler(newRotation);
         //Rotate(newRotation);
     }
 

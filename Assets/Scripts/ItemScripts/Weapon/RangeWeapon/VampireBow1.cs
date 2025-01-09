@@ -90,7 +90,8 @@ public class VampireBow1 : Weapon
 
     public override void StarActivation(Item item)
     {
-        item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        if(item.GetComponent<Weapon>() != null)
+            item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
     }
 
 

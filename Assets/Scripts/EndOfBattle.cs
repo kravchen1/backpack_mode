@@ -38,36 +38,41 @@ public class EndOfBattle : MonoBehaviour
             Time.timeScale = 0f;
             timeSpeed.value = 0f;
             timeSpeed.interactable = false;
-            map.LoadData("Assets/Saves/mapData.json");
+
+            //удаление врага
+            //map.LoadData("Assets/Saves/mapData.json");
             //Tile activeTile = new Tile(null, new Vector2(0, 0));
-            for (int i = 0; i < map.mapData.tiles.Count(); i++)
-            {
-                if (map.mapData.tiles[i].tileName == player.GetComponent<CharacterStats>().activeTile.tileName && map.mapData.tiles[i].tilePosition == player.GetComponent<CharacterStats>().activeTile.tilePosition)
-                {
-                    map.mapData.tiles[i].tileName = "roadStandart";
-                    break;
-                }
-            }
-            map.SaveData("Assets/Saves/mapData.json", map.mapData);
+            //for (int i = 0; i < map.mapData.tiles.Count(); i++)
+            //{
+            //    if (map.mapData.tiles[i].tileName == player.GetComponent<CharacterStats>().activeTile.tileName && map.mapData.tiles[i].tilePosition == player.GetComponent<CharacterStats>().activeTile.tilePosition)
+            //    {
+            //        map.mapData.tiles[i].tileName = "roadStandart";
+            //        break;
+            //    }
+            //}
+            //map.SaveData("Assets/Saves/mapData.json", map.mapData);
+
+
+
             //if (activeTile.tileName != null)
             //{
             //    map.mapData.tiles.Remove(activeTile);
             //    map.SaveData("Assets/Saves/mapData.json", map.mapData);
             //}
-            if (playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp >= playerBackpackBattle.characterStats.requiredExp)
-            {
-                playerBackpackBattle.characterStats.playerLvl++;
-                playerBackpackBattle.characterStats.lvlText.text = playerBackpackBattle.characterStats.playerLvl.ToString();
-                playerBackpackBattle.characterStats.playerExp = playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp - playerBackpackBattle.characterStats.requiredExp;
-            }
-            else
-            {
-                playerBackpackBattle.characterStats.playerExp = playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp;
-            }
-            playerBackpackBattle.characterStats.expText.text = playerBackpackBattle.characterStats.playerExp.ToString() + " / " + playerBackpackBattle.characterStats.requiredExp.ToString();
-            playerBackpackBattle.characterStats.playerCoins = playerBackpackBattle.characterStats.playerCoins + enemyBackpackBattle.enemyCoins;
-            playerBackpackBattle.characterStats.coinsText.text = playerBackpackBattle.characterStats.playerCoins.ToString();
-            playerBackpackBattle.expBar.GetComponent<Image>().fillAmount = (float)((float)playerBackpackBattle.characterStats.playerExp / (float)playerBackpackBattle.characterStats.requiredExp);
+            //if (playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp >= playerBackpackBattle.characterStats.requiredExp)
+            //{
+            //    //playerBackpackBattle.characterStats.playerLvl++;
+            //    //playerBackpackBattle.characterStats.lvlText.text = playerBackpackBattle.characterStats.playerLvl.ToString();
+            //    //playerBackpackBattle.characterStats.playerExp = playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp - playerBackpackBattle.characterStats.requiredExp;
+            //}
+            //else
+            //{
+            //    playerBackpackBattle.characterStats.playerExp = playerBackpackBattle.characterStats.playerExp + enemyBackpackBattle.enemyExp;
+            //}
+            //playerBackpackBattle.characterStats.expText.text = playerBackpackBattle.characterStats.playerExp.ToString() + " / " + playerBackpackBattle.characterStats.requiredExp.ToString();
+            //playerBackpackBattle.characterStats.playerCoins = playerBackpackBattle.characterStats.playerCoins + enemyBackpackBattle.enemyCoins;
+            //playerBackpackBattle.characterStats.coinsText.text = playerBackpackBattle.characterStats.playerCoins.ToString();
+            //playerBackpackBattle.expBar.GetComponent<Image>().fillAmount = (float)((float)playerBackpackBattle.characterStats.playerExp / (float)playerBackpackBattle.characterStats.requiredExp);
             endOfBattleCanvas.SetActive(true);
             okButton.SetActive(true);
             playerBackpackBattle.characterStats.SaveData();
@@ -83,7 +88,7 @@ public class EndOfBattle : MonoBehaviour
             playerBackpackBattle.characterStats.playerHP = 0;
             //playerBackpackBattle.characterStats.hpText.text = playerBackpackBattle.characterStats.playerHP.ToString();
 
-            playerBackpackBattle.expBar.GetComponent<Image>().fillAmount = (float)((float)playerBackpackBattle.characterStats.playerExp / (float)playerBackpackBattle.characterStats.requiredExp);
+            //playerBackpackBattle.expBar.GetComponent<Image>().fillAmount = (float)((float)playerBackpackBattle.characterStats.playerExp / (float)playerBackpackBattle.characterStats.requiredExp);
             endOfBattleCanvas.SetActive(true);
             newGameButton.SetActive(true);
         }
