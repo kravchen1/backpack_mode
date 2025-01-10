@@ -421,30 +421,51 @@ public abstract class Item : MonoBehaviour
             }
         }
 
-        if (rectTransform.eulerAngles.z == 90f)
-        {
 
+        float angle = rectTransform.eulerAngles.z;
+        if (angle < 45 || angle > 315)
+        {
+            offset = -offset;
+        }
+        else if (angle >= 45 && angle < 135)
+        {
             var i = offset.x;
             offset.x = offset.y;
             offset.y = i;
 
             offset.y = -offset.y;
-
         }
-        if (rectTransform.eulerAngles.z == 270f)
+        else if (angle >= 135 && angle < 225)
         {
-
+        }
+        else // (angle >= 225 && angle < 315)
+        {
             var i = offset.x;
             offset.x = offset.y;
             offset.y = i;
 
             offset.x = -offset.x;
+        }
 
-        }
-        if (rectTransform.eulerAngles.z == 0)
-        {
-            offset = -offset;
-        }
+
+        //if (rectTransform.eulerAngles.z == 90f)
+        //{
+
+            
+
+        //}
+        //if (rectTransform.eulerAngles.z == 270f)
+        //{
+
+            
+
+        //}
+        //if (rectTransform.eulerAngles.z == 0)
+        //{
+            
+        //}
+
+        //Debug.Log(rectTransform.eulerAngles.z);
 
         return offset;
     }
