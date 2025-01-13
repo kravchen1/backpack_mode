@@ -141,8 +141,10 @@ public class Player : MonoBehaviour
 
 
     private bool isCollidingArea = false;
+    private bool speakNow = false;
     private Coroutine countdownCoroutine;
     private Animator activatePointAnimator;
+    
     public void RaycastEvent()
     {
         if (rectTransform != null)
@@ -154,17 +156,24 @@ public class Player : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if(hit.collider.tag == "AreaEvent")
+            activePoint = hit.collider.gameObject.GameObject();
+            if (hit.collider.tag == "AreaEventEnemy")
             {
-                activePoint = hit.collider.gameObject.GameObject();
+                Debug.Log(activePoint);
                 isCollidingArea = true;
                 // Запускаем корутину обратного отсчета, если она не запущена
                 if (countdownCoroutine == null)
                 {
                     activatePointAnimator = activePoint.GetComponent<Animator>();
-                    activatePointAnimator.Play("ActivateArea",0,0f);
+                    activatePointAnimator.Play("ActivateArea", 0, 0f);
                     countdownCoroutine = StartCoroutine(Countdown());
                 }
+            }
+
+            if (hit.collider.tag == "AreaEventNPC" && !speakNow)
+            {
+                activePoint.GetComponentInParent<NPC>().StartDialogue();
+                speakNow = true;
             }
         }
 
@@ -172,6 +181,12 @@ public class Player : MonoBehaviour
         {
             //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
             isCollidingArea = false;
+            if (speakNow)
+            {
+                FindFirstObjectByType<DialogueManager>().EndDialogue();
+            }
+            speakNow = false;
+
         }
     }
 
