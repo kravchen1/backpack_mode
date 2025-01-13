@@ -18,7 +18,7 @@ public class PlayerOld : MonoBehaviour
 
     [HideInInspector] public Map map;
     private RectTransform rectTransform;
-
+    private Collider2D previusTree = null;
     // [SerializeField] private Canvas backpackCanvas;
     //[SerializeField] private Canvas mapCanvas;
 
@@ -145,7 +145,7 @@ public class PlayerOld : MonoBehaviour
             {
                 activePoint = hit.collider.gameObject.GameObject();
                 isCollidingArea = true;
-                // Запускаем корутину обратного отсчета, если она не запущена
+                // Р—Р°РїСѓСЃРєР°РµРј РєРѕСЂСѓС‚РёРЅСѓ РѕР±СЂР°С‚РЅРѕРіРѕ РѕС‚СЃС‡РµС‚Р°, РµСЃР»Рё РѕРЅР° РЅРµ Р·Р°РїСѓС‰РµРЅР°
                 if (countdownCoroutine == null)
                 {
                     activatePointAnimator = activePoint.GetComponent<Animator>();
@@ -153,8 +153,40 @@ public class PlayerOld : MonoBehaviour
                     countdownCoroutine = StartCoroutine(Countdown());
                 }
             }
-        }
+            if(previusTree != null && hit.collider != previusTree)
+            {
+                foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    Color color = spriteRenderer.color;
 
+                    spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+                }
+                //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+                previusTree = null;
+            }
+            if(hit.collider.tag == "InvisiblePartOfSprite")
+            {
+                previusTree = hit.collider;
+                foreach(var spriteRenderer in hit.collider.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    Color color = spriteRenderer.color;
+
+                    spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
+                }
+                //hit.collider.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
+            }
+        }
+        if (previusTree != null && hit.collider == null)
+        {
+            foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            {
+                Color color = spriteRenderer.color;
+
+                spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+            }
+            //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+            previusTree = null;
+        }
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
             //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
@@ -165,25 +197,25 @@ public class PlayerOld : MonoBehaviour
     private IEnumerator Countdown()
     {
         countdown.enabled = true;
-        // Обратный отсчет
+        // РћР±СЂР°С‚РЅС‹Р№ РѕС‚СЃС‡РµС‚
         for (int i = 3; i > 0; i--)
         {
-            // Если соединение все еще существует, продолжаем отсчет
+            // Р•СЃР»Рё СЃРѕРµРґРёРЅРµРЅРёРµ РІСЃРµ РµС‰Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, РїСЂРѕРґРѕР»Р¶Р°РµРј РѕС‚СЃС‡РµС‚
             if (isCollidingArea)
             {
-                //Debug.Log(i); // Вывод каждого числа в консоль
+                //Debug.Log(i); // Р’С‹РІРѕРґ РєР°Р¶РґРѕРіРѕ С‡РёСЃР»Р° РІ РєРѕРЅСЃРѕР»СЊ
                 countdown.text = i.ToString() + "...";
                 yield return new WaitForSeconds(1f);
             }
             else
             {
-                // Если объекты больше не пересекаются, выходим из корутины
+                // Р•СЃР»Рё РѕР±СЉРµРєС‚С‹ Р±РѕР»СЊС€Рµ РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ, РІС‹С…РѕРґРёРј РёР· РєРѕСЂСѓС‚РёРЅС‹
                 countdown.enabled = false;
                 countdownCoroutine = null;
                 //activePoint.GetComponent<Animator>().Play("ActivateArea",0,0);
                 //activePoint.GetComponent<Animator>().enabled = false;
 
-                // Остановка всей анимации
+                // РћСЃС‚Р°РЅРѕРІРєР° РІСЃРµР№ Р°РЅРёРјР°С†РёРё
                 activatePointAnimator.Play("DeActivateArea");
 
                 yield break;
@@ -191,7 +223,7 @@ public class PlayerOld : MonoBehaviour
         }
         if (isCollidingArea)
         {
-            // Здесь выполняем событие после окончания обратного отсчета
+            // Р—РґРµСЃСЊ РІС‹РїРѕР»РЅСЏРµРј СЃРѕР±С‹С‚РёРµ РїРѕСЃР»Рµ РѕРєРѕРЅС‡Р°РЅРёСЏ РѕР±СЂР°С‚РЅРѕРіРѕ РѕС‚СЃС‡РµС‚Р°
             TriggerEvent();
         }
         else
@@ -205,8 +237,8 @@ public class PlayerOld : MonoBehaviour
     {
         characterStats.SaveData();
         activePoint.GetComponentInParent<Enemy>().StartBattle();
-        Debug.Log("Событие произошло!");
-        // Здесь ваше событие
+        Debug.Log("РЎРѕР±С‹С‚РёРµ РїСЂРѕРёР·РѕС€Р»Рѕ!");
+        // Р—РґРµСЃСЊ РІР°С€Рµ СЃРѕР±С‹С‚РёРµ
     }
     //void pressF()
     //{
