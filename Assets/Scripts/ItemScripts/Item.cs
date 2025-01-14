@@ -511,6 +511,7 @@ public abstract class Item : MonoBehaviour
         foreach (var Carehit in careHits)
         {
             Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+            //Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
     public void SetNestedObject()
