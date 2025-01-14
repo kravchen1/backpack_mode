@@ -21,8 +21,8 @@ public class Button : MonoBehaviour
         //player = GameObject.Find("Player");
         player = GameObject.FindGameObjectWithTag("Player");
         buttonColor = GetComponent<Image>().color;
-        map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
-        player.GetComponent<Player>().GetComponent<CharacterStats>().SaveData();
+        map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
+        player.GetComponent<PlayerOld_>().GetComponent<CharacterStats>().SaveData();
         map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
         map.SaveData("Assets/Saves/mapData.json");
         SceneManager.LoadScene("BackpackView");
@@ -62,7 +62,7 @@ public class Button : MonoBehaviour
             case "StoreButton":
                 player = GameObject.FindGameObjectWithTag("Player");
                 Time.timeScale = 0f;
-                map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
+                map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
                 map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
                 player.GetComponent<CharacterStats>().playerTime += 1f;
                 map.SaveData("Assets/Saves/mapData.json");
@@ -114,7 +114,7 @@ public class Button : MonoBehaviour
             case "Button_Home":
                 player = GameObject.FindGameObjectWithTag("Player");
                 Time.timeScale = 0f;
-                map = player.GetComponent<Player>().goMap.GetComponent<generateMapScript>();
+                map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
                 map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
                 map.SaveData("Assets/Saves/mapData.json");
                 SceneManager.LoadScene("Main");

@@ -9,42 +9,55 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayerOld : MonoBehaviour
+public class PlayerOld_ : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject goMap;
+    [HideInInspector] public GameObject goMap;
     public Animator animator;
-    //private generateMapScript map;
-
+    private generateMapScript generateMapScript;
+    public float speed =  0.0000000001f;
     [HideInInspector] public Map map;
-    private RectTransform rectTransform;
-    private Collider2D previusTree = null;
+    [HideInInspector] public RectTransform rectTransform;
+
     // [SerializeField] private Canvas backpackCanvas;
     //[SerializeField] private Canvas mapCanvas;
 
     private CharacterStats characterStats;
 
     [HideInInspector] public Rigidbody2D rb;
-    private float speed = 1f;
+    //private float speed = 3f;
     private Vector2 moveVector;
 
     [HideInInspector] public RaycastHit2D hit;
 
     private new Collider2D collider;
-
+    private float careY;
     [HideInInspector] public GameObject activePoint;
     private Color trueActivePointColor;
 
     private List<SpriteRenderer> sprites;
     [HideInInspector] public bool startMove = false;
-    bool B_FacingRight = true;
+    bool B_FacingRight = false;
 
-    bool createdDialogCanvas = false;
+    [HideInInspector] bool createdDialogCanvas = false;
 
     [HideInInspector] public Collider2D lastCrossCollider;
-    [HideInInspector] public GameObject mainCamera;
 
     private GameObject dialogCanvas;
+
+    [HideInInspector] public Vector2 targetPosition;
+
+    private bool needToRaycast = true;
+
+    [HideInInspector] public GameObject mainCamera;
+
+    private Vector2 movement;
+    [HideInInspector] public float moveSpeed = 0.5f;
+    //public MainCamera scriptMainCamera;
+    //private float movingStepCamera = 0.9f;
+    [HideInInspector] public float duration = 2f; // Время, за которое объект переместится
+
+
 
     private TextMeshPro countdown;
     private void Awake()
@@ -66,10 +79,10 @@ public class PlayerOld : MonoBehaviour
     }
     void SetStartPosition()
     {
-
         rectTransform.anchoredPosition = map.startPlayerPosition;
-        Debug.Log(map.startPlayerPosition);
-        Debug.Log(rectTransform.anchoredPosition);
+        //startMove = true;
+        //Debug.Log(map.startPlayerPosition);
+        //Debug.Log(rectTransform.anchoredPosition);
     }
 
 
@@ -77,14 +90,13 @@ public class PlayerOld : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         map = goMap.GetComponent<generateMapScript>();
-
+        generateMapScript = goMap.GetComponent<generateMapScript>();
         //SetStartPosition();
         LoadCharacterStats();
-        if(characterStats.playerTime >= 9f)
+        if (characterStats.playerTime >= 9f)
         {
             map.ChangeMapRedTimeZone();
         }
-
         startMove = true;
     }
 
@@ -114,7 +126,7 @@ public class PlayerOld : MonoBehaviour
     //                //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
     //            }
 
-    //            var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
+    //            var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Camera Canvas").GetComponent<RectTransform>().transform);
     //            canvas.gameObject.SetActive(true);
     //            //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
     //            //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
@@ -127,11 +139,12 @@ public class PlayerOld : MonoBehaviour
     //    }
     //}
 
+
     private bool isCollidingArea = false;
     private bool speakNow = false;
     private Coroutine countdownCoroutine;
     private Animator activatePointAnimator;
-
+    
     public void RaycastEvent()
     {
         if (rectTransform != null)
@@ -148,7 +161,7 @@ public class PlayerOld : MonoBehaviour
             {
                 Debug.Log(activePoint);
                 isCollidingArea = true;
-                // Р—Р°РїСѓСЃРєР°РµРј РєРѕСЂСѓС‚РёРЅСѓ РѕР±СЂР°С‚РЅРѕРіРѕ РѕС‚СЃС‡РµС‚Р°, РµСЃР»Рё РѕРЅР° РЅРµ Р·Р°РїСѓС‰РµРЅР°
+                // Запускаем корутину обратного отсчета, если она не запущена
                 if (countdownCoroutine == null)
                 {
                     activatePointAnimator = activePoint.GetComponent<Animator>();
@@ -180,25 +193,25 @@ public class PlayerOld : MonoBehaviour
     private IEnumerator Countdown()
     {
         countdown.enabled = true;
-        // РћР±СЂР°С‚РЅС‹Р№ РѕС‚СЃС‡РµС‚
+        // Обратный отсчет
         for (int i = 3; i > 0; i--)
         {
-            // Р•СЃР»Рё СЃРѕРµРґРёРЅРµРЅРёРµ РІСЃРµ РµС‰Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, РїСЂРѕРґРѕР»Р¶Р°РµРј РѕС‚СЃС‡РµС‚
+            // Если соединение все еще существует, продолжаем отсчет
             if (isCollidingArea)
             {
-                //Debug.Log(i); // Р’С‹РІРѕРґ РєР°Р¶РґРѕРіРѕ С‡РёСЃР»Р° РІ РєРѕРЅСЃРѕР»СЊ
+                //Debug.Log(i); // Вывод каждого числа в консоль
                 countdown.text = i.ToString() + "...";
                 yield return new WaitForSeconds(1f);
             }
             else
             {
-                // Р•СЃР»Рё РѕР±СЉРµРєС‚С‹ Р±РѕР»СЊС€Рµ РЅРµ РїРµСЂРµСЃРµРєР°СЋС‚СЃСЏ, РІС‹С…РѕРґРёРј РёР· РєРѕСЂСѓС‚РёРЅС‹
+                // Если объекты больше не пересекаются, выходим из корутины
                 countdown.enabled = false;
                 countdownCoroutine = null;
                 //activePoint.GetComponent<Animator>().Play("ActivateArea",0,0);
                 //activePoint.GetComponent<Animator>().enabled = false;
 
-                // РћСЃС‚Р°РЅРѕРІРєР° РІСЃРµР№ Р°РЅРёРјР°С†РёРё
+                // Остановка всей анимации
                 activatePointAnimator.Play("DeActivateArea");
 
                 yield break;
@@ -206,7 +219,7 @@ public class PlayerOld : MonoBehaviour
         }
         if (isCollidingArea)
         {
-            // Р—РґРµСЃСЊ РІС‹РїРѕР»РЅСЏРµРј СЃРѕР±С‹С‚РёРµ РїРѕСЃР»Рµ РѕРєРѕРЅС‡Р°РЅРёСЏ РѕР±СЂР°С‚РЅРѕРіРѕ РѕС‚СЃС‡РµС‚Р°
+            // Здесь выполняем событие после окончания обратного отсчета
             TriggerEvent();
         }
         else
@@ -220,51 +233,53 @@ public class PlayerOld : MonoBehaviour
     {
         characterStats.SaveData();
         activePoint.GetComponentInParent<Enemy>().StartBattle();
-        Debug.Log("РЎРѕР±С‹С‚РёРµ РїСЂРѕРёР·РѕС€Р»Рѕ!");
-        // Р—РґРµСЃСЊ РІР°С€Рµ СЃРѕР±С‹С‚РёРµ
+        Debug.Log("Событие произошло!");
+        // Здесь ваше событие
     }
-    //void pressF()
-    //{
-    //    if(Input.GetButton("Jump"))
-    //    {
-    //        if (activePoint != null && activePoint.name.Contains("Shop"))
-    //        {
 
-    //            Time.timeScale = 0f;
-    //            map.startPlayerPosition = rectTransform.anchoredPosition;
-    //            characterStats.playerTime += 1f;
-    //            map.SaveData("Assets/Saves/mapData.json");
-    //            characterStats.SaveData();
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            SceneManager.LoadScene("BackPackShop");
-    //        }
-    //        if (activePoint != null && activePoint.name.Contains("Battle"))
-    //        {
 
-    //            Time.timeScale = 0f;
-    //            map.startPlayerPosition = rectTransform.anchoredPosition;
-    //            characterStats.playerTime += 2f;
-    //            map.SaveData("Assets/Saves/mapData.json");
-    //            characterStats.SaveData();
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
-    //            SceneManager.LoadScene("BackPackBattle");
-    //        }
-    //        if (activePoint != null && activePoint.name.Contains("Portal"))
-    //        {
+//void pressF()
+//{
+//    if(Input.GetButton("Jump"))
+//    {
+//        if (activePoint != null && activePoint.name.Contains("Shop"))
+//        {
 
-    //            Time.timeScale = 0f;
-    //            characterStats.playerTime = 0f;
-    //            characterStats.SaveData();
-    //            map.DeleteData("Assets/Saves/mapData.json");
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            SceneManager.LoadScene("GenerateMap");
-    //        }
-    //    }
+//            Time.timeScale = 0f;
+//            map.startPlayerPosition = rectTransform.anchoredPosition;
+//            characterStats.playerTime += 1f;
+//            map.SaveData("Assets/Saves/mapData.json");
+//            characterStats.SaveData();
+//            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+//            SceneManager.LoadScene("BackPackShop");
+//        }
+//        if (activePoint != null && activePoint.name.Contains("Battle"))
+//        {
 
-    //}
-    void pressI()
-    {
+//            Time.timeScale = 0f;
+//            map.startPlayerPosition = rectTransform.anchoredPosition;
+//            characterStats.playerTime += 2f;
+//            map.SaveData("Assets/Saves/mapData.json");
+//            characterStats.SaveData();
+//            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+//            PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
+//            SceneManager.LoadScene("BackPackBattle");
+//        }
+//        if (activePoint != null && activePoint.name.Contains("Portal"))
+//        {
+
+//            Time.timeScale = 0f;
+//            characterStats.playerTime = 0f;
+//            characterStats.SaveData();
+//            map.DeleteData("Assets/Saves/mapData.json");
+//            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
+//            SceneManager.LoadScene("GenerateMap");
+//        }
+//    }
+
+//}
+//void pressI()
+//    {
         //if (!backpackCanvas.gameObject.activeInHierarchy)
         //{
         //    if (Input.GetKeyDown(KeyCode.I))
@@ -281,7 +296,7 @@ public class PlayerOld : MonoBehaviour
         //        backpackCanvas.gameObject.SetActive(false);
         //    }
         //}
-    }
+    //}
 
     //void pressEsc()
     //{
@@ -293,15 +308,15 @@ public class PlayerOld : MonoBehaviour
 
     void Start()
     {
-        Invoke("Initialize",0.1f);
+        Invoke("Initialize", 0.1f);
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    //void FixedUpdate()
+    //{
+    //    //rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
 
-
-    }
+    //}
 
     void Filp()
     {
@@ -314,11 +329,23 @@ public class PlayerOld : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+
+    //}
+
+    private void FixedUpdate()
     {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
 
+        // Создаем вектор перемещения
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical).normalized * speed;
+
+        // Применяем скорость к Rigidbody
+        rb.velocity = movement;
+        animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
     }
-
 
     private void Update()
     {
@@ -335,9 +362,10 @@ public class PlayerOld : MonoBehaviour
             }
             //moveVector.x = Input.GetAxis("Horizontal");
             //moveVector.y = Input.GetAxis("Vertical");
-            //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
-            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
-            animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
+            ////rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
+            //rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
+            // Получаем ввод от пользователя
+            
 
             RaycastEvent();
 
@@ -350,5 +378,45 @@ public class PlayerOld : MonoBehaviour
             rb.velocity = new Vector2(0, 0);
             animator.SetFloat("Move", 0);
         }
+    }
+
+
+    //private void Start()
+    //{
+    //    // Запускаем корутину для перемещения объекта
+    //    StartCoroutine(MoveAlongParabola());
+    //}
+
+    private IEnumerator MoveAlongParabola(Vector2 startPoint, Vector2 endPoint)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // Вычисляем процент завершения движения
+            float t = elapsedTime / duration;
+
+            //Debug.Log(t);
+            // Вычисляем положение по параболе
+            Vector2 newPosition = CalculateParabola(t, startPoint, endPoint, 100f); // 100f - высота параболы
+            rectTransform.anchoredPosition = newPosition;
+
+            elapsedTime += Time.deltaTime * 10;
+            yield return null; // Ждем следующий кадр
+        }
+
+        // Убедимся, что объект точно на конечной позиции
+        rectTransform.anchoredPosition = endPoint;
+        needToRaycast = true;
+    }
+
+
+    private Vector2 CalculateParabola(float t, Vector3 startPoint, Vector3 endPoint, float height)
+    {
+        // Вычисляем положение по параболе
+        float x = Mathf.Lerp(startPoint.x, endPoint.x, t);
+        float y = Mathf.Lerp(startPoint.y, endPoint.y, t) + height * Mathf.Sin(t * Mathf.PI); // Высота параболы
+
+        return new Vector2(x, y);
     }
 }

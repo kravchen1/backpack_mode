@@ -7,13 +7,13 @@ public class PointInterestButtonYesNO : Button
     private Collider2D lastCrossCollider;
     private GameObject player;
     private Map map;
-    private Player classPlayer;
+    private PlayerOld_ classPlayer;
 
 
     public override void OnMouseUpAsButton()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        classPlayer = player.GetComponent<Player>();
+        classPlayer = player.GetComponent<PlayerOld_>();
         map = classPlayer.goMap.GetComponent<generateMapScript>();
         pointInterestCollision = classPlayer.hit.collider;
         lastCrossCollider = classPlayer.lastCrossCollider;

@@ -118,11 +118,11 @@ public class generateMapScript : Map
         startPlayerPosition = new Vector3(x, y, 0);
         player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
         player.GetComponent<RectTransform>().anchoredPosition = startPlayerPosition;
-        player.GetComponent<Player>().targetPosition = startPlayerPosition;
+        player.GetComponent<PlayerOld_>().targetPosition = startPlayerPosition;
 
 
 
-        player.GetComponent<Player>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(startPlayerPosition, false);
+        player.GetComponent<PlayerOld_>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(startPlayerPosition, false);
 
        
 
@@ -146,7 +146,7 @@ public class generateMapScript : Map
         player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
 
 
-        player.GetComponent<Player>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(mapData.playerPosition, false);
+        player.GetComponent<PlayerOld_>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(mapData.playerPosition, false);
     }
 
     public void GenerateStartAndBossTiles()

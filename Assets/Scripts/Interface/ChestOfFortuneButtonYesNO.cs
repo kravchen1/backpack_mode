@@ -9,7 +9,7 @@ public class ChestOfFortuneButtonYesNO : Button
 {
     private GameObject player;
     private Map map;
-    private Player classPlayer;
+    private PlayerOld_ classPlayer;
     private CharacterStats characterStats;
 
     public GameObject chestCanvas;
@@ -19,7 +19,7 @@ public class ChestOfFortuneButtonYesNO : Button
     public override void OnMouseUpAsButton()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        classPlayer = player.GetComponent<Player>();
+        classPlayer = player.GetComponent<PlayerOld_>();
         map = classPlayer.goMap.GetComponent<generateMapScript>();
         characterStats = player.GetComponent<CharacterStats>();
         switch (gameObject.name)
