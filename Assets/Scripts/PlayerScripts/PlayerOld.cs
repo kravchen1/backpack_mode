@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -16,14 +18,14 @@ public class PlayerOld : MonoBehaviour
 
     [HideInInspector] public Map map;
     private RectTransform rectTransform;
-
+    private Collider2D previusTree = null;
     // [SerializeField] private Canvas backpackCanvas;
     //[SerializeField] private Canvas mapCanvas;
 
     private CharacterStats characterStats;
 
     [HideInInspector] public Rigidbody2D rb;
-    private float speed = 3f;
+    private float speed = 1f;
     private Vector2 moveVector;
 
     [HideInInspector] public RaycastHit2D hit;
@@ -40,9 +42,11 @@ public class PlayerOld : MonoBehaviour
     bool createdDialogCanvas = false;
 
     [HideInInspector] public Collider2D lastCrossCollider;
+    [HideInInspector] public GameObject mainCamera;
 
     private GameObject dialogCanvas;
 
+    private TextMeshPro countdown;
     private void Awake()
     {
         Time.timeScale = 1f;
@@ -50,6 +54,9 @@ public class PlayerOld : MonoBehaviour
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         goMap = GameObject.FindGameObjectWithTag("GoMap");
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        countdown = GameObject.FindGameObjectWithTag("Countdown").GetComponent<TextMeshPro>();
+        //scriptMainCamera = mainCamera.GetComponent<MainCamera>();
     }
     void LoadCharacterStats()
     {
@@ -120,26 +127,118 @@ public class PlayerOld : MonoBehaviour
         }
     }
 
+    private bool isCollidingArea = false;
+    private Coroutine countdownCoroutine;
+    private Animator activatePointAnimator;
     public void RaycastEvent()
     {
         if (rectTransform != null)
         {
-            hit = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f,0.0f));
+            hit = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f));
             //Debug.Log(hit.);
         }
 
 
         if (hit.collider != null)
         {
-            InstantinateDialog();
-            //Debug.Log(activePoint.name);
-        }
+            if (hit.collider.tag == "AreaEvent")
+            {
+                activePoint = hit.collider.gameObject.GameObject();
+                isCollidingArea = true;
+                // Запускаем корутину обратного отсчета, если она не запущена
+                if (countdownCoroutine == null)
+                {
+                    activatePointAnimator = activePoint.GetComponent<Animator>();
+                    activatePointAnimator.Play("ActivateArea", 0, 0f);
+                    countdownCoroutine = StartCoroutine(Countdown());
+                }
+            }
+            //if(previusTree != null && hit.collider != previusTree)
+            //{
+            //    foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            //    {
+            //        Color color = spriteRenderer.color;
 
-        if(activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
-        {
-            activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1,1,1);
-            createdDialogCanvas = false;
+            //        spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+            //    }
+            //    //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+            //    previusTree = null;
+            //}
+            //if(hit.collider.tag == "InvisiblePartOfSprite")
+            //{
+            //    previusTree = hit.collider;
+            //    foreach(var spriteRenderer in hit.collider.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            //    {
+            //        Color color = spriteRenderer.color;
+
+            //        spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
+            //    }
+            //    //hit.collider.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
+            //}
         }
+        //if (previusTree != null && hit.collider == null)
+        //{
+        //    foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+        //    {
+        //        Color color = spriteRenderer.color;
+
+        //        spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+        //    }
+        //    //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+        //    previusTree = null;
+        //}
+        if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
+        {
+            //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
+            isCollidingArea = false;
+        }
+    }
+
+    private IEnumerator Countdown()
+    {
+        countdown.enabled = true;
+        // Обратный отсчет
+        for (int i = 3; i > 0; i--)
+        {
+            // Если соединение все еще существует, продолжаем отсчет
+            if (isCollidingArea)
+            {
+                //Debug.Log(i); // Вывод каждого числа в консоль
+                countdown.text = i.ToString() + "...";
+                yield return new WaitForSeconds(1f);
+            }
+            else
+            {
+                // Если объекты больше не пересекаются, выходим из корутины
+                countdown.enabled = false;
+                countdownCoroutine = null;
+                //activePoint.GetComponent<Animator>().Play("ActivateArea",0,0);
+                //activePoint.GetComponent<Animator>().enabled = false;
+
+                // Остановка всей анимации
+                activatePointAnimator.Play("DeActivateArea");
+
+                yield break;
+            }
+        }
+        if (isCollidingArea)
+        {
+            // Здесь выполняем событие после окончания обратного отсчета
+            TriggerEvent();
+        }
+        else
+        {
+            activatePointAnimator.Play("DeActivateArea");
+        }
+        countdown.enabled = false;
+        countdownCoroutine = null;
+    }
+    private void TriggerEvent()
+    {
+        characterStats.SaveData();
+        activePoint.GetComponentInParent<Enemy>().StartBattle();
+        Debug.Log("Событие произошло!");
+        // Здесь ваше событие
     }
     //void pressF()
     //{
@@ -179,7 +278,7 @@ public class PlayerOld : MonoBehaviour
     //            SceneManager.LoadScene("GenerateMap");
     //        }
     //    }
-            
+
     //}
     void pressI()
     {

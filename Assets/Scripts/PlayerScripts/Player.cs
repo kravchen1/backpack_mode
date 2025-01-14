@@ -13,9 +13,9 @@ public class Player : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [HideInInspector] public GameObject goMap;
-    [HideInInspector] public Animator animator;
+    public Animator animator;
     private generateMapScript generateMapScript;
-
+    public float speed =  0.0000000001f;
     [HideInInspector] public Map map;
     [HideInInspector] public RectTransform rectTransform;
 
@@ -334,76 +334,49 @@ public class Player : MonoBehaviour
 
     //}
 
+    private void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        // Создаем вектор перемещения
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical).normalized * speed;
+
+        // Применяем скорость к Rigidbody
+        rb.velocity = movement;
+        animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
+    }
 
     private void Update()
     {
         if (startMove)
         {
-            if (needToRaycast)
-            {
-                if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
-                {
-                    Filp();
-                }
-                else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
-                {
-                    Filp();
-                }
-                rb.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, Input.GetAxis("Vertical") * moveSpeed);
-                // Получаем ввод от пользователя
-                //if (Input.GetKeyDown(KeyCode.W)) // Вверх
-                //{
-                //    targetPosition = rectTransform.anchoredPosition + new Vector2(0, 100);
-                //    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.y < generateMapScript.height)
-                //    {
-                //        needToRaycast = false;
-                //        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-                //        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
-                //    }
-                //}
-                //else if (Input.GetKeyDown(KeyCode.S)) // Вниз
-                //{
-                //    targetPosition = rectTransform.anchoredPosition + new Vector2(0, -100);
-                //    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.y >= 0)
-                //    {
-                //        needToRaycast = false;
-                //        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-                //        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
-                //    }
-                //}
-                //else if (Input.GetKeyDown(KeyCode.A)) // Влево
-                //{
-                //    targetPosition = rectTransform.anchoredPosition + new Vector2(-100, 0);
-                //    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.x >= 0)
-                //    {
-                //        needToRaycast = false;
-                //        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-                //        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
-                //    }
-                //}
-                //else if (Input.GetKeyDown(KeyCode.D)) // Вправо
-                //{
-                //    targetPosition = rectTransform.anchoredPosition + new Vector2(100, 0);
-                //    if (!map.tiles.Any(e => e.tilePosition == targetPosition && e.tileName.ToUpper().Contains("TREE")) && targetPosition.x < generateMapScript.width)
-                //    {
-                //        needToRaycast = false;
-                //        StartCoroutine(MoveAlongParabola(rectTransform.anchoredPosition, targetPosition));
-                //        mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(targetPosition);
-                //    }
-                //}
 
-                if (needToRaycast)
-                {
-                    RaycastEvent();
-                }
-                    
-            }
-            else
+            if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
             {
-                
+                Filp();
             }
+            else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
+            {
+                Filp();
+            }
+            //moveVector.x = Input.GetAxis("Horizontal");
+            //moveVector.y = Input.GetAxis("Vertical");
+            ////rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
+            //rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
+            // Получаем ввод от пользователя
+            
+
+            RaycastEvent();
+
+
             //pressF();
             //pressI();
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, 0);
+            animator.SetFloat("Move", 0);
         }
     }
 
