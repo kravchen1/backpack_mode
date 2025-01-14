@@ -89,47 +89,49 @@ public class PlayerOld : MonoBehaviour
     }
 
 
-    public void InstantinateDialog()
-    {
-        if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune") || hit.collider.gameObject.name.Contains("Forge"))
-        {
-            activePoint = hit.collider.gameObject.GameObject();
-            activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            if (!createdDialogCanvas)
-            {
-                startMove = false;
-                //Time.timeScale = 0f;
-                if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
-                    dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
-                else if (hit.collider.gameObject.name.Contains("Fountain"))
-                    dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
-                else if (hit.collider.gameObject.name.Contains("ChestOfFortune"))
-                {
-                    dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
-                    dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
-                }
-                else if (hit.collider.gameObject.name.Contains("Forge"))
-                {
-                    dialogCanvas = Resources.Load<GameObject>("DialogForgeCanvas");
-                    //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
-                }
+    //public void InstantinateDialog()
+    //{
+    //    if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune") || hit.collider.gameObject.name.Contains("Forge"))
+    //    {
+    //        activePoint = hit.collider.gameObject.GameObject();
+    //        activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+    //        if (!createdDialogCanvas)
+    //        {
+    //            startMove = false;
+    //            //Time.timeScale = 0f;
+    //            if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
+    //                dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
+    //            else if (hit.collider.gameObject.name.Contains("Fountain"))
+    //                dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
+    //            else if (hit.collider.gameObject.name.Contains("ChestOfFortune"))
+    //            {
+    //                dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
+    //                dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
+    //            }
+    //            else if (hit.collider.gameObject.name.Contains("Forge"))
+    //            {
+    //                dialogCanvas = Resources.Load<GameObject>("DialogForgeCanvas");
+    //                //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
+    //            }
 
-                var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
-                canvas.gameObject.SetActive(true);
-                //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-                //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-                createdDialogCanvas = true;
-            }
-        }
-        else
-        {
-            lastCrossCollider = hit.collider;
-        }
-    }
+    //            var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
+    //            canvas.gameObject.SetActive(true);
+    //            //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+    //            //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
+    //            createdDialogCanvas = true;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        lastCrossCollider = hit.collider;
+    //    }
+    //}
 
     private bool isCollidingArea = false;
+    private bool speakNow = false;
     private Coroutine countdownCoroutine;
     private Animator activatePointAnimator;
+
     public void RaycastEvent()
     {
         if (rectTransform != null)
@@ -141,9 +143,10 @@ public class PlayerOld : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (hit.collider.tag == "AreaEvent")
+            activePoint = hit.collider.gameObject.GameObject();
+            if (hit.collider.tag == "AreaEventEnemy")
             {
-                activePoint = hit.collider.gameObject.GameObject();
+                Debug.Log(activePoint);
                 isCollidingArea = true;
                 // Запускаем корутину обратного отсчета, если она не запущена
                 if (countdownCoroutine == null)
@@ -153,44 +156,24 @@ public class PlayerOld : MonoBehaviour
                     countdownCoroutine = StartCoroutine(Countdown());
                 }
             }
-            //if(previusTree != null && hit.collider != previusTree)
-            //{
-            //    foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
-            //    {
-            //        Color color = spriteRenderer.color;
 
-            //        spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
-            //    }
-            //    //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
-            //    previusTree = null;
-            //}
-            //if(hit.collider.tag == "InvisiblePartOfSprite")
-            //{
-            //    previusTree = hit.collider;
-            //    foreach(var spriteRenderer in hit.collider.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
-            //    {
-            //        Color color = spriteRenderer.color;
-
-            //        spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
-            //    }
-            //    //hit.collider.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
-            //}
+            if (hit.collider.tag == "AreaEventNPC" && !speakNow)
+            {
+                activePoint.GetComponentInParent<NPC>().StartDialogue();
+                speakNow = true;
+            }
         }
-        //if (previusTree != null && hit.collider == null)
-        //{
-        //    foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
-        //    {
-        //        Color color = spriteRenderer.color;
 
-        //        spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
-        //    }
-        //    //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
-        //    previusTree = null;
-        //}
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
             //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
             isCollidingArea = false;
+            if (speakNow)
+            {
+                FindFirstObjectByType<DialogueManager>().EndDialogue();
+            }
+            speakNow = false;
+
         }
     }
 
