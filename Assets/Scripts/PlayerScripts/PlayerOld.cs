@@ -153,40 +153,40 @@ public class PlayerOld : MonoBehaviour
                     countdownCoroutine = StartCoroutine(Countdown());
                 }
             }
-            if(previusTree != null && hit.collider != previusTree)
-            {
-                foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
-                {
-                    Color color = spriteRenderer.color;
+            //if(previusTree != null && hit.collider != previusTree)
+            //{
+            //    foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            //    {
+            //        Color color = spriteRenderer.color;
 
-                    spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
-                }
-                //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
-                previusTree = null;
-            }
-            if(hit.collider.tag == "InvisiblePartOfSprite")
-            {
-                previusTree = hit.collider;
-                foreach(var spriteRenderer in hit.collider.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
-                {
-                    Color color = spriteRenderer.color;
+            //        spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+            //    }
+            //    //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+            //    previusTree = null;
+            //}
+            //if(hit.collider.tag == "InvisiblePartOfSprite")
+            //{
+            //    previusTree = hit.collider;
+            //    foreach(var spriteRenderer in hit.collider.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            //    {
+            //        Color color = spriteRenderer.color;
 
-                    spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
-                }
-                //hit.collider.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
-            }
+            //        spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
+            //    }
+            //    //hit.collider.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
+            //}
         }
-        if (previusTree != null && hit.collider == null)
-        {
-            foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
-            {
-                Color color = spriteRenderer.color;
+        //if (previusTree != null && hit.collider == null)
+        //{
+        //    foreach (var spriteRenderer in previusTree.gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+        //    {
+        //        Color color = spriteRenderer.color;
 
-                spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
-            }
-            //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
-            previusTree = null;
-        }
+        //        spriteRenderer.color = new Color(color.r, color.g, color.b, 1f);
+        //    }
+        //    //previusTree.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+        //    previusTree = null;
+        //}
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
         {
             //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);

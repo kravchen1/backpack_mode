@@ -8,21 +8,27 @@ public class InvisibleTree : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision != null)
+        if (other.CompareTag("Player")) // Замените "Player" на тег вашего персонажа
         {
-            Debug.Log("Enter");
-            collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = false;
+            foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            {
+                Color color = spriteRenderer.color;
+                spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a/2);
+            }
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (collision != null)
+        if (other.CompareTag("Player")) // Замените "Player" на тег вашего персонажа
         {
-            Debug.Log("Exit");
-            collision.gameObject.transform.parent.GetComponent<SpriteRenderer>().enabled = true;
+            foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
+            {
+                Color color = spriteRenderer.color;
+                spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a*2);
+            }
         }
     }
 }
