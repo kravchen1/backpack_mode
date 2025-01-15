@@ -1,19 +1,32 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 public class QuestManager : MonoBehaviour
 {
     public List<Quest> quests = new List<Quest>();
     //public TextMeshProUGUI questText; // Убедитесь, что вы привязали этот элемент из UI в Inspector
-    public GameObject questText;
+    public GameObject prefabQuestText;
     public Transform questsContainer;
+
+    private QuestData questData;
     void Start()
     {
-        Quest quest1 = new Quest("Поиск кольца", "Найти золотое кольцо в лесу.");
-        AddQuest(quest1);
+        questData = new QuestData();
+        questData.questData = new QDataList();
+        if (File.Exists("Assets/Saves/questData.json"))
+        {
+            questData.LoadData("Assets/Saves/questData.json");
+            quests.AddRange(questData.questData.quests);
+            UpdateQuestUI();
+        }
     }
     public void AddQuest(Quest quest)
     {
+        questData.questData.quests.Add(quest);
+        questData.SaveData("Assets/Saves/questData.json");
         quests.Add(quest);
         UpdateQuestUI();
     }
@@ -34,7 +47,7 @@ public class QuestManager : MonoBehaviour
         // Создаем новые
         foreach (Quest quest in quests)
         {
-            GameObject questGO = Instantiate(questText, questsContainer);
+            GameObject questGO = Instantiate(prefabQuestText, questsContainer);
             var textDescr = quest.description + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
             questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = quest.questName;
             questGO.gameObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = textDescr;

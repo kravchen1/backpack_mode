@@ -6,9 +6,11 @@ public class DialogueManager : MonoBehaviour
     public GameObject responseButtonPrefab;
     public Transform responsesContainer;
     private Dialogue currentDialogue;
-    public void StartDialogue(Dialogue dialogue)
+    private NPC currentNPC;
+    public void StartDialogue(Dialogue dialogue, NPC npc)
     {
         currentDialogue = dialogue;
+        currentNPC = npc.GetComponent<NPC>();
         DisplayDialogue();
     }
     private void DisplayDialogue()
@@ -27,11 +29,34 @@ public class DialogueManager : MonoBehaviour
             GameObject button = Instantiate(responseButtonPrefab, responsesContainer);
             button.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
             // Настраиваем действие кнопки
-            button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
+            if (response.quest)
+            {
+                Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress);
+                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuest(response, quest));
+            }
+            else
+            {
+                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
+            }
         }
     }
     private void OnResponseSelected(Response response)
     {
+        if (response.nextDialogue != null)
+        {
+            currentDialogue = response.nextDialogue;
+            DisplayDialogue();
+        }
+        else
+        {
+            EndDialogue();
+        }
+    }
+
+    private void OnResponseSelectedQuest(Response response, Quest quest)
+    {
+        FindFirstObjectByType<QuestManager>().AddQuest(quest);
+        PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;

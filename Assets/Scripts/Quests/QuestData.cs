@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class QuestData : MonoBehaviour
 {
-    private string questDataFilePath;
+    public string questDataFilePath;
     public QDataList questData;
 
     public void SaveData(string filePath)
