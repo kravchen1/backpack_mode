@@ -25,7 +25,7 @@ public class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
-        LoadData("Assets/Saves/characterStatsData.json");
+        LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
         if(SceneManager.GetActiveScene().name == "GenerateMap" || SceneManager.GetActiveScene().name == "GenerateMapTest")
             InitializeObjects();
         InitializeCharacterStats();
@@ -83,7 +83,7 @@ public class CharacterStats : MonoBehaviour
 
     public void SaveData()
     {
-        characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
+        characterStatsDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json");
         characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime, activeTile, playerMaxHp);
 
         //var saveData = "[";

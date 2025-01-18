@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -83,9 +84,9 @@ public class Chest : MonoBehaviour
 
     public void AddNewItemInStorage()
     {
-        storageData.LoadData("Assets/Saves/storageData.json");
+        storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
         storageData.itemData.items.Add(new Data(chestItems[winnerIndex].name, new Vector2(0,0)));
-        storageData.SaveData("Assets/Saves/storageData.json");
+        storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 
     private bool isEnding = false;

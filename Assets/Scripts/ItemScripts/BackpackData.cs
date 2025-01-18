@@ -87,10 +87,10 @@ public class BackpackData : MonoBehaviour
         switch (gameObject.name)
         {
             case "backpack":
-                backpackDataFilePath = "Assets/Saves/backpackData.json";
+                backpackDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json");
                 break;
             case "Storage":
-                backpackDataFilePath = "Assets/Saves/storageData.json";
+                backpackDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json");
                 break;
         }
 

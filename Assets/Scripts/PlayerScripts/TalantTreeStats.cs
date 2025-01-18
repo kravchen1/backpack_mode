@@ -12,12 +12,12 @@ public class TalantTreeStats : MonoBehaviour
 
     private void Awake()
     {
-        LoadData("Assets/Saves/talantTreeStatsData.json");
+        LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "talantTreeStatsData.json"));
     }
 
     public void SaveData()
     {
-        talantTheeStatDataFilePath = "Assets/Saves/talantTreeStatsData.json";
+        talantTheeStatDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "talantTreeStatsData.json");
 
         //var saveData = "[";
         var saveData = JsonUtility.ToJson(talantTreeStatsData);

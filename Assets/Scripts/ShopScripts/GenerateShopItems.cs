@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -85,7 +86,7 @@ public class GenerateShopItems : MonoBehaviour
     void LoadSlot()
     {
         var shop = GameObject.FindGameObjectWithTag("Shop").GetComponent<Shop>();
-        shop.LoadData("Assets/Saves/shopData.json");
+        shop.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
         listShopData = shop.listShopSaveData.listShopSaveData;
         if (listShopData != null)
         {

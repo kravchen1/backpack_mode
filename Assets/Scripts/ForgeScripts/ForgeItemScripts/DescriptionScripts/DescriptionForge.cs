@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -54,8 +55,8 @@ public class DescriptionForge : MonoBehaviour
         }
 
         backPackAndStorageData.storageData.itemData.items.Add(new Data(craftedItem, new Vector2(0,0)));
-        backPackAndStorageData.storageData.SaveData("Assets/Saves/storageData.json");
-        backPackAndStorageData.backPackData.SaveData("Assets/Saves/backpackData.json");
+        backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+        backPackAndStorageData.backPackData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
 
     }
 

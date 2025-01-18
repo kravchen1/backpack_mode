@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -68,7 +69,7 @@ public class GenerateForgeItems: MonoBehaviour
 
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Forge").GetComponent<Forge>().LoadData("Assets/Saves/forgeData.json");
+        GameObject.FindGameObjectWithTag("Forge").GetComponent<Forge>().LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "forgeData.json"));
         if (listForgeData != null && listForgeData.Count != 0)
         {
             GenerationFromFile();

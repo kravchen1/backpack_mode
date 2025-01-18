@@ -48,9 +48,9 @@ public class Forge : MonoBehaviour
 
     private void Awake()
     {
-        if (!File.Exists("Assets/Saves/forgeData.json"))
+        if (!File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "forgeData.json")))
         {
-            LoadData("Assets/Saves/forgeData.json");
+            LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "forgeData.json"));
         }
     }
 }

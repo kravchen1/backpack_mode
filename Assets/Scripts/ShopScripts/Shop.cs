@@ -60,9 +60,9 @@ public class Shop : MonoBehaviour
 
     private void Awake()
     {
-        if (!File.Exists("Assets/Saves/shopData.json"))
+        if (!File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json")))
         {
-            LoadData("Assets/Saves/shopData.json");
+            LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
         }
     }
 }

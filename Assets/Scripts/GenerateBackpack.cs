@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -27,10 +28,10 @@ public class GenerateBackpack : MonoBehaviour
         switch (gameObject.name)
         {
             case "backpack":
-                backpackData.LoadData("Assets/Saves/backpackData.json");
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
                 break;
             case "Storage":
-                backpackData.LoadData("Assets/Saves/storageData.json");
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
                 break;
             case "backpackEnemy":
                 getEnemy(1);

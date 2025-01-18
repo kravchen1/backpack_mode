@@ -38,6 +38,6 @@ public class QuestData : MonoBehaviour
     }
     private void Awake()
     {
-        questDataFilePath = "Assets/Saves/questData.json";
+        questDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json");
     }
 }
