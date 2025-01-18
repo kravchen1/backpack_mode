@@ -1,13 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.U2D;
-using static UnityEditor.Progress;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Chest : MonoBehaviour
 {

@@ -2717,6 +2717,7 @@ GameObject:
   - component: {fileID: 1095413281301517806}
   - component: {fileID: 2633099949127559155}
   - component: {fileID: 7493258553104685127}
+  - component: {fileID: 8421778291086841339}
   m_Layer: 10
   m_Name: bagCommon2x2
   m_TagString: Bag
@@ -3287,7 +3288,6 @@ MonoBehaviour:
   DescriptionLog: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  rbMass: 0.1
   itemCost: 4
   itemColliders: []
   bagTransform: {fileID: 0}
@@ -3313,6 +3313,22 @@ MonoBehaviour:
   timer: 0
   timer_cooldown: 0
   baseTimerCooldown: 0
+--- !u!114 &8421778291086841339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667151581705308509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 1ff0aa1d573fa4b4987c9a898c99183a, type: 3}
+  dropSound: {fileID: 8300000, guid: 1ff0aa1d573fa4b4987c9a898c99183a, type: 3}
+  audioSource: {fileID: 0}
 --- !u!1 &8721220110910274672
 GameObject:
   m_ObjectHideFlags: 0

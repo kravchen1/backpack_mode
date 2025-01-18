@@ -1,15 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.U2D;
-using static UnityEditor.Progress;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Forge : MonoBehaviour
 {

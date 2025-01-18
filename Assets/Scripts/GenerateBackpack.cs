@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
-using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
 public class GenerateBackpack : MonoBehaviour
 {

@@ -1,11 +1,7 @@
-using static UnityEditor.Progress;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Unity.VisualScripting;
-using UnityEngine.U2D;
 using UnityEngine.SceneManagement;
 
 public class BagOld : ItemOld

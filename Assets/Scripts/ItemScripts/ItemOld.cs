@@ -1,20 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Audio;
-using UnityEditor.Rendering;
-using UnityEngine.UIElements;
-using static UnityEngine.RectTransform;
-using System.Threading;
-using Unity.VisualScripting;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
-using static UnityEngine.UI.Image;
-using UnityEditor.SceneManagement;
 
 
 

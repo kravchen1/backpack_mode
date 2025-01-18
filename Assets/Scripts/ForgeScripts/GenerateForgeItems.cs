@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using TMPro;
 using UnityEngine;
-using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
 public class GenerateForgeItems: MonoBehaviour
 {

@@ -748,6 +748,7 @@ GameObject:
   - component: {fileID: 900398085193066240}
   - component: {fileID: 6173897535624486219}
   - component: {fileID: 2175718141999575228}
+  - component: {fileID: -3507227406455897628}
   m_Layer: 9
   m_Name: FireHelmet1
   m_TagString: RareWeapon
@@ -1163,6 +1164,20 @@ MonoBehaviour:
   baseTimerCooldown: 4.4
   startBattleArmorCount: 20
   countBurnStack: 1
+--- !u!114 &-3507227406455897628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758211912227634398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 24c1b54b9aae69c40a70dae61b578913, type: 3}
 --- !u!1 &7409802622768632517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1257,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5149740416458538058
@@ -1509,7 +1524,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

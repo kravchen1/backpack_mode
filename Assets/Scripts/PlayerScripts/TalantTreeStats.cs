@@ -1,13 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class TalantTreeStats : MonoBehaviour
 {

@@ -1,12 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Searcher;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
 public class Slot : MonoBehaviour, IDropHandler
 {

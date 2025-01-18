@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using TMPro;
-using UnityEditor.U2D.Aseprite;
+using System.Text;  
 using UnityEngine;
 
 public class Shop : MonoBehaviour
