@@ -1,23 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Audio;
-using UnityEditor.Rendering;
-using UnityEngine.UIElements;
-using static UnityEngine.RectTransform;
-using System.Threading;
-using Unity.VisualScripting;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
-using static UnityEngine.UI.Image;
-using UnityEditor.SceneManagement;
-using System.Timers;
 using TMPro;
-using static UnityEngine.EventSystems.EventTrigger;
 
 
 public class HitsStructure
@@ -109,6 +96,7 @@ public abstract class Item : MonoBehaviour
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
+    private ItemMusicEffects itemMusicEffects;
     public String originalName;
 
 
@@ -118,6 +106,7 @@ public abstract class Item : MonoBehaviour
 
     void Awake()
     {
+        itemMusicEffects = GetComponent<ItemMusicEffects>();
         Initialization();
     }
 
@@ -182,6 +171,7 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
+        itemMusicEffects.OnItemDown();
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (animator != null) animator.Play("ItemClick");
@@ -234,6 +224,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
+        itemMusicEffects.OnItemUp();
         //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {

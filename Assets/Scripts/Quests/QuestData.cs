@@ -1,12 +1,6 @@
-using NUnit.Framework.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Unity.VisualScripting.Dependencies.NCalc;
-using UnityEditor;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class QuestData : MonoBehaviour
@@ -44,6 +38,6 @@ public class QuestData : MonoBehaviour
     }
     private void Awake()
     {
-        questDataFilePath = "Assets/Saves/questData.json";
+        questDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json");
     }
 }

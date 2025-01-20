@@ -1,13 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class TalantTreeStats : MonoBehaviour
 {
@@ -18,12 +12,12 @@ public class TalantTreeStats : MonoBehaviour
 
     private void Awake()
     {
-        LoadData("Assets/Saves/talantTreeStatsData.json");
+        LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "talantTreeStatsData.json"));
     }
 
     public void SaveData()
     {
-        talantTheeStatDataFilePath = "Assets/Saves/talantTreeStatsData.json";
+        talantTheeStatDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "talantTreeStatsData.json");
 
         //var saveData = "[";
         var saveData = JsonUtility.ToJson(talantTreeStatsData);

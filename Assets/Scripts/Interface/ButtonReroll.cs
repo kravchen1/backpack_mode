@@ -1,10 +1,5 @@
-using System.IO;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class ButtonReroll : Button
 {

@@ -261,7 +261,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3124932588748843642
@@ -963,6 +963,7 @@ GameObject:
   - component: {fileID: 6452279270959631586}
   - component: {fileID: 6373270065819782841}
   - component: {fileID: 8455519246923081337}
+  - component: {fileID: -9110128662940517271}
   m_Layer: 9
   m_Name: FireFlask1
   m_TagString: RareWeapon
@@ -1373,6 +1374,20 @@ MonoBehaviour:
   baseTimerCooldown: 0
   countStack: 5
   giveStack: 15
+--- !u!114 &-9110128662940517271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4110777814793675799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 24c1b54b9aae69c40a70dae61b578913, type: 3}
 --- !u!1 &4462005700769043788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,7 +1467,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

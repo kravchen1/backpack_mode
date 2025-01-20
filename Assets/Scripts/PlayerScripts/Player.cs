@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
     void LoadCharacterStats()
     {
         characterStats = GetComponent<CharacterStats>();
-        characterStats.LoadData("Assets/Saves/characterStatsData.json");
+        characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
         characterStats.InitializeCharacterStats();
     }
     void SetStartPosition()

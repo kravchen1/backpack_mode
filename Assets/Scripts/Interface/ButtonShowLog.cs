@@ -1,8 +1,4 @@
-using System.IO;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class ButtonShowLog : MonoBehaviour
 {

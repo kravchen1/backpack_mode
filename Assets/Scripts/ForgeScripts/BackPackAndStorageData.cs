@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 public class BackPackAndStorageData : MonoBehaviour
@@ -8,7 +9,7 @@ public class BackPackAndStorageData : MonoBehaviour
     {
         backPackData = new BackpackData();
         storageData = new BackpackData();
-        storageData.LoadData("Assets/Saves/storageData.json");
-        backPackData.LoadData("Assets/Saves/backpackData.json");
+        storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+        backPackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
     }
 }

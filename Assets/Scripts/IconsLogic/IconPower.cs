@@ -1,10 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
-using System.Xml.Linq;
-using TMPro;
-
 public class IconPower : Icon
 {
     public IconPower(int countStack, GameObject gameObject) : base(countStack)

@@ -1,12 +1,7 @@
-using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Unity.VisualScripting.Dependencies.NCalc;
-using UnityEditor;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class BackpackData : MonoBehaviour
@@ -92,10 +87,10 @@ public class BackpackData : MonoBehaviour
         switch (gameObject.name)
         {
             case "backpack":
-                backpackDataFilePath = "Assets/Saves/backpackData.json";
+                backpackDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json");
                 break;
             case "Storage":
-                backpackDataFilePath = "Assets/Saves/storageData.json";
+                backpackDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json");
                 break;
         }
 

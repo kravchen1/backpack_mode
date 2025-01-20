@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -59,7 +60,7 @@ public class PointInterestButtonYesNO : Button
             Time.timeScale = 0f;
             characterStats.playerTime = 0f;
             characterStats.SaveData();
-            map.DeleteData("Assets/Saves/mapData.json");
+            map.DeleteData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
             //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
             SceneManager.LoadScene("GenerateMap");
         }

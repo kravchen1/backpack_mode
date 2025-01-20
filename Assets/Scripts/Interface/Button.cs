@@ -1,5 +1,5 @@
+using System;
 using System.IO;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,7 +24,7 @@ public class Button : MonoBehaviour
         map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
         player.GetComponent<PlayerOld_>().GetComponent<CharacterStats>().SaveData();
         map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-        map.SaveData("Assets/Saves/mapData.json");
+        map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
         SceneManager.LoadScene("BackpackView");
     }
 
@@ -35,8 +35,8 @@ public class Button : MonoBehaviour
         Data data = null; 
         string character = PlayerPrefs.GetString("characterClass");
 
-        int rX = Random.Range(0, 5);
-        int rY = Random.Range(0, 5);
+        int rX = UnityEngine.Random.Range(0, 5);
+        int rY = UnityEngine.Random.Range(0, 5);
         float x = 84.49f;//шаг
         float y = 80.34f;//шаг
 
@@ -49,7 +49,7 @@ public class Button : MonoBehaviour
             data = new Data("bagStartEarth", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), 0f));
         }
         backpackData.itemData.items.Add(data);
-        backpackData.SaveData("Assets/Saves/backpackData.json");
+        backpackData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
     }
 
     virtual public void OnMouseUpAsButton()
@@ -65,7 +65,7 @@ public class Button : MonoBehaviour
                 map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
                 map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
                 player.GetComponent<CharacterStats>().playerTime += 1f;
-                map.SaveData("Assets/Saves/mapData.json");
+                map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
                 player.GetComponent<CharacterStats>().SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackShop");
@@ -82,6 +82,11 @@ public class Button : MonoBehaviour
                 break;
             case "Button_GoPlay":
                 PlayerPrefs.DeleteAll();
+                PlayerPrefs.SetString("savePath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's"));
+                if (!Directory.Exists(PlayerPrefs.GetString("savePath")))
+                {
+                    Directory.CreateDirectory(PlayerPrefs.GetString("savePath"));
+                }
                 PlayerPrefs.SetString("characterClass", gameObject.transform.parent.name.Replace("Static", ""));
                 Debug.Log(gameObject.transform.parent.name.Replace("Static", ""));
                 PlayerPrefs.DeleteKey("mapLevel");
@@ -105,7 +110,7 @@ public class Button : MonoBehaviour
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-                GameObject.Find("Shop").GetComponent<Shop>().SaveData("Assets/Saves/shopData.json");
+                GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Button_LoadGame":
@@ -116,11 +121,11 @@ public class Button : MonoBehaviour
                 Time.timeScale = 0f;
                 map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
                 map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-                map.SaveData("Assets/Saves/mapData.json");
+                map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
                 SceneManager.LoadScene("Main");
                 break;
             case "Button_GoMapFromForge":
-                GameObject.FindGameObjectWithTag("Forge").GetComponent<Forge>().SaveData("Assets/Saves/forgeData.json");
+                GameObject.FindGameObjectWithTag("Forge").GetComponent<Forge>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "forgeData.json"));
                 GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>().SaveData();
                 SceneManager.LoadScene("GenerateMap");
                 break;
@@ -133,7 +138,7 @@ public class Button : MonoBehaviour
     }
     void DeleteAllData()
     {
-        var saveDirectory = "Assets/Saves";
+        var saveDirectory = PlayerPrefs.GetString("savePath");
         foreach(var file in  Directory.GetFiles(saveDirectory))
         { 
             File.Delete(file);

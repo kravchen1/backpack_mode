@@ -1,14 +1,8 @@
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.UI;
 using static generateMapScript;
-using System.IO.Pipes;
-using System;
-using UnityEditor.Overlays;
-using System.Linq;
 
 public class Map : MonoBehaviour
 {

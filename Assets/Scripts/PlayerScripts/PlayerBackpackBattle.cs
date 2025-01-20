@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class PlayerBackpackBattle : MonoBehaviour
 {
@@ -67,7 +68,7 @@ public class PlayerBackpackBattle : MonoBehaviour
         {
             case "Character":
                 characterStats = GetComponent<CharacterStats>();
-                characterStats.LoadData("Assets/Saves/characterStatsData.json");
+                characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
                 maxHP = characterStats.playerHP; //todo

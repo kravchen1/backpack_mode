@@ -132,7 +132,7 @@ public class generateMapScript : Map
 
     void GenerateMapFromFile()
     {
-        LoadData("Assets/Saves/mapData.json");
+        LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
         foreach (var tile in mapData.tiles)
         {
             var careGameObject = Resources.Load<GameObject>(tile.tileName);
@@ -642,7 +642,7 @@ public class generateMapScript : Map
         height = canvas.GetComponent<RectTransform>().rect.size.y;
 
         InitializePrefabs();
-        if (!File.Exists("Assets/Saves/mapData.json"))
+        if (!File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json")))
         {
             if(!PlayerPrefs.HasKey("mapLevel"))
                 PlayerPrefs.SetInt("mapLevel", 1);

@@ -16,9 +16,9 @@ public class QuestManager : MonoBehaviour
     {
         questData = new QuestData();
         questData.questData = new QDataList();
-        if (File.Exists("Assets/Saves/questData.json"))
+        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
         {
-            questData.LoadData("Assets/Saves/questData.json");
+            questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
             quests.AddRange(questData.questData.quests);
             UpdateQuestUI();
         }
@@ -26,7 +26,7 @@ public class QuestManager : MonoBehaviour
     public void AddQuest(Quest quest)
     {
         questData.questData.quests.Add(quest);
-        questData.SaveData("Assets/Saves/questData.json");
+        questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));  
         quests.Add(quest);
         UpdateQuestUI();
     }
