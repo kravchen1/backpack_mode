@@ -53,7 +53,7 @@ public class FireBody : Armor
                         //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                         b = true;
                         //Enemy.hp -= DamageForStack;
-                        Attack(DamageForStack);
+                        Attack(DamageForStack, false);
                         //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
                         CreateLogMessage("FireBody removed " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
                         //animator.SetTrigger(originalName + "StarActivation");

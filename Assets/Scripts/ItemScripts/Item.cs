@@ -33,6 +33,10 @@ public abstract class Item : MonoBehaviour
 
     public GameObject Description;
     public GameObject DescriptionLog;
+
+    public Sprite originalSprite;
+    public GameObject prefabAnimationAttack;
+
     [HideInInspector]  public GameObject CanvasDescription;
 
 
@@ -96,13 +100,13 @@ public abstract class Item : MonoBehaviour
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
-    private ItemMusicEffects itemMusicEffects;
+    [HideInInspector] public ItemMusicEffects itemMusicEffects;
     public String originalName;
-
 
 
     protected float timer_cooldownStart = 1f;
     protected bool timer_locked_outStart = true;
+
 
     void Awake()
     {
@@ -171,7 +175,7 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
-        itemMusicEffects.OnItemDown();
+        itemMusicEffects.OnItemUp();
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (animator != null) animator.Play("ItemClick");
@@ -224,7 +228,6 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
-        itemMusicEffects.OnItemUp();
         //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {
@@ -1103,9 +1106,42 @@ public abstract class Item : MonoBehaviour
     }
 
 
-
-    protected void Attack(int damage)
+    private GameObject goAnimationAttack;
+    public void StopAttackAnimation()
     {
+        Destroy(goAnimationAttack);
+    }
+    public void AttackAnimation(int damage)
+    {
+        if (originalSprite != null)
+        {
+            GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
+            goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+            goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
+            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "-" + damage.ToString();
+            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontSize = 75 + damage;
+
+
+            int r = UnityEngine.Random.Range(1, 6);
+            if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
+            {
+                goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+            }
+            else//атакуют персонажа
+            {
+                goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
+            }
+            Invoke("StopAttackAnimation", 0.2f);
+        }
+
+    }
+
+    protected void Attack(int damage, bool anim)
+    {
+        if (anim)
+        {
+            AttackAnimation(damage);
+        }
         float armorBefore = Enemy.armor;
         if (damage < armorBefore)
         {

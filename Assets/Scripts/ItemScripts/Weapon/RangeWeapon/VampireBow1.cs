@@ -52,7 +52,7 @@ public class VampireBow1 : Weapon
                                 resultDamage -= block;
                             else
                                 resultDamage = 0;
-                            Attack(resultDamage);
+                            Attack(resultDamage, true);
                             Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
                             //добавление крита
                             if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))

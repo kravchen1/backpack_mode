@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ public class FireHelmet : Armor
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
+            //animator.Play(originalName + "Activation");
         }
     }
  
@@ -94,7 +95,8 @@ public class FireHelmet : Armor
             {
                 timer_locked_outStart = false;
                 animator.speed =  1f / timer_cooldown;
-                StartActivation();
+                animator.Play(originalName + "Activation");
+                //StartActivation();
             }
         }
     }
@@ -128,7 +130,7 @@ public class FireHelmet : Armor
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                     var descr = CanvasDescription.GetComponent<DescriptionItemFireHelmet>();
-                    descr.cooldown = timer_cooldown;
+                    descr.cooldown = (float)Math.Round(timer_cooldown,2);
                     descr.countStack = countBurnStack;
                     descr.SetTextBody();
             }

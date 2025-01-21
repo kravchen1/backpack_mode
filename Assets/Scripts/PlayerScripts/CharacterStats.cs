@@ -53,7 +53,7 @@ public class CharacterStats : MonoBehaviour
         if (characterStatsData.playerHP == 0)
         {
             //Debug.Log("LoadStaticData");
-            playerHP = 100;
+            playerHP = 100000;
             playerExp = 0;
             playerCoins = 1000;
             playerLvl = 1;

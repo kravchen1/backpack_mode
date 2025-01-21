@@ -52,7 +52,7 @@ public class VampireSword1 : Weapon
                                 resultDamage -= block;
                             else
                                 resultDamage = 0;
-                            Attack(resultDamage);
+                            Attack(resultDamage, true);
                             Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
                             if (stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() == 0)
                                 AttackSelf(resultDamage);

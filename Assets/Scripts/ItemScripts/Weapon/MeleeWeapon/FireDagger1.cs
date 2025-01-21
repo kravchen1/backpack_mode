@@ -52,7 +52,7 @@ public class FireDagger1 : Weapon
                                 resultDamage -= block;
                             else
                                 resultDamage = 0;
-                            Attack(resultDamage);
+                            Attack(resultDamage, true);
                             Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
                             Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
                             //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
@@ -100,7 +100,7 @@ public class FireDagger1 : Weapon
                         //Enemy.hp -= dealDamageDropStack;
                         //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
 
-                        Attack(dealDamageDropStack);
+                        Attack(dealDamageDropStack, false);
                         CreateLogMessage("FireDagger removed " + dropFireStack.ToString() + " burn");
                         //animator.Play(originalName + "Activation2", 0, 0f);
                     }

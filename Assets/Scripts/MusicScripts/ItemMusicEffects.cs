@@ -15,12 +15,15 @@ public class ItemMusicEffects : MonoBehaviour
 
     void OnMouseEnter()
     {
+        audioSource.pitch = Random.Range(1f, 2f);
+        //audioSource.volume = 0.8f;
         audioSource.clip = hoverSound;
         audioSource.Play();
     }
 
     public void OnItemUp()
     {
+        audioSource.pitch = 1f;
         audioSource.clip = pickUpSound;
         audioSource.Play();
     }
