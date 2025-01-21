@@ -9,7 +9,6 @@ public class Bag : Item
     private GameObject backpack;
     private List<RaycastStructure> careHitsNow = new List<RaycastStructure>();
     private List<ObjectInCells> objectsInCells = new List<ObjectInCells>();
-
     public void StayParentForChild()
     {
         var cellList = gameObject.GetComponentsInChildren<Cell>().ToList();
@@ -83,6 +82,7 @@ public class Bag : Item
 
     public override void OnMouseDown()
     {
+        itemMusicEffects.OnItemUp();
         if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClick");
         IgnoreCollisionObject(true);
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
