@@ -96,7 +96,7 @@ public abstract class Item : MonoBehaviour
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
-    private ItemMusicEffects itemMusicEffects;
+    [HideInInspector] public ItemMusicEffects itemMusicEffects;
     public String originalName;
 
 
@@ -171,7 +171,7 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
-        itemMusicEffects.OnItemDown();
+        itemMusicEffects.OnItemUp();
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (animator != null) animator.Play("ItemClick");
@@ -224,7 +224,6 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
-        itemMusicEffects.OnItemUp();
         //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {
