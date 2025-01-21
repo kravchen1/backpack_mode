@@ -4,6 +4,7 @@ using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using TMPro;
 
 public class PlayerBackpackBattle : MonoBehaviour
 {
@@ -173,5 +174,33 @@ public class PlayerBackpackBattle : MonoBehaviour
 
         staminaRegenerating();
 
+    }
+
+
+
+
+
+
+    public void MinusHP(int damage)
+    {
+        float armorBefore = armor;
+        if (damage < armorBefore)
+        {
+            armor -= damage;
+        }
+        else
+        {
+            int dmgArmor = (int)armorBefore;
+            armor = 0;
+            hp -= (damage - dmgArmor);
+            if (armorBefore == 0)
+            {
+                //CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            }
+            else
+            {
+                //CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+            }
+        }
     }
 }

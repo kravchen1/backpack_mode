@@ -1,17 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UIElements;
+using System;
+using TMPro;
 public class FightMenuBuffAndDebuffs : MonoBehaviour
 {
-    //public GameObject playerIconsMenu, enemyIconsMenu;
-
-
     public List<GameObject> generateIcons;
     private GameObject[] prefabs;
     public List<Icon> icons = new List<Icon>();
 
     public GameObject placeGenerationIcons;
-
+    public GameObject OwnerStat;
+    public GameObject DescriptionLog;
     private int rowIconsCount = 4;
 
     private float firstElementX = -20;
@@ -33,8 +34,17 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
     public int countPercentBlind = 5;
     public int countDamagePower = 1;
+    public int countDamageBleed = 1;
+    public int timerBleedAndFatigue = 1;
+    public int countAddFatigue = 1;
 
+    public int timerFatigueStart = 25;
 
+    private int countFatigue = 0;
+    
+    private float timerCDFouting;
+
+    private GameObject placeForLogDescription;
     public void LoadPrefabs(string tagName)//а можно сделать функцией?
     {
         if (prefabs == null)
@@ -47,21 +57,10 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
     private void Start()
     {
-        //placeGenerationIcons = GameObject.FindGameObjectWithTag("PlaceBuffPlayer");
+        timerCDFouting = timerFatigueStart;
+        placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
         LoadPrefabs("ICON");
-        //foreach (GameObject icon in generateIcons)
-        //{
-        //    AddBuff(1, icon.name);
-        //}
-        //foreach (GameObject icon in generateIcons)
-        //{
-        //    AddBuff(1, icon.name);
-        //}
-
-        //DeleteBuff(5, "IconFrost");
-
-        //DeleteBuff(1, "IconBleed");
-
+        //AddBuff(10, "ICONBLEED");
     }
 
 
@@ -369,6 +368,143 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         if (countHeal > 0)
             return CalculateHeal(countHeal);
         else return 0;
+    }
+
+
+    public void CreateLogMessage(string message)
+    {
+        var obj = Instantiate(DescriptionLog, placeForLogDescription.GetComponent<RectTransform>().transform);
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
+        obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+
+    private void StopDebuffAnimationPlayer()
+    {
+        GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationPlayer");
+        goDebuffAnimation.GetComponent<Animator>().Play("New State");
+    }
+    private void StopDebuffAnimationEnemy()
+    {
+        GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationEnemy");
+        goDebuffAnimation.GetComponent<Animator>().Play("New State");
+    }
+    private void BleedingAndFatigue()
+    {
+        int countBleed = 0;
+        foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
+        {
+            if (icon.countStack > 0)
+            {
+                countBleed = icon.countStack;
+            }
+        }
+
+        if (countBleed > 0 && countFatigue > 0)
+        {
+            OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP((countBleed * countDamageBleed) + countFatigue);
+            CreateLogMessage(transform.parent.parent.gameObject.name + " bleeding for " + Math.Abs(countBleed * countDamageBleed).ToString());
+            CreateLogMessage(transform.parent.parent.gameObject.name + " fatiguing for " + Math.Abs(countFatigue).ToString());
+            if (OwnerStat.name == "Character")//мы кровоточим и устали
+            {
+                GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationPlayer");
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countBleed * countDamageBleed).ToString();
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countBleed * countDamageBleed);
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countFatigue).ToString();
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countFatigue);
+                goDebuffAnimation.GetComponent<Animator>().Play("BleedingAndFatiguingPlayer");
+                Invoke("StopDebuffAnimationPlayer", 0.2f);
+            }
+            else//враг кровоточит и устал
+            {
+                GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationEnemy");
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countBleed * countDamageBleed).ToString();
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countBleed * countDamageBleed);
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countFatigue).ToString();
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countFatigue);
+                goDebuffAnimation.GetComponent<Animator>().Play("BleedingAndFatiguingEnemy");
+                Invoke("StopDebuffAnimationEnemy", 0.2f);
+            }
+        }
+        else if (countBleed > 0)
+        {
+            OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP(countBleed * countDamageBleed);
+            CreateLogMessage(transform.parent.parent.gameObject.name + " bleeding for " + Math.Abs(countBleed * countDamageBleed).ToString());
+            if (OwnerStat.name == "Character")//мы кровоточим
+            {
+                GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationPlayer");
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countBleed * countDamageBleed).ToString();
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countBleed * countDamageBleed);
+                goDebuffAnimation.GetComponent<Animator>().Play("BleedingPlayer");
+                Invoke("StopDebuffAnimationPlayer", 0.2f);
+            }
+            else//враг кровоточит
+            {
+                GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationEnemy");
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countBleed * countDamageBleed).ToString();
+                goDebuffAnimation.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countBleed * countDamageBleed);
+                goDebuffAnimation.GetComponent<Animator>().Play("BleedingEnemy");
+                Invoke("StopDebuffAnimationEnemy", 0.2f);
+            }
+        }
+        else if (countFatigue > 0)
+        {
+            OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP(countFatigue);
+            CreateLogMessage(transform.parent.parent.gameObject.name + " fatiguing for " + Math.Abs(countFatigue).ToString());
+            if (OwnerStat.name == "Character")//мы устали
+            {
+                GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationPlayer");
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countFatigue).ToString();
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countFatigue);
+                goDebuffAnimation.GetComponent<Animator>().Play("FatiguingPlayer");
+                Invoke("StopDebuffAnimationPlayer", 0.2f);
+            }
+            else//враг устал
+            {
+                GameObject goDebuffAnimation = GameObject.FindGameObjectWithTag("DebuffAnimationEnemy");
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countFatigue).ToString();
+                goDebuffAnimation.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countFatigue);
+                goDebuffAnimation.GetComponent<Animator>().Play("FatiguingEnemy");
+                Invoke("StopDebuffAnimationEnemy", 0.2f);
+            }
+        }
+
+
+    }
+
+
+    
+
+    private bool timer_locked_outFlouting = true;
+    private float timerCDBleed = 1f;
+    private void CoolDownDebuffs()
+    {
+        timerCDBleed -= Time.deltaTime;
+        if (timerCDBleed <= 0)
+        {
+            timerCDBleed = timerBleedAndFatigue;
+            BleedingAndFatigue();
+        }
+    }
+
+    private void CoolDownFatigue()
+    {
+        timerCDFouting -= Time.deltaTime;
+        if (timerCDFouting <= 0 && timer_locked_outFlouting)
+        {
+            timer_locked_outFlouting = false;
+            timerCDFouting = timerBleedAndFatigue;
+        }
+        else if (timerCDFouting <= 0 && !timer_locked_outFlouting)
+        {
+            timerCDFouting = timerBleedAndFatigue;
+            countFatigue += countAddFatigue;
+        }
+    }
+    private void Update()
+    {
+        CoolDownDebuffs();
+        CoolDownFatigue();
     }
 
 }

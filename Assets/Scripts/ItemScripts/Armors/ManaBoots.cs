@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,7 +127,7 @@ public class ManaBoots : Armor
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                     var descr = CanvasDescription.GetComponent<DescriptionItemManaBoots>();
-                    descr.cooldown = timer_cooldown;
+                    descr.cooldown = (float)Math.Round(timer_cooldown,2);
                     descr.countNeedManaStack = countManaStack;
                     descr.SetTextBody();
             }
