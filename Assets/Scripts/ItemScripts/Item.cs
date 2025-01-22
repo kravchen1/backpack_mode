@@ -158,7 +158,7 @@ public abstract class Item : MonoBehaviour
                 Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
             }
         }
-        FillnestedObjectStarsStars(512, "RareWeapon");
+        FillnestedObjectStarsStars(256, "RareWeapon");
     }
     void initializationItemColliders()
     {
@@ -179,6 +179,7 @@ public abstract class Item : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (animator != null) animator.Play("ItemClick");
+            DeletenestedObjectStars();
             IgnoreCollisionObject(true);
             image.sortingOrder = 4;
             needToDynamic = true;
@@ -279,7 +280,7 @@ public abstract class Item : MonoBehaviour
         ClearCareRaycast(false);
         image.sortingOrder = 3;
         StartCoroutine(ShowDescription());
-        FillnestedObjectStarsStars(512, "RareWeapon");
+        FillnestedObjectStarsStars(256, "RareWeapon");
     }
 
     public void defaultItemUpdate()
@@ -867,7 +868,7 @@ public abstract class Item : MonoBehaviour
         hitSellChest = CreateRaycastForSellChest(32768);
         ClearCareRaycast(false);
         CreateCareRaycast();
-        FillnestedObjectStarsStars(512, "RareWeapon");
+        //FillnestedObjectStarsStars(256, "RareWeapon");
     }
 
 
@@ -984,11 +985,11 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
             //bool b = nestedStarObjects.Where(e => e.name == raycast.collider.gameObject.name).Count() == 0;
-            if (raycast.collider != null && raycast.collider.gameObject != gameObject)//
+            if (raycast.collider != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject != gameObject)//
             {
-                if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject).Count() == 0)
+                if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject.GetComponent<Cell>().nestedObject).Count() == 0)
                 {
-                    star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject;
+                    star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject.GetComponent<Cell>().nestedObject;
                     //nestedStarObjects.Add(raycast.collider.gameObject);
                     star.GetComponent<SpriteRenderer>().sprite = fillStar;
                     //FillStarEffect(raycast.collider.gameObject.GetComponent<Item>());
@@ -999,6 +1000,14 @@ public abstract class Item : MonoBehaviour
                 star.GetComponent<Cell>().nestedObject = null;
                 star.GetComponent<SpriteRenderer>().sprite = emptyStar;
             }
+        }
+    }
+    public void DeletenestedObjectStars()
+    {
+        foreach (var star in stars)
+        {
+            star.GetComponent<Cell>().nestedObject = null;
+            star.GetComponent<SpriteRenderer>().sprite = emptyStar;
         }
     }
 

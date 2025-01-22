@@ -82,6 +82,11 @@ public class BackpackData : MonoBehaviour
         //else
         //    Debug.LogError("There is no save data!");
     }
+
+    public void LoadDataEnemy(String jsonData)
+    {
+        itemData = JsonUtility.FromJson<ItemData>(jsonData);
+    }
     private void Awake()
     {
         switch (gameObject.name)

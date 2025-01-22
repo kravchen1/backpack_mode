@@ -89,7 +89,7 @@ public class ManaFlask : Flask
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(512, "RareWeapon");
+            //FillnestedObjectStarsStars(256, "RareWeapon");
             CoolDownStart();
         }
 

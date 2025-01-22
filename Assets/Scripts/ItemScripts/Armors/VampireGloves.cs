@@ -75,7 +75,7 @@ public class VampireGloves : Armor
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                FillnestedObjectStarsStars(512, "RareWeapon");
+                FillnestedObjectStarsStars(256, "RareWeapon");
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireGloves>();

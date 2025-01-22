@@ -9,6 +9,8 @@ public class GenerateBackpack : MonoBehaviour
 
     private GameObject[] prefabs;
     public List<GameObject> generateItems;
+
+    public EnemyData enemy;
     public void LoadChestItems(string tagName)
     {
         if (prefabs == null)
@@ -17,6 +19,28 @@ public class GenerateBackpack : MonoBehaviour
         }
         generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
     }
+
+    public void GenerateEnemy(int lvl)
+    {
+        switch (lvl)
+        {
+            case 1:
+                int random = Random.Range(1, 3);
+                switch (random)
+                {
+                    case 1:
+                        enemy = new EnemyData("{\"items\":[{\"name\":\"bagRare2x1\",\"position\":{\"x\":-3.84002685546875,\"y\":-122.88605499267578,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":-0.7071068286895752,\"w\":0.7071068286895752}},{\"name\":\"bagCommon2x2\",\"position\":{\"x\":-132.12786865234376,\"y\":-203.22189331054688,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bagRare2x1\",\"position\":{\"x\":-132.12786865234376,\"y\":-81.04047393798828,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"ManaBoots1\",\"position\":{\"x\":-88.32000732421875,\"y\":-203.35116577148438,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"FireHelmet1\",\"position\":{\"x\":-44.8699951171875,\"y\":-81.04047393798828,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"FireDagger1\",\"position\":{\"x\":-172.79998779296876,\"y\":-203.40631103515626,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":1.0,\"w\":0.0}},{\"name\":\"ManaAmulet1\",\"position\":{\"x\":-172.79998779296876,\"y\":-81.04047393798828,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}]}"
+                                                , lvl);
+                        break;
+                    case 2:
+                        enemy = new EnemyData("{\"items\":[{\"name\":\"bagRare2x1\",\"position\":{\"x\":121.31207275390625,\"y\":-0.704681396484375,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bagRare2x1\",\"position\":{\"x\":121.31207275390625,\"y\":-81.04047393798828,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bagCommon2x2\",\"position\":{\"x\":121.31207275390625,\"y\":-203.22189331054688,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"FireHelmet1\",\"position\":{\"x\":124.08999633789063,\"y\":-0.7046966552734375,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":8.429370268459025e-8,\"w\":1.0}},{\"name\":\"FireHelmet1\",\"position\":{\"x\":124.08999633789063,\"y\":-241.7121124267578,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":8.429370268459025e-8,\"w\":1.0}},{\"name\":\"VampireGloves1\",\"position\":{\"x\":165.1199951171875,\"y\":-123.07049560546875,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":1.0,\"w\":0.0}},{\"name\":\"VampireGloves1\",\"position\":{\"x\":80.63998413085938,\"y\":-123.07049560546875,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":1.0,\"w\":0.0}}]}"
+                                                , lvl);
+                        break;
+                }
+                break;
+        }
+    }
+
     void Start()
     {
 
@@ -34,6 +58,7 @@ public class GenerateBackpack : MonoBehaviour
                 backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
                 break;
             case "backpackEnemy":
+                GenerateEnemy(1);
                 getEnemy(1);
                 break;
         }
@@ -51,7 +76,7 @@ public class GenerateBackpack : MonoBehaviour
     {
         int r = 0;
         r = 1;//Random.Range(1, 2);//toDo 20
-        backpackData.LoadData("Assets/Enemys/backpackDataEnemy" + lvl + "_" + r + ".json");
+        backpackData.LoadDataEnemy(enemy.jsonBackpack);
         return 0;
     }
     void Generation(GameObject generationObject, Vector3 place, Quaternion rotation)//уволен

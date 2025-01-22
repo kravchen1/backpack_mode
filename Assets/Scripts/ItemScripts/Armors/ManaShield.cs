@@ -113,7 +113,7 @@ public class ManaShield : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(512, "RareWeapon");
+            //FillnestedObjectStarsStars(256, "RareWeapon");
             CoolDownStart();
         }
 
@@ -128,7 +128,7 @@ public class ManaShield : Armor
         yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(512, "RareWeapon");
+            FillnestedObjectStarsStars(256, "RareWeapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {

@@ -9,10 +9,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class VampireBow1 : Weapon
+public class DefaultRangeWeapon : Weapon
 {
     //private float timer1sec = 1f;
-    public int countIncreasesCritDamage = 10;
+    //public int countIncreasesCritDamage = 10;
 
     private void Start()
     {
@@ -32,66 +32,13 @@ public class VampireBow1 : Weapon
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
-            if (HaveStamina())
-            {
-                if (Player != null && Enemy != null)
-                {
-                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
-                    {
-                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
-                        {
-                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
-                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
-                            {
-                                float flDmg = (float)resultDamage * Player.menuFightIconData.CalculateCritDamage(critDamage);
-                                resultDamage = (int)flDmg;
-                            }
-                            int block = BlockDamage();
-                            if (resultDamage >= block)
-                                resultDamage -= block;
-                            else
-                                resultDamage = 0;
-                            Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //добавление крита
-                            if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
-                            {
-                                foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
-                                {
-                                    critDamage += icon.countStack;
-                                }
-                            }
-
-                            CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                        }
-                        else
-                        {
-                            //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage(gameObject.name + "miss");
-                        }
-                    }
-                    else
-                    {
-                        //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage(gameObject.name + "miss");
-                    }
-
-                }
-            }
-            else
-            {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage(gameObject.name + "no have stamina");
-            }
         }
     }
 
     public override void StarActivation(Item item)
     {
-        if(item.GetComponent<Weapon>() != null)
-            item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        //if(item.GetComponent<Weapon>() != null)
+        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
     }
 
 
@@ -157,8 +104,8 @@ public class VampireBow1 : Weapon
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemVampireBow>();
-                descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                var descr = CanvasDescription.GetComponent<DescriptionItemDefaultWeapon>();
+                //descr.countIncreasesCritDamage = countIncreasesCritDamage;
                 descr.SetTextBody();
 
                 

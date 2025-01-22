@@ -46,6 +46,7 @@ public class PlayerBackpackBattle : MonoBehaviour
     private string characterStatsDataFilePath;
     private CharacterStatsData characterStatsData;
     public FightMenuBuffAndDebuffs menuFightIconData;
+    private EnemyStatData enemyStatData;
     void Awake()
     {
         InitializeData();
@@ -76,7 +77,8 @@ public class PlayerBackpackBattle : MonoBehaviour
                 break;
             case "CharacterEnemy":
                 characterStats = GetComponent<CharacterStats>();
-                characterStats.LoadData("Assets/Enemys/statsDataEnemy1.json");//todo
+                enemyStatData = new EnemyStatData("{\"playerHP\":20000.0,\"playerExp\":0.0,\"playerCoins\":919.0,\"requiredExp\":1000.0,\"playerLvl\":1.0}");
+                characterStats.LoadDataEnemy(enemyStatData.jsonStat);//todo
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
                 maxHP = characterStats.playerHP; //todo

@@ -1,20 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class VampireBoots : Armor
+public class DefaultArmor : Armor
 {
     private bool isUse = false;
-    public int countVampireStack = 2;
-    public int countArmorStack = 15;
-    //protected bool timer_locked_out = true;
-    
-
-
-
+    public int DamageForStack = 5;
+    public int SpendStack = 2;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -22,24 +18,20 @@ public class VampireBoots : Armor
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
+
     }
+
 
     public override void StartActivation()
     {
         if (!isUse)
         {
-            if (Player != null)
-            {
-                Player.armor = Player.armor + countArmorStack;
-                Player.armorMax = Player.armorMax + countArmorStack;
-                isUse = true;
-                Player.menuFightIconData.AddBuff(countVampireStack, "IconVampire");
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("VampireBoots give " + countArmorStack.ToString() + " armor and " + countVampireStack.ToString() + " VampireStack");
-                CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-            }
         }
+    }
+
+    public override void StarActivation(Item item)
+    {
+        
     }
 
     private void CoolDownStart()
@@ -57,14 +49,11 @@ public class VampireBoots : Armor
             }
         }
     }
-
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             CoolDownStart();
-            //CoolDown();
-            //Activation();
         }
 
         if (SceneManager.GetActiveScene().name == "BackPackShop")
@@ -84,10 +73,11 @@ public class VampireBoots : Armor
             {
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                var descr = CanvasDescription.GetComponent<DescriptionItemVampireBoots>();
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemDefaultNoWeapon>();
                 //descr.cooldown = timer_cooldown;
-                descr.countArmorStack = countArmorStack;
-                descr.countVampireStack = countVampireStack;
+                //descr.countStack = countBurnStack;
+                //descr.coolDown = coolDown;
                 descr.SetTextBody();
             }
         }

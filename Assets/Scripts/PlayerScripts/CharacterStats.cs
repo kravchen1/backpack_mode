@@ -120,6 +120,13 @@ public class CharacterStats : MonoBehaviour
         //    Debug.LogError("There is no save data!");
         return characterStatsData;
     }
+    public CharacterStatsData LoadDataEnemy(String jsonData)
+    {
+        //characterStatsDataFilePath = "Assets/Saves/characterStatsData.json";
+        characterStatsData = new CharacterStatsData(playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerTime, activeTile, playerMaxHp);
+        characterStatsData = JsonUtility.FromJson<CharacterStatsData>(jsonData);
+        return characterStatsData;
+    }
 
     private void Update()
     {
