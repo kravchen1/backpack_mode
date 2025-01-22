@@ -1227,6 +1227,7 @@ GameObject:
   - component: {fileID: 4388083621929641749}
   - component: {fileID: 8283858375417339441}
   - component: {fileID: 7838172762797502939}
+  - component: {fileID: -8805888586151785251}
   m_Layer: 9
   m_Name: Spear
   m_TagString: RareWeapon
@@ -1657,6 +1658,8 @@ MonoBehaviour:
   prefabOriginalName: 
   Description: {fileID: 4590017880042233369, guid: d5790708c4873b544868c2395b27568b, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
   itemCost: 0
@@ -1682,6 +1685,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: Spear
   timer: 0
   timer_cooldown: 0
@@ -1689,6 +1693,22 @@ MonoBehaviour:
   startBattleArmorCount: 0
   countBurnStack: 3
   coolDown: 50
+--- !u!114 &-8805888586151785251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6976737588573244143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 4d4fcd793650fd146b777683c361aa8c, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &7384331426280427795
 GameObject:
   m_ObjectHideFlags: 0

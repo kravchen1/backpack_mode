@@ -261,7 +261,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 7110034122649342660}
   - component: {fileID: 7199402997345730714}
   - component: {fileID: 8568136430505976603}
+  - component: {fileID: -4199713372509802321}
   m_Layer: 9
   m_Name: WitchPot
   m_TagString: RareWeapon
@@ -564,7 +565,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 136.42833, y: 136.79999}
+    oldSize: {x: 145.13652, y: 145.53192}
     newSize: {x: 123.51351, y: 73.78378}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -704,6 +705,8 @@ MonoBehaviour:
   prefabOriginalName: 
   Description: {fileID: 6873695505963565186, guid: 86cb23442cd33ef44b0459da12225712, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
   itemCost: 0
@@ -729,12 +732,29 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: WitchPot
   timer: 0
   timer_cooldown: 2.1
   baseTimerCooldown: 4.4
   startBattleArmorCount: 20
   countBurnStack: 1
+--- !u!114 &-4199713372509802321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850698696272539752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 4d4fcd793650fd146b777683c361aa8c, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &3355681531593101515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1979,7 +1999,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8521671959731518375

@@ -899,7 +899,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1022,6 +1022,7 @@ GameObject:
   - component: {fileID: 1372807468850614710}
   - component: {fileID: 844186263240989990}
   - component: {fileID: 8268917804124730017}
+  - component: {fileID: 5479858133358889721}
   m_Layer: 9
   m_Name: RabbitPaw
   m_TagString: RareWeapon
@@ -1293,7 +1294,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 64.81346, y: 130.99998}
+    oldSize: {x: 68.95049, y: 139.3617}
     newSize: {x: 123.51351, y: 73.78378}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1543,6 +1544,8 @@ MonoBehaviour:
   prefabOriginalName: 
   Description: {fileID: 2823144896191399644, guid: fee9e1b2df995a14db47f514f422efec, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
   itemCost: 0
@@ -1568,12 +1571,29 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: RabbitPaw
   timer: 0
   timer_cooldown: 2.1
   baseTimerCooldown: 4.4
   startBattleArmorCount: 20
   countBurnStack: 1
+--- !u!114 &5479858133358889721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5097118686047548048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 4d4fcd793650fd146b777683c361aa8c, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &5681053495536584741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1957,7 +1977,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &119526391641643768

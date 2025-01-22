@@ -322,7 +322,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4445079965714768586
@@ -530,6 +530,7 @@ GameObject:
   - component: {fileID: 2103878232891597900}
   - component: {fileID: 3317969733125275334}
   - component: {fileID: 1729853613655648186}
+  - component: {fileID: 3198373133472410875}
   m_Layer: 9
   m_Name: MagicWand
   m_TagString: RareWeapon
@@ -880,6 +881,8 @@ MonoBehaviour:
   prefabOriginalName: 
   Description: {fileID: 3331062315197355111, guid: b36c0d443c3c27940a1c65972be992e7, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
   itemCost: 0
@@ -905,12 +908,29 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: MagicWand
   timer: 0
   timer_cooldown: 2.1
   baseTimerCooldown: 4.4
   startBattleArmorCount: 20
   countBurnStack: 1
+--- !u!114 &3198373133472410875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142698503763733978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 4d4fcd793650fd146b777683c361aa8c, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &2935078257024107495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,7 +2019,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

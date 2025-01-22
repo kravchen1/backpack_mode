@@ -33,6 +33,8 @@ public class GenerateShopItems : MonoBehaviour
 
         LoadChestItems("RAREWEAPON");
         LoadChestItems("BAG");
+        LoadChestItems("BLOCKMANAITEM");
+
         //LoadChestItems("STARTBAG");
 
 
