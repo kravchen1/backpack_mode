@@ -758,8 +758,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291063384
-  m_fontColor: {r: 0.34509805, g: 0.43137258, b: 0.7686275, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1434,7 +1434,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 70.90799, y: 140.93558}
+  m_AnchoredPosition: {x: 87.1, y: 140.93558}
   m_SizeDelta: {x: 910.184, y: 763.6008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3734046643829753571
@@ -1511,8 +1511,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291063384
-  m_fontColor: {r: 0.34509805, g: 0.43137258, b: 0.7686275, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2183,9 +2183,12 @@ MonoBehaviour:
   damageMax: 2
   staminaCost: 1
   accuracyPercent: 95
-  baseDamageCrit: 150
+  chanceCrit: 5
+  critDamage: 130
   cooldown: 1.1
   Armor: 0
+  countVampireStack: 2
+  countArmorStack: 15
 --- !u!1 &7813340348177571222
 GameObject:
   m_ObjectHideFlags: 0

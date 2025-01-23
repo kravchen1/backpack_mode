@@ -246,6 +246,8 @@ MonoBehaviour:
   damageMax: 2
   staminaCost: 1
   accuracyPercent: 95
+  chanceCrit: 5
+  critDamage: 130
   cooldown: 1.1
   Armor: 20
   DamageForStack: 5
@@ -283,7 +285,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35200003, y: 0.40540922}
   m_AnchorMax: {x: 0.41400003, y: 0.5}
-  m_AnchoredPosition: {x: -6.5, y: -0.19999695}
+  m_AnchoredPosition: {x: 138.8, y: 36.1}
   m_SizeDelta: {x: 0, y: 1.0650024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &8332916509066866110
@@ -1144,8 +1146,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'start battle: give <u>20</u>\r\n\r\nfire items      activate:  will spend
-    <u>1</u>       and deal <u>5</u> damage'
+  m_text: 'start battle: give <u>20</u>\r\n\r\nfire items      : spend <u>1</u>      
+    and deals <u>5</u> damage'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
