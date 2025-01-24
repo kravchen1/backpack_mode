@@ -22,7 +22,7 @@ public class Bag : Item
         }
         foreach (var objectInCell in objectsInCells)
         {
-            objectInCell.gameObject.DeleteNestedObject();
+            objectInCell.gameObject.DeleteNestedObject(gameObject.transform.parent.tag);
         }
     }
     private Vector3 shopItemStartPosition;
@@ -83,9 +83,9 @@ public class Bag : Item
     public override void OnMouseDown()
     {
         itemMusicEffects.OnItemUp();
-        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClick");
+        if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClick");
         IgnoreCollisionObject(true);
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (shopItem != null)
             {
@@ -97,7 +97,7 @@ public class Bag : Item
                     TapFirst();
                     TapRotate();
                     TapShowBackPack();
-                    DeleteNestedObject();
+                    DeleteNestedObject(gameObject.transform.parent.tag);
                     canShowDescription = false;
                     // Начинаем перетаскивание
                     isDragging = true;
@@ -117,7 +117,7 @@ public class Bag : Item
                 TapFirst();
                 TapRotate();
                 TapShowBackPack();
-                DeleteNestedObject();
+                DeleteNestedObject(gameObject.transform.parent.tag);
                 canShowDescription = false;
 
                 // Начинаем перетаскивание
@@ -197,7 +197,8 @@ public class Bag : Item
 
     public void BagDefauldUpdate()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        if(SceneManager.GetActiveScene().name != "BackPackBattle")
         {
             if (isDragging)
             {
@@ -344,7 +345,7 @@ public class Bag : Item
                         {
                             var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
                             //nestedObjectItem.MoveObjectOnEndDrag();
-                            nestedObjectItem.DeleteNestedObject();
+                            nestedObjectItem.DeleteNestedObject(gameObject.transform.parent.tag);
                             nestedObjectItem.needToDynamic = true;
                             //nestedObjectItem.Impulse = true;
                             nestedObjectItem.rb.excludeLayers = 0;
@@ -431,13 +432,14 @@ public class Bag : Item
 
     public override void OnMouseUp()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
+        if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();
         }
         IgnoreCollisionObject(false);
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        if(SceneManager.GetActiveScene().name != "BackPackBattle")
         {
             //List<GameObject> gameObjects = new List<GameObject>();
             //ItemInGameObject("backpack", gameObjects);

@@ -163,6 +163,16 @@ public class Player : MonoBehaviour
                 activePoint.GetComponentInParent<NPC>().StartDialogue();
                 speakNow = true;
             }
+            if (hit.collider.tag == "AreaEventEntrance")
+            {
+                Debug.Log(activePoint.name);
+                if (activePoint.name == "entranceInCave1")
+                {
+                    SceneManager.LoadScene("BackPackCave1");
+
+                }
+            }
+
         }
 
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))

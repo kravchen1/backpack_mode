@@ -103,7 +103,8 @@ public class DefaultMeleeWeapon : Weapon
             Activation();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             defaultItemUpdate();
         }

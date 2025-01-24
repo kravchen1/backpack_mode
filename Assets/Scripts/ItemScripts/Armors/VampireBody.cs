@@ -110,7 +110,8 @@ public class VampireBody : Armor
             Activation();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             defaultItemUpdate();
         }

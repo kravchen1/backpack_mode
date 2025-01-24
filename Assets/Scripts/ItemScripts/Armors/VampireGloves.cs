@@ -60,8 +60,8 @@ public class VampireGloves : Armor
             //CoolDown();
             //Activation();
         }
-
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
+        //if (SceneManager.GetActiveScene().name == "BackPackShop")
         {
             defaultItemUpdate();
         }

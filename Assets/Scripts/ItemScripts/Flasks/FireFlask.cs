@@ -91,7 +91,8 @@ public class FireFlask : Flask
             Activation();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             defaultItemUpdate();
         }

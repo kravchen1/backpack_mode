@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.VisualScripting;
 
 
 public class HitsStructure
@@ -140,8 +141,7 @@ public abstract class Item : MonoBehaviour
             else
                 placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
         }
-
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        else if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
             if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
@@ -157,6 +157,10 @@ public abstract class Item : MonoBehaviour
                 Player = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
                 Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
             }
+        }
+        else
+        {
+            placeForDescription = GameObject.FindWithTag("DescriptionPlace");
         }
         FillnestedObjectStarsStars(256, "RareWeapon");
     }
@@ -176,7 +180,8 @@ public abstract class Item : MonoBehaviour
     public virtual void OnMouseDown()
     {
         itemMusicEffects.OnItemUp();
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle")
         {
             if (animator != null) animator.Play("ItemClick");
             DeletenestedObjectStars();
@@ -192,7 +197,7 @@ public abstract class Item : MonoBehaviour
                 {
                     TapFirst();
                     TapRotate();
-                    DeleteNestedObject();
+                    DeleteNestedObject(gameObject.transform.parent.tag);
                     //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                     ChangeShowStars(true);
                     canShowDescription = false;
@@ -213,7 +218,7 @@ public abstract class Item : MonoBehaviour
                 //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
                 TapFirst();
                 TapRotate();
-                DeleteNestedObject();
+                DeleteNestedObject(gameObject.transform.parent.tag);
                 //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 ChangeShowStars(true);
                 canShowDescription = false;
@@ -235,9 +240,10 @@ public abstract class Item : MonoBehaviour
             GetComponent<AnimationStart>().Play();
         }
         IgnoreCollisionObject(false);
-        
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+
+        //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle")
         {
             needToRotate = false;
             image.color = imageColor;
@@ -254,10 +260,10 @@ public abstract class Item : MonoBehaviour
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
-                    if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
+                    if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
                 }
                 canShowDescription = true;
-                if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
+                if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
             }
             else
             {
@@ -267,7 +273,7 @@ public abstract class Item : MonoBehaviour
                 canShowDescription = true;
 
                 needToRotateToStartRotation = false;
-                if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
+                if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
             }
             if (isSellChest)
             {
@@ -288,7 +294,8 @@ public abstract class Item : MonoBehaviour
         if (isDragging)
         {
             // Перемещаем объект в позицию курсора с учетом смещения   
-            if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+            //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
+            if (SceneManager.GetActiveScene().name != "BackPackBattle")
             {
                 transform.position = GetMouseWorldPosition() + offset;
                 RaycastEvent();
@@ -352,28 +359,33 @@ public abstract class Item : MonoBehaviour
         switch (ExtendedCorrectEndPoint())
         {
             case 1:
-                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
+                
                 CorrectPosition();
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
+                Debug.Log(1);
                 break;
             case 2:
                 foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
                 {
                     var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
                     //nestedObjectItem.MoveObjectOnEndDrag();
-                    nestedObjectItem.DeleteNestedObject();
+                    nestedObjectItem.DeleteNestedObject(gameObject.transform.parent.tag);
                     nestedObjectItem.needToDynamic = true;
                     timerStatic_locked_out = true;
                     timerStatic = timer_cooldownStatic;
                     //nestedObjectItem.Impulse = true;
+                    //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
                     nestedObjectItem.rb.excludeLayers = 0;
                     nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 }
-                gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
                 CorrectPosition();
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
+                Debug.Log(2);
                 break;
             case 3:
                 gameObject.transform.SetParent(GameObject.Find("Storage").transform);
@@ -385,6 +397,7 @@ public abstract class Item : MonoBehaviour
                 //MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
                 rb.excludeLayers = 0;// (1 << 9);
+                Debug.Log(3);
                 break;
         }
     }
@@ -599,9 +612,10 @@ public abstract class Item : MonoBehaviour
         }
         needToDynamic = false;
     }
-    public void DeleteNestedObject()
+    public void DeleteNestedObject(string tag)
     {
-        var cellList = GameObject.Find("backpack").GetComponentsInChildren<Cell>();
+        Cell[] cellList = GameObject.FindWithTag(tag).GetComponentsInChildren<Cell>();
+
         foreach (var cell in cellList)
         {
             if (cell.nestedObject != null && cell.nestedObject.name == gameObject.name)
@@ -875,11 +889,13 @@ public abstract class Item : MonoBehaviour
     public void DeleteAllDescriptions()
     {
         var dp = GameObject.FindWithTag("DescriptionPlace");
-        for (int i = 0; i < dp.transform.childCount; i++)
-            Destroy(dp.transform.GetChild(i).gameObject);
+        if (dp != null)
+            for (int i = 0; i < dp.transform.childCount; i++)
+                Destroy(dp.transform.GetChild(i).gameObject);
         dp = GameObject.FindWithTag("DescriptionPlaceEnemy");
-        for (int i = 0; i < dp.transform.childCount; i++)
-            Destroy(dp.transform.GetChild(i).gameObject);
+        if(dp != null)
+            for (int i = 0; i < dp.transform.childCount; i++)
+                Destroy(dp.transform.GetChild(i).gameObject);
     }
     public virtual IEnumerator ShowDescription()
     {
@@ -914,7 +930,7 @@ public abstract class Item : MonoBehaviour
         if (!isDragging)
         {
             // Код, который выполнится при наведении курсора на коллайдер
-            if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
+            if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemAiming");
             Exit = false;
             StartCoroutine(ShowDescription());
         }
@@ -925,7 +941,7 @@ public abstract class Item : MonoBehaviour
         if (!isDragging)
         {
             //Debug.Log(Description.gameObject.name + "�����");
-            if (SceneManager.GetActiveScene().name == "BackPackShop")
+            if (SceneManager.GetActiveScene().name != "BackPackBattle")
                 if (animator != null)
                 {
                     animator.Play("ItemAimingOff");

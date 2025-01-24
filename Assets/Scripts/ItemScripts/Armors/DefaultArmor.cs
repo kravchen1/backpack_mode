@@ -56,7 +56,8 @@ public class DefaultArmor : Armor
             CoolDownStart();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             defaultItemUpdate();
         }

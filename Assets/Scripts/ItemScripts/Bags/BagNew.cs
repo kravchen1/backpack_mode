@@ -22,7 +22,7 @@ public class BagNew : ItemNew
         }
         foreach (var objectInCell in objectsInCells)
         {
-            objectInCell.gameObject.DeleteNestedObject();
+            objectInCell.gameObject.DeleteNestedObject(gameObject.transform.parent.tag);
         }
     }
     public new void TapFirst()

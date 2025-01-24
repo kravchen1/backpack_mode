@@ -113,6 +113,13 @@ public class Button : MonoBehaviour
                 GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
                 SceneManager.LoadScene("GenerateMap");
                 break;
+            case "Button_GoMapFromCave":
+                GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+                GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
+                GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+                GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+                SceneManager.LoadScene("GenerateMap");
+                break;
             case "Button_LoadGame":
                 SceneManager.LoadScene("GenerateMap");
                 break;

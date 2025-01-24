@@ -130,7 +130,8 @@ public class VampireSword1 : Weapon
             Activation();
         }
 
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        //if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             defaultItemUpdate();
         }

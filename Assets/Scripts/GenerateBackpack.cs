@@ -57,10 +57,14 @@ public class GenerateBackpack : MonoBehaviour
             case "Storage":
                 backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
                 break;
+            case "CaveStone":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
+                break;
             case "backpackEnemy":
                 GenerateEnemy(1);
                 getEnemy(1);
                 break;
+
         }
 
         LoadChestItems("RAREWEAPON");

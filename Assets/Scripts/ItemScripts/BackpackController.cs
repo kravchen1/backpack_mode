@@ -203,7 +203,7 @@ public class BackpackController : MonoBehaviour
     {
         foreach (var item in gameObject.transform.GetComponentsInChildren<Item>())
         {
-            item.DeleteNestedObject();
+            item.DeleteNestedObject(gameObject.transform.parent.tag);
             item.rectTransform.anchoredPosition = new Vector2(item.rectTransform.anchoredPosition.x + coutSwritchX, item.rectTransform.anchoredPosition.y + coutSwritchY);
             Physics2D.SyncTransforms();
 

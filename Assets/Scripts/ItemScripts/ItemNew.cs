@@ -279,7 +279,7 @@ public class ItemNew : MonoBehaviour
                 {
                     var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
                     nestedObjectItem.MoveObjectOnEndDrag();
-                    nestedObjectItem.DeleteNestedObject();
+                    nestedObjectItem.DeleteNestedObject(gameObject.transform.parent.tag);
                     nestedObjectItem.needToDynamic = true;
                     nestedObjectItem.Impulse = true;
                 }
