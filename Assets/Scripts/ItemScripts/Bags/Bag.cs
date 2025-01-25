@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
+using Assets.Scripts.ItemScripts;
 
 public class Bag : Item
 {
@@ -82,6 +83,7 @@ public class Bag : Item
 
     public override void OnMouseDown()
     {
+        DragManager.isDragging = true;
         itemMusicEffects.OnItemUp();
         if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClick");
         IgnoreCollisionObject(true);
@@ -432,7 +434,8 @@ public class Bag : Item
 
     public override void OnMouseUp()
     {
-        if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
+        DragManager.isDragging = false;
+        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
         if (GetComponent<AnimationStart>() != null)
         {
             GetComponent<AnimationStart>().Play();

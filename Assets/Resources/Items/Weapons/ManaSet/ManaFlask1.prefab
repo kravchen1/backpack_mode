@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1080507333901403625}
   - component: {fileID: 2763665833639969551}
   - component: {fileID: -6438285482647500765}
+  - component: {fileID: 4003250904316922323}
   m_Layer: 9
   m_Name: ManaFlask1
   m_TagString: RareWeapon
@@ -405,6 +406,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: ManaFlask1
   timer: 0
   timer_cooldown: 0
@@ -423,6 +425,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  audioSource: {fileID: 0}
+--- !u!114 &4003250904316922323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169351913542562451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   pickUpSound: {fileID: 8300000, guid: 8017dec112e881f43afa84d08673b618, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
