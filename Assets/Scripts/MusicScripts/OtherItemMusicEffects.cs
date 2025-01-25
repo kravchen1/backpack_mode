@@ -1,8 +1,9 @@
+using Assets.Scripts.ItemScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ItemMusicEffects : MonoBehaviour
+public class OtherItemMusicEffects : MonoBehaviour
 {
-    public AudioClip hoverSound;
     public AudioClip pickUpSound;
     public AudioClip dropSound;
     [HideInInspector] public AudioSource audioSource; // Компонент AudioSource
@@ -12,15 +13,6 @@ public class ItemMusicEffects : MonoBehaviour
         // Получаем компонент AudioSource на этом объекте
         audioSource = gameObject.AddComponent<AudioSource>();
     }
-
-    void OnMouseEnter()
-    {
-        audioSource.pitch = Random.Range(1f, 2f);
-        //audioSource.volume = 0.8f;
-        audioSource.clip = hoverSound;
-        audioSource.Play();
-    }
-
     public void OnItemUp()
     {
         audioSource.pitch = 1f;

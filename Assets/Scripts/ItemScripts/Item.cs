@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Assets.Scripts.ItemScripts;
 
 
 public class HitsStructure
@@ -96,9 +97,8 @@ public abstract class Item : MonoBehaviour
     protected float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
-    [HideInInspector] public ItemMusicEffects itemMusicEffects;
+    [HideInInspector] public OtherItemMusicEffects itemMusicEffects;
     public String originalName;
-
 
 
     protected float timer_cooldownStart = 1f;
@@ -106,7 +106,8 @@ public abstract class Item : MonoBehaviour
 
     void Awake()
     {
-        itemMusicEffects = GetComponent<ItemMusicEffects>();
+
+        itemMusicEffects = GetComponent<OtherItemMusicEffects>();
         Initialization();
     }
 
@@ -171,6 +172,7 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
+        DragManager.isDragging = true;
         itemMusicEffects.OnItemUp();
         if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         {
@@ -224,6 +226,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
+        DragManager.isDragging = false;
         //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
         if (GetComponent<AnimationStart>() != null)
         {

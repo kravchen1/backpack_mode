@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6049406645974217062}
   - component: {fileID: 4549536477543849424}
   - component: {fileID: 4436098308173413767}
+  - component: {fileID: -5700192483967081554}
   m_Layer: 9
   m_Name: ManaGloves1
   m_TagString: RareWeapon
@@ -430,6 +431,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: ManaGloves1
   timer: 0
   timer_cooldown: 0
@@ -449,8 +451,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  audioSource: {fileID: 0}
+--- !u!114 &-5700192483967081554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982592310729926044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   pickUpSound: {fileID: 8300000, guid: 1ff0aa1d573fa4b4987c9a898c99183a, type: 3}
-  dropSound: {fileID: 8300000, guid: 1ff0aa1d573fa4b4987c9a898c99183a, type: 3}
+  dropSound: {fileID: 0}
   audioSource: {fileID: 0}
 --- !u!1 &1097588033798878800
 GameObject:
