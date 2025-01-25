@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     private CharacterStats characterStats;
 
     [HideInInspector] public Rigidbody2D rb;
-    private float speed = 1f;
+    private float speed = 100f;
     private Vector2 moveVector;
 
     [HideInInspector] public RaycastHit2D hit;
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
     void Initialize()
     {
         rectTransform = GetComponent<RectTransform>();
-        map = goMap.GetComponent<generateMapScript>();
+        //map = goMap.GetComponent<generateMapScript>();
 
         //SetStartPosition();
         LoadCharacterStats();

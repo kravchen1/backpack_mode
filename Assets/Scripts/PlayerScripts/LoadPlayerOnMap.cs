@@ -6,7 +6,7 @@ public class LoadPlayerOnMap : MonoBehaviour
     private GameObject player;
     public GameObject spawnForFirstStart;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
         InstantinatePlayer();
