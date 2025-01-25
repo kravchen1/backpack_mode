@@ -703,7 +703,7 @@ RectTransform:
   m_GameObject: {fileID: 1696721896515488153}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 27.54, y: 0.9, z: 1}
+  m_LocalScale: {x: 27.54, y: 1.43, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6696858880402535264}
@@ -1516,7 +1516,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5774722, y: 0.632}
   m_AnchorMax: {x: 0.64100003, y: 0.70000005}
-  m_AnchoredPosition: {x: -152, y: -262}
+  m_AnchoredPosition: {x: -152, y: -326}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3177357062098037681
@@ -1600,7 +1600,7 @@ RectTransform:
   m_GameObject: {fileID: 4067172064570764047}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 27.54, y: 0.9, z: 1}
+  m_LocalScale: {x: 27.54, y: 0.99, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6696858880402535264}
@@ -1853,7 +1853,7 @@ GameObject:
   - component: {fileID: 209683275836481887}
   - component: {fileID: 8006911829289038689}
   m_Layer: 0
-  m_Name: DamageDescription
+  m_Name: CritDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1943,8 +1943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'CritStack: For every 1 stack, gives a 1 buff increase in the chance of
-    critical damage'
+  m_text: 'CritStack: Each stack increases the crit chance by 2%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -2044,7 +2043,7 @@ RectTransform:
   m_GameObject: {fileID: 4725657219774298977}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 27.54, y: 0.9, z: 1}
+  m_LocalScale: {x: 27.54, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6696858880402535264}
@@ -2636,7 +2635,7 @@ GameObject:
   - component: {fileID: 5893830251651709493}
   - component: {fileID: 4823169471982105028}
   m_Layer: 0
-  m_Name: TextBody3 (1)
+  m_Name: TextBody4
   m_TagString: TextBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2658,7 +2657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -98}
+  m_AnchoredPosition: {x: 0, y: -49}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &5893830251651709493
@@ -2726,7 +2725,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Each hit speeds up the cooldown by 5%
+  m_text: 'on hit:
+
+    speeds up ACTIVATION by <u>5</u>% and'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -2765,7 +2766,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 16.39
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -3016,7 +3017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -54}
+  m_AnchoredPosition: {x: 0, y: -122}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4451410686459283937
@@ -3084,7 +3085,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Gives 1 '
+  m_text: 'Gives <u>1</u> '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -3192,7 +3193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 101, y: 93}
+  m_AnchoredPosition: {x: 96, y: 93}
   m_SizeDelta: {x: 910.184, y: 763.6008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2643552138354066641
@@ -3491,7 +3492,7 @@ RectTransform:
   m_GameObject: {fileID: 7911562657309793607}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 27.54, y: 0.9, z: 1}
+  m_LocalScale: {x: 27.54, y: 1.24, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6696858880402535264}
