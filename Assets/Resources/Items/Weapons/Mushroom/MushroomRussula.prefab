@@ -201,9 +201,9 @@ GameObject:
   - component: {fileID: 2378578667744504358}
   - component: {fileID: 322698729349458611}
   - component: {fileID: 7939158338446254859}
-  - component: {fileID: 6170085020765531671}
   - component: {fileID: 5210325506589158768}
   - component: {fileID: 2864437159728333719}
+  - component: {fileID: 8658300059524417847}
   m_Layer: 9
   m_Name: MushroomRussula
   m_TagString: RareWeapon
@@ -218,7 +218,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2232480848049678489}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -588,7 +588,7 @@ PolygonCollider2D:
       - {x: 13.501076, y: -59.04567}
       - {x: 20.515049, y: -56.634617}
   m_UseDelaunayMesh: 0
---- !u!114 &6170085020765531671
+--- !u!114 &5210325506589158768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -597,7 +597,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 2232480848049678489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2586fe10d51e4404a992c14823904d3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  audioSource: {fileID: 0}
+--- !u!114 &2864437159728333719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2232480848049678489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
+--- !u!114 &8658300059524417847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2232480848049678489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba87fc2a385b9346a5667700a7ec64c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -644,39 +673,11 @@ MonoBehaviour:
   itemMusicEffects: {fileID: 0}
   originalName: MushroomRussula
   timer: 0
-  timer_cooldown: 2.1
-  baseTimerCooldown: 4.4
-  startBattleArmorCount: 20
-  countBurnStack: 1
---- !u!114 &5210325506589158768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2232480848049678489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
-  audioSource: {fileID: 0}
---- !u!114 &2864437159728333719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2232480848049678489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
-  dropSound: {fileID: 0}
-  audioSource: {fileID: 0}
+  timer_cooldown: 0
+  baseTimerCooldown: 233
+  startBattleArmorCount: 0
+  givePowerStack: 46
+  activationForStar: 99
 --- !u!1 &3211192859757150729
 GameObject:
   m_ObjectHideFlags: 0

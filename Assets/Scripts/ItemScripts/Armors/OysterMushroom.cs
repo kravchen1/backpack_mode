@@ -6,11 +6,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class DefaultArmor : Armor
+public class OysterMushroom : Armor
 {
     private bool isUse = false;
-    public int DamageForStack = 5;
-    public int SpendStack = 2;
+    public int stamina = 5;//надо заменить
+    public int activationForStar = 2;//надо заменить
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -78,10 +78,10 @@ public class DefaultArmor : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemDefaultNoWeapon>();
-                //descr.cooldown = timer_cooldown;
-                //descr.countStack = countBurnStack;
-                //descr.coolDown = coolDown;
+                var descr = CanvasDescription.GetComponent<DescriptionItemOysterMushroom>();
+                descr.cooldown = timer_cooldown;
+                descr.stamina = stamina;
+                descr.activationForStar = activationForStar;
                 descr.SetTextBody();
             }
         }
