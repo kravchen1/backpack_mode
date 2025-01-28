@@ -1044,6 +1044,7 @@ GameObject:
   - component: {fileID: 3447384695550098011}
   - component: {fileID: 2679394336696380881}
   - component: {fileID: 4997957683639231080}
+  - component: {fileID: 7279097997422226908}
   m_Layer: 9
   m_Name: MushroomChanterelle
   m_TagString: RareWeapon
@@ -1459,7 +1460,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
-  pickUpSound: {fileID: 8300000, guid: 4d4fcd793650fd146b777683c361aa8c, type: 3}
+  audioSource: {fileID: 0}
+--- !u!114 &7279097997422226908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456271511644067549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
 --- !u!1 &4947978000058323937

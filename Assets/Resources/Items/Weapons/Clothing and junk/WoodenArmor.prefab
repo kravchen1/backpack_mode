@@ -322,7 +322,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2101609599764808142
@@ -498,7 +498,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1299,6 +1299,7 @@ GameObject:
   - component: {fileID: 3091753198036701966}
   - component: {fileID: 3355115582886047516}
   - component: {fileID: 6352289169334131454}
+  - component: {fileID: 3483034643506812495}
   m_Layer: 9
   m_Name: WoodenArmor
   m_TagString: RareWeapon
@@ -1710,6 +1711,8 @@ MonoBehaviour:
   prefabOriginalName: 
   Description: {fileID: 7374066947272631519, guid: 10bc6a21e536fa24281fe0bb1c8d7b4d, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
   itemCost: 0
@@ -1735,12 +1738,28 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
   originalName: WoodenArmor
   timer: 0
   timer_cooldown: 2.1
   baseTimerCooldown: 4.4
   startBattleArmorCount: 20
   countBurnStack: 1
+--- !u!114 &3483034643506812495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6841584659182340541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &7483501220493472491
 GameObject:
   m_ObjectHideFlags: 0
