@@ -6,11 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class OysterMushroom : Armor
+public class WitchPotSmall : Armor
 {
     private bool isUse = false;
-    public int giveManaStack = 5;//надо заменить
-    public int activationForStar = 2;//надо заменить
+    public int givePoisonStack = 5;//надо заменить
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -78,10 +77,10 @@ public class OysterMushroom : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemOysterMushroom>();
+                var descr = CanvasDescription.GetComponent<DescriptionItemWitchPotSmall>();
                 descr.cooldown = timer_cooldown;
-                descr.giveManaStack = giveManaStack;
-                descr.activationForStar = activationForStar;
+                descr.givePoisonStack = givePoisonStack;
+               
                 descr.SetTextBody();
             }
         }

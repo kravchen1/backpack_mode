@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DescriptionItemOysterMushroom : DescriptionItem
 {
-    public int stamina = 5;//надо заменить
+    public int giveManaStack = 5;//надо заменить
     public int activationForStar = 2;//надо заменить
     public void SetTextBody()
     {
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec: gives you <u>" + stamina.ToString() + "</u>\r\n\r\nEvery mushroom       gives a <u>" + activationForStar.ToString() + "</u>% faster activation";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: gives you <u>" + giveManaStack.ToString() + "</u>\r\n\r\nEvery mushroom       gives a <u>" + activationForStar.ToString() + "</u>% faster activation";
         textBody.text = text;
     }
 

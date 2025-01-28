@@ -6,11 +6,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class OysterMushroom : Armor
+public class RabbitPaw : Armor
 {
     private bool isUse = false;
-    public int giveManaStack = 5;//надо заменить
-    public int activationForStar = 2;//надо заменить
+    public int giveCritStack = 2;//надо заменить
+    public int giveManaStack = 4;//надо заменить
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -78,10 +78,10 @@ public class OysterMushroom : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemOysterMushroom>();
+                var descr = CanvasDescription.GetComponent<DescriptionItemRabbitPaw>();
                 descr.cooldown = timer_cooldown;
+                descr.giveCritStack = giveCritStack;
                 descr.giveManaStack = giveManaStack;
-                descr.activationForStar = activationForStar;
                 descr.SetTextBody();
             }
         }

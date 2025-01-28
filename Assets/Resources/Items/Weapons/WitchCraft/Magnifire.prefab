@@ -504,9 +504,9 @@ GameObject:
   - component: {fileID: 2389511264392987383}
   - component: {fileID: 1773672157494787434}
   - component: {fileID: 7441491156956118306}
-  - component: {fileID: 2571582151283699750}
   - component: {fileID: 6861075403724660822}
   - component: {fileID: -1370229640502535128}
+  - component: {fileID: 440211285522186415}
   m_Layer: 9
   m_Name: Magnifire
   m_TagString: RareWeapon
@@ -521,7 +521,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262612365186303245}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -842,7 +842,7 @@ PolygonCollider2D:
       - {x: 31.92283, y: -35.56947}
       - {x: 33.632168, y: -33.86013}
   m_UseDelaunayMesh: 0
---- !u!114 &2571582151283699750
+--- !u!114 &6861075403724660822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -851,7 +851,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 262612365186303245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2586fe10d51e4404a992c14823904d3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  audioSource: {fileID: 0}
+--- !u!114 &-1370229640502535128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262612365186303245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
+--- !u!114 &440211285522186415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262612365186303245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14da439de8a038143a47d8bc7b09d0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -882,11 +911,7 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
   Impulse: 0
-  stars:
-  - {fileID: 186090176630536791}
-  - {fileID: 129108026262734250}
-  - {fileID: 336746565071061546}
-  - {fileID: 4621886140327938112}
+  stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -896,39 +921,10 @@ MonoBehaviour:
   itemMusicEffects: {fileID: 0}
   originalName: Magnifire
   timer: 0
-  timer_cooldown: 2.1
-  baseTimerCooldown: 4.4
-  startBattleArmorCount: 20
-  countBurnStack: 1
---- !u!114 &6861075403724660822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262612365186303245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
-  audioSource: {fileID: 0}
---- !u!114 &-1370229640502535128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262612365186303245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
-  dropSound: {fileID: 0}
-  audioSource: {fileID: 0}
+  timer_cooldown: 0
+  baseTimerCooldown: 233
+  startBattleArmorCount: 0
+  giveBlindnessStack: 324
 --- !u!1 &336746565071061546
 GameObject:
   m_ObjectHideFlags: 0
