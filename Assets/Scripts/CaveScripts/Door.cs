@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Door
+public class Door : MonoBehaviour
 {
-    public string name;
-    public Transform transform;
-    public List<Door> nextDoors;
-
-    public Door(string name, Transform transform)
-    {
-        this.name = name;
-        this.transform = transform;
-        nextDoors = new List<Door>();
-    }
+    public List<GameObject> nextDoors;
+    public int doorId;
+    [HideInInspector] public int eventId;
+    //public Door(GameObject currentDoor)
+    //{
+    //    currentDoor = this.currentDoor;
+    //    nextDoors = new List<Door>();
+    //}
 }

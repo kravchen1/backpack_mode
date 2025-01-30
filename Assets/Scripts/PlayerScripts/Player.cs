@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public Animator animator;
     //private generateMapScript map;
 
+    private DoorEventDistributor distributor;
+
     [HideInInspector] public Map map;
     private RectTransform rectTransform;
     private Collider2D previusTree = null;
@@ -51,6 +53,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1f;
+        if(SceneManager.GetActiveScene().name == "Cave")
+            distributor = GameObject.FindGameObjectWithTag("DoorEventDistributor").GetComponent<DoorEventDistributor>();
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
@@ -171,6 +175,12 @@ public class Player : MonoBehaviour
                     SceneManager.LoadScene("BackPackCave1");
 
                 }
+            }
+            if (hit.collider.tag == "AreaCaveDoor")
+            {
+                distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
+                distributor.doorData.SaveData();
+                SceneManager.LoadScene("Cave");
             }
 
         }
