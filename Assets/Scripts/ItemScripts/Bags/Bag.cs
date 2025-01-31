@@ -403,7 +403,6 @@ public class Bag : Item
     private void EndDrag()
     {
         ChangeColorToDefault();
-        needToRotate = false;
         if (CorrectEndPoint())
         {
             SetNestedObject();
@@ -435,6 +434,7 @@ public class Bag : Item
     public override void OnMouseUp()
     {
         DragManager.isDragging = false;
+        needToRotate = false;
         if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
         if (GetComponent<AnimationStart>() != null)
         {

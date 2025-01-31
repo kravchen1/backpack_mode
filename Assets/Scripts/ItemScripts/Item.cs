@@ -111,9 +111,13 @@ public abstract class Item : MonoBehaviour
 
     void Awake()
     {
-
         itemMusicEffects = GetComponent<OtherItemMusicEffects>();
         Initialization();
+    }
+
+    private void Start()
+    {
+        FillnestedObjectStarsStars(256, "RareWeapon");
     }
 
     public void Initialization()
@@ -163,7 +167,6 @@ public abstract class Item : MonoBehaviour
         {
             placeForDescription = GameObject.FindWithTag("DescriptionPlace");
         }
-        FillnestedObjectStarsStars(256, "RareWeapon");
     }
     void initializationItemColliders()
     {
@@ -705,7 +708,10 @@ public abstract class Item : MonoBehaviour
     }
     public void Rotate()
     {
-        if (Input.GetKeyDown(KeyCode.R) && needToRotate)
+        // Получаем значение прокрутки колёсика мыши
+        float scrollData = Input.GetAxis("Mouse ScrollWheel");
+
+        if ((Input.GetKeyDown(KeyCode.R) || scrollData != 0) && needToRotate)
         {
             Vector3 newRotation = new Vector3(0, 0, 90);
             rectTransform.Rotate(newRotation);
@@ -1146,8 +1152,8 @@ public abstract class Item : MonoBehaviour
             GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
             goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
             goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
-            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "-" + damage.ToString();
-            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontSize = 75 + damage;
+            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
+            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
 
 
             int r = UnityEngine.Random.Range(1, 6);

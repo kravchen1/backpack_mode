@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         LoadCharacterStats();
         if(characterStats.playerTime >= 9f)
         {
-            map.ChangeMapRedTimeZone();
+            //map.ChangeMapRedTimeZone();
         }
 
         startMove = true;

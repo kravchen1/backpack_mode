@@ -6,13 +6,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ChantarelleMushroom : Armor
+public class ChantarelleMushroom : Mushroom
 {
     private bool isUse = false;
     public int giveRegenerationStack = 5;//надо заменить
     public int activationForStar = 2;//надо заменить
     private void Start()
     {
+        FillnestedObjectStarsStars(256, "RareWeapon");
+
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
 
@@ -29,6 +31,20 @@ public class ChantarelleMushroom : Armor
     {
         if (!isUse)
         {
+            int countFillStart = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count();
+            var changeCD = timer_cooldown / 100.0f * (activationForStar * countFillStart);
+
+            timer_cooldown = timer_cooldown - changeCD;
+            timer = timer_cooldown;
+        }
+    }
+
+    public override void Activation()
+    {
+        if (!timer_locked_outStart && !timer_locked_out)
+        {
+            timer_locked_out = true;
+            Player.menuFightIconData.AddBuff(giveRegenerationStack, "IconRegenerate");//
         }
     }
 
@@ -46,9 +62,24 @@ public class ChantarelleMushroom : Armor
             if (timerStart <= 0)
             {
                 timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
                 StartActivation();
-                animator.Play("New State");
+                animator.speed = 1f / timer_cooldown;
+                animator.Play(originalName + "Activation");
+            }
+        }
+    }
+
+    public void CoolDown()
+    {
+        if (!timer_locked_outStart && timer_locked_out == true)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                timer = timer_cooldown;
+                timer_locked_out = false;
+                animator.speed = 1f / timer_cooldown;
             }
         }
     }
@@ -57,6 +88,8 @@ public class ChantarelleMushroom : Armor
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             CoolDownStart();
+            CoolDown();
+            Activation();
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
