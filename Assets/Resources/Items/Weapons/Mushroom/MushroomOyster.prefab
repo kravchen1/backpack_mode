@@ -1553,9 +1553,9 @@ GameObject:
   - component: {fileID: 1525656805458170142}
   - component: {fileID: 6839514305872971959}
   - component: {fileID: 7592041750949363883}
-  - component: {fileID: 979300797548059286}
   - component: {fileID: 2250207444293994987}
   - component: {fileID: -4175918792676057898}
+  - component: {fileID: 3723193482396509979}
   m_Layer: 9
   m_Name: MushroomOyster
   m_TagString: RareWeapon
@@ -1570,7 +1570,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7260085459845358184}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -1923,7 +1923,7 @@ PolygonCollider2D:
       - {x: -11.12929, y: 0.11227006}
       - {x: -10.398668, y: 0.2949256}
   m_UseDelaunayMesh: 0
---- !u!114 &979300797548059286
+--- !u!114 &2250207444293994987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1932,7 +1932,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 7260085459845358184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2586fe10d51e4404a992c14823904d3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
+  audioSource: {fileID: 0}
+--- !u!114 &-4175918792676057898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7260085459845358184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
+--- !u!114 &3723193482396509979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7260085459845358184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a22107b3139b24b885e79c069cb851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1977,39 +2006,11 @@ MonoBehaviour:
   itemMusicEffects: {fileID: 0}
   originalName: MushroomOyster
   timer: 0
-  timer_cooldown: 2.1
-  baseTimerCooldown: 4.4
-  startBattleArmorCount: 20
-  countBurnStack: 1
---- !u!114 &2250207444293994987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7260085459845358184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa7a1f35d7edfd429eddea0e8a60a8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound: {fileID: 8300000, guid: ec7a76250332650438ec97dedf8368f6, type: 3}
-  audioSource: {fileID: 0}
---- !u!114 &-4175918792676057898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7260085459845358184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
-  dropSound: {fileID: 0}
-  audioSource: {fileID: 0}
+  timer_cooldown: 0
+  baseTimerCooldown: 2.1
+  startBattleArmorCount: 0
+  stamina: 15
+  activationForStar: 4
 --- !u!1 &8159659838188766708
 GameObject:
   m_ObjectHideFlags: 0

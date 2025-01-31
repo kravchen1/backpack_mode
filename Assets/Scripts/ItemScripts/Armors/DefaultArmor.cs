@@ -13,6 +13,9 @@ public class DefaultArmor : Armor
     public int SpendStack = 2;
     private void Start()
     {
+        timer_cooldown = baseTimerCooldown;
+        timer = timer_cooldown;
+
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;

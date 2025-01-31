@@ -595,8 +595,8 @@ GameObject:
   - component: {fileID: 3011820191537249873}
   - component: {fileID: 3157559992888516088}
   - component: {fileID: 5587348589463441318}
-  - component: {fileID: 4866792593451430528}
   - component: {fileID: -6276879494265758454}
+  - component: {fileID: 8662054058211626532}
   m_Layer: 9
   m_Name: LeatherBoots
   m_TagString: RareWeapon
@@ -611,7 +611,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2182173677556456868}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -1002,7 +1002,7 @@ PolygonCollider2D:
       - {x: 9.445148, y: -16.869984}
       - {x: 9.68933, y: -16.869984}
   m_UseDelaunayMesh: 0
---- !u!114 &4866792593451430528
+--- !u!114 &-6276879494265758454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1011,7 +1011,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2182173677556456868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb3000c3cdede2748b5aa4e38791ccb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
+  dropSound: {fileID: 0}
+  audioSource: {fileID: 0}
+--- !u!114 &8662054058211626532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2182173677556456868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb7f7da0faac4b499e77eec560a6512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1028,7 +1043,7 @@ MonoBehaviour:
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 12
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1055,23 +1070,7 @@ MonoBehaviour:
   timer_cooldown: 0
   baseTimerCooldown: 0
   startBattleArmorCount: 0
-  countBurnStack: 3
-  coolDown: 50
---- !u!114 &-6276879494265758454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2182173677556456868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a954f227a2e13644b768a4535c04079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
-  dropSound: {fileID: 0}
-  audioSource: {fileID: 0}
+  armor: 37
 --- !u!1 &3322697613810843315
 GameObject:
   m_ObjectHideFlags: 0
