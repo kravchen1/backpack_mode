@@ -1707,7 +1707,7 @@ GameObject:
   - component: {fileID: 4514478053322747684}
   - component: {fileID: 7043842791098735935}
   - component: {fileID: 5918041692574891711}
-  - component: {fileID: 1498058343544967331}
+  - component: {fileID: 4918192730813173201}
   m_Layer: 9
   m_Name: RevolverRing
   m_TagString: RareWeapon
@@ -2103,7 +2103,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &1498058343544967331
+--- !u!114 &4918192730813173201
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2112,7 +2112,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7194175226134502035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09a2b9a18830b1847af26105082cbfa9, type: 3}
+  m_Script: {fileID: 11500000, guid: bdfa1159650a91d45834b3930c589707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -2129,7 +2129,7 @@ MonoBehaviour:
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 37
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -2143,11 +2143,7 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
   Impulse: 0
-  stars:
-  - {fileID: 3237331991459777417}
-  - {fileID: 562699865476754199}
-  - {fileID: 4037312663944310504}
-  - {fileID: 4657166426895043754}
+  stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -2158,10 +2154,13 @@ MonoBehaviour:
   originalName: RevolverRing
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.1
-  startBattleArmorCount: 0
-  giveRegenerationStack: 23
-  activationForStar: 23
+  baseTimerCooldown: 2
+  attackMin: 3
+  attackMax: 10
+  stamina: 4
+  accuracy: 6
+  critDamage: 150
+  chanceCrit: 4
 --- !u!1 &8462614234057628572
 GameObject:
   m_ObjectHideFlags: 0

@@ -1727,9 +1727,9 @@ GameObject:
   - component: {fileID: 7270961813610096447}
   - component: {fileID: 4524656693527499693}
   - component: {fileID: 2115363918980765133}
-  - component: {fileID: 4170016767850941701}
   - component: {fileID: 6661931463966749088}
   - component: {fileID: 8479461569265137482}
+  - component: {fileID: 4836067821600423795}
   m_Layer: 9
   m_Name: AutomaticCrossbow
   m_TagString: RareWeapon
@@ -2491,62 +2491,6 @@ PolygonCollider2D:
       - {x: 75.39127, y: 29.410852}
       - {x: 74.84874, y: 28.868317}
   m_UseDelaunayMesh: 0
---- !u!114 &4170016767850941701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8947147820394370390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2586fe10d51e4404a992c14823904d3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 43451118640531620, guid: 529f8c0b30508524e8d7e19630a61597, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
-  CanvasDescription: {fileID: 0}
-  Exit: 0
-  itemCost: 0
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars:
-  - {fileID: 5138092010440518939}
-  - {fileID: 4009358467504433177}
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  itemMusicEffects: {fileID: 0}
-  originalName: AutomaticCrossbow
-  timer: 0
-  timer_cooldown: 2.1
-  baseTimerCooldown: 4.4
-  startBattleArmorCount: 20
-  countBurnStack: 1
 --- !u!114 &6661931463966749088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2576,6 +2520,66 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
+--- !u!114 &4836067821600423795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8947147820394370390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419fc0858cd2b1341ae744e2966a80ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 43451118640531620, guid: 529f8c0b30508524e8d7e19630a61597, type: 3}
+  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
+  itemCost: 45
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  Impulse: 0
+  stars: []
+  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
+  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
+  originalName: AutomaticCrossbow
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 2
+  attackMin: 3
+  attackMax: 11
+  stamina: 5
+  accuracy: 3
+  critDamage: 150
+  chanceCrit: 4
+  bleedingStack: 1
+  cooldownSpeedUp: 5
 --- !u!1 &8976069243939422735
 GameObject:
   m_ObjectHideFlags: 0

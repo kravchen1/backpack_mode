@@ -388,7 +388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.7000122, y: -54.4}
+  m_AnchoredPosition: {x: 1.7000122, y: -54.399994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7870810342130962585
@@ -458,7 +458,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'On hit: Gives a <u>15</u>% chance to
 
-    inflict <u>1</u> '
+    inflict <u>1</u>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -1022,7 +1022,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3972530065624059089}
   - component: {fileID: 4058500624512609298}
-  - component: {fileID: 1279694805152777992}
+  - component: {fileID: 896043572944433163}
   m_Layer: 0
   m_Name: CrossbowDescription
   m_TagString: Untagged
@@ -1107,7 +1107,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1279694805152777992
+--- !u!114 &896043572944433163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1116,7 +1116,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1316991451486765843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc1b91e3d4c0764b893c5e43e86c2c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d251a0718642b04faf8b395d3dcd5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textBody: {fileID: 4529046475015809132}
@@ -1129,8 +1129,8 @@ MonoBehaviour:
   critDamage: 130
   cooldown: 1.1
   Armor: 0
-  stunChance: 0
-  stunTimer: 0
+  bleedingChance: 0
+  bleedingStack: 0
 --- !u!1 &1481180187409434050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -13.8}
+  m_AnchoredPosition: {x: 0, y: -13.800003}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1576727130942603494
@@ -1201,7 +1201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: -25.5, y: 22.7}
+  m_AnchoredPosition: {x: -25.5, y: 22.699997}
   m_SizeDelta: {x: 0, y: 0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3410731519909557763
@@ -1383,7 +1383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: -35.86, y: -13}
+  m_AnchoredPosition: {x: -35.86, y: -13.000002}
   m_SizeDelta: {x: -17.84, y: 11.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7120287166781617284
@@ -1719,7 +1719,7 @@ GameObject:
   - component: {fileID: 7929050556437357742}
   - component: {fileID: 3120762015790663561}
   m_Layer: 0
-  m_Name: DamageStackIcon
+  m_Name: BleedingStackIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1741,7 +1741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35200003, y: 0.40540922}
   m_AnchorMax: {x: 0.41400003, y: 0.5}
-  m_AnchoredPosition: {x: -12.6, y: -223}
+  m_AnchoredPosition: {x: -12.599998, y: -223}
   m_SizeDelta: {x: 0, y: 1.0650024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3120762015790663561
@@ -1885,7 +1885,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 10.600009, y: -27.899994}
+  m_AnchoredPosition: {x: 10.600006, y: -27.899994}
   m_SizeDelta: {x: 0, y: -30.000004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1232513615711234128
@@ -2191,7 +2191,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: 27, y: -13}
+  m_AnchoredPosition: {x: 27, y: -13.000002}
   m_SizeDelta: {x: 86.83681, y: 20.48004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2357600597336930085
@@ -2260,7 +2260,7 @@ GameObject:
   - component: {fileID: 7929662782131165404}
   - component: {fileID: 4112140916473635797}
   m_Layer: 0
-  m_Name: DamageStackIcon
+  m_Name: BleedingStackIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2282,7 +2282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23, y: 0.72210354}
   m_AnchorMax: {x: 0.3, y: 1}
-  m_AnchoredPosition: {x: 0, y: 42}
+  m_AnchoredPosition: {x: 0, y: 37.000004}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4112140916473635797
@@ -2662,7 +2662,7 @@ GameObject:
   - component: {fileID: 2063929129163032200}
   - component: {fileID: 2700639717200777584}
   m_Layer: 0
-  m_Name: DamageDescription
+  m_Name: BleedingDescription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2752,7 +2752,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "DamageStack: For every 1 stack, deals \n1/sec damage to the owner"
+  m_text: "bleedStack: For every 1 stack, deals \n1/sec damage to the owner"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -2860,7 +2860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18.5, y: -21.9}
+  m_AnchoredPosition: {x: -18.5, y: -21.899994}
   m_SizeDelta: {x: 0, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8119524093519717394
@@ -3321,7 +3321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35200003, y: 0.40540922}
   m_AnchorMax: {x: 0.41400003, y: 0.5}
-  m_AnchoredPosition: {x: 116.6, y: -154.8}
+  m_AnchoredPosition: {x: 116.6, y: -154.80002}
   m_SizeDelta: {x: 0, y: 1.0650024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &7659565690303453540
@@ -3412,7 +3412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: -14.3, y: -23}
+  m_AnchoredPosition: {x: -14.300003, y: -23}
   m_SizeDelta: {x: 0, y: 0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4095432172285633540

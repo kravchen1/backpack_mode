@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 261134574688873743}
   - component: {fileID: 5213874219402673149}
-  - component: {fileID: 1231146500734136640}
+  - component: {fileID: 1532007967440964124}
   m_Layer: 0
   m_Name: AutomaticCrossbowDescription
   m_TagString: Untagged
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1231146500734136640
+--- !u!114 &1532007967440964124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 43451118640531620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e029fcc512c570409e8dbd41606b1d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a3439214ca8d9f488bc223f25c2c2c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textBody: {fileID: 182844142878931857}
@@ -117,8 +117,8 @@ MonoBehaviour:
   critDamage: 130
   cooldown: 1.1
   Armor: 0
-  activationSpeedUp: 0
-  giveCritStack: 0
+  bleedingStack: 0
+  cooldownSpeedUp: 0
 --- !u!1 &155465750497850406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,7 +1899,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "On hit: Inflict 1 \nand speeds up cooldown by 5%"
+  m_text: 'On hit: Inflict <u>1</u>
+
+    and speeds up cooldown by <u>6</u>%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
