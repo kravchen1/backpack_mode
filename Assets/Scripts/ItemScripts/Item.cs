@@ -165,9 +165,18 @@ public abstract class Item : MonoBehaviour
         }
         else
         {
-            placeForDescription = GameObject.FindWithTag("DescriptionPlace");
+            FindPlaceForDescription();
         }
     }
+
+    void FindPlaceForDescription()
+    {
+        if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)
+            placeForDescription = GameObject.FindWithTag("DescriptionPlace");
+        else
+            placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
+    }
+
     void initializationItemColliders()
     {
         collidersArray = gameObject.GetComponentsInChildren<BoxCollider2D>();
@@ -293,6 +302,7 @@ public abstract class Item : MonoBehaviour
         image.sortingOrder = 3;
         StartCoroutine(ShowDescription());
         FillnestedObjectStarsStars(256, "RareWeapon");
+        FindPlaceForDescription();
     }
 
     public void defaultItemUpdate()
@@ -437,6 +447,7 @@ public abstract class Item : MonoBehaviour
 
 
         float angle = rectTransform.eulerAngles.z;
+        Debug.Log(angle);
         if (angle < 45 || angle > 315)
         {
             offset = -offset;
@@ -513,6 +524,7 @@ public abstract class Item : MonoBehaviour
             }
             var offset = calculateOffset(itemColliders);
             rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
+            Debug.Log(offset);
             needToDynamic = false;
             foreach (var careHit in careHitsForBackpack)
             {
@@ -602,7 +614,7 @@ public abstract class Item : MonoBehaviour
             shopItem = GetComponent<ShopItem>();
             if (shopItem != null)
                 shopItemStartPosition = shopItem.transform.position;
-            rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            //rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
     }
     public void TapRotate()
@@ -838,9 +850,12 @@ public abstract class Item : MonoBehaviour
             {
                 if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                    careHitsForBackpack.Add(new RaycastStructure(hit));//�������
-                    hit.collider.GetComponent<SpriteRenderer>().color = Color.yellow;
-                    hit.collider.GetComponent<SpriteRenderer>().enabled = true;
+                    if (isDragging)
+                    {
+                        careHitsForBackpack.Add(new RaycastStructure(hit));//�������
+                        hit.collider.GetComponent<SpriteRenderer>().color = Color.yellow;
+                        hit.collider.GetComponent<SpriteRenderer>().enabled = true;
+                    }
                 }
             }
         }

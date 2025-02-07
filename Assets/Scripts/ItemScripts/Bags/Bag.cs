@@ -336,7 +336,8 @@ public class Bag : Item
                 switch (objectInCell.gameObject.ExtendedCorrectEndPoint())
                 {
                     case 1:
-                        objectInCell.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        //objectInCell.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        objectInCell.gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
                         //objectInCell.gameObject.CorrectPosition();
                         objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
                         objectInCell.gameObject.SetNestedObject();
@@ -353,7 +354,8 @@ public class Bag : Item
                             nestedObjectItem.rb.excludeLayers = 0;
                             nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                         }
-                        objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        //objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                        objectInCell.gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
                         //objectInCell.gameObject.CorrectPosition();
                         objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
                         objectInCell.gameObject.SetNestedObject();
@@ -418,7 +420,7 @@ public class Bag : Item
             rb.excludeLayers = 0;
         }
         DisableBackpackCells();
-        ClearParentForChild();
+        //ClearParentForChild();
         SetOrderLayerPriority("Bag", "Weapon", 1);
         careHits.Clear();
         canShowDescription = true;

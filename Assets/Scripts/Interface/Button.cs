@@ -151,14 +151,6 @@ public class Button : MonoBehaviour
             File.Delete(file);
         }
     }
-    //void OnMouseDown()
-    //{
-    //    buttonColor = GetComponent<Image>().color;
-    //    GetComponent<Image>().color = Color.red;
-    //}
+    
 
-    //void OnMouseUp()
-    //{
-    //    GetComponent<Image>().color = buttonColor;
-    //}
 }

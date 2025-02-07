@@ -68,6 +68,21 @@ public class GenerateBackpack : MonoBehaviour
                 GenerateEnemy(1);
                 getEnemy(1);
                 break;
+            case "warehouse1":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse1.json"));
+                break;
+            case "warehouse2":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse2.json"));
+                break;
+            case "warehouse3":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse3.json"));
+                break;
+            case "warehouse4":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse4.json"));
+                break;
+            case "warehouse5":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse5.json"));
+                break;
 
         }
 
