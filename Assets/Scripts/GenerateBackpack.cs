@@ -124,12 +124,14 @@ public class GenerateBackpack : MonoBehaviour
         {
             componentBag.RaycastEvent();
             componentBag.SetNestedObject();
+            componentBag.updateColorCells();
             gameObject.transform.SetAsFirstSibling();
         }
         else
         {
             componentItem.hitsForBackpack = new List<RaycastHit2D>();
             componentItem.RaycastEvent();
+            componentItem.updateColorCells();
             if (componentItem.CorrectEndPoint() && ObjectInBag(componentItem))
                 componentItem.SetNestedObject();
             componentItem.ChangeColorToDefault();

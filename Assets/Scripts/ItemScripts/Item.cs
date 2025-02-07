@@ -850,16 +850,27 @@ public abstract class Item : MonoBehaviour
             {
                 if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                    if (isDragging)
-                    {
                         careHitsForBackpack.Add(new RaycastStructure(hit));//�������
                         hit.collider.GetComponent<SpriteRenderer>().color = Color.yellow;
                         hit.collider.GetComponent<SpriteRenderer>().enabled = true;
-                    }
+                    
                 }
             }
         }
     }
+
+    public void updateColorCells()
+    {
+        foreach (var hit in hitsForBackpack)
+        {
+            if (hit.collider != null)
+            {
+                    hit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                    hit.collider.GetComponent<SpriteRenderer>().enabled = false;
+            }
+        }
+    }
+
     public virtual void ClearCareRaycast(bool nested) //true - если внутри сумки, false - если без сумки
     {
         foreach (var Carehit in careHits)
