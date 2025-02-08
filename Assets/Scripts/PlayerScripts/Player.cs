@@ -111,26 +111,35 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("GenerateMap");
         }
     }
-
     public void InFortress1()
     {
-        if (activePoint.name == "entranceInFortress1 0")
+        if (activePoint.name == "entranceInFortress1 0" || activePoint.name == "entranceInFortress1 2" || activePoint.name == "entranceInFortress1 1")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 946f);
-            PlayerPrefs.SetFloat("PostionMapY", 252.5f);
+            PlayerPrefs.DeleteKey("PostionMapX");
+            PlayerPrefs.DeleteKey("PostionMapY");
             SceneManager.LoadScene("GenerateMapFortress1");
         }
-        if (activePoint.name == "entranceInFortress1 2")
+        
+    }
+
+
+
+    public void OutInternumFortress1()
+    {
+        if (activePoint.name == "entranceOutInternumFortress1 left" || activePoint.name == "entranceOutInternumFortress1 right")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 700f);
-            PlayerPrefs.SetFloat("PostionMapY", 596f);
+            PlayerPrefs.SetFloat("PostionMapX", 948f);
+            PlayerPrefs.SetFloat("PostionMapY", 614f);
             SceneManager.LoadScene("GenerateMapFortress1");
         }
-        if (activePoint.name == "entranceInFortress1 1")
+    }
+    public void InInternumFortress1()
+    {
+        if (activePoint.name == "entranceIntenumFortress")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 1200f);
-            PlayerPrefs.SetFloat("PostionMapY", 601f);
-            SceneManager.LoadScene("GenerateMapFortress1");
+            PlayerPrefs.DeleteKey("PostionMapX");
+            PlayerPrefs.DeleteKey("PostionMapY");
+            SceneManager.LoadScene("GenerateMapInternumFortress1");
         }
     }
 
@@ -176,10 +185,15 @@ public class Player : MonoBehaviour
 
                 if(Input.GetKeyDown(KeyCode.E))
                 {
-                    if(SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                    if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                    {
                         OutFortress1();
+                        InInternumFortress1();
+                    }
                     if (SceneManager.GetActiveScene().name == "GenerateMap")
                         InFortress1();
+                    if (SceneManager.GetActiveScene().name == "GenerateMapInternumFortress1")
+                        OutInternumFortress1();
                 }
 
                 if (activePoint.name == "entranceInCave1")

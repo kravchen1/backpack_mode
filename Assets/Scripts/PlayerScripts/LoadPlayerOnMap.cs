@@ -16,6 +16,7 @@ public class LoadPlayerOnMap : MonoBehaviour
     void InstantinatePlayer()
     {
         var startPlayerPosition = spawnForFirstStart.transform.localPosition;
+        //PlayerPrefs.DeleteKey("PostionMapX");
         if (!PlayerPrefs.HasKey("PostionMapX"))
         {
 
