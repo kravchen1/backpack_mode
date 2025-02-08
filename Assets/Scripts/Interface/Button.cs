@@ -10,7 +10,7 @@ public class Button : MonoBehaviour
     //[SerializeField] private GameObject goMap;
     private GameObject player;
     private Map map;
-    
+    private QuestData questData;
     private void Awake()
     {
         
@@ -89,10 +89,22 @@ public class Button : MonoBehaviour
                 }
                 PlayerPrefs.SetString("characterClass", gameObject.transform.parent.name.Replace("Static", ""));
                 Debug.Log(gameObject.transform.parent.name.Replace("Static", ""));
-                PlayerPrefs.DeleteKey("mapLevel");
+                //PlayerPrefs.DeleteKey("mapLevel");
                 DeleteAllData();
                 StartBackPack();
-                SceneManager.LoadScene("GenerateMap");
+
+
+                SceneManager.LoadScene("GenerateMapInternumFortress1");
+
+
+                questData = new QuestData();
+                questData.questData = new QDataList();
+
+                Quest quest = new Quest("Åhe beginning of time", "talk to the king", -1, 1);
+
+                questData.questData.quests.Add(quest);
+                questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+
                 break;
             case "Player_EarthStatic":
                 //PlayerPrefs.DeleteAll();

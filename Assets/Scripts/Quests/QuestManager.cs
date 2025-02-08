@@ -9,9 +9,9 @@ public class QuestManager : MonoBehaviour
     public List<Quest> quests = new List<Quest>();
     //public TextMeshProUGUI questText; // Убедитесь, что вы привязали этот элемент из UI в Inspector
     public GameObject prefabQuestText;
-    public Transform questsContainer;
+    [HideInInspector] public Transform questsContainer;
 
-    private QuestData questData;
+    public QuestData questData;
     void Start()
     {
         questData = new QuestData();
@@ -48,7 +48,15 @@ public class QuestManager : MonoBehaviour
         foreach (Quest quest in quests)
         {
             GameObject questGO = Instantiate(prefabQuestText, questsContainer);
-            var textDescr = quest.description + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
+            var textDescr = "";
+            if (quest.necessaryProgress == -1)
+            {
+                textDescr = quest.description;// + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
+            }
+            else
+            {
+                textDescr = quest.description + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
+            }
             questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = quest.questName;
             questGO.gameObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = textDescr;
             // Настраиваем действие кнопки
