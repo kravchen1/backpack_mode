@@ -13,8 +13,9 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject goMap;
+    //public GameObject goMap;
     public Animator animator;
+    public GameObject textInfo;
     //private generateMapScript map;
 
     private DoorEventDistributor distributor;
@@ -50,6 +51,9 @@ public class Player : MonoBehaviour
     private GameObject dialogCanvas;
 
     private TextMeshPro countdown;
+
+
+    private bool textInfoE = false;
     private void Awake()
     {
         Time.timeScale = 1f;
@@ -58,7 +62,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
-        goMap = GameObject.FindGameObjectWithTag("GoMap");
+        //goMap = GameObject.FindGameObjectWithTag("GoMap");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         countdown = GameObject.FindGameObjectWithTag("Countdown").GetComponent<TextMeshPro>();
         //scriptMainCamera = mainCamera.GetComponent<MainCamera>();
@@ -69,73 +73,67 @@ public class Player : MonoBehaviour
         characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
         characterStats.InitializeCharacterStats();
     }
-    void SetStartPosition()
-    {
-
-        rectTransform.anchoredPosition = map.startPlayerPosition;
-        Debug.Log(map.startPlayerPosition);
-        Debug.Log(rectTransform.anchoredPosition);
-    }
 
 
     void Initialize()
     {
         rectTransform = GetComponent<RectTransform>();
-        //map = goMap.GetComponent<generateMapScript>();
-
-        //SetStartPosition();
         LoadCharacterStats();
-        if(characterStats.playerTime >= 9f)
-        {
-            //map.ChangeMapRedTimeZone();
-        }
 
         startMove = true;
     }
 
 
-    //public void InstantinateDialog()
-    //{
-    //    if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal") || hit.collider.gameObject.name.Contains("Fountain") || hit.collider.gameObject.name.Contains("ChestOfFortune") || hit.collider.gameObject.name.Contains("Forge"))
-    //    {
-    //        activePoint = hit.collider.gameObject.GameObject();
-    //        activePoint.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-    //        if (!createdDialogCanvas)
-    //        {
-    //            startMove = false;
-    //            //Time.timeScale = 0f;
-    //            if (hit.collider.gameObject.name.Contains("Battle") || hit.collider.gameObject.name.Contains("Portal"))
-    //                dialogCanvas = Resources.Load<GameObject>("DialogBattleCanvas");
-    //            else if (hit.collider.gameObject.name.Contains("Fountain"))
-    //                dialogCanvas = Resources.Load<GameObject>("DialogFountainCanvas");
-    //            else if (hit.collider.gameObject.name.Contains("ChestOfFortune"))
-    //            {
-    //                dialogCanvas = Resources.Load<GameObject>("DialogChestOfFortuneCanvas");
-    //                dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
-    //            }
-    //            else if (hit.collider.gameObject.name.Contains("Forge"))
-    //            {
-    //                dialogCanvas = Resources.Load<GameObject>("DialogForgeCanvas");
-    //                //dialogCanvas.GetComponent<DialogCanvas>().GenerateEvent();
-    //            }
-
-    //            var canvas = Instantiate(dialogCanvas, GameObject.FindGameObjectWithTag("Main Canvas").GetComponent<RectTransform>().transform);
-    //            canvas.gameObject.SetActive(true);
-    //            //canvas.transform.GetChild(0).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-    //            //canvas.transform.GetChild(1).GetComponent<PointInterestButtonYesNO>().pointInterestCollision = hit.collider;
-    //            createdDialogCanvas = true;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        lastCrossCollider = hit.collider;
-    //    }
-    //}
-
     private bool isCollidingArea = false;
     private bool speakNow = false;
     private Coroutine countdownCoroutine;
     private Animator activatePointAnimator;
+
+
+    public void OutFortress1()
+    {
+        if (activePoint.name == "entranceOutFortress1")
+        {
+            PlayerPrefs.SetFloat("PostionMapX", 988f);
+            PlayerPrefs.SetFloat("PostionMapY", 427f);
+            SceneManager.LoadScene("GenerateMap");
+        }
+        if (activePoint.name == "entranceOutFortress1 1")
+        {
+            PlayerPrefs.SetFloat("PostionMapX", 1137f);
+            PlayerPrefs.SetFloat("PostionMapY", 636f);
+            SceneManager.LoadScene("GenerateMap");
+        }
+        if (activePoint.name == "entranceOutFortress1 2")
+        {
+            PlayerPrefs.SetFloat("PostionMapX", 830f);
+            PlayerPrefs.SetFloat("PostionMapY", 587f);
+            SceneManager.LoadScene("GenerateMap");
+        }
+    }
+
+    public void InFortress1()
+    {
+        if (activePoint.name == "entranceInFortress1 0")
+        {
+            PlayerPrefs.SetFloat("PostionMapX", 946f);
+            PlayerPrefs.SetFloat("PostionMapY", 252.5f);
+            SceneManager.LoadScene("GenerateMapFortress1");
+        }
+        if (activePoint.name == "entranceInFortress1 2")
+        {
+            PlayerPrefs.SetFloat("PostionMapX", 700f);
+            PlayerPrefs.SetFloat("PostionMapY", 596f);
+            SceneManager.LoadScene("GenerateMapFortress1");
+        }
+        if (activePoint.name == "entranceInFortress1 1")
+        {
+            PlayerPrefs.SetFloat("PostionMapX", 1200f);
+            PlayerPrefs.SetFloat("PostionMapY", 601f);
+            SceneManager.LoadScene("GenerateMapFortress1");
+        }
+    }
+
 
     public void RaycastEvent()
     {
@@ -170,10 +168,23 @@ public class Player : MonoBehaviour
             if (hit.collider.tag == "AreaEventEntrance")
             {
                 Debug.Log(activePoint.name);
+                if (!textInfoE)
+                {
+                    textInfo.SetActive(true);
+                    textInfoE = true;
+                }
+
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    if(SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                        OutFortress1();
+                    if (SceneManager.GetActiveScene().name == "GenerateMap")
+                        InFortress1();
+                }
+
                 if (activePoint.name == "entranceInCave1")
                 {
                     SceneManager.LoadScene("BackPackCave1");
-
                 }
             }
             if (hit.collider.tag == "AreaCaveDoor")
@@ -183,6 +194,14 @@ public class Player : MonoBehaviour
                 SceneManager.LoadScene("Cave");
             }
 
+        }
+        else
+        {
+            if (textInfoE)
+            {
+                textInfo.SetActive(false);
+                textInfoE = false;
+            }
         }
 
         if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
@@ -244,73 +263,13 @@ public class Player : MonoBehaviour
         Debug.Log("Событие произошло!");
         // Здесь ваше событие
     }
-    //void pressF()
-    //{
-    //    if(Input.GetButton("Jump"))
-    //    {
-    //        if (activePoint != null && activePoint.name.Contains("Shop"))
-    //        {
 
-    //            Time.timeScale = 0f;
-    //            map.startPlayerPosition = rectTransform.anchoredPosition;
-    //            characterStats.playerTime += 1f;
-    //            map.SaveData("Assets/Saves/mapData.json");
-    //            characterStats.SaveData();
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            SceneManager.LoadScene("BackPackShop");
-    //        }
-    //        if (activePoint != null && activePoint.name.Contains("Battle"))
-    //        {
-
-    //            Time.timeScale = 0f;
-    //            map.startPlayerPosition = rectTransform.anchoredPosition;
-    //            characterStats.playerTime += 2f;
-    //            map.SaveData("Assets/Saves/mapData.json");
-    //            characterStats.SaveData();
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            PlayerPrefs.SetString("enemyName", activePoint.gameObject.name.Replace("(Clone)", ""));
-    //            SceneManager.LoadScene("BackPackBattle");
-    //        }
-    //        if (activePoint != null && activePoint.name.Contains("Portal"))
-    //        {
-
-    //            Time.timeScale = 0f;
-    //            characterStats.playerTime = 0f;
-    //            characterStats.SaveData();
-    //            map.DeleteData("Assets/Saves/mapData.json");
-    //            //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-    //            SceneManager.LoadScene("GenerateMap");
-    //        }
-    //    }
-
-    //}
     void pressI()
     {
-        //if (!backpackCanvas.gameObject.activeInHierarchy)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.I))
-        //    {
-        //        mapCanvas.gameObject.SetActive(false);
-        //        backpackCanvas.gameObject.SetActive(true);
-        //    }
-        //}
-        //else
-        //{
-        //    if (Input.GetKeyDown(KeyCode.I))
-        //    {
-        //        mapCanvas.gameObject.SetActive(true);
-        //        backpackCanvas.gameObject.SetActive(false);
-        //    }
-        //}
+       
     }
 
-    //void pressEsc()
-    //{
-    //    if (backpackCanvas.gameObject.activeInHierarchy && Input.GetKeyDown(KeyCode.Escape))
-    //    {
-    //        backpackCanvas.gameObject.SetActive(false);
-    //    }
-    //}
+
 
     void Start()
     {
@@ -328,10 +287,10 @@ public class Player : MonoBehaviour
     {
         B_FacingRight = !B_FacingRight;
 
-        Vector3 theScale = transform.localScale;
+        Vector3 theScale = transform.GetChild(0).localScale;
         theScale.x *= -1;
 
-        transform.localScale = theScale;
+        transform.GetChild(0).localScale = theScale;
     }
 
 
@@ -363,8 +322,6 @@ public class Player : MonoBehaviour
             RaycastEvent();
 
 
-            //pressF();
-            //pressI();
         }
         else
         {

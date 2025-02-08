@@ -122,7 +122,7 @@ public class generateMapScript : Map
 
 
 
-        player.GetComponent<PlayerOld_>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(startPlayerPosition, false);
+        //player.GetComponent<PlayerOld_>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(startPlayerPosition, false);
 
        
 
@@ -146,7 +146,7 @@ public class generateMapScript : Map
         player.GetComponent<RectTransform>().anchoredPosition = mapData.playerPosition;
 
 
-        player.GetComponent<PlayerOld_>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(mapData.playerPosition, false);
+        //player.GetComponent<PlayerOld_>().mainCamera.GetComponent<MoveCamera>().MoveCameraMethod(mapData.playerPosition, false);
     }
 
     public void GenerateStartAndBossTiles()

@@ -16,8 +16,18 @@ public class LoadPlayerOnMap : MonoBehaviour
     void InstantinatePlayer()
     {
         var startPlayerPosition = spawnForFirstStart.transform.localPosition;
-        player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
-        player.GetComponent<RectTransform>().localPosition = startPlayerPosition;
+        if (!PlayerPrefs.HasKey("PostionMapX"))
+        {
+
+            player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+            player.GetComponent<RectTransform>().localPosition = startPlayerPosition;
+        }
+        else
+        {
+            player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+            player.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
+            player.GetComponent<RectTransform>().anchoredPosition = new Vector2(PlayerPrefs.GetFloat("PostionMapX"), PlayerPrefs.GetFloat("PostionMapY"));
+        }
     }
     
     // Update is called once per frame

@@ -124,11 +124,11 @@ public class Button : MonoBehaviour
                 SceneManager.LoadScene("GenerateMap");
                 break;
             case "Button_Home":
-                player = GameObject.FindGameObjectWithTag("Player");
-                Time.timeScale = 0f;
-                map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
-                map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-                map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
+                //player = GameObject.FindGameObjectWithTag("Player");
+                //Time.timeScale = 0f;
+                //map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
+                //map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
+                //map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
                 SceneManager.LoadScene("Main");
                 break;
             case "Button_GoMapFromForge":
