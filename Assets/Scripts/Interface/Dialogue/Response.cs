@@ -1,5 +1,6 @@
 
 
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -18,7 +19,7 @@ public class Response
 
     //выдать предметы
     public bool giveItem = false;
-    public GameObject giveItemPrefab;
+    public List<GameObject> giveItemPrefab;
 
     //выполнить квест
     public bool questComplete = false;
