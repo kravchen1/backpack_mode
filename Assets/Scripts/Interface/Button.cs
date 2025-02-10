@@ -123,7 +123,21 @@ public class Button : MonoBehaviour
                 GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
-                SceneManager.LoadScene("GenerateMap");
+
+
+                int r = UnityEngine.Random.Range(0, 2);
+                if (r == 0)
+                {
+                    PlayerPrefs.SetFloat("PostionMapX", 557f);
+                    PlayerPrefs.SetFloat("PostionMapY", 765f);
+                }
+                else
+                {
+                    PlayerPrefs.SetFloat("PostionMapX", 743f);
+                    PlayerPrefs.SetFloat("PostionMapY", 765f);
+                }
+
+                SceneManager.LoadScene("GenerateMapFortress1");
                 break;
             case "Button_GoMapFromCave":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
