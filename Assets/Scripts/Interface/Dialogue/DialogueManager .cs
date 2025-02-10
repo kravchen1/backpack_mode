@@ -35,7 +35,7 @@ public class DialogueManager : MonoBehaviour
             // Настраиваем действие кнопки
             if (response.quest)
             {
-                Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress);
+                Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
                 button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuest(response, quest));
             }
             else if(response.questComplete)
@@ -86,6 +86,10 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        if (response.switchDialogID >= 0)
+        {
+            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+        }
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;
@@ -108,7 +112,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         FindFirstObjectByType<QuestManager>().AddQuest(quest);
-        //PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
+
+        if (response.switchDialogID >= 0)
+        {
+            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+        }
+
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;
@@ -131,7 +140,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         FindFirstObjectByType<QuestManager>().CompleteQuest(questID);
-        //PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
+
+        if (response.switchDialogID >= 0)
+        {
+            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+        }
+
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;

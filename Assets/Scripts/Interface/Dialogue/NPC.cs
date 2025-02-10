@@ -11,7 +11,7 @@ public class NPC : MonoBehaviour
     //public virtual void Initialize()
     //{
     //}
-    public void StartDialogue()
+    public virtual void StartDialogue()
     {
         if (PlayerPrefs.HasKey(gameObject.name))
             dialogueNumber = PlayerPrefs.GetInt(gameObject.name);

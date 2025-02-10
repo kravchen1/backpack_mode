@@ -8,6 +8,7 @@ public class Response
 {
     public string responseText;
     public Dialogue nextDialogue; // следующая часть диалога
+    public int switchDialogID = 0;
 
 
     //взять квест
