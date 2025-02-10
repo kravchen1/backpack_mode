@@ -1,6 +1,7 @@
 using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,9 +31,11 @@ public class QuestManager : MonoBehaviour
         quests.Add(quest);
         UpdateQuestUI();
     }
-    public void CompleteQuest(Quest quest)
+    public void CompleteQuest(int questID)
     {
-        quest.isCompleted = true;
+        var quest = questData.questData.quests.Where(e => e.id == questID).ToList();
+        quest[0].isCompleted = true;
+        questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
         UpdateQuestUI();
     }
     private void UpdateQuestUI()
@@ -47,20 +50,21 @@ public class QuestManager : MonoBehaviour
         // Создаем новые
         foreach (Quest quest in quests)
         {
-            GameObject questGO = Instantiate(prefabQuestText, questsContainer);
-            var textDescr = "";
-            if (quest.necessaryProgress == -1)
+            if (!quest.isCompleted)
             {
-                textDescr = quest.description;// + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
+                GameObject questGO = Instantiate(prefabQuestText, questsContainer);
+                var textDescr = "";
+                if (quest.necessaryProgress == -1)
+                {
+                    textDescr = quest.description;// + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
+                }
+                else
+                {
+                    textDescr = quest.description + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
+                }
+                questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = quest.questName;
+                questGO.gameObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = textDescr;
             }
-            else
-            {
-                textDescr = quest.description + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
-            }
-            questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = quest.questName;
-            questGO.gameObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = textDescr;
-            // Настраиваем действие кнопки
-            //button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
         }
     }
 }

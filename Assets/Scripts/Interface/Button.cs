@@ -62,10 +62,10 @@ public class Button : MonoBehaviour
             case "StoreButton":
                 player = GameObject.FindGameObjectWithTag("Player");
                 Time.timeScale = 0f;
-                map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
-                map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-                player.GetComponent<CharacterStats>().playerTime += 1f;
-                map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
+                //map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
+                //map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
+                //player.GetComponent<CharacterStats>().playerTime += 1f;
+                //map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
                 player.GetComponent<CharacterStats>().SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
                 SceneManager.LoadScene("BackPackShop");

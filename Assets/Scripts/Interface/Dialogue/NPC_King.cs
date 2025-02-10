@@ -6,17 +6,10 @@ public class NPC_King : NPC
 {
     private QuestData questData;
 
-    void Initialize()
+    private QuestManager qm;
+    public void Initialize()
     {
-        var go = FindFirstObjectByType<QuestManager>();
-        if (go.questData.questData.quests.Where(e => e.id == 1 && e.isCompleted == false).Count() > 0)
-        {
-            gameObject.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        else
-        {
-            gameObject.transform.GetChild(1).gameObject.SetActive(false);
-        }
+        qm = FindFirstObjectByType<QuestManager>();
     }
 
 
@@ -24,5 +17,20 @@ public class NPC_King : NPC
     {
         Invoke("Initialize", 0.5f);
         
+    }
+
+    private void Update()
+    {
+        if (qm != null)
+        {
+            if (qm.questData.questData.quests.Where(e => e.id == 1 && e.isCompleted == false).Count() > 0)
+            {
+                gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else
+            {
+                gameObject.transform.GetChild(1).gameObject.SetActive(false);
+            }
+        }
     }
 }

@@ -34,6 +34,10 @@ public class DialogueManager : MonoBehaviour
                 Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress);
                 button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuest(response, quest));
             }
+            else if(response.questComplete)
+            {
+                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuestCompleted(response, response.idQuestComplete));
+            }
             else
             {
                 button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
@@ -56,6 +60,21 @@ public class DialogueManager : MonoBehaviour
     private void OnResponseSelectedQuest(Response response, Quest quest)
     {
         FindFirstObjectByType<QuestManager>().AddQuest(quest);
+        PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
+        if (response.nextDialogue != null)
+        {
+            currentDialogue = response.nextDialogue;
+            DisplayDialogue();
+        }
+        else
+        {
+            EndDialogue();
+        }
+    }
+
+    private void OnResponseSelectedQuestCompleted(Response response, int questID)
+    {
+        FindFirstObjectByType<QuestManager>().CompleteQuest(questID);
         PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
         if (response.nextDialogue != null)
         {
