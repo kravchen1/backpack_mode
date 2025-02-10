@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.IO;
 public class DialogueManager : MonoBehaviour
 {
     public TextMeshPro dialogueText;
@@ -7,6 +8,9 @@ public class DialogueManager : MonoBehaviour
     public Transform responsesContainer;
     private Dialogue currentDialogue;
     private NPC currentNPC;
+
+
+    private BackPackAndStorageData backPackAndStorageData;
     public void StartDialogue(Dialogue dialogue, NPC npc)
     {
         currentDialogue = dialogue;
@@ -31,7 +35,7 @@ public class DialogueManager : MonoBehaviour
             // Настраиваем действие кнопки
             if (response.quest)
             {
-                Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress);
+                Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
                 button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuest(response, quest));
             }
             else if(response.questComplete)
@@ -44,8 +48,48 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
+
+    private void giveItem(GameObject item)
+    {
+        backPackAndStorageData = new BackPackAndStorageData();
+        backPackAndStorageData.storageData = new BackpackData();
+        backPackAndStorageData.storageData.itemData = new ItemData();
+        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json")))
+        {
+            backPackAndStorageData.storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+        }
+        
+        backPackAndStorageData.storageData.itemData.items.Add(new Data(item.name, new Vector2(0, 0)));
+        backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+
+
+        //BackpackData storageData = new BackpackData();
+        //storageData.itemData = new ItemData();
+        //Data data = null;
+
+
+        //data = new Data(item.name, new Vector3(0f,0f,0f));
+
+        //storageData.itemData.items.Add(data);
+        //storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+
+
+    }
+
     private void OnResponseSelected(Response response)
     {
+        if(response.giveItem)
+        {
+            foreach(var item in response.giveItemPrefab)
+            {
+                giveItem(item);
+            }
+        }
+
+        if (response.switchDialogID >= 0)
+        {
+            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+        }
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;
@@ -59,8 +103,21 @@ public class DialogueManager : MonoBehaviour
 
     private void OnResponseSelectedQuest(Response response, Quest quest)
     {
+        if (response.giveItem)
+        {
+            foreach (var item in response.giveItemPrefab)
+            {
+                giveItem(item);
+            }
+        }
+
         FindFirstObjectByType<QuestManager>().AddQuest(quest);
-        PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
+
+        if (response.switchDialogID >= 0)
+        {
+            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+        }
+
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;
@@ -74,8 +131,21 @@ public class DialogueManager : MonoBehaviour
 
     private void OnResponseSelectedQuestCompleted(Response response, int questID)
     {
+        if (response.giveItem)
+        {
+            foreach (var item in response.giveItemPrefab)
+            {
+                giveItem(item);
+            }
+        }
+
         FindFirstObjectByType<QuestManager>().CompleteQuest(questID);
-        PlayerPrefs.SetInt(currentNPC.gameObject.name, 1);
+
+        if (response.switchDialogID >= 0)
+        {
+            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+        }
+
         if (response.nextDialogue != null)
         {
             currentDialogue = response.nextDialogue;

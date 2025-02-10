@@ -15,8 +15,39 @@ public class NPC_King : NPC
 
     public void Start()
     {
-        Invoke("Initialize", 0.5f);
+        //Invoke("Initialize", 1f);
         
+    }
+
+
+    private int dialogueNumber = 0;
+
+    //public virtual void Initialize()
+    //{
+    //}
+    public override void StartDialogue()
+    {
+        if (PlayerPrefs.HasKey(gameObject.name))
+            dialogueNumber = PlayerPrefs.GetInt(gameObject.name);
+        else
+            dialogueNumber = 0;
+
+        switch (dialogueNumber)
+        {
+            case 0:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(dialogue, this);
+                //Initialize();
+                break;
+            case 1:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue1, this);
+                //Initialize();
+                break;
+            case 2:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue1, this);
+                //Initialize();
+                break;
+        }
+
     }
 
     private void Update()
@@ -31,6 +62,10 @@ public class NPC_King : NPC
             {
                 gameObject.transform.GetChild(1).gameObject.SetActive(false);
             }
+        }
+        else
+        {
+            qm = FindFirstObjectByType<QuestManager>();
         }
     }
 }

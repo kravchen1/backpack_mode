@@ -8,10 +8,10 @@ public class NPC : MonoBehaviour
 
     private int dialogueNumber = 0;
 
-    public virtual void Initialize()
-    {
-    }
-    public void StartDialogue()
+    //public virtual void Initialize()
+    //{
+    //}
+    public virtual void StartDialogue()
     {
         if (PlayerPrefs.HasKey(gameObject.name))
             dialogueNumber = PlayerPrefs.GetInt(gameObject.name);
@@ -22,15 +22,15 @@ public class NPC : MonoBehaviour
         {
             case 0:
                 FindFirstObjectByType<DialogueManager>().StartDialogue(dialogue, this);
-                Initialize();
+                //Initialize();
                 break;
             case 1:
                 FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue1, this);
-                Initialize();
+                //Initialize();
                 break;
             case 2:
                 FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue1, this);
-                Initialize();
+                //Initialize();
                 break;
         }
         

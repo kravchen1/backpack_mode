@@ -135,6 +135,15 @@ public class Player : MonoBehaviour
     }
     public void InInternumFortress1()
     {
+        if (activePoint.name == "entranceBackpackShopItems")
+        {
+            FindFirstObjectByType<QuestManager>().CompleteQuest(2);
+            SceneManager.LoadScene("BackPackShop");
+        }
+    }
+
+    public void InBackpackShopItem()
+    {
         if (activePoint.name == "entranceIntenumFortress")
         {
             PlayerPrefs.DeleteKey("PostionMapX");
@@ -189,6 +198,7 @@ public class Player : MonoBehaviour
                     {
                         OutFortress1();
                         InInternumFortress1();
+
                     }
                     if (SceneManager.GetActiveScene().name == "GenerateMap")
                         InFortress1();

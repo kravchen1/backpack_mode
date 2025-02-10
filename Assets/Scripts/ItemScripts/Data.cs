@@ -12,6 +12,7 @@ public class Data
     {
         this.name = name;
         this.position = position;
+        this.rotation = Quaternion.identity;
     }
     public Data(string name, Vector3 position, Quaternion rotation)
     {
