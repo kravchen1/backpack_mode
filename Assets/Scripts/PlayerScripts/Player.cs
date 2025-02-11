@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("GenerateMapFortress1");
         }
     }
-    public void InInternumFortress1()
+    public void InBackpackShopItem()
     {
         if (activePoint.name == "entranceBackpackShopItems")
         {
@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InBackpackShopItem()
+    public void InInternumFortress1()
     {
         if (activePoint.name == "entranceIntenumFortress")
         {
@@ -198,7 +198,7 @@ public class Player : MonoBehaviour
                     {
                         OutFortress1();
                         InInternumFortress1();
-
+                        InBackpackShopItem();
                     }
                     if (SceneManager.GetActiveScene().name == "GenerateMap")
                         InFortress1();
