@@ -5,7 +5,5 @@ using System.Collections.Generic;
 public class BattlesSpawnerDataClass
 {
     //public int currentDoorId;
-    public List<bool> activities;
-    public List<int> lvlEnemys;
-    public List<string> TypeEnemys;
+    public List<BattleData> battleData;
 }
