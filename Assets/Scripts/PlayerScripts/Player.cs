@@ -166,15 +166,15 @@ public class Player : MonoBehaviour
             activePoint = hit.collider.gameObject.GameObject();
             if (hit.collider.tag == "AreaEventEnemy")
             {
-                Debug.Log(activePoint);
-                isCollidingArea = true;
-                // Запускаем корутину обратного отсчета, если она не запущена
-                if (countdownCoroutine == null)
-                {
-                    activatePointAnimator = activePoint.GetComponent<Animator>();
-                    activatePointAnimator.Play("ActivateArea", 0, 0f);
-                    countdownCoroutine = StartCoroutine(Countdown());
-                }
+                //Debug.Log(activePoint);
+                //isCollidingArea = true;
+                //// Запускаем корутину обратного отсчета, если она не запущена
+                //if (countdownCoroutine == null)
+                //{
+                //    activatePointAnimator = activePoint.GetComponent<Animator>();
+                //    activatePointAnimator.Play("ActivateArea", 0, 0f);
+                //    countdownCoroutine = StartCoroutine(Countdown());
+                //}
             }
 
             if (hit.collider.tag == "AreaEventNPC" && !speakNow)
@@ -263,52 +263,52 @@ public class Player : MonoBehaviour
         }
     }
 
-    private IEnumerator Countdown()
-    {
-        countdown.enabled = true;
-        // Обратный отсчет
-        for (int i = 3; i > 0; i--)
-        {
-            // Если соединение все еще существует, продолжаем отсчет
-            if (isCollidingArea)
-            {
-                //Debug.Log(i); // Вывод каждого числа в консоль
-                countdown.text = i.ToString() + "...";
-                yield return new WaitForSeconds(1f);
-            }
-            else
-            {
-                // Если объекты больше не пересекаются, выходим из корутины
-                countdown.enabled = false;
-                countdownCoroutine = null;
-                //activePoint.GetComponent<Animator>().Play("ActivateArea",0,0);
-                //activePoint.GetComponent<Animator>().enabled = false;
+    //private IEnumerator Countdown()
+    //{
+    //    countdown.enabled = true;
+    //    // Обратный отсчет
+    //    for (int i = 3; i > 0; i--)
+    //    {
+    //        // Если соединение все еще существует, продолжаем отсчет
+    //        if (isCollidingArea)
+    //        {
+    //            //Debug.Log(i); // Вывод каждого числа в консоль
+    //            countdown.text = i.ToString() + "...";
+    //            yield return new WaitForSeconds(1f);
+    //        }
+    //        else
+    //        {
+    //            // Если объекты больше не пересекаются, выходим из корутины
+    //            countdown.enabled = false;
+    //            countdownCoroutine = null;
+    //            //activePoint.GetComponent<Animator>().Play("ActivateArea",0,0);
+    //            //activePoint.GetComponent<Animator>().enabled = false;
 
-                // Остановка всей анимации
-                activatePointAnimator.Play("DeActivateArea");
+    //            // Остановка всей анимации
+    //            activatePointAnimator.Play("DeActivateArea");
 
-                yield break;
-            }
-        }
-        if (isCollidingArea)
-        {
-            // Здесь выполняем событие после окончания обратного отсчета
-            TriggerEvent();
-        }
-        else
-        {
-            activatePointAnimator.Play("DeActivateArea");
-        }
-        countdown.enabled = false;
-        countdownCoroutine = null;
-    }
-    private void TriggerEvent()
-    {
-        characterStats.SaveData();
-        activePoint.GetComponentInParent<Enemy>().StartBattle();
-        Debug.Log("Событие произошло!");
-        // Здесь ваше событие
-    }
+    //            yield break;
+    //        }
+    //    }
+    //    if (isCollidingArea)
+    //    {
+    //        // Здесь выполняем событие после окончания обратного отсчета
+    //        TriggerEvent();
+    //    }
+    //    else
+    //    {
+    //        activatePointAnimator.Play("DeActivateArea");
+    //    }
+    //    countdown.enabled = false;
+    //    countdownCoroutine = null;
+    //}
+    //private void TriggerEvent()
+    //{
+    //    characterStats.SaveData();
+    //    activePoint.GetComponentInParent<Enemy>().StartBattle();
+    //    Debug.Log("Событие произошло!");
+    //    // Здесь ваше событие
+    //}
 
     void pressI()
     {
