@@ -30,15 +30,15 @@ public class RealDoorCreation: MonoBehaviour
         switch (nextDoors.Count)
         {
             case 1:
-                position = new Vector3(60f, -20f, 0f);
+                position = new Vector3(255f, 63f, 0f);
                 break;
             case 2:
-                position = new Vector3(-100f, -20f, 0f);
-                step = new Vector3(320f, 0f, 0f);
+                position = new Vector3(100f, 63f, 0f);
+                step = new Vector3(465f, 0f, 0f);
                 break;
             case 3:
-                position = new Vector3(-100f, -20f, 0f);
-                step = new Vector3(160f, 0f, 0f);
+                position = new Vector3(-155f, 63f, 0f);
+                step = new Vector3(400f, 0f, 0f);
                 break;
         }
 

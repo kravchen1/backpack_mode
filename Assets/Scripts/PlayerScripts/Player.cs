@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
     private CharacterStats characterStats;
 
     [HideInInspector] public Rigidbody2D rb;
-    private float speed = 100f;
+    public float speed = 100f;
     private Vector2 moveVector;
 
     [HideInInspector] public RaycastHit2D hit;
@@ -122,8 +123,6 @@ public class Player : MonoBehaviour
         
     }
 
-
-
     public void OutInternumFortress1()
     {
         if (activePoint.name == "entranceOutInternumFortress1 left" || activePoint.name == "entranceOutInternumFortress1 right")
@@ -192,7 +191,7 @@ public class Player : MonoBehaviour
                     textInfoE = true;
                 }
 
-                if(Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
                     {
@@ -208,16 +207,51 @@ public class Player : MonoBehaviour
 
                 if (activePoint.name == "entranceInCave1")
                 {
-                    SceneManager.LoadScene("BackPackCave1");
-                }
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        SceneManager.LoadScene("BackPackCave1");
+                    }
+                }   
             }
             if (hit.collider.tag == "AreaCaveDoor")
             {
-                distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
-                distributor.doorData.SaveData();
-                SceneManager.LoadScene("Cave");
+                if (!textInfoE)
+                {
+                    textInfo.SetActive(true);
+                    textInfoE = true;
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
+                    distributor.doorData.SaveData();
+                    SceneManager.LoadScene("Cave");
+                }
             }
+            //if (hit.collider.tag == "AreaFountain")
+            //{
+            //    if (!textInfoE)
+            //    {
+            //        textInfo.SetActive(true);
+            //        textInfoE = true;
+            //    }
 
+            //    if (Input.GetKeyDown(KeyCode.E))
+            //    {
+            //        hit.collider.transform.parent.gameObject.GetComponent<CaveFountain>().ActivateFountain();
+            //    }
+            //}
+
+            if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
+            {
+                //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
+                isCollidingArea = false;
+                if (speakNow)
+                {
+                    FindFirstObjectByType<DialogueManager>().EndDialogue();
+                }
+                speakNow = false;
+
+            }
         }
         else
         {
@@ -226,18 +260,6 @@ public class Player : MonoBehaviour
                 textInfo.SetActive(false);
                 textInfoE = false;
             }
-        }
-
-        if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
-        {
-            //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
-            isCollidingArea = false;
-            if (speakNow)
-            {
-                FindFirstObjectByType<DialogueManager>().EndDialogue();
-            }
-            speakNow = false;
-
         }
     }
 
@@ -317,12 +339,30 @@ public class Player : MonoBehaviour
         transform.GetChild(0).localScale = theScale;
     }
 
+    private float stepInterval = 0.3f; // Интервал между шагами
+    private float nextStepTime = 0f; // Время, когда можно воспроизвести следующий звук
+    private bool isMoving = false;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    void StepSound()
     {
+        // Проверяем, движется ли персонаж
+        if (rb.velocity.magnitude > 0)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
 
+        // Воспроизводим звук шагов
+        if (isMoving && Time.time >= nextStepTime)
+        {
+            GetComponent<AudioSource>().Play();
+            nextStepTime = Time.time + stepInterval; // Устанавливаем время для следующего шага
+        }
     }
-
 
     private void Update()
     {
@@ -337,6 +377,7 @@ public class Player : MonoBehaviour
             {
                 Filp();
             }
+            StepSound();
             //moveVector.x = Input.GetAxis("Horizontal");
             //moveVector.y = Input.GetAxis("Vertical");
             //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
@@ -344,8 +385,6 @@ public class Player : MonoBehaviour
             animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
 
             RaycastEvent();
-
-
         }
         else
         {

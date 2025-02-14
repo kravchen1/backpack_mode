@@ -42,6 +42,15 @@ public class DoorData : MonoBehaviour
         //    Debug.LogError("There is no save data!");
     }
 
+
+    public void DeleteData()
+    {
+        if (File.Exists(doorDataFilePath))
+        {
+            File.Delete(doorDataFilePath);
+        }
+    }
+
     public void Awake()
     {
         doorDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "doorData.json");
