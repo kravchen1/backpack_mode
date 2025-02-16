@@ -9,6 +9,7 @@ using UnityEngine;
 public class DoorEventDistributor : MonoBehaviour
 {
     public List<GameObject> doorsList = new List<GameObject>();
+
     [HideInInspector] public DoorData doorData;
     private enum DoorEvent
     {

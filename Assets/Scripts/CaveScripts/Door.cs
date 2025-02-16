@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
     public List<GameObject> nextDoors;
     public int doorId;
     [HideInInspector] public int eventId;
+    public int caveLevel;
     //public Door(GameObject currentDoor)
     //{
     //    currentDoor = this.currentDoor;
