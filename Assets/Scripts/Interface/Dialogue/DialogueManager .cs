@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
 using System.IO;
+using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
-    public TextMeshPro dialogueText;
+    public TextMeshProUGUI dialogueText;
     public GameObject responseButtonPrefab;
     public Transform responsesContainer;
+    public RectTransform Content;
     private Dialogue currentDialogue;
     private NPC currentNPC;
 
@@ -20,7 +22,20 @@ public class DialogueManager : MonoBehaviour
     private void DisplayDialogue()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        gameObject.GetComponent<Image>().enabled = true;
+
+
+        //currentDialogue.HeightText;
         dialogueText.text = currentDialogue.dialogueText;
+
+        dialogueText.ForceMeshUpdate();
+        
+        Content.sizeDelta = new Vector2(
+                                Content.sizeDelta.x,
+                                dialogueText.preferredHeight - 200 // Используем preferredHeight для автоматического расчета высоты
+        );
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(Content);
 
         // Удаляем старые кнопки
         foreach (Transform child in responsesContainer)
@@ -159,10 +174,13 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        gameObject.GetComponent<Image>().enabled = false;
         dialogueText.text = "";
         foreach (Transform child in responsesContainer)
         {
             Destroy(child.gameObject);
         }
     }
+
+
 }

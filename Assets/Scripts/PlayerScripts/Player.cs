@@ -241,6 +241,14 @@ public class Player : MonoBehaviour
             //        hit.collider.transform.parent.gameObject.GetComponent<CaveFountain>().ActivateFountain();
             //    }
             //}
+        }
+        else
+        {
+            if (textInfoE)
+            {
+                textInfo.SetActive(false);
+                textInfoE = false;
+            }
 
             if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
             {
@@ -251,17 +259,10 @@ public class Player : MonoBehaviour
                     FindFirstObjectByType<DialogueManager>().EndDialogue();
                 }
                 speakNow = false;
+            }
+        }
 
-            }
-        }
-        else
-        {
-            if (textInfoE)
-            {
-                textInfo.SetActive(false);
-                textInfoE = false;
-            }
-        }
+        
     }
 
     //private IEnumerator Countdown()
