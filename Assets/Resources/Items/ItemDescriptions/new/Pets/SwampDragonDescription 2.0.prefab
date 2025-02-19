@@ -368,7 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7589671031777127309}
   - component: {fileID: 3248722505427217484}
-  - component: {fileID: 830660383904821833}
+  - component: {fileID: 7754697677213822114}
   m_Layer: 0
   m_Name: SwampDragonDescription 2.0
   m_TagString: Untagged
@@ -385,7 +385,7 @@ RectTransform:
   m_GameObject: {fileID: 1731876783682409788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.28, y: 1.75, z: 1}
+  m_LocalScale: {x: 1.232, y: 1.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7589800910354969710}
@@ -453,7 +453,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &830660383904821833
+--- !u!114 &7754697677213822114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1731876783682409788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e029fcc512c570409e8dbd41606b1d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 11ab9d9895f55104d99ceb4dd3b88fc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textBody: {fileID: 8891224149290463190}
@@ -475,8 +475,9 @@ MonoBehaviour:
   critDamage: 130
   cooldown: 1.1
   Armor: 0
-  activationSpeedUp: 0
-  giveCritStack: 0
+  poisonStack: 0
+  blindnessStack: 0
+  fireStack: 0
 --- !u!1 &2153175387162814319
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,7 +1450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35200003, y: 0.40540922}
   m_AnchorMax: {x: 0.41400003, y: 0.5}
-  m_AnchoredPosition: {x: 119.8, y: -176}
+  m_AnchoredPosition: {x: 123.9, y: -176}
   m_SizeDelta: {x: 0, y: 1.0650024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3297170492151961962

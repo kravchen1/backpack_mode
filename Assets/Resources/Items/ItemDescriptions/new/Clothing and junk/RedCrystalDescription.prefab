@@ -678,7 +678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5019041386675416121}
   - component: {fileID: 2622263193754084239}
-  - component: {fileID: 5128588691151822981}
+  - component: {fileID: 6712563288578877950}
   m_Layer: 0
   m_Name: RedCrystalDescription
   m_TagString: Untagged
@@ -763,7 +763,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5128588691151822981
+--- !u!114 &6712563288578877950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -772,7 +772,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3013779456985299273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f919118e0e91ad458145c83eaa459c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 39d67082a1e63d7469d7000eadb1cd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textBody: {fileID: 3633784605548632112}
@@ -785,8 +785,8 @@ MonoBehaviour:
   critDamage: 130
   cooldown: 1.1
   Armor: 0
-  stamina: 23
-  activationForStar: 97
+  powerStack: 5
+  powerStackChance: 5
 --- !u!1 &3386063229546809678
 GameObject:
   m_ObjectHideFlags: 0
@@ -981,7 +981,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u0410\u0441tivating an item with       gives you a <u>10</u>% chance
-    to gain <u>1</u> "
+    to gain <u>1</u>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -1309,7 +1309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -28}
+  m_AnchoredPosition: {x: -13.5, y: -28}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6024254443761370889
@@ -1778,7 +1778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -45}
+  m_AnchoredPosition: {x: 0, y: -49}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3201983799675270987

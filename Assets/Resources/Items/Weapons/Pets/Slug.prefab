@@ -1889,7 +1889,7 @@ GameObject:
   - component: {fileID: 2336080887645074053}
   - component: {fileID: 1873110769772859602}
   - component: {fileID: 5925886258075932479}
-  - component: {fileID: 4894514091335255437}
+  - component: {fileID: 5708756054864753422}
   m_Layer: 9
   m_Name: Slug
   m_TagString: RareWeapon
@@ -2281,7 +2281,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &4894514091335255437
+--- !u!114 &5708756054864753422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2290,7 +2290,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9114478294462872716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09a2b9a18830b1847af26105082cbfa9, type: 3}
+  m_Script: {fileID: 11500000, guid: c0de2ee3814c54e45adbcf54c9890fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -2301,7 +2301,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
-  Description: {fileID: 3198435072099102787, guid: f6aa53ba5c6bfac4c9d9d3fbcbe8f7e8, type: 3}
+  Description: {fileID: 7725972402781618665, guid: f1df0878b2850c743ac9b43901a92ae9, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
@@ -2321,11 +2321,7 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
   Impulse: 0
-  stars:
-  - {fileID: 4209156999349564432}
-  - {fileID: 8069446638666230622}
-  - {fileID: 5813343226409338934}
-  - {fileID: 5217737908495252285}
+  stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -2333,10 +2329,14 @@ MonoBehaviour:
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
   itemMusicEffects: {fileID: 0}
-  originalName: MushroomChanterelle
+  originalName: Slug
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.1
-  startBattleArmorCount: 0
-  giveRegenerationStack: 23
-  activationForStar: 23
+  baseTimerCooldown: 2
+  attackMin: 1
+  attackMax: 3
+  stamina: 1
+  accuracy: 1
+  critDamage: 130
+  chanceCrit: 5
+  poisonStack: 2

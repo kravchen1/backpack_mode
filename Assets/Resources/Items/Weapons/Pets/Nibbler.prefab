@@ -1046,7 +1046,7 @@ GameObject:
   - component: {fileID: 7041427559336529231}
   - component: {fileID: 5022667839079990706}
   - component: {fileID: 8454613597061604757}
-  - component: {fileID: 874409320803871911}
+  - component: {fileID: 7097209993616854832}
   m_Layer: 9
   m_Name: Nibbler
   m_TagString: RareWeapon
@@ -1565,7 +1565,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &874409320803871911
+--- !u!114 &7097209993616854832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1574,7 +1574,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5823271604813227956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d0eafc0a1650c841ad0b19cea3e78e5, type: 3}
+  m_Script: {fileID: 11500000, guid: fb15f55dda5114342b345ee74c50614d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1585,13 +1585,13 @@ MonoBehaviour:
   canvas: {fileID: 0}
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
-  Description: {fileID: 7034216897144420375, guid: 65097302e2d950e4ca4c826c14622ce6, type: 3}
+  Description: {fileID: 9205103901640957858, guid: 4c5af936fe32c9a4db97618ba96fdd14, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 24
+  itemCost: 0
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1616,9 +1616,14 @@ MonoBehaviour:
   originalName: Nibbler
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 0
-  startBattleArmorCount: 0
-  armorStack: 10
+  baseTimerCooldown: 1
+  attackMin: 9
+  attackMax: 15
+  stamina: 6
+  accuracy: 7
+  critDamage: 130
+  chanceCrit: 5
+  armorStack: 15
 --- !u!1 &6572400606545711571
 GameObject:
   m_ObjectHideFlags: 0

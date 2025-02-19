@@ -6,11 +6,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class BlackCat : Armor
+public class RedCrystal : Armor
 {
     private bool isUse = false;
-    public int bleedingStack = 5;//надо заменить
-    public int resistingStack = 2;//надо заменить
+    public int powerStack = 5;
+    public int powerStackChance = 5;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -78,10 +78,10 @@ public class BlackCat : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemBlackCat>();
-                descr.cooldown = timer_cooldown;
-                descr.bleedingStack = bleedingStack;
-                descr.resistingStack = resistingStack;
+                var descr = CanvasDescription.GetComponent<DescriptionItemRedCrystal>();
+                //descr.cooldown = timer_cooldown;
+                descr.powerStack = powerStack;
+                descr.powerStackChance = powerStackChance;
                 descr.SetTextBody();
             }
         }
