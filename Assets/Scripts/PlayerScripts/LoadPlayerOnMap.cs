@@ -11,13 +11,15 @@ public class LoadPlayerOnMap : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
+        playerPrefab = Resources.Load<GameObject>($@"MainChars/{PlayerPrefs.GetString("characterClass")}");
         InstantinatePlayer();
     }
 
 
     void InstantinatePlayer()
     {
+        if (playerPrefab.name.ToUpper().Contains("ICE"))
+            charScale = new Vector3(1f, 1f, 1);
         var startPlayerPosition = spawnForFirstStart.transform.localPosition;
         if(SceneManager.GetActiveScene().name == "Cave")
             PlayerPrefs.DeleteKey("PostionMapX");

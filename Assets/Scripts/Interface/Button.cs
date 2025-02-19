@@ -80,6 +80,9 @@ public class Button : MonoBehaviour
             case "Player_aglStatic":
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ChooseCharCamera>().CharacterSelection(gameObject);
                 break;
+            case "Player_IceStatic":
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ChooseCharCamera>().CharacterSelection(gameObject);
+                break;
             case "Button_GoPlay":
                 PlayerPrefs.DeleteAll();
                 PlayerPrefs.SetString("savePath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's"));

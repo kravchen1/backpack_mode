@@ -65,7 +65,7 @@ public class generateMapScript : Map
         treeStandart1 = Resources.Load<GameObject>("treeStandart1");
         treeStandart2 = Resources.Load<GameObject>("treeStandart2");
         treeStandart3 = Resources.Load<GameObject>("treeStandart3");
-        playerPrefab = Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass"));
+        playerPrefab = Resources.Load<GameObject>($@"MainChars/{PlayerPrefs.GetString("characterClass")}");
         //playerPrefab = Resources.Load<GameObject>("Player_war");
         fountainPrefab = Resources.Load<GameObject>("greenStandart(1)Fountain");
         ChestOfFortune = Resources.Load<GameObject>("greenStandart(1)ChestOfFortune");
