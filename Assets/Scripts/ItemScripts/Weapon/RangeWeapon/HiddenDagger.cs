@@ -27,13 +27,62 @@ public class HiddenDagger : Weapon
                animator.enabled = true;
         }
     }
-
+    private bool firstHit = true;
     public override void Activation()
     {
 
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            if(firstHit)
+                            {
+                                Enemy.menuFightIconData.AddBuff(bleeding, "IconBleed");
+                                firstHit = false;
+                            }
+                            Attack(resultDamage, true);
+                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            //Debug.Log(gameObject.name + " уворот");
+                            CreateLogMessage("HiddenDagger miss");
+                        }
+                    }
+                    else
+                    {
+                        //Debug.Log(gameObject.name + " промах");
+                        CreateLogMessage("HiddenDagger miss");
+                    }
+
+                }
+            }
+            else
+            {
+                //Debug.Log(gameObject.name + " не хватило стамины");
+                CreateLogMessage("HiddenDagger no have stamina");
+            }
         }
     }
 
@@ -97,7 +146,7 @@ public class HiddenDagger : Weapon
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");

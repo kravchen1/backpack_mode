@@ -18,13 +18,15 @@ public class Broom : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256, "RareWeapon");
+
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
-               animator.speed = 1f / timer_cooldown;
+               animator.speed = 1f / 0.5f;
                animator.enabled = true;
+                animator.Play(originalName + "Activation");
         }
     }
 
@@ -34,13 +36,59 @@ public class Broom : Weapon
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            //Debug.Log(gameObject.name + " уворот");
+                            CreateLogMessage("Broom miss");
+                        }
+                    }
+                    else
+                    {
+                        //Debug.Log(gameObject.name + " промах");
+                        CreateLogMessage("Broom miss");
+                    }
+
+                }
+            }
+            else
+            {
+                //Debug.Log(gameObject.name + " не хватило стамины");
+                CreateLogMessage("Broom no have stamina");
+            }
         }
     }
 
-    public override void StarActivation(Item item)
+    public override void StartActivation()
     {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        var starItem = stars[0].GetComponent<Cell>().nestedObject.GetComponent<Item>();
+        var changeCD = starItem.timer_cooldown / 100.0f * activationSpeedUp;
+        starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
+        starItem.timer = starItem.timer_cooldown;
     }
 
 
@@ -71,6 +119,7 @@ public class Broom : Weapon
             if (timerStart <= 0)
             {
                 timer_locked_outStart = false;
+                StartActivation();
                 animator.speed = 1f / timer_cooldown;
                 animator.Play(originalName + "Activation");
             }
@@ -97,7 +146,7 @@ public class Broom : Weapon
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");

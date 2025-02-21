@@ -30,7 +30,7 @@ public class CreatePlayerStatic : MonoBehaviour
         switch (gameObject.name)
         {
             case "Character":
-                Instantiate(Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass") + "Static"), gameObject.transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
+                //Instantiate(Resources.Load<GameObject>(PlayerPrefs.GetString("characterClass") + "Static"), gameObject.transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
                 break;
                 case "CharacterEnemy":
                 if (Resources.Load<GameObject>(PlayerPrefs.GetString("enemyName")) != null)
