@@ -103,9 +103,9 @@ public class Player : MonoBehaviour
         }
         if (activePoint.name == "entranceOutFortress1 1")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 512f);
+            PlayerPrefs.SetFloat("PostionMapX", 246f);
             //PlayerPrefs.SetFloat("PostionMapX", 1137f);
-            PlayerPrefs.SetFloat("PostionMapY", 40f);
+            PlayerPrefs.SetFloat("PostionMapY", 172f);
             //PlayerPrefs.SetFloat("PostionMapY", 636f);
             SceneManager.LoadScene("GenerateMap");
         }
@@ -113,8 +113,8 @@ public class Player : MonoBehaviour
         {
             //PlayerPrefs.SetFloat("PostionMapX", 830f);
             //PlayerPrefs.SetFloat("PostionMapY", 587f);
-            PlayerPrefs.SetFloat("PostionMapX", 157f);
-            PlayerPrefs.SetFloat("PostionMapY", -37f);
+            PlayerPrefs.SetFloat("PostionMapX", -93f);
+            PlayerPrefs.SetFloat("PostionMapY", 91f);
             SceneManager.LoadScene("GenerateMap");
         }
     }
@@ -133,8 +133,8 @@ public class Player : MonoBehaviour
     {
         if (activePoint.name == "entranceOutInternumFortress1 left" || activePoint.name == "entranceOutInternumFortress1 right")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 303f);
-            PlayerPrefs.SetFloat("PostionMapY", 11f);
+            PlayerPrefs.SetFloat("PostionMapX", 34f);
+            PlayerPrefs.SetFloat("PostionMapY", 144f);
             SceneManager.LoadScene("GenerateMapFortress1");
         }
     }

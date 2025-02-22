@@ -110,12 +110,7 @@ public class Button : MonoBehaviour
 
                 break;
             case "Player_EarthStatic":
-                //PlayerPrefs.DeleteAll();
-                //PlayerPrefs.SetString("characterClass", gameObject.name.Replace("Static", ""));
-                //PlayerPrefs.DeleteKey("mapLevel");
-                //DeleteAllData();
-                //StartBackPack();
-                SceneManager.LoadScene("GenerateMap");
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ChooseCharCamera>().CharacterSelection(gameObject);
                 break;
             case "Button_NewGame":
                 DeleteAllData();
