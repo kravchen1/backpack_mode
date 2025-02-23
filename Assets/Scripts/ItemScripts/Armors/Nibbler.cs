@@ -6,11 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class DefaultArmor : Armor
+public class Nibbler : Armor
 {
     private bool isUse = false;
-    public int DamageForStack = 5;
-    public int SpendStack = 2;
+    public int armorStack = 5;//надо заменить
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -68,7 +67,7 @@ public class DefaultArmor : Armor
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        yield return new WaitForSeconds(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");
@@ -78,10 +77,9 @@ public class DefaultArmor : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemDefaultNoWeapon>();
-                //descr.cooldown = timer_cooldown;
-                //descr.countStack = countBurnStack;
-                //descr.coolDown = coolDown;
+                var descr = CanvasDescription.GetComponent<DescriptionItemNibbler>();
+                descr.armorStack = armorStack;
+               
                 descr.SetTextBody();
             }
         }

@@ -102,7 +102,7 @@ public class ManaFlask : Flask
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             ChangeShowStars(true);

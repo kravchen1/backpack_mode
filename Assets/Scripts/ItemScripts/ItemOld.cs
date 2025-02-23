@@ -761,7 +761,7 @@ public abstract class ItemOld : MonoBehaviour, IBeginDragHandler  , IDragHandler
     }
     IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             if (canShowDescription)

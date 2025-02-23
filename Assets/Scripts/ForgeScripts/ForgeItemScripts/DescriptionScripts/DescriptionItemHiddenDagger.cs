@@ -13,7 +13,7 @@ public class DescriptionItemHiddenDagger : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "Each weapon       inflict <u>" + bleeding.ToString() + "</u>";
+        string text = "inflict <u>" + bleeding.ToString() + "</u>";
         textBody.text = text;
     }
 
