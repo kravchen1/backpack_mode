@@ -62,9 +62,15 @@ public class QuestManager : MonoBehaviour
                 {
                     textDescr = quest.description + " (" + quest.currentProgress.ToString() + "/" + quest.necessaryProgress.ToString() + ")";
                 }
-                questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = quest.questName;
-                questGO.gameObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = textDescr;
+                //questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = quest.questName;
+                questGO.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = textDescr;
             }
         }
+    }
+
+    public void ToogleActive()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(!gameObject.transform.GetChild(0).gameObject.activeSelf);
+        gameObject.transform.GetChild(1).gameObject.SetActive(!gameObject.transform.GetChild(1).gameObject.activeSelf);
     }
 }
