@@ -10,6 +10,7 @@ public class WitchPotSmall : Armor
 {
     private bool isUse = false;
     public int givePoisonStack = 5;//надо заменить
+    private bool timer_locked_out = true;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -18,22 +19,21 @@ public class WitchPotSmall : Armor
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
+            //animator.Play(originalName + "Activation");
         }
 
     }
 
 
-    public override void StartActivation()
+    public override void Activation()
     {
-        if (!isUse)
+        if (!timer_locked_outStart && !timer_locked_out)
         {
+            timer_locked_out = true;
+            Enemy.menuFightIconData.AddBuff(givePoisonStack, "IconPoison");
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
-    }
-
-    public override void StarActivation(Item item)
-    {
-        
     }
 
     private void CoolDownStart()
@@ -45,17 +45,35 @@ public class WitchPotSmall : Armor
             if (timerStart <= 0)
             {
                 timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
+                animator.speed = 1f / timer_cooldown;
                 StartActivation();
-                animator.Play("New State");
+                animator.Play(originalName + "Activation");
             }
         }
     }
+
+    public void CoolDown()
+    {
+        if (!timer_locked_outStart && timer_locked_out == true)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                timer = timer_cooldown;
+                timer_locked_out = false;
+                animator.speed = 1f / timer_cooldown;
+            }
+        }
+    }
+
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             CoolDownStart();
+            CoolDown();
+            Activation();
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
@@ -67,7 +85,7 @@ public class WitchPotSmall : Armor
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");

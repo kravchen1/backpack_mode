@@ -34,6 +34,52 @@ public class MagicWand : Weapon
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+
+                            Player.menuFightIconData.AddBuff(giveManaStack, "IconMana");
+                            Attack(resultDamage, true);
+                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            //Debug.Log(gameObject.name + " уворот");
+                            CreateLogMessage("Magic wand miss");
+                        }
+                    }
+                    else
+                    {
+                        //Debug.Log(gameObject.name + " промах");
+                        CreateLogMessage("Magic wand miss");
+                    }
+
+                }
+            }
+            else
+            {
+                //Debug.Log(gameObject.name + " не хватило стамины");
+                CreateLogMessage("Magic wand no have stamina");
+            }
         }
     }
 
@@ -97,7 +143,7 @@ public class MagicWand : Weapon
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");

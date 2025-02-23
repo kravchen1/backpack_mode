@@ -126,7 +126,7 @@ public class ManaShield : Armor
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");

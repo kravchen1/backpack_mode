@@ -1195,7 +1195,7 @@ GameObject:
   - component: {fileID: 5849482100890194334}
   - component: {fileID: 2514032343324887168}
   - component: {fileID: 1472165895527927847}
-  - component: {fileID: 4190468546351557180}
+  - component: {fileID: 6431296465419484473}
   m_Layer: 9
   m_Name: BlueCrystal
   m_TagString: RareWeapon
@@ -1561,7 +1561,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &4190468546351557180
+--- !u!114 &6431296465419484473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1570,7 +1570,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5530377155944873895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a22107b3139b24b885e79c069cb851, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a52f0115f28c544282e3ee6344c4db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1601,11 +1601,7 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
   Impulse: 0
-  stars:
-  - {fileID: 5879407264629090220}
-  - {fileID: 1262133521221951701}
-  - {fileID: 4902205579025368400}
-  - {fileID: 3986880709908714964}
+  stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -1616,10 +1612,10 @@ MonoBehaviour:
   originalName: BlueCrystal
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.1
+  baseTimerCooldown: 0
   startBattleArmorCount: 0
-  giveManaStack: 5
-  activationForStar: 4
+  manaStackChance: 10
+  manaStack: 2
 --- !u!1 &5879407264629090220
 GameObject:
   m_ObjectHideFlags: 0

@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 2799597448960884621}
   - component: {fileID: 2091758713919559158}
   - component: {fileID: 5545351512585461397}
-  - component: {fileID: 5777643313251000173}
+  - component: {fileID: 6579670674247787553}
   m_Layer: 9
   m_Name: RedCrystal
   m_TagString: RareWeapon
@@ -886,7 +886,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &5777643313251000173
+--- !u!114 &6579670674247787553
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -895,7 +895,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2106854613003478623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a22107b3139b24b885e79c069cb851, type: 3}
+  m_Script: {fileID: 11500000, guid: 428b0adef37ad6d429b39d59632aeff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -926,11 +926,7 @@ MonoBehaviour:
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
   Impulse: 0
-  stars:
-  - {fileID: 5259371172210147927}
-  - {fileID: 7913848706576021414}
-  - {fileID: 5324577613988258374}
-  - {fileID: 1027465748034178400}
+  stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -941,10 +937,10 @@ MonoBehaviour:
   originalName: RedCrystal
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.1
+  baseTimerCooldown: 0
   startBattleArmorCount: 0
-  giveManaStack: 5
-  activationForStar: 4
+  powerStack: 2
+  powerStackChance: 12
 --- !u!1 &2260767184035007976
 GameObject:
   m_ObjectHideFlags: 0

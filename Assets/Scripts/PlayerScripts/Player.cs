@@ -95,20 +95,26 @@ public class Player : MonoBehaviour
     {
         if (activePoint.name == "entranceOutFortress1")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 988f);
-            PlayerPrefs.SetFloat("PostionMapY", 427f);
+            //PlayerPrefs.SetFloat("PostionMapX", 988f);
+            //PlayerPrefs.SetFloat("PostionMapY", 427f);
+            PlayerPrefs.SetFloat("PostionMapX", 343f);
+            PlayerPrefs.SetFloat("PostionMapY", -200f);
             SceneManager.LoadScene("GenerateMap");
         }
         if (activePoint.name == "entranceOutFortress1 1")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 1137f);
-            PlayerPrefs.SetFloat("PostionMapY", 636f);
+            PlayerPrefs.SetFloat("PostionMapX", 246f);
+            //PlayerPrefs.SetFloat("PostionMapX", 1137f);
+            PlayerPrefs.SetFloat("PostionMapY", 172f);
+            //PlayerPrefs.SetFloat("PostionMapY", 636f);
             SceneManager.LoadScene("GenerateMap");
         }
         if (activePoint.name == "entranceOutFortress1 2")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 830f);
-            PlayerPrefs.SetFloat("PostionMapY", 587f);
+            //PlayerPrefs.SetFloat("PostionMapX", 830f);
+            //PlayerPrefs.SetFloat("PostionMapY", 587f);
+            PlayerPrefs.SetFloat("PostionMapX", -93f);
+            PlayerPrefs.SetFloat("PostionMapY", 91f);
             SceneManager.LoadScene("GenerateMap");
         }
     }
@@ -127,8 +133,8 @@ public class Player : MonoBehaviour
     {
         if (activePoint.name == "entranceOutInternumFortress1 left" || activePoint.name == "entranceOutInternumFortress1 right")
         {
-            PlayerPrefs.SetFloat("PostionMapX", 948f);
-            PlayerPrefs.SetFloat("PostionMapY", 614f);
+            PlayerPrefs.SetFloat("PostionMapX", 34f);
+            PlayerPrefs.SetFloat("PostionMapY", 144f);
             SceneManager.LoadScene("GenerateMapFortress1");
         }
     }
@@ -341,7 +347,7 @@ public class Player : MonoBehaviour
         transform.GetChild(0).localScale = theScale;
     }
 
-    private float stepInterval = 0.3f; // Интервал между шагами
+    private float stepInterval = 0.5f; // Интервал между шагами
     private float nextStepTime = 0f; // Время, когда можно воспроизвести следующий звук
     private bool isMoving = false;
 

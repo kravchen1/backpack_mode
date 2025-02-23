@@ -28,6 +28,16 @@ public class GauntletBoots : Armor
     {
         if (!isUse)
         {
+            if (Player != null)
+            {
+                Player.armor = Player.armor + armor;
+                Player.armorMax = Player.armorMax + armor;
+                isUse = true;
+                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                CreateLogMessage("GauntletBoots give " + armor.ToString() + " armor");
+                CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+            }
         }
     }
 
@@ -67,7 +77,7 @@ public class GauntletBoots : Armor
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillnestedObjectStarsStars(256, "RareWeapon");

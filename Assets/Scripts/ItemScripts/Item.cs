@@ -934,7 +934,7 @@ public abstract class Item : MonoBehaviour
     }
     public virtual IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             ChangeShowStars(true);
@@ -1191,7 +1191,7 @@ public abstract class Item : MonoBehaviour
             {
                 goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
             }
-            Invoke("StopAttackAnimation", 0.2f);
+            Invoke("StopAttackAnimation", 0.4f);
         }
 
     }
