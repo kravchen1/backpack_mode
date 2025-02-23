@@ -67,4 +67,10 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
+    public void ToogleActive()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(!gameObject.transform.GetChild(0).gameObject.activeSelf);
+        gameObject.transform.GetChild(1).gameObject.SetActive(!gameObject.transform.GetChild(1).gameObject.activeSelf);
+    }
 }
