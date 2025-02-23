@@ -779,7 +779,7 @@ GameObject:
   - component: {fileID: 8126617092373292680}
   - component: {fileID: 5237930387187795846}
   - component: {fileID: 4206111828705398473}
-  - component: {fileID: 6026362349150318683}
+  - component: {fileID: 8385306474916897163}
   m_Layer: 9
   m_Name: Dinosaur
   m_TagString: RareWeapon
@@ -1274,7 +1274,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &6026362349150318683
+--- !u!114 &8385306474916897163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1283,7 +1283,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4908311528735305684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dab4830afd5bfd4da403fc7270186fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e970c6696a4596418e381e42454ef06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1294,13 +1294,13 @@ MonoBehaviour:
   canvas: {fileID: 0}
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
-  Description: {fileID: 8262344606258397859, guid: f2349bbe97f084d40b55f4605b847c6b, type: 3}
+  Description: {fileID: 7360871625467894261, guid: 932d55f20932a75449c9cca186aa44b6, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 26
+  itemCost: 0
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1325,10 +1325,15 @@ MonoBehaviour:
   originalName: Dinosaur
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 1
-  startBattleArmorCount: 2
-  powerStackChance: 50
-  powerStack: 1
+  baseTimerCooldown: 3
+  attackMin: 4
+  attackMax: 8
+  stamina: 4
+  accuracy: 7
+  critDamage: 130
+  chanceCrit: 5
+  powerStack: 2
+  powerStackChance: 44
 --- !u!1 &5605286666685615728
 GameObject:
   m_ObjectHideFlags: 0

@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 5965418603642521898}
   - component: {fileID: 2306848124686735266}
   - component: {fileID: 4003325602974901102}
-  - component: {fileID: 4974637499054420642}
+  - component: {fileID: 6306898926045559096}
   m_Layer: 9
   m_Name: BlackClaw
   m_TagString: RareWeapon
@@ -815,7 +815,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &4974637499054420642
+--- !u!114 &6306898926045559096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -824,7 +824,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2575289237885874623}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab84deb39720b1c4693f62142c6b7c01, type: 3}
+  m_Script: {fileID: 11500000, guid: fe43ec8b57af09641814f70cef9ab431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -835,13 +835,13 @@ MonoBehaviour:
   canvas: {fileID: 0}
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
-  Description: {fileID: 1680706377676202878, guid: fd8c053b2c05699488c6feead8f4f2d8, type: 3}
+  Description: {fileID: 3824270778405056741, guid: 86a4b065abb418b40bb0cf1d695a33a6, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 20
+  itemCost: 0
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -866,9 +866,14 @@ MonoBehaviour:
   originalName: BlackClaw
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 0
-  startBattleArmorCount: 0
-  debuffStack: 5
+  baseTimerCooldown: 2
+  attackMin: 1
+  attackMax: 4
+  stamina: 1
+  accuracy: 5
+  critDamage: 130
+  chanceCrit: 5
+  stealsRandomDebuff: 51
 --- !u!1 &2745047956313204849
 GameObject:
   m_ObjectHideFlags: 0

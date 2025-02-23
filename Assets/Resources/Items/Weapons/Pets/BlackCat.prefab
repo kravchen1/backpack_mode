@@ -1363,8 +1363,7 @@ GameObject:
   - component: {fileID: 9081118667866626096}
   - component: {fileID: 3173400094272223094}
   - component: {fileID: 5759988004791930119}
-  - component: {fileID: 7323308396661024554}
-  - component: {fileID: 3396270338527123000}
+  - component: {fileID: 5850206097112103188}
   m_Layer: 9
   m_Name: BlackCat
   m_TagString: RareWeapon
@@ -1817,7 +1816,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &7323308396661024554
+--- !u!114 &5850206097112103188
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1826,7 +1825,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8351119564052499711}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd57f2e1b582b534f811a137a2932b7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 22924a3bc0cd9144f90d283d94dd80b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1837,65 +1836,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
-  Description: {fileID: 3999065325785020460, guid: d459782a240bf3c4283d02c7ff123768, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
-  CanvasDescription: {fileID: 0}
-  Exit: 0
-  itemCost: 15
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars: []
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  itemMusicEffects: {fileID: 0}
-  originalName: Dagger
-  timer: 0
-  timer_cooldown: 0
-  baseTimerCooldown: 2
-  attackMin: 3
-  attackMax: 9
-  stamina: 56
-  accuracy: 32
-  critDamage: 130
-  chanceCrit: 56
---- !u!114 &3396270338527123000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8351119564052499711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c1247ff80d7a04ab4593b29a535523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 3999065325785020460, guid: d459782a240bf3c4283d02c7ff123768, type: 3}
+  Description: {fileID: 2118526104716803234, guid: 49fff5c56457fc2489c5264721ec3b7a, type: 3}
   DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
@@ -1926,7 +1867,12 @@ MonoBehaviour:
   originalName: BlackCat
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 0
-  startBattleArmorCount: 0
+  baseTimerCooldown: 2
+  attackMin: 4
+  attackMax: 6
+  stamina: 3
+  accuracy: 2
+  critDamage: 130
+  chanceCrit: 5
   bleedingStack: 1
   resistingStack: 3

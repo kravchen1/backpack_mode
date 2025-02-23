@@ -6,11 +6,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Dinosaur : Armor
+public class BlueCrystal : Armor
 {
     private bool isUse = false;
-    public int powerStackChance = 5;//надо заменить
-    public int powerStack = 2;//надо заменить
+    public int manaStackChance = 5;//надо заменить
+    public int manaStack = 2;//надо заменить
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -78,10 +78,13 @@ public class Dinosaur : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                var descr = CanvasDescription.GetComponent<DescriptionItemDinosaur>();
-                descr.cooldown = timer_cooldown;
-                descr.powerStackChance = powerStackChance;
-                descr.powerStack = powerStack;
+                var descr = CanvasDescription.GetComponent<DescriptionItemBlueCrystal>();
+                //descr.cooldown = timer_cooldown;
+                //descr.countStack = countBurnStack;
+                //descr.coolDown = coolDown;
+                descr.manaStackChance = manaStackChance;
+                descr.manaStack = manaStack;
+
                 descr.SetTextBody();
             }
         }

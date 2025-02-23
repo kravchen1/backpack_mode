@@ -209,7 +209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5774722, y: 0.632}
   m_AnchorMax: {x: 0.64100003, y: 0.70000005}
-  m_AnchoredPosition: {x: 102.2, y: -33.600006}
+  m_AnchoredPosition: {x: 97, y: -43}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6946433871184397858
@@ -379,7 +379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 146}
+  m_AnchoredPosition: {x: 0, y: 142}
   m_SizeDelta: {x: 0, y: 0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1293893395957618791
@@ -471,7 +471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9, y: -3}
+  m_AnchoredPosition: {x: -16, y: -3}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7078784108005898084
@@ -539,8 +539,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0410\u0441tivating an item with       gives you a <u>10</u>% chance
-    to gain <u>1</u> "
+  m_text: "\u0410\u0441tivating an item with       \ngives you a <u>10</u>% chance
+    to gain <u>1</u>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -581,7 +581,7 @@ MonoBehaviour:
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
+  m_paragraphSpacing: 36.28
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
@@ -647,7 +647,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.3842639, y: 0.49340922}
   m_AnchorMax: {x: 0.45100003, y: 0.5792046}
-  m_AnchoredPosition: {x: 183.6, y: 60.6}
+  m_AnchoredPosition: {x: 179, y: 60.6}
   m_SizeDelta: {x: -8, y: -14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &57153144648514765
@@ -897,7 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5969032230163328659}
   - component: {fileID: 957041882650134008}
-  - component: {fileID: 7649179636626045243}
+  - component: {fileID: 8801038475058932952}
   m_Layer: 0
   m_Name: BlueCrystalDescription
   m_TagString: Untagged
@@ -914,7 +914,7 @@ RectTransform:
   m_GameObject: {fileID: 5425907962425729999}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.9625, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7900672930358742597}
@@ -982,7 +982,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7649179636626045243
+--- !u!114 &8801038475058932952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -991,7 +991,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5425907962425729999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f919118e0e91ad458145c83eaa459c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f3a288a5f9fea24b94b002e14b38651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textBody: {fileID: 7063603659476205980}
@@ -1004,8 +1004,8 @@ MonoBehaviour:
   critDamage: 130
   cooldown: 1.1
   Armor: 0
-  stamina: 23
-  activationForStar: 97
+  manaStackChance: 5
+  manaStack: 2
 --- !u!1 &5759091962237113741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.35}
-  m_AnchoredPosition: {x: 0, y: 48.100006}
+  m_AnchoredPosition: {x: 0, y: 39}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5789123455843498799
@@ -1285,14 +1285,14 @@ RectTransform:
   m_GameObject: {fileID: 6409716975421115683}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.00024414062}
-  m_LocalScale: {x: 1.00008, y: 1.00008, z: 1.00008}
+  m_LocalScale: {x: 1.162593, y: 1.00008, z: 1.00008}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4384983128483378480}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 142.9}
+  m_AnchoredPosition: {x: 18, y: 142.9}
   m_SizeDelta: {x: 0, y: 294.84003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8352720042867242132
@@ -1644,7 +1644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -45}
+  m_AnchoredPosition: {x: 0, y: -51}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3312674139494149014
@@ -1811,7 +1811,7 @@ RectTransform:
   m_GameObject: {fileID: 8551354693075833089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.3, z: 1}
+  m_LocalScale: {x: 1, y: 1.1374999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6775981499546567207}
@@ -1820,7 +1820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7, y: 37.699997}
+  m_AnchoredPosition: {x: -2, y: 9}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8949313485982605328
