@@ -11,6 +11,7 @@ public class ButtonExit : MonoBehaviour
     public void OnMouseUp()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+        Application.Quit();
     }
 
 
