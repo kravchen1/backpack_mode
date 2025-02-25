@@ -11,8 +11,8 @@ public class DescriptionItemManaShield : DescriptionItem
     public void SetTextBody()
     {
         //string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
-        string text = "Start battle: give <u>" + countStartResistanceStack.ToString() +"</u>\r\nOn attacked: spend <u>" + countNeedManaStack.ToString() 
-            + "</u>      and block <u>" + blockDamage.ToString() + "</u> damage\r\n\r\nmana items    activate:  steal <u>" + countStealManaStack.ToString() + "</u>";
+        string text = "Start battle: gives <u>" + countStartResistanceStack.ToString() +"</u>\r\non hit: spends <u>" + countNeedManaStack.ToString() 
+            + "</u>\r\nand blocks <u>" + blockDamage.ToString() + "</u> damage\r\n\r\nmana items      activate:\r\nsteals <u>" + countStealManaStack.ToString() + "</u>";
         textBody.text = text;
     }
 

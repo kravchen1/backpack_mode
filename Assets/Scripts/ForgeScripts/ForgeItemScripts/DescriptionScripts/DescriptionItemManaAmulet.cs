@@ -10,7 +10,7 @@ public class DescriptionItemManaAmulet : DescriptionItem
     public void SetTextBody()
     {
         //string text = "Every <u>" + coolDown.ToString() + "</u> sec: will spend <u>" + countNeedManaStack .ToString() + "</u>     and applie 1 of";
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec: will spend <u>" + countNeedManaStack .ToString() + "</u>     and applie <u>" + countDebuffStack.ToString() + "</u> of";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: will spend <u>" + countNeedManaStack .ToString() + "</u>     \r\nand applie <u>" + countDebuffStack.ToString() + "</u> of";
         textBody.text = text;
     }
 
