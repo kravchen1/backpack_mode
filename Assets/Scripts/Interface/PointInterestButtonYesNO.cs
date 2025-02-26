@@ -43,7 +43,7 @@ public class PointInterestButtonYesNO : Button
     {
         Time.timeScale = 0f;
         var characterStats = player.GetComponent<CharacterStats>();
-        characterStats.activeTile = new Tile(pointInterestCollision.gameObject.name.Replace("(Clone)", ""), pointInterestCollision.gameObject.GetComponent<RectTransform>().anchoredPosition);
+        //characterStats.activeTile = new Tile(pointInterestCollision.gameObject.name.Replace("(Clone)", ""), pointInterestCollision.gameObject.GetComponent<RectTransform>().anchoredPosition);
         if (pointInterestCollision.gameObject.name.Contains("Battle"))
         {
             Time.timeScale = 0f;

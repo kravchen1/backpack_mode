@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI nameCharacterText;
     public GameObject responseButtonPrefab;
     public Transform responsesContainer;
     public RectTransform Content;
@@ -22,6 +23,8 @@ public class DialogueManager : MonoBehaviour
     private void DisplayDialogue()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        nameCharacterText.text = currentNPC.name;
+        gameObject.transform.GetChild(1).gameObject.SetActive(true);
         gameObject.GetComponent<Image>().enabled = true;
 
 

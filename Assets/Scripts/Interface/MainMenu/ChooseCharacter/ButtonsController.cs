@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,7 +28,6 @@ public class ButtonsController : MonoBehaviour
         StartBackPack();
         StartQeust();
 
-        SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
     public void ChooseEarth()
@@ -35,6 +35,8 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
+        StartStats(85, 135, 1, 50, 100, 1, 11);
+        SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
     public void ChooseIce()
@@ -42,6 +44,9 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetString("characterClass", "Player_Ice");
         Choose();
+
+        StartStats(50, 100, 1, 50, 100, 1, 9);
+        SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
 
@@ -91,5 +96,29 @@ public class ButtonsController : MonoBehaviour
 
         questData.questData.quests.Add(quest);
         questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+    }
+
+    private void StartStats(float playerHP, float playerMaxHp, float playerExp, float playerCoins, float requiredExp, float playerLvl, float playerMaxStamina)
+    {
+        string characterStatsDataFilePath;
+        CharacterStatsData characterStatsData;
+
+        characterStatsDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json");
+        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina);
+
+        var saveData = JsonUtility.ToJson(characterStatsData);
+
+        if (File.Exists(characterStatsDataFilePath))
+        {
+            File.Delete(characterStatsDataFilePath);
+        }
+
+
+        using (FileStream fileStream = new FileStream(characterStatsDataFilePath, FileMode.Create, FileAccess.ReadWrite))
+        {
+            fileStream.Seek(0, SeekOrigin.End);
+            byte[] buffer = Encoding.Default.GetBytes(saveData);
+            fileStream.Write(buffer, 0, buffer.Length);
+        }
     }
 }
