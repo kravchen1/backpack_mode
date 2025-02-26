@@ -10,14 +10,12 @@ public class ButtonsEscController : MonoBehaviour
 {
     public void BackToMainMenu()
     {
-        PlayerPrefs.SetString("savePath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's"));
-        if (!Directory.Exists(PlayerPrefs.GetString("savePath")))
-        {
-            Directory.CreateDirectory(PlayerPrefs.GetString("savePath"));
-        }
-        DeleteAllData();
-        StartBackPack();
-        StartQeust();
+        //player = GameObject.FindGameObjectWithTag("Player");
+        //Time.timeScale = 0f;
+        //map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
+        //map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
+        //map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
+        //SceneManager.LoadScene("Main");
 
     }
 
