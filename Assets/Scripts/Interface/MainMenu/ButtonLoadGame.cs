@@ -12,7 +12,12 @@ public class ButtonLoadGame : MonoBehaviour
     public void OnMouseUp()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
-        SceneManager.LoadScene("GenerateMap");//todo
+
+        if(PlayerPrefs.HasKey("currentLocation"))
+            SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+        else
+            SceneManager.LoadScene("GenerateMapInternumFortress1");
+
     }
 
 

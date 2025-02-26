@@ -51,19 +51,8 @@ public class DialogueManager : MonoBehaviour
             GameObject button = Instantiate(responseButtonPrefab, responsesContainer);
             button.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
             // Настраиваем действие кнопки
-            if (response.quest)
-            {
-                Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
-                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuest(response, quest));
-            }
-            else if(response.questComplete)
-            {
-                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelectedQuestCompleted(response, response.idQuestComplete));
-            }
-            else
-            {
-                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
-            }
+
+            button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
         }
     }
 
@@ -79,19 +68,6 @@ public class DialogueManager : MonoBehaviour
         
         backPackAndStorageData.storageData.itemData.items.Add(new Data(item.name, new Vector2(0, 0)));
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
-
-
-        //BackpackData storageData = new BackpackData();
-        //storageData.itemData = new ItemData();
-        //Data data = null;
-
-
-        //data = new Data(item.name, new Vector3(0f,0f,0f));
-
-        //storageData.itemData.items.Add(data);
-        //storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
-
-
     }
 
     private void OnResponseSelected(Response response)
@@ -104,6 +80,17 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        if (response.questComplete)
+        {
+            FindFirstObjectByType<QuestManager>().CompleteQuest(response.idQuestComplete);
+        }
+
+        if (response.quest)
+        {
+            Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
+            FindFirstObjectByType<QuestManager>().AddQuest(quest);
+        }
+
         if (response.switchDialogID >= 0)
         {
             PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
@@ -119,61 +106,61 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void OnResponseSelectedQuest(Response response, Quest quest)
-    {
-        if (response.giveItem)
-        {
-            foreach (var item in response.giveItemPrefab)
-            {
-                giveItem(item);
-            }
-        }
+    //private void OnResponseSelectedQuest(Response response, Quest quest)
+    //{
+    //    if (response.giveItem)
+    //    {
+    //        foreach (var item in response.giveItemPrefab)
+    //        {
+    //            giveItem(item);
+    //        }
+    //    }
 
-        FindFirstObjectByType<QuestManager>().AddQuest(quest);
+        
 
-        if (response.switchDialogID >= 0)
-        {
-            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
-        }
+    //    if (response.switchDialogID >= 0)
+    //    {
+    //        PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+    //    }
 
-        if (response.nextDialogue != null)
-        {
-            currentDialogue = response.nextDialogue;
-            DisplayDialogue();
-        }
-        else
-        {
-            EndDialogue();
-        }
-    }
+    //    if (response.nextDialogue != null)
+    //    {
+    //        currentDialogue = response.nextDialogue;
+    //        DisplayDialogue();
+    //    }
+    //    else
+    //    {
+    //        EndDialogue();
+    //    }
+    //}
 
-    private void OnResponseSelectedQuestCompleted(Response response, int questID)
-    {
-        if (response.giveItem)
-        {
-            foreach (var item in response.giveItemPrefab)
-            {
-                giveItem(item);
-            }
-        }
+    //private void OnResponseSelectedQuestCompleted(Response response, int questID)
+    //{
+    //    if (response.giveItem)
+    //    {
+    //        foreach (var item in response.giveItemPrefab)
+    //        {
+    //            giveItem(item);
+    //        }
+    //    }
 
-        FindFirstObjectByType<QuestManager>().CompleteQuest(questID);
+        
 
-        if (response.switchDialogID >= 0)
-        {
-            PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
-        }
+    //    if (response.switchDialogID >= 0)
+    //    {
+    //        PlayerPrefs.SetInt(currentNPC.gameObject.name, response.switchDialogID);
+    //    }
 
-        if (response.nextDialogue != null)
-        {
-            currentDialogue = response.nextDialogue;
-            DisplayDialogue();
-        }
-        else
-        {
-            EndDialogue();
-        }
-    }
+    //    if (response.nextDialogue != null)
+    //    {
+    //        currentDialogue = response.nextDialogue;
+    //        DisplayDialogue();
+    //    }
+    //    else
+    //    {
+    //        EndDialogue();
+    //    }
+    //}
     public void EndDialogue()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(false);

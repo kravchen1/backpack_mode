@@ -23,6 +23,7 @@ public class LoadPlayerOnMap : MonoBehaviour
         var startPlayerPosition = spawnForFirstStart.transform.localPosition;
         if(SceneManager.GetActiveScene().name == "Cave")
             PlayerPrefs.DeleteKey("PostionMapX");
+
         if (!PlayerPrefs.HasKey("PostionMapX"))
         {
             player = Instantiate(playerPrefab, startPlayerPosition, Quaternion.identity, GameObject.FindGameObjectWithTag("Main Canvas").transform);
