@@ -9,8 +9,8 @@ public class DescriptionItemManaBody : DescriptionItem
     public int countManaStack;
     public void SetTextBody()
     {
-        string text = "give       <u>" + Armor.ToString() + "</u> + <u>" + countStarArmorStack.ToString() 
-            + "</u> * count mana items\r\ngive       <u>" + countManaStack.ToString() + "</u> + <u>" + countStarManaStack.ToString() + "</u> * count mana items";
+        string text = "gives         <u>" + Armor.ToString() + "</u> + <u>" + countStarArmorStack.ToString() 
+            + "</u>x count mana items\r\ngives         <u>" + countManaStack.ToString() + "</u> + <u>" + countStarManaStack.ToString() + "</u>x count mana items";
         textBody.text = text;
     }
 

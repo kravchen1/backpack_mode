@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Timers;
 using TMPro;
 using UnityEngine;
 
@@ -15,8 +16,7 @@ public class DescriptionItemFireDagger : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "<size=200>On hit: applies <u>" + hitFireStack.ToString() + "</u>        on enemy\r\nfire items      activate:  Drop <u>" + dropFireStack.ToString() 
-            + "</u>       from enemy and deal <u>" + hitFireStack.ToString() + "</u> damage  </size>";
+        string text = "On hit: applies <u>" + hitFireStack.ToString() + "</u>        on enemy\r\nfire items       activate:  take <u>" + dropFireStack.ToString() + "</u>       from enemy and deal <u>" + dealDamageDropStack.ToString() + "</u> damage";
         textBody.text = text;
     }
 
