@@ -20,20 +20,20 @@ public class Quest2Tracker : MonoBehaviour
 
     private void Update()
     {
-        if (qm != null)
-        {
-            if (qm.questData.questData.quests.Where(e => e.id == 2 && e.isCompleted == false).Count() > 0)
-            {
-                gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            }
-            else
-            {
-                gameObject.transform.GetChild(0).gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            qm = FindFirstObjectByType<QuestManager>();
-        }
+        //if (qm != null)
+        //{
+        //    if (qm.questData.questData.quests.Where(e => e.id == 2 && e.isCompleted == false).Count() > 0)
+        //    {
+        //        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        //    }
+        //}
+        //else
+        //{
+        //    qm = FindFirstObjectByType<QuestManager>();
+        //}
     }
 }

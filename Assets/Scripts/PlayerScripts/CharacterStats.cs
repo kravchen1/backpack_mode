@@ -24,8 +24,11 @@ public class CharacterStats : MonoBehaviour
     private void Awake()
     {
         LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
-        if(SceneManager.GetActiveScene().name == "GenerateMap")
+        if (SceneManager.GetActiveScene().name == "GenerateMap" || SceneManager.GetActiveScene().name == "Cave"
+            || SceneManager.GetActiveScene().name == "GenerateMapFortress1" || SceneManager.GetActiveScene().name == "GenerateMapInternumFortress1")
+        {
             InitializeObjects();
+        }
         InitializeCharacterStats();
     }
 
