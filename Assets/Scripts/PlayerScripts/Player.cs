@@ -148,14 +148,6 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("GenerateMapFortress1");
         }
     }
-    public void InBackpackShopItem()
-    {
-        if (activePoint.name == "entranceBackpackShopItems")
-        {
-            questManager.CompleteQuest(2);
-            SceneManager.LoadScene("BackPackShop");
-        }
-    }
 
     public void InInternumFortress1()
     {
@@ -213,7 +205,6 @@ public class Player : MonoBehaviour
                     {
                         OutFortress1();
                         InInternumFortress1();
-                        InBackpackShopItem();
                     }
                     if (SceneManager.GetActiveScene().name == "GenerateMap")
                         InFortress1();
@@ -343,7 +334,39 @@ public class Player : MonoBehaviour
         {
             if (questManager.questData.questData.quests.Where(e => e.id == 2 && e.isCompleted == false).Count() > 0)
             {
-                targets.Add(GameObject.FindGameObjectWithTag("BackpackShopItems").gameObject.transform);
+                if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                {
+                    var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 2).Count() > 0);
+
+                    foreach (var Tracker in QuestTrackers)
+                    {
+                        if (Tracker.gameObject.name == "backpackShopItems")
+                        {
+                            if (!PlayerPrefs.HasKey("id2ShopItem"))
+                            {
+                                targets.Add(Tracker.gameObject.transform);
+                            }
+                        }
+                        if (Tracker.gameObject.name == "backpackShopEat")
+                        {
+                            if (!PlayerPrefs.HasKey("id2ShopEat"))
+                            {
+                                targets.Add(Tracker.gameObject.transform);
+                            }
+                        }
+                    }
+                }
+            }
+            if (questManager.questData.questData.quests.Where(e => e.id == 4 && e.isCompleted == false).Count() > 0)
+            {
+                if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                {
+                    var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 4).Count() > 0);
+                    foreach (var Tracker in QuestTrackers)
+                    {
+                        targets.Add(Tracker.gameObject.transform);
+                    }
+                }
             }
         }
     }
@@ -379,7 +402,7 @@ public class Player : MonoBehaviour
             arrowRectTransform.gameObject.SetActive(false);
         }
     }
-    private void Update()
+    void Update()
     {
         GPSTracker();
         if (startMove)

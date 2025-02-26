@@ -14,7 +14,7 @@ public class BattleSpawner : MonoBehaviour
     private void Start()
     {
         battlesSpawnerData = new BattlesSpawnerData();
-        //PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
+        PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
         if (PlayerPrefs.GetInt("NeedSpawnEnemys") == 1)
         {
             battlesSpawnerData = new BattlesSpawnerData();
@@ -52,7 +52,7 @@ public class BattleSpawner : MonoBehaviour
     private void Generate()
     {
         for (int i = 0; i < battleSpawns.Count; i++) {
-            int randomCreate = Random.Range(0, 2);
+            int randomCreate = 1;//Random.Range(0, 2);
             if (randomCreate == 1)//создаём врага
             {
                 int randomPrefab = Random.Range(0, battlesPrefabs.Count);

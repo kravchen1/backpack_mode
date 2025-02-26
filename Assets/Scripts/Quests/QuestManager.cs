@@ -72,5 +72,10 @@ public class QuestManager : MonoBehaviour
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(!gameObject.transform.GetChild(0).gameObject.activeSelf);
         gameObject.transform.GetChild(1).gameObject.SetActive(!gameObject.transform.GetChild(1).gameObject.activeSelf);
+
+        var player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player.needGPSTracker = !player.needGPSTracker;
+
+
     }
 }

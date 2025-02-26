@@ -10524,6 +10524,7 @@ MonoBehaviour:
   startMove: 0
   lastCrossCollider: {fileID: 0}
   mainCamera: {fileID: 0}
+  needGPSTracker: 1
 --- !u!61 &735313696
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12027,7 +12028,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: d965952aefb7e88429bf0cfd9fd35dd5, type: 2}
   alternativeDialogue1: {fileID: 11400000, guid: 1285b425a36a4b6419ca070dc6eb4566, type: 2}
-  alternativeDialogue2: {fileID: 0}
+  alternativeDialogue2: {fileID: 11400000, guid: aa720aa5d648b334fba029e016854965, type: 2}
+  alternativeDialogue3: {fileID: 11400000, guid: 75fcf61988bd8bc459ee850c6bb4b567, type: 2}
+  alternativeDialogue4: {fileID: 0}
 --- !u!1 &943909156
 GameObject:
   m_ObjectHideFlags: 0
@@ -13228,6 +13231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idQuests: 
 --- !u!1 &1037431539
 GameObject:
   m_ObjectHideFlags: 0
@@ -21971,6 +21975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idQuests: 
 --- !u!1 &2013503464
 GameObject:
   m_ObjectHideFlags: 0
@@ -22053,7 +22058,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1754424194}
         m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
         m_MethodName: ToogleActive
         m_Mode: 1
