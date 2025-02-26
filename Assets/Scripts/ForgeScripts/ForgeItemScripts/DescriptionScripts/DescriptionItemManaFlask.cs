@@ -7,7 +7,7 @@ public class DescriptionItemManaFlask : DescriptionItem
     public float giveStack = 30;
     public void SetTextBody()
     {
-        string text = "Start battle: drink\r\ngive <u>" + giveStack.ToString() + "</u>";
+        string text = "Start battle:\r\ndrink and get <u>" + giveStack.ToString() + "</u>";
         textBody.text = text;
     }
 

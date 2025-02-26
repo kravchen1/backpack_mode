@@ -9,7 +9,7 @@ public class DescriptionItemManaBoots : DescriptionItem
     public void SetTextBody()
     {
         //string text = "Every <u>" + coolDown.ToString() + "</u> sec: ToDo";
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec: give <u>" + countNeedManaStack.ToString() +"</u>";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec: gives <u>" + countNeedManaStack.ToString() +"</u>";
         textBody.text = text;
     }
 
