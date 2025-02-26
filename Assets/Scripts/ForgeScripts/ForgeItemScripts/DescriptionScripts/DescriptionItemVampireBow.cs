@@ -7,8 +7,7 @@ public class DescriptionItemVampireBow : DescriptionItem
     public int countIncreasesCritDamage = 10;
     public void SetTextBody()
     {
-        string text = "On hit: Increases critdamage by amount      on enemy\r\n\r\nweapon items      hit: weapon increases critdamage by then <u>" 
-            + countIncreasesCritDamage.ToString() + "</u>% this item critdamage      \r\n";
+        string text = "On hit: Increases critdamage equal        on enemy\r\nweapon items       hit: Increases critical damage by <u>" + countIncreasesCritDamage.ToString() + "</u>%";
         textBody.text = text;
     }
     public void SetTextStat()
