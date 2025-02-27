@@ -6,11 +6,12 @@ using UnityEngine.UI;
 [Serializable]
 public class CharacterStatsData
 {
-    public float playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina;
+    public float playerHP, playerMaxHp, playerMaxStamina;
+    public int playerCoins, playerLvl, playerExp, requiredExp;
 
 
 
-    public CharacterStatsData(float playerHP, float playerMaxHp, float playerExp, float playerCoins, float requiredExp, float playerLvl, float playerMaxStamina)
+    public CharacterStatsData(float playerHP, float playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina)
     {
         this.playerHP = playerHP;
         this.playerMaxHp = playerMaxHp;

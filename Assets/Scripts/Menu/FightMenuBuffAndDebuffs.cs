@@ -14,7 +14,8 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     public GameObject fatigueAnimation;
     public GameObject regenerateAnimation;
 
-    public GameObject placeGenerationIcons;
+    public GameObject placeGenerationIconsBuffs;
+    public GameObject placeGenerationIconsDebuffs;
     public GameObject OwnerStat;
     public GameObject DescriptionLog;
     private int rowIconsCount = 4;
@@ -49,21 +50,13 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     private float timerCDFouting;
 
     private GameObject placeForLogDescription;
-    public void LoadPrefabs(string tagName)//а можно сделать функцией?
-    {
-        if (prefabs == null)
-        {
-            prefabs = Resources.LoadAll<GameObject>("");
-        }
-        generateIcons.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
-    }
 
 
     private void Start()
     {
         timerCDFouting = timerFatigueStart;
         placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
-        LoadPrefabs("ICON");
+        //LoadPrefabs("ICON");
         //AddBuff(10, "ICONBLEED");
     }
 
@@ -81,11 +74,10 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         else
         {
-            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/"+ buffName), new Vector2(0, 0), Quaternion.identity, placeGenerationIcons.transform);
+            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/"+ buffName), new Vector2(0, 0), Quaternion.identity, placeGenerationIconsBuffs.transform);
             var icon = sceneGameObjectIcon.GetComponent<Icon>();
-            icon.countStack = count;
             icon.sceneGameObjectIcon = sceneGameObjectIcon;
-            sceneGameObjectIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(firstElementX + stepSizeX * (icons.Count() % rowIconsCount), firstElementY + stepSizeY * ((int)(icons.Count() / rowIconsCount)));
+            icon.countStack = count;
             icons.Add(icon);
         }
     }
@@ -101,10 +93,10 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         else
         {
-            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/" + debuffName), new Vector2(0, 0), Quaternion.identity, placeGenerationIcons.transform);
+            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/" + debuffName), new Vector2(0, 0), Quaternion.identity, placeGenerationIconsDebuffs.transform);
             var icon = sceneGameObjectIcon.GetComponent<Icon>();
+            icon.sceneGameObjectIcon = sceneGameObjectIcon;
             icon.countStack = count;
-            sceneGameObjectIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(firstElementX + stepSizeX * icons.Count() % rowIconsCount, firstElementY + stepSizeY * icons.Count() / rowIconsCount);
             icons.Add(icon);
         }
     }

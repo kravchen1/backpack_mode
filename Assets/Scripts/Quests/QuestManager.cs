@@ -34,9 +34,26 @@ public class QuestManager : MonoBehaviour
     public void CompleteQuest(int questID)
     {
         var quest = questData.questData.quests.Where(e => e.id == questID).ToList();
-        quest[0].isCompleted = true;
-        questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-        UpdateQuestUI();
+        if (quest.Count > 0)
+        {
+            quest[0].isCompleted = true;
+            questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            UpdateQuestUI();
+        }
+    }
+
+    public void AddCurrentProgressQuestWithoutUI(int questID)
+    {
+        var quest = questData.questData.quests.Where(e => e.id == questID).ToList();
+        if (quest.Count > 0)
+        {
+            quest[0].currentProgress++;
+            if (quest[0].currentProgress >= quest[0].necessaryProgress)
+            {
+                quest[0].isCompleted = true;
+            }
+            questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+        }
     }
     private void UpdateQuestUI()
     {

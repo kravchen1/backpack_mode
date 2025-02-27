@@ -164,6 +164,7 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        gameObject.transform.GetChild(1).gameObject.SetActive(false);
         gameObject.GetComponent<Image>().enabled = false;
         dialogueText.text = "";
         foreach (Transform child in responsesContainer)

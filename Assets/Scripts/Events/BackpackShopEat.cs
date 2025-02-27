@@ -13,7 +13,6 @@ public class BackpackShopEat : EventParent
 {
     private GameObject player;
     private bool isPlayerInTrigger = false;
-    public GameObject infoText;
 
     private void OnTriggerEnter2D()
     {
@@ -51,11 +50,6 @@ public class BackpackShopEat : EventParent
         SceneManager.LoadScene("BackPackShop");
     }
 
-    public void SetActivePressE(bool active)
-    {
-        Debug.Log(active);
-        infoText.SetActive(active);
-    }
 
 
     

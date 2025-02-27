@@ -47,7 +47,7 @@ public abstract class Item : MonoBehaviour
     //public float rbMass = 0.1f;
 
 
-    public float itemCost;
+    public int itemCost;
 
     //����
     [HideInInspector] public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
@@ -754,7 +754,7 @@ public abstract class Item : MonoBehaviour
     {
         var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
         var characterStats = listCharacterStats[0];
-        characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost / 2);
+        characterStats.playerCoins = characterStats.playerCoins + (int)(itemCost / 2);
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
         sellChestAnimator.Play("SellChestClose");
         Destroy(gameObject);

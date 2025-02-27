@@ -14,7 +14,7 @@ public class BattleSpawner : MonoBehaviour
     private void Start()
     {
         battlesSpawnerData = new BattlesSpawnerData();
-        PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
+        //PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
         if (PlayerPrefs.GetInt("NeedSpawnEnemys") == 1)
         {
             battlesSpawnerData = new BattlesSpawnerData();
@@ -36,6 +36,8 @@ public class BattleSpawner : MonoBehaviour
         }
     }
 
+
+
     private void GenerateFromFile()
     {
         for (int i = 0; i < battleSpawns.Count; i++)
@@ -44,7 +46,15 @@ public class BattleSpawner : MonoBehaviour
             if (battleDatas.Count != 0)
             {
                 var instPref = Instantiate(battlesPrefabs[battleDatas[0].type], battleSpawns[i].transform);
-                instPref.GetComponent<Enemy>().lvlEnemy = battleDatas[0].lvlEnemy;
+                instPref.GetComponentInChildren<Enemy>().lvlEnemy = battleDatas[0].lvlEnemy;
+                instPref.GetComponentInChildren<Enemy>().idSpawner = battleDatas[0].id;
+                if (battleDatas[0].die)
+                {
+                    instPref.GetComponentInChildren<Animator>().Play("Die");
+                    instPref.GetComponentInChildren<Enemy>().Die();
+                    battlesSpawnerData.battlesSpawnerDataClass.battleData.Remove(battleDatas[0]);
+                    battlesSpawnerData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn" + Biom + ".json"));
+                }
             }
         }
     }
@@ -58,8 +68,9 @@ public class BattleSpawner : MonoBehaviour
                 int randomPrefab = Random.Range(0, battlesPrefabs.Count);
                 var instPref = Instantiate(battlesPrefabs[randomPrefab], battleSpawns[i].transform);
 
-                int randomLevel = Random.Range(1, 16);
-                instPref.GetComponent<Enemy>().lvlEnemy = randomLevel;
+                int randomLevel = Random.Range(1, 4);
+                instPref.GetComponentInChildren<Enemy>().lvlEnemy = randomLevel;
+                instPref.GetComponentInChildren<Enemy>().idSpawner = i;
 
                 BattleData battleData = new BattleData(i, randomPrefab, randomLevel);
                 battlesSpawnerData.battlesSpawnerDataClass.battleData.Add(battleData);

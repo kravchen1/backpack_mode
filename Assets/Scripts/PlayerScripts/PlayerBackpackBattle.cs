@@ -10,42 +10,37 @@ public class PlayerBackpackBattle : MonoBehaviour
 {
 
     public GameObject backpack;
-    public GameObject armorBar;
-    public GameObject hpBar;
-    public GameObject staminaBar;
-    public GameObject expBar;
-    public GameObject menuFightIcon;
+    [HideInInspector] public GameObject expBar;
 
 
-    public float armor = 0f;
-    public float armorMax = 0f;
+    [HideInInspector] public float armor = 0f;
+    [HideInInspector] public float armorMax = 0f;
 
-    public float hp = 74f;
-    public float maxHP = 100f;
+    [HideInInspector] public float hp = 74f;
+    [HideInInspector] public float maxHP = 100f;
 
-    public float stamina = 74f;
-    public float staminaMax = 100f;
-    public float staminaRegenerate = 1f;
+    [HideInInspector] public float stamina = 74f;
+    [HideInInspector] public float staminaMax = 100f;
+    [HideInInspector] public float staminaRegenerate = 1f;
 
-    public int enemyExp;
-    public int enemyCoins;
 
-    public CharacterStats characterStats;
+    [HideInInspector] public CharacterStats characterStats;
 
 
 
     private Canvas canvas;
-    private Image[] hpBarImages;
-    private Image[] staminaBarImages;
-    private Image[] armorBarImages;
+    public Image hpBarImage;
+    public Image staminaBarImage;
+    public Image armorBarImage;
 
-    private Text[] textBarHP;
-    private Text[] textBarStamina;
-    private Text[] textBarArmor;
+    public TextMeshProUGUI textBarHP;
+    public TextMeshProUGUI textBarStamina;
+    public TextMeshProUGUI textBarArmor;
 
     private string characterStatsDataFilePath;
     private CharacterStatsData characterStatsData;
-    public FightMenuBuffAndDebuffs menuFightIconData;
+    public GameObject menuFightIcon;
+    [HideInInspector] public FightMenuBuffAndDebuffs menuFightIconData;
     private EnemyStatData enemyStatData;
     void Awake()
     {
@@ -54,18 +49,6 @@ public class PlayerBackpackBattle : MonoBehaviour
 
     void InitializeData()
     {
-        canvas = armorBar.GetComponentInParent<Canvas>();
-
-        hpBarImages = hpBar.GetComponentsInChildren<Image>();
-        staminaBarImages = staminaBar.GetComponentsInChildren<Image>();
-        armorBarImages = armorBar.GetComponentsInChildren<Image>();
-
-        textBarHP = hpBar.GetComponentsInChildren<Text>();
-        textBarStamina = staminaBar.GetComponentsInChildren<Text>();
-        textBarArmor = armorBar.GetComponentsInChildren<Text>();
-
-        menuFightIconData = menuFightIcon.GetComponent<FightMenuBuffAndDebuffs>();
-
         switch (gameObject.name)
         {
             case "Character":
@@ -73,83 +56,49 @@ public class PlayerBackpackBattle : MonoBehaviour
                 characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
-                maxHP = characterStats.playerHP; //todo
+                maxHP = characterStats.playerHP; 
+                staminaMax = characterStats.playerMaxStamina;
+                stamina = characterStats.playerMaxStamina;
                 break;
             case "CharacterEnemy":
                 characterStats = GetComponent<CharacterStats>();
-                enemyStatData = new EnemyStatData("{\"playerHP\":20000.0,\"playerExp\":0.0,\"playerCoins\":919.0,\"requiredExp\":1000.0,\"playerLvl\":1.0}");
-                characterStats.LoadDataEnemy(enemyStatData.jsonStat);//todo
+                enemyStatData = new EnemyStatData("{\"playerHP\":150.0,\"playerMaxHp\":175.0,\"playerExp\":1.0,\"playerCoins\":50.0,\"requiredExp\":1000.0,\"playerLvl\":1.0,\"playerMaxStamina\":20.0}");
+                characterStats.LoadDataEnemy(enemyStatData.jsonStat);
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
-                maxHP = characterStats.playerHP; //todo
+                maxHP = characterStats.playerHP;
+                staminaMax = characterStats.playerMaxStamina;
+                stamina = characterStats.playerMaxStamina;
                 break;
         }
-        enemyExp = 100;
-        enemyCoins = 10;
-        
+        menuFightIconData = menuFightIcon.GetComponent<FightMenuBuffAndDebuffs>();
+
     }
 
 
 
-    void changeBar(Image[] images, Text[] texts, float currentValue, float maxValue)
+    void changeBar(Image image, TextMeshProUGUI text, float currentValue, float maxValue)
     {
-        for (int i = 0; i < images.Length; i++)
-        {
-            if (images[i] != null)
-            {
-                if (images[i].tag == "Bar")
-                {
-                    images[i].fillAmount = currentValue / maxValue;
-                }
-            }
-        }
 
-        for (int i = 0; i < texts.Length; i++)
-        {
-            if (texts[i] != null)
-            {
-                if (texts[i].tag == "TextBar")
-                {
-                        texts[i].text = currentValue + "/" + maxValue;
-                }
-            }
-        }
+        image.fillAmount = currentValue / maxValue;
+        text.text = Math.Round(currentValue,2) + "/" + Math.Round(maxValue,2);
+
     }
 
-    public void ShowArmor(Image[] images, Text[] texts, float currentValue, float maxValue)
+    public void ShowArmor(Image image, TextMeshProUGUI text, float currentValue, float maxValue)
     {
-        for (int i = 0; i < images.Length; i++)
+        image.fillAmount = currentValue / maxValue;
+
+        if (armor > 0)
         {
-            if (images[i] != null)
-            {
-                if (images[i].tag == "Bar")
-                {
-                    images[i].fillAmount = currentValue / maxValue;
-                }
-            }
+            image.enabled = true;
+            text.enabled = true;
+            text.text = currentValue + "/" + maxValue;
         }
-
-
-        for (int i = 0; i < texts.Length; i++)
+        else
         {
-            if (texts[i] != null)
-            {
-                if (texts[i].tag == "TextBar")
-                {
-                    if (armor > 0)
-                    {
-                        canvas.enabled = true;
-                        texts[i].enabled = true;
-                        texts[i].text = currentValue + "/" + maxValue;
-                    }
-                    else
-                    {
-                        canvas.enabled = false;
-                        texts[i].enabled = false;
-                    }
-
-                }
-            }
+            image.enabled = false;
+            text.enabled = false;
         }
     }
 
@@ -164,15 +113,15 @@ public class PlayerBackpackBattle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        changeBar(hpBarImages, textBarHP, hp, maxHP);
-        changeBar(staminaBarImages, textBarStamina, stamina, staminaMax);
-        ShowArmor(armorBarImages, textBarArmor, armor, armorMax);
+        changeBar(hpBarImage, textBarHP, hp, maxHP);
+        changeBar(staminaBarImage, textBarStamina, stamina, staminaMax);
+        ShowArmor(armorBarImage, textBarArmor, armor, armorMax);
 
-        if (gameObject.name == "Character")
-        {
-            characterStats.playerHP = Convert.ToInt32(hp);
-            //characterStats.hpText.text = characterStats.playerHP.ToString();
-        }
+        //if (gameObject.name == "Character")
+        //{
+        //    characterStats.playerHP = Convert.ToInt32(hp);
+        //    //characterStats.hpText.text = characterStats.playerHP.ToString();
+        //}
 
         staminaRegenerating();
 

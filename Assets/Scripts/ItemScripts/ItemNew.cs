@@ -586,7 +586,7 @@ public class ItemNew : MonoBehaviour
     {
         var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
         var characterStats = listCharacterStats[0];
-        characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost / 2);
+        characterStats.playerCoins = characterStats.playerCoins + (int)Math.Ceiling(itemCost / 2);
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
         sellChestAnimator.Play("Metal Chest Closed");
         Destroy(gameObject);

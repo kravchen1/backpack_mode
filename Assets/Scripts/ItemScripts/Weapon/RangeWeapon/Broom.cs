@@ -85,10 +85,13 @@ public class Broom : Weapon
 
     public override void StartActivation()
     {
-        var starItem = stars[0].GetComponent<Cell>().nestedObject.GetComponent<Item>();
-        var changeCD = starItem.timer_cooldown / 100.0f * activationSpeedUp;
-        starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
-        starItem.timer = starItem.timer_cooldown;
+        if (stars[0].GetComponent<Cell>().nestedObject != null)
+        {
+            var starItem = stars[0].GetComponent<Cell>().nestedObject.GetComponent<Item>();
+            var changeCD = starItem.timer_cooldown / 100.0f * activationSpeedUp;
+            starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
+            starItem.timer = starItem.timer_cooldown;
+        }
     }
 
 
