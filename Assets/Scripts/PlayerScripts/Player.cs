@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
     private Collider2D previusTree = null;
 
     public CharacterStats characterStats;
-
+    [SerializeField] protected AudioClip grassStep;
+    [SerializeField] protected AudioClip asphaltStep;
     [HideInInspector] public Rigidbody2D rb;
     public float speed = 100f;
     private Vector2 moveVector;
@@ -331,7 +332,12 @@ public class Player : MonoBehaviour
         // Воспроизводим звук шагов
         if (isMoving && Time.time >= nextStepTime)
         {
-            GetComponent<AudioSource>().Play();
+            var audioSource = GetComponent<AudioSource>();
+            if (SceneManager.GetActiveScene().name == "GenerateMap")
+                audioSource.clip = grassStep;
+            else
+                audioSource.clip = asphaltStep;
+            audioSource.Play();
             nextStepTime = Time.time + stepInterval; // Устанавливаем время для следующего шага
         }
     }

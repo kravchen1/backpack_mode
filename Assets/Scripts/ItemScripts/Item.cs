@@ -55,6 +55,7 @@ public abstract class Item : MonoBehaviour
 
 
     [HideInInspector] public List<RaycastHit2D> hitsForBackpack = new List<RaycastHit2D>();
+    [HideInInspector] public List<RaycastHit2D> hitsForNotShopZone = new List<RaycastHit2D>();
     [HideInInspector] public List<RaycastStructure> careHits = new List<RaycastStructure>();
     [HideInInspector] public List<RaycastStructure> careHitsForBackpack = new List<RaycastStructure>();
     [HideInInspector] public List<RaycastHit2D> hitSellChest = new List<RaycastHit2D>();
@@ -83,6 +84,7 @@ public abstract class Item : MonoBehaviour
 
     [HideInInspector] public Animator animator;
     [HideInInspector] Animator sellChestAnimator;
+    public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
     public List<GameObject> stars;
@@ -192,24 +194,23 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
-        DragManager.isDragging = true;
-        itemMusicEffects.OnItemUp();
+        shopItem = GetComponent<ShopItem>();
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         if (SceneManager.GetActiveScene().name != "BackPackBattle")
         {
-            if (animator != null) animator.Play("ItemClick");
-            DeletenestedObjectStars();
-            IgnoreCollisionObject(true);
-            image.sortingOrder = 4;
-            needToDynamic = true;
-
-            lastItemPosition = gameObject.transform.position;
             if (shopItem != null)//покупка
             {
-                
                 if (shopItem.CanBuy(GetComponent<Item>()))
                 {
-                    TapFirst();
+                    DragManager.isDragging = true;
+                    itemMusicEffects.OnItemUp();
+                    if (animator != null) animator.Play("ItemClick");
+                    DeletenestedObjectStars();
+                    IgnoreCollisionObject(true);
+                    image.sortingOrder = 4;
+                    lastItemPosition = gameObject.transform.position;
+                    needToDynamic = true;
+                    //TapFirst();
                     TapRotate();
                     DeleteNestedObject(gameObject.transform.parent.tag);
                     //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
@@ -219,7 +220,9 @@ public abstract class Item : MonoBehaviour
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
+                    
                     offset = transform.position - GetMouseWorldPosition();
+                    Debug.Log(offset);
                 }
                 else
                 {
@@ -228,9 +231,17 @@ public abstract class Item : MonoBehaviour
             }
             else
             {
+                DragManager.isDragging = true;
+                itemMusicEffects.OnItemUp();
+                if (animator != null) animator.Play("ItemClick");
+                DeletenestedObjectStars();
+                IgnoreCollisionObject(true);
+                image.sortingOrder = 4;
+                lastItemPosition = gameObject.transform.position;
+                needToDynamic = true;
                 //List<GameObject> list = new List<GameObject>();
                 //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
-                TapFirst();
+                //TapFirst();
                 TapRotate();
                 DeleteNestedObject(gameObject.transform.parent.tag);
                 //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
@@ -248,13 +259,16 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
-        DragManager.isDragging = false;
-        //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
-        if (GetComponent<AnimationStart>() != null)
+        if (isDragging)
         {
-            GetComponent<AnimationStart>().Play();
+            DragManager.isDragging = false;
+            //if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemAiming");
+            if (GetComponent<AnimationStart>() != null)
+            {
+                GetComponent<AnimationStart>().Play();
+            }
+            IgnoreCollisionObject(false);
         }
-        IgnoreCollisionObject(false);
 
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
@@ -264,7 +278,7 @@ public abstract class Item : MonoBehaviour
             image.color = imageColor;
             if (shopItem != null)
             {
-                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1 || Math.Abs(GetMouseWorldPosition().y - shopItemStartPosition.y) > 1)
+                if (hitsForNotShopZone.Any(e => e.collider != null))
                 {
 
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
@@ -276,9 +290,16 @@ public abstract class Item : MonoBehaviour
 
                     needToRotateToStartRotation = false;
                     if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
+                    canShowDescription = true;
+                    if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
                 }
-                canShowDescription = true;
-                if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
+                else
+                {
+                    if (shopItem.defaultPosition != transform.position)
+                    {
+                        StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
+                    }
+                }
             }
             else
             {
@@ -305,6 +326,24 @@ public abstract class Item : MonoBehaviour
         FindPlaceForDescription();
     }
 
+    public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
+    {
+        
+        float time = 1f; // Время возвращения
+        float elapsedTime = 0f;
+        Vector3 startingPos = transform.position;
+        Quaternion startingRot = transform.rotation;
+        while (elapsedTime < time)
+        {
+            //Debug.Log(transform.position);
+            transform.position = Vector3.Lerp(startingPos, originalPosition, (elapsedTime / time));
+            transform.rotation = Quaternion.Lerp(startingRot, Quaternion.identity, (elapsedTime / time));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = originalPosition; // Убедитесь, что позиция точно установлена
+    }
     public void defaultItemUpdate()
     {
         if (isDragging)
@@ -592,6 +631,7 @@ public abstract class Item : MonoBehaviour
             {
                 if (!isSellChest)
                 {
+                    sellChestSound = hit.collider.gameObject.GetComponent<AudioSource>();
                     sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
                     sellChestAnimator.Play("SellChestOpen");
                     isSellChest = true;
@@ -756,6 +796,7 @@ public abstract class Item : MonoBehaviour
         var characterStats = listCharacterStats[0];
         characterStats.playerCoins = characterStats.playerCoins + (float)Math.Ceiling(itemCost / 2);
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
+        sellChestSound.Play();
         sellChestAnimator.Play("SellChestClose");
         Destroy(gameObject);
         Destroy(CanvasDescription.gameObject);
@@ -912,6 +953,8 @@ public abstract class Item : MonoBehaviour
         hitsForBackpack.Clear();
         hitsForBackpack = CreateRaycastForSellChest(128);//ToDo
 
+        hitsForNotShopZone.Clear();
+        hitsForNotShopZone = CreateRaycastForSellChest(LayerMask.GetMask("NotShopZoneCollider"));
         hits = CreateRaycast(256);
         hitSellChest.Clear();
         hitSellChest = CreateRaycastForSellChest(32768);

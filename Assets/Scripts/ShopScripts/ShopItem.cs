@@ -7,11 +7,16 @@ using UnityEngine.SceneManagement;
 public class ShopItem : MonoBehaviour
 {
     public CharacterStats characterStats;
+    public bool isNotShopZone = false;
+
+    public Vector3 defaultPosition;
+
     public void BuyItem(Item item)
     {
         var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
         characterStats = listCharacterStats[0];
-        
+        var buyItemSound = GameObject.FindGameObjectWithTag("BuyItemSound");
+        buyItemSound.GetComponent<AudioSource>().Play();
         characterStats.playerCoins = characterStats.playerCoins - item.itemCost;
 
         characterStats.coinsText.text = characterStats.playerCoins.ToString();

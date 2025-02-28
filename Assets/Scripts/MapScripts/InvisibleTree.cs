@@ -15,7 +15,8 @@ public class InvisibleTree : MonoBehaviour
             foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
             {
                 Color color = spriteRenderer.color;
-                spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a/2);
+                Debug.Log(color.ToString()); 
+                spriteRenderer.color = new Color(color.r, color.g, color.b, color.a/2);
             }
         }
     }
@@ -27,7 +28,8 @@ public class InvisibleTree : MonoBehaviour
             foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
             {
                 Color color = spriteRenderer.color;
-                spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a*2);
+                Debug.Log(color.ToString());
+                spriteRenderer.color = new Color(color.r, color.g, color.b, color.a*2);
             }
         }
     }

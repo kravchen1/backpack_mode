@@ -61,6 +61,7 @@ public class GenerateShopItems : MonoBehaviour
         item.prefabOriginalName = generationObject.name;
         
         generationObjectShop.AddComponent<ShopItem>();
+        generationObjectShop.GetComponent<ShopItem>().defaultPosition = place;
         SetItemCost(item, generationObject.name);
     }
 
