@@ -18,7 +18,10 @@ public class Weapon : Item
     protected bool HaveStamina()
     {
         if (Player.stamina - stamina >= 0)
+        {
+            Player.stamina -= stamina;
             return true;
+        }
         else return false;
     }
 

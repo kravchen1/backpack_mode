@@ -9,7 +9,7 @@ public class DescriptionItemVampireBoots : DescriptionItem
     //public float coolDown = 1.1f;
     public void SetTextBody()
     {
-        string text = "start battle: give <u>" + countVampireStack.ToString() + " </u>        and <u>" + countArmorStack.ToString() + "</u>";
+        string text = "start battle: gives <u>" + countVampireStack.ToString() + " </u>        and <u>" + countArmorStack.ToString() + "</u>";
         textBody.text = text;
     }
 

@@ -85,7 +85,7 @@ public class ButtonsWarehouse : MonoBehaviour
         stats.GetComponent<CharacterStats>().SaveData();
         storage.GetComponent<BackpackData>().SaveData();
 
-        SceneManager.LoadScene("GenerateMap");
+        SceneManager.LoadScene("GenerateMapFortress1");
     }
 
 }

@@ -9,5 +9,13 @@ using UnityEngine;
 public class EventParent : MonoBehaviour
 {
     public bool isShowPressE = true;
+    public GameObject infoText;
+
+    public void SetActivePressE(bool active)
+    {
+        infoText.SetActive(active);
+    }
 }
+
+
 

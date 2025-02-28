@@ -12,7 +12,6 @@ public class BackpackShopItem : EventParent
 {
     private GameObject player;
     private bool isPlayerInTrigger = false;
-    public GameObject infoText;
 
     private void OnTriggerEnter2D()
     {
@@ -36,12 +35,14 @@ public class BackpackShopItem : EventParent
         if (PlayerPrefs.GetInt("id2ShopEat") == 1)
         {
             var qm = FindFirstObjectByType<QuestManager>();
-            qm.CompleteQuest(2);
+            if (qm.CompleteQuest(2))
+            {
+                Quest quest = new Quest("talkToTheKing2", "talk to the king", -1, 3);
 
-            Quest quest = new Quest("talkToTheKing2", "talk to the king", -1, 3);
-            PlayerPrefs.SetInt("NPC_King", 2);
-            qm.questData.questData.quests.Add(quest);
-            qm.questData.SaveData();
+                PlayerPrefs.SetInt("NPC_King", 2);
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData();
+            }
         }
         PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
         PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
@@ -49,11 +50,6 @@ public class BackpackShopItem : EventParent
         SceneManager.LoadScene("BackPackShop");
     }
 
-    public void SetActivePressE(bool active)
-    {
-        Debug.Log(active);
-        infoText.SetActive(active);
-    }
 
 
     

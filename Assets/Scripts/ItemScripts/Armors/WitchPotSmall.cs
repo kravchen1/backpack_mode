@@ -30,7 +30,7 @@ public class WitchPotSmall : Armor
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
-            Enemy.menuFightIconData.AddBuff(givePoisonStack, "IconPoison");
+            Enemy.menuFightIconData.AddDebuff(givePoisonStack, "IconPoison");
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }

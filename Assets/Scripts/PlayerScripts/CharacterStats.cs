@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
-    public float playerHP, playerExp, playerCoins, requiredExp, playerLvl, playerMaxHp, playerMaxStamina;
+    public float playerHP, playerMaxHp, playerMaxStamina;
+    public int playerCoins, playerLvl, playerExp, requiredExp;
     public float playerTime = 0f;
 
     public TextMeshProUGUI hpText, lvlText, coinsText, expText;

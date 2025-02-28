@@ -55,7 +55,7 @@ public class HiddenDagger : Weapon
                                 resultDamage = 0;
                             if(firstHit)
                             {
-                                Enemy.menuFightIconData.AddBuff(bleeding, "IconBleed");
+                                Enemy.menuFightIconData.AddDebuff(bleeding, "IconBleed");
                                 firstHit = false;
                             }
                             Attack(resultDamage, true);

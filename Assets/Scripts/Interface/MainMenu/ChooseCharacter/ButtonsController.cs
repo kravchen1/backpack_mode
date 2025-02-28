@@ -27,7 +27,7 @@ public class ButtonsController : MonoBehaviour
         DeleteAllData();
         StartBackPack();
         StartQeust();
-
+        PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
     }
 
     public void ChooseEarth()
@@ -98,7 +98,7 @@ public class ButtonsController : MonoBehaviour
         questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
     }
 
-    private void StartStats(float playerHP, float playerMaxHp, float playerExp, float playerCoins, float requiredExp, float playerLvl, float playerMaxStamina)
+    private void StartStats(float playerHP, float playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina)
     {
         string characterStatsDataFilePath;
         CharacterStatsData characterStatsData;

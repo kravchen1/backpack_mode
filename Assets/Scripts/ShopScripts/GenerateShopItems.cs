@@ -13,6 +13,8 @@ public class GenerateShopItems : MonoBehaviour
 
     public ShopData shopData;
 
+    public List<string> tagItems;
+
     [SerializeField] private TextMeshPro priceTxt;
 
 
@@ -31,9 +33,13 @@ public class GenerateShopItems : MonoBehaviour
     {
         placeForItemCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
-        LoadChestItems("RAREWEAPON");
-        LoadChestItems("BAG");
-        LoadChestItems("BLOCKMANAITEM");
+        foreach(var tag in tagItems)
+        {
+            LoadChestItems(tag);
+        }
+        //("RAREWEAPON");
+        //LoadChestItems("BAG");
+        //LoadChestItems("BLOCKMANAITEM");
 
         //LoadChestItems("STARTBAG");
 
