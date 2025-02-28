@@ -29,7 +29,9 @@ public class EndOfBattle : MonoBehaviour
     [SerializeField] private TextMeshProUGUI winExpBarText;
     [SerializeField] private TextMeshProUGUI winExpCount;
     [SerializeField] private TextMeshProUGUI winGoldCount;
+    [SerializeField] private GameObject winHPAddAwards;
     [SerializeField] private TextMeshProUGUI winHPAddCount;
+    [SerializeField] private GameObject winStaminaAddAwards;
     [SerializeField] private TextMeshProUGUI winStaminaAddCount;
 
 
@@ -106,6 +108,9 @@ public class EndOfBattle : MonoBehaviour
         var staminaAddCount = (countLvlUp * 0.2f);
         winStaminaAddCount.text = "+" + staminaAddCount.ToString();
         playerBackpackBattle.characterStats.playerMaxStamina += staminaAddCount;
+
+        winHPAddAwards.gameObject.SetActive(true);
+        winStaminaAddAwards.gameObject.SetActive(true);
     }
 
     private void LevelUp()
@@ -164,6 +169,7 @@ public class EndOfBattle : MonoBehaviour
     {
         winMenu.SetActive(false);
         loseMenu.SetActive(true);
+        PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
         win = false;
     }
     // Update is called once per frame

@@ -27,7 +27,7 @@ public class ButtonsController : MonoBehaviour
         DeleteAllData();
         StartBackPack();
         StartQeust();
-
+        PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
     }
 
     public void ChooseEarth()

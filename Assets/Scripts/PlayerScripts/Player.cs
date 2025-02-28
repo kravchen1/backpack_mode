@@ -101,43 +101,34 @@ public class Player : MonoBehaviour
     private Animator activatePointAnimator;
 
 
-    public void OutFortress1()
-    {
-        if (activePoint.name == "entranceOutFortress1")
-        {
-            //PlayerPrefs.SetFloat("PostionMapX", 988f);
-            //PlayerPrefs.SetFloat("PostionMapY", 427f);
-            PlayerPrefs.SetFloat("PostionMapX", 343f);
-            PlayerPrefs.SetFloat("PostionMapY", -200f);
-            SceneManager.LoadScene("GenerateMap");
-        }
-        if (activePoint.name == "entranceOutFortress1 1")
-        {
-            PlayerPrefs.SetFloat("PostionMapX", 246f);
-            //PlayerPrefs.SetFloat("PostionMapX", 1137f);
-            PlayerPrefs.SetFloat("PostionMapY", 172f);
-            //PlayerPrefs.SetFloat("PostionMapY", 636f);
-            SceneManager.LoadScene("GenerateMap");
-        }
-        if (activePoint.name == "entranceOutFortress1 2")
-        {
-            //PlayerPrefs.SetFloat("PostionMapX", 830f);
-            //PlayerPrefs.SetFloat("PostionMapY", 587f);
-            PlayerPrefs.SetFloat("PostionMapX", -93f);
-            PlayerPrefs.SetFloat("PostionMapY", 91f);
-            SceneManager.LoadScene("GenerateMap");
-        }
-    }
-    public void InFortress1()
-    {
-        if (activePoint.name == "entranceInFortress1 0" || activePoint.name == "entranceInFortress1 2" || activePoint.name == "entranceInFortress1 1")
-        {
-            PlayerPrefs.DeleteKey("PostionMapX");
-            PlayerPrefs.DeleteKey("PostionMapY");
-            SceneManager.LoadScene("GenerateMapFortress1");
-        }
-        
-    }
+    //public void OutFortress1()
+    //{
+    //    if (activePoint.name == "entranceOutFortress1")
+    //    {
+    //        //PlayerPrefs.SetFloat("PostionMapX", 988f);
+    //        //PlayerPrefs.SetFloat("PostionMapY", 427f);
+    //        PlayerPrefs.SetFloat("PostionMapX", 343f);
+    //        PlayerPrefs.SetFloat("PostionMapY", -200f);
+    //        SceneManager.LoadScene("GenerateMap");
+    //    }
+    //    if (activePoint.name == "entranceOutFortress1 1")
+    //    {
+    //        PlayerPrefs.SetFloat("PostionMapX", 246f);
+    //        //PlayerPrefs.SetFloat("PostionMapX", 1137f);
+    //        PlayerPrefs.SetFloat("PostionMapY", 172f);
+    //        //PlayerPrefs.SetFloat("PostionMapY", 636f);
+    //        SceneManager.LoadScene("GenerateMap");
+    //    }
+    //    if (activePoint.name == "entranceOutFortress1 2")
+    //    {
+    //        //PlayerPrefs.SetFloat("PostionMapX", 830f);
+    //        //PlayerPrefs.SetFloat("PostionMapY", 587f);
+    //        PlayerPrefs.SetFloat("PostionMapX", -93f);
+    //        PlayerPrefs.SetFloat("PostionMapY", 91f);
+    //        SceneManager.LoadScene("GenerateMap");
+    //    }
+    //}
+
 
     public void OutInternumFortress1()
     {
@@ -149,15 +140,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InInternumFortress1()
-    {
-        if (activePoint.name == "entranceIntenumFortress")
-        {
-            PlayerPrefs.DeleteKey("PostionMapX");
-            PlayerPrefs.DeleteKey("PostionMapY");
-            SceneManager.LoadScene("GenerateMapInternumFortress1");
-        }
-    }
+   
 
 
     public void RaycastEvent()
@@ -192,22 +175,8 @@ public class Player : MonoBehaviour
             }
             if (hit.collider.tag == "AreaEventEntrance")
             {
-                Debug.Log(activePoint.name);
-                if (!textInfoE)
-                {
-                    textInfo.SetActive(true);
-                    textInfoE = true;
-                }
-
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
-                    {
-                        OutFortress1();
-                        InInternumFortress1();
-                    }
-                    if (SceneManager.GetActiveScene().name == "GenerateMap")
-                        InFortress1();
                     if (SceneManager.GetActiveScene().name == "GenerateMapInternumFortress1")
                         OutInternumFortress1();
                 }
@@ -222,11 +191,6 @@ public class Player : MonoBehaviour
             }
             if (hit.collider.tag == "AreaCaveDoor")
             {
-                if (!textInfoE)
-                {
-                    textInfo.SetActive(true);
-                    textInfoE = true;
-                }
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
@@ -251,11 +215,6 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if (textInfoE)
-            {
-                textInfo.SetActive(false);
-                textInfoE = false;
-            }
 
             if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
             {
