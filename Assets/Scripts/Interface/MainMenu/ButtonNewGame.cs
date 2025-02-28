@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,17 +6,18 @@ public class ButtonNewGame : MonoBehaviour
 {
     [SerializeField] protected GameObject mainCanvas;
     [SerializeField] protected GameObject chooseCharCanvas;
+    [SerializeField] protected GameObject buttonClick;
 
 
     public void OnMouseDown()
     {
+        buttonClick.GetComponent<AudioSource>().Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f);
     }
 
     public void OnMouseUp()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
-
         ChangeActive();
     }
 

@@ -83,20 +83,24 @@ public class Bag : Item
 
     public override void OnMouseDown()
     {
-        DragManager.isDragging = true;
-        itemMusicEffects.OnItemUp();
-        if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClick");
-        IgnoreCollisionObject(true);
+        rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        shopItem = GetComponent<ShopItem>();
+        if(backpack == null)
+            backpack = GameObject.Find("backpack");
         if (SceneManager.GetActiveScene().name != "BackPackBattle" || SceneManager.GetActiveScene().name == "BackpackView")
         {
             if (shopItem != null)
             {
                 if (shopItem.CanBuy(GetComponent<Item>()))
                 {
+                    DragManager.isDragging = true;
+                    itemMusicEffects.OnItemUp();
+                    if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClick");
+                    IgnoreCollisionObject(true);
                     SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
                     StayParentForChild();
 
-                    TapFirst();
+                    //TapFirst();
                     TapRotate();
                     TapShowBackPack();
                     DeleteNestedObject(gameObject.transform.parent.tag);
@@ -113,10 +117,14 @@ public class Bag : Item
             }
             else
             {
+                DragManager.isDragging = true;
+                itemMusicEffects.OnItemUp();
+                if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClick");
+                IgnoreCollisionObject(true);
                 SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
                 StayParentForChild();
 
-                TapFirst();
+                //TapFirst();
                 TapRotate();
                 TapShowBackPack();
                 DeleteNestedObject(gameObject.transform.parent.tag);
@@ -177,6 +185,9 @@ public class Bag : Item
 
         hits = CreateRaycast(128);
         hitSellChest = CreateRaycastForSellChest(32768);
+
+        hitsForNotShopZone.Clear();
+        hitsForNotShopZone = CreateRaycastForSellChest(LayerMask.GetMask("NotShopZoneCollider"));
 
         ClearCareRaycast(false);
         CreateCareRaycast();
@@ -407,6 +418,7 @@ public class Bag : Item
         ChangeColorToDefault();
         if (CorrectEndPoint())
         {
+            //rb.bodyType = RigidbodyType2D.Static;
             SetNestedObject();
             EndDragForChildObjects(true);
             rb.excludeLayers = (1 << 9) | (1 << 10);
@@ -435,14 +447,17 @@ public class Bag : Item
 
     public override void OnMouseUp()
     {
-        DragManager.isDragging = false;
-        needToRotate = false;
-        if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
-        if (GetComponent<AnimationStart>() != null)
+        if (isDragging)
         {
-            GetComponent<AnimationStart>().Play();
+            DragManager.isDragging = false;
+            needToRotate = false;
+            if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
+            if (GetComponent<AnimationStart>() != null)
+            {
+                GetComponent<AnimationStart>().Play();
+            }
+            IgnoreCollisionObject(false);
         }
-        IgnoreCollisionObject(false);
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         if(SceneManager.GetActiveScene().name != "BackPackBattle")
         {
@@ -450,11 +465,18 @@ public class Bag : Item
             //ItemInGameObject("backpack", gameObjects);
             if (shopItem != null)
             {
-                if (Math.Abs(GetMouseWorldPosition().x - shopItemStartPosition.x) > 1 || Math.Abs(GetMouseWorldPosition().y - shopItemStartPosition.y) > 1)
+                if (hitsForNotShopZone.Any(e => e.collider != null))
                 {
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
                     EndDrag();
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
+                }
+                else
+                {
+                    if (shopItem.defaultPosition != transform.position)
+                    {
+                        StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
+                    }
                 }
             }
             else

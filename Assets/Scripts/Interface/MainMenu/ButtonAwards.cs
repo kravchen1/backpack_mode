@@ -1,10 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ButtonAwards : MonoBehaviour
 {
+    [SerializeField] protected GameObject buttonClick;
     public void OnMouseDown()
     {
+        buttonClick.GetComponent<AudioSource>().Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f);
     }
 
