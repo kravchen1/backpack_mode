@@ -80,7 +80,7 @@ public class ManaAmulet : Armor
                         if (icon.countStack >= countManaStack)
                         {
                             b = true;
-                            CreateLogMessage("ManaAmulet removed " + countManaStack.ToString() + " mana and inflict " + countDebuffStack.ToString() + " debuffs");
+                            //CreateLogMessage("ManaAmulet removed " + countManaStack.ToString() + " mana and inflict " + countDebuffStack.ToString() + " debuffs");
                             int r = Random.Range(0, 3);
                             string text = "ICON";
                             switch (r)
@@ -152,7 +152,7 @@ public class ManaAmulet : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

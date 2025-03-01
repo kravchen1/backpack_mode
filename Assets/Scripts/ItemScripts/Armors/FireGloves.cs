@@ -16,15 +16,15 @@ public class FireGloves : Armor
     public int coolDown = 50;
 
     private bool isUse = false;
-    //private bool usable = false;
+
+    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+
+
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //timer_cooldown = baseTimerCooldown;
-            //animator.speed = 1f / 0.5f;
-            //timer = timer_cooldown;
-            //animator.Play(originalName + "Activation");
         }
     }
 
@@ -42,22 +42,25 @@ public class FireGloves : Armor
                 {
                     if (icon.countStack >= countBurnStack)
                     {
-                        //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                         b = true;
-                        //Enemy.hp -= DamageForStack;
-                        //Attack(DamageForStack);
-                        Debug.Log("FireGloves removed " + countBurnStack.ToString() + " burn and reset " + coolDown.ToString() + " % cooldown");
-                        CreateLogMessage("FireGloves removed " + countBurnStack.ToString() + " burn and reset " + coolDown.ToString() + " % cooldown");
+                        //CreateLogMessage("FireGloves removed " + countBurnStack.ToString() + " burn and reset " + coolDown.ToString() + " % cooldown");
                         item.timer = item.timer_cooldown / 100 * coolDown;
-                        //animator.SetTrigger(originalName + "StarActivation");
-                        //animator.Play("New State");
-                        //animator.Play(originalName + "Activation2", 0, 0f);
-                        //animator.StartPlayback
+                        if (Player.isPlayer)
+                        {
+                            CreateLogMessage(LogFireStackCharacter, "FireGloves removed " + countBurnStack.ToString() + " from enemy");
+                            CreateLogMessage(LogTimerStackCharacter, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
+                        }
+                        else
+                        {
+                            CreateLogMessage(LogFireStackEnemy, "FireGloves removed " + countBurnStack.ToString() + " from enemy");
+                            CreateLogMessage(LogTimerStackEnemy, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
+                        }
                     }
                 }
                 if (b)
                 {
                     Enemy.menuFightIconData.DeleteBuff(countBurnStack, "ICONBURN");
+
                     Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
                     item.animator.Play(item.originalName + "Activation", 0, 1.0f / 100 * coolDown);
                 }
@@ -156,7 +159,7 @@ public class FireGloves : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

@@ -13,50 +13,31 @@ public class BlueCrystal : Armor
     public int manaStack = 2;//надо заменить
     private void Start()
     {
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
-        }
-
     }
 
 
-    public override void StartActivation()
-    {
-        if (!isUse)
-        {
-        }
-    }
 
     public override void StarActivation(Item item)
     {
-        
-    }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
+        if (Player != null)
         {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
+            int r = Random.Range(1, 101);
+            if (r <= manaStackChance)
             {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                animator.Play("New State");
+                Player.menuFightIconData.AddBuff(manaStack, "IconMana");
+                CreateLogMessage("BlueCrystal give " + manaStack.ToString(), Player.isPlayer);
+                CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
         }
     }
+
+    
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            CoolDownStart();
+            //CoolDownStart();
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
@@ -71,7 +52,7 @@ public class BlueCrystal : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

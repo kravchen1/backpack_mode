@@ -65,7 +65,7 @@ public class VampireBody : Armor
                 }
                 if (b)
                 {
-                    CreateLogMessage("VampireBody add " + countBleedOnEnemy.ToString() + " vampireStack");
+                    //CreateLogMessage("VampireBody add " + countBleedOnEnemy.ToString() + " vampireStack");
                     Player.menuFightIconData.AddBuff(countBleedStack, "ICONVAMPIRE");
                     CheckNestedObjectActivation("StartBag");
                     CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
@@ -80,7 +80,7 @@ public class VampireBody : Armor
         if (Player != null && Enemy != null)
         {
             Enemy.menuFightIconData.AddBuff(countBleedStack, "ICONBLEED");
-            CreateLogMessage("VampireBody applie " + countBleedStack.ToString() + " bleed");
+            //CreateLogMessage("VampireBody applie " + countBleedStack.ToString() + " bleed");
         }
     }
 
@@ -122,7 +122,7 @@ public class VampireBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

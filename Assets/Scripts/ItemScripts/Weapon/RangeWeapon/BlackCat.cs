@@ -15,10 +15,11 @@ public class BlackCat : Weapon
     public int resistingStack;//надо заменить
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
-
+    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -30,17 +31,78 @@ public class BlackCat : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+
+                            Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(LogBleedStackCharacter, "Black cat inflict  " + bleedingStack.ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(LogBleedStackEnemy, "Black cat inflict  " + bleedingStack.ToString());
+                            }
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Black cat miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Black cat miss", Player.isPlayer);
+                    }
+
+                }
+            }
+            else
+            {
+                CreateLogMessage("Black cat no have stamina", Player.isPlayer);
+            }
         }
     }
 
-    public override void StarActivation(Item item)
+    public override int BlockActivation()
     {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        if (Player != null)
+        {
+            Player.menuFightIconData.AddBuff(resistingStack, "IconResistance");
+            if (Player.isPlayer)
+            {
+                CreateLogMessage(LogResistanceStackCharacter, "Black cat give  " + resistingStack.ToString());
+            }
+            else
+            {
+                CreateLogMessage(LogResistanceStackEnemy, "Black cat give  " + resistingStack.ToString());
+            }
+        }
+
+        return 0;
     }
 
 
@@ -97,10 +159,10 @@ public class BlackCat : Weapon
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

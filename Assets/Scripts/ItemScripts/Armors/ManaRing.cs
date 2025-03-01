@@ -80,7 +80,7 @@ public class ManaRing : Armor
                         if (icon.countStack >= countNeedManaStack)
                         {
                             b = true;
-                            CreateLogMessage("ManaRing removed " + countNeedManaStack.ToString() + " mana and give " + countBurnStack.ToString() + " burn");
+                            //CreateLogMessage("ManaRing removed " + countNeedManaStack.ToString() + " mana and give " + countBurnStack.ToString() + " burn");
                         }
                     }
                     if (b)
@@ -134,7 +134,7 @@ public class ManaRing : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

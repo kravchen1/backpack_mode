@@ -36,7 +36,7 @@ public class ManaShield : Armor
                 Player.menuFightIconData.AddBuff(countStartResistanceStack, "ICONRESISTANCE");
                 isUse = true;
                 //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("ManaShield give " + countStartResistanceStack.ToString() + " Resistance");
+                //CreateLogMessage("ManaShield give " + countStartResistanceStack.ToString() + " Resistance");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -55,7 +55,7 @@ public class ManaShield : Armor
                     if(icon.countStack >= countStealManaStack)
                     {
                         b = true;
-                        CreateLogMessage("ManaShield steal " + countStealManaStack.ToString() + " mana");
+                        //CreateLogMessage("ManaShield steal " + countStealManaStack.ToString() + " mana");
                     }
                 }
                 if(b)
@@ -77,7 +77,7 @@ public class ManaShield : Armor
                 if (icon.countStack >= countNeedManaStack)
                 {
                     b = true;
-                    CreateLogMessage("ManaShield remove " + countNeedManaStack.ToString() + " mana and block" + blockDamage.ToString() + "damage");
+                    //CreateLogMessage("ManaShield remove " + countNeedManaStack.ToString() + " mana and block" + blockDamage.ToString() + "damage");
                 }
             }
             if (b)
@@ -113,7 +113,7 @@ public class ManaShield : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(256, "RareWeapon");
+            //FillnestedObjectStarsStars(256);
             CoolDownStart();
         }
 
@@ -129,7 +129,7 @@ public class ManaShield : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

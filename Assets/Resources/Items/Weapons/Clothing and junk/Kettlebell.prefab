@@ -686,7 +686,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -734,7 +734,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4190911006811461651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1251,12 +1251,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 6773039129769662067, guid: 99661906c5ea4fb43b0162ca5daa8029, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 6382284160184171416, guid: c973d210cb08e5f42810c3d33198e41c, type: 3}
+  DescriptionLogEnemy: {fileID: 4968257413604735520, guid: aa3e29503263b7a4c8221e8e2a67d716, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 10
+  itemCost: 200
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1269,6 +1270,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: 0}
@@ -1281,9 +1283,9 @@ MonoBehaviour:
   originalName: Kettlebell
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 13
+  baseTimerCooldown: 15
   startBattleArmorCount: 0
-  givePowerStack: 31
+  givePowerStack: 5
 --- !u!1 &6087538521869146212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,7 +1456,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5711533647478223349
@@ -1586,7 +1588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -63.199997, y: -23.4}
+  m_AnchoredPosition: {x: -63.19998, y: -23.4}
   m_SizeDelta: {x: 42.23999, y: 0.000015258789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2362242847439825552
@@ -1738,7 +1740,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 21, y: 52.300003}
+  m_AnchoredPosition: {x: 21, y: 52.300007}
   m_SizeDelta: {x: 42.23999, y: 0.000015258789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &8306276403949588332
@@ -2255,7 +2257,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 106.1, y: -23.7}
+  m_AnchoredPosition: {x: 106.09999, y: -23.7}
   m_SizeDelta: {x: 42.23999, y: 0.000015258789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &8801600571826741240

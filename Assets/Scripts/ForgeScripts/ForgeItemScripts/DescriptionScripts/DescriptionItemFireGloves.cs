@@ -8,7 +8,7 @@ public class DescriptionItemFireGloves : DescriptionItem
     public float coolDown = 50f;
     public void SetTextBody()
     {
-        string text = "fire items       activate:  \r\ntake <u>" + countStack.ToString() + "</u>       from enemy and reduces cooldown by <u>" + coolDown.ToString() + "</u>%.";
+        string text = "items       activate:  \r\ntake <u>" + countStack.ToString() + "</u>       from enemy and reduces cooldown by <u>" + coolDown.ToString() + "</u>%.";
         textBody.text = text;
     }
 

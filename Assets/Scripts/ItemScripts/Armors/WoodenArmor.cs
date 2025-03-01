@@ -28,6 +28,16 @@ public class WoodenArmor : Armor
     {
         if (!isUse)
         {
+            if (Player != null)
+            {
+                Player.armor = Player.armor + armor;
+                Player.armorMax = Player.armorMax + armor;
+                isUse = true;
+                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+                CreateLogMessage("WoodenArmor give " + armor.ToString(), Player.isPlayer);
+                CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+            }
         }
     }
 
@@ -70,7 +80,7 @@ public class WoodenArmor : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

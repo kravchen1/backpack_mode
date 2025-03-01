@@ -6,11 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class WitchPotSmall : Armor
+public class WitchPotSmall : Stuff
 {
     private bool isUse = false;
     public int givePoisonStack = 5;//надо заменить
-    private bool timer_locked_out = true;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -88,7 +87,7 @@ public class WitchPotSmall : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

@@ -1153,7 +1153,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7536844841176318453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1651,12 +1651,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 1004070306464487013, guid: 805dd3649d4e3794683d6da8b7178774, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: 5745052300166534756, guid: a3e76c9fa58e9044fbb8299d7c08031a, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 180
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1669,6 +1670,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1684,11 +1686,13 @@ MonoBehaviour:
   baseTimerCooldown: 2
   attackMin: 1
   attackMax: 8
-  stamina: 4
-  accuracy: 2
+  stamina: 0
+  accuracy: 85
   critDamage: 130
   chanceCrit: 5
   poisonStack: 2
+  LogPoisonStackCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
+  LogPoisonStackEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
 --- !u!1 &8184054837372019885
 GameObject:
   m_ObjectHideFlags: 0

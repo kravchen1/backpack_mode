@@ -78,6 +78,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
             var icon = sceneGameObjectIcon.GetComponent<Icon>();
             icon.sceneGameObjectIcon = sceneGameObjectIcon;
             icon.countStack = count;
+            icon.Buff = true;
             icons.Add(icon);
         }
     }
@@ -97,6 +98,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
             var icon = sceneGameObjectIcon.GetComponent<Icon>();
             icon.sceneGameObjectIcon = sceneGameObjectIcon;
             icon.countStack = count;
+            icon.Buff = false;
             icons.Add(icon);
         }
     }
@@ -115,44 +117,36 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
             else
                 icon.countStack -= count;
         }
-
-        foreach (var icon in icons)
+        if (iconToRemove != null)
         {
-            Destroy(icon.sceneGameObjectIcon);
-        }
-
-        icons.Remove(iconToRemove);
-        List<Icon> oldIcons = new List<Icon>(icons);
-        icons.Clear();
-        foreach (var icon in oldIcons)
-        {
-            AddBuff(icon.countStack, icon.sceneGameObjectIcon.name.Replace("(Clone)", ""));
-        }
-    }
-
-    public void DeleteDebuff(int count, string debuffName)
-    {
-        Icon iconToRemove = null;
-        foreach (var icon in icons)
-        {
-            if (icon.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper()))
-            {
-                iconToRemove = icon;
-            }
-            Destroy(icon.sceneGameObjectIcon);
-            
-        }
-        if(iconToRemove != null)
+            Destroy(iconToRemove.sceneGameObjectIcon);
             icons.Remove(iconToRemove);
-
-        var oldIcons = icons;
-        icons.Clear();
-        foreach (var icon in oldIcons)
-        {
-            AddBuff(icon.countStack, icon.sceneGameObjectIcon.name.Replace("(Clone)", ""));
         }
-
     }
+
+    //public void DeleteDebuff(int count, string debuffName)
+    //{
+    //    Icon iconToRemove = null;
+    //    foreach (var icon in icons)
+    //    {
+    //        if (icon.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper()))
+    //        {
+    //            iconToRemove = icon;
+    //        }
+    //        Destroy(icon.sceneGameObjectIcon);
+            
+    //    }
+    //    if(iconToRemove != null)
+    //        icons.Remove(iconToRemove);
+
+    //    var oldIcons = icons;
+    //    icons.Clear();
+    //    foreach (var icon in oldIcons)
+    //    {
+    //        AddBuff(icon.countStack, icon.sceneGameObjectIcon.name.Replace("(Clone)", ""));
+    //    }
+
+    //}
     //public void addBleed(int count)
     //{
     //    foreach (var icon in Icons.Where(e => e.iconType.name.Contains("Bleed")))
@@ -214,9 +208,9 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
             foreach (var item in allItems)
             {
-                var changeCD = item.timer_cooldown * (countPercentFire * (countBurn - countFrost));
-                if (item.timer_cooldown - changeCD > 0.1f)
-                    item.timer_cooldown = item.timer_cooldown - changeCD;
+                var changeCD = item.baseTimerCooldown * (countPercentFire * (countBurn - countFrost));
+                if (item.baseTimerCooldown - changeCD > 0.1f)
+                    item.timer_cooldown = item.baseTimerCooldown - changeCD;
                 else
                     item.timer_cooldown = 0.1f;
             }
@@ -371,7 +365,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     {
         var obj = Instantiate(DescriptionLog, placeForLogDescription.GetComponent<RectTransform>().transform);
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
-        obj.GetComponent<LogMessage>().nestedObject = gameObject;
+        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
     }
 
 
@@ -400,7 +394,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         {
             Debug.Log("bleed: " + countBleed.ToString());
             OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP((countBleed * countDamageBleed));
-            CreateLogMessage(transform.parent.parent.gameObject.name + " bleeding for " + Math.Abs(countBleed * countDamageBleed).ToString());
+            //CreateLogMessage(transform.parent.parent.gameObject.name + " bleeding for " + Math.Abs(countBleed * countDamageBleed).ToString());
             bleedAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countBleed * countDamageBleed).ToString();
             bleedAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countBleed * countDamageBleed);
             bleedAnimation.GetComponent<Animator>().Play("Activate", 0, 0f);
@@ -414,7 +408,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         {
             Debug.Log("fatigue: " + countFatigue.ToString());
             OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP(countFatigue);
-            CreateLogMessage(transform.parent.parent.gameObject.name + " fatiguing for " + Math.Abs(countFatigue).ToString());
+            //CreateLogMessage(transform.parent.parent.gameObject.name + " fatiguing for " + Math.Abs(countFatigue).ToString());
             fatigueAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countFatigue).ToString();
             fatigueAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countFatigue);
             fatigueAnimation.GetComponent<Animator>().Play("Activate", 0, 0f);
@@ -443,7 +437,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
                 OwnerStat.GetComponent<PlayerBackpackBattle>().hp += countRegenerate;
             }
 
-            CreateLogMessage(transform.parent.parent.gameObject.name + " regenerating for " + Math.Abs(countRegenerate).ToString());
+            //CreateLogMessage(transform.parent.parent.gameObject.name + " regenerating for " + Math.Abs(countRegenerate).ToString());
             regenerateAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().text = "+" + (countRegenerate).ToString();
             regenerateAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + (countRegenerate);
             regenerateAnimation.GetComponent<Animator>().Play("Activate", 0, 0f);

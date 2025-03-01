@@ -6,7 +6,7 @@ public class Weapon : Item
 {
     public int attackMin;
     public int attackMax;
-    public int stamina;
+    public float stamina;
     public int accuracy;
     public int critDamage = 130;
     public int chanceCrit = 5;

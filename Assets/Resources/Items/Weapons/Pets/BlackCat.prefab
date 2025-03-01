@@ -1379,8 +1379,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8351119564052499711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8902621606034946946}
@@ -1837,12 +1837,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 2118526104716803234, guid: 49fff5c56457fc2489c5264721ec3b7a, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: -886818198313852907, guid: 192ea2ad39e798946b8606c0abbb8ceb, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 450
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1855,6 +1856,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1870,9 +1872,13 @@ MonoBehaviour:
   baseTimerCooldown: 2
   attackMin: 4
   attackMax: 6
-  stamina: 3
-  accuracy: 2
+  stamina: 0
+  accuracy: 85
   critDamage: 130
   chanceCrit: 5
   bleedingStack: 1
-  resistingStack: 3
+  resistingStack: 1
+  LogBleedStackCharacter: {fileID: 4043554854564784463, guid: b2ea1bdf7e21de64cb719ac5a0e672a4, type: 3}
+  LogBleedStackEnemy: {fileID: 1455576652162621365, guid: 0c83ceef10288e14db2f3fd9c884a275, type: 3}
+  LogResistanceStackCharacter: {fileID: 3823412551724298339, guid: 5b73a6717ea5b3d4eaf0a8f963e4286c, type: 3}
+  LogResistanceStackEnemy: {fileID: 5549613402905842690, guid: d25aa91a1d7d95f4184474027586f83d, type: 3}

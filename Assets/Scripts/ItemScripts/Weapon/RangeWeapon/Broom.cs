@@ -18,7 +18,7 @@ public class Broom : Weapon
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256);
 
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
@@ -64,13 +64,13 @@ public class Broom : Weapon
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Broom miss");
+                            //CreateLogMessage("Broom miss");
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Broom miss");
+                        //CreateLogMessage("Broom miss");
                     }
 
                 }
@@ -78,7 +78,7 @@ public class Broom : Weapon
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Broom no have stamina");
+                //CreateLogMessage("Broom no have stamina");
             }
         }
     }
@@ -152,7 +152,7 @@ public class Broom : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

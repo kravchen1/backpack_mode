@@ -18,7 +18,7 @@ public class MagicWand : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -64,13 +64,13 @@ public class MagicWand : Weapon
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Magic wand miss");
+                            //CreateLogMessage("Magic wand miss");
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Magic wand miss");
+                        //CreateLogMessage("Magic wand miss");
                     }
 
                 }
@@ -78,7 +78,7 @@ public class MagicWand : Weapon
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Magic wand no have stamina");
+                //CreateLogMessage("Magic wand no have stamina");
             }
         }
     }
@@ -146,7 +146,7 @@ public class MagicWand : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

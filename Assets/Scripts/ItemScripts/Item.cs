@@ -33,7 +33,8 @@ public abstract class Item : MonoBehaviour
 
 
     public GameObject Description;
-    public GameObject DescriptionLog;
+    public GameObject DescriptionLogCharacter;
+    public GameObject DescriptionLogEnemy;
 
     public Sprite originalSprite;
     public GameObject prefabAnimationAttack;
@@ -119,7 +120,7 @@ public abstract class Item : MonoBehaviour
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256);
     }
 
     public void Initialization()
@@ -322,7 +323,7 @@ public abstract class Item : MonoBehaviour
         ClearCareRaycast(false);
         image.sortingOrder = 3;
         StartCoroutine(ShowDescription());
-        FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256);
         FindPlaceForDescription();
     }
 
@@ -960,7 +961,7 @@ public abstract class Item : MonoBehaviour
         hitSellChest = CreateRaycastForSellChest(32768);
         ClearCareRaycast(false);
         CreateCareRaycast();
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
     }
 
 
@@ -1071,22 +1072,43 @@ public abstract class Item : MonoBehaviour
     }
 
     //public List<GameObject> nestedStarObjects = new List<GameObject>();
-    public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
+    public void FillnestedObjectStarsStars(System.Int32 mask)
     {
         RaycastHit2D raycast;
         foreach (var star in stars)
         {
-            //Debug.Log(gameObject.name + star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center);
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
-            //bool b = nestedStarObjects.Where(e => e.name == raycast.collider.gameObject.name).Count() == 0;
             if (raycast.collider != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject != gameObject)//
             {
                 if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject.GetComponent<Cell>().nestedObject).Count() == 0)
                 {
                     star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject.GetComponent<Cell>().nestedObject;
-                    //nestedStarObjects.Add(raycast.collider.gameObject);
                     star.GetComponent<SpriteRenderer>().sprite = fillStar;
-                    //FillStarEffect(raycast.collider.gameObject.GetComponent<Item>());
+                }
+            }
+            else
+            {
+                star.GetComponent<Cell>().nestedObject = null;
+                star.GetComponent<SpriteRenderer>().sprite = emptyStar;
+            }
+        }
+    }
+
+    public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
+    {
+        RaycastHit2D raycast;
+        foreach (var star in stars)
+        {
+            raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
+            if (raycast.collider != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject != gameObject)//
+            {
+                if (raycast.collider.gameObject.GetComponent<Cell>().nestedObject != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject.tag == tag)
+                {
+                    if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject.GetComponent<Cell>().nestedObject).Count() == 0)
+                    {
+                        star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject.GetComponent<Cell>().nestedObject;
+                        star.GetComponent<SpriteRenderer>().sprite = fillStar;
+                    }
                 }
             }
             else
@@ -1192,20 +1214,32 @@ public abstract class Item : MonoBehaviour
     public void CheckNestedObjectStarActivation(Item item)
     {
         var stars = GameObject.FindGameObjectsWithTag("StarActivation").Where(e => e.GetComponent<Cell>().nestedObject == gameObject);
-        //var bagCells = GameObject.FindGameObjectsWithTag("BagCell");
-        List<Bag> bagsWithFireBody = new List<Bag>();
         foreach (var star in stars)
         {
-            //star.GetComponentInParent<Item>().StarActivation();
             star.GetComponentInParent<Item>().StarActivation(item);
         }
     }
 
-    public void CreateLogMessage(string message)
+    public void CreateLogMessage(string message, bool Player)
     {
-        var obj = Instantiate(DescriptionLog, placeForLogDescription.GetComponent<RectTransform>().transform);
+        GameObject obj;
+        if (Player)
+        {
+            obj = Instantiate(DescriptionLogCharacter, placeForLogDescription.GetComponent<RectTransform>().transform);
+        }
+        else
+        {
+            obj = Instantiate(DescriptionLogEnemy, placeForLogDescription.GetComponent<RectTransform>().transform);
+        }
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
-        obj.GetComponent<LogMessage>().nestedObject = gameObject;
+        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+    public void CreateLogMessage(GameObject log, string message)
+    {
+        var obj = Instantiate(log, placeForLogDescription.GetComponent<RectTransform>().transform);
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
+        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
     }
 
 
@@ -1249,7 +1283,7 @@ public abstract class Item : MonoBehaviour
         if (damage < armorBefore)
         {
             Enemy.armor -= damage;
-            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
+            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor", Player.isPlayer);
         }
         else
         {
@@ -1258,11 +1292,11 @@ public abstract class Item : MonoBehaviour
             Enemy.hp -= (damage - dmgArmor);
             if (armorBefore == 0)
             {
-                CreateLogMessage(gameObject.name + " apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+                CreateLogMessage(gameObject.name + " deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
             }
             else
             {
-                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
             }
         }
     }
@@ -1273,7 +1307,7 @@ public abstract class Item : MonoBehaviour
         if (damage < Player.armor)
         {
             Player.armor -= damage;
-            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor");
+            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor", !Player.isPlayer);
         }
         else
         {
@@ -1282,11 +1316,11 @@ public abstract class Item : MonoBehaviour
             Player.hp -= (damage - dmgArmor);
             if (armorBefore == 0)
             {
-                CreateLogMessage(gameObject.name + " apply " + Math.Abs((Player.armor - damage)).ToString() + " damage");
+                CreateLogMessage(gameObject.name + " deal " + Math.Abs((Player.armor - damage)).ToString() + " damage", !Player.isPlayer);
             }
             else
             {
-                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Player.armor - damage)).ToString() + " damage");
+                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Player.armor - damage)).ToString() + " damage", !Player.isPlayer);
             }
         }
     }

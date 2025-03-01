@@ -16,7 +16,7 @@ public class VampireBow1 : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -69,13 +69,13 @@ public class VampireBow1 : Weapon
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage(gameObject.name + "miss");
+                            //CreateLogMessage(gameObject.name + "miss");
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage(gameObject.name + "miss");
+                        //CreateLogMessage(gameObject.name + "miss");
                     }
 
                 }
@@ -83,7 +83,7 @@ public class VampireBow1 : Weapon
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage(gameObject.name + "no have stamina");
+                //CreateLogMessage(gameObject.name + "no have stamina");
             }
         }
     }
@@ -151,7 +151,7 @@ public class VampireBow1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

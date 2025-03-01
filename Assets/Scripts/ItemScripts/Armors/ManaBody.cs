@@ -37,7 +37,7 @@ public class ManaBody : Armor
                 isUse = true;
                 Player.menuFightIconData.AddBuff(resultMana, "IconMana");
                 //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("ManaBody give " + resultArmor.ToString() + " armor and " + resultMana.ToString() + " mana");
+                //CreateLogMessage("ManaBody give " + resultArmor.ToString() + " armor and " + resultMana.ToString() + " mana");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -95,7 +95,7 @@ public class ManaBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(256, "RareWeapon");
+            //FillnestedObjectStarsStars(256);
             CoolDownStart();
         }
 
@@ -111,7 +111,7 @@ public class ManaBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

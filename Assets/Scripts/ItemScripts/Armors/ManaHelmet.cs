@@ -49,7 +49,7 @@ public class ManaHelmet : Armor
                         if (icon.countStack >= countSpendManaStack)
                         {
                             isUse = true;
-                            CreateLogMessage("ManaHelmet spend <u>" + countSpendManaStack.ToString() + "</u>, give <u>" + countArmorStack.ToString() + " Armor</u> and <u>" + countResistStack.ToString() + "</u> Resistance");
+                            //CreateLogMessage("ManaHelmet spend <u>" + countSpendManaStack.ToString() + "</u>, give <u>" + countArmorStack.ToString() + " Armor</u> and <u>" + countResistStack.ToString() + "</u> Resistance");
                             animator.speed = 5f;
                             animator.Play(originalName + "Activation", 0, 0f);
                         }
@@ -106,7 +106,7 @@ public class ManaHelmet : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

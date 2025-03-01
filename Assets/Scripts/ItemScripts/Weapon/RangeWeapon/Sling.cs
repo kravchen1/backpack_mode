@@ -16,7 +16,7 @@ public class Sling : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -59,20 +59,20 @@ public class Sling : Weapon
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Sling miss");
+                            //CreateLogMessage("Sling miss");
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Sling miss");
+                        //CreateLogMessage("Sling miss");
                     }
                 }
             }
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Sling no have stamina");
+                //CreateLogMessage("Sling no have stamina");
             }
         }
     }
@@ -140,7 +140,7 @@ public class Sling : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

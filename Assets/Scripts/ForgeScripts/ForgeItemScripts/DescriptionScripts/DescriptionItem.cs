@@ -8,7 +8,7 @@ public class DescriptionItem : MonoBehaviour
     public TextMeshPro Stats;
 
     public int damageMin = 1, damageMax = 2;
-    public int staminaCost = 1;
+    public float staminaCost = 1;
     public int accuracyPercent = 95;
     public int chanceCrit = 5;
     public int critDamage = 130;

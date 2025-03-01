@@ -48,7 +48,7 @@ public class VampireGloves : Armor
         {
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             Enemy.menuFightIconData.AddBuff(countBleedStack, "ICONBLEED");
-            CreateLogMessage("VampireGloves apply " + countBleedStack.ToString() + " bleed on enemy");
+            //CreateLogMessage("VampireGloves apply " + countBleedStack.ToString() + " bleed on enemy");
         }
     }
 
@@ -75,7 +75,7 @@ public class VampireGloves : Armor
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                FillnestedObjectStarsStars(256, "RareWeapon");
+                FillnestedObjectStarsStars(256);
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireGloves>();

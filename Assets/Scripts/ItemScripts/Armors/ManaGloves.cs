@@ -80,7 +80,7 @@ public class ManaGloves : Armor
                             //Enemy.hp -= dealDamageDropStack;
                             //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
                             //Attack(dealDamageDropStack);
-                            CreateLogMessage("ManaGloves steal " + countSteelManaStack.ToString() + " mana");
+                            //CreateLogMessage("ManaGloves steal " + countSteelManaStack.ToString() + " mana");
                             //animator.Play(originalName + "Activation2", 0, 0f);
                         }
                     }
@@ -131,7 +131,7 @@ public class ManaGloves : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

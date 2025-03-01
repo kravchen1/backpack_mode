@@ -31,7 +31,7 @@ public class ManaFlask : Flask
                 isUse = true;
                 Player.menuFightIconData.AddBuff(giveStack, "IconMana");
                 //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("ManaFlask give " + giveStack.ToString() + " mana");
+                //CreateLogMessage("ManaFlask give " + giveStack.ToString() + " mana");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -89,7 +89,7 @@ public class ManaFlask : Flask
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(256, "RareWeapon");
+            //FillnestedObjectStarsStars(256);
             CoolDownStart();
         }
 

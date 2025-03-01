@@ -35,7 +35,7 @@ public class VampireBoots : Armor
                 isUse = true;
                 Player.menuFightIconData.AddBuff(countVampireStack, "IconVampire");
                 //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("VampireBoots give " + countArmorStack.ToString() + " armor and " + countVampireStack.ToString() + " VampireStack");
+                //CreateLogMessage("VampireBoots give " + countArmorStack.ToString() + " armor and " + countVampireStack.ToString() + " VampireStack");
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
@@ -79,7 +79,7 @@ public class VampireBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

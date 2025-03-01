@@ -73,7 +73,7 @@ public class ManaBoots : Armor
             {
                 Player.menuFightIconData.AddBuff(countManaStack, "IconMana");
                 //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-                CreateLogMessage("ManaBoots give " + countManaStack.ToString() + " mana");
+                //CreateLogMessage("ManaBoots give " + countManaStack.ToString() + " mana");
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                 //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
@@ -120,7 +120,7 @@ public class ManaBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

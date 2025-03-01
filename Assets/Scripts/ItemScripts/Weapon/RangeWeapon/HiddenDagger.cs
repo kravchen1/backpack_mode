@@ -18,7 +18,7 @@ public class HiddenDagger : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -67,13 +67,13 @@ public class HiddenDagger : Weapon
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("HiddenDagger miss");
+                            //CreateLogMessage("HiddenDagger miss");
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("HiddenDagger miss");
+                        //CreateLogMessage("HiddenDagger miss");
                     }
 
                 }
@@ -81,7 +81,7 @@ public class HiddenDagger : Weapon
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("HiddenDagger no have stamina");
+                //CreateLogMessage("HiddenDagger no have stamina");
             }
         }
     }
@@ -149,7 +149,7 @@ public class HiddenDagger : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {
