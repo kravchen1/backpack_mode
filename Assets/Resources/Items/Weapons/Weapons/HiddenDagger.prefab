@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 729382756991084779}
   m_Layer: 9
   m_Name: HiddenDagger
-  m_TagString: RareWeapon
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1256,12 +1256,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 206952534507715537, guid: 0a5d8659917156f4a81ca1dc98303f27, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: 8603897780271074175, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 20
+  itemCost: 45
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1287,14 +1288,17 @@ MonoBehaviour:
   originalName: HiddenDagger
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2
+  baseTimerCooldown: 2.7
   attackMin: 4
   attackMax: 25
-  stamina: 2
+  stamina: 1.7
   accuracy: 95
   critDamage: 130
-  chanceCrit: 5
-  bleeding: 11
+  chanceCrit: 25
+  baseStamina: 0
+  bleeding: 4
+  LogBleedStackCharacter: {fileID: 4043554854564784463, guid: b2ea1bdf7e21de64cb719ac5a0e672a4, type: 3}
+  LogBleedStackEnemy: {fileID: 1455576652162621365, guid: 0c83ceef10288e14db2f3fd9c884a275, type: 3}
 --- !u!1 &4235651562881846526
 GameObject:
   m_ObjectHideFlags: 0

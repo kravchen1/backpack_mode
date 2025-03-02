@@ -58,7 +58,7 @@ public class SwampDragon : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
 
                             Enemy.menuFightIconData.AddDebuff(poisonStack, "IconPoison");
                             Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");

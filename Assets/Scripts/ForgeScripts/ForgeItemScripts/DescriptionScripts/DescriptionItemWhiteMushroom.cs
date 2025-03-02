@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DescriptionItemWhiteMushroom : DescriptionItem
 {
-    public int stamina = 5;//надо заменить
+    public float stamina = 5;//надо заменить
     public int activationForStar = 2;//надо заменить
     public void SetTextBody()
     {

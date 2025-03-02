@@ -1054,7 +1054,7 @@ public abstract class Item : MonoBehaviour
     //}
     public virtual void StarActivation(Item item)
     {
-        Debug.Log("��������� " + this.name);
+        //Debug.Log("��������� " + this.name);
     }
 
     public virtual void Activation()
@@ -1102,7 +1102,32 @@ public abstract class Item : MonoBehaviour
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
             if (raycast.collider != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject != gameObject)//
             {
-                if (raycast.collider.gameObject.GetComponent<Cell>().nestedObject != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject.tag == tag)
+                if (raycast.collider.gameObject.GetComponent<Cell>().nestedObject != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject.tag.Contains(tag))
+                {
+                    if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject.GetComponent<Cell>().nestedObject).Count() == 0)
+                    {
+                        star.GetComponent<Cell>().nestedObject = raycast.collider.gameObject.GetComponent<Cell>().nestedObject;
+                        star.GetComponent<SpriteRenderer>().sprite = fillStar;
+                    }
+                }
+            }
+            else
+            {
+                star.GetComponent<Cell>().nestedObject = null;
+                star.GetComponent<SpriteRenderer>().sprite = emptyStar;
+            }
+        }
+    }
+
+    public void FillnestedObjectStarsStars(System.Int32 mask, String tag1, String tag2)
+    {
+        RaycastHit2D raycast;
+        foreach (var star in stars)
+        {
+            raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
+            if (raycast.collider != null && raycast.collider.gameObject.GetComponent<Cell>().nestedObject != gameObject)//
+            {
+                if (raycast.collider.gameObject.GetComponent<Cell>().nestedObject != null && (raycast.collider.gameObject.GetComponent<Cell>().nestedObject.tag.Contains(tag1) || raycast.collider.gameObject.GetComponent<Cell>().nestedObject.tag.Contains(tag2)))
                 {
                     if (stars.Where(e => e.GetComponent<Cell>().nestedObject == raycast.collider.gameObject.GetComponent<Cell>().nestedObject).Count() == 0)
                     {
@@ -1283,12 +1308,11 @@ public abstract class Item : MonoBehaviour
         if (damage < armorBefore)
         {
             Enemy.armor -= damage;
-            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor", Player.isPlayer);
+            CreateLogMessage(gameObject.name + " destroy " + damage.ToString() + " armor", Player.isPlayer);
         }
         else
         {
             int dmgArmor = (int)armorBefore;
-            Enemy.armor = 0;
             Enemy.hp -= (damage - dmgArmor);
             if (armorBefore == 0)
             {
@@ -1298,6 +1322,7 @@ public abstract class Item : MonoBehaviour
             {
                 CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
             }
+            Enemy.armor = 0;
         }
     }
 
@@ -1307,12 +1332,11 @@ public abstract class Item : MonoBehaviour
         if (damage < Player.armor)
         {
             Player.armor -= damage;
-            CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor", !Player.isPlayer);
+            CreateLogMessage(gameObject.name + " destroy " + damage.ToString() + " armor", !Player.isPlayer);
         }
         else
         {
             int dmgArmor = (int)Player.armor;
-            Player.armor = 0;
             Player.hp -= (damage - dmgArmor);
             if (armorBefore == 0)
             {
@@ -1322,6 +1346,7 @@ public abstract class Item : MonoBehaviour
             {
                 CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Player.armor - damage)).ToString() + " damage", !Player.isPlayer);
             }
+            Player.armor = 0;
         }
     }
 

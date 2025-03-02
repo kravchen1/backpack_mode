@@ -142,7 +142,7 @@ public class AngryFluff : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
 
                             RemovedDebuff();
                             CheckNestedObjectActivation("StartBag");

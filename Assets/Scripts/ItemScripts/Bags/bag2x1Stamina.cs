@@ -22,7 +22,7 @@ public class bag2x1Stamina : Bag
                         if (!distinctItem.Contains(item))
                         {
                             distinctItem.Add(item);
-                            float decrStamina = (float)((item.stamina / 100.0) * countStaminaPercentLess);
+                            float decrStamina = (float)((item.baseStamina / 100.0) * countStaminaPercentLess);
                             if (item.stamina - decrStamina > 0)
                             {
                                 item.stamina -= decrStamina;

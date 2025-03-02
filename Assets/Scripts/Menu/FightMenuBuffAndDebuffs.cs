@@ -6,6 +6,7 @@ using System;
 using TMPro;
 public class FightMenuBuffAndDebuffs : MonoBehaviour
 {
+    public bool isPlayer = true;
     public List<GameObject> generateIcons;
     private GameObject[] prefabs;
     public List<Icon> icons = new List<Icon>();
@@ -19,13 +20,6 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     public GameObject OwnerStat;
     public GameObject DescriptionLog;
     private int rowIconsCount = 4;
-
-    private float firstElementX = -20;
-    private float firstElementY = 30;
-
-    private float stepSizeX = 65f;
-    private float stepSizeY = -50f;
-
 
 
     public float countPercentFire = 0.01f;
@@ -51,7 +45,8 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
     private GameObject placeForLogDescription;
 
-
+    public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
+    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
     private void Start()
     {
         timerCDFouting = timerFatigueStart;
@@ -337,10 +332,22 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
                 countPoison = (icon.countStack * countPercentPoisonDegenHP);
             }
         }
-        
-        heal -= heal / 100 * countPoison;
+        int reducedHP = (int)(heal / 100.0 * countPoison);
+        heal -= reducedHP;
+
+        if (reducedHP > 0)
+        {
+            if (isPlayer)
+            {
+                CreateLogMessage(LogPoisonStackCharacter, "head reduced by " + reducedHP.ToString());
+            }
+            else
+            {
+                CreateLogMessage(LogPoisonStackEnemy, "restored by " + reducedHP.ToString());
+            }
+        }
+
         return heal;
-        
     }
 
     public int CalculateVampire(int damage)
@@ -354,7 +361,18 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
                 countVampire = (icon.countStack * countPercentVampireRegenHP);
             }
         }
-        countHeal = damage / 100 * countVampire;
+        countHeal = (int)(damage / 100.0 * countVampire);
+        if (countHeal > 0)
+        {
+            if (isPlayer)
+            {
+                CreateLogMessage(LogVampireStackCharacter, "restored " + countHeal.ToString() + " hp");
+            }
+            else
+            {
+                CreateLogMessage(LogVampireStackEnemy, "restored " + countHeal.ToString() + " hp");
+            }
+        }
         if (countHeal > 0)
             return CalculateHeal(countHeal);
         else return 0;
@@ -364,6 +382,13 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     public void CreateLogMessage(string message)
     {
         var obj = Instantiate(DescriptionLog, placeForLogDescription.GetComponent<RectTransform>().transform);
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
+        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+    public void CreateLogMessage(GameObject log, string message)
+    {
+        var obj = Instantiate(log, placeForLogDescription.GetComponent<RectTransform>().transform);
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
         //obj.GetComponent<LogMessage>().nestedObject = gameObject;
     }

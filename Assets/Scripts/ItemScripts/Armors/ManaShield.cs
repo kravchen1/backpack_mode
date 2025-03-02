@@ -14,6 +14,9 @@ public class ManaShield : Armor
     public int countNeedManaStack = 1;
     public int blockDamage = 11;
     public int countStealManaStack = 1;
+
+    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    public GameObject LogAttackStackCharacter, LogAttackStackEnemy;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -31,13 +34,20 @@ public class ManaShield : Armor
         {
             if (Player != null)
             {
-                //Player.armor = Player.armor + startBattleArmorCount;
-                //Player.armorMax = Player.armorMax + startBattleArmorCount;
+                
                 Player.menuFightIconData.AddBuff(countStartResistanceStack, "ICONRESISTANCE");
                 isUse = true;
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                //CreateLogMessage("ManaShield give " + countStartResistanceStack.ToString() + " Resistance");
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogResistanceStackCharacter, "Mana shield give " + countStartResistanceStack.ToString());
+                }
+                else
+                {
+                    CreateLogMessage(LogResistanceStackEnemy, "Mana shield give " + countStartResistanceStack.ToString());
+                }
+
                 CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
         }
     }
@@ -55,13 +65,13 @@ public class ManaShield : Armor
                     if(icon.countStack >= countStealManaStack)
                     {
                         b = true;
-                        //CreateLogMessage("ManaShield steal " + countStealManaStack.ToString() + " mana");
                     }
                 }
                 if(b)
                 {
                     Enemy.menuFightIconData.DeleteBuff(countStealManaStack, "ICONMANA");
                     Player.menuFightIconData.AddBuff(countStealManaStack, "ICONMANA");
+                    CreateLogMessage("Mana shield steal " + countStealManaStack.ToString(), Player.isPlayer);
                 }
             }
         }
@@ -77,13 +87,27 @@ public class ManaShield : Armor
                 if (icon.countStack >= countNeedManaStack)
                 {
                     b = true;
-                    //CreateLogMessage("ManaShield remove " + countNeedManaStack.ToString() + " mana and block" + blockDamage.ToString() + "damage");
                 }
             }
             if (b)
             {
                 Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
                 animator.Play(originalName + "Activation2", 0, 0f);
+
+                CreateLogMessage("Mana shield spend " + countNeedManaStack.ToString(), Player.isPlayer);
+
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogAttackStackCharacter, "Mana shield block " + blockDamage.ToString());
+                }
+                else
+                {
+                    CreateLogMessage(LogAttackStackEnemy, "Mana shield block " + blockDamage.ToString());
+                }
+
+                CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+
                 return blockDamage;
             }
             else

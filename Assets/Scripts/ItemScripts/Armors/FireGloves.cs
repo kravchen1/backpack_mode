@@ -33,7 +33,7 @@ public class FireGloves : Armor
     public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
-        if (Player != null && Enemy != null)
+        if (Player != null && Enemy != null && item.baseTimerCooldown != 0)
         {
             if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
             {

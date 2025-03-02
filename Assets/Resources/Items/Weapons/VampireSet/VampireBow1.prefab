@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: -1809265924960704109}
   m_Layer: 9
   m_Name: VampireBow1
-  m_TagString: RareWeapon
+  m_TagString: vampireweaponItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,12 +568,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 2490150980670601514, guid: ba2c0d49cc98b8c4490954cb196dc2d6, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: 1720129174213522087, guid: 9445d34e8bceb0d408a93b799f1f2d6b, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 25
+  itemCost: 800
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -605,14 +606,19 @@ MonoBehaviour:
   originalName: VampireBow1
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.2
+  baseTimerCooldown: 4
   attackMin: 2
   attackMax: 80
-  stamina: 2
-  accuracy: 79
+  stamina: 6
+  accuracy: 85
   critDamage: 210
   chanceCrit: 15
-  countIncreasesCritDamage: 2
+  baseStamina: 0
+  countBaseCritStack: 1
+  LogBaseCritStackCharacter: {fileID: 9008311742454753872, guid: 90101c86faeb7dd4fa3acedc36190885, type: 3}
+  LogBaseCritStackEnemy: {fileID: 4356139138245786638, guid: e7bfc385a84ec4947bfbdf4841e8e020, type: 3}
+  LogChanceCritStackCharacter: {fileID: 1451876726980481727, guid: 0d3da048274d84a478e9f60637f15cdc, type: 3}
+  LogChanceCritStackEnemy: {fileID: 38909059984083718, guid: 8b505caf5161ff14bbdd08e959d59f22, type: 3}
 --- !u!114 &-1779103695681130673
 MonoBehaviour:
   m_ObjectHideFlags: 0

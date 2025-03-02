@@ -8,7 +8,7 @@ public class DescriptionItemMagnifire : DescriptionItem
     
     public void SetTextBody()
     {
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec apply <u>" + giveBlindnessStack.ToString() + "</u>";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec inflict <u>" + giveBlindnessStack.ToString() + "</u>";
         textBody.text = text;
     }
 

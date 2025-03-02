@@ -17,9 +17,10 @@ public class VampireSword1 : Weapon
     //public int dealDamageDropStack;
     private void Start()
     {
-        //FillnestedObjectStarsStars(256);
+        FillnestedObjectStarsStars(256, "gloves");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -53,34 +54,29 @@ public class VampireSword1 : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
+
                             if (stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() == 0)
                                 AttackSelf(resultDamage);
-                            //Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
-                            //CreateLogMessage("FireDagger inflict " + countBurnStackOnHit.ToString() + " burn");
-                            //Enemy.menuFightIconData.CalculateFireFrostStats();
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            //CreateLogMessage(gameObject.name + " miss");
+                            CreateLogMessage("Vampire sword miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        //CreateLogMessage(gameObject.name + " miss");
+                        CreateLogMessage("Vampire sword miss", Player.isPlayer);
                     }
 
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                //CreateLogMessage(gameObject.name + " no have stamina");
+                CreateLogMessage("Vampire sword no have stamina", Player.isPlayer);
             }
         }
     }
@@ -143,7 +139,7 @@ public class VampireSword1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "gloves");
             ChangeShowStars(true);
             if (canShowDescription)
             {

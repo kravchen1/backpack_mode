@@ -54,7 +54,7 @@ public class GlamorousToad : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
 
                             Enemy.menuFightIconData.AddDebuff(poisonStack, "IconPoison");
                             if (Player.isPlayer)

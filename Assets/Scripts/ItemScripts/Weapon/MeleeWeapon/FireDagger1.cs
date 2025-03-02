@@ -22,6 +22,7 @@ public class FireDagger1 : Weapon
         //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -55,10 +56,17 @@ public class FireDagger1 : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
                             Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
-                            CreateLogMessage(DebugFireLogCharacter,"FireDagger inflict " + countBurnStackOnHit.ToString());
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(DebugFireLogCharacter, "FireDagger inflict " + countBurnStackOnHit.ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(DebugFireLogEnemy, "FireDagger inflict " + countBurnStackOnHit.ToString());
+                            }
+                            
                             Enemy.menuFightIconData.CalculateFireFrostStats();
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

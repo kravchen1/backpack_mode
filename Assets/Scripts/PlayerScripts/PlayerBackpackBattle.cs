@@ -57,7 +57,7 @@ public class PlayerBackpackBattle : MonoBehaviour
                 characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
-                maxHP = characterStats.playerHP; 
+                maxHP = characterStats.playerMaxHp; 
                 staminaMax = characterStats.playerMaxStamina;
                 stamina = characterStats.playerMaxStamina;
                 break;
@@ -67,7 +67,7 @@ public class PlayerBackpackBattle : MonoBehaviour
                 characterStats.LoadDataEnemy(enemyStatData.jsonStat);
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
-                maxHP = characterStats.playerHP;
+                maxHP = characterStats.playerMaxHp;
                 staminaMax = characterStats.playerMaxStamina;
                 stamina = characterStats.playerMaxStamina;
                 break;

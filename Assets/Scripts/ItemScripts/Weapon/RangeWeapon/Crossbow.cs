@@ -15,14 +15,14 @@ public class Crossbow : Weapon
     public int bleedingChance;//надо заменить
     public int bleedingStack;//надо заменить
 
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
+    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     private void Start()
     {
         //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -32,10 +32,63 @@ public class Crossbow : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
+
+                            int r = UnityEngine.Random.Range(0, 100);
+                            if (r <= bleedingChance)
+                            {
+                                Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
+                                if (Player.isPlayer)
+                                {
+                                    CreateLogMessage(LogBleedStackCharacter, "Crossbow inflict " + bleedingStack.ToString());
+                                }
+                                else
+                                {
+                                    CreateLogMessage(LogBleedStackEnemy, "Crossbow inflict " + bleedingStack.ToString());
+                                }
+                            }
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Crossbow miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Crossbow miss", Player.isPlayer);
+                    }
+
+                }
+            }
+            else
+            {
+                CreateLogMessage("Crossbow no have stamina", Player.isPlayer);
+            }
         }
     }
 

@@ -30,45 +30,14 @@ public class ManaFlask : Flask
             {
                 isUse = true;
                 Player.menuFightIconData.AddBuff(giveStack, "IconMana");
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                //CreateLogMessage("ManaFlask give " + giveStack.ToString() + " mana");
+                CreateLogMessage("Mana flask give " + giveStack.ToString(), Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
         }
     }
 
-    //public override void StarActivation(Item item)
-    //{
-    //    //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
-    //    if (Player != null && Enemy != null)
-    //    {
-    //        if (Player.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-    //        {
-    //            bool b = false;
-    //            foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-    //            {
-    //                if(icon.countStack >= SpendStack)
-    //                {
-    //                    //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-    //                    b = true;
-    //                    //Enemy.hp -= DamageForStack;
-    //                    Attack(DamageForStack);
-    //                    //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
-    //                    CreateLogMessage("FireBody removed " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
-    //                    //animator.SetTrigger(originalName + "StarActivation");
-    //                    //animator.Play("New State");
-    //                    animator.Play(originalName + "Activation2", 0, 0f);
-    //                    //animator.StartPlayback
-    //                }
-    //            }
-    //            if(b)
-    //            {
-    //                Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-    //                Player.menuFightIconData.CalculateFireFrostStats();//true = Player
-    //            }
-    //        }
-    //    }
-    //}
+   
 
     private void CoolDownStart()
     {

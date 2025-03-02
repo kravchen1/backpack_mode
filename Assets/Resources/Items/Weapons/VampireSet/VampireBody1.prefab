@@ -1268,7 +1268,7 @@ GameObject:
   - component: {fileID: -411129962638668537}
   m_Layer: 9
   m_Name: VampireBody1
-  m_TagString: RareWeapon
+  m_TagString: vampireItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1280,7 +1280,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5964097317539758588}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -1757,7 +1757,8 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 500184359935961799, guid: 820450213598e984aa064fc87433029c, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 4975381722556485215, guid: 6c2699e91c6690d48bc58e50c549d1cb, type: 3}
+  DescriptionLogEnemy: {fileID: 3219839272774441636, guid: 98f400d7eee3b984ea6cdb696ebda674, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
@@ -1794,9 +1795,11 @@ MonoBehaviour:
   originalName: VampireBody1
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 5.3
+  baseTimerCooldown: 6.1
   startBattleArmorCount: 0
   countBleedStack: 1
+  LogBleedStackCharacter: {fileID: 4043554854564784463, guid: b2ea1bdf7e21de64cb719ac5a0e672a4, type: 3}
+  LogBleedStackEnemy: {fileID: 1455576652162621365, guid: 0c83ceef10288e14db2f3fd9c884a275, type: 3}
 --- !u!114 &-3915854043932951938
 MonoBehaviour:
   m_ObjectHideFlags: 0

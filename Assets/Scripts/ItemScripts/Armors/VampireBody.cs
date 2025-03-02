@@ -7,29 +7,22 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class VampireBody : Armor
 {
-    //public float howActivation = 30; //при 30%(можно менять) или ниже произойдёт активация
-    //public float percentHP = 20; //скок процентов сразу восстановит
-    //public float percentRegenerate = 5; //скок процентов будет регенерировать
-    //public float timerRegenerate = 1; //как часто в секундах будет происходить регенерация
-    //public float maxTimeRegenerate = 4; //скольо раз будет происходить регенерация
+    
 
     public int countBleedStack = 1;
     protected bool timer_locked_out = true;
-    
-    //public int countArmorStack = 34;
-    //public int countResistStack = 10;
-    //public int countSpendManaStack = 2;
 
 
+
+    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     private void Start()
     {
+        FillnestedObjectStarsStars(256, "vampire");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
         }
     }
     public void CoolDown()
@@ -65,8 +58,10 @@ public class VampireBody : Armor
                 }
                 if (b)
                 {
-                    //CreateLogMessage("VampireBody add " + countBleedOnEnemy.ToString() + " vampireStack");
-                    Player.menuFightIconData.AddBuff(countBleedStack, "ICONVAMPIRE");
+                    Player.menuFightIconData.AddBuff(countBleedOnEnemy, "ICONVAMPIRE");
+
+                    CreateLogMessage("Vampire body give" + countBleedOnEnemy.ToString(), Player.isPlayer);
+
                     CheckNestedObjectActivation("StartBag");
                     CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                 }
@@ -79,8 +74,16 @@ public class VampireBody : Armor
         //Активация звёздочек(предмет вампира): накладывает на врага стаки кровотечения
         if (Player != null && Enemy != null)
         {
-            Enemy.menuFightIconData.AddBuff(countBleedStack, "ICONBLEED");
-            //CreateLogMessage("VampireBody applie " + countBleedStack.ToString() + " bleed");
+            Enemy.menuFightIconData.AddDebuff(countBleedStack, "ICONBLEED");
+
+            if (Player.isPlayer)
+            {
+                CreateLogMessage(LogBleedStackCharacter, "Vampire body inflict " + countBleedStack.ToString());
+            }
+            else
+            {
+                CreateLogMessage(LogBleedStackEnemy, "Vampire body inflict " + countBleedStack.ToString());
+            }
         }
     }
 
@@ -122,7 +125,7 @@ public class VampireBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "vampire");
             ChangeShowStars(true);
             if (canShowDescription)
             {

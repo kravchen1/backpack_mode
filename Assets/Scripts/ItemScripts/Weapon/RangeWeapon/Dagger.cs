@@ -19,6 +19,7 @@ public class Dagger : Weapon
         //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -51,25 +52,26 @@ public class Dagger : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //CreateLogMessage("Dagger miss");
+                            CreateLogMessage("Dagger miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //CreateLogMessage("Dagger miss");
+                        CreateLogMessage("Dagger miss", Player.isPlayer);
                     }
 
                 }
             }
             else
             {
-                //CreateLogMessage("Dagger no have stamina");
+                CreateLogMessage("Dagger no have stamina", Player.isPlayer);
             }
         }
     }

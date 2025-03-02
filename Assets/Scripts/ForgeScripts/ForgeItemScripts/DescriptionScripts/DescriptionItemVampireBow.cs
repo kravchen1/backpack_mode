@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DescriptionItemVampireBow : DescriptionItem
 {
-    public int countIncreasesCritDamage = 10;
+    public int countBaseCritStack = 1;
     public void SetTextBody()
     {
-        string text = "On hit: Increases critdamage equal        on enemy\r\nweapon items       hit: Increases critical damage by <u>" + countIncreasesCritDamage.ToString() + "</u>%";
+        //string text = "On hit: Increases critdamage equal        on enemy\r\nweapon items       hit: Increases critical damage by <u>" + countIncreasesCritDamage.ToString() + "</u>%";
+        string text = "On hit: give         equal      on enemy\r\nweapon items       hit: give <u>"+ countBaseCritStack.ToString() + "</u>";
         textBody.text = text;
     }
     public void SetTextStat()

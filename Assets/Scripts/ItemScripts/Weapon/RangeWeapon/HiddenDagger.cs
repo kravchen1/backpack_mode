@@ -13,14 +13,13 @@ public class HiddenDagger : Weapon
 {
     public int bleeding;//надо заменить
 
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
+    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -30,7 +29,6 @@ public class HiddenDagger : Weapon
     private bool firstHit = true;
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
@@ -57,31 +55,35 @@ public class HiddenDagger : Weapon
                             {
                                 Enemy.menuFightIconData.AddDebuff(bleeding, "IconBleed");
                                 firstHit = false;
+                                if (Player.isPlayer)
+                                {
+                                    CreateLogMessage(LogBleedStackCharacter, "Hidden dagger inflict " + bleeding.ToString());
+                                }
+                                else
+                                {
+                                    CreateLogMessage(LogBleedStackEnemy, "Hidden dagger inflict " + bleeding.ToString());
+                                }
                             }
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
                             //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            //CreateLogMessage("HiddenDagger miss");
+                            CreateLogMessage("Hidden dagger miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        //CreateLogMessage("HiddenDagger miss");
+                        CreateLogMessage("Hidden dagger miss", Player.isPlayer);
                     }
-
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                //CreateLogMessage("HiddenDagger no have stamina");
+                CreateLogMessage("Hidden dagger no have stamina", Player.isPlayer);
             }
         }
     }

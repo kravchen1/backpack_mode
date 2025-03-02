@@ -10,11 +10,10 @@ public class VampireBoots : Armor
     private bool isUse = false;
     public int countVampireStack = 2;
     public int countArmorStack = 15;
-    //protected bool timer_locked_out = true;
-    
 
 
 
+    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -34,8 +33,17 @@ public class VampireBoots : Armor
                 Player.armorMax = Player.armorMax + countArmorStack;
                 isUse = true;
                 Player.menuFightIconData.AddBuff(countVampireStack, "IconVampire");
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                //CreateLogMessage("VampireBoots give " + countArmorStack.ToString() + " armor and " + countVampireStack.ToString() + " VampireStack");
+                CreateLogMessage("Vampire boots give" + countVampireStack.ToString(), Player.isPlayer);
+
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogArmorStackCharacter, "Dinosaur give " + countArmorStack.ToString());
+                }
+                else
+                {
+                    CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + countArmorStack.ToString());
+                }
+
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }

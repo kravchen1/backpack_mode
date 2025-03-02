@@ -7,11 +7,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ManaHelmet : Armor
 {
-    //public float howActivation = 30; //при 30%(можно менять) или ниже произойдёт активация
-    //public float percentHP = 20; //скок процентов сразу восстановит
-    //public float percentRegenerate = 5; //скок процентов будет регенерировать
-    //public float timerRegenerate = 1; //как часто в секундах будет происходить регенерация
-    //public float maxTimeRegenerate = 4; //скольо раз будет происходить регенерация
+    
 
     public int hpDrop = 71;
     public int countArmorStack = 34;
@@ -20,17 +16,12 @@ public class ManaHelmet : Armor
 
 
     private bool isUse = false;
-    private bool usable = false;
     private int currentTick = 0;
+
+    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
+    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
     private void Start()
     {
-        //timer = timerRegenerate;
-        //if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        //{
-        //    //animator.speed = 1f / 0.5f;
-        //    //timer = timer_cooldown;
-        //    //animator.Play(originalName + "Activation");
-        //}
     }
     float f_ToPercent(float a, float p)
     {
@@ -49,13 +40,23 @@ public class ManaHelmet : Armor
                         if (icon.countStack >= countSpendManaStack)
                         {
                             isUse = true;
-                            //CreateLogMessage("ManaHelmet spend <u>" + countSpendManaStack.ToString() + "</u>, give <u>" + countArmorStack.ToString() + " Armor</u> and <u>" + countResistStack.ToString() + "</u> Resistance");
+                            CreateLogMessage("Mana helmet spend " + countSpendManaStack.ToString(), Player.isPlayer);
                             animator.speed = 5f;
                             animator.Play(originalName + "Activation", 0, 0f);
                         }
                     }
                     if(isUse)
                     {
+                        if (Player.isPlayer)
+                        {
+                            CreateLogMessage(LogArmorStackCharacter, "Mana helmet give " + countArmorStack.ToString());
+                            CreateLogMessage(LogResistanceStackCharacter, "Mana helmet give " + countResistStack.ToString());
+                        }
+                        else
+                        {
+                            CreateLogMessage(LogArmorStackEnemy, "Mana helmet give " + countArmorStack.ToString());
+                            CreateLogMessage(LogResistanceStackEnemy, "Mana helmet give " + countResistStack.ToString());
+                        }
                         Player.menuFightIconData.DeleteBuff(countSpendManaStack, "ICONMANA");
                         Player.armor = Player.armor + countArmorStack;
                         Player.armorMax = Player.armorMax + countArmorStack;
@@ -68,23 +69,7 @@ public class ManaHelmet : Armor
         }
     }
 
-    //public void TickHeal()
-    //{
-    //    if (usable && currentTick < maxTimeRegenerate)
-    //    {
-    //        timer -= Time.deltaTime;
 
-    //        if (timer <= 0)
-    //        {
-    //            timer = timerRegenerate;
-    //            Player.hp += f_ToPercent(Player.maxHP, percentHP);
-    //            currentTick += 1;
-    //            Debug.Log("а фласочка то действует " + currentTick);
-    //        // a delayed action could be called from here
-    //        // once the lock-out period expires
-    //        }
-    //    }
-    //}
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")

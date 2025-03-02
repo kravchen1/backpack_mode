@@ -13,8 +13,7 @@ public class Broom : Weapon
 {
     public int activationSpeedUp;//надо заменить
 
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
+    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
     private void Start()
     {
@@ -22,17 +21,17 @@ public class Broom : Weapon
 
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / 0.5f;
                animator.enabled = true;
-                animator.Play(originalName + "Activation");
+               animator.Play(originalName + "Activation");
         }
     }
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
@@ -56,29 +55,25 @@ public class Broom : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            VampireHP(resultDamage);
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            //CreateLogMessage("Broom miss");
+                            CreateLogMessage("Broom miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        //CreateLogMessage("Broom miss");
+                        CreateLogMessage("Broom miss", Player.isPlayer);
                     }
-
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                //CreateLogMessage("Broom no have stamina");
+                CreateLogMessage("Broom no have stamina", Player.isPlayer);
             }
         }
     }
@@ -88,9 +83,21 @@ public class Broom : Weapon
         if (stars[0].GetComponent<Cell>().nestedObject != null)
         {
             var starItem = stars[0].GetComponent<Cell>().nestedObject.GetComponent<Item>();
-            var changeCD = starItem.timer_cooldown / 100.0f * activationSpeedUp;
-            starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
-            starItem.timer = starItem.timer_cooldown;
+            if (starItem.timer_cooldown >= 0)
+            {
+                var changeCD = starItem.baseTimerCooldown / 100.0f * activationSpeedUp;
+                starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
+                starItem.timer = starItem.timer_cooldown;
+
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
+                }
+                else
+                {
+                    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
+                }
+            }
         }
     }
 

@@ -534,7 +534,7 @@ GameObject:
   - component: {fileID: 274909075069823417}
   m_Layer: 9
   m_Name: MagicWand
-  m_TagString: RareWeapon
+  m_TagString: witchcraft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -910,12 +910,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 3331062315197355111, guid: b36c0d443c3c27940a1c65972be992e7, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: 6559821505965861392, guid: 1250342dd8feefa45b7a012da1ce546d, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 13
+  itemCost: 21
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -941,14 +942,17 @@ MonoBehaviour:
   originalName: MagicWand
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2
-  attackMin: 1
-  attackMax: 8
-  stamina: 3
+  baseTimerCooldown: 1.9
+  attackMin: 2
+  attackMax: 7
+  stamina: 1.1
   accuracy: 95
-  critDamage: 90
-  chanceCrit: 6
-  giveManaStack: 2
+  critDamage: 105
+  chanceCrit: 3
+  baseStamina: 0
+  giveManaStack: 1
+  LogManaStackCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  LogManaStackEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
 --- !u!1 &2935078257024107495
 GameObject:
   m_ObjectHideFlags: 0

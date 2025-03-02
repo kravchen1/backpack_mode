@@ -1732,7 +1732,7 @@ GameObject:
   - component: {fileID: 4836067821600423795}
   m_Layer: 9
   m_Name: AutomaticCrossbow
-  m_TagString: RareWeapon
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2541,12 +2541,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 43451118640531620, guid: 529f8c0b30508524e8d7e19630a61597, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: 796182478308427539, guid: 671f0ab3217deff4383ee745d6028863, type: 3}
   prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 45
+  itemCost: 850
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -2572,15 +2573,20 @@ MonoBehaviour:
   originalName: AutomaticCrossbow
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2
+  baseTimerCooldown: 4.1
   attackMin: 3
   attackMax: 11
-  stamina: 5
-  accuracy: 3
+  stamina: 3.2
+  accuracy: 75
   critDamage: 150
-  chanceCrit: 4
+  chanceCrit: 5
+  baseStamina: 0
   bleedingStack: 1
   cooldownSpeedUp: 5
+  LogBleedStackCharacter: {fileID: 4043554854564784463, guid: b2ea1bdf7e21de64cb719ac5a0e672a4, type: 3}
+  LogBleedStackEnemy: {fileID: 1455576652162621365, guid: 0c83ceef10288e14db2f3fd9c884a275, type: 3}
+  LogTimerStackCharacter: {fileID: 6721478895504599656, guid: cdc073ae7a3225b43af5dedae6882141, type: 3}
+  LogTimerStackEnemy: {fileID: 8721428279215496201, guid: 43a72179e09a7eb4c969dc4a5bba6741, type: 3}
 --- !u!1 &8976069243939422735
 GameObject:
   m_ObjectHideFlags: 0

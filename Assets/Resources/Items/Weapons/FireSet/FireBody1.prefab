@@ -119,7 +119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &654426933119270942
 RectTransform:
   m_ObjectHideFlags: 0
@@ -559,13 +559,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 463675199095398185, guid: c09b6f1eb48ce43499cbd4880410324a, type: 3}
-  DescriptionLogCharacter: {fileID: 0}
-  DescriptionLogEnemy: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 300
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -603,6 +603,10 @@ MonoBehaviour:
   startBattleArmorCount: 20
   DamageForStack: 5
   SpendStack: 1
+  DebugFireLogCharacter: {fileID: 8203622112523621785, guid: 02236c3ae63b27d42ae669a84ac58082, type: 3}
+  DebugFireLogEnemy: {fileID: 4968257413604735520, guid: aa3e29503263b7a4c8221e8e2a67d716, type: 3}
+  DebugArmorLogCharacter: {fileID: 4216064053345047927, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
+  DebugArmorLogEnemy: {fileID: 7345077270744164573, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
 --- !u!114 &-3227537083630904895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3080,6 +3084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf167182fefa5e4383cd18f7983f6a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Buff: 0
   countText: {fileID: 5149740416458538058}
   countStack: 1
   sceneGameObjectIcon: {fileID: 0}

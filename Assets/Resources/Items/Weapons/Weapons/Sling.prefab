@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 5975593897460670193}
   m_Layer: 9
   m_Name: Sling
-  m_TagString: RareWeapon
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -803,12 +803,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 3910180949346801120, guid: 89edca3436f13fb4b8a0795fa94451cb, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: 5842462068711866577, guid: 671f0ab3217deff4383ee745d6028863, type: 3}
   prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 13
+  itemCost: 9
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -834,13 +835,14 @@ MonoBehaviour:
   originalName: Sling
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 1
+  baseTimerCooldown: 1.3
   attackMin: 2
   attackMax: 5
-  stamina: 2
-  accuracy: 6
-  critDamage: 80
-  chanceCrit: 2
+  stamina: 0.8
+  accuracy: 75
+  critDamage: 110
+  chanceCrit: 5
+  baseStamina: 0
 --- !u!1 &2144968496113824681
 GameObject:
   m_ObjectHideFlags: 0

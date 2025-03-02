@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 236364864596391326}
   m_Layer: 9
   m_Name: Dagger
-  m_TagString: RareWeapon
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1037,7 +1037,8 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 7539823075141435260, guid: b02a8bdda6034a44bb50db3c73fa1470, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: 5665041469193467649, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
@@ -1069,12 +1070,13 @@ MonoBehaviour:
   timer: 0
   timer_cooldown: 0
   baseTimerCooldown: 2
-  attackMin: 3
-  attackMax: 9
-  stamina: 56
-  accuracy: 32
+  attackMin: 4
+  attackMax: 10
+  stamina: 1
+  accuracy: 85
   critDamage: 130
-  chanceCrit: 56
+  chanceCrit: 25
+  baseStamina: 0
 --- !u!1 &5131560104683177316
 GameObject:
   m_ObjectHideFlags: 0
