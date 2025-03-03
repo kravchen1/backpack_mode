@@ -17,6 +17,8 @@ public class GenerateShopItems : MonoBehaviour
 
     [SerializeField] private TextMeshPro priceTxt;
 
+    public string savePath = "shopData";
+
 
     private List<ShopSaveData> listShopData;
 
@@ -24,7 +26,7 @@ public class GenerateShopItems : MonoBehaviour
     {
         if (prefabs == null)
         {
-            prefabs = Resources.LoadAll<GameObject>("Items/Weapons/");
+            prefabs = Resources.LoadAll<GameObject>("Items/");
         }
         generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
     }
@@ -95,7 +97,7 @@ public class GenerateShopItems : MonoBehaviour
     void LoadSlot()
     {
         var shop = GameObject.FindGameObjectWithTag("Shop").GetComponent<Shop>();
-        shop.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
+        shop.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), savePath + ".json"));
         listShopData = shop.listShopSaveData.listShopSaveData;
         if (listShopData != null)
         {

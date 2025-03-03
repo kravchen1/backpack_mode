@@ -164,7 +164,8 @@ public class EndOfBattle : MonoBehaviour
         Time.timeScale = 0f;
         timeSpeed.value = 0f;
         timeSpeed.interactable = false;
-
+        float addStaminaStartBattle = GetComponent<StartOfBattle>().addStamina;
+        playerBackpackBattle.characterStats.playerMaxStamina -= addStaminaStartBattle;
         endOfBattleCanvas.SetActive(true);
         animations.SetActive(false);
 

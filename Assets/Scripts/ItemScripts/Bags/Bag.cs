@@ -347,9 +347,7 @@ public class Bag : Item
                 switch (objectInCell.gameObject.ExtendedCorrectEndPoint())
                 {
                     case 1:
-                        //objectInCell.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                         objectInCell.gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
-                        //objectInCell.gameObject.CorrectPosition();
                         objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
                         objectInCell.gameObject.SetNestedObject();
                         objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
@@ -386,21 +384,7 @@ public class Bag : Item
             {
                 objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 objectInCell.gameObject.needToDynamic = true;
-                //objectInCell.gameObject.MoveObjectOnEndDrag();
             }
-            //if (objectInCell.gameObject.CorrectEndPoint() && canEndDragParent)
-            //{
-            //    //objectInCell.gameObject.ExtendedCorrectPosition();
-            //    objectInCell.gameObject.SetNestedObject();
-            //}
-            //else
-            //{
-            //    objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-            //    objectInCell.gameObject.needToDynamic = true;
-            //    objectInCell.gameObject.MoveObjectOnEndDrag();
-            //}
-            
-            //objectInCell.gameObject.ExtendedCorrectPosition();
             objectInCell.gameObject.ChangeColorToDefault();
         }
         objectsInCells.Clear();
