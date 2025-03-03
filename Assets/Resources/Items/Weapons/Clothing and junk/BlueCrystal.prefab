@@ -1211,7 +1211,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5530377155944873895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1582,12 +1582,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 5425907962425729999, guid: d650dafa0b028ef4d81a57ac51b97660, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  DescriptionLogEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 300
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1600,8 +1601,13 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
-  stars: []
+  stars:
+  - {fileID: 5879407264629090220}
+  - {fileID: 1262133521221951701}
+  - {fileID: 4902205579025368400}
+  - {fileID: 3986880709908714964}
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -1614,8 +1620,8 @@ MonoBehaviour:
   timer_cooldown: 0
   baseTimerCooldown: 0
   startBattleArmorCount: 0
-  manaStackChance: 10
-  manaStack: 2
+  manaStackChance: 50
+  manaStack: 1
 --- !u!1 &5879407264629090220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,7 +2036,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2213,7 +2219,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5097346310783131814

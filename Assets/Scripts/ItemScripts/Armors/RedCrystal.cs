@@ -13,15 +13,6 @@ public class RedCrystal : Armor
     public int powerStackChance = 5;
     private void Start()
     {
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
-        }
-
     }
 
 
@@ -34,23 +25,21 @@ public class RedCrystal : Armor
 
     public override void StarActivation(Item item)
     {
-        
+        if (Player != null)
+        {
+            int r = Random.Range(1, 101);
+            if (r <= powerStackChance)
+            {
+                Player.menuFightIconData.AddBuff(powerStack, "IconPower");
+                CreateLogMessage("RedCrystal give " + powerStack.ToString(), Player.isPlayer);
+                CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+            }
+        }
     }
 
     private void CoolDownStart()
     {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                animator.Play("New State");
-            }
-        }
     }
     public override void Update()
     {
@@ -71,7 +60,7 @@ public class RedCrystal : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

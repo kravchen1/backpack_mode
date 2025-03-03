@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class EndOfBattle : MonoBehaviour
 {
@@ -59,6 +60,12 @@ public class EndOfBattle : MonoBehaviour
         if (enemyBackpackBattle.hp <= 0 && !awardsReceived) //win
         {
             StopFight();
+            if(PlayerPrefs.GetInt("VampireAmulet") == 1)
+            {
+                PlayerPrefs.SetInt("VampireAmulet", 0);
+
+                giveItem("AngryFluff");
+            }
             var enemyName = PlayerPrefs.GetString("enemyName");
             if (enemyName == "Fanatik(Clone)"
                 || enemyName == "Fallen Knight(Clone)"
@@ -74,7 +81,6 @@ public class EndOfBattle : MonoBehaviour
                 int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
                 winGold += Random.Range(0, 10);
                 WinGold(winGold);
-
             }
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
@@ -195,6 +201,20 @@ public class EndOfBattle : MonoBehaviour
             playerBackpackBattle.characterStats.SaveData();
             SceneManager.LoadScene("GenerateMapFortress1");
         }
+    }
+
+    private void giveItem(string itemName)
+    {
+        BackPackAndStorageData backPackAndStorageData = new BackPackAndStorageData();
+        backPackAndStorageData.storageData = new BackpackData();
+        backPackAndStorageData.storageData.itemData = new ItemData();
+        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json")))
+        {
+            backPackAndStorageData.storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+        }
+
+        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector2(0, 0)));
+        backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 
 

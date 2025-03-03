@@ -20,20 +20,7 @@ public class FireFlask : Flask
     private bool isUse = false;
     private bool usable = false;
     private int currentTick = 0;
-    private void Start()
-    {
-        //timer = timerRegenerate;
-        //if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        //{
-        //    //animator.speed = 1f / 0.5f;
-        //    //timer = timer_cooldown;
-        //    //animator.Play(originalName + "Activation");
-        //}
-    }
-    float f_ToPercent(float a, float p)
-    {
-        return (a / 100 * p); //возвращает значение из процентов, например если передать 200 и 30, то вернёт 60
-    }
+    
     public override void Activation()
     {
         if (!isUse)
@@ -45,9 +32,6 @@ public class FireFlask : Flask
                     if (icon.countStack >= countStack)
                     {
                         isUse = true;
-                        CreateLogMessage("FireBag give " + giveStack.ToString() + " burn");
-                        //animator.SetTrigger(originalName + "StarActivation");
-                        //animator.Play("New State");
 
                         animator.speed = 5f;
                         animator.Play(originalName + "Activation", 0, 0f);
@@ -59,35 +43,17 @@ public class FireFlask : Flask
                     Player.menuFightIconData.CalculateFireFrostStats();//true = Player
                     CheckNestedObjectActivation("StartBag");
                     CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                    CreateLogMessage("FireFlask give " + giveStack.ToString(), Player.isPlayer);
 
                 }
             }
         }
     }
 
-    //public void TickHeal()
-    //{
-    //    if (usable && currentTick < maxTimeRegenerate)
-    //    {
-    //        timer -= Time.deltaTime;
-
-    //        if (timer <= 0)
-    //        {
-    //            timer = timerRegenerate;
-    //            Player.hp += f_ToPercent(Player.maxHP, percentHP);
-    //            currentTick += 1;
-    //            Debug.Log("а фласочка то действует " + currentTick);
-    //        // a delayed action could be called from here
-    //        // once the lock-out period expires
-    //        }
-    //    }
-    //}
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //CoolDownStart();
-            //CoolDown();
             Activation();
         }
 

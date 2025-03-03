@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Kettlebell : Armor
+public class Kettlebell : Stuff
 {
     private bool isUse = false;
     public int givePowerStack = 5;//надо заменить
@@ -18,7 +18,7 @@ public class Kettlebell : Armor
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
+            //animator.Play(originalName + "Activation");
         }
 
     }
@@ -31,9 +31,16 @@ public class Kettlebell : Armor
         }
     }
 
-    public override void StarActivation(Item item)
+    public override void Activation()
     {
-        
+        if (!timer_locked_outStart && !timer_locked_out)
+        {
+            timer_locked_out = true;
+            Player.menuFightIconData.AddBuff(givePowerStack, "IconPower");
+            CreateLogMessage("Kettlebell give " + givePowerStack.ToString(), Player.isPlayer);
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+        }
     }
 
     private void CoolDownStart()
@@ -45,17 +52,35 @@ public class Kettlebell : Armor
             if (timerStart <= 0)
             {
                 timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
                 StartActivation();
-                animator.Play("New State");
+                animator.speed = 1f / timer_cooldown;
+                animator.Play(originalName + "Activation");
             }
         }
     }
+
+    public void CoolDown()
+    {
+        if (!timer_locked_outStart && timer_locked_out == true)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                timer = timer_cooldown;
+                timer_locked_out = false;
+                animator.speed = 1f / timer_cooldown;
+            }
+        }
+    }
+
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             CoolDownStart();
+            CoolDown();
+            Activation();
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
@@ -70,7 +95,7 @@ public class Kettlebell : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

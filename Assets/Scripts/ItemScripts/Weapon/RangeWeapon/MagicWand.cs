@@ -12,15 +12,13 @@ using UnityEngine.UI;
 public class MagicWand : Weapon
 {
     public int giveManaStack;//надо заменить
-
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
-
+    public GameObject LogManaStackCharacter, LogManaStackEnemy;
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -30,7 +28,6 @@ public class MagicWand : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
@@ -53,32 +50,37 @@ public class MagicWand : Weapon
                                 resultDamage -= block;
                             else
                                 resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
 
                             Player.menuFightIconData.AddBuff(giveManaStack, "IconMana");
-                            Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(LogManaStackCharacter, "Magic wand give " + giveManaStack.ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(LogManaStackEnemy, "Magic wand give " + giveManaStack.ToString());
+                            }
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Magic wand miss");
+                            CreateLogMessage("Magic wand miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Magic wand miss");
+                        CreateLogMessage("Magic wand miss", Player.isPlayer);
                     }
-
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Magic wand no have stamina");
+                CreateLogMessage("Magic wand no have stamina", Player.isPlayer);
             }
         }
     }
@@ -146,7 +148,7 @@ public class MagicWand : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

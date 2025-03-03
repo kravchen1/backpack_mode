@@ -61,7 +61,7 @@ public class FireHelmet : Armor
                 Player.armor = Player.armor + startBattleArmorCount;
                 Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
-                CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
+                //CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
                 CheckNestedObjectActivation("StartBag");
             }
         }
@@ -76,7 +76,7 @@ public class FireHelmet : Armor
             {
                 Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
                 //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-                CreateLogMessage("FireHelmet give " + countBurnStack.ToString() + " burn");
+                CreateLogMessage("FireHelmet give " + countBurnStack.ToString(), Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                 //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
@@ -123,7 +123,7 @@ public class FireHelmet : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

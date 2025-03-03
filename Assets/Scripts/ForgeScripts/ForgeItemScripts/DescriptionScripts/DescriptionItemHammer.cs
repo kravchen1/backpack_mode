@@ -14,8 +14,8 @@ public class DescriptionItemHammer : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "On hit: Gives a <u>" + stunChance.ToString() + "</u>% chance to stun your opponent for <u>" + stunTimer.ToString() + "</u> second";
-        textBody.text = text;
+        //string text = "On hit: Gives a <u>" + stunChance.ToString() + "</u>% chance to stun your opponent for <u>" + stunTimer.ToString() + "</u> second";
+        //textBody.text = text;
     }
 
     public void SetTextStat()

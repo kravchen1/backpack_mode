@@ -13,7 +13,7 @@ public class ChantarelleMushroom : Mushroom
     public int activationForStar = 2;//надо заменить
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256, "mushroom");
 
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
@@ -32,10 +32,13 @@ public class ChantarelleMushroom : Mushroom
         if (!isUse)
         {
             int countFillStart = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count();
-            var changeCD = timer_cooldown / 100.0f * (activationForStar * countFillStart);
+            var changeCD = baseTimerCooldown / 100.0f * (activationForStar * countFillStart);
 
             timer_cooldown = timer_cooldown - changeCD;
             timer = timer_cooldown;
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
@@ -44,7 +47,13 @@ public class ChantarelleMushroom : Mushroom
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
-            Player.menuFightIconData.AddBuff(giveRegenerationStack, "IconRegenerate");//
+            Player.menuFightIconData.AddBuff(giveRegenerationStack, "IconRegenerate");
+            CreateLogMessage("Chantarelle mushroom give " + giveRegenerationStack.ToString(), Player.isPlayer);
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+
+
         }
     }
 
@@ -104,7 +113,7 @@ public class ChantarelleMushroom : Mushroom
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256, "mushroom");
             ChangeShowStars(true);
             if (canShowDescription)
             {

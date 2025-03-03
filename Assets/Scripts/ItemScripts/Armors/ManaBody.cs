@@ -12,6 +12,8 @@ public class ManaBody : Armor
     public int countStarArmorStack = 5;
     public int countStarManaStack = 3;
     public int countManaStack = 1;
+
+    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -36,9 +38,20 @@ public class ManaBody : Armor
                 Player.armorMax = Player.armorMax + resultArmor;
                 isUse = true;
                 Player.menuFightIconData.AddBuff(resultMana, "IconMana");
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("ManaBody give " + resultArmor.ToString() + " armor and " + resultMana.ToString() + " mana");
+
+                CreateLogMessage("Mana Body give " + resultMana.ToString(), Player.isPlayer);
+
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogArmorStackCharacter, "Mana Body give " + resultArmor.ToString());
+                }
+                else
+                {
+                    CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + resultArmor.ToString());
+                }
+
                 CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
         }
     }
@@ -95,7 +108,7 @@ public class ManaBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(256, "RareWeapon");
+            //FillnestedObjectStarsStars(256);
             CoolDownStart();
         }
 
@@ -111,7 +124,7 @@ public class ManaBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

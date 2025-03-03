@@ -352,7 +352,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &146750908487368276
@@ -654,7 +654,7 @@ GameObject:
   - component: {fileID: 5600854440953944222}
   m_Layer: 9
   m_Name: MushroomWhite
-  m_TagString: RareWeapon
+  m_TagString: mushroomsItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -667,7 +667,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3050196902553405768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1080,12 +1080,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 2855963445515971110, guid: 0469b960e76dfb24692f9361db93a292, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 7549272135300686505, guid: 9eb6f0d9f999cd845a1aa040c2fb7614, type: 3}
+  DescriptionLogEnemy: {fileID: 9183537562303837566, guid: 38d301660461d3e42ba7826fb97370cc, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 5
+  itemCost: 65
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1098,6 +1099,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars:
   - {fileID: 6077431163017636841}
@@ -1116,9 +1118,9 @@ MonoBehaviour:
   originalName: MushroomWhite
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.1
+  baseTimerCooldown: 3.1
   startBattleArmorCount: 0
-  stamina: 10
+  stamina: 0.8
   activationForStar: 10
 --- !u!1 &3300817748081511345
 GameObject:
@@ -2149,7 +2151,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

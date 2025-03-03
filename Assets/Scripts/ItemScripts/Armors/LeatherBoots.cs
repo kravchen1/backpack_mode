@@ -28,6 +28,13 @@ public class LeatherBoots : Armor
     {
         if (!isUse)
         {
+            Player.armor = Player.armor + armor;
+            Player.armorMax = Player.armorMax + armor;
+            isUse = true;
+            //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+            CreateLogMessage("LeatherBoots give " + armor.ToString(), Player.isPlayer);
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
@@ -70,7 +77,7 @@ public class LeatherBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

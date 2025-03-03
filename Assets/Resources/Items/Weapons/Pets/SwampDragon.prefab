@@ -352,7 +352,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7661652105802793223
@@ -746,7 +746,7 @@ GameObject:
   - component: {fileID: 6644017346666139883}
   m_Layer: 9
   m_Name: SwampDragon
-  m_TagString: RareWeapon
+  m_TagString: BlockPet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -759,7 +759,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5423764500407513056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1403,12 +1403,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 1731876783682409788, guid: 23b34dd6f15050b4999db7be3fb3fbfb, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: 6616377037397603324, guid: 1c64ed38cc5bcfc43918702ab2fa4460, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 610
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1421,6 +1422,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1433,16 +1435,22 @@ MonoBehaviour:
   originalName: SwampDragon
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2
+  baseTimerCooldown: 3.2
   attackMin: 6
   attackMax: 12
-  stamina: 6
-  accuracy: 3
+  stamina: 0
+  accuracy: 85
   critDamage: 130
   chanceCrit: 5
   poisonStack: 2
-  blindnessStack: 3
-  fireStack: 5
+  blindnessStack: 1
+  fireStack: 3
+  LogPoisonStackCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
+  LogPoisonStackEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
+  LogBlindStackCharacter: {fileID: 4370644500528152849, guid: 24fc1c087448c1345965751ad6de434a, type: 3}
+  LogBlindStackEnemy: {fileID: 9013028193545157029, guid: 63fe669e53abf4a429918a379af37934, type: 3}
+  LogFireStackCharacter: {fileID: 8203622112523621785, guid: 02236c3ae63b27d42ae669a84ac58082, type: 3}
+  LogFireStackEnemy: {fileID: 4968257413604735520, guid: aa3e29503263b7a4c8221e8e2a67d716, type: 3}
 --- !u!1 &5765354305655459725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,7 +1864,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

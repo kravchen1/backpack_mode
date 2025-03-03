@@ -16,9 +16,10 @@ public class RevolverRing : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -26,19 +27,101 @@ public class RevolverRing : Weapon
         }
     }
 
+    public void ActiovationNow()
+    {
+        if (HaveStamina())
+        {
+            if (Player != null && Enemy != null)
+            {
+                int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                {
+                    if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                    {
+                        resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                        if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                        {
+                            resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                        }
+                        int block = BlockDamage();
+                        if (resultDamage >= block)
+                            resultDamage -= block;
+                        else
+                            resultDamage = 0;
+                        Attack(resultDamage, true);
+                        VampireHP(resultDamage);
+
+                        CheckNestedObjectActivation("StartBag");
+                        CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                    }
+                    else
+                    {
+                        CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                    }
+                }
+                else
+                {
+                    CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                }
+            }
+        }
+        else
+        {
+            CreateLogMessage("Revolver ring no have stamina", Player.isPlayer);
+        }
+    }
+
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
+
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                    }
+                }
+            }
+            else
+            {
+                CreateLogMessage("Revolver ring no have stamina", Player.isPlayer);
+            }
         }
     }
 
     public override void StarActivation(Item item)
     {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        ActiovationNow();
     }
 
 
@@ -98,7 +181,7 @@ public class RevolverRing : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

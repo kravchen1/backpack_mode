@@ -399,8 +399,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3130515751442528131}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -748,10 +748,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 1693372979934357443, guid: 1579793f218c4a7459f11fcb9559cc34, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  DescriptionLogEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 305
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -764,6 +767,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: 0}
@@ -779,9 +783,13 @@ MonoBehaviour:
   baseTimerCooldown: 0
   startBattleArmorCount: 0
   hpDrop: 71
-  countArmorStack: 34
-  countResistStack: 10
+  countArmorStack: 45
+  countResistStack: 6
   countSpendManaStack: 2
+  LogArmorStackCharacter: {fileID: 4216064053345047927, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
+  LogArmorStackEnemy: {fileID: 7345077270744164573, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
+  LogResistanceStackCharacter: {fileID: 3823412551724298339, guid: 5b73a6717ea5b3d4eaf0a8f963e4286c, type: 3}
+  LogResistanceStackEnemy: {fileID: 5549613402905842690, guid: d25aa91a1d7d95f4184474027586f83d, type: 3}
 --- !u!114 &-5577050117275308805
 MonoBehaviour:
   m_ObjectHideFlags: 0

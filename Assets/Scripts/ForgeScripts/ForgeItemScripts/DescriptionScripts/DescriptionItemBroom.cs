@@ -13,7 +13,7 @@ public class DescriptionItemBroom : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "item       activate <u>" + activationSpeedUp.ToString() + "</u>% faster";
+        string text = "start battle: item       increases cooldown by <u>" + activationSpeedUp.ToString() + "</u>% faster";
         textBody.text = text;
     }
 

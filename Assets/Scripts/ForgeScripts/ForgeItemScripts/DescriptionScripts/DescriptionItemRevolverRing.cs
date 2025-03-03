@@ -12,8 +12,8 @@ public class DescriptionItemRevolverRing : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "";
-        textBody.text = text;
+        //string text = "";
+        //textBody.text = text;
     }
 
     public void SetTextStat()

@@ -1366,7 +1366,7 @@ GameObject:
   - component: {fileID: 1589830892367700472}
   m_Layer: 9
   m_Name: FireGloves1
-  m_TagString: RareWeapon
+  m_TagString: FireItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1379,7 +1379,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9138683425467991078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1761,12 +1761,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 5785548692116576654, guid: 7db90ebd870f6464c8d2b4a5105e01a8, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 0}
+  DescriptionLogEnemy: {fileID: 0}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 450
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1779,6 +1780,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars:
   - {fileID: 4591342256448022169}
@@ -1795,8 +1797,12 @@ MonoBehaviour:
   timer_cooldown: 0
   baseTimerCooldown: 0
   startBattleArmorCount: 0
-  countBurnStack: 3
+  countBurnStack: 1
   coolDown: 50
+  LogFireStackCharacter: {fileID: 8203622112523621785, guid: 02236c3ae63b27d42ae669a84ac58082, type: 3}
+  LogFireStackEnemy: {fileID: 4968257413604735520, guid: aa3e29503263b7a4c8221e8e2a67d716, type: 3}
+  LogTimerStackCharacter: {fileID: 6721478895504599656, guid: cdc073ae7a3225b43af5dedae6882141, type: 3}
+  LogTimerStackEnemy: {fileID: 8721428279215496201, guid: 43a72179e09a7eb4c969dc4a5bba6741, type: 3}
 --- !u!114 &-6237298688638496358
 MonoBehaviour:
   m_ObjectHideFlags: 0

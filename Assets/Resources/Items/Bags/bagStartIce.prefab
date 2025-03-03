@@ -1755,7 +1755,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -93, y: -5.7000732}
+  m_AnchoredPosition: {x: -92.99999, y: -5.7000732}
   m_SizeDelta: {x: -118.78406, y: -58.895996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4515282948768811033
@@ -3385,14 +3385,13 @@ GameObject:
   - component: {fileID: 5624377953466816372}
   - component: {fileID: 4338263168579070166}
   - component: {fileID: 4725053750977669675}
-  - component: {fileID: 4310001407536163461}
   - component: {fileID: 792609861029261054}
-  - component: {fileID: 2769464971837681597}
   - component: {fileID: 944690391475437732}
   - component: {fileID: 4053938290148971415}
-  - component: {fileID: -4534131077697904038}
   - component: {fileID: -6659654053276392593}
   - component: {fileID: -3439475728848500642}
+  - component: {fileID: 8900708441236418643}
+  - component: {fileID: 3180821629723238009}
   m_Layer: 10
   m_Name: bagStartIce
   m_TagString: StartBag
@@ -3407,8 +3406,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7591791418219679168}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3509,7 +3508,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7591791418219679168}
-  m_BodyType: 1
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -3528,50 +3527,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4310001407536163461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7591791418219679168}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6e7516f95e288f4e8549240b6c515d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 5133667609676939103, guid: b75f6ea7b57c5e74a923a186173f9cff, type: 3}
-  rbMass: 0.1
-  itemCost: 4
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars: []
-  emptyStar: {fileID: 0}
-  fillStar: {fileID: 0}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  baseMass: 1
-  massMultiplier: 0.3
-  mainCamera: {fileID: 0}
 --- !u!222 &792609861029261054
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3580,36 +3535,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7591791418219679168}
   m_CullTransparentMesh: 1
---- !u!114 &2769464971837681597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7591791418219679168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!95 &944690391475437732
 Animator:
   serializedVersion: 7
@@ -3790,56 +3715,6 @@ PolygonCollider2D:
       - {x: 142.08333, y: -165.83333}
       - {x: 147.91666, y: -167.5}
   m_UseDelaunayMesh: 0
---- !u!114 &-4534131077697904038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7591791418219679168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fb0a66188c6f9b4e9ceb131362ffb81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 2516796831587273579, guid: 4b4fca9d27254a240bb57ebb0e6141be, type: 3}
-  DescriptionLog: {fileID: 0}
-  CanvasDescription: {fileID: 0}
-  Exit: 0
-  itemCost: 4
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars: []
-  emptyStar: {fileID: 0}
-  fillStar: {fileID: 0}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  itemMusicEffects: {fileID: 0}
-  originalName: 
-  timer: 0
-  timer_cooldown: 0
-  baseTimerCooldown: 0
 --- !u!114 &-6659654053276392593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3869,6 +3744,116 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ac37feaf6ed165148af7ab351a1167c2, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
+--- !u!114 &8900708441236418643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7591791418219679168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4e695addc107f4e8f8a2e1937fd45b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 2516796831587273579, guid: 6764c3bf116a1d844be128e53ceaa191, type: 3}
+  DescriptionLogCharacter: {fileID: 2977845720301538147, guid: 37521e0028aa86b4e8d4da2f81820553, type: 3}
+  DescriptionLogEnemy: {fileID: 8641985689303872919, guid: 65c4b8aa95b90154e8c466960915a19b, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
+  itemCost: 0
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
+  Impulse: 0
+  stars: []
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
+  originalName: 
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 0
+  countIceStack: 1
+--- !u!114 &3180821629723238009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7591791418219679168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4e695addc107f4e8f8a2e1937fd45b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRotation: 500
+  Name: 
+  colliderCount: 0
+  startRectTransformZ: 0
+  image: {fileID: 0}
+  canvas: {fileID: 0}
+  imageColor: {r: 0, g: 0, b: 0, a: 0}
+  prefabOriginalName: 
+  Description: {fileID: 2516796831587273579, guid: 6764c3bf116a1d844be128e53ceaa191, type: 3}
+  DescriptionLogCharacter: {fileID: 2977845720301538147, guid: 37521e0028aa86b4e8d4da2f81820553, type: 3}
+  DescriptionLogEnemy: {fileID: 8641985689303872919, guid: 65c4b8aa95b90154e8c466960915a19b, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
+  CanvasDescription: {fileID: 0}
+  Exit: 0
+  itemCost: 0
+  itemColliders: []
+  bagTransform: {fileID: 0}
+  collidersArray: []
+  rb: {fileID: 0}
+  collider: {fileID: 0}
+  lastItemPosition: {x: 0, y: 0, z: 0}
+  rectTransform: {fileID: 0}
+  firstTap: 1
+  needToRotate: 0
+  needToDynamic: 0
+  needToRotateToStartRotation: 0
+  animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
+  Impulse: 0
+  stars: []
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
+  shopItem: {fileID: 0}
+  isSellChest: 0
+  isDragging: 0
+  offset: {x: 0, y: 0, z: 0}
+  itemMusicEffects: {fileID: 0}
+  originalName: 
+  timer: 0
+  timer_cooldown: 0
+  baseTimerCooldown: 0
+  countIceStack: 1
 --- !u!1 &8462437358861697347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,7 +3887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -87.20001, y: 12}
+  m_AnchoredPosition: {x: -87.200005, y: 12}
   m_SizeDelta: {x: -118.78406, y: -58.895996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3866298144386547203

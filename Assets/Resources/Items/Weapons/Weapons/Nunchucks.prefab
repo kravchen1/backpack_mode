@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 4995001229128664961}
   m_Layer: 9
   m_Name: Nunchucks
-  m_TagString: RareWeapon
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -643,7 +643,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3576932886689115485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1107,12 +1107,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 4753702425202581983, guid: ea6f4ae3db0f9d3428a8d3172196b45c, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: -3194888573424618823, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 45
+  itemCost: 490
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1125,6 +1126,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1137,15 +1139,20 @@ MonoBehaviour:
   originalName: Nunchucks
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2
-  attackMin: 4
+  baseTimerCooldown: 1.7
+  attackMin: 6
   attackMax: 20
   stamina: 4
-  accuracy: 5
+  accuracy: 85
   critDamage: 130
-  chanceCrit: 5
+  chanceCrit: 17
+  baseStamina: 0
   activationSpeedUp: 3
   giveCritStack: 2
+  LogChanceCritStackCharacter: {fileID: 1451876726980481727, guid: 0d3da048274d84a478e9f60637f15cdc, type: 3}
+  LogChanceCritStackEnemy: {fileID: 38909059984083718, guid: 8b505caf5161ff14bbdd08e959d59f22, type: 3}
+  LogTimerStackCharacter: {fileID: 6721478895504599656, guid: cdc073ae7a3225b43af5dedae6882141, type: 3}
+  LogTimerStackEnemy: {fileID: 8721428279215496201, guid: 43a72179e09a7eb4c969dc4a5bba6741, type: 3}
 --- !u!1 &3797889396508611858
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class GenerateBackpack : MonoBehaviour
     {
         if (prefabs == null)
         {
-            prefabs = Resources.LoadAll<GameObject>("");
+            prefabs = Resources.LoadAll<GameObject>("Items/Weapons/");
         }
         generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
     }
@@ -269,6 +269,15 @@ public class GenerateBackpack : MonoBehaviour
         LoadChestItems("STARTBAG");
         LoadChestItems("BAG");
         LoadChestItems("BLOCKMANAITEM");
+        LoadChestItems("FIREITEMS");
+        LoadChestItems("BLOCKPET");
+        LoadChestItems("MUSHROOMITEMS");
+        LoadChestItems("VAMPIREITEMS");
+        LoadChestItems("FIREWEAPONITEMS");
+        LoadChestItems("VAMPIREWEAPONITEMS");
+        LoadChestItems("VAMPIREGLOVESITEMS");
+        LoadChestItems("WITCHCRAFT");
+        LoadChestItems("WEAPONS");
 
 
         GenerationBackpack();

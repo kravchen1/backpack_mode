@@ -27,18 +27,18 @@ public class Bag : Item
         }
     }
     private Vector3 shopItemStartPosition;
-    public new void TapFirst()
-    {
-        if (firstTap)
-        {
-            firstTap = false;
-            rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            shopItem = GetComponent<ShopItem>();
-            if(shopItem != null)
-                shopItemStartPosition = shopItem.transform.position;
-            backpack = GameObject.Find("backpack");
-        }
-    }
+    //public new void TapFirst()
+    //{
+    //    if (firstTap)
+    //    {
+    //        firstTap = false;
+    //        rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+    //        shopItem = GetComponent<ShopItem>();
+    //        if(shopItem != null)
+    //            shopItemStartPosition = shopItem.transform.position;
+    //        backpack = GameObject.Find("backpack");
+    //    }
+    //}
     public new void TapRotate()
     {
         needToRotate = true;
@@ -83,7 +83,7 @@ public class Bag : Item
 
     public override void OnMouseDown()
     {
-        rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        //rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         shopItem = GetComponent<ShopItem>();
         if(backpack == null)
             backpack = GameObject.Find("backpack");
@@ -223,11 +223,11 @@ public class Bag : Item
                 DeleteAllDescriptions();
 
             }
+            Rotate();
+            SwitchDynamicStatic();
+            OnImpulse();
+            RotationToStartRotation();
         }
-        Rotate();
-        SwitchDynamicStatic();
-        OnImpulse();
-        RotationToStartRotation();
     }
     public override void Update()
     {

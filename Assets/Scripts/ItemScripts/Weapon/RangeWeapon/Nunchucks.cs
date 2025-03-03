@@ -14,14 +14,15 @@ public class Nunchucks : Weapon
     public int activationSpeedUp;//надо заменить
     public int giveCritStack;//надо заменить
 
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
+    public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
+    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -31,10 +32,64 @@ public class Nunchucks : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
+
+                            Player.menuFightIconData.AddBuff(giveCritStack, "IconChanceCrit");
+                            double speedUp = baseTimerCooldown / 100.0 * activationSpeedUp;
+                            timer_cooldown -= (float)speedUp;
+
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(LogChanceCritStackCharacter, "Nunchucks give " + giveCritStack.ToString());
+                                CreateLogMessage(LogTimerStackCharacter, "Nunchucks increased cooldown by " + Math.Round(speedUp, 2).ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(LogChanceCritStackEnemy, "Nunchucks give " + giveCritStack.ToString());
+                                CreateLogMessage(LogTimerStackEnemy, "Nunchucks increased cooldown by " + Math.Round(speedUp, 2).ToString());
+                            }
+
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Nunchucks miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Nunchucks miss", Player.isPlayer);
+                    }
+                }
+            }
+            else
+            {
+                CreateLogMessage("Nunchucks no have stamina", Player.isPlayer);
+            }
         }
     }
 
@@ -101,7 +156,7 @@ public class Nunchucks : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

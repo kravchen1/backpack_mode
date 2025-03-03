@@ -11,14 +11,11 @@ using UnityEngine.UI;
 
 public class Spear : Weapon
 {
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
-
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -28,7 +25,6 @@ public class Spear : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
@@ -52,29 +48,25 @@ public class Spear : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            VampireHP(resultDamage);
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Spear miss");
+                            CreateLogMessage("Spear miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Spear miss");
+                        CreateLogMessage("Spear miss", Player.isPlayer);
                     }
-
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Spear no have stamina");
+                CreateLogMessage("Spear no have stamina", Player.isPlayer);
             }
         }
     }
@@ -142,7 +134,7 @@ public class Spear : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            //FillnestedObjectStarsStars(256, "RareWeapon");
+            //FillnestedObjectStarsStars(256);
             //ChangeShowStars(true);
             if (canShowDescription)
             {

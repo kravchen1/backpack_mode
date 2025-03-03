@@ -17,38 +17,24 @@ public class VampireGloves : Armor
 
     private void Start()
     {
+        FillnestedObjectStarsStars(256);
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            animator.speed = 1f / 0.5f;
+            //animator.speed = 1f / 0.5f;
             //animator.Play(originalName + "Activation");
         }
     }
 
 
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
 
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                //StartActivation();
-                //animator.Play("New State");
-            }
-        }
-    }
 
     public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет): накладывает n кровотечения
         if(Enemy != null)
         {
-            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-            Enemy.menuFightIconData.AddBuff(countBleedStack, "ICONBLEED");
-            CreateLogMessage("VampireGloves apply " + countBleedStack.ToString() + " bleed on enemy");
+            Enemy.menuFightIconData.AddDebuff(countBleedStack, "ICONBLEED");
+            CreateLogMessage("Vampire gloves inflict " + countBleedStack.ToString(), Player.isPlayer);
         }
     }
 
@@ -56,7 +42,7 @@ public class VampireGloves : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            CoolDownStart();
+            //CoolDownStart();
             //CoolDown();
             //Activation();
         }
@@ -75,7 +61,7 @@ public class VampireGloves : Armor
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                FillnestedObjectStarsStars(256, "RareWeapon");
+                FillnestedObjectStarsStars(256);
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireGloves>();

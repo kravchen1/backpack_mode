@@ -20,11 +20,11 @@ public class GenerateShopItems : MonoBehaviour
 
     private List<ShopSaveData> listShopData;
 
-    public void LoadChestItems(string tagName)
+    public void LoadItems(string tagName)
     {
         if (prefabs == null)
         {
-            prefabs = Resources.LoadAll<GameObject>("");
+            prefabs = Resources.LoadAll<GameObject>("Items/Weapons/");
         }
         generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
     }
@@ -35,7 +35,7 @@ public class GenerateShopItems : MonoBehaviour
 
         foreach(var tag in tagItems)
         {
-            LoadChestItems(tag);
+            LoadItems(tag);
         }
         //("RAREWEAPON");
         //LoadChestItems("BAG");

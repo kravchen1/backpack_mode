@@ -10,29 +10,25 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ManaRing : Armor
 {
-    //public float timer_cooldown = 2.1f;
+    
     protected bool timer_locked_out = true;
     public int countNeedManaStack = 2;
     public int countBurnStack = 2;
 
     private bool isUse = false;
-    //private bool usable = false;
+
+    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
+            
         }
     }
  
-
-    
-
-
-
 
     public void CoolDown()
     {
@@ -50,20 +46,6 @@ public class ManaRing : Armor
     }
 
 
-    //public override void StartActivation()
-    //{
-    //    if (!isUse)
-    //    {
-    //        if (Player != null)
-    //        {
-    //            Player.armor = Player.armor + startBattleArmorCount;
-    //            Player.armorMax = Player.armorMax + startBattleArmorCount;
-    //            isUse = true;
-    //            CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
-    //            CheckNestedObjectActivation("StartBag");
-    //        }
-    //    }
-    //}
 
     public override void Activation()
     {
@@ -80,11 +62,21 @@ public class ManaRing : Armor
                         if (icon.countStack >= countNeedManaStack)
                         {
                             b = true;
-                            CreateLogMessage("ManaRing removed " + countNeedManaStack.ToString() + " mana and give " + countBurnStack.ToString() + " burn");
                         }
                     }
                     if (b)
                     {
+                        CreateLogMessage("Mana ring spend " + countNeedManaStack.ToString(), Player.isPlayer);
+
+                        if (Player.isPlayer)
+                        {
+                            CreateLogMessage(LogFireStackCharacter, "Mana ring give " + countBurnStack.ToString());
+                        }
+                        else
+                        {
+                            CreateLogMessage(LogFireStackEnemy, "Mana ring give " + countBurnStack.ToString());
+                        }
+
                         Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
                         Player.menuFightIconData.AddBuff(countBurnStack, "ICONBURN");
                         Player.menuFightIconData.CalculateFireFrostStats();//true = Player
@@ -134,7 +126,7 @@ public class ManaRing : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

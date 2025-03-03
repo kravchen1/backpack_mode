@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 6937817954938267909, guid: 483b85ae72af7dc4ea48835d7dce8465, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -489,8 +489,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3130515751442528131}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -834,10 +834,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 2348031764374537980, guid: 58212a189491e6349a9907a657f3afd5, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  DescriptionLogEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 190
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -850,6 +853,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: 0}
@@ -864,7 +868,7 @@ MonoBehaviour:
   timer_cooldown: 0
   baseTimerCooldown: 2.1
   startBattleArmorCount: 0
-  countManaStack: 3
+  countManaStack: 2
 --- !u!114 &-4197922131174527226
 MonoBehaviour:
   m_ObjectHideFlags: 0

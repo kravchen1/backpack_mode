@@ -11,12 +11,12 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ManaBoots : Armor
 {
-    //public float timer_cooldown = 2.1f;
     protected bool timer_locked_out = true;
     public int countManaStack = 2;
 
     private bool isUse = false;
-    //private bool usable = false;
+    
+
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -49,20 +49,6 @@ public class ManaBoots : Armor
     }
 
 
-    //public override void StartActivation()
-    //{
-    //    if (!isUse)
-    //    {
-    //        if (Player != null)
-    //        {
-    //            Player.armor = Player.armor + startBattleArmorCount;
-    //            Player.armorMax = Player.armorMax + startBattleArmorCount;
-    //            isUse = true;
-    //            CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
-    //            CheckNestedObjectActivation("StartBag");
-    //        }
-    //    }
-    //}
 
     public override void Activation()
     {
@@ -72,12 +58,11 @@ public class ManaBoots : Armor
             if (Player != null)
             {
                 Player.menuFightIconData.AddBuff(countManaStack, "IconMana");
-                //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-                CreateLogMessage("ManaBoots give " + countManaStack.ToString() + " mana");
+                
+                CreateLogMessage("Mana Boots give " + countManaStack.ToString(), Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-                //Player.menuFightIconData.CalculateFireFrostStats();//true = Player
+                
             }
         }
     }
@@ -120,7 +105,7 @@ public class ManaBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

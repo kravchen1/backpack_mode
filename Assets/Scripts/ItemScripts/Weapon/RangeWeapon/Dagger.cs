@@ -16,9 +16,10 @@ public class Dagger : Weapon
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -28,7 +29,6 @@ public class Dagger : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
@@ -52,29 +52,26 @@ public class Dagger : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            VampireHP(resultDamage);
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Dagger miss");
+                            CreateLogMessage("Dagger miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Dagger miss");
+                        CreateLogMessage("Dagger miss", Player.isPlayer);
                     }
 
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Dagger no have stamina");
+                CreateLogMessage("Dagger no have stamina", Player.isPlayer);
             }
         }
     }
@@ -142,7 +139,7 @@ public class Dagger : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

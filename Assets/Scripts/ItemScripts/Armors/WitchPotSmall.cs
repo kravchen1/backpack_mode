@@ -6,11 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class WitchPotSmall : Armor
+public class WitchPotSmall : WitchCraft
 {
     private bool isUse = false;
     public int givePoisonStack = 5;//надо заменить
-    private bool timer_locked_out = true;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -31,6 +30,9 @@ public class WitchPotSmall : Armor
         {
             timer_locked_out = true;
             Enemy.menuFightIconData.AddDebuff(givePoisonStack, "IconPoison");
+
+            CreateLogMessage("Small witch pot inflict " + givePoisonStack.ToString(), Player.isPlayer);
+
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
@@ -88,7 +90,6 @@ public class WitchPotSmall : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {

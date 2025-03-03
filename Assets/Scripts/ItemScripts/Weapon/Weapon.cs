@@ -6,10 +6,12 @@ public class Weapon : Item
 {
     public int attackMin;
     public int attackMax;
-    public int stamina;
+    public float stamina;
     public int accuracy;
     public int critDamage = 130;
     public int chanceCrit = 5;
+
+    [HideInInspector] public float baseStamina;
 
     //protected float timer = 0f;
     protected bool timer_locked_out = true;
@@ -35,6 +37,19 @@ public class Weapon : Item
         }
 
         return resultBlock;
+    }
+
+    public void VampireHP(int resultDamage)
+    {
+        int vampireHp = Player.menuFightIconData.CalculateVampire(resultDamage);
+        if (Player.hp + vampireHp <= Player.maxHP)
+        {
+            Player.hp += vampireHp;
+        }
+        else
+        {
+            Player.hp = Player.maxHP;
+        }
     }
 
     

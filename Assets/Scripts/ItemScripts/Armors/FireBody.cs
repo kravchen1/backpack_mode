@@ -11,6 +11,8 @@ public class FireBody : Armor
     private bool isUse = false;
     public int DamageForStack = 5;
     public int SpendStack = 2;
+
+    public GameObject DebugFireLogCharacter, DebugFireLogEnemy, DebugArmorLogCharacter, DebugArmorLogEnemy;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -31,9 +33,17 @@ public class FireBody : Armor
                 Player.armor = Player.armor + startBattleArmorCount;
                 Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("FireBody give " + startBattleArmorCount.ToString() + " armor");
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(DebugArmorLogCharacter, "FireBody give " + startBattleArmorCount.ToString());
+                }
+                else
+                {
+                    CreateLogMessage(DebugArmorLogEnemy, "FireBody give " + startBattleArmorCount.ToString());
+                }
+
                 CheckNestedObjectActivation("StartBag");
+                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
         }
     }
@@ -50,22 +60,23 @@ public class FireBody : Armor
                 {
                     if (icon.countStack >= SpendStack)
                     {
-                        //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                         b = true;
-                        //Enemy.hp -= DamageForStack;
                         Attack(DamageForStack, false);
-                        //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
-                        CreateLogMessage("FireBody removed " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
-                        //animator.SetTrigger(originalName + "StarActivation");
-                        //animator.Play("New State");
                         animator.Play(originalName + "Activation2", 0, 0f);
-                        //animator.StartPlayback
                     }
                 }
                 if (b)
                 {
                     Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-                    Player.menuFightIconData.CalculateFireFrostStats();//true = Player
+                    Player.menuFightIconData.CalculateFireFrostStats();
+                    if (Player.isPlayer)
+                    {
+                        CreateLogMessage(DebugFireLogCharacter, "FireBody removed " + SpendStack.ToString());
+                    }
+                    else
+                    {
+                        CreateLogMessage(DebugFireLogEnemy, "FireBody removed " + SpendStack.ToString());
+                    }
                 }
             }
         }
@@ -90,7 +101,7 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //FillnestedObjectStarsStars(256, "RareWeapon");
+            //FillnestedObjectStarsStars(256);
             CoolDownStart();
         }
 
@@ -106,7 +117,7 @@ public class FireBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256, "FireItems");
             ChangeShowStars(true);
             if (canShowDescription)
             {

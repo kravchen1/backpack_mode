@@ -261,7 +261,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 8398730749598406350}
   m_Layer: 9
   m_Name: WitchPot
-  m_TagString: RareWeapon
+  m_TagString: witchcraft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +310,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2850698696272539752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -734,12 +734,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 6873695505963565186, guid: 86cb23442cd33ef44b0459da12225712, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
+  DescriptionLogEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 80
+  itemCost: 120
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -752,12 +753,13 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars:
   - {fileID: 4844780059678173545}
   - {fileID: 3355681531593101515}
-  emptyStar: {fileID: 0}
-  fillStar: {fileID: 0}
+  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
+  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
   isSellChest: 0
   isDragging: 0
@@ -766,12 +768,15 @@ MonoBehaviour:
   originalName: WitchPot
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 12
-  startBattleArmorCount: 0
-  giveManaStack: 12
-  givePoisonStack: 12
-  giveRegenerationStack: 12
-  spendManaStack: 12
+  baseTimerCooldown: 9.8
+  giveManaStack: 8
+  givePoisonStack: 10
+  giveRegenerationStack: 7
+  spendManaStack: 8
+  LogManaStackCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  LogManaStackEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
+  LogRegenerateStackCharacter: {fileID: 5855672005608113897, guid: 6ef35a6494aaa9041bd78f2976f64eae, type: 3}
+  LogRegenerateStackEnemy: {fileID: 4527885082055913013, guid: b90bf19e69c12a54a83e540b52bd384e, type: 3}
 --- !u!1 &3355681531593101515
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,7 +2021,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8521671959731518375

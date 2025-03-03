@@ -46,20 +46,6 @@ public class ManaGloves : Armor
     }
 
 
-    //public override void StartActivation()
-    //{
-    //    if (!isUse)
-    //    {
-    //        if (Player != null)
-    //        {
-    //            Player.armor = Player.armor + startBattleArmorCount;
-    //            Player.armorMax = Player.armorMax + startBattleArmorCount;
-    //            isUse = true;
-    //            CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
-    //            CheckNestedObjectActivation("StartBag");
-    //        }
-    //    }
-    //}
 
     public override void Activation()
     {
@@ -75,19 +61,18 @@ public class ManaGloves : Armor
                     {
                         if (icon.countStack >= countSteelManaStack)
                         {
-                            //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                             b = true;
-                            //Enemy.hp -= dealDamageDropStack;
-                            //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
-                            //Attack(dealDamageDropStack);
-                            CreateLogMessage("ManaGloves steal " + countSteelManaStack.ToString() + " mana");
-                            //animator.Play(originalName + "Activation2", 0, 0f);
                         }
                     }
                     if (b)
                     {
+
                         Enemy.menuFightIconData.DeleteBuff(countSteelManaStack, "ICONMANA");
                         Player.menuFightIconData.AddBuff(countSteelManaStack, "ICONMANA");//true = Player
+
+                        CreateLogMessage("Mana gloves steal " + countSteelManaStack.ToString(), Player.isPlayer);
+                        CheckNestedObjectActivation("StartBag");
+                        CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                     }
                 }
             }
@@ -131,7 +116,7 @@ public class ManaGloves : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

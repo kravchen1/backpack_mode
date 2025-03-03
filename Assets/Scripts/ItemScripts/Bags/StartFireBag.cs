@@ -9,7 +9,7 @@ public class StartFireBag : Bag
         {
             Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
             //Debug.Log("сумка огня наложила 1 ожёг");
-            CreateLogMessage("FireBag give " + countBurnStack.ToString() + " burn");
+            //CreateLogMessage("FireBag give " + countBurnStack.ToString() + " burn");
             Player.menuFightIconData.CalculateFireFrostStats();//true = Player
         }
     }

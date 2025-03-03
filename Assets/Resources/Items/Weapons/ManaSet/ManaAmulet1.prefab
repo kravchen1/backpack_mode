@@ -217,8 +217,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2600457467782464615}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -455,10 +455,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 6281651848052540915, guid: a46f4bafc8575fd4e8ef5d3961d37ab1, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  DescriptionLogEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 400
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -471,6 +474,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: 0}
@@ -483,10 +487,16 @@ MonoBehaviour:
   originalName: ManaAmulet1
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 1.5
+  baseTimerCooldown: 1.6
   startBattleArmorCount: 0
-  countManaStack: 4
+  countManaStack: 3
   countDebuffStack: 2
+  LogPoisonStackCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
+  LogPoisonStackEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
+  LogBleedStackCharacter: {fileID: 4043554854564784463, guid: b2ea1bdf7e21de64cb719ac5a0e672a4, type: 3}
+  LogBleedStackEnemy: {fileID: 1455576652162621365, guid: 0c83ceef10288e14db2f3fd9c884a275, type: 3}
+  LogFrostStackCharacter: {fileID: 2977845720301538147, guid: 37521e0028aa86b4e8d4da2f81820553, type: 3}
+  LogFrostStackEnemy: {fileID: 8641985689303872919, guid: 65c4b8aa95b90154e8c466960915a19b, type: 3}
 --- !u!60 &6357851246049526824
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -10,29 +10,24 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ManaAmulet : Armor
 {
-    //public float timer_cooldown = 2.1f;
     protected bool timer_locked_out = true;
     public int countManaStack = 2;
     public int countDebuffStack = 2;
 
     private bool isUse = false;
-    //private bool usable = false;
+
+    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            //animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
         }
     }
  
-
-    
-
-
-
 
     public void CoolDown()
     {
@@ -50,20 +45,6 @@ public class ManaAmulet : Armor
     }
 
 
-    //public override void StartActivation()
-    //{
-    //    if (!isUse)
-    //    {
-    //        if (Player != null)
-    //        {
-    //            Player.armor = Player.armor + startBattleArmorCount;
-    //            Player.armorMax = Player.armorMax + startBattleArmorCount;
-    //            isUse = true;
-    //            CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
-    //            CheckNestedObjectActivation("StartBag");
-    //        }
-    //    }
-    //}
 
     public override void Activation()
     {
@@ -80,22 +61,47 @@ public class ManaAmulet : Armor
                         if (icon.countStack >= countManaStack)
                         {
                             b = true;
-                            CreateLogMessage("ManaAmulet removed " + countManaStack.ToString() + " mana and inflict " + countDebuffStack.ToString() + " debuffs");
+                            CreateLogMessage("Mana amulet spend " + countManaStack.ToString(), Player.isPlayer);
+                            //CreateLogMessage("ManaAmulet removed " + countManaStack.ToString() + " mana and inflict " + countDebuffStack.ToString() + " debuffs");
                             int r = Random.Range(0, 3);
                             string text = "ICON";
                             switch (r)
                             {
                                 case 0:
                                     text += "POISON";
+                                    if (Player.isPlayer)
+                                    {
+                                        CreateLogMessage(LogPoisonStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    }
+                                    else
+                                    {
+                                        CreateLogMessage(LogPoisonStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    }
                                     break;
                                 case 1:
                                     text += "BLEED";
+                                    if (Player.isPlayer)
+                                    {
+                                        CreateLogMessage(LogBleedStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    }
+                                    else
+                                    {
+                                        CreateLogMessage(LogBleedStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    }
                                     break;
                                 case 2:
                                     text += "FROST";
+                                    if (Player.isPlayer)
+                                    {
+                                        CreateLogMessage(LogFrostStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    }
+                                    else
+                                    {
+                                        CreateLogMessage(LogFrostStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    }
                                     break;
                             }
-                            Enemy.menuFightIconData.AddBuff(countManaStack, text);
+                            Enemy.menuFightIconData.AddDebuff(countDebuffStack, text);
                             if(r==2)
                                 Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
                         }
@@ -152,7 +158,7 @@ public class ManaAmulet : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

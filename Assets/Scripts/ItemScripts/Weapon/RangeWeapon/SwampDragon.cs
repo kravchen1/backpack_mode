@@ -17,10 +17,13 @@ public class SwampDragon : Weapon
 
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
+    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+    public GameObject LogFireStackCharacter, LogFireStackEnemy;
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -32,11 +35,84 @@ public class SwampDragon : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
+
+                            Enemy.menuFightIconData.AddDebuff(poisonStack, "IconPoison");
+                            Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");
+
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(LogPoisonStackCharacter, "Swamp dragon inflict " + poisonStack.ToString());
+                                CreateLogMessage(LogBlindStackCharacter, "Swamp dragon inflict " + blindnessStack.ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(LogPoisonStackEnemy, "Swamp dragon inflict " + poisonStack.ToString());
+                                CreateLogMessage(LogBlindStackEnemy, "Swamp dragon inflict " + blindnessStack.ToString());
+                            }
+
+
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Swamp dragon miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Swamp dragon miss", Player.isPlayer);
+                    }
+
+                }
+            }
+            else
+            {
+                CreateLogMessage("Swamp dragon no have stamina", Player.isPlayer);
+            }
         }
+    }
+
+    public override int BlockActivation()
+    {
+        if (Player != null)
+        {
+            Player.menuFightIconData.AddBuff(fireStack, "IconBurn");
+            if (Player.isPlayer)
+            {
+                CreateLogMessage(LogFireStackCharacter, "Swamp dragon give  " + fireStack.ToString());
+            }
+            else
+            {
+                CreateLogMessage(LogFireStackEnemy, "Swamp dragon give  " + fireStack.ToString());
+            }
+        }
+
+        return 0;
     }
 
     public override void StarActivation(Item item)
@@ -99,10 +175,10 @@ public class SwampDragon : Weapon
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

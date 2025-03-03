@@ -12,13 +12,17 @@ using UnityEngine.UI;
 public class VampireBow1 : Weapon
 {
     //private float timer1sec = 1f;
-    public int countIncreasesCritDamage = 10;
+    public int countBaseCritStack = 1;
+
+    public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
+    public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256, "weapon");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -53,45 +57,62 @@ public class VampireBow1 : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //добавление крита
+                            VampireHP(resultDamage);
+                            //добавление шанса крита
                             if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
                             {
                                 foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBLEED")))
                                 {
-                                    critDamage += icon.countStack;
+                                    Player.menuFightIconData.AddBuff(icon.countStack, "IconChanceCrit");
+                                    if (Player.isPlayer)
+                                    {
+                                        CreateLogMessage(LogChanceCritStackCharacter, "Vampire bow give " + icon.countStack.ToString());
+                                    }
+                                    else
+                                    {
+                                        CreateLogMessage(LogChanceCritStackEnemy, "Vampire bow give " + icon.countStack.ToString());
+                                    }
+
                                 }
                             }
-
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage(gameObject.name + "miss");
+                            CreateLogMessage("Vampire bow miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage(gameObject.name + "miss");
+                        CreateLogMessage("Vampire bow  miss", Player.isPlayer);
                     }
 
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage(gameObject.name + "no have stamina");
+                CreateLogMessage("Vampire bow no have stamina", Player.isPlayer);
             }
         }
     }
 
     public override void StarActivation(Item item)
     {
-        if(item.GetComponent<Weapon>() != null)
-            item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        //if(item.GetComponent<Weapon>() != null)
+        //item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
+        if (Player != null)
+        {
+            Player.menuFightIconData.AddBuff(countBaseCritStack, "IconBaseCrit");
+            if (Player.isPlayer)
+            {
+                CreateLogMessage(LogBaseCritStackCharacter, "Vampire bow give " + countBaseCritStack.ToString());
+            }
+            else
+            {
+                CreateLogMessage(LogBaseCritStackEnemy, "Vampire bow give " + countBaseCritStack.ToString());
+            }
+        }
     }
 
 
@@ -151,7 +172,7 @@ public class VampireBow1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256, "weapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -159,7 +180,7 @@ public class VampireBow1 : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireBow>();
-                descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                descr.countBaseCritStack = countBaseCritStack;
                 descr.SetTextBody();
 
                 

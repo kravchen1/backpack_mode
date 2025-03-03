@@ -8,7 +8,7 @@ public class DescriptionItemFireBody : DescriptionItem
     public int SpendStack = 2;
     public void SetTextBody()
     {
-        string text = "start battle: give <u>" + Armor.ToString() + "</u>\r\nfire items      : spend <u>" + SpendStack.ToString() + "</u>       and deals <u>" + DamageForStack.ToString() + "</u> damage";
+        string text = "start battle: give <u>" + Armor.ToString() + "</u>\r\nfire items      : spend <u>" + SpendStack.ToString() + "</u>       and deal <u>" + DamageForStack.ToString() + "</u> damage";
         textBody.text = text;
     }
 

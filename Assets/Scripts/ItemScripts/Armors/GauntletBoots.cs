@@ -34,17 +34,13 @@ public class GauntletBoots : Armor
                 Player.armorMax = Player.armorMax + armor;
                 isUse = true;
                 //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("GauntletBoots give " + armor.ToString() + " armor");
+                CreateLogMessage("GauntletBoots give " + armor.ToString(), Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
         }
     }
 
-    public override void StarActivation(Item item)
-    {
-        
-    }
 
     private void CoolDownStart()
     {
@@ -80,7 +76,7 @@ public class GauntletBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

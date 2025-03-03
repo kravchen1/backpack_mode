@@ -15,11 +15,14 @@ public class FireDagger1 : Weapon
     public int countBurnStackOnHit = 1;
     public int dropFireStack;
     public int dealDamageDropStack;
+
+    public GameObject DebugFireLogCharacter, DebugFireLogEnemy;
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -53,10 +56,17 @@ public class FireDagger1 : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
+                            VampireHP(resultDamage);
                             Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
-                            CreateLogMessage("FireDagger inflict " + countBurnStackOnHit.ToString() + " burn");
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(DebugFireLogCharacter, "FireDagger inflict " + countBurnStackOnHit.ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(DebugFireLogEnemy, "FireDagger inflict " + countBurnStackOnHit.ToString());
+                            }
+                            
                             Enemy.menuFightIconData.CalculateFireFrostStats();
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
@@ -64,13 +74,13 @@ public class FireDagger1 : Weapon
                         else
                         {
                             //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("FireDagger miss");
+                            CreateLogMessage("FireDagger miss", Player.isPlayer);
                         }
                     }
                     else
                     {
                         //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("FireDagger miss");
+                        CreateLogMessage("FireDagger miss", Player.isPlayer);
                     }
 
                 }
@@ -78,7 +88,7 @@ public class FireDagger1 : Weapon
             else
             {
                 //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("FireDagger no have stamina");
+                CreateLogMessage("FireDagger no have stamina", Player.isPlayer);
             }
         }
     }
@@ -100,15 +110,16 @@ public class FireDagger1 : Weapon
                         //Enemy.hp -= dealDamageDropStack;
                         //Debug.Log(gameObject.name + " снял" + dropFireStack.ToString() + " 'эффекта огня' и нанесла 5 урона");
 
-                        Attack(dealDamageDropStack, false);
-                        CreateLogMessage("FireDagger removed " + dropFireStack.ToString() + " burn");
+                        //CreateLogMessage("FireDagger removed " + dropFireStack.ToString() + " burn");
                         //animator.Play(originalName + "Activation2", 0, 0f);
                     }
                 }
                 if (b)
                 {
                     Enemy.menuFightIconData.DeleteBuff(dropFireStack, "ICONBURN");
+                    CreateLogMessage(DebugFireLogCharacter, "FireDagger removed " + dropFireStack.ToString());
                     Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
+                    Attack(dealDamageDropStack, false);
                 }
             }
         }
@@ -190,7 +201,7 @@ public class FireDagger1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

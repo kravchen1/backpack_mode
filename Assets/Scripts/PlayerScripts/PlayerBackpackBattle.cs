@@ -10,6 +10,7 @@ public class PlayerBackpackBattle : MonoBehaviour
 {
 
     public GameObject backpack;
+    public bool isPlayer = true;
     [HideInInspector] public GameObject expBar;
 
 
@@ -56,17 +57,17 @@ public class PlayerBackpackBattle : MonoBehaviour
                 characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
-                maxHP = characterStats.playerHP; 
+                maxHP = characterStats.playerMaxHp; 
                 staminaMax = characterStats.playerMaxStamina;
                 stamina = characterStats.playerMaxStamina;
                 break;
             case "CharacterEnemy":
                 characterStats = GetComponent<CharacterStats>();
-                enemyStatData = new EnemyStatData("{\"playerHP\":150.0,\"playerMaxHp\":175.0,\"playerExp\":1.0,\"playerCoins\":50.0,\"requiredExp\":1000.0,\"playerLvl\":1.0,\"playerMaxStamina\":20.0}");
+                enemyStatData = new EnemyStatData("{\"playerHP\":15000.0,\"playerMaxHp\":17500.0,\"playerExp\":1.0,\"playerCoins\":50.0,\"requiredExp\":1000.0,\"playerLvl\":1.0,\"playerMaxStamina\":20.0}");
                 characterStats.LoadDataEnemy(enemyStatData.jsonStat);
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
-                maxHP = characterStats.playerHP;
+                maxHP = characterStats.playerMaxHp;
                 staminaMax = characterStats.playerMaxStamina;
                 stamina = characterStats.playerMaxStamina;
                 break;

@@ -474,7 +474,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1012,7 +1012,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3469154679612886837
@@ -1433,7 +1433,7 @@ SpriteRenderer:
   m_SortingLayerID: -717817303
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: -4575603862587209612, guid: d65fc931586aca440837a8b0e1f8a350, type: 3}
+  m_Sprite: {fileID: 1592918699808036867, guid: d65fc931586aca440837a8b0e1f8a350, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1558,7 +1558,7 @@ GameObject:
   - component: {fileID: 3723193482396509979}
   m_Layer: 9
   m_Name: MushroomOyster
-  m_TagString: RareWeapon
+  m_TagString: mushroomsItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1571,7 +1571,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7260085459845358184}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1973,12 +1973,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 7330120710148719950, guid: 34a61b3ac8321a746aa524191378261a, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  DescriptionLogEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 40
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1991,6 +1992,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars:
   - {fileID: 895428719067073527}
@@ -2007,9 +2009,9 @@ MonoBehaviour:
   originalName: MushroomOyster
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 2.1
+  baseTimerCooldown: 3.1
   startBattleArmorCount: 0
-  giveManaStack: 3
+  giveManaStack: 2
   activationForStar: 10
 --- !u!1 &8159659838188766708
 GameObject:

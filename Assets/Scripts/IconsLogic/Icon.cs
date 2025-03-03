@@ -3,6 +3,7 @@ using TMPro;
 
 public class Icon : MonoBehaviour
 {
+    public bool Buff = true;
     public TextMeshPro countText;
     public int countStack = 0;
 

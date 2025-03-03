@@ -16,7 +16,7 @@ public class DescriptionItemFireDagger : DescriptionItem
 
     public void SetTextBody()
     {
-        string text = "On hit: applies <u>" + hitFireStack.ToString() + "</u>        on enemy\r\nfire items       activate:  take <u>" + dropFireStack.ToString() + "</u>       from enemy and deal <u>" + dealDamageDropStack.ToString() + "</u> damage";
+        string text = "On hit: inflict  <u>" + hitFireStack.ToString() + "</u>        on enemy\r\nitems       activate:  take <u>" + dropFireStack.ToString() + "</u>       from enemy and deal <u>" + dealDamageDropStack.ToString() + "</u> damage";
         textBody.text = text;
     }
 

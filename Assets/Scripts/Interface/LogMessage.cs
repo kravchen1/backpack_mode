@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class LogMessage : MonoBehaviour//, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject nestedObject;
-    private List<GameObject> itemsObj;
+    //public GameObject nestedObject;
+    //private List<GameObject> itemsObj;
 
     //public void OnPointerEnter(PointerEventData eventData)
     //{

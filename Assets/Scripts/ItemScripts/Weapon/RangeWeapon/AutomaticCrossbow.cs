@@ -13,14 +13,16 @@ public class AutomaticCrossbow : Weapon
 {
     public int bleedingStack;//надо заменить
     public int cooldownSpeedUp;//надо заменить
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
+
+    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -30,10 +32,65 @@ public class AutomaticCrossbow : Weapon
 
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
+
+                            Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
+                            double speedUp = baseTimerCooldown / 100.0 * cooldownSpeedUp;
+                            timer_cooldown -= (float)speedUp;
+
+                            if (Player.isPlayer)
+                            {
+                                CreateLogMessage(LogBleedStackCharacter, "Automatic Crossbow inflict " + bleedingStack.ToString());
+                                CreateLogMessage(LogTimerStackCharacter, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp,2).ToString());
+                            }
+                            else
+                            {
+                                CreateLogMessage(LogBleedStackEnemy, "Automatic Crossbow inflict " + bleedingStack.ToString());
+                                CreateLogMessage(LogTimerStackEnemy, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp, 2).ToString());
+                            }
+
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Automatic Crossbow miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Automatic Crossbow miss", Player.isPlayer);
+                    }
+
+                }
+            }
+            else
+            {
+                CreateLogMessage("Automatic Crossbow no have stamina", Player.isPlayer);
+            }
         }
     }
 
@@ -100,7 +157,7 @@ public class AutomaticCrossbow : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

@@ -217,7 +217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 85.4, y: 65.9}
+  m_AnchoredPosition: {x: 85.4, y: 65.899994}
   m_SizeDelta: {x: 42.23999, y: 0.000015258789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4885608891682830305
@@ -733,7 +733,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -1.300003, y: 64.6}
+  m_AnchoredPosition: {x: -1.300003, y: 64.59999}
   m_SizeDelta: {x: 42.23999, y: 0.000015258789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &5652108560018785967
@@ -929,7 +929,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8988841205531195357
@@ -1062,7 +1062,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5823271604813227956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1586,12 +1586,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 9205103901640957858, guid: 4c5af936fe32c9a4db97618ba96fdd14, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: -5489906099067520807, guid: e3a4129764371a742bb1dffcc3536b48, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 370
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1604,6 +1605,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1619,11 +1621,13 @@ MonoBehaviour:
   baseTimerCooldown: 1
   attackMin: 9
   attackMax: 15
-  stamina: 6
-  accuracy: 7
+  stamina: 0
+  accuracy: 85
   critDamage: 130
   chanceCrit: 5
-  armorStack: 15
+  armorStack: 11
+  LogArmorStackCharacter: {fileID: 4216064053345047927, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
+  LogArmorStackEnemy: {fileID: 7345077270744164573, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
 --- !u!1 &6572400606545711571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,7 +1753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.75}
   m_AnchorMax: {x: 0.3, y: 1}
-  m_AnchoredPosition: {x: 113.100006, y: -4.899994}
+  m_AnchoredPosition: {x: 113.1, y: -4.899994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6226286134027482750
@@ -1794,7 +1798,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 10
+  m_SortingLayer: 13
   m_SortingOrder: 3
   m_Sprite: {fileID: 4130640169021434097, guid: 0c9873855c982404899ee8ef8d3f3d26, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

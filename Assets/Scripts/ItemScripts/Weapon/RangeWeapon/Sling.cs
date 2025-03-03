@@ -11,14 +11,11 @@ using UnityEngine.UI;
 
 public class Sling : Weapon
 {
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
-
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
+        baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
                animator.speed = 1f / timer_cooldown;
@@ -51,37 +48,29 @@ public class Sling : Weapon
                             else
                                 resultDamage = 0;
                             Attack(resultDamage, true);
-                            Player.hp += Player.menuFightIconData.CalculateVampire(resultDamage);
-                            //Debug.Log(gameObject.name + " повесил на врага " + countBurnStackOnHit.ToString() + " эффектов горения");
+                            VampireHP(resultDamage);
+
                             CheckNestedObjectActivation("StartBag");
                             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                         }
                         else
                         {
-                            //Debug.Log(gameObject.name + " уворот");
-                            CreateLogMessage("Sling miss");
+                            CreateLogMessage("Sling miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        //Debug.Log(gameObject.name + " промах");
-                        CreateLogMessage("Sling miss");
+                        CreateLogMessage("Sling miss", Player.isPlayer);
                     }
                 }
             }
             else
             {
-                //Debug.Log(gameObject.name + " не хватило стамины");
-                CreateLogMessage("Sling no have stamina");
+                CreateLogMessage("Sling no have stamina", Player.isPlayer);
             }
         }
     }
 
-    public override void StarActivation(Item item)
-    {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
-    }
 
 
 
@@ -140,7 +129,7 @@ public class Sling : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

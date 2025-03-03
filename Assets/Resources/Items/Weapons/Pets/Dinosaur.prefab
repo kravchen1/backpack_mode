@@ -795,7 +795,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4908311528735305684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1295,12 +1295,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 7360871625467894261, guid: 932d55f20932a75449c9cca186aa44b6, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: -1701549471181936637, guid: 1c64ed38cc5bcfc43918702ab2fa4460, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 0
+  itemCost: 150
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1313,6 +1314,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1328,12 +1330,14 @@ MonoBehaviour:
   baseTimerCooldown: 3
   attackMin: 4
   attackMax: 8
-  stamina: 4
-  accuracy: 7
+  stamina: 0
+  accuracy: 85
   critDamage: 130
   chanceCrit: 5
   powerStack: 2
   powerStackChance: 44
+  LogPowerStackCharacter: {fileID: 6382284160184171416, guid: c973d210cb08e5f42810c3d33198e41c, type: 3}
+  LogPowerStackEnemy: {fileID: 1005676000032544024, guid: cf10ccafaa406544ea5c953292cf7c9b, type: 3}
 --- !u!1 &5605286666685615728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,7 +1555,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 22.2, y: -120.8}
+  m_AnchoredPosition: {x: 22.2, y: -120.799995}
   m_SizeDelta: {x: 35.03, y: -85.725}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3683313208154227188
@@ -1703,7 +1707,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -63.9, y: -42.300003}
+  m_AnchoredPosition: {x: -63.899994, y: -42.300003}
   m_SizeDelta: {x: 35.03, y: -85.725}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &9215985518529655548

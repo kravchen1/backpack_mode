@@ -8,8 +8,8 @@ public class DescriptionItemVampireAmulet : DescriptionItem
     //public float coolDown = 1.1f;
     public void SetTextBody()
     {
-        string text = "ToDo";
-        textBody.text = text;
+        //string text = "ToDo";
+        //textBody.text = text;
     }
 
     /*

@@ -14,7 +14,7 @@ public class RussulaMushroom : Mushroom
     public int activationForStar = 2;//надо заменить
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "RareWeapon");
+        FillnestedObjectStarsStars(256, "mushroom");
 
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
@@ -34,10 +34,13 @@ public class RussulaMushroom : Mushroom
         {
 
             int countFillStart = stars.Where(e=>e.GetComponent<Cell>().nestedObject != null).Count();
-            var changeCD = timer_cooldown / 100.0f * (activationForStar * countFillStart);
+            var changeCD = baseTimerCooldown / 100.0f * (activationForStar * countFillStart);
 
             timer_cooldown = timer_cooldown - changeCD;
             timer = timer_cooldown;
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
@@ -47,6 +50,11 @@ public class RussulaMushroom : Mushroom
         {
             timer_locked_out = true;
             Player.menuFightIconData.AddBuff(givePowerStack, "IconPower");
+
+            CreateLogMessage("Russula mushroom give " + givePowerStack.ToString(), Player.isPlayer);
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
@@ -107,7 +115,7 @@ public class RussulaMushroom : Mushroom
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256, "mushroom");
             ChangeShowStars(true);
             if (canShowDescription)
             {

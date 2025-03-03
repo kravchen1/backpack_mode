@@ -16,9 +16,11 @@ public class Slug : Weapon
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
 
+    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+
     private void Start()
     {
-        //FillnestedObjectStarsStars(256, "RareWeapon");
+        //FillnestedObjectStarsStars(256);
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
@@ -28,12 +30,82 @@ public class Slug : Weapon
         }
     }
 
+    public void RemovePoison()
+    {
+        var poisons = Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.Contains("IconPoison")).ToList();
+        if (poisons.Count > 0)
+        {
+            int countRemoved = 0;
+            if (poisons[0].countStack >= poisonStack)
+            {
+                Player.menuFightIconData.DeleteBuff(poisonStack, "IconPoison");
+                countRemoved = poisonStack;
+            }
+            else
+            {
+                Player.menuFightIconData.DeleteBuff(poisons[0].countStack, "IconPoison");
+                countRemoved = poisons[0].countStack;
+            }
+
+            if (Player.isPlayer)
+            {
+                CreateLogMessage(LogPoisonStackCharacter, "Slug removed " + countRemoved.ToString());
+            }
+            else
+            {
+                CreateLogMessage(LogPoisonStackEnemy, "Slug removed " + countRemoved.ToString());
+            }
+        }
+    }
+
     public override void Activation()
     {
-
         if (!timer_locked_outStart && !timer_locked_out)
         {
             timer_locked_out = true;
+            if (HaveStamina())
+            {
+                if (Player != null && Enemy != null)
+                {
+                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
+                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
+                    {
+                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
+                        {
+                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
+                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
+                            {
+                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
+                            }
+                            int block = BlockDamage();
+                            if (resultDamage >= block)
+                                resultDamage -= block;
+                            else
+                                resultDamage = 0;
+                            Attack(resultDamage, true);
+                            VampireHP(resultDamage);
+
+                            RemovePoison();
+
+                            CheckNestedObjectActivation("StartBag");
+                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                        }
+                        else
+                        {
+                            CreateLogMessage("Slug miss", Player.isPlayer);
+                        }
+                    }
+                    else
+                    {
+                        CreateLogMessage("Slug miss", Player.isPlayer);
+                    }
+
+                }
+            }
+            else
+            {
+                CreateLogMessage("Slug no have stamina", Player.isPlayer);
+            }
         }
     }
 
@@ -97,10 +169,10 @@ public class Slug : Weapon
 
     public override IEnumerator ShowDescription()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "RareWeapon");
+            FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {

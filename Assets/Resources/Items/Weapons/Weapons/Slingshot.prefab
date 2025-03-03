@@ -807,13 +807,12 @@ GameObject:
   - component: {fileID: 3342752701539279284}
   - component: {fileID: 5437745181363273196}
   - component: {fileID: 3085559873853357300}
-  - component: {fileID: 842938312800332778}
   - component: {fileID: 35981742873036826}
   - component: {fileID: 1439045140446204990}
   - component: {fileID: 4451356234379769498}
   m_Layer: 9
   m_Name: Slingshot
-  m_TagString: RareWeapon
+  m_TagString: weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -826,7 +825,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5123750928156113082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1478,62 +1477,6 @@ PolygonCollider2D:
       - {x: -21.247234, y: 14.535635}
       - {x: -21.57042, y: 14.858821}
   m_UseDelaunayMesh: 0
---- !u!114 &842938312800332778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5123750928156113082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb3000c3cdede2748b5aa4e38791ccb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedRotation: 500
-  Name: 
-  colliderCount: 0
-  startRectTransformZ: 0
-  image: {fileID: 0}
-  canvas: {fileID: 0}
-  imageColor: {r: 0, g: 0, b: 0, a: 0}
-  prefabOriginalName: 
-  Description: {fileID: 4570643182708713224, guid: da5d2dddac2a6b44790b631ec246b783, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: -5232957579906610923, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
-  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
-  CanvasDescription: {fileID: 0}
-  Exit: 0
-  itemCost: 0
-  itemColliders: []
-  bagTransform: {fileID: 0}
-  collidersArray: []
-  rb: {fileID: 0}
-  collider: {fileID: 0}
-  lastItemPosition: {x: 0, y: 0, z: 0}
-  rectTransform: {fileID: 0}
-  firstTap: 1
-  needToRotate: 0
-  needToDynamic: 0
-  needToRotateToStartRotation: 0
-  animator: {fileID: 0}
-  Impulse: 0
-  stars:
-  - {fileID: 8230450987501450164}
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
-  shopItem: {fileID: 0}
-  isSellChest: 0
-  isDragging: 0
-  offset: {x: 0, y: 0, z: 0}
-  itemMusicEffects: {fileID: 0}
-  originalName: Slingshot
-  timer: 0
-  timer_cooldown: 0
-  baseTimerCooldown: 0
-  startBattleArmorCount: 0
-  countBurnStack: 3
-  coolDown: 50
 --- !u!114 &35981742873036826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1584,12 +1527,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 4570643182708713224, guid: da5d2dddac2a6b44790b631ec246b783, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
   originalSprite: {fileID: -5232957579906610923, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 13
+  itemCost: 18
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1602,6 +1546,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
@@ -1614,13 +1559,14 @@ MonoBehaviour:
   originalName: Slingshot
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 1
-  attackMin: 12
-  attackMax: 111
-  stamina: 22
-  accuracy: 21
+  baseTimerCooldown: 1.1
+  attackMin: 8
+  attackMax: 12
+  stamina: 3
+  accuracy: 80
   critDamage: 130
   chanceCrit: 5
+  baseStamina: 0
 --- !u!1 &6056500052199020828
 GameObject:
   m_ObjectHideFlags: 0

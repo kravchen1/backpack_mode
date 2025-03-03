@@ -1409,7 +1409,7 @@ GameObject:
   - component: {fileID: 45440190644170937}
   m_Layer: 9
   m_Name: Broom
-  m_TagString: RareWeapon
+  m_TagString: witchcraft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1422,7 +1422,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7874602142288095591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1893,12 +1893,13 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 4910797812511274822, guid: 122db8d6b91877e48b6d068c21c1f1ab, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
+  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  originalSprite: {fileID: -4038277691573444236, guid: 1250342dd8feefa45b7a012da1ce546d, type: 3}
+  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 23
+  itemCost: 26
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1911,6 +1912,7 @@ MonoBehaviour:
   needToDynamic: 0
   needToRotateToStartRotation: 0
   animator: {fileID: 0}
+  sellChestSound: {fileID: 0}
   Impulse: 0
   stars:
   - {fileID: 7417859824065083672}
@@ -1924,14 +1926,17 @@ MonoBehaviour:
   originalName: Broom
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 1
+  baseTimerCooldown: 2
   attackMin: 2
-  attackMax: 8
-  stamina: 3
+  attackMax: 6
+  stamina: 1.7
   accuracy: 85
-  critDamage: 80
-  chanceCrit: 3
-  activationSpeedUp: 11
+  critDamage: 110
+  chanceCrit: 5
+  baseStamina: 0
+  activationSpeedUp: 15
+  LogTimerStackCharacter: {fileID: 6721478895504599656, guid: cdc073ae7a3225b43af5dedae6882141, type: 3}
+  LogTimerStackEnemy: {fileID: 8721428279215496201, guid: 43a72179e09a7eb4c969dc4a5bba6741, type: 3}
 --- !u!1 &8518659641023028247
 GameObject:
   m_ObjectHideFlags: 0
