@@ -120,7 +120,7 @@ public abstract class Item : MonoBehaviour
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256);
+        //FillnestedObjectStarsStars(256);
     }
 
     public void Initialization()
@@ -331,7 +331,7 @@ public abstract class Item : MonoBehaviour
         ClearCareRaycast(false);
         image.sortingOrder = 1;
         StartCoroutine(ShowDescription());
-        FillnestedObjectStarsStars(256);
+        //FillnestedObjectStarsStars(256);
         FindPlaceForDescription();
     }
 

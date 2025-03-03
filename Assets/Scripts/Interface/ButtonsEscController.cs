@@ -21,6 +21,12 @@ public class ButtonsEscController : MonoBehaviour
         Application.Quit();
     }
 
+    public void BackpackButton()
+    {
+        SaveFromWorld();
+        SceneManager.LoadScene("BackPack");
+    }
+
     private void SaveFromWorld()
     {
         GameObject player;

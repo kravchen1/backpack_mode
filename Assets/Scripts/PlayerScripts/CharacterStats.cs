@@ -8,8 +8,9 @@ using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
-    public float playerHP, playerMaxHp, playerMaxStamina;
-    public int playerCoins, playerLvl, playerExp, requiredExp;
+    public bool dev = false;
+    public float playerMaxStamina;
+    public int playerHP, playerMaxHp, playerCoins, playerLvl, playerExp, requiredExp;
     public float playerTime = 0f;
 
     public TextMeshProUGUI hpText, lvlText, coinsText, expText;
@@ -45,30 +46,37 @@ public class CharacterStats : MonoBehaviour
     }
     public void InitializeCharacterStats()
     {
-        if (characterStatsData.playerHP == 0)
+        if (!dev)
         {
-            playerHP = 31;
-            playerExp = 1;
-            playerCoins = 50;
-            playerLvl = 1;
-            playerMaxHp = 1000;
-            int x = 500;
-            int y = 2;
-            requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
-            playerTime = 0f;
-            playerMaxStamina = 5f;
+            if (characterStatsData.playerHP == 0)
+            {
+                playerHP = 31;
+                playerExp = 1;
+                playerCoins = 50;
+                playerLvl = 1;
+                playerMaxHp = 1000;
+                int x = 500;
+                int y = 2;
+                requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
+                playerTime = 0f;
+                playerMaxStamina = 5f;
+            }
+            else
+            {
+                playerHP = characterStatsData.playerHP;
+                playerExp = characterStatsData.playerExp;
+                playerCoins = characterStatsData.playerCoins;
+                playerMaxHp = characterStatsData.playerMaxHp;
+                playerLvl = characterStatsData.playerLvl;
+                playerMaxStamina = characterStatsData.playerMaxStamina;
+                int x = 500;
+                int y = 2;
+                requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
+            }
         }
         else
         {
-            playerHP = characterStatsData.playerHP;
-            playerExp = characterStatsData.playerExp;
-            playerCoins = characterStatsData.playerCoins;
-            playerMaxHp = characterStatsData.playerMaxHp;
-            playerLvl = characterStatsData.playerLvl;
-            playerMaxStamina = characterStatsData.playerMaxStamina;
-            int x = 500;
-            int y = 2;
-            requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
+            playerCoins = 99999;
         }
     }
 
@@ -116,7 +124,7 @@ public class CharacterStats : MonoBehaviour
         if(lvlText != null) lvlText.text = playerLvl.ToString();
         if (coinsText != null) coinsText.text = playerCoins.ToString();
         if (expText != null) expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
-        if(expBar != null) expBar.GetComponent<Image>().fillAmount = playerExp / requiredExp;
-        if (hpBar != null) hpBar.GetComponent<Image>().fillAmount = playerHP / playerMaxHp;
+        if(expBar != null) expBar.GetComponent<Image>().fillAmount = (float)playerExp / (float)requiredExp;
+        if (hpBar != null) hpBar.GetComponent<Image>().fillAmount = (float)playerHP / (float)playerMaxHp;
     }
 }

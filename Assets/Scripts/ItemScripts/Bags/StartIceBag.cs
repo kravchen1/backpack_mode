@@ -20,8 +20,7 @@ public class StartIceBag : Bag
         {
             // Activation();
         }
-
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             BagDefauldUpdate();
         }

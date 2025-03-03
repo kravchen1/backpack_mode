@@ -76,6 +76,7 @@ public class EndOfBattle : MonoBehaviour
                 DieEnemy();
 
                 int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
+                winExp += Random.Range(0, 10);
                 WinExp(winExp);
 
                 int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
@@ -106,7 +107,7 @@ public class EndOfBattle : MonoBehaviour
     private int countLvlUp = 0;
     public void LevelUpAdd(int countLvlUp)
     {
-        var hpAddCount = (countLvlUp * 10f);
+        var hpAddCount = (countLvlUp * 10);
         winHPAddCount.text = "+" + hpAddCount.ToString();
         playerBackpackBattle.characterStats.playerMaxHp += hpAddCount;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.characterStats.playerMaxHp;
@@ -126,6 +127,7 @@ public class EndOfBattle : MonoBehaviour
         playerBackpackBattle.characterStats.playerExp = 0;
         playerBackpackBattle.characterStats.requiredExp += 500 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
         winExpBar.fillAmount = 0;
+
 
         countLvlUp++;
         LevelUpAdd(countLvlUp);
@@ -170,6 +172,7 @@ public class EndOfBattle : MonoBehaviour
         animations.SetActive(false);
 
         awardsReceived = true;
+        playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.hp;
     }
 
     void Lose()

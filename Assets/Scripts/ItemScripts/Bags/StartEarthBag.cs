@@ -19,8 +19,7 @@ public class StartEarthBag : Bag
         {
             // Activation();
         }
-
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
+        else
         {
             BagDefauldUpdate();
         }
