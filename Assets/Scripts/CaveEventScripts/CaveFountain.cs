@@ -14,7 +14,7 @@ public class CaveFountain : EventParent
     private CharacterStats characterStats;
     public Sprite emptyFountain;
     private bool isPlayerInTrigger = false;
-    public GameObject infoText;
+    //public GameObject infoText;
     //public bool isFull = true;
 
     private void OnTriggerEnter2D()
@@ -50,11 +50,11 @@ public class CaveFountain : EventParent
         isShowPressE = false;
         SetActivePressE(isShowPressE);
     }
-    public void SetActivePressE(bool active)
-    {
-        Debug.Log(active);
-        infoText.SetActive(active);
-    }
+    //public void SetActivePressE(bool active)
+    //{
+    //    Debug.Log(active);
+    //    infoText.SetActive(active);
+    //}
 
     void RestoreHP(int percentHeal)
     {

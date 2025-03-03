@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 {
 
     public Animator animator;
-    public GameObject textInfo;
+    //public GameObject textInfo;
 
     private DoorEventDistributor distributor;
 
@@ -51,7 +51,6 @@ public class Player : MonoBehaviour
     private TextMeshPro countdown;
 
 
-    private bool textInfoE = false;
 
     //GPS индикатор
     private List<Transform> targets = new List<Transform>(); // Целевые объекты, на которые указывает стрелка
