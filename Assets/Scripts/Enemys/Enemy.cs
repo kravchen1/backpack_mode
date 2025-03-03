@@ -12,7 +12,6 @@ public class Enemy : EventParent
     public int lvlEnemy = 1;
     public int idSpawner = 0;
 
-
     private void Start()
     {
         lvlText.text = "lvl. " + lvlEnemy.ToString();
@@ -26,6 +25,7 @@ public class Enemy : EventParent
         isPlayerInTrigger = true;
         if (isShowPressE)
         {
+            GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }
     }

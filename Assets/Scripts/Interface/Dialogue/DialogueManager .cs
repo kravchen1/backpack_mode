@@ -11,6 +11,8 @@ public class DialogueManager : MonoBehaviour
     public RectTransform Content;
     private Dialogue currentDialogue;
     private NPC currentNPC;
+    public AudioSource dialogueSound;
+    public AudioSource dialogueResponseSound;
 
 
     private BackPackAndStorageData backPackAndStorageData;
@@ -53,6 +55,7 @@ public class DialogueManager : MonoBehaviour
             // Настраиваем действие кнопки
 
             button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
+            button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(dialogueResponseSound.Play);
         }
     }
 
