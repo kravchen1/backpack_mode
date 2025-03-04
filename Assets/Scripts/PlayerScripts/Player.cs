@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public Animator animator;
     //public GameObject textInfo;
 
-    private DoorEventDistributor distributor;
+    [HideInInspector] public DoorEventDistributor distributor;
 
     [HideInInspector] public Map map;
     private RectTransform rectTransform;
@@ -189,16 +189,16 @@ public class Player : MonoBehaviour
                     }
                 }   
             }
-            if (hit.collider.tag == "AreaCaveDoor")
-            {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
-                    distributor.doorData.DoorDataClass.currentCaveLevel = activePoint.gameObject.transform.parent.GetComponent<Door>().caveLevel;
-                    distributor.doorData.SaveData();
-                    SceneManager.LoadScene("Cave");
-                }
-            }
+            //if (hit.collider.tag == "AreaCaveDoor")
+            //{
+            //    if (Input.GetKeyDown(KeyCode.E))
+            //    {
+            //        distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
+            //        distributor.doorData.DoorDataClass.currentCaveLevel = activePoint.gameObject.transform.parent.GetComponent<Door>().caveLevel;
+            //        distributor.doorData.SaveData();
+            //        SceneManager.LoadScene("Cave");
+            //    }
+            //}
             //if (hit.collider.tag == "AreaFountain")
             //{
             //    if (!textInfoE)

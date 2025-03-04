@@ -24,6 +24,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void DisplayDialogue()
     {
+        dialogueSound.Play();
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         nameCharacterText.text = currentNPC.name;
         gameObject.transform.GetChild(1).gameObject.SetActive(true);

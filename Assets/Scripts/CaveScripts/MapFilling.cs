@@ -19,8 +19,6 @@ public class MapFilling : MonoBehaviour
         var ded = doorEventDistributor.GetComponent<DoorEventDistributor>();
         foreach (var door in ded.doorsList.Where(e => e.GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1))
         {
-            Debug.Log("doorCaveLevel:" + door.GetComponent<Door>().caveLevel);
-            Debug.Log("currentCaveLevel:" + ded.doorData.DoorDataClass.currentCaveLevel);
             switch(door.GetComponent<Door>().eventId)
             {
                 case 0:

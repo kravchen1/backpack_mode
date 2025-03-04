@@ -6,7 +6,7 @@ public class NPC : MonoBehaviour
     public Dialogue alternativeDialogue1;
     public Dialogue alternativeDialogue2;
 
-    private int dialogueNumber = 0;
+    protected int dialogueNumber = 0;
 
     //public virtual void Initialize()
     //{

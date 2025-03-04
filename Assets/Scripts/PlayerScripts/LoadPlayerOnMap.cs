@@ -19,7 +19,7 @@ public class LoadPlayerOnMap : MonoBehaviour
     void InstantinatePlayer()
     {
         //if (playerPrefab.name.ToUpper().Contains("ICE"))
-            charScale = new Vector3(1f, 1f, 1);
+            //charScale = new Vector3(1f, 1f, 1);
         var startPlayerPosition = spawnForFirstStart.transform.localPosition;
         if(SceneManager.GetActiveScene().name == "Cave")
             PlayerPrefs.DeleteKey("PostionMapX");

@@ -41,6 +41,11 @@ public class EndOfBattle : MonoBehaviour
 
 
 
+    [SerializeField] private AudioClip winClip;
+    [SerializeField] private AudioClip loseClip;
+
+    [SerializeField] private AudioSource backgroundBattleMusic;
+
     private bool awardsReceived = false;
     private bool win = true;
 
@@ -59,6 +64,7 @@ public class EndOfBattle : MonoBehaviour
     {
         if (enemyBackpackBattle.hp <= 0 && !awardsReceived) //win
         {
+            gameObject.AddComponent<AudioSource>().PlayOneShot(winClip);
             StopFight();
             if(PlayerPrefs.GetInt("VampireAmulet") == 1)
             {
@@ -90,6 +96,7 @@ public class EndOfBattle : MonoBehaviour
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
         {
+            gameObject.AddComponent<AudioSource>().PlayOneShot(loseClip);
             StopFight();
             Lose();
         }
@@ -202,8 +209,7 @@ public class EndOfBattle : MonoBehaviour
         Time.timeScale = 0f;
         timeSpeed.value = 0f;
         timeSpeed.interactable = false;
-        float addStaminaStartBattle = GetComponent<StartOfBattle>().addStamina;
-        playerBackpackBattle.characterStats.playerMaxStamina -= addStaminaStartBattle;
+
         endOfBattleCanvas.SetActive(true);
         animations.SetActive(false);
 

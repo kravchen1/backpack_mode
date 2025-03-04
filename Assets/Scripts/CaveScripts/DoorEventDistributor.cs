@@ -32,9 +32,9 @@ public class DoorEventDistributor : MonoBehaviour
     {
         var currentDoor = doorData.DoorDataClass.currentDoorId;
         var door = doorsList.Where(e => e.GetComponent<Door>().doorId == currentDoor).ToList();
-        foreach(var arrow in door[0].GetComponentsInChildren<SpriteRenderer>())
+        foreach(var arrow in door[0].GetComponentsInChildren<SpriteRenderer>().Where(e => e != door[0].GetComponent<SpriteRenderer>()))
         {
-            arrow.color = Color.white;
+            arrow.color = Color.red;
         }
     }
 
