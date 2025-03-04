@@ -136,7 +136,8 @@ public class Player : MonoBehaviour
         {
             PlayerPrefs.SetFloat("PostionMapX", 34f);
             PlayerPrefs.SetFloat("PostionMapY", 144f);
-            SceneManager.LoadScene("GenerateMapFortress1");
+            //SceneManager.LoadScene("GenerateMapFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapFortress1");
         }
     }
 
@@ -185,7 +186,8 @@ public class Player : MonoBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        SceneManager.LoadScene("BackPackCave1");
+                        //SceneManager.LoadScene("BackPackCave1");
+                        SceneLoader.Instance.LoadScene("BackPackCave1");
                     }
                 }   
             }

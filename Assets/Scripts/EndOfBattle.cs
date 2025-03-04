@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -250,7 +251,8 @@ public class EndOfBattle : MonoBehaviour
         {
             //todo
             playerBackpackBattle.characterStats.SaveData();
-            SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
         }
         else
         {
@@ -263,7 +265,8 @@ public class EndOfBattle : MonoBehaviour
             playerBackpackBattle.characterStats.SaveData();
 
             PlayerPrefs.DeleteKey("PostionMapX");
-            SceneManager.LoadScene("GenerateMapFortress1");
+            //SceneManager.LoadScene("GenerateMapFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapFortress1");
         }
     }
 

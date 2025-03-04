@@ -74,7 +74,6 @@ public class Enemy : EventParent
 
     private void EndDieAnimation()
     {
-        
         if (dropItems.Count > 0 && dropItems.Count == probabilityDropItems.Count)
         {
             for (int i = 0; i < dropItems.Count; i++)
@@ -160,7 +159,8 @@ public class Enemy : EventParent
 
 
 
-        SceneManager.LoadScene("BackPackBattle");
+        //SceneManager.LoadScene("BackPackBattle");
+        SceneLoader.Instance.LoadScene("BackPackBattle");
     }
 
 

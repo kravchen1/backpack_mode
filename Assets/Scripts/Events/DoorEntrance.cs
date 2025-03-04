@@ -57,7 +57,8 @@ public class DoorEntrance : EventParent
             playerClass.distributor.doorData.DoorDataClass.currentDoorId = gameObject.transform.parent.GetComponent<Door>().doorId;
             playerClass.distributor.doorData.DoorDataClass.currentCaveLevel = gameObject.transform.parent.GetComponent<Door>().caveLevel;
             playerClass.distributor.doorData.SaveData();
-            SceneManager.LoadScene(loadScene);
+            //SceneManager.LoadScene(loadScene);
+            SceneLoader.Instance.LoadScene(loadScene);
         }
         else
         {

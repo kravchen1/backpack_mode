@@ -22,7 +22,8 @@ public class Buttons : MonoBehaviour
             GameObject.Find("Character").GetComponent<CharacterStats>().SaveData();
         }
 
-        SceneManager.LoadScene(scene1.name);
+        //SceneManager.LoadScene(scene1.name);
+        SceneLoader.Instance.LoadScene(scene1.name);
     }
 
     void OnMouseUp()
