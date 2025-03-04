@@ -1119,19 +1119,17 @@ GameObject:
   - component: {fileID: 7161009763336830710}
   - component: {fileID: 5832481707684461053}
   - component: {fileID: 8239120178401378452}
-  - component: {fileID: 2193098925575028987}
   - component: {fileID: 4273200088423111050}
   - component: {fileID: 7616935414048618674}
   - component: {fileID: 5714747178021970157}
   - component: {fileID: 613173021301187671}
-  - component: {fileID: 114819680361700915}
   - component: {fileID: 1034622362673617422}
   - component: {fileID: 2098692115119507338}
   - component: {fileID: 3254053112825889233}
   - component: {fileID: 2587961854023187128}
   m_Layer: 9
   m_Name: EmeraldStoneLvl5
-  m_TagString: Untagged
+  m_TagString: KeyStonesItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1233,36 +1231,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4490311255343500995}
   m_CullTransparentMesh: 1
---- !u!114 &2193098925575028987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490311255343500995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 1138516437612030060, guid: 26219afe650eca349a89f642aec6aaf2, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!225 &4273200088423111050
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1342,28 +1310,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!95 &114819680361700915
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490311255343500995}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b46c30efc9007384284122560343e47b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!60 &1034622362673617422
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1490,7 +1436,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4490311255343500995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ffb3c0afd738064f986137014b3fb63, type: 3}
+  m_Script: {fileID: 11500000, guid: 226c7adb8f7e5364395de3ae4ffbd4d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1502,7 +1448,8 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 893223663873092427, guid: c01ff50eaf1bdf04fb7198f7d7d3753d, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 0}
+  DescriptionLogEnemy: {fileID: 0}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
@@ -1523,18 +1470,17 @@ MonoBehaviour:
   sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
   shopItem: {fileID: 0}
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
   itemMusicEffects: {fileID: 0}
-  originalName: EmeraldStoneLvl5
+  originalName: 
   timer: 0
   timer_cooldown: 0
   baseTimerCooldown: 0
-  startBattleArmorCount: 0
 --- !u!1 &5022579081165645055
 GameObject:
   m_ObjectHideFlags: 0

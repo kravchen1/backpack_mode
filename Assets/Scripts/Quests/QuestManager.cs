@@ -15,6 +15,12 @@ public class QuestManager : MonoBehaviour
     public QuestData questData;
     void Start()
     {
+        if(PlayerPrefs.HasKey("QuestTableActive") && PlayerPrefs.GetInt("QuestTableActive") == 0)
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        }
+
         questData = new QuestData();
         questData.questData = new QDataList();
         if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
@@ -42,6 +48,17 @@ public class QuestManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public bool CheckQuestComplete(int questID)
+    {
+        var quest = questData.questData.quests.Where(e => e.id == questID && e.isCompleted == true).ToList();
+        if (quest.Count > 0)
+        {
+            return false;
+        }
+        else
+            return true;
     }
 
     public void AddCurrentProgressQuestWithoutUI(int questID)
@@ -91,6 +108,14 @@ public class QuestManager : MonoBehaviour
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(!gameObject.transform.GetChild(0).gameObject.activeSelf);
         gameObject.transform.GetChild(1).gameObject.SetActive(!gameObject.transform.GetChild(1).gameObject.activeSelf);
+        if(gameObject.transform.GetChild(0).gameObject.activeSelf == false)
+        {
+            PlayerPrefs.SetInt("QuestTableActive", 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("QuestTableActive", 1);
+        }
 
         var player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.needGPSTracker = !player.needGPSTracker;

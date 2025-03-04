@@ -3543,7 +3543,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213516007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5216,7 +5216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.15}
   m_AnchorMax: {x: 0.2, y: 0.85}
-  m_AnchoredPosition: {x: 92.59999, y: 0}
+  m_AnchoredPosition: {x: 92.59992, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413623632
@@ -5891,7 +5891,9 @@ MonoBehaviour:
   - WEAPON
   - BAG
   - WITCHCRAFT
+  - MUSHROOMSITEMS
   priceTxt: {fileID: 2010537278}
+  savePath: shopData
 --- !u!61 &466757876
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6402,7 +6404,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538330768}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7009,7 +7011,9 @@ MonoBehaviour:
   - WEAPON
   - BAG
   - WITCHCRAFT
+  - MUSHROOMSITEMS
   priceTxt: {fileID: 194762371}
+  savePath: shopData
 --- !u!61 &578569741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9729,7 +9733,9 @@ MonoBehaviour:
   - WEAPON
   - BAG
   - WITCHCRAFT
+  - MUSHROOMSITEMS
   priceTxt: {fileID: 553161421}
+  savePath: shopData
 --- !u!61 &724815399
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12042,7 +12048,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908230182}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15012,7 +15018,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136659861}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15920,7 +15926,9 @@ MonoBehaviour:
   - WEAPON
   - BAG
   - WITCHCRAFT
+  - MUSHROOMSITEMS
   priceTxt: {fileID: 1701632190}
+  savePath: shopData
 --- !u!61 &1257617414
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17422,9 +17430,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dev: 0
+  playerMaxStamina: 0
   playerHP: 0
   playerMaxHp: 0
-  playerMaxStamina: 0
   playerCoins: 0
   playerLvl: 0
   playerExp: 0
@@ -17963,7 +17972,9 @@ MonoBehaviour:
   - WEAPON
   - BAG
   - WITCHCRAFT
+  - MUSHROOMSITEMS
   priceTxt: {fileID: 1089111054}
+  savePath: shopData
 --- !u!61 &1374740926
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19245,7 +19256,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5001221, y: 1.1739502}
+  m_Offset: {x: -33.40515, y: 2.181366}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -19255,7 +19266,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 962.6151, y: 1073.9634}
+  m_Size: {x: 834.51465, y: 1015.3305}
   m_EdgeRadius: 0
 --- !u!1 &1472833959
 GameObject:
@@ -23656,7 +23667,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2039640946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

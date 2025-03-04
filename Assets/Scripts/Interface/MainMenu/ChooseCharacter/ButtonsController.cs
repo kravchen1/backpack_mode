@@ -35,7 +35,7 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
-        StartStats(85, 135, 1, 50, 100, 1, 11);
+        StartStats(85, 135, 1, 150, 100, 1, 11);
         SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
@@ -45,7 +45,7 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.SetString("characterClass", "Player_Ice");
         Choose();
 
-        StartStats(50, 100, 1, 50, 100, 1, 9);
+        StartStats(50, 100, 1, 150, 100, 1, 9);
         SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
@@ -73,15 +73,15 @@ public class ButtonsController : MonoBehaviour
 
         if (character.Contains("Fire"))
         {
-            data = new Data("bagStartFire", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), 0f));
+            data = new Data("bagStartFire", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), -1f));
         }
         else if (character.Contains("Earth"))
         {
-            data = new Data("bagStartEarth", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), 0f));
+            data = new Data("bagStartEarth", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), -1f));
         }
         else if (character.Contains("Ice"))
         {
-            data = new Data("bagStartIce", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), 0f));
+            data = new Data("bagStartIce", new Vector3(-260.41583251953127f + (x * rX), -164.7316436767578f + (y * rY), -1f));
         }
         backpackData.itemData.items.Add(data);
         backpackData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
@@ -98,7 +98,7 @@ public class ButtonsController : MonoBehaviour
         questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
     }
 
-    private void StartStats(float playerHP, float playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina)
+    private void StartStats(int playerHP, int playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina)
     {
         string characterStatsDataFilePath;
         CharacterStatsData characterStatsData;

@@ -11617,7 +11617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &422197251
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20591,7 +20591,6 @@ GameObject:
   - component: {fileID: 811143284}
   - component: {fileID: 811143283}
   - component: {fileID: 811143285}
-  - component: {fileID: 811143286}
   - component: {fileID: 811143287}
   m_Layer: 5
   m_Name: CharacterEnemy
@@ -20688,32 +20687,6 @@ MonoBehaviour:
   textBarArmor: {fileID: 1633295440}
   menuFightIcon: {fileID: 1384434215}
   menuFightIconData: {fileID: 1384434222}
---- !u!114 &811143286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811143281}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHP: 0
-  playerMaxHp: 0
-  playerMaxStamina: 0
-  playerCoins: 0
-  playerLvl: 0
-  playerExp: 0
-  requiredExp: 0
-  playerTime: 0
-  hpText: {fileID: 0}
-  lvlText: {fileID: 0}
-  coinsText: {fileID: 0}
-  expText: {fileID: 0}
-  hpBar: {fileID: 0}
-  expBar: {fileID: 0}
 --- !u!114 &811143287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37502,6 +37475,7 @@ GameObject:
   - component: {fileID: 1609504437}
   - component: {fileID: 1609504439}
   - component: {fileID: 1609504438}
+  - component: {fileID: 1609504440}
   m_Layer: 6
   m_Name: Canvas
   m_TagString: Main Canvas
@@ -37664,6 +37638,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609504432}
   m_CullTransparentMesh: 1
+--- !u!114 &1609504440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609504432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd841d4868a1dc4a8d9e165141c2172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1961914287}
+  enemy: {fileID: 811143281}
+  LogPoisonStackCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
+  LogPoisonStackEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
+  LogFrostStackCharacter: {fileID: 2977845720301538147, guid: 37521e0028aa86b4e8d4da2f81820553, type: 3}
+  LogFrostStackEnemy: {fileID: 8641985689303872919, guid: 65c4b8aa95b90154e8c466960915a19b, type: 3}
+  LogBlindStackCharacter: {fileID: 4370644500528152849, guid: 24fc1c087448c1345965751ad6de434a, type: 3}
+  LogBlindStackEnemy: {fileID: 9013028193545157029, guid: 63fe669e53abf4a429918a379af37934, type: 3}
+  LogBleedStackCharacter: {fileID: 4043554854564784463, guid: b2ea1bdf7e21de64cb719ac5a0e672a4, type: 3}
+  LogBleedStackEnemy: {fileID: 1455576652162621365, guid: 0c83ceef10288e14db2f3fd9c884a275, type: 3}
+  LogBaseCritStackCharacter: {fileID: 9008311742454753872, guid: 90101c86faeb7dd4fa3acedc36190885, type: 3}
+  LogBaseCritStackEnemy: {fileID: 4356139138245786638, guid: e7bfc385a84ec4947bfbdf4841e8e020, type: 3}
+  LogFireStackCharacter: {fileID: 8203622112523621785, guid: 02236c3ae63b27d42ae669a84ac58082, type: 3}
+  LogFireStackEnemy: {fileID: 4968257413604735520, guid: aa3e29503263b7a4c8221e8e2a67d716, type: 3}
+  LogChanceCritStackCharacter: {fileID: 1451876726980481727, guid: 0d3da048274d84a478e9f60637f15cdc, type: 3}
+  LogChanceCritStackEnemy: {fileID: 38909059984083718, guid: 8b505caf5161ff14bbdd08e959d59f22, type: 3}
+  LogEvasionStackCharacter: {fileID: 6854646862053956897, guid: c8c36c5b0de4ae443b23ee29a455605f, type: 3}
+  LogEvasionStackEnemy: {fileID: 5940627426722653994, guid: 8f90252953936e44fb6be59d12dd73ab, type: 3}
+  LogManaStackCharacter: {fileID: 4992020622053464363, guid: 9a1cbf85fb92d7f46a7002670ce6a5c6, type: 3}
+  LogManaStackEnemy: {fileID: 5976074597763289328, guid: 552d3423a015ce243941f65d72c1bf8b, type: 3}
+  LogPowerStackCharacter: {fileID: 6382284160184171416, guid: c973d210cb08e5f42810c3d33198e41c, type: 3}
+  LogPowerStackEnemy: {fileID: 1005676000032544024, guid: cf10ccafaa406544ea5c953292cf7c9b, type: 3}
+  LogRegenHpStackCharacter: {fileID: 5855672005608113897, guid: 6ef35a6494aaa9041bd78f2976f64eae, type: 3}
+  LogRegenHpStackEnemy: {fileID: 4527885082055913013, guid: b90bf19e69c12a54a83e540b52bd384e, type: 3}
+  LogResistanceStackCharacter: {fileID: 3823412551724298339, guid: 5b73a6717ea5b3d4eaf0a8f963e4286c, type: 3}
+  LogResistanceStackEnemy: {fileID: 5549613402905842690, guid: d25aa91a1d7d95f4184474027586f83d, type: 3}
+  LogVampireStackCharacter: {fileID: 4975381722556485215, guid: 6c2699e91c6690d48bc58e50c549d1cb, type: 3}
+  LogVampireStackEnemy: {fileID: 3219839272774441636, guid: 98f400d7eee3b984ea6cdb696ebda674, type: 3}
+  LogAttackStackCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  LogAttackStackEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
+  LogArmorStackCharacter: {fileID: 4216064053345047927, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
+  LogArmorStackEnemy: {fileID: 7345077270744164573, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
+  LogTimerStackCharacter: {fileID: 6721478895504599656, guid: cdc073ae7a3225b43af5dedae6882141, type: 3}
+  LogTimerStackEnemy: {fileID: 8721428279215496201, guid: 43a72179e09a7eb4c969dc4a5bba6741, type: 3}
+  LogStaminaStackCharacter: {fileID: 7549272135300686505, guid: 9eb6f0d9f999cd845a1aa040c2fb7614, type: 3}
+  LogStaminaStackEnemy: {fileID: 9183537562303837566, guid: 38d301660461d3e42ba7826fb97370cc, type: 3}
+  addStamina: 0
 --- !u!1 &1609580523
 GameObject:
   m_ObjectHideFlags: 0
@@ -45111,7 +45134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1933254139
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45464,7 +45487,6 @@ GameObject:
   - component: {fileID: 1961914290}
   - component: {fileID: 1961914289}
   - component: {fileID: 1961914291}
-  - component: {fileID: 1961914292}
   - component: {fileID: 1961914293}
   m_Layer: 5
   m_Name: Character
@@ -45561,32 +45583,6 @@ MonoBehaviour:
   textBarArmor: {fileID: 1543249539}
   menuFightIcon: {fileID: 402409692}
   menuFightIconData: {fileID: 402409699}
---- !u!114 &1961914292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961914287}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHP: 0
-  playerMaxHp: 0
-  playerMaxStamina: 0
-  playerCoins: 0
-  playerLvl: 0
-  playerExp: 0
-  requiredExp: 0
-  playerTime: 0
-  hpText: {fileID: 0}
-  lvlText: {fileID: 0}
-  coinsText: {fileID: 0}
-  expText: {fileID: 0}
-  hpBar: {fileID: 0}
-  expBar: {fileID: 0}
 --- !u!114 &1961914293
 MonoBehaviour:
   m_ObjectHideFlags: 0

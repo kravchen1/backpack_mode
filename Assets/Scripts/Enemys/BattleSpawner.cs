@@ -11,12 +11,16 @@ public class BattleSpawner : MonoBehaviour
     public List<GameObject> battlesPrefabs;
     public string Biom = "1";
     private BattlesSpawnerData battlesSpawnerData;
+    private CharacterStats characterStats;
     private void Start()
     {
         battlesSpawnerData = new BattlesSpawnerData();
         //PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
         if (PlayerPrefs.GetInt("NeedSpawnEnemys") == 1)
         {
+            characterStats = new CharacterStats();
+            characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
+
             battlesSpawnerData = new BattlesSpawnerData();
             battlesSpawnerData.battlesSpawnerDataClass = new BattlesSpawnerDataClass();
             battlesSpawnerData.battlesSpawnerDataClass.battleData = new List<BattleData>();
@@ -67,8 +71,15 @@ public class BattleSpawner : MonoBehaviour
             {
                 int randomPrefab = Random.Range(0, battlesPrefabs.Count);
                 var instPref = Instantiate(battlesPrefabs[randomPrefab], battleSpawns[i].transform);
-
-                int randomLevel = Random.Range(1, 4);
+                int randomLevel = 0;
+                if (characterStats.playerLvl <= 10)
+                {
+                    randomLevel = Random.Range(1, characterStats.playerLvl + 6);
+                }
+                else
+                {
+                    randomLevel = Random.Range(11, 16);
+                }
                 instPref.GetComponentInChildren<Enemy>().lvlEnemy = randomLevel;
                 instPref.GetComponentInChildren<Enemy>().idSpawner = i;
 

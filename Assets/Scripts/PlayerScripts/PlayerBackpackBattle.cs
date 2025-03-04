@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using TMPro;
+using static UnityEngine.EventSystems.EventTrigger;
+using System.Globalization;
 
 public class PlayerBackpackBattle : MonoBehaviour
 {
@@ -14,11 +16,11 @@ public class PlayerBackpackBattle : MonoBehaviour
     [HideInInspector] public GameObject expBar;
 
 
-    [HideInInspector] public float armor = 0f;
-    [HideInInspector] public float armorMax = 0f;
+    [HideInInspector] public int armor = 0;
+    [HideInInspector] public int armorMax = 0;
 
-    [HideInInspector] public float hp = 74f;
-    [HideInInspector] public float maxHP = 100f;
+    [HideInInspector] public int hp = 74;
+    [HideInInspector] public int maxHP = 100;
 
     [HideInInspector] public float stamina = 74f;
     [HideInInspector] public float staminaMax = 100f;
@@ -42,7 +44,7 @@ public class PlayerBackpackBattle : MonoBehaviour
     private CharacterStatsData characterStatsData;
     public GameObject menuFightIcon;
     [HideInInspector] public FightMenuBuffAndDebuffs menuFightIconData;
-    private EnemyStatData enemyStatData;
+    //private EnemyStatData enemyStatData;
     void Awake()
     {
         InitializeData();
@@ -53,7 +55,8 @@ public class PlayerBackpackBattle : MonoBehaviour
         switch (gameObject.name)
         {
             case "Character":
-                characterStats = GetComponent<CharacterStats>();
+
+                characterStats = new CharacterStats();
                 characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
@@ -62,9 +65,11 @@ public class PlayerBackpackBattle : MonoBehaviour
                 stamina = characterStats.playerMaxStamina;
                 break;
             case "CharacterEnemy":
-                characterStats = GetComponent<CharacterStats>();
-                enemyStatData = new EnemyStatData("{\"playerHP\":15000.0,\"playerMaxHp\":17500.0,\"playerExp\":1.0,\"playerCoins\":50.0,\"requiredExp\":1000.0,\"playerLvl\":1.0,\"playerMaxStamina\":20.0}");
-                characterStats.LoadDataEnemy(enemyStatData.jsonStat);
+                characterStats = new CharacterStats();
+
+                characterStats.LoadDataEnemy(GenerateEnemy());
+                
+                
                 characterStats.InitializeCharacterStats();
                 hp = characterStats.playerHP;
                 maxHP = characterStats.playerMaxHp;
@@ -128,11 +133,6 @@ public class PlayerBackpackBattle : MonoBehaviour
 
     }
 
-
-
-
-
-
     public void MinusHP(int damage)
     {
         float armorBefore = armor;
@@ -154,5 +154,22 @@ public class PlayerBackpackBattle : MonoBehaviour
                 //CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and apply " + Math.Abs((Enemy.armor - damage)).ToString() + " damage");
             }
         }
+    }
+
+
+
+    public string GenerateEnemy()
+    {
+        if (PlayerPrefs.HasKey("enemyHP"))
+        {
+            float stamina = PlayerPrefs.GetFloat("enemyStamina");
+            return "{\"playerHP\":"+ PlayerPrefs.GetInt("enemyHP") + ",\"playerMaxHp\":" + PlayerPrefs.GetInt("enemyHP") + ",\"playerExp\":0,\"playerCoins\":0,\"requiredExp\":0,\"playerLvl\":1,\"playerMaxStamina\":" + stamina.ToString(CultureInfo.InvariantCulture) + "}";
+            //"{playerHP:" + PlayerPrefs.GetInt("enemyHP") + ",playerMaxHp:" + PlayerPrefs.GetInt("enemyHP") + ",playerExp:0,playerCoins:0,requiredExp:0,playerLvl:0,playerMaxStamina:" + PlayerPrefs.GetFloat("enemyStamina") + "}";
+        }
+        else
+        {
+            return "{\"playerHP\":150,\"playerMaxHp\":175,\"playerExp\":0,\"playerCoins\":0,\"requiredExp\":0,\"playerLvl\":1,\"playerMaxStamina\":5.0}";
+        }
+
     }
 }

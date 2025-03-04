@@ -69,7 +69,7 @@ public class DialogueManager : MonoBehaviour
             backPackAndStorageData.storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
         }
         
-        backPackAndStorageData.storageData.itemData.items.Add(new Data(item.name, new Vector2(0, 0)));
+        backPackAndStorageData.storageData.itemData.items.Add(new Data(item.name, new Vector3(0, 0, -2)));
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 

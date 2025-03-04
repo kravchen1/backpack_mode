@@ -451,19 +451,17 @@ GameObject:
   - component: {fileID: 7274288195541298852}
   - component: {fileID: 1841346616173565797}
   - component: {fileID: 3088392638628699148}
-  - component: {fileID: 2281237946588129020}
   - component: {fileID: 2734976167243250587}
   - component: {fileID: 4498107514839424196}
   - component: {fileID: 7404964930627070655}
   - component: {fileID: 6131093028300226618}
-  - component: {fileID: 8020844638767241591}
   - component: {fileID: 74153646409614867}
   - component: {fileID: 2938749230069376597}
   - component: {fileID: 8940719968946617342}
   - component: {fileID: 8444018772506865899}
   m_Layer: 9
   m_Name: SunStoneLvl5
-  m_TagString: Untagged
+  m_TagString: KeyStonesItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -565,36 +563,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136312200623523806}
   m_CullTransparentMesh: 1
---- !u!114 &2281237946588129020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136312200623523806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 1138516437612030060, guid: 26219afe650eca349a89f642aec6aaf2, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!225 &2734976167243250587
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -674,28 +642,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!95 &8020844638767241591
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136312200623523806}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b46c30efc9007384284122560343e47b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!60 &74153646409614867
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -821,7 +767,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1136312200623523806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8214ab9ad58d81d42b20c57c5910bda2, type: 3}
+  m_Script: {fileID: 11500000, guid: 38e517b2f18788f4cbb2a596cbf680a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -833,7 +779,8 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 3835097576891086293, guid: d1f429d14e8cf3c44a09727db4339921, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 0}
+  DescriptionLogEnemy: {fileID: 0}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
@@ -854,18 +801,17 @@ MonoBehaviour:
   sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
   shopItem: {fileID: 0}
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
   itemMusicEffects: {fileID: 0}
-  originalName: SunStoneLvl5
+  originalName: 
   timer: 0
   timer_cooldown: 0
   baseTimerCooldown: 0
-  startBattleArmorCount: 0
 --- !u!1 &1214397414698952878
 GameObject:
   m_ObjectHideFlags: 0

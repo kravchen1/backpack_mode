@@ -124,6 +124,29 @@ public class Button : MonoBehaviour
 
                 SceneManager.LoadScene("GenerateMapFortress1");
                 break;
+            case "Button_GoMap3":
+                GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+                GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+                GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+
+                SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+                break;
+            case "Button_GoMapEat":
+                GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+                GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+                GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+                GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopDataEat.json"));
+
+                SceneManager.LoadScene("GenerateMapFortress1");
+                break;
+            case "Button_DevSave":
+                GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+                //GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+                //GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+                //GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopDataEat.json"));
+
+                //SceneManager.LoadScene("GenerateMapFortress1");
+                break;
             case "Button_GoMapFromCave":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
                 GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));

@@ -72,10 +72,15 @@ public class EndOfBattle : MonoBehaviour
                 || enemyName == "Goblin(Clone)"
                 )
             {
-                QuestComplete(4);
+                
+                if (!QuestComplete(4))
+                {
+                    NewQuestId5();
+                }
                 DieEnemy();
 
                 int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
+                winExp += Random.Range(0, 10);
                 WinExp(winExp);
 
                 int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
@@ -106,7 +111,7 @@ public class EndOfBattle : MonoBehaviour
     private int countLvlUp = 0;
     public void LevelUpAdd(int countLvlUp)
     {
-        var hpAddCount = (countLvlUp * 10f);
+        var hpAddCount = (countLvlUp * 10);
         winHPAddCount.text = "+" + hpAddCount.ToString();
         playerBackpackBattle.characterStats.playerMaxHp += hpAddCount;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.characterStats.playerMaxHp;
@@ -127,14 +132,15 @@ public class EndOfBattle : MonoBehaviour
         playerBackpackBattle.characterStats.requiredExp += 500 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
         winExpBar.fillAmount = 0;
 
+
         countLvlUp++;
         LevelUpAdd(countLvlUp);
     }
 
-
-    public void QuestComplete(int questID)
+    private QuestManager qm;
+    public bool QuestComplete(int questID)
     {
-        QuestManager qm = new QuestManager();
+        qm = new QuestManager();
 
         if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
         {
@@ -143,6 +149,38 @@ public class EndOfBattle : MonoBehaviour
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
             qm.AddCurrentProgressQuestWithoutUI(questID);
         }
+        return qm.CheckQuestComplete(questID);
+    }
+
+    public void NewQuestId5()
+    {
+        if (qm == null)
+        {
+            qm = new QuestManager();
+
+            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+            {
+                qm.questData = new QuestData();
+                qm.questData.questData = new QDataList();
+                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            }
+            PlayerPrefs.SetInt("NPC_King", 4);
+
+        }
+        else
+        {
+            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+            qm.questData.questData.quests.Add(quest);
+            qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            PlayerPrefs.SetInt("NPC_King", 4);
+        }
+
+
     }
 
     public void DieEnemy()
@@ -164,11 +202,13 @@ public class EndOfBattle : MonoBehaviour
         Time.timeScale = 0f;
         timeSpeed.value = 0f;
         timeSpeed.interactable = false;
-
+        float addStaminaStartBattle = GetComponent<StartOfBattle>().addStamina;
+        playerBackpackBattle.characterStats.playerMaxStamina -= addStaminaStartBattle;
         endOfBattleCanvas.SetActive(true);
         animations.SetActive(false);
 
         awardsReceived = true;
+        playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.hp;
     }
 
     void Lose()
@@ -198,7 +238,14 @@ public class EndOfBattle : MonoBehaviour
         else
         {
             playerBackpackBattle.characterStats.playerHP = 1;
+            if(playerBackpackBattle.characterStats.playerCoins <= 50)
+            {
+                playerBackpackBattle.characterStats.playerCoins = 50;
+            }
+
             playerBackpackBattle.characterStats.SaveData();
+
+            PlayerPrefs.DeleteKey("PostionMapX");
             SceneManager.LoadScene("GenerateMapFortress1");
         }
     }
@@ -213,7 +260,7 @@ public class EndOfBattle : MonoBehaviour
             backPackAndStorageData.storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
         }
 
-        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector2(0, 0)));
+        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector3(0, 0, -2)));
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 

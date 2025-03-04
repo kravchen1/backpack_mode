@@ -39,7 +39,7 @@ public abstract class Item : MonoBehaviour
     public Sprite originalSprite;
     public GameObject prefabAnimationAttack;
 
-    [HideInInspector]  public GameObject CanvasDescription;
+    [HideInInspector] public GameObject CanvasDescription;
 
 
     [HideInInspector] private bool showCanvasBefore = false;
@@ -110,7 +110,7 @@ public abstract class Item : MonoBehaviour
 
     protected float timer_cooldownStart = 1f;
     protected bool timer_locked_outStart = true;
-
+    [HideInInspector] protected bool isEat = false;
 
     void Awake()
     {
@@ -120,7 +120,7 @@ public abstract class Item : MonoBehaviour
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256);
+        //FillnestedObjectStarsStars(256);
     }
 
     public void Initialization()
@@ -186,7 +186,7 @@ public abstract class Item : MonoBehaviour
         itemColliders.Clear();
         for (int i = 0; i < collidersArray.Count(); i++)
         {
-            if(!collidersArray[i].name.Contains("Star"))
+            if (!collidersArray[i].name.Contains("Star"))
                 itemColliders.Add(collidersArray[i]);
         }
         colliderCount = itemColliders.Count();
@@ -205,7 +205,7 @@ public abstract class Item : MonoBehaviour
                 {
                     DragManager.isDragging = true;
                     itemMusicEffects.OnItemUp();
-                    if (animator != null) animator.Play("ItemClick");
+                    if (animator != null && !isEat) animator.Play("ItemClick");
                     DeletenestedObjectStars();
                     IgnoreCollisionObject(true);
                     image.sortingOrder = 4;
@@ -221,7 +221,7 @@ public abstract class Item : MonoBehaviour
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
-                    
+
                     offset = transform.position - GetMouseWorldPosition();
                     Debug.Log(offset);
                 }
@@ -234,7 +234,7 @@ public abstract class Item : MonoBehaviour
             {
                 DragManager.isDragging = true;
                 itemMusicEffects.OnItemUp();
-                if (animator != null) animator.Play("ItemClick");
+                if (animator != null && !isEat) animator.Play("ItemClick");
                 DeletenestedObjectStars();
                 IgnoreCollisionObject(true);
                 image.sortingOrder = 4;
@@ -269,6 +269,7 @@ public abstract class Item : MonoBehaviour
                 GetComponent<AnimationStart>().Play();
             }
             IgnoreCollisionObject(false);
+            if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemClickOff");
         }
 
 
@@ -290,9 +291,7 @@ public abstract class Item : MonoBehaviour
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
-                    if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
                     canShowDescription = true;
-                    if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
                 }
                 else
                 {
@@ -304,13 +303,22 @@ public abstract class Item : MonoBehaviour
             }
             else
             {
-                ExtendedCorrectPosition();
-                ChangeColorToDefault();
-                careHits.Clear();
-                canShowDescription = true;
+                if (hitsForNotShopZone.Any(e => e.collider != null))
+                {
+                    ExtendedCorrectPosition();
+                    ChangeColorToDefault();
+                    careHits.Clear();
+                    canShowDescription = true;
 
-                needToRotateToStartRotation = false;
-                if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
+                    needToRotateToStartRotation = false;
+                }
+                else
+                {
+                    if (lastItemPosition != transform.position)
+                    {
+                        StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
+                    }
+                }
             }
             if (isSellChest)
             {
@@ -321,15 +329,15 @@ public abstract class Item : MonoBehaviour
         // Заканчиваем перетаскивание
         isDragging = false;
         ClearCareRaycast(false);
-        image.sortingOrder = 3;
+        image.sortingOrder = 1;
         StartCoroutine(ShowDescription());
-        FillnestedObjectStarsStars(256);
+        //FillnestedObjectStarsStars(256);
         FindPlaceForDescription();
     }
 
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
-        
+
         float time = 1f; // Время возвращения
         float elapsedTime = 0f;
         Vector3 startingPos = transform.position;
@@ -338,7 +346,7 @@ public abstract class Item : MonoBehaviour
         {
             //Debug.Log(transform.position);
             transform.position = Vector3.Lerp(startingPos, originalPosition, (elapsedTime / time));
-            transform.rotation = Quaternion.Lerp(startingRot, Quaternion.identity, (elapsedTime / time));
+            //transform.rotation = Quaternion.Lerp(startingRot, Quaternion.identity, (elapsedTime / time));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -349,6 +357,7 @@ public abstract class Item : MonoBehaviour
     {
         if (isDragging)
         {
+            //Debug.Log(transform.localPosition);
             // Перемещаем объект в позицию курсора с учетом смещения   
             //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
             if (SceneManager.GetActiveScene().name != "BackPackBattle")
@@ -362,7 +371,7 @@ public abstract class Item : MonoBehaviour
         else
         {
             //if (SceneManager.GetActiveScene().name == "BackPackShop")
-                
+
         }
         Rotate();
         SwitchDynamicStatic();
@@ -378,7 +387,7 @@ public abstract class Item : MonoBehaviour
 
     public void ChangeShowStars(bool enabled)
     {
-        foreach(var star in stars)
+        foreach (var star in stars)
         {
             star.gameObject.GetComponent<SpriteRenderer>().enabled = enabled;//SetActive(enabled);
         }
@@ -399,15 +408,15 @@ public abstract class Item : MonoBehaviour
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
-            return 1; //����� ��������� � ��� ���������
+            return 1; //no swap item
         }
         else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
         {
-            return 2; //����� ���������, �� ���� ��������
+            return 2; //swap item
         }
         else
         {
-            return 3; //����� �� ���������
+            return 3; //don`t correct
         }
     }
     public void ExtendedCorrectPosition()
@@ -416,17 +425,18 @@ public abstract class Item : MonoBehaviour
         {
             case 1:
                 gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
-                
+
                 CorrectPosition();
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
-                Debug.Log(1);
+                EffectPlaceCorrect();
                 break;
             case 2:
                 foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
                 {
                     var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
                     //nestedObjectItem.MoveObjectOnEndDrag();
+                    nestedObjectItem.EffectPlaceNoCorrect();
                     nestedObjectItem.DeleteNestedObject(gameObject.transform.parent.tag);
                     nestedObjectItem.needToDynamic = true;
                     timerStatic_locked_out = true;
@@ -441,7 +451,7 @@ public abstract class Item : MonoBehaviour
                 CorrectPosition();
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
-                Debug.Log(2);
+                EffectPlaceCorrect();
                 break;
             case 3:
                 gameObject.transform.SetParent(GameObject.Find("Storage").transform);
@@ -453,9 +463,16 @@ public abstract class Item : MonoBehaviour
                 //MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
                 rb.excludeLayers = 0;// (1 << 9);
-                Debug.Log(3);
+                EffectPlaceNoCorrect();
                 break;
         }
+    }
+
+    public virtual void EffectPlaceCorrect()
+    {
+    }
+    public virtual void EffectPlaceNoCorrect()
+    {
     }
 
     public virtual Vector3 calculateOffset(List<BoxCollider2D> itemColliders)
@@ -1009,7 +1026,7 @@ public abstract class Item : MonoBehaviour
         if (!isDragging)
         {
             // Код, который выполнится при наведении курсора на коллайдер
-            if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemAiming");
+            if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemAiming");
             Exit = false;
             StartCoroutine(ShowDescription());
         }
@@ -1021,7 +1038,7 @@ public abstract class Item : MonoBehaviour
         {
             //Debug.Log(Description.gameObject.name + "�����");
             if (SceneManager.GetActiveScene().name != "BackPackBattle")
-                if (animator != null)
+                if (animator != null && !isEat)
                 {
                     animator.Play("ItemAimingOff");
                     if (GetComponent<AnimationStart>() != null)

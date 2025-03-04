@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         collider = GetComponent<Collider2D>();
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        arrowRectTransform = transform.GetChild(2).GetComponent<RectTransform>();
+        arrowRectTransform = transform.GetChild(1).GetComponent<RectTransform>();
         
     }
     void LoadCharacterStats()
@@ -381,9 +381,6 @@ public class Player : MonoBehaviour
                 Filp();
             }
             StepSound();
-            //moveVector.x = Input.GetAxis("Horizontal");
-            //moveVector.y = Input.GetAxis("Vertical");
-            //rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
             rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
             animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
 
