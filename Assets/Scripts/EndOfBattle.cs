@@ -212,6 +212,8 @@ public class EndOfBattle : MonoBehaviour
 
         endOfBattleCanvas.SetActive(true);
         animations.SetActive(false);
+        backgroundBattleMusic.Stop();
+
 
         awardsReceived = true;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.hp;

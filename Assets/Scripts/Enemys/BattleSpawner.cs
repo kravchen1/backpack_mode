@@ -74,7 +74,7 @@ public class BattleSpawner : MonoBehaviour
                 int randomLevel = 0;
                 if (characterStats.playerLvl <= 10)
                 {
-                    randomLevel = Random.Range(1, characterStats.playerLvl + 6);
+                    randomLevel = Random.Range(7, characterStats.playerLvl + 6);
                 }
                 else
                 {

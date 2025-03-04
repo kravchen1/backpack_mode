@@ -504,7 +504,7 @@ public abstract class Item : MonoBehaviour
 
 
         float angle = rectTransform.eulerAngles.z;
-        Debug.Log(angle);
+        //Debug.Log(angle);
         if (angle < 45 || angle > 315)
         {
             offset = -offset;
@@ -581,7 +581,7 @@ public abstract class Item : MonoBehaviour
             }
             var offset = calculateOffset(itemColliders);
             rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
-            Debug.Log(offset);
+            //Debug.Log(offset);
             needToDynamic = false;
             foreach (var careHit in careHitsForBackpack)
             {
@@ -1049,10 +1049,10 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(Description.gameObject.name + " ItemAiming");
             Exit = true;
             ChangeShowStars(false);
-            // Debug.Log("������ ������");
+            //Debug.Log(canShowDescription + "/" + CanvasDescription.name);
             if (canShowDescription && CanvasDescription != null)
             {
-                //CanvasDescription.SetActive(false);
+                
                 Destroy(CanvasDescription.gameObject);
                 //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
                 //if (starsDesctiprion != null)
