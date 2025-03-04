@@ -25,7 +25,8 @@ public class Button : MonoBehaviour
         player.GetComponent<PlayerOld_>().GetComponent<CharacterStats>().SaveData();
         map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
         map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
-        SceneManager.LoadScene("BackpackView");
+        //SceneManager.LoadScene("BackpackView");
+        SceneLoader.Instance.LoadScene("BackpackView");
     }
 
     private void StartBackPack()
@@ -68,11 +69,13 @@ public class Button : MonoBehaviour
                 //map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
                 player.GetComponent<CharacterStats>().SaveData();
                 //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-                SceneManager.LoadScene("BackPackShop");
+                //SceneManager.LoadScene("BackPackShop");
+                SceneLoader.Instance.LoadScene("BackPackShop");
                 break;
             case "EndOfBattleButtonOK":
                 GameObject.Find("Character").GetComponent<CharacterStats>().SaveData();
-                SceneManager.LoadScene("GenerateMap");
+                //SceneManager.LoadScene("GenerateMap");
+                SceneLoader.Instance.LoadScene("GenerateMap");
                 break;
             case "Player_FireStatic":
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ChooseCharCamera>().CharacterSelection(gameObject);
@@ -97,7 +100,8 @@ public class Button : MonoBehaviour
                 StartBackPack();
 
 
-                SceneManager.LoadScene("GenerateMapInternumFortress1");
+                //SceneManager.LoadScene("GenerateMapInternumFortress1");
+                SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
 
 
                 questData = new QuestData();
@@ -114,7 +118,8 @@ public class Button : MonoBehaviour
                 break;
             case "Button_NewGame":
                 DeleteAllData();
-                SceneManager.LoadScene("Main");
+                //SceneManager.LoadScene("Main");
+                SceneLoader.Instance.LoadScene("Main");
                 break;
             case "Button_GoMap":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
@@ -122,14 +127,16 @@ public class Button : MonoBehaviour
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
 
-                SceneManager.LoadScene("GenerateMapFortress1");
+                //SceneManager.LoadScene("GenerateMapFortress1");
+                SceneLoader.Instance.LoadScene("GenerateMapFortress1");
                 break;
             case "Button_GoMap3":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
 
-                SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+                //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+                SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
                 break;
             case "Button_GoMapEat":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
@@ -137,7 +144,8 @@ public class Button : MonoBehaviour
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
                 GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopDataEat.json"));
 
-                SceneManager.LoadScene("GenerateMapFortress1");
+                //SceneManager.LoadScene("GenerateMapFortress1");
+                SceneLoader.Instance.LoadScene("GenerateMapFortress1");
                 break;
             case "Button_DevSave":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
@@ -152,10 +160,12 @@ public class Button : MonoBehaviour
                 GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
                 GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
                 GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-                SceneManager.LoadScene("GenerateMap");
+                //SceneManager.LoadScene("GenerateMap");
+                SceneLoader.Instance.LoadScene("GenerateMap");
                 break;
             case "Button_LoadGame":
                 SceneManager.LoadScene("GenerateMap");
+                SceneLoader.Instance.LoadScene("GenerateMap");
                 break;
             case "Button_Home":
                 //player = GameObject.FindGameObjectWithTag("Player");
@@ -163,15 +173,19 @@ public class Button : MonoBehaviour
                 //map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
                 //map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
                 //map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
-                SceneManager.LoadScene("Main");
+                //SceneManager.LoadScene("Main");
+                SceneLoader.Instance.LoadScene("Main");
                 break;
             case "Button_GoMapFromForge":
                 GameObject.FindGameObjectWithTag("Forge").GetComponent<Forge>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "forgeData.json"));
                 GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>().SaveData();
-                SceneManager.LoadScene("GenerateMap");
+                //SceneManager.LoadScene("GenerateMap");
+                SceneLoader.Instance.LoadScene("GenerateMap");
                 break;
             case "ForgeButton":
-                SceneManager.LoadScene("Forge");
+                //SceneManager.LoadScene("Forge");
+                //SceneLoader.Instance.LoadScene("Forge");
+                SceneLoader.Instance.LoadScene("Forge");
                 break;
 
 

@@ -49,7 +49,8 @@ public class BackpackShopEat : EventParent
         PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
         PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
 
-        SceneManager.LoadScene("BackPackShopEat");
+        //SceneManager.LoadScene("BackPackShopEat");
+        SceneLoader.Instance.LoadScene("BackPackShopEat");
     }
 
 
