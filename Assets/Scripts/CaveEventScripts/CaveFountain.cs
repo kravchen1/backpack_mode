@@ -24,6 +24,7 @@ public class CaveFountain : EventParent
         characterStats = player.GetComponent<CharacterStats>();
         if(isShowPressE)
         {
+            GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }
     }

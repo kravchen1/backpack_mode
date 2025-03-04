@@ -23,7 +23,7 @@ public class NPC_King : NPC
     }
 
 
-    private int dialogueNumber = 0;
+    //private int dialogueNumber = 0;
 
     //public virtual void Initialize()
     //{

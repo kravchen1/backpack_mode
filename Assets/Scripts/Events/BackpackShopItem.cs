@@ -19,6 +19,7 @@ public class BackpackShopItem : EventParent
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
+            GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }
     }
