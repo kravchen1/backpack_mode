@@ -280,6 +280,7 @@ public class GenerateBackpack : MonoBehaviour
         LoadChestItems("WEAPON");
         LoadChestItems("ITEMEAT");
         LoadChestItems("MUSHROOMSITEMS");
+        LoadChestItems("KEYSTONESITEMS");
 
 
         GenerationBackpack();

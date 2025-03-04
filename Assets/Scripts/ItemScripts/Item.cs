@@ -357,6 +357,7 @@ public abstract class Item : MonoBehaviour
     {
         if (isDragging)
         {
+            //Debug.Log(transform.localPosition);
             // Перемещаем объект в позицию курсора с учетом смещения   
             //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
             if (SceneManager.GetActiveScene().name != "BackPackBattle")

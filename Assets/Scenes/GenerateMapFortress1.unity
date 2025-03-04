@@ -10981,9 +10981,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dev: 0
+  playerMaxStamina: 0
   playerHP: 0
   playerMaxHp: 0
-  playerMaxStamina: 0
   playerCoins: 0
   playerLvl: 0
   playerExp: 0
@@ -23710,7 +23711,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1807748905}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 770684284}
+        m_TargetAssemblyTypeName: ButtonsEscController, Assembly-CSharp
+        m_MethodName: BackpackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1807748905
 MonoBehaviour:
   m_ObjectHideFlags: 0

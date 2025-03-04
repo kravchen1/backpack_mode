@@ -11152,9 +11152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dev: 0
+  playerMaxStamina: 0
   playerHP: 0
   playerMaxHp: 0
-  playerMaxStamina: 0
   playerCoins: 0
   playerLvl: 0
   playerExp: 0
@@ -11630,11 +11631,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
---- !u!1 &804681869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3428641173978288801, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
-  m_PrefabInstance: {fileID: 1623189048}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &805614993
 GameObject:
   m_ObjectHideFlags: 0
@@ -12681,23 +12677,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6304451806621352110, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
   m_PrefabInstance: {fileID: 1623189048}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &927833931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 804681869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900bee2ab749c0a4eab9dff4b2d6b7e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: d965952aefb7e88429bf0cfd9fd35dd5, type: 2}
-  alternativeDialogue1: {fileID: 11400000, guid: 1285b425a36a4b6419ca070dc6eb4566, type: 2}
-  alternativeDialogue2: {fileID: 11400000, guid: aa720aa5d648b334fba029e016854965, type: 2}
-  alternativeDialogue3: {fileID: 11400000, guid: 75fcf61988bd8bc459ee850c6bb4b567, type: 2}
-  alternativeDialogue4: {fileID: 0}
 --- !u!1 &943909156
 GameObject:
   m_ObjectHideFlags: 0
@@ -15501,7 +15480,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1237887254}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 450827291}
+        m_TargetAssemblyTypeName: ButtonsEscController, Assembly-CSharp
+        m_MethodName: BackpackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1237887254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19672,6 +19663,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6559522867038934599, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
+      propertyPath: alternativeDialogue3
+      value: 
+      objectReference: {fileID: 11400000, guid: beb1d0feade6902419f35e65e269e204, type: 2}
+    - target: {fileID: 6559522867038934599, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
+      propertyPath: alternativeDialogue4
+      value: 
+      objectReference: {fileID: 11400000, guid: 75fcf61988bd8bc459ee850c6bb4b567, type: 2}
+    - target: {fileID: 6559522867038934599, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
+      propertyPath: alternativeDialogue5
+      value: 
+      objectReference: {fileID: 11400000, guid: f022bbdb0d38fc44782ecef1d88fb569, type: 2}
     - target: {fileID: 6560834050088611125, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
       value: 22
@@ -19805,10 +19808,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6304451806621352110, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
       insertIndex: -1
       addedObject: {fileID: 662862263}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3428641173978288801, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 927833931}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d66b7996e9e7aaa4b9efdfb5c27d6653, type: 3}
 --- !u!1 &1643309191
 GameObject:

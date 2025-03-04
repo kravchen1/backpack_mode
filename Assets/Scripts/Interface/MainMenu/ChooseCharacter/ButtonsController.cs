@@ -35,7 +35,7 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
-        StartStats(85, 135, 1, 200, 100, 1, 11);
+        StartStats(85, 135, 1, 150, 100, 1, 11);
         SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
@@ -45,7 +45,7 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.SetString("characterClass", "Player_Ice");
         Choose();
 
-        StartStats(50, 100, 1, 200, 100, 1, 9);
+        StartStats(50, 100, 1, 150, 100, 1, 9);
         SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 

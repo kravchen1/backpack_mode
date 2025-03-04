@@ -72,7 +72,11 @@ public class EndOfBattle : MonoBehaviour
                 || enemyName == "Goblin(Clone)"
                 )
             {
-                QuestComplete(4);
+                
+                if (!QuestComplete(4))
+                {
+                    NewQuestId5();
+                }
                 DieEnemy();
 
                 int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
@@ -133,10 +137,10 @@ public class EndOfBattle : MonoBehaviour
         LevelUpAdd(countLvlUp);
     }
 
-
-    public void QuestComplete(int questID)
+    private QuestManager qm;
+    public bool QuestComplete(int questID)
     {
-        QuestManager qm = new QuestManager();
+        qm = new QuestManager();
 
         if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
         {
@@ -145,6 +149,38 @@ public class EndOfBattle : MonoBehaviour
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
             qm.AddCurrentProgressQuestWithoutUI(questID);
         }
+        return qm.CheckQuestComplete(questID);
+    }
+
+    public void NewQuestId5()
+    {
+        if (qm == null)
+        {
+            qm = new QuestManager();
+
+            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+            {
+                qm.questData = new QuestData();
+                qm.questData.questData = new QDataList();
+                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            }
+            PlayerPrefs.SetInt("NPC_King", 4);
+
+        }
+        else
+        {
+            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+            qm.questData.questData.quests.Add(quest);
+            qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            PlayerPrefs.SetInt("NPC_King", 4);
+        }
+
+
     }
 
     public void DieEnemy()
@@ -202,7 +238,14 @@ public class EndOfBattle : MonoBehaviour
         else
         {
             playerBackpackBattle.characterStats.playerHP = 1;
+            if(playerBackpackBattle.characterStats.playerCoins <= 50)
+            {
+                playerBackpackBattle.characterStats.playerCoins = 50;
+            }
+
             playerBackpackBattle.characterStats.SaveData();
+
+            PlayerPrefs.DeleteKey("PostionMapX");
             SceneManager.LoadScene("GenerateMapFortress1");
         }
     }
@@ -217,7 +260,7 @@ public class EndOfBattle : MonoBehaviour
             backPackAndStorageData.storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
         }
 
-        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector2(0, 0)));
+        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector3(0, 0, -2)));
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 

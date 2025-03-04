@@ -1453,19 +1453,17 @@ GameObject:
   - component: {fileID: 86062057351207209}
   - component: {fileID: 20454383944305627}
   - component: {fileID: 7935502127997438552}
-  - component: {fileID: 7525600018856297694}
   - component: {fileID: 3411851617453256001}
   - component: {fileID: 5680233203399344048}
   - component: {fileID: 4387718674856485531}
   - component: {fileID: 5971842379198666835}
-  - component: {fileID: 7804531164862258006}
   - component: {fileID: 6620200655505696323}
   - component: {fileID: 3169778674515816683}
   - component: {fileID: 2381825408010440778}
   - component: {fileID: 6587045954839221062}
   m_Layer: 9
   m_Name: SkyStoneLvl5
-  m_TagString: Untagged
+  m_TagString: KeyStonesItems
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1567,36 +1565,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7190778731692238965}
   m_CullTransparentMesh: 1
---- !u!114 &7525600018856297694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190778731692238965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 1138516437612030060, guid: 26219afe650eca349a89f642aec6aaf2, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!225 &3411851617453256001
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1676,28 +1644,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!95 &7804531164862258006
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7190778731692238965}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b46c30efc9007384284122560343e47b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!60 &6620200655505696323
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1829,7 +1775,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7190778731692238965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec772c563fa05ff4bb2580b67fec9139, type: 3}
+  m_Script: {fileID: 11500000, guid: c9ec94368977ef84188ee9550b3db4ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1841,7 +1787,8 @@ MonoBehaviour:
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
   Description: {fileID: 57128224002443928, guid: 89ef3b9db13b23d4f88db3810febaeac, type: 3}
-  DescriptionLog: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
+  DescriptionLogCharacter: {fileID: 0}
+  DescriptionLogEnemy: {fileID: 0}
   originalSprite: {fileID: 0}
   prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
@@ -1862,18 +1809,17 @@ MonoBehaviour:
   sellChestSound: {fileID: 0}
   Impulse: 0
   stars: []
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
+  emptyStar: {fileID: 0}
+  fillStar: {fileID: 0}
   shopItem: {fileID: 0}
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
   itemMusicEffects: {fileID: 0}
-  originalName: SkyStoneLvl5
+  originalName: 
   timer: 0
   timer_cooldown: 0
   baseTimerCooldown: 0
-  startBattleArmorCount: 0
 --- !u!1 &7898270725989144423
 GameObject:
   m_ObjectHideFlags: 0

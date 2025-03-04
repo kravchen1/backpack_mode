@@ -26,7 +26,8 @@ public class DropItem : EventParent
 
 
     private float jumpHeight = 20f; // Высота прыжка
-    private float jumpDistance = 30f; // Расстояние по X
+    private float jumpDistanceX = 30f; // Расстояние по X
+    private float jumpDistanceY = 30f; // Расстояние по Y
     private float jumpDuration = 1f; // Длительность прыжка
     private float rotationSpeed = 360f; // Скорость вращения (градусы в секунду)
 
@@ -42,24 +43,21 @@ public class DropItem : EventParent
         itemSprite = transform.GetChild(0).gameObject;
         startPosition = itemSprite.transform.position;
 
-        jumpDistance = UnityEngine.Random.Range(20, 45);
-        jumpHeight = UnityEngine.Random.Range(20, 30);
-        int rX = UnityEngine.Random.Range(1, 3);
+        jumpDistanceX = UnityEngine.Random.Range(-45, 45);
+        jumpDistanceY = UnityEngine.Random.Range(0, 30);
+        rotationSpeed = UnityEngine.Random.Range(180, 360);
+        jumpHeight = UnityEngine.Random.Range(10, 60);
+        ///int rX = UnityEngine.Random.Range(1, 3);
         int rZ = UnityEngine.Random.Range(1, 3);
 
-        if (rX == 1)
-            jumpDistance *= -1;
+        //if (rX == 1)
+        //    jumpDistance *= -1;
         if (rZ == 1)
             rotationSpeed *= -1;
 
-
-        targetPosition = startPosition + new Vector3(jumpDistance, 0, 0);
-
-
+        targetPosition = startPosition + new Vector3(jumpDistanceX, jumpDistanceY, 0);
 
         isJumping = true;
-
-
     }
 
 
@@ -119,11 +117,13 @@ public class DropItem : EventParent
                 return;
             }
 
-            // Рассчитываем позицию по X (линейная интерполяция)
+            // Рассчитываем позицию по X и Y (линейная интерполяция)
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, t);
+            float y = Mathf.Lerp(startPosition.y, targetPosition.y, t);
 
-            // Рассчитываем позицию по Y (параболическая траектория)
-            float y = startPosition.y + jumpHeight * Mathf.Sin(t * Mathf.PI);
+            // Добавляем параболическую составляющую по Y
+            float parabola = Mathf.Sin(t * Mathf.PI); // Парабола от 0 до 1 и обратно
+            y += jumpHeight * parabola; // Применяем высоту прыжка
 
             // Применяем новую позицию
             itemSprite.transform.position = new Vector3(x, y, startPosition.z);
@@ -144,7 +144,11 @@ public class DropItem : EventParent
             backPackAndStorageData.storageData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
         }
 
-        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector2(0, 0)));
+        //Debug.Log(backPackAndStorageData.storageData.itemData.items.Count / 8);
+        //Debug.Log(backPackAndStorageData.storageData.itemData.items.Count % 8);
+        int y = backPackAndStorageData.storageData.itemData.items.Count / 8;
+        int x = backPackAndStorageData.storageData.itemData.items.Count % 8;
+        backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector3(-370 + (82 * x), -120 + (45 * y), -2)));
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 }
