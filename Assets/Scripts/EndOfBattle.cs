@@ -170,21 +170,30 @@ public class EndOfBattle : MonoBehaviour
                 qm.questData = new QuestData();
                 qm.questData.questData = new QDataList();
                 qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+                var questDat = qm.questData.questData.quests.Where(e => e.id == 5).ToList();
+                if (questDat.Count == 0)
+                {
+                    Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
 
-                qm.questData.questData.quests.Add(quest);
-                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    qm.questData.questData.quests.Add(quest);
+                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    PlayerPrefs.SetInt("NPC_King", 4);
+                }
             }
-            PlayerPrefs.SetInt("NPC_King", 4);
+            
 
         }
         else
         {
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
-            qm.questData.questData.quests.Add(quest);
-            qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            PlayerPrefs.SetInt("NPC_King", 4);
+            var questDat = qm.questData.questData.quests.Where(e => e.id == 5).ToList();
+            if (questDat.Count == 0)
+            {
+                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                PlayerPrefs.SetInt("NPC_King", 4);
+            }
         }
 
 
