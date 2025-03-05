@@ -12,7 +12,8 @@ public class ButtonsEscController : MonoBehaviour
     public void BackToMainMenuFromWorld()
     {
         SaveFromWorld();
-        SceneManager.LoadScene("Main");
+        //SceneManager.LoadScene("Main");
+        SceneLoader.Instance.LoadScene("Main");
     }
 
     public void ExitFromWorld()
@@ -24,7 +25,8 @@ public class ButtonsEscController : MonoBehaviour
     public void BackpackButton()
     {
         SaveFromWorld();
-        SceneManager.LoadScene("BackPack");
+        //SceneManager.LoadScene("BackPack");
+        SceneLoader.Instance.LoadScene("BackPack");
     }
 
     private void SaveFromWorld()

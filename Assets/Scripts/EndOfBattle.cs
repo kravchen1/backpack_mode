@@ -137,7 +137,7 @@ public class EndOfBattle : MonoBehaviour
         playerBackpackBattle.characterStats.playerLvl++;
         winLevelText.text = playerBackpackBattle.characterStats.playerLvl.ToString();
         playerBackpackBattle.characterStats.playerExp = 0;
-        playerBackpackBattle.characterStats.requiredExp += 500 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
+        playerBackpackBattle.characterStats.requiredExp += 250 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
         winExpBar.fillAmount = 0;
 
 
