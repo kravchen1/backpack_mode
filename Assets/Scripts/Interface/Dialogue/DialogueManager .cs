@@ -87,12 +87,14 @@ public class DialogueManager : MonoBehaviour
         if (response.questComplete)
         {
             FindFirstObjectByType<QuestManager>().CompleteQuest(response.idQuestComplete);
+            FindFirstObjectByType<Player>().InitializedGPSTracker();
         }
 
         if (response.quest)
         {
             Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
             FindFirstObjectByType<QuestManager>().AddQuest(quest);
+            FindFirstObjectByType<Player>().InitializedGPSTracker();
         }
 
         if (response.switchDialogID >= 0)

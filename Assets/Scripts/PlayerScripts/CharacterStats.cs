@@ -71,7 +71,7 @@ public class CharacterStats : MonoBehaviour
                 playerMaxStamina = characterStatsData.playerMaxStamina;
                 int x = 500;
                 int y = 2;
-                requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
+                requiredExp = characterStatsData.requiredExp;
             }
         }
         else
