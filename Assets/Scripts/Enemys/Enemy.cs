@@ -88,6 +88,7 @@ public class Enemy : EventParent
             }
         }
         Destroy(gameObject.transform.parent.gameObject);
+        FindFirstObjectByType<Player>().InitializedGPSTracker();
     }
     public void Die()
     {

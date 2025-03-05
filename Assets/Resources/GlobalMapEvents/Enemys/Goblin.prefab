@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6209744333512127735}
   - component: {fileID: 772077941444430588}
+  - component: {fileID: 3886031284179948911}
+  - component: {fileID: 7305368914822546552}
   m_Layer: 12
   m_Name: Area
   m_TagString: AreaEvent
@@ -43,7 +45,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4189772290502009938}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -91,6 +93,55 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3886031284179948911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4189772290502009938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7ee5eeaf5320e47a2761621450f9cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animation: {fileID: 7034951671821234482}
+--- !u!58 &7305368914822546552
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4189772290502009938}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.00000047683716, y: 0.0000009536743}
+  m_Radius: 2.88
 --- !u!1 &4755567581106148137
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +524,7 @@ GameObject:
   - component: {fileID: 2842781615785625564}
   - component: {fileID: 5804018072125737601}
   - component: {fileID: 4070762779697067738}
+  - component: {fileID: -2019338212915416046}
   m_Layer: 5
   m_Name: Goblin
   m_TagString: Untagged
@@ -516,7 +568,7 @@ PolygonCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -788,6 +840,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-2019338212915416046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148816279209613968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idQuests: 04000000
 --- !u!1001 &7369829190724440207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -807,6 +872,10 @@ PrefabInstance:
     - target: {fileID: -8653719598885068355, guid: 902af8831483ad8449c00367e90666c3, type: 3}
       propertyPath: m_Name
       value: "\u0413\u043E\u0431\u043B\u0438\u043D"
+      objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: 902af8831483ad8449c00367e90666c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7793855833432745113, guid: 902af8831483ad8449c00367e90666c3, type: 3}
       propertyPath: m_SortingLayer

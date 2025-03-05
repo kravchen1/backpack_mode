@@ -216,7 +216,6 @@ public abstract class Item : MonoBehaviour
                     DeleteNestedObject(gameObject.transform.parent.tag);
                     //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                     ChangeShowStars(true);
-                    canShowDescription = false;
 
                     // Начинаем перетаскивание
                     isDragging = true;
@@ -247,7 +246,6 @@ public abstract class Item : MonoBehaviour
                 DeleteNestedObject(gameObject.transform.parent.tag);
                 //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 ChangeShowStars(true);
-                canShowDescription = false;
 
 
                 // Начинаем перетаскивание
@@ -291,7 +289,6 @@ public abstract class Item : MonoBehaviour
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
-                    canShowDescription = true;
                 }
                 else
                 {
@@ -308,7 +305,6 @@ public abstract class Item : MonoBehaviour
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
                     careHits.Clear();
-                    canShowDescription = true;
 
                     needToRotateToStartRotation = false;
                 }
@@ -367,11 +363,12 @@ public abstract class Item : MonoBehaviour
                 DeleteAllDescriptions();
                 SellChest();
             }
+            canShowDescription = false;
         }
         else
         {
             //if (SceneManager.GetActiveScene().name == "BackPackShop")
-
+            canShowDescription = true;
         }
         Rotate();
         SwitchDynamicStatic();

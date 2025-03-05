@@ -239,6 +239,7 @@ public class Player : MonoBehaviour
 
             foreach (var Tracker in QuestTrackers)
             {
+                
                 if (Tracker.gameObject.name == "backpackShopItems")
                 {
                     if (!PlayerPrefs.HasKey("id2ShopItem"))
@@ -266,7 +267,8 @@ public class Player : MonoBehaviour
     {
         targets.Clear();
         SearchTargets(1);
-        SearchTargets(2);
+        SearchTargets(4);
+        SearchTargets(5);
         SearchSpecialTargetsShop();
     }
     void GPSTracker()
@@ -279,11 +281,18 @@ public class Player : MonoBehaviour
             float Distance = 0;
             for (int i = 0; i < targets.Count; i++)
             {
-                Distance = Vector2.Distance(targets[i].position, transform.position);
-                if (Distance < minDistance)
+                if (targets[i] != null)
                 {
-                    minDistance = Distance;
-                    indexMinDestance = i;
+                    Distance = Vector2.Distance(targets[i].position, transform.position);
+                    if (Distance < minDistance)
+                    {
+                        minDistance = Distance;
+                        indexMinDestance = i;
+                    }
+                }
+                else
+                {
+                    targets.Remove(targets[i]);
                 }
             }
 
