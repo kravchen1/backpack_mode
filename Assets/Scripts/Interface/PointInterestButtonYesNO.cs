@@ -53,7 +53,8 @@ public class PointInterestButtonYesNO : Button
             characterStats.SaveData();
             //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
             PlayerPrefs.SetString("enemyName", pointInterestCollision.gameObject.name.Replace("(Clone)", ""));
-            SceneManager.LoadScene("BackPackBattle");
+            //SceneManager.LoadScene("BackPackBattle");
+            SceneLoader.Instance.LoadScene("BackPackBattle");
         }
         if (pointInterestCollision.gameObject.name.Contains("Portal"))
         {
@@ -62,7 +63,8 @@ public class PointInterestButtonYesNO : Button
             characterStats.SaveData();
             map.DeleteData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
             //LoadSceneParameters sceneParameters = new LoadSceneParameters(LoadSceneMode.Single,LocalPhysicsMode.None);
-            SceneManager.LoadScene("GenerateMap");
+            //SceneManager.LoadScene("GenerateMap");
+            SceneLoader.Instance.LoadScene("GenerateMap");
         }
     }
 }

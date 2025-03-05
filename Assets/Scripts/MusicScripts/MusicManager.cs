@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -10,13 +11,31 @@ public class MusicManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            Debug.Log("if");
             DontDestroyOnLoad(gameObject); // Не уничтожаем этот объект при загрузке новой сцены
         }
         else
         {
-            Debug.Log("Else");
             Destroy(gameObject); // Уничтожаем дубликаты
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Проверяем, если текущая сцена совпадает с заданной и музыка не была остановлена
+        if (scene.name == "BackPackBattle" || scene.name == "Main")
+        {
+            GetComponent<AudioSource>().Stop();
+            Destroy(gameObject); // Уничтожаем объект с музыкой
         }
     }
 }

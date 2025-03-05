@@ -13,19 +13,19 @@ public class ButtonReroll : Button
         stat = GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>();
 
 
-        if (!PlayerPrefs.HasKey("countRerollBeforePriceIncrease"))
-        {
-            PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
-        }
+        //if (!PlayerPrefs.HasKey("countRerollBeforePriceIncrease"))
+        //{
+        //    PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
+        //}
 
-        if (!PlayerPrefs.HasKey("priceReroll"))
-        {
-            PlayerPrefs.SetInt("priceReroll", 1);
-        }
-        else
-        {
-            textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
-        }
+        //if (!PlayerPrefs.HasKey("priceReroll"))
+        //{
+        //    PlayerPrefs.SetInt("priceReroll", 1);
+        //}
+        //else
+        //{
+        //    textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
+        //}
     }
 
     override public void OnMouseUpAsButton()
@@ -33,7 +33,7 @@ public class ButtonReroll : Button
         if (stat.playerCoins - PlayerPrefs.GetInt("priceReroll") >= 0)
         {
             var listShopData = GameObject.FindObjectsByType<GenerateShopItems>(FindObjectsSortMode.None);
-            bool rerolling = false;
+            //bool rerolling = false;
             foreach (var data in listShopData)
             {
                 if (!data.GetComponent<Price>().lockForItem.activeSelf)
@@ -42,29 +42,29 @@ public class ButtonReroll : Button
                     {
                         Destroy(data.shopData.item.gameObject);
                         data.GenerateRandomItem();
-                        rerolling = true;
+                        //rerolling = true;
                     }
                     else
                     {
                         data.GenerateRandomItem();
-                        rerolling = true;
+                        //rerolling = true;
                     }
                 }
             }
-            if (rerolling)
-            {
-                stat.playerCoins -= PlayerPrefs.GetInt("priceReroll");
-                PlayerPrefs.SetInt("countRerollBeforePriceIncrease", PlayerPrefs.GetInt("countRerollBeforePriceIncrease") + 1);
+            //if (rerolling)
+            //{
+            //    stat.playerCoins -= PlayerPrefs.GetInt("priceReroll");
+            //    PlayerPrefs.SetInt("countRerollBeforePriceIncrease", PlayerPrefs.GetInt("countRerollBeforePriceIncrease") + 1);
 
-                if (PlayerPrefs.GetInt("countRerollBeforePriceIncrease") == countRerollBeforePriceIncrease)
-                {
-                    PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
-                    PlayerPrefs.SetInt("priceReroll", PlayerPrefs.GetInt("priceReroll") + countIncrease);
-                }
+            //    if (PlayerPrefs.GetInt("countRerollBeforePriceIncrease") == countRerollBeforePriceIncrease)
+            //    {
+            //        PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
+            //        //PlayerPrefs.SetInt("priceReroll", PlayerPrefs.GetInt("priceReroll") + countIncrease);
+            //    }
 
 
-                textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
-            }
+            //    textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
+            //}
 
 
         }

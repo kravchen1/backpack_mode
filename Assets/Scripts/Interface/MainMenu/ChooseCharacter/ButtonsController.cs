@@ -36,7 +36,11 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
         StartStats(85, 135, 1, 150, 100, 1, 11);
-        SceneManager.LoadScene("GenerateMapInternumFortress1");
+
+        mainCanvas.SetActive(false);
+        chooseCharCanvas.SetActive(false);
+        SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
+        //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
     public void ChooseIce()
@@ -46,7 +50,11 @@ public class ButtonsController : MonoBehaviour
         Choose();
 
         StartStats(50, 100, 1, 150, 100, 1, 9);
-        SceneManager.LoadScene("GenerateMapInternumFortress1");
+
+        mainCanvas.SetActive(false);
+        chooseCharCanvas.SetActive(false);
+        SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
+        //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
 
 

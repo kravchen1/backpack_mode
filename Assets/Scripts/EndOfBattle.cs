@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -41,6 +42,11 @@ public class EndOfBattle : MonoBehaviour
 
 
 
+    [SerializeField] private AudioClip winClip;
+    [SerializeField] private AudioClip loseClip;
+
+    [SerializeField] private AudioSource backgroundBattleMusic;
+
     private bool awardsReceived = false;
     private bool win = true;
 
@@ -59,6 +65,7 @@ public class EndOfBattle : MonoBehaviour
     {
         if (enemyBackpackBattle.hp <= 0 && !awardsReceived) //win
         {
+            gameObject.AddComponent<AudioSource>().PlayOneShot(winClip);
             StopFight();
             if(PlayerPrefs.GetInt("VampireAmulet") == 1)
             {
@@ -90,6 +97,7 @@ public class EndOfBattle : MonoBehaviour
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
         {
+            gameObject.AddComponent<AudioSource>().PlayOneShot(loseClip);
             StopFight();
             Lose();
         }
@@ -129,7 +137,7 @@ public class EndOfBattle : MonoBehaviour
         playerBackpackBattle.characterStats.playerLvl++;
         winLevelText.text = playerBackpackBattle.characterStats.playerLvl.ToString();
         playerBackpackBattle.characterStats.playerExp = 0;
-        playerBackpackBattle.characterStats.requiredExp += 500 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
+        playerBackpackBattle.characterStats.requiredExp += 250 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
         winExpBar.fillAmount = 0;
 
 
@@ -163,21 +171,30 @@ public class EndOfBattle : MonoBehaviour
                 qm.questData = new QuestData();
                 qm.questData.questData = new QDataList();
                 qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+                var questDat = qm.questData.questData.quests.Where(e => e.id == 5).ToList();
+                if (questDat.Count == 0)
+                {
+                    Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
 
-                qm.questData.questData.quests.Add(quest);
-                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    qm.questData.questData.quests.Add(quest);
+                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    PlayerPrefs.SetInt("NPC_King", 4);
+                }
             }
-            PlayerPrefs.SetInt("NPC_King", 4);
+            
 
         }
         else
         {
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
-            qm.questData.questData.quests.Add(quest);
-            qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            PlayerPrefs.SetInt("NPC_King", 4);
+            var questDat = qm.questData.questData.quests.Where(e => e.id == 5).ToList();
+            if (questDat.Count == 0)
+            {
+                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                PlayerPrefs.SetInt("NPC_King", 4);
+            }
         }
 
 
@@ -202,10 +219,11 @@ public class EndOfBattle : MonoBehaviour
         Time.timeScale = 0f;
         timeSpeed.value = 0f;
         timeSpeed.interactable = false;
-        float addStaminaStartBattle = GetComponent<StartOfBattle>().addStamina;
-        playerBackpackBattle.characterStats.playerMaxStamina -= addStaminaStartBattle;
+
         endOfBattleCanvas.SetActive(true);
         animations.SetActive(false);
+        backgroundBattleMusic.Stop();
+
 
         awardsReceived = true;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.hp;
@@ -233,7 +251,8 @@ public class EndOfBattle : MonoBehaviour
         {
             //todo
             playerBackpackBattle.characterStats.SaveData();
-            SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
         }
         else
         {
@@ -246,7 +265,8 @@ public class EndOfBattle : MonoBehaviour
             playerBackpackBattle.characterStats.SaveData();
 
             PlayerPrefs.DeleteKey("PostionMapX");
-            SceneManager.LoadScene("GenerateMapFortress1");
+            //SceneManager.LoadScene("GenerateMapFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapFortress1");
         }
     }
 

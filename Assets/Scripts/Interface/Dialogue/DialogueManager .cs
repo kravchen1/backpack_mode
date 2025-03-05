@@ -24,6 +24,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void DisplayDialogue()
     {
+        dialogueSound.Play();
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         nameCharacterText.text = currentNPC.name;
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
@@ -86,12 +87,14 @@ public class DialogueManager : MonoBehaviour
         if (response.questComplete)
         {
             FindFirstObjectByType<QuestManager>().CompleteQuest(response.idQuestComplete);
+            FindFirstObjectByType<Player>().InitializedGPSTracker();
         }
 
         if (response.quest)
         {
             Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
             FindFirstObjectByType<QuestManager>().AddQuest(quest);
+            FindFirstObjectByType<Player>().InitializedGPSTracker();
         }
 
         if (response.switchDialogID >= 0)

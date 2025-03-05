@@ -17,7 +17,8 @@ public class PauseMenu : MonoBehaviour
         doorData.GetComponent<DoorData>().DeleteData();
         PlayerPrefs.SetFloat("PostionMapX", 969f);
         PlayerPrefs.SetFloat("PostionMapY", 867f);
-        SceneManager.LoadScene("GenerateMap");
+        //SceneManager.LoadScene("GenerateMap");
+        SceneLoader.Instance.LoadScene("GenerateMap");
     }
     private void Update()
     {

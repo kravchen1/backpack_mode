@@ -10,6 +10,7 @@ using UnityEngine.Audio;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour
     public Animator animator;
     //public GameObject textInfo;
 
-    private DoorEventDistributor distributor;
+    [HideInInspector] public DoorEventDistributor distributor;
 
     [HideInInspector] public Map map;
     private RectTransform rectTransform;
@@ -101,45 +102,6 @@ public class Player : MonoBehaviour
     private Animator activatePointAnimator;
 
 
-    //public void OutFortress1()
-    //{
-    //    if (activePoint.name == "entranceOutFortress1")
-    //    {
-    //        //PlayerPrefs.SetFloat("PostionMapX", 988f);
-    //        //PlayerPrefs.SetFloat("PostionMapY", 427f);
-    //        PlayerPrefs.SetFloat("PostionMapX", 343f);
-    //        PlayerPrefs.SetFloat("PostionMapY", -200f);
-    //        SceneManager.LoadScene("GenerateMap");
-    //    }
-    //    if (activePoint.name == "entranceOutFortress1 1")
-    //    {
-    //        PlayerPrefs.SetFloat("PostionMapX", 246f);
-    //        //PlayerPrefs.SetFloat("PostionMapX", 1137f);
-    //        PlayerPrefs.SetFloat("PostionMapY", 172f);
-    //        //PlayerPrefs.SetFloat("PostionMapY", 636f);
-    //        SceneManager.LoadScene("GenerateMap");
-    //    }
-    //    if (activePoint.name == "entranceOutFortress1 2")
-    //    {
-    //        //PlayerPrefs.SetFloat("PostionMapX", 830f);
-    //        //PlayerPrefs.SetFloat("PostionMapY", 587f);
-    //        PlayerPrefs.SetFloat("PostionMapX", -93f);
-    //        PlayerPrefs.SetFloat("PostionMapY", 91f);
-    //        SceneManager.LoadScene("GenerateMap");
-    //    }
-    //}
-
-
-    public void OutInternumFortress1()
-    {
-        if (activePoint.name == "entranceOutInternumFortress1 left" || activePoint.name == "entranceOutInternumFortress1 right")
-        {
-            PlayerPrefs.SetFloat("PostionMapX", 34f);
-            PlayerPrefs.SetFloat("PostionMapY", 144f);
-            SceneManager.LoadScene("GenerateMapFortress1");
-        }
-    }
-
    
 
 
@@ -155,18 +117,6 @@ public class Player : MonoBehaviour
         if (hit.collider != null)
         {
             activePoint = hit.collider.gameObject.GameObject();
-            if (hit.collider.tag == "AreaEventEnemy")
-            {
-                //Debug.Log(activePoint);
-                //isCollidingArea = true;
-                //// Запускаем корутину обратного отсчета, если она не запущена
-                //if (countdownCoroutine == null)
-                //{
-                //    activatePointAnimator = activePoint.GetComponent<Animator>();
-                //    activatePointAnimator.Play("ActivateArea", 0, 0f);
-                //    countdownCoroutine = StartCoroutine(Countdown());
-                //}
-            }
 
             if (hit.collider.tag == "AreaEventNPC" && !speakNow)
             {
@@ -175,43 +125,15 @@ public class Player : MonoBehaviour
             }
             if (hit.collider.tag == "AreaEventEntrance")
             {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    if (SceneManager.GetActiveScene().name == "GenerateMapInternumFortress1")
-                        OutInternumFortress1();
-                }
-
                 if (activePoint.name == "entranceInCave1")
                 {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        SceneManager.LoadScene("BackPackCave1");
+                        //SceneManager.LoadScene("BackPackCave1");
+                        SceneLoader.Instance.LoadScene("BackPackCave1");
                     }
                 }   
             }
-            if (hit.collider.tag == "AreaCaveDoor")
-            {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    distributor.doorData.DoorDataClass.currentDoorId = activePoint.gameObject.transform.parent.GetComponent<Door>().doorId;
-                    distributor.doorData.DoorDataClass.currentCaveLevel = activePoint.gameObject.transform.parent.GetComponent<Door>().caveLevel;
-                    distributor.doorData.SaveData();
-                    SceneManager.LoadScene("Cave");
-                }
-            }
-            //if (hit.collider.tag == "AreaFountain")
-            //{
-            //    if (!textInfoE)
-            //    {
-            //        textInfo.SetActive(true);
-            //        textInfoE = true;
-            //    }
-
-            //    if (Input.GetKeyDown(KeyCode.E))
-            //    {
-            //        hit.collider.transform.parent.gameObject.GetComponent<CaveFountain>().ActivateFountain();
-            //    }
-            //}
         }
         else
         {
@@ -292,47 +214,62 @@ public class Player : MonoBehaviour
     }
 
 
-    void InitializedGPSTracker()
+    private void SearchTargets(int questID)
     {
         if (questManager != null)
         {
-            if (questManager.questData.questData.quests.Where(e => e.id == 2 && e.isCompleted == false).Count() > 0)
+            if (questManager.questData.questData.quests.Where(e => e.id == questID && e.isCompleted == false).Count() > 0)
             {
-                if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == questID).Count() > 0);
+                foreach (var Tracker in QuestTrackers)
                 {
-                    var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 2).Count() > 0);
-
-                    foreach (var Tracker in QuestTrackers)
-                    {
-                        if (Tracker.gameObject.name == "backpackShopItems")
-                        {
-                            if (!PlayerPrefs.HasKey("id2ShopItem"))
-                            {
-                                targets.Add(Tracker.gameObject.transform);
-                            }
-                        }
-                        if (Tracker.gameObject.name == "backpackShopEat")
-                        {
-                            if (!PlayerPrefs.HasKey("id2ShopEat"))
-                            {
-                                targets.Add(Tracker.gameObject.transform);
-                            }
-                        }
-                    }
+                    targets.Add(Tracker.gameObject.transform);
                 }
             }
-            if (questManager.questData.questData.quests.Where(e => e.id == 4 && e.isCompleted == false).Count() > 0)
+        }
+    }
+
+    private void SearchSpecialTargetsShop(int questID = 2)
+    {
+        if (questManager.questData.questData.quests.Where(e => e.id == questID && e.isCompleted == false).Count() > 0)
+        {
+            //if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+            //{
+            var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 2).Count() > 0);
+
+            foreach (var Tracker in QuestTrackers)
             {
-                if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                
+                if (Tracker.gameObject.name == "backpackShopItems")
                 {
-                    var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 4).Count() > 0);
-                    foreach (var Tracker in QuestTrackers)
+                    if (!PlayerPrefs.HasKey("id2ShopItem"))
                     {
                         targets.Add(Tracker.gameObject.transform);
                     }
                 }
+                else if (Tracker.gameObject.name == "backpackShopEat")
+                {
+                    if (!PlayerPrefs.HasKey("id2ShopEat"))
+                    {
+                        targets.Add(Tracker.gameObject.transform);
+                    }
+                }
+                else
+                {
+                    targets.Add(Tracker.gameObject.transform);
+                }
             }
+            //}
         }
+    }
+
+    public void InitializedGPSTracker()
+    {
+        targets.Clear();
+        SearchTargets(1);
+        SearchTargets(4);
+        SearchTargets(5);
+        SearchSpecialTargetsShop();
     }
     void GPSTracker()
     {
@@ -344,11 +281,18 @@ public class Player : MonoBehaviour
             float Distance = 0;
             for (int i = 0; i < targets.Count; i++)
             {
-                Distance = Vector2.Distance(targets[i].position, transform.position);
-                if (Distance < minDistance)
+                if (targets[i] != null)
                 {
-                    minDistance = Distance;
-                    indexMinDestance = i;
+                    Distance = Vector2.Distance(targets[i].position, transform.position);
+                    if (Distance < minDistance)
+                    {
+                        minDistance = Distance;
+                        indexMinDestance = i;
+                    }
+                }
+                else
+                {
+                    targets.Remove(targets[i]);
                 }
             }
 

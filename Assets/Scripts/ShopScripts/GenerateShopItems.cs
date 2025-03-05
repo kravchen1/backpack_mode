@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GenerateShopItems : MonoBehaviour
 {
@@ -80,13 +81,34 @@ public class GenerateShopItems : MonoBehaviour
         priceTxt.text = item.itemCost.ToString();
     }
 
+
+    private GameObject GenerateFirstItem()
+    {
+        foreach(GameObject item in generateItems)
+        {
+            if(item.name == "HiddenDagger")
+            {
+                return item;
+            }
+        }
+        return generateItems[0];
+    }
     public void GenerateRandomItem()
     {
         int r;
         r = Random.Range(0, generateItems.Count);
         if (r < generateItems.Count)
         {
-            Generation(generateItems[r], placeForItemCollider.bounds.center);
+            if (!PlayerPrefs.HasKey("FirstGenerationShopItem") && SceneManager.GetActiveScene().name == "BackPackShop")
+            {
+                Generation(GenerateFirstItem(), placeForItemCollider.bounds.center);
+                PlayerPrefs.SetInt("FirstGenerationShopItem", 1);
+            }
+            else
+            {
+                Generation(generateItems[r], placeForItemCollider.bounds.center);
+            }
+            
         }
         //else
         //{

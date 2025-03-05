@@ -19,6 +19,7 @@ public class BackpackShopItem : EventParent
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
+            GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }
     }
@@ -47,7 +48,8 @@ public class BackpackShopItem : EventParent
         PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
         PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
 
-        SceneManager.LoadScene("BackPackShop");
+        //SceneManager.LoadScene("BackPackShop");
+        SceneLoader.Instance.LoadScene("BackPackShop");
     }
 
 

@@ -2,6 +2,7 @@ using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -74,7 +75,14 @@ public class BattleSpawner : MonoBehaviour
                 int randomLevel = 0;
                 if (characterStats.playerLvl <= 10)
                 {
-                    randomLevel = Random.Range(1, characterStats.playerLvl + 6);
+                    if (!PlayerPrefs.HasKey("FirstOut"))
+                    {
+                        randomLevel = Random.Range(1, 2);
+                    }
+                    else
+                    {
+                        randomLevel = Random.Range(2, characterStats.playerLvl + 6);
+                    }
                 }
                 else
                 {
@@ -89,6 +97,10 @@ public class BattleSpawner : MonoBehaviour
         }
         battlesSpawnerData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn" + Biom + ".json"));
         PlayerPrefs.SetInt("NeedSpawnEnemys", 0);
+        if (!PlayerPrefs.HasKey("FirstOut"))
+        {
+            PlayerPrefs.SetInt("FirstOut", 1);
+        }
     }
 
 

@@ -62,7 +62,8 @@ public class CaveStone : MonoBehaviour
     {
         if (haveCaveLvl)
         {
-            SceneManager.LoadScene("Cave");
+            //SceneManager.LoadScene("Cave");
+            SceneLoader.Instance.LoadScene("Cave");
         }
     }
 

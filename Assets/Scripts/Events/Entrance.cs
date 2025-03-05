@@ -22,6 +22,7 @@ public class Entrance : EventParent
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
+            GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }
     }
@@ -53,7 +54,8 @@ public class Entrance : EventParent
         if (loadScene != "-")
         {
             PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
-            SceneManager.LoadScene(loadScene);
+            //SceneManager.LoadScene(loadScene);
+            SceneLoader.Instance.LoadScene(loadScene);
         }
         else
         {

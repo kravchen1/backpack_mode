@@ -17,9 +17,11 @@ public class ButtonLoadGame : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
 
         if(PlayerPrefs.HasKey("currentLocation"))
-            SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+           // SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
         else
-            SceneManager.LoadScene("GenerateMapInternumFortress1");
+            //SceneManager.LoadScene("GenerateMapInternumFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
 
     }
 
