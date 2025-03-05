@@ -70,12 +70,12 @@ public class DoorEventDistributor : MonoBehaviour
                 var textMeshPro = door.GetComponentInChildren<TextMeshPro>();
                 if (doorEvents[i] == DoorEvent.Battle)
                 {
-                    string opponent = GetRandomOpponent();
-                    string battleMessage = $"Door {i}: figth with {opponent}!";
+                    //string opponent = GetRandomOpponent();
+                    string battleMessage = $"Door {i}: figth!";
                     textMeshPro.enabled = false;
-                    string buffOrDebuff = GetRandomBuffOrDebuff();
-                    textMeshPro.text = battleMessage + '\n' + buffOrDebuff;
-                    doorData.DoorDataClass.doorDescription.Add(battleMessage + '\n' + buffOrDebuff);
+                    //string buffOrDebuff = GetRandomBuffOrDebuff();
+                    textMeshPro.text = battleMessage;
+                    doorData.DoorDataClass.doorDescription.Add(battleMessage);
                 }
                 else
                 {
@@ -112,17 +112,17 @@ public class DoorEventDistributor : MonoBehaviour
         }
     }
 
-    private string GetRandomOpponent()
-    {
-        string[] opponents = { "Goblin", "Skeleton", "Ogre", "Dragon", "Vampire" };
-        int randomIndex = Random.Range(0, opponents.Length);
-        return opponents[randomIndex];
-    }
+    //private string GetRandomOpponent()
+    //{
+    //    string[] opponents = { "Goblin", "Skeleton", "Ogre", "Dragon", "Vampire" };
+    //    int randomIndex = Random.Range(0, opponents.Length);
+    //    return opponents[randomIndex];
+    //}
 
-    private string GetRandomBuffOrDebuff()
-    {
-        string[] effects = { "Increased Strength", "Reduced defense", "Increased attack speed", "Reduced health", "Increased magic damage", "Reduced mana" };
-        int randomIndex = Random.Range(0, effects.Length);
-        return effects[randomIndex];
-    }
+    //private string GetRandomBuffOrDebuff()
+    //{
+    //    string[] effects = { "Increased Strength", "Reduced defense", "Increased attack speed", "Reduced health", "Increased magic damage", "Reduced mana" };
+    //    int randomIndex = Random.Range(0, effects.Length);
+    //    return effects[randomIndex];
+    //}
 }

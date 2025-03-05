@@ -8,11 +8,13 @@ using UnityEngine.UIElements;
 
 public class CaveEvent : MonoBehaviour
 {
-    public GameObject battlePrefab;
+    public List<GameObject> battlePrefabs;
     public GameObject fountainPrefab;
     public GameObject chestPrefab;
     public GameObject storePrefab;
     public GameObject caveBossPrefab;
+
+    
 
     private GameObject newObject;
 
@@ -35,7 +37,8 @@ public class CaveEvent : MonoBehaviour
         switch (eventId)
         {
             case 0:
-                newObject = Instantiate(battlePrefab, new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
+                var r = UnityEngine.Random.Range(0, battlePrefabs.Count);
+                newObject = Instantiate(battlePrefabs[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
                 newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                 break;
             case 1:

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -16,13 +17,22 @@ public class DoorEntrance : EventParent
     public float positionMapX = -1f, positionMapY = -1f;
     public string loadScene = "-";
 
+    private AudioSource audioSource;
+    private AudioSource parentAudioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        parentAudioSource = transform.parent.GetComponent<AudioSource>();
+    }
+
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
         player = collision.gameObject;
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
-            GetComponent<AudioSource>().Play();
+            audioSource.Play();
             SetActivePressE(isShowPressE);
         }
     }
@@ -33,8 +43,12 @@ public class DoorEntrance : EventParent
         SetActivePressE(false);
     }
 
-    public void ActivateEntrance()
+    private IEnumerator ActivateEntrance()
     {
+        while (parentAudioSource.isPlaying)
+        {
+            yield return null; // Ждем один кадр
+        }
         if (positionMapX != -1)
         {
             PlayerPrefs.SetFloat("PostionMapX", positionMapX);
@@ -75,7 +89,8 @@ public class DoorEntrance : EventParent
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
         {
-            ActivateEntrance();
+            parentAudioSource.Play();
+            StartCoroutine(ActivateEntrance());
         }
     }
 }

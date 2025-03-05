@@ -15,8 +15,8 @@ public class PauseMenu : MonoBehaviour
     public void ExitCave()
     {
         doorData.GetComponent<DoorData>().DeleteData();
-        PlayerPrefs.SetFloat("PostionMapX", 969f);
-        PlayerPrefs.SetFloat("PostionMapY", 867f);
+        PlayerPrefs.SetFloat("PostionMapX", 45f);
+        PlayerPrefs.SetFloat("PostionMapY", 383f);
         //SceneManager.LoadScene("GenerateMap");
         SceneLoader.Instance.LoadScene("GenerateMap");
     }
