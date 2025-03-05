@@ -55,6 +55,7 @@ public class BattleSpawner : MonoBehaviour
                 instPref.GetComponentInChildren<Enemy>().idSpawner = battleDatas[0].id;
                 if (battleDatas[0].die)
                 {
+                    instPref.transform.GetChild(0).gameObject.SetActive(true);
                     instPref.GetComponentInChildren<Animator>().Play("Die");
                     instPref.GetComponentInChildren<Enemy>().Die();
                     battlesSpawnerData.battlesSpawnerDataClass.battleData.Remove(battleDatas[0]);

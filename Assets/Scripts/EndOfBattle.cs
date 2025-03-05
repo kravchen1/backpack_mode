@@ -257,7 +257,7 @@ public class EndOfBattle : MonoBehaviour
         else
         {
             playerBackpackBattle.characterStats.playerHP = 1;
-            if(playerBackpackBattle.characterStats.playerCoins <= 50)
+            if(playerBackpackBattle.characterStats.playerCoins < 50)
             {
                 playerBackpackBattle.characterStats.playerCoins = 50;
             }
