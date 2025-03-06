@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7, y: 62.1}
+  m_AnchoredPosition: {x: 7, y: 33.3}
   m_SizeDelta: {x: 23.014633, y: 3.2363873}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4939715039452518694
@@ -271,10 +271,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8029433572557144500}
   - component: {fileID: 3326040564934628461}
-  - component: {fileID: 7966560431325724034}
   - component: {fileID: 25601369303916014}
   - component: {fileID: 6636386404462885681}
   - component: {fileID: 1288481686615490944}
+  - component: {fileID: 681607954425564330}
   m_Layer: 5
   m_Name: Fallen Knight
   m_TagString: Untagged
@@ -327,68 +327,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!60 &7966560431325724034
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2599852579934880558}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 4.9992065, y: 24.233795}
-      - {x: 0.64582825, y: 24.547455}
-      - {x: -7.020035, y: 24.31363}
-      - {x: -25.458817, y: 19.637146}
-      - {x: -35.291336, y: 10.805389}
-      - {x: -35.13896, y: 1.3641357}
-      - {x: -25.66594, y: -7.369934}
-      - {x: -7.349991, y: -11.866791}
-      - {x: 12.519226, y: -11.757416}
-      - {x: 30.485245, y: -6.676819}
-      - {x: 39.646866, y: 2.3301697}
-      - {x: 39.89914, y: 9.845856}
-      - {x: 34.516037, y: 16.417755}
-      - {x: 22.103363, y: 22.39917}
-      - {x: 6.7700195, y: 24.333618}
-  m_UseDelaunayMesh: 0
 --- !u!114 &25601369303916014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +564,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idQuests: 04000000
+--- !u!58 &681607954425564330
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599852579934880558}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 50
 --- !u!1 &4027239030458286125
 GameObject:
   m_ObjectHideFlags: 0

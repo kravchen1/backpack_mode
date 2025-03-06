@@ -2829,8 +2829,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41764516, y: 0.74100006}
   m_AnchorMax: {x: 0.508, y: 0.794}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -0.0000009536743}
+  m_AnchoredPosition: {x: 70.2, y: -270.3}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3041176362407466305
 SpriteRenderer:
@@ -3050,9 +3050,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d185db33293c6409f25c72381b7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dev: 0
+  playerMaxStamina: 0
   playerHP: 0
   playerMaxHp: 0
-  playerMaxStamina: 0
   playerCoins: 0
   playerLvl: 0
   playerExp: 0
@@ -3141,6 +3142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 968900959708266805}
+  distributor: {fileID: 0}
   map: {fileID: 0}
   characterStats: {fileID: 0}
   grassStep: {fileID: 8300000, guid: 066b5c38400d1bd4092dd713673def79, type: 3}

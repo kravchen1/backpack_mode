@@ -8,7 +8,11 @@ public class TimeSpeed : MonoBehaviour
     [SerializeField] private Slider timeSpeed;
     public TextMeshProUGUI TextSpeed;
     public TextMeshProUGUI TextTime;
-    // Update is called once per frame
+    private float startTime;
+    private void Start()
+    {
+        startTime = Time.time;
+    }
     void Update()
     {
         if (timeSpeed.interactable)
@@ -16,7 +20,7 @@ public class TimeSpeed : MonoBehaviour
             Time.timeScale = timeSpeed.value;
             TextSpeed.text = "x " + Math.Round(timeSpeed.value, 2).ToString();
         }
-        TextTime.text = Math.Round(Time.time,1).ToString() + " sec";
+        TextTime.text = Math.Round(Time.time - startTime, 1).ToString() + " sec";
     }
 
     public void PauseSpeed()

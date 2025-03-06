@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.8}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 27.13}
+  m_AnchoredPosition: {x: 0, y: 9.82}
   m_SizeDelta: {x: 0, y: -0.00000029429793}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8487913945201609359
@@ -194,10 +194,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 811147421117942617}
-  - component: {fileID: 6098022745816225700}
   - component: {fileID: 6786551153454740328}
   - component: {fileID: 8026796048805728197}
   - component: {fileID: -1318101389201577124}
+  - component: {fileID: 4811709749136624535}
   m_Layer: 5
   m_Name: Fanatik
   m_TagString: Untagged
@@ -228,67 +228,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!60 &6098022745816225700
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2948458598286967137}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 4.384406, y: 11.061798}
-      - {x: -6.297129, y: 11.22078}
-      - {x: -18.938776, y: 7.3414736}
-      - {x: -25.542131, y: -1.5088392}
-      - {x: -25.664917, y: -7.351158}
-      - {x: -18.969868, y: -14.734075}
-      - {x: -6.356245, y: -18.790833}
-      - {x: 7.1891203, y: -19.094183}
-      - {x: 19.870003, y: -14.918164}
-      - {x: 26.54656, y: -7.5663295}
-      - {x: 26.565065, y: 0.060629465}
-      - {x: 20.028976, y: 7.079736}
-      - {x: 13.545539, y: 9.29854}
-      - {x: 6.8015485, y: 10.836263}
-  m_UseDelaunayMesh: 0
 --- !u!114 &6786551153454740328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +465,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idQuests: 04000000
+--- !u!58 &4811709749136624535
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948458598286967137}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 30
 --- !u!1 &4461206832098933247
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,11 +846,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f7e7d26ad365aa4c8bbc825bab3a022, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f7e7d26ad365aa4c8bbc825bab3a022, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 4f7e7d26ad365aa4c8bbc825bab3a022, type: 3}
       propertyPath: m_LocalPosition.x

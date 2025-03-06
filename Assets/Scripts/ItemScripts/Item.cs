@@ -285,7 +285,7 @@ public abstract class Item : MonoBehaviour
 
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    careHits.Clear();
+                    //careHits.Clear();
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
@@ -304,7 +304,7 @@ public abstract class Item : MonoBehaviour
                 {
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    careHits.Clear();
+                    //careHits.Clear();
 
                     needToRotateToStartRotation = false;
                 }
@@ -823,37 +823,37 @@ public abstract class Item : MonoBehaviour
         List<HitsStructure> rayCasts = new List<HitsStructure>();
         foreach (var collider in itemColliders)
         {
-            //��������� ����� ������? ToDo
-            List<RaycastHit2D> hits = new List<RaycastHit2D>();
-
-            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
-            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
-            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
-            //hits.Add(Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask));
-            //Physics2D.Raycast hit1 = Physics2D.Raycast(collider.bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
-
-
-            // �������� ���������� ����� ����������
-            Vector2[] corners = new Vector2[4];
-            corners[0] = collider.bounds.min; // ������ ����� ����
-            corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // ������� ����� ����
-            corners[2] = collider.bounds.max; // ������� ������ ����
-            corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // ������ ������ ����
-
-            // ����������� ��� 1/3 ����
-            float t = 1f / 5f;
-            // �������� ����� ����������
-            Vector2 center = collider.bounds.center;
-
-            // ��������� ���� �� �������� ������� ����� ������� � ������ �����
-            for (int i = 0; i < corners.Length; i++)
+            try
             {
-                Vector2 midPoint = center + t * (corners[i] - center); // ������� �������� ����� ������� � �����
-                hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); // ��������� ���
-                //hits.Add(Physics2D.Raycast(center, Vector2.zero, 0, mask)); // ��������� ��� �� ������
-            }
+                List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
-            rayCasts.Add(new HitsStructure(hits));
+
+
+                // 
+                Vector2[] corners = new Vector2[4];
+                corners[0] = collider.bounds.min; // ������ ����� ����
+                corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // ������� ����� ����
+                corners[2] = collider.bounds.max; // ������� ������ ����
+                corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // ������ ������ ����
+
+                // 
+                float t = 1f / 5f;
+                // 
+                Vector2 center = collider.bounds.center;
+
+                // 
+                for (int i = 0; i < corners.Length; i++)
+                {
+                    Vector2 midPoint = center + t * (corners[i] - center); // 
+                    hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); //
+                }
+
+                rayCasts.Add(new HitsStructure(hits));
+            }
+            catch 
+            {
+                return null;
+            }
         }
         return rayCasts;
     }
@@ -929,6 +929,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void ClearCareRaycast(bool nested) //true - если внутри сумки, false - если без сумки
     {
+        //Debug.Log(gameObject.name + "1");
         foreach (var Carehit in careHits)
         {
             foreach (var hit in hits)
@@ -938,6 +939,7 @@ public abstract class Item : MonoBehaviour
                 // 4 hits
                 if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount * 4)//ToDo
                 {
+                    //Debug.Log(gameObject.name + "2");
                     Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
                     Carehit.isDeleted = true;
                 }
@@ -950,8 +952,10 @@ public abstract class Item : MonoBehaviour
         {
             foreach (var hit in hits)
             {
+                //Debug.Log(gameObject.name + " 2.5 " + hit.hits.Where(e => e.collider == null).Count() + " / " + colliderCount + " : " + hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count());
                 if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount)
                 {
+                    //Debug.Log(gameObject.name + "3");
                     Carehit.isDeleted = true;
                     Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
                     if(!nested)
@@ -1089,6 +1093,7 @@ public abstract class Item : MonoBehaviour
     public void FillnestedObjectStarsStars(System.Int32 mask)
     {
         RaycastHit2D raycast;
+        DeletenestedObjectStars();
         foreach (var star in stars)
         {
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
@@ -1111,6 +1116,7 @@ public abstract class Item : MonoBehaviour
     public void FillnestedObjectStarsStars(System.Int32 mask, String tag)
     {
         RaycastHit2D raycast;
+        DeletenestedObjectStars();
         foreach (var star in stars)
         {
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
@@ -1136,6 +1142,7 @@ public abstract class Item : MonoBehaviour
     public void FillnestedObjectStarsStars(System.Int32 mask, String tag1, String tag2)
     {
         RaycastHit2D raycast;
+        DeletenestedObjectStars();
         foreach (var star in stars)
         {
             raycast = Physics2D.Raycast(star.GetComponent<RectTransform>().GetComponent<BoxCollider2D>().bounds.center, new Vector2(0.0f, 0.0f), 0, mask);
