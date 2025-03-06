@@ -88,10 +88,13 @@ public class EndOfBattle : MonoBehaviour
                 }
                 DieEnemy();
 
-                int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
-                winExp += Random.Range(0, 10);
-                this.winExp = winExp;
-                WinExp(winExp);
+                if (playerBackpackBattle.characterStats.playerLvl < 15)
+                {
+                    int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
+                    winExp += Random.Range(0, 10);
+                    this.winExp = winExp;
+                    WinExp(winExp);
+                }
 
                 int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
                 winGold += Random.Range(0, 10);
@@ -226,8 +229,10 @@ public class EndOfBattle : MonoBehaviour
     {
         if(win)
         {
-            
-            AddExperience(winExp);
+            if (playerBackpackBattle.characterStats.playerLvl < 15)
+            {
+                AddExperience(winExp);
+            }
             playerBackpackBattle.characterStats.SaveData();
             //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
             
