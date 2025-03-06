@@ -13,15 +13,16 @@ public class BattleSpawner : MonoBehaviour
     public string Biom = "1";
     private BattlesSpawnerData battlesSpawnerData;
     private CharacterStats characterStats;
+    private CharacterStatsData characterStatsData;
     private void Start()
     {
         battlesSpawnerData = new BattlesSpawnerData();
         //PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
+
+        characterStats = new CharacterStats();
+        characterStatsData = characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
         if (PlayerPrefs.GetInt("NeedSpawnEnemys") == 1)
         {
-            characterStats = new CharacterStats();
-            characterStats.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json"));
-
             battlesSpawnerData = new BattlesSpawnerData();
             battlesSpawnerData.battlesSpawnerDataClass = new BattlesSpawnerDataClass();
             battlesSpawnerData.battlesSpawnerDataClass.battleData = new List<BattleData>();
@@ -74,7 +75,7 @@ public class BattleSpawner : MonoBehaviour
                 int randomPrefab = Random.Range(0, battlesPrefabs.Count);
                 var instPref = Instantiate(battlesPrefabs[randomPrefab], battleSpawns[i].transform);
                 int randomLevel = 0;
-                if (characterStats.playerLvl <= 10)
+                if (characterStatsData.playerLvl <= 10)
                 {
                     if (!PlayerPrefs.HasKey("FirstOut"))
                     {
@@ -82,7 +83,15 @@ public class BattleSpawner : MonoBehaviour
                     }
                     else
                     {
-                        randomLevel = Random.Range(2, characterStats.playerLvl + 6);
+                        Debug.Log(characterStatsData.playerLvl);
+                        if (characterStatsData.playerLvl > 1)
+                        {
+                            randomLevel = Random.Range(characterStatsData.playerLvl - 1, characterStatsData.playerLvl + 6);
+                        }
+                        else
+                        {
+                            randomLevel = Random.Range(1, characterStatsData.playerLvl + 6);
+                        }
                     }
                 }
                 else

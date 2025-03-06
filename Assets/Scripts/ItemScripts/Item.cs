@@ -222,7 +222,7 @@ public abstract class Item : MonoBehaviour
                     // Вычисляем смещение между курсором и объектом
 
                     offset = transform.position - GetMouseWorldPosition();
-                    Debug.Log(offset);
+                    //Debug.Log(offset);
                 }
                 else
                 {
