@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     public int doorId;
     [HideInInspector] public int eventId;
     public int caveLevel;
+    public bool isLastDoor;
     //public Door(GameObject currentDoor)
     //{
     //    currentDoor = this.currentDoor;

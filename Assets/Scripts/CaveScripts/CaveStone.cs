@@ -8,6 +8,9 @@ public class CaveStone : MonoBehaviour
     public List<GameObject> caveStoneCells;
     private List<Cell> scriptCaveStoneCells;
     private Animator animator;
+
+    private int caveEnemyLvl;
+
     private void Awake()
     {
         scriptCaveStoneCells = new List<Cell>();
@@ -24,8 +27,10 @@ public class CaveStone : MonoBehaviour
     private void Update()
     {
 
-        if (scriptCaveStoneCells.Where(e => e.nestedObject != null).Count() > 0)
+        if (scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).Count() > 0)
         {
+            var stone = scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).ToList();
+            caveEnemyLvl = stone[0].nestedObject.GetComponent<CaveStonesKeys>().stoneLevel;
             haveCaveLvl = true;
             canAnimation = true;
         }
@@ -63,6 +68,7 @@ public class CaveStone : MonoBehaviour
         if (haveCaveLvl)
         {
             //SceneManager.LoadScene("Cave");
+            PlayerPrefs.SetInt("caveEnemyLvl", caveEnemyLvl);
             SceneLoader.Instance.LoadScene("Cave");
         }
     }

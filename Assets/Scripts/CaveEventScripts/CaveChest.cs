@@ -15,7 +15,7 @@ public class CaveChest : EventParent
     public Sprite emptyChest;
     private bool isPlayerInTrigger = false;
 
-    private bool isClosed = true;
+    private bool isClosed;
 
     private GameObject cave;
     //public GameObject infoText;
@@ -26,6 +26,15 @@ public class CaveChest : EventParent
 
     private void Start()
     {
+        if (!PlayerPrefs.HasKey("isChestClosed"))
+        {
+            isClosed = true;
+        }
+        else
+        {
+            isClosed = false;
+            ChangeSprite();
+        }
         cave = GameObject.FindGameObjectWithTag("Cave");
     }
 
@@ -43,7 +52,7 @@ public class CaveChest : EventParent
 
     private void EndDieAnimation()
     {
-        if (dropItems.Count > 0 && dropItems.Count == probabilityDropItems.Count && isClosed)
+        if (dropItems.Count > 0 && dropItems.Count == probabilityDropItems.Count )
         {
             for (int i = 0; i < dropItems.Count; i++)
             {
@@ -52,10 +61,11 @@ public class CaveChest : EventParent
                 if (r <= probabilityDropItems[i])
                 {
                     Debug.Log(dropItems[i].name + "  loot " + r);
-                    Instantiate(dropItems[i], gameObject.transform.position, Quaternion.identity, cave.GetComponent<RectTransform>().transform);
+                    Instantiate(dropItems[i], gameObject.transform.position + new Vector3(-200, 0,0), Quaternion.identity, cave.GetComponent<RectTransform>().transform);
                 }
             }
             isClosed = false;
+            PlayerPrefs.SetInt("isChestClosed", 0);
         }
         //Destroy(gameObject.transform.parent.gameObject);
     }
@@ -72,10 +82,11 @@ public class CaveChest : EventParent
 
     private void Update()
     {
-        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
+        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE && isClosed)
         {
             EndDieAnimation();
             ChangeSprite();
+            SetActivePressE(false);
         }
     }
 }

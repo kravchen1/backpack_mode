@@ -12,7 +12,7 @@ public class CaveEvent : MonoBehaviour
     public GameObject fountainPrefab;
     public GameObject chestPrefab;
     public GameObject storePrefab;
-    public GameObject caveBossPrefab;
+    public List<GameObject> caveBossPrefab;
 
     
 
@@ -33,13 +33,33 @@ public class CaveEvent : MonoBehaviour
         {
             eventId = -1;
         }
-        Debug.Log(eventId);
         switch (eventId)
         {
             case 0:
-                var r = UnityEngine.Random.Range(0, battlePrefabs.Count);
-                newObject = Instantiate(battlePrefabs[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                if (!PlayerPrefs.HasKey("battlePrefabId"))
+                {
+                    var r = UnityEngine.Random.Range(0, battlePrefabs.Count);
+                    newObject = Instantiate(battlePrefabs[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
+                    newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                    newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                    PlayerPrefs.SetInt("battlePrefabId", r);
+                    PlayerPrefs.SetInt("isEnemyAlive", 1);
+                }
+                else
+                {
+                    if (!PlayerPrefs.HasKey("isEnemyDied"))
+                    {
+                        newObject = Instantiate(battlePrefabs[PlayerPrefs.GetInt("battlePrefabId")], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
+                        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                        newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                        if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
+                        {
+                            newObject.GetComponentInChildren<Animator>().Play("Die");
+                            newObject.GetComponentInChildren<Enemy>().Die();
+                            PlayerPrefs.SetInt("isEnemyDied", 1);
+                        }
+                    }
+                }
                 break;
             case 1:
                 newObject = Instantiate(chestPrefab, new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
@@ -54,8 +74,30 @@ public class CaveEvent : MonoBehaviour
                 newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                 break;
             case 4:
-                newObject = Instantiate(caveBossPrefab, new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                if (!PlayerPrefs.HasKey("battlePrefabId"))
+                {
+                    var r = UnityEngine.Random.Range(0, caveBossPrefab.Count);
+                    newObject = Instantiate(caveBossPrefab[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
+                    newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                    newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                    PlayerPrefs.SetInt("battlePrefabId", r);
+                    PlayerPrefs.SetInt("isEnemyAlive", 1);
+                }
+                else
+                {
+                    if (!PlayerPrefs.HasKey("isEnemyDied"))
+                    {
+                        newObject = Instantiate(caveBossPrefab[PlayerPrefs.GetInt("battlePrefabId")], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
+                        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                        newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                        if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
+                        {
+                            newObject.GetComponentInChildren<Animator>().Play("Die");
+                            newObject.GetComponentInChildren<Enemy>().Die();
+                            PlayerPrefs.SetInt("isEnemyDied", 1);
+                        }
+                    }
+                }
                 break;
 
         }

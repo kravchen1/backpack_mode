@@ -21,6 +21,19 @@ public class ButtonsEscController : MonoBehaviour
         Application.Quit();
     }
 
+    public void ExitCave()
+    {
+        var doorData = GameObject.FindGameObjectWithTag("DoorEventDistributor");
+        doorData.GetComponent<DoorData>().DeleteData();
+        PlayerPrefs.SetFloat("PostionMapX", 45f);
+        PlayerPrefs.SetFloat("PostionMapY", 383f);
+        PlayerPrefs.DeleteKey("isChestClosed");
+        PlayerPrefs.DeleteKey("battlePrefabId");
+        PlayerPrefs.DeleteKey("isEnemyDied");
+        PlayerPrefs.DeleteKey("isEnemyAlive");
+        //SceneManager.LoadScene("GenerateMap");
+        SceneLoader.Instance.LoadScene("GenerateMap");
+    }
     public void BackpackButton()
     {
         SaveFromWorld();

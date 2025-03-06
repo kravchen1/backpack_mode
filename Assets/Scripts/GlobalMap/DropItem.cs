@@ -23,7 +23,7 @@ public class DropItem : EventParent
     public GameObject description;
     private GameObject instDescription;
 
-
+    public int stoneLevel;
 
     private float jumpHeight = 20f; // Высота прыжка
     private float jumpDistanceX = 30f; // Расстояние по X

@@ -50,6 +50,7 @@ public class RealDoorCreation: MonoBehaviour
             newRealDoor.GetComponent<Door>().doorId = door.GetComponent<Door>().doorId;
             newRealDoor.GetComponent<Door>().nextDoors = door.GetComponent<Door>().nextDoors;
             newRealDoor.GetComponent<Door>().caveLevel = door.GetComponent<Door>().caveLevel;
+            newRealDoor.GetComponent<Door>().isLastDoor = door.GetComponent<Door>().isLastDoor;
             position += step;
         }
     }
