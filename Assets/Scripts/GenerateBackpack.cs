@@ -143,6 +143,9 @@ public class GenerateBackpack : MonoBehaviour
             componentItem.rb.excludeLayers = (1 << 9) | (1 << 10);
         }
 
+        //componentItem.needToDynamic = false; todo
+        componentItem.timerStatic = 2f;
+
     }
     public void GenerationBackpack()
     {

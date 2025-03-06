@@ -101,7 +101,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public Vector3 offset;
     [HideInInspector] private int countClickRotate = 0, maxCountClickRotate = 100;
     private float timer_cooldownStatic = 12.5f;
-    protected float timerStatic = 12.5f;
+    public float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
     [HideInInspector] public OtherItemMusicEffects itemMusicEffects;
