@@ -50,7 +50,7 @@ public class EndOfBattle : MonoBehaviour
     private bool awardsReceived = false;
     private bool win = true;
 
-    public float fillExpSpeed = 0.0005f;// Скорость заполнения полосы - чем меньше, тем быстрее
+    public float fillExpSpeed = 0.00001f;// Скорость заполнения полосы - чем меньше, тем быстрее
 
     private void Awake()
     {
@@ -61,6 +61,8 @@ public class EndOfBattle : MonoBehaviour
         enemyBackpackBattle = enemy.GetComponent<PlayerBackpackBattle>();
     }
 
+
+    private int winExp = 0;
     public void EndScene()
     {
         if (enemyBackpackBattle.hp <= 0 && !awardsReceived) //win
@@ -88,6 +90,7 @@ public class EndOfBattle : MonoBehaviour
 
                 int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
                 winExp += Random.Range(0, 10);
+                this.winExp = winExp;
                 WinExp(winExp);
 
                 int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
@@ -113,38 +116,12 @@ public class EndOfBattle : MonoBehaviour
     {
         winExpCount.text = amount.ToString();
         winLevelText.text = playerBackpackBattle.characterStats.playerLvl.ToString();
-        StartCoroutine(AddExperienceCoroutine(amount));
+        StartCoroutine(AddExperienceCoroutineUI(amount));
     }
 
-    private int countLvlUp = 0;
-    public void LevelUpAdd(int countLvlUp)
-    {
-        var hpAddCount = (countLvlUp * 10);
-        winHPAddCount.text = "+" + hpAddCount.ToString();
-        playerBackpackBattle.characterStats.playerMaxHp += hpAddCount;
-        playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.characterStats.playerMaxHp;
+    private int countLvlUp = 0, showCountLvlUp = 0;
 
-        var staminaAddCount = (countLvlUp * 0.2f);
-        winStaminaAddCount.text = "+" + staminaAddCount.ToString();
-        playerBackpackBattle.characterStats.playerMaxStamina += staminaAddCount;
-
-        winHPAddAwards.gameObject.SetActive(true);
-        winStaminaAddAwards.gameObject.SetActive(true);
-    }
-
-    private void LevelUp()
-    {
-        playerBackpackBattle.characterStats.playerLvl++;
-        winLevelText.text = playerBackpackBattle.characterStats.playerLvl.ToString();
-        playerBackpackBattle.characterStats.playerExp = 0;
-        playerBackpackBattle.characterStats.requiredExp += 250 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
-        winExpBar.fillAmount = 0;
-
-
-        countLvlUp++;
-        LevelUpAdd(countLvlUp);
-    }
-
+    
     private QuestManager qm;
     public bool QuestComplete(int questID)
     {
@@ -249,9 +226,11 @@ public class EndOfBattle : MonoBehaviour
     {
         if(win)
         {
-            //todo
+            
+            AddExperience(winExp);
             playerBackpackBattle.characterStats.SaveData();
             //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            
             SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
         }
         else
@@ -285,7 +264,83 @@ public class EndOfBattle : MonoBehaviour
     }
 
 
-    private IEnumerator AddExperienceCoroutine(int amount)
+    public void LevelUpAddUI(int countLvlUp)
+    {
+        var hpAddCount = (countLvlUp * 10);
+        winHPAddCount.text = "+" + hpAddCount.ToString();
+
+        var staminaAddCount = (countLvlUp * 0.2f);
+        winStaminaAddCount.text = "+" + staminaAddCount.ToString();
+
+        winHPAddAwards.gameObject.SetActive(true);
+        winStaminaAddAwards.gameObject.SetActive(true);
+    }
+
+    private void LevelUpUI()
+    {
+        showPlayerLvl++;
+        winLevelText.text = showPlayerLvl.ToString();
+        showPlayerExp = 0;
+        showRequiredExp += 250 * showPlayerLvl; // Увеличиваем необходимый опыт для следующего уровня
+        winExpBar.fillAmount = 0;
+
+
+        showCountLvlUp++;
+        LevelUpAddUI(countLvlUp);
+    }
+
+
+    private int showPlayerExp = -1, showRequiredExp = -1, showPlayerLvl = -1;
+    private IEnumerator AddExperienceCoroutineUI(int amount)
+    {
+        if (showPlayerExp == -1)
+        {
+            showPlayerExp = playerBackpackBattle.characterStats.playerExp;
+            showRequiredExp = playerBackpackBattle.characterStats.requiredExp;
+            showPlayerLvl = playerBackpackBattle.characterStats.playerLvl;
+        }
+
+        int targetExperience = showPlayerExp + amount;
+        int startStartExp = showPlayerExp;
+
+        while (startStartExp < targetExperience)
+        {
+            startStartExp++;
+            showPlayerExp++;
+            winExpBarText.text = showPlayerExp + "/" + showRequiredExp;
+            winExpBar.fillAmount = (float)showPlayerExp / showRequiredExp;
+
+            if (showPlayerExp >= showRequiredExp)
+            {
+                LevelUpUI();
+            }
+
+            yield return new WaitForSecondsRealtime(fillExpSpeed);
+        }
+    }
+
+    public void LevelUpAdd(int countLvlUp)
+    {
+        var hpAddCount = (countLvlUp * 10);
+        playerBackpackBattle.characterStats.playerMaxHp += hpAddCount;
+        playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.characterStats.playerMaxHp;
+
+        var staminaAddCount = (countLvlUp * 0.2f);
+        playerBackpackBattle.characterStats.playerMaxStamina += staminaAddCount;
+    }
+
+    private void LevelUp()
+    {
+        playerBackpackBattle.characterStats.playerLvl++;
+        playerBackpackBattle.characterStats.playerExp = 0;
+        playerBackpackBattle.characterStats.requiredExp += 250 * playerBackpackBattle.characterStats.playerLvl; // Увеличиваем необходимый опыт для следующего уровня
+
+
+        countLvlUp++;
+        LevelUpAdd(countLvlUp);
+    }
+
+    private void AddExperience(int amount)
     {
         int targetExperience = playerBackpackBattle.characterStats.playerExp + amount;
         int startStartExp = playerBackpackBattle.characterStats.playerExp;
@@ -293,15 +348,11 @@ public class EndOfBattle : MonoBehaviour
         {
             startStartExp++;
             playerBackpackBattle.characterStats.playerExp++;
-            winExpBarText.text = playerBackpackBattle.characterStats.playerExp + "/" + playerBackpackBattle.characterStats.requiredExp;
-            winExpBar.fillAmount = (float)playerBackpackBattle.characterStats.playerExp / playerBackpackBattle.characterStats.requiredExp;
 
             if (playerBackpackBattle.characterStats.playerExp >= playerBackpackBattle.characterStats.requiredExp)
             {
                 LevelUp();
             }
-
-            yield return new WaitForSecondsRealtime(fillExpSpeed);
         }
     }
 }

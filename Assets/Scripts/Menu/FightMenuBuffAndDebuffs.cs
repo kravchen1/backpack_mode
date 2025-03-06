@@ -452,7 +452,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         if(countRegenerate > 0)
         {
-            Debug.Log("regenerate: " + countRegenerate.ToString());
+            //Debug.Log("regenerate: " + countRegenerate.ToString());
             if(OwnerStat.GetComponent<PlayerBackpackBattle>().hp + countRegenerate >= OwnerStat.GetComponent<PlayerBackpackBattle>().maxHP)
             {
                 OwnerStat.GetComponent<PlayerBackpackBattle>().hp = OwnerStat.GetComponent<PlayerBackpackBattle>().maxHP;
