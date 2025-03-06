@@ -285,7 +285,7 @@ public abstract class Item : MonoBehaviour
 
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    careHits.Clear();
+                    //careHits.Clear();
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
@@ -304,7 +304,7 @@ public abstract class Item : MonoBehaviour
                 {
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    careHits.Clear();
+                    //careHits.Clear();
 
                     needToRotateToStartRotation = false;
                 }
@@ -929,6 +929,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void ClearCareRaycast(bool nested) //true - если внутри сумки, false - если без сумки
     {
+        //Debug.Log(gameObject.name + "1");
         foreach (var Carehit in careHits)
         {
             foreach (var hit in hits)
@@ -938,6 +939,7 @@ public abstract class Item : MonoBehaviour
                 // 4 hits
                 if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount * 4)//ToDo
                 {
+                    //Debug.Log(gameObject.name + "2");
                     Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
                     Carehit.isDeleted = true;
                 }
@@ -950,8 +952,10 @@ public abstract class Item : MonoBehaviour
         {
             foreach (var hit in hits)
             {
+                //Debug.Log(gameObject.name + " 2.5 " + hit.hits.Where(e => e.collider == null).Count() + " / " + colliderCount + " : " + hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count());
                 if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount)
                 {
+                    //Debug.Log(gameObject.name + "3");
                     Carehit.isDeleted = true;
                     Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
                     if(!nested)

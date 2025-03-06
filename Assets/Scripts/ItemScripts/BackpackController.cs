@@ -214,7 +214,9 @@ public class BackpackController : MonoBehaviour
                 gameObject.transform.SetAsFirstSibling();
             }
             item.RaycastEvent();
+            item.SetNestedObject();
             item.ClearCareRaycast(false);
+            //item.updateColorCells();
 
         }
     }
