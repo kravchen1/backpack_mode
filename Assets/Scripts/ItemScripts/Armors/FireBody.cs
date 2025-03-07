@@ -117,7 +117,7 @@ public class FireBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "FireItems");
+            FillnestedObjectStarsStars(256, "Fire");
             ChangeShowStars(true);
             if (canShowDescription)
             {

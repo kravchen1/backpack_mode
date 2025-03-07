@@ -417,7 +417,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         if (countBleed > 0)
         {
-            Debug.Log("bleed: " + countBleed.ToString());
+            //Debug.Log("bleed: " + countBleed.ToString());
             OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP((countBleed * countDamageBleed));
             //CreateLogMessage(transform.parent.parent.gameObject.name + " bleeding for " + Math.Abs(countBleed * countDamageBleed).ToString());
             bleedAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countBleed * countDamageBleed).ToString();

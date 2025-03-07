@@ -115,25 +115,25 @@ public class Enemy : EventParent
         
         if (gameObject.tag == "EnemyCave1")
         {
-            Cave1Enemy();
+            enemyJJSON = Cave1Enemy();
         }
         else if (gameObject.tag == "EnemyGlobalMap1")
         {
-            GlobalMap1Enemy(); //enemyJJSON = switch lvl mob
+            enemyJJSON = GlobalMap1Enemy(); //enemyJJSON = switch lvl mob
         }
         else if (gameObject.tag == "BossCave1")
         {
-            GlobalMap1Enemy(); //todo
+            enemyJJSON = GlobalMap1Enemy(); //todo
             //BossCave1Enemy();
         }
         else if (gameObject.tag == "BossGlobalMap1")
         {
-            GlobalMap1Enemy(); //todo
+            enemyJJSON = GlobalMap1Enemy(); //todo
             //BossGlobalMap1Enemy();
         }
         else if (gameObject.tag == "MiniBossGlobalMap1")
         {
-            GlobalMap1Enemy(); //todo
+            enemyJJSON = GlobalMap1Enemy(); //todo
             //MiniBossGlobalMap1Enemy();
         }
 

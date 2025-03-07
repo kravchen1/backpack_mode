@@ -315,7 +315,7 @@ public class EndOfBattle : MonoBehaviour
 
 
         showCountLvlUp++;
-        LevelUpAddUI(countLvlUp);
+        LevelUpAddUI(showCountLvlUp);
     }
 
 
