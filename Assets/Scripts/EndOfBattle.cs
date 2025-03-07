@@ -226,6 +226,7 @@ public class EndOfBattle : MonoBehaviour
 
         awardsReceived = true;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.hp;
+
     }
 
     void Lose()
@@ -251,6 +252,10 @@ public class EndOfBattle : MonoBehaviour
             if (playerBackpackBattle.characterStats.playerLvl < 15)
             {
                 AddExperience(winExp);
+            }
+            if(playerBackpackBattle.characterStats.playerHP < 1)
+            {
+                playerBackpackBattle.characterStats.playerHP = 1;
             }
             playerBackpackBattle.characterStats.SaveData();
             //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
