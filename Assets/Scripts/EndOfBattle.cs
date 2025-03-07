@@ -100,6 +100,18 @@ public class EndOfBattle : MonoBehaviour
                 winGold += Random.Range(0, 10);
                 WinGold(winGold);
             }
+            else
+            {
+                DieEnemy();
+
+                int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
+                winExp += Random.Range(0, 10);
+                WinExp(winExp);
+
+                int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
+                winGold += Random.Range(0, 10);
+                WinGold(winGold);
+            }
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
         {
@@ -182,15 +194,22 @@ public class EndOfBattle : MonoBehaviour
 
     public void DieEnemy()
     {
-        BattlesSpawnerData battlesSpawnerData = new BattlesSpawnerData();
-
-        battlesSpawnerData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn1.json"));
-
-        foreach(var battleData in battlesSpawnerData.battlesSpawnerDataClass.battleData.Where(e => e.id == PlayerPrefs.GetInt("enemyIdSpawner")).ToList())
+        if (PlayerPrefs.HasKey("isEnemyAlive"))
+            PlayerPrefs.SetInt("isEnemyAlive", 0);
+        else
         {
-            battleData.die = true;
+            BattlesSpawnerData battlesSpawnerData = new BattlesSpawnerData();
+
+            battlesSpawnerData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn1.json"));
+
+            foreach (var battleData in battlesSpawnerData.battlesSpawnerDataClass.battleData.Where(e => e.id == PlayerPrefs.GetInt("enemyIdSpawner")).ToList())
+            {
+                battleData.die = true;
+            }
+            battlesSpawnerData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn1.json"));
         }
-        battlesSpawnerData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn1.json"));
+
+        
 
     }
 

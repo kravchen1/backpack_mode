@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -15,6 +16,15 @@ public class DoorEntrance : EventParent
 
     public float positionMapX = -1f, positionMapY = -1f;
     public string loadScene = "-";
+    private bool isCoroutineRunning = false;
+    private AudioSource audioSource;
+    private AudioSource parentAudioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        parentAudioSource = transform.parent.GetComponent<AudioSource>();
+    }
 
     private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
     {
@@ -22,7 +32,7 @@ public class DoorEntrance : EventParent
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
-            GetComponent<AudioSource>().Play();
+            audioSource.Play();
             SetActivePressE(isShowPressE);
         }
     }
@@ -33,8 +43,13 @@ public class DoorEntrance : EventParent
         SetActivePressE(false);
     }
 
-    public void ActivateEntrance()
+    private IEnumerator ActivateEntrance()
     {
+        isCoroutineRunning = true;
+        while (parentAudioSource.isPlaying)
+        {
+            yield return null; // Ждем один кадр
+        }
         if (positionMapX != -1)
         {
             PlayerPrefs.SetFloat("PostionMapX", positionMapX);
@@ -54,11 +69,26 @@ public class DoorEntrance : EventParent
         if (loadScene != "-")
         {
             var playerClass = player.GetComponent<Player>();
-            playerClass.distributor.doorData.DoorDataClass.currentDoorId = gameObject.transform.parent.GetComponent<Door>().doorId;
-            playerClass.distributor.doorData.DoorDataClass.currentCaveLevel = gameObject.transform.parent.GetComponent<Door>().caveLevel;
-            playerClass.distributor.doorData.SaveData();
+            if (gameObject.transform.parent.GetComponent<Door>().isLastDoor == false)
+            {
+                playerClass.distributor.doorData.DoorDataClass.currentDoorId = gameObject.transform.parent.GetComponent<Door>().doorId;
+                playerClass.distributor.doorData.DoorDataClass.currentCaveLevel = gameObject.transform.parent.GetComponent<Door>().caveLevel;
+                playerClass.distributor.doorData.SaveData();
+            }
+            else
+            {
+                playerClass.distributor.doorData.GetComponent<DoorData>().DeleteData();
+                PlayerPrefs.SetFloat("PostionMapX", 45f);
+                PlayerPrefs.SetFloat("PostionMapY", 383f);
+                loadScene = "GenerateMap";
+            }
             //SceneManager.LoadScene(loadScene);
+            PlayerPrefs.DeleteKey("isChestClosed");
+            PlayerPrefs.DeleteKey("battlePrefabId");
+            PlayerPrefs.DeleteKey("isEnemyDied");
+            PlayerPrefs.DeleteKey("isEnemyAlive");
             SceneLoader.Instance.LoadScene(loadScene);
+
         }
         else
         {
@@ -73,9 +103,22 @@ public class DoorEntrance : EventParent
 
     private void Update()
     {
-        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
+        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE && !isCoroutineRunning)
         {
-            ActivateEntrance();
+            if (PlayerPrefs.HasKey("isEnemyAlive"))
+            {
+                Debug.Log("Has");
+                if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
+                {
+                    parentAudioSource.Play();
+                    StartCoroutine(ActivateEntrance());
+                }
+            }
+            else
+            {
+                parentAudioSource.Play();
+                StartCoroutine(ActivateEntrance());
+            }
         }
     }
 }

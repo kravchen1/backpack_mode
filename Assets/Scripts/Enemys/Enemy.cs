@@ -23,12 +23,16 @@ public class Enemy : EventParent
     public List<GameObject> dropItems;
     public List<float> probabilityDropItems;
 
-
+    private string currentSceneName;
     private GameObject map;
     private void Start()
     {
+        currentSceneName = SceneManager.GetActiveScene().name;
         lvlText.text = "lvl. " + lvlEnemy.ToString();
-        map = GameObject.FindGameObjectWithTag("GoMap");
+        if(currentSceneName == "GenerateMap")
+            map = GameObject.FindGameObjectWithTag("GoMap");
+        else
+            map = GameObject.FindGameObjectWithTag("Cave");
     }
     private void OnTriggerEnter2D()
     {
@@ -79,8 +83,10 @@ public class Enemy : EventParent
             for (int i = 0; i < dropItems.Count; i++)
             {
                 float r = Random.Range(1.0f, 100.0f);
-                
-                if(r <= probabilityDropItems[i]) 
+
+                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("KeyStonesItems") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
+                    r = 0;
+                if (r <= probabilityDropItems[i]) 
                 {
                     Debug.Log(dropItems[i].name + "  loot " + r);
                     Instantiate(dropItems[i], gameObject.transform.position, Quaternion.identity, map.GetComponent<RectTransform>().transform);
@@ -102,8 +108,8 @@ public class Enemy : EventParent
 
         PlayerPrefs.SetInt("enemyHP", startHP + ((lvlEnemy - 1) * stepHPForLevel));
         PlayerPrefs.SetFloat("enemyStamina", startStamina + ((lvlEnemy - 1) * stepStaminaForLevel));
-
-        PlayerPrefs.SetInt("enemyIdSpawner", idSpawner);
+        if(currentSceneName == "GenerateMap")
+            PlayerPrefs.SetInt("enemyIdSpawner", idSpawner);
 
         string enemyJJSON = "{\"items\":[{\"name\":\"bagCommon2x2\",\"position\":{\"x\":36.83209228515625,\"y\":-122.88605499267578,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Crossbow\",\"position\":{\"x\":39.6099853515625,\"y\":-81.04045104980469,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Dagger\",\"position\":{\"x\":39.6099853515625,\"y\":-161.37620544433595,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}]}";
         switch(lvlEnemy)

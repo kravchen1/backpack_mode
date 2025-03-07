@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
@@ -13,21 +14,26 @@ namespace Assets.Scripts.CaveScripts
     {
         public GameObject text;
         private TextMeshPro textMeshPro;
+        public GameObject doorEventDistributor;
 
+        private DoorEventDistributor ded;
         private void Start()
         {
+            ded = doorEventDistributor.GetComponent<DoorEventDistributor>();
             textMeshPro = text.GetComponent<TextMeshPro>();
         }
 
         private void OnMouseEnter()
         {
-            textMeshPro.enabled = true;
+            //if(GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1)
+                textMeshPro.enabled = true;
         }
 
 
         private void OnMouseExit()
         {
-            textMeshPro.enabled = false;
+            //if (GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1)
+                textMeshPro.enabled = false;
         }
     }
 }
