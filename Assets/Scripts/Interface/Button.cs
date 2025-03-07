@@ -9,25 +9,25 @@ public class Button : MonoBehaviour
     private Color buttonColor;
     //[SerializeField] private GameObject goMap;
     private GameObject player;
-    private Map map;
+    //private Map map;
     private QuestData questData;
     private void Awake()
     {
         
     }
 
-    public void LoadBackpack()
-    {
-        //player = GameObject.Find("Player");
-        player = GameObject.FindGameObjectWithTag("Player");
-        buttonColor = GetComponent<Image>().color;
-        map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
-        player.GetComponent<PlayerOld_>().GetComponent<CharacterStats>().SaveData();
-        map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
-        map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
-        //SceneManager.LoadScene("BackpackView");
-        SceneLoader.Instance.LoadScene("BackpackView");
-    }
+    //public void LoadBackpack()
+    //{
+    //    //player = GameObject.Find("Player");
+    //    player = GameObject.FindGameObjectWithTag("Player");
+    //    buttonColor = GetComponent<Image>().color;
+    //    //map = player.GetComponent<PlayerOld_>().goMap.GetComponent<generateMapScript>();
+    //    //player.GetComponent<PlayerOld_>().GetComponent<CharacterStats>().SaveData();
+    //    //map.startPlayerPosition = player.GetComponent<RectTransform>().anchoredPosition;
+    //    //map.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "mapData.json"));
+    //    //SceneManager.LoadScene("BackpackView");
+    //    //SceneLoader.Instance.LoadScene("BackpackView");
+    //}
 
     private void StartBackPack()
     {
@@ -58,7 +58,7 @@ public class Button : MonoBehaviour
         switch (gameObject.name)
         {
             case "BackpackButton":
-                LoadBackpack();
+                //LoadBackpack();
                 break;
             case "StoreButton":
                 player = GameObject.FindGameObjectWithTag("Player");

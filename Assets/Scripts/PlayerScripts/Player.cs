@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public DoorEventDistributor distributor;
 
-    [HideInInspector] public Map map;
+    //[HideInInspector] public Map map;
     private RectTransform rectTransform;
     private Collider2D previusTree = null;
 
