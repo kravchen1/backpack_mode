@@ -137,8 +137,10 @@ public class HiddenDagger : Weapon
             CoolDown();
             Activation();
         }
+        else if (SceneManager.GetActiveScene().name == "GenerateMap")
+        {
 
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
+        }
         else
         {
             defaultItemUpdate();

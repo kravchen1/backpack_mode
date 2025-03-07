@@ -25,6 +25,9 @@ public class Enemy : EventParent
 
     private string currentSceneName;
     private GameObject map;
+
+    private GameObject canvasBackpackEnemy;
+    private GenerateBackpackOnMap generateBackpackOnMap;
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -74,6 +77,35 @@ public class Enemy : EventParent
     }
 
 
+
+    private void OnMouseEnter()
+    {
+        if (!click)
+        {
+            if (canvasBackpackEnemy == null)
+            {
+                canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
+                generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
+                generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+            }
+            else
+            {
+                generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+            }
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if(!click)
+            generateBackpackOnMap.ClearBackpackObjects();
+    }
+
+    private bool click = false;
+    public void OnMouseUp()
+    {
+        click = !click;
+    }
 
 
     private void EndDieAnimation()
