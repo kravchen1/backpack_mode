@@ -11032,6 +11032,7 @@ GameObject:
   - component: {fileID: 402409695}
   - component: {fileID: 402409694}
   - component: {fileID: 402409699}
+  - component: {fileID: 402409700}
   m_Layer: 6
   m_Name: Menu
   m_TagString: MenuFightPlayer
@@ -11204,6 +11205,20 @@ MonoBehaviour:
   LogVampireStackEnemy: {fileID: 3219839272774441636, guid: 98f400d7eee3b984ea6cdb696ebda674, type: 3}
   LogPoisonStackCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
   LogPoisonStackEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
+--- !u!114 &402409700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402409692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a9a2c0b0ae735478197e2de02d8fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textName: {fileID: 1896650075}
+  isPlayer: 1
 --- !u!1 &408645243
 GameObject:
   m_ObjectHideFlags: 0
@@ -33568,6 +33583,7 @@ GameObject:
   - component: {fileID: 1384434218}
   - component: {fileID: 1384434217}
   - component: {fileID: 1384434222}
+  - component: {fileID: 1384434223}
   m_Layer: 6
   m_Name: Menu
   m_TagString: MenuFightEnemy
@@ -33740,6 +33756,20 @@ MonoBehaviour:
   LogVampireStackEnemy: {fileID: 3219839272774441636, guid: 98f400d7eee3b984ea6cdb696ebda674, type: 3}
   LogPoisonStackCharacter: {fileID: 8463451613232402696, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
   LogPoisonStackEnemy: {fileID: 8274515928961551846, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
+--- !u!114 &1384434223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384434215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a9a2c0b0ae735478197e2de02d8fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textName: {fileID: 517482713}
+  isPlayer: 0
 --- !u!1 &1394263342
 GameObject:
   m_ObjectHideFlags: 0
