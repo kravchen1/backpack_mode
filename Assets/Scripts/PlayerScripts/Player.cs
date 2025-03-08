@@ -73,7 +73,8 @@ public class Player : MonoBehaviour
         sprites = GetComponentsInChildren<SpriteRenderer>().ToList();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         arrowRectTransform = transform.GetChild(1).GetComponent<RectTransform>();
-        
+        PlayerPrefs.SetInt("clickEnemy", 0);
+
     }
     void LoadCharacterStats()
     {

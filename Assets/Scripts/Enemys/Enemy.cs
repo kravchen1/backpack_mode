@@ -80,31 +80,67 @@ public class Enemy : EventParent
 
     private void OnMouseEnter()
     {
-        if (!click)
+        if (PlayerPrefs.GetInt("clickEnemy") == 0)
         {
             if (canvasBackpackEnemy == null)
             {
                 canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
-                generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
-                generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                if (canvasBackpackEnemy != null)
+                {
+                    generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
+                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                }
             }
             else
             {
-                generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                if (canvasBackpackEnemy != null)
+                {
+                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                }
             }
         }
     }
 
     private void OnMouseExit()
     {
-        if(!click)
-            generateBackpackOnMap.ClearBackpackObjects();
+        if (PlayerPrefs.GetInt("clickEnemy") == 0)
+            if (canvasBackpackEnemy != null)
+            {
+                generateBackpackOnMap.ClearBackpackObjects();
+            }
     }
 
     private bool click = false;
     public void OnMouseUp()
     {
         click = !click;
+        if(click)
+        {
+            PlayerPrefs.SetInt("clickEnemy", 1);
+            
+            if (canvasBackpackEnemy == null)
+            {
+                canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
+                if (canvasBackpackEnemy != null)
+                {
+                    generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
+                    generateBackpackOnMap.ClearBackpackObjects();
+                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                }
+            }
+            else
+            {
+                if (canvasBackpackEnemy != null)
+                {
+                    generateBackpackOnMap.ClearBackpackObjects();
+                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                }
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("clickEnemy", 0);
+        }
     }
 
 

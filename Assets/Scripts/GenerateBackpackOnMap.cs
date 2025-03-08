@@ -27,12 +27,15 @@ public class GenerateBackpackOnMap : GenerateBackpack
 
     public void ClearBackpackObjects()
     {
-        foreach (var item in ItemsGenerated)
+        if (ItemsGenerated.Count > 0)
         {
-            Destroy(item);
-        }
+            foreach (var item in ItemsGenerated)
+            {
+                Destroy(item);
+            }
 
-        ItemsGenerated.Clear();
+            ItemsGenerated.Clear();
+        }
     }
 
 }
