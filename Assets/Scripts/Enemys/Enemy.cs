@@ -13,6 +13,7 @@ public class Enemy : EventParent
 
     public int lvlEnemy = 1;
     public int idSpawner = 0;
+    public string enemyJSON = "";
 
     public int startHP = 100;
     public int stepHPForLevel = 25;
@@ -78,42 +79,43 @@ public class Enemy : EventParent
 
 
 
-    private void OnMouseEnter()
-    {
-        if (PlayerPrefs.GetInt("clickEnemy") == 0)
-        {
-            if (canvasBackpackEnemy == null)
-            {
-                canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
-                if (canvasBackpackEnemy != null)
-                {
-                    generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
-                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
-                }
-            }
-            else
-            {
-                if (canvasBackpackEnemy != null)
-                {
-                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
-                }
-            }
-        }
-    }
+    //private void OnMouseEnter()
+    //{
+    //    if (PlayerPrefs.GetInt("clickEnemy") == 0)
+    //    {
+    //        if (canvasBackpackEnemy == null)
+    //        {
+    //            canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
+    //            if (canvasBackpackEnemy != null)
+    //            {
+    //                generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
+    //                generateBackpackOnMap.Generate(enemyJSON);
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (canvasBackpackEnemy != null)
+    //            {
+    //                generateBackpackOnMap.Generate(enemyJSON);
+    //            }
+    //        }
+    //    }
+    //}
 
-    private void OnMouseExit()
-    {
-        if (PlayerPrefs.GetInt("clickEnemy") == 0)
-            if (canvasBackpackEnemy != null)
-            {
-                generateBackpackOnMap.ClearBackpackObjects();
-            }
-    }
+    //private void OnMouseExit()
+    //{
+    //    if (PlayerPrefs.GetInt("clickEnemy") == 0)
+    //        if (canvasBackpackEnemy != null)
+    //        {
+    //            generateBackpackOnMap.ClearBackpackObjects();
+    //        }
+    //}
 
     private bool click = false;
     public void OnMouseUp()
     {
         click = !click;
+        //if(PlayerPrefs.GetInt("clickEnemy") == 0)
         if(click)
         {
             PlayerPrefs.SetInt("clickEnemy", 1);
@@ -125,7 +127,7 @@ public class Enemy : EventParent
                 {
                     generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
                     generateBackpackOnMap.ClearBackpackObjects();
-                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                    generateBackpackOnMap.Generate(enemyJSON);
                 }
             }
             else
@@ -133,15 +135,17 @@ public class Enemy : EventParent
                 if (canvasBackpackEnemy != null)
                 {
                     generateBackpackOnMap.ClearBackpackObjects();
-                    generateBackpackOnMap.Generate(GlobalMap1EnemyLevel1());
+                    generateBackpackOnMap.Generate(enemyJSON);
                 }
             }
         }
         else
         {
             PlayerPrefs.SetInt("clickEnemy", 0);
+            generateBackpackOnMap.ClearBackpackObjects();
         }
     }
+
 
 
     private void EndDieAnimation()
@@ -169,6 +173,34 @@ public class Enemy : EventParent
         Invoke("EndDieAnimation", 1f);
     }
 
+    public void JSONBackpackInitialized()
+    {
+        enemyJSON = "{\"items\":[{\"name\":\"bagCommon2x2\",\"position\":{\"x\":36.83209228515625,\"y\":-122.88605499267578,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Crossbow\",\"position\":{\"x\":39.6099853515625,\"y\":-81.04045104980469,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Dagger\",\"position\":{\"x\":39.6099853515625,\"y\":-161.37620544433595,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}]}";
+
+        if (gameObject.tag == "EnemyCave1")
+        {
+            enemyJSON = Cave1Enemy();
+        }
+        else if (gameObject.tag == "EnemyGlobalMap1")
+        {
+            enemyJSON = GlobalMap1Enemy(); //enemyJSON = switch lvl mob
+        }
+        else if (gameObject.tag == "BossCave1")
+        {
+            enemyJSON = GlobalMap1Enemy(); //todo
+            //BossCave1Enemy();
+        }
+        else if (gameObject.tag == "BossGlobalMap1")
+        {
+            enemyJSON = GlobalMap1Enemy(); //todo
+            //BossGlobalMap1Enemy();
+        }
+        else if (gameObject.tag == "MiniBossGlobalMap1")
+        {
+            enemyJSON = GlobalMap1Enemy(); //todo
+            //MiniBossGlobalMap1Enemy();
+        }
+    }
     public void StartBattle()
     {
         PlayerPrefs.SetString("enemyName", gameObject.name);
@@ -179,39 +211,18 @@ public class Enemy : EventParent
         if(currentSceneName == "GenerateMap")
             PlayerPrefs.SetInt("enemyIdSpawner", idSpawner);
 
-        string enemyJJSON = "{\"items\":[{\"name\":\"bagCommon2x2\",\"position\":{\"x\":36.83209228515625,\"y\":-122.88605499267578,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Crossbow\",\"position\":{\"x\":39.6099853515625,\"y\":-81.04045104980469,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Dagger\",\"position\":{\"x\":39.6099853515625,\"y\":-161.37620544433595,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}]}";
         
-        if (gameObject.tag == "EnemyCave1")
-        {
-            enemyJJSON = Cave1Enemy();
-        }
-        else if (gameObject.tag == "EnemyGlobalMap1")
-        {
-            enemyJJSON = GlobalMap1Enemy(); //enemyJJSON = switch lvl mob
-        }
-        else if (gameObject.tag == "BossCave1")
-        {
-            enemyJJSON = GlobalMap1Enemy(); //todo
-            //BossCave1Enemy();
-        }
-        else if (gameObject.tag == "BossGlobalMap1")
-        {
-            enemyJJSON = GlobalMap1Enemy(); //todo
-            //BossGlobalMap1Enemy();
-        }
-        else if (gameObject.tag == "MiniBossGlobalMap1")
-        {
-            enemyJJSON = GlobalMap1Enemy(); //todo
-            //MiniBossGlobalMap1Enemy();
-        }
 
-        PlayerPrefs.SetString("enemyBackpackJSON", enemyJJSON);
+        PlayerPrefs.SetString("enemyBackpackJSON", enemyJSON);
 
 
 
         //SceneManager.LoadScene("BackPackBattle");
         SceneLoader.Instance.LoadScene("BackPackBattle");
     }
+
+
+
 
     string GlobalMap1EnemyLevel1()
     {
