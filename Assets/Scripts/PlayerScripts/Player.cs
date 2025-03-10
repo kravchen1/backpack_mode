@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
             {
                 if (activePoint.name == "entranceInCave1")
                 {
+                    Debug.Log("1");
                     if (Input.GetKeyDown(KeyCode.E))
                     {
                         //SceneManager.LoadScene("BackPackCave1");

@@ -21,6 +21,17 @@ public class ButtonsWarehouse : MonoBehaviour
     private bool openWarehouse3 = false;
     private bool openWarehouse4 = false;
     private bool openWarehouse5 = false;
+
+
+    //void ReloadColliders(GameObject warehouse)
+    //{
+    //    for (int i = 0; i < warehouse.transform.childCount; i++)
+    //    {
+    //        warehouse.transform.GetChild(i).GetComponent<PolygonCollider2D>().enabled = false;
+    //        warehouse.transform.GetChild(i).GetComponent<PolygonCollider2D>().enabled = false;
+    //    }
+    //}
+
     public void ToggleWarehouse(int numberWarehouse)
     {
         switch (numberWarehouse)
@@ -31,6 +42,7 @@ public class ButtonsWarehouse : MonoBehaviour
                 warehouse3.SetActive(false);
                 warehouse4.SetActive(false);
                 warehouse5.SetActive(false);
+                //ReloadColliders(warehouse1);
                 break;
             case 2:
                 warehouse1.SetActive(false);
@@ -39,6 +51,7 @@ public class ButtonsWarehouse : MonoBehaviour
                 warehouse4.SetActive(false);
                 warehouse5.SetActive(false);
                 openWarehouse2 = true;
+                //ReloadColliders(warehouse2);
                 break;
             case 3:
                 warehouse1.SetActive(false);
@@ -47,6 +60,7 @@ public class ButtonsWarehouse : MonoBehaviour
                 warehouse4.SetActive(false);
                 warehouse5.SetActive(false);
                 openWarehouse3 = true;
+                //ReloadColliders(warehouse3);
                 break;
             case 4:
                 warehouse1.SetActive(false);
@@ -55,6 +69,7 @@ public class ButtonsWarehouse : MonoBehaviour
                 warehouse4.SetActive(true);
                 warehouse5.SetActive(false);
                 openWarehouse4 = true;
+                //ReloadColliders(warehouse4);
                 break;
             case 5:
                 warehouse1.SetActive(false);
@@ -63,8 +78,10 @@ public class ButtonsWarehouse : MonoBehaviour
                 warehouse4.SetActive(false);
                 warehouse5.SetActive(true);
                 openWarehouse5 = true;
+                //ReloadColliders(warehouse5);
                 break;
         }
+        
     }
 
     public void ExitScene()

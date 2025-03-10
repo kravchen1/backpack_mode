@@ -71,4 +71,35 @@ public class ShopButtonsController : MonoBehaviour
         //SceneManager.LoadScene("GenerateMapFortress1");
         SceneLoader.Instance.LoadScene("GenerateMapFortress1");
     }
+
+    public void ButtonExitEatItem()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+        GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopDataEat.json"));
+
+        //SceneManager.LoadScene("GenerateMapFortress1");
+        SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+    }
+
+    public void ButtonExitCave1()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
+        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+        //SceneManager.LoadScene("GenerateMap");
+        SceneLoader.Instance.LoadScene("GenerateMap");
+    }
+
+    public void ButtonExitBackpack()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+
+        //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+        SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+    }
 }
