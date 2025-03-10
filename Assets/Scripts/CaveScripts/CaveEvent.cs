@@ -42,6 +42,7 @@ public class CaveEvent : MonoBehaviour
                     newObject = Instantiate(battlePrefabs[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
                     newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                     newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                    newObject.GetComponent<Enemy>().JSONBackpackInitialized();
                     PlayerPrefs.SetInt("battlePrefabId", r);
                     PlayerPrefs.SetInt("isEnemyAlive", 1);
                 }
@@ -80,6 +81,7 @@ public class CaveEvent : MonoBehaviour
                     newObject = Instantiate(caveBossPrefab[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
                     newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                     newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                    newObject.GetComponent<Enemy>().JSONBackpackInitialized();
                     PlayerPrefs.SetInt("battlePrefabId", r);
                     PlayerPrefs.SetInt("isEnemyAlive", 1);
                 }

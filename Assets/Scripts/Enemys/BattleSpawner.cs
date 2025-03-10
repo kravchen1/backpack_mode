@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -54,6 +55,7 @@ public class BattleSpawner : MonoBehaviour
                 var instPref = Instantiate(battlesPrefabs[battleDatas[0].type], battleSpawns[i].transform);
                 instPref.GetComponentInChildren<Enemy>().lvlEnemy = battleDatas[0].lvlEnemy;
                 instPref.GetComponentInChildren<Enemy>().idSpawner = battleDatas[0].id;
+                instPref.GetComponentInChildren<Enemy>().enemyJSON = battleDatas[0].JSONBackpack;
                 if (battleDatas[0].die)
                 {
                     instPref.transform.GetChild(0).gameObject.SetActive(true);
@@ -100,8 +102,9 @@ public class BattleSpawner : MonoBehaviour
                 }
                 instPref.GetComponentInChildren<Enemy>().lvlEnemy = randomLevel;
                 instPref.GetComponentInChildren<Enemy>().idSpawner = i;
+                instPref.GetComponentInChildren<Enemy>().JSONBackpackInitialized();
 
-                BattleData battleData = new BattleData(i, randomPrefab, randomLevel);
+                BattleData battleData = new BattleData(i, randomPrefab, randomLevel, instPref.GetComponentInChildren<Enemy>().enemyJSON);
                 battlesSpawnerData.battlesSpawnerDataClass.battleData.Add(battleData);
             }
         }

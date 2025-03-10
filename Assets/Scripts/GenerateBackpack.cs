@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class GenerateBackpack : MonoBehaviour
 {
-    private BackpackData backpackData;
+    protected BackpackData backpackData;
 
-    private GameObject[] prefabs;
-    public List<GameObject> generateItems;
+    protected GameObject[] prefabs;
+    public List<GameObject> generateItems;//any prefab
+
+    protected List<GameObject> ItemsGenerated;//loaded prefabs
 
     public EnemyData enemy;
     public void LoadChestItems(string tagName)
@@ -20,13 +22,30 @@ public class GenerateBackpack : MonoBehaviour
         generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
     }
 
-  
+    protected void Initialization()
+    {
+        LoadChestItems("RAREWEAPON");
+        LoadChestItems("STARTBAG");
+        LoadChestItems("BAG");
+        LoadChestItems("BLOCKMANAITEM");
+        LoadChestItems("FIREITEMS");
+        LoadChestItems("BLOCKPET");
+        LoadChestItems("VAMPIREITEMS");
+        LoadChestItems("FIREWEAPONITEMS");
+        LoadChestItems("VAMPIREWEAPONITEMS");
+        LoadChestItems("VAMPIREGLOVESITEMS");
+        LoadChestItems("WITCHCRAFT");
+        LoadChestItems("WEAPON");
+        LoadChestItems("ITEMEAT");
+        LoadChestItems("MUSHROOMSITEMS");
+        LoadChestItems("KEYSTONESITEMS");
+    }
 
     void Start()
     {
         Time.timeScale = 1f;
         backpackData = GetComponent<BackpackData>();
-
+        ItemsGenerated = new List<GameObject>();
         switch (gameObject.name)
         {
             case "backpack":
@@ -55,6 +74,10 @@ public class GenerateBackpack : MonoBehaviour
                 break;
 
 
+            case "backpackEnemyCanvas":
+                backpackData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
+                break;
+
 
             case "backpackEnemy":
                 getEnemy();
@@ -62,22 +85,8 @@ public class GenerateBackpack : MonoBehaviour
 
         }
 
-        LoadChestItems("RAREWEAPON");
-        LoadChestItems("STARTBAG");
-        LoadChestItems("BAG");
-        LoadChestItems("BLOCKMANAITEM");
-        LoadChestItems("FIREITEMS");
-        LoadChestItems("BLOCKPET");
-        LoadChestItems("VAMPIREITEMS");
-        LoadChestItems("FIREWEAPONITEMS");
-        LoadChestItems("VAMPIREWEAPONITEMS");
-        LoadChestItems("VAMPIREGLOVESITEMS");
-        LoadChestItems("WITCHCRAFT");
-        LoadChestItems("WEAPON");
-        LoadChestItems("ITEMEAT");
-        LoadChestItems("MUSHROOMSITEMS");
-        LoadChestItems("KEYSTONESITEMS");
 
+        Initialization();
 
         GenerationBackpack();
     }
@@ -97,7 +106,9 @@ public class GenerateBackpack : MonoBehaviour
     }
     void Generation(GameObject generationObject, Vector3 place, Quaternion rotation)//уволен
     {
-        var generationObjectItem = Instantiate(generationObject, place, rotation, gameObject.transform);
+        GameObject generationObjectItem = Instantiate(generationObject, place, rotation, gameObject.transform);
+        ItemsGenerated.Add(generationObjectItem);
+
         for (int i = 0; i < generationObject.transform.childCount; i++)
         {
             generationObjectItem.transform.GetChild(i).gameObject.name = generationObjectItem.transform.GetChild(i).gameObject.name + Random.Range(0, 10000);
@@ -176,4 +187,8 @@ public class GenerateBackpack : MonoBehaviour
             return true;
     }
 
+    
+
 }
+
+
