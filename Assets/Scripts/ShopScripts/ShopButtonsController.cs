@@ -1,20 +1,22 @@
-using TMPro;
+﻿using NUnit.Framework.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ButtonReroll : Button
+public class ShopButtonsController : MonoBehaviour
 {
-    private int countRerollBeforePriceIncrease = 10;
-    private int countIncrease = 1;
-    public TextMeshProUGUI textPrice;
 
     private CharacterStats stat;
     private void Awake()
     {
         stat = GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>();
-
+        PlayerPrefs.SetInt("priceReroll", 1);
     }
 
-    override public void OnMouseUpAsButton()
+    public void ButtonReroll()
     {
         if (stat.playerCoins - PlayerPrefs.GetInt("priceReroll") >= 0)
         {
@@ -37,6 +39,8 @@ public class ButtonReroll : Button
                     }
                 }
             }
+            stat.playerCoins -= PlayerPrefs.GetInt("priceReroll");
+
             //if (rerolling)
             //{
             //    stat.playerCoins -= PlayerPrefs.GetInt("priceReroll");
@@ -54,5 +58,17 @@ public class ButtonReroll : Button
 
 
         }
+    }
+
+
+    public void ButtonExitShopItem()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+        GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
+
+        //SceneManager.LoadScene("GenerateMapFortress1");
+        SceneLoader.Instance.LoadScene("GenerateMapFortress1");
     }
 }
