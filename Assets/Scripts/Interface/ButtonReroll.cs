@@ -12,20 +12,6 @@ public class ButtonReroll : Button
     {
         stat = GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>();
 
-
-        //if (!PlayerPrefs.HasKey("countRerollBeforePriceIncrease"))
-        //{
-        //    PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
-        //}
-
-        //if (!PlayerPrefs.HasKey("priceReroll"))
-        //{
-        //    PlayerPrefs.SetInt("priceReroll", 1);
-        //}
-        //else
-        //{
-        //    textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
-        //}
     }
 
     override public void OnMouseUpAsButton()

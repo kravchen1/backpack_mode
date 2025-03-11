@@ -13,6 +13,7 @@ public class RedCrystal : Armor
     public int powerStackChance = 5;
     private void Start()
     {
+        FillnestedObjectStarsStars(256);
     }
 
 

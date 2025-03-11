@@ -36,6 +36,7 @@ public class BackpackWarehouse : EventParent
         PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
 
         //SceneManager.LoadScene("BackPackWareHouse");
+        PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
         SceneLoader.Instance.LoadScene("BackPackWareHouse");
     }
 

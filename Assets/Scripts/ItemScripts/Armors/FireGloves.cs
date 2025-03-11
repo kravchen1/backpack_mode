@@ -25,6 +25,7 @@ public class FireGloves : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            FillnestedObjectStarsStars(256);
         }
     }
 

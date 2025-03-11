@@ -124,17 +124,18 @@ public class Player : MonoBehaviour
                 activePoint.GetComponentInParent<NPC>().StartDialogue();
                 speakNow = true;
             }
-            if (hit.collider.tag == "AreaEventEntrance")
-            {
-                if (activePoint.name == "entranceInCave1")
-                {
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        //SceneManager.LoadScene("BackPackCave1");
-                        SceneLoader.Instance.LoadScene("BackPackCave1");
-                    }
-                }   
-            }
+            //if (hit.collider.tag == "AreaEventEntrance")
+            //{
+            //    if (activePoint.name == "entranceInCave1")
+            //    {
+            //        Debug.Log("1");
+            //        if (Input.GetKeyDown(KeyCode.E))
+            //        {
+            //            //SceneManager.LoadScene("BackPackCave1");
+            //            SceneLoader.Instance.LoadScene("BackPackCave1");
+            //        }
+            //    }   
+            //}
         }
         else
         {

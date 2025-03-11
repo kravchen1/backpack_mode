@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts.ItemScripts;
+using UnityEngine.UI;
 
 
 public class HitsStructure
@@ -331,6 +332,11 @@ public abstract class Item : MonoBehaviour
         FindPlaceForDescription();
     }
 
+    public void CouratineMove(Vector3 destination)
+    {
+        StartCoroutine(ReturnToOriginalPosition(destination));
+    }
+
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
 
@@ -638,6 +644,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
+    private GameObject sellPrice;
     public virtual void SellChest()
     {
         if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
@@ -650,6 +657,9 @@ public abstract class Item : MonoBehaviour
                     sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
                     sellChestAnimator.Play("SellChestOpen");
                     isSellChest = true;
+                    sellPrice = hit.collider.gameObject.transform.GetChild(0).gameObject;
+                    sellPrice.SetActive(true);
+                    sellPrice.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = ((int)(itemCost / 2)).ToString();
                 }
             }
         }
@@ -657,6 +667,7 @@ public abstract class Item : MonoBehaviour
         {
             sellChestAnimator.Play("SellChestClose");
             isSellChest = false;
+            sellPrice.SetActive(false);
         }
     }
 
@@ -813,6 +824,7 @@ public abstract class Item : MonoBehaviour
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
         sellChestSound.Play();
         sellChestAnimator.Play("SellChestClose");
+        sellPrice.SetActive(false);
         Destroy(gameObject);
         Destroy(CanvasDescription.gameObject);
     }

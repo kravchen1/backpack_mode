@@ -7,7 +7,8 @@ public class CaveStone : MonoBehaviour
 {
     public List<GameObject> caveStoneCells;
     private List<Cell> scriptCaveStoneCells;
-    private Animator animator;
+    public GameObject buttonStartAdventure;
+    //private Animator animator;
 
     private int caveEnemyLvl;
 
@@ -18,11 +19,11 @@ public class CaveStone : MonoBehaviour
         {
             scriptCaveStoneCells.Add(cell.GetComponent<Cell>());
         }
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
-    private bool haveCaveLvl = false, canAnimation = false;
-    private AnimatorStateInfo currentStateInfo;
-    private float animationLength;
+    private bool haveCaveLvl = false;//, canAnimation = false;
+    //private AnimatorStateInfo currentStateInfo;
+    //private float animationLength;
 
     private void Update()
     {
@@ -32,36 +33,35 @@ public class CaveStone : MonoBehaviour
             var stone = scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).ToList();
             caveEnemyLvl = stone[0].nestedObject.GetComponent<CaveStonesKeys>().stoneLevel;
             haveCaveLvl = true;
-            canAnimation = true;
+
+            //canAnimation = true;
         }
         else
         {
             haveCaveLvl = false;
         }
        
-        if (haveCaveLvl && canAnimation)
+        if (haveCaveLvl)
         {
-            StartAnimation("CaveStoneActivation");
+            buttonStartAdventure.SetActive(true);
         }
-        else if (!haveCaveLvl && canAnimation)
+        else
         {
-
-            StartAnimation("CaveStoneDeactivation");
+            buttonStartAdventure.SetActive(false);
         }
-
     }
-    void StartAnimation(string animationName)
-    {
-        canAnimation = false;
-        animator.Play(animationName);
-        StartCoroutine(PlayAnimation());
-    }
-    private System.Collections.IEnumerator PlayAnimation()
-    {
-        // Ждем окончания реверсированной анимации
-        yield return new WaitForSeconds(2);
-        canAnimation = true;
-    }
+    //void StartAnimation(string animationName)
+    //{
+    //    canAnimation = false;
+    //    animator.Play(animationName);
+    //    StartCoroutine(PlayAnimation());
+    //}
+    //private System.Collections.IEnumerator PlayAnimation()
+    //{
+    //    // Ждем окончания реверсированной анимации
+    //    yield return new WaitForSeconds(2);
+    //    canAnimation = true;
+    //}
 
     public void StartAdventure()
     {

@@ -69,7 +69,8 @@ public class EndOfBattle : MonoBehaviour
         {
             gameObject.AddComponent<AudioSource>().PlayOneShot(winClip);
             StopFight();
-            if(PlayerPrefs.GetInt("VampireAmulet") == 1)
+            PlayerPrefs.SetInt("WinLose", 1);
+            if (PlayerPrefs.GetInt("VampireAmulet") == 1)
             {
                 PlayerPrefs.SetInt("VampireAmulet", 0);
 
@@ -235,6 +236,7 @@ public class EndOfBattle : MonoBehaviour
         loseMenu.SetActive(true);
         PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
         win = false;
+        PlayerPrefs.SetInt("WinLose", 2);
     }
     // Update is called once per frame
     void Update()
