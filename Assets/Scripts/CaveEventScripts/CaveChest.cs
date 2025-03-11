@@ -50,7 +50,7 @@ public class CaveChest : EventParent
         }
     }
 
-    private void EndDieAnimation()
+    private void DropAnimation()
     {
         if (dropItems.Count > 0 && dropItems.Count == probabilityDropItems.Count )
         {
@@ -66,6 +66,7 @@ public class CaveChest : EventParent
             }
             isClosed = false;
             PlayerPrefs.SetInt("isChestClosed", 0);
+            transform.parent.GetComponent<AudioSource>().Play();
         }
         //Destroy(gameObject.transform.parent.gameObject);
     }
@@ -84,7 +85,7 @@ public class CaveChest : EventParent
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE && isClosed)
         {
-            EndDieAnimation();
+            DropAnimation();
             ChangeSprite();
             SetActivePressE(false);
         }

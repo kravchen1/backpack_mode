@@ -161,7 +161,10 @@ public class Enemy : EventParent
                 if (r <= probabilityDropItems[i]) 
                 {
                     Debug.Log(dropItems[i].name + "  loot " + r);
-                    Instantiate(dropItems[i], gameObject.transform.position, Quaternion.identity, map.GetComponent<RectTransform>().transform);
+                    if(SceneManager.GetActiveScene().name == "Cave")
+                        Instantiate(dropItems[i], gameObject.transform.position + new Vector3(-300,-200,0), Quaternion.identity, map.GetComponent<RectTransform>().transform);
+                    else
+                        Instantiate(dropItems[i], gameObject.transform.position, Quaternion.identity, map.GetComponent<RectTransform>().transform);
                 }
             }
         }

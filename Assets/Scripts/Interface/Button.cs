@@ -128,7 +128,7 @@ public class Button : MonoBehaviour
                 GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
 
                 //SceneManager.LoadScene("GenerateMapFortress1");
-                SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+                SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
                 break;
             case "Button_GoMap3":
                 GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();

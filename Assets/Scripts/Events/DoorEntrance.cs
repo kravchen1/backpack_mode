@@ -87,6 +87,7 @@ public class DoorEntrance : EventParent
             PlayerPrefs.DeleteKey("battlePrefabId");
             PlayerPrefs.DeleteKey("isEnemyDied");
             PlayerPrefs.DeleteKey("isEnemyAlive");
+            PlayerPrefs.DeleteKey("isFountainFull");
             SceneLoader.Instance.LoadScene(loadScene);
 
         }
@@ -107,7 +108,6 @@ public class DoorEntrance : EventParent
         {
             if (PlayerPrefs.HasKey("isEnemyAlive"))
             {
-                Debug.Log("Has");
                 if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
                 {
                     parentAudioSource.Play();

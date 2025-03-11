@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +41,7 @@ public class CaveEvent : MonoBehaviour
                 if (!PlayerPrefs.HasKey("battlePrefabId"))
                 {
                     var r = UnityEngine.Random.Range(0, battlePrefabs.Count);
+                    r = 0;
                     newObject = Instantiate(battlePrefabs[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
                     newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                     newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
@@ -78,8 +81,8 @@ public class CaveEvent : MonoBehaviour
                 if (!PlayerPrefs.HasKey("battlePrefabId"))
                 {
                     var r = UnityEngine.Random.Range(0, caveBossPrefab.Count);
-                    newObject = Instantiate(caveBossPrefab[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                    newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                    newObject = Instantiate(caveBossPrefab[r], gameObject.transform);
+                    //newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                     newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
                     newObject.GetComponent<Enemy>().JSONBackpackInitialized();
                     PlayerPrefs.SetInt("battlePrefabId", r);
@@ -89,8 +92,8 @@ public class CaveEvent : MonoBehaviour
                 {
                     if (!PlayerPrefs.HasKey("isEnemyDied"))
                     {
-                        newObject = Instantiate(caveBossPrefab[PlayerPrefs.GetInt("battlePrefabId")], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                        newObject = Instantiate(caveBossPrefab[PlayerPrefs.GetInt("battlePrefabId")], gameObject.transform);
+                        //newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                         newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
                         if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
                         {

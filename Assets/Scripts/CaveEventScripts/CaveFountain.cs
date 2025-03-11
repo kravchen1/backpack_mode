@@ -14,8 +14,20 @@ public class CaveFountain : EventParent
     private CharacterStats characterStats;
     public Sprite emptyFountain;
     private bool isPlayerInTrigger = false;
+
+    public AudioSource waterSaction;
     //public GameObject infoText;
     //public bool isFull = true;
+
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("isFountainFull"))
+        {
+            if(PlayerPrefs.GetInt("isFountainFull") == 0)
+                ChangeSprite();
+        }
+    }
 
     private void OnTriggerEnter2D()
     {
@@ -24,13 +36,26 @@ public class CaveFountain : EventParent
         characterStats = player.GetComponent<CharacterStats>();
         if(isShowPressE)
         {
-            GetComponent<AudioSource>().Play();
-            SetActivePressE(isShowPressE);
+            if (PlayerPrefs.HasKey("isFountainFull"))
+             {
+                if (PlayerPrefs.GetInt("isFountainFull") == 1)
+                {
+                    GetComponent<AudioSource>().Play();
+                    SetActivePressE(isShowPressE);
+                }
+            }
+            else
+            {
+                GetComponent<AudioSource>().Play();
+                SetActivePressE(isShowPressE);
+                PlayerPrefs.SetInt("isFountainFull", 1);
+            }
         }
     }
 
     public void ActivateFountain()
     {
+        waterSaction.Play();
         var randomHeal = UnityEngine.Random.Range(1, 4);
         switch (randomHeal)
         {
@@ -50,6 +75,7 @@ public class CaveFountain : EventParent
         ChangeSprite();
         isShowPressE = false;
         SetActivePressE(isShowPressE);
+        PlayerPrefs.SetInt("isFountainFull", 0);
     }
     //public void SetActivePressE(bool active)
     //{
@@ -68,6 +94,7 @@ public class CaveFountain : EventParent
         {
             characterStats.playerHP = characterStats.playerMaxHp;
         }
+        characterStats.SaveData();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -82,7 +109,7 @@ public class CaveFountain : EventParent
 
     private void Update()
     {
-        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
+        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE && PlayerPrefs.GetInt("isFountainFull") == 1)
         {
             ActivateFountain();
         }

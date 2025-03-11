@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class BasicCharSounds : MonoBehaviour
@@ -12,12 +13,14 @@ public class BasicCharSounds : MonoBehaviour
     public GameObject weaponAttackObject;
     public void AttackScream()
     {
-        attackScreamObject.GetComponent<AudioSource>().Play();
+        if(SceneManager.GetActiveScene().name == "BackPackBattle")
+            attackScreamObject.GetComponent<AudioSource>().Play();
     }
 
     public void WeaponAttackSound()
     {
-        weaponAttackObject.GetComponent<AudioSource>().Play();
+        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+            weaponAttackObject.GetComponent<AudioSource>().Play();
     }
 }
 
