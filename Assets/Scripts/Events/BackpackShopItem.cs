@@ -49,6 +49,8 @@ public class BackpackShopItem : EventParent
         PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
+        PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
+
         //SceneManager.LoadScene("BackPackShop");
         SceneLoader.Instance.LoadScene("BackPackShop");
     }

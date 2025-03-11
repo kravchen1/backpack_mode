@@ -127,8 +127,7 @@ public class Player : MonoBehaviour
             //if (hit.collider.tag == "AreaEventEntrance")
             //{
             //    if (activePoint.name == "entranceInCave1")
-            //    {
-            //        Debug.Log("1");
+                {
             //        if (Input.GetKeyDown(KeyCode.E))
             //        {
             //            //SceneManager.LoadScene("BackPackCave1");
@@ -233,35 +232,35 @@ public class Player : MonoBehaviour
 
     private void SearchSpecialTargetsShop(int questID = 2)
     {
-        if (questManager.questData.questData.quests.Where(e => e.id == questID && e.isCompleted == false).Count() > 0)
-        {
-            //if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
-            //{
-            var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 2).Count() > 0);
-
-            foreach (var Tracker in QuestTrackers)
+            if (questManager.questData.questData.quests.Where(e => e.id == questID && e.isCompleted == false).Count() > 0)
             {
-                
-                if (Tracker.gameObject.name == "backpackShopItems")
+                //if (SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+                //{
+                var QuestTrackers = GameObject.FindObjectsByType<QuestTracker>(FindObjectsSortMode.None).Where(e => e.idQuests.Where(e2 => e2 == 2).Count() > 0);
+
+                foreach (var Tracker in QuestTrackers)
                 {
-                    if (!PlayerPrefs.HasKey("id2ShopItem"))
+
+                    if (Tracker.gameObject.name == "backpackShopItems")
+                    {
+                        if (!PlayerPrefs.HasKey("id2ShopItem"))
+                        {
+                            targets.Add(Tracker.gameObject.transform);
+                        }
+                    }
+                    else if (Tracker.gameObject.name == "backpackShopEat")
+                    {
+                        if (!PlayerPrefs.HasKey("id2ShopEat"))
+                        {
+                            targets.Add(Tracker.gameObject.transform);
+                        }
+                    }
+                    else
                     {
                         targets.Add(Tracker.gameObject.transform);
                     }
-                }
-                else if (Tracker.gameObject.name == "backpackShopEat")
-                {
-                    if (!PlayerPrefs.HasKey("id2ShopEat"))
-                    {
-                        targets.Add(Tracker.gameObject.transform);
-                    }
-                }
-                else
-                {
-                    targets.Add(Tracker.gameObject.transform);
-                }
+                //}
             }
-            //}
         }
     }
 
