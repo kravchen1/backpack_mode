@@ -332,6 +332,11 @@ public abstract class Item : MonoBehaviour
         FindPlaceForDescription();
     }
 
+    public void CouratineMove(Vector3 destination)
+    {
+        StartCoroutine(ReturnToOriginalPosition(destination));
+    }
+
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
 

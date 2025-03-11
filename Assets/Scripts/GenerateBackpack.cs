@@ -148,6 +148,10 @@ public class GenerateBackpack : MonoBehaviour
             componentItem.Impulse = true;
             //componentItem.MoveObjectOnEndDrag();
             //componentBag.MoveObjectOnEndDrag();
+            if(!ObjectInBag(componentItem))
+            {
+                componentItem.CouratineMove(new Vector3(0, 0, -1));
+            }
         }
         else
         {
