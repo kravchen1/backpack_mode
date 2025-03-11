@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
             //if (hit.collider.tag == "AreaEventEntrance")
             //{
             //    if (activePoint.name == "entranceInCave1")
-                {
+            //    {
             //        if (Input.GetKeyDown(KeyCode.E))
             //        {
             //            //SceneManager.LoadScene("BackPackCave1");
