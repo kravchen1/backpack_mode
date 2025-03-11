@@ -17,6 +17,7 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            FillnestedObjectStarsStars(256);
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }

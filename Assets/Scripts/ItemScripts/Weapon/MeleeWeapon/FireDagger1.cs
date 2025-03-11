@@ -25,8 +25,9 @@ public class FireDagger1 : Weapon
         baseStamina = stamina;
         if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
+            FillnestedObjectStarsStars(256);
+            animator.speed = 1f / timer_cooldown;
+            animator.enabled = true;
         }
     }
 

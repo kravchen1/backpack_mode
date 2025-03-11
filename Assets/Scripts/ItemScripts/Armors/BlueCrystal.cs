@@ -13,6 +13,7 @@ public class BlueCrystal : Armor
     public int manaStack = 2;//надо заменить
     private void Start()
     {
+        FillnestedObjectStarsStars(256);
     }
 
 
