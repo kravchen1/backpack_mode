@@ -184,7 +184,8 @@ public class GenerateBackpack : MonoBehaviour
             //componentBag.MoveObjectOnEndDrag();
             if(!ObjectInBag(componentItem))
             {
-                componentItem.CouratineMove(new Vector3(0, 0, -1));
+                var pos = gameObject.transform.position;
+                componentItem.CouratineMove(new Vector3(pos.x, pos.y, -2));
             }
         }
         else
