@@ -114,36 +114,40 @@ public class Enemy : EventParent
     private bool click = false;
     public void OnMouseUp()
     {
-        click = !click;
-        //if(PlayerPrefs.GetInt("clickEnemy") == 0)
-        if(click)
+        //click = !click;
+        ////if(PlayerPrefs.GetInt("clickEnemy") == 0)
+        //if(click)
+        //{
+        //PlayerPrefs.SetInt("clickEnemy", 1);
+
+        if (canvasBackpackEnemy == null)
         {
-            PlayerPrefs.SetInt("clickEnemy", 1);
-            
-            if (canvasBackpackEnemy == null)
+            canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
+            if (canvasBackpackEnemy != null)
             {
-                canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
-                if (canvasBackpackEnemy != null)
-                {
-                    generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
-                    generateBackpackOnMap.ClearBackpackObjects();
-                    generateBackpackOnMap.Generate(enemyJSON);
-                }
-            }
-            else
-            {
-                if (canvasBackpackEnemy != null)
-                {
-                    generateBackpackOnMap.ClearBackpackObjects();
-                    generateBackpackOnMap.Generate(enemyJSON);
-                }
+                canvasBackpackEnemy.transform.GetChild(0).gameObject.SetActive(true);
+                canvasBackpackEnemy.transform.GetChild(1).gameObject.SetActive(true);
+                generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
+                generateBackpackOnMap.ClearBackpackObjects();
+                generateBackpackOnMap.Generate(enemyJSON);
             }
         }
         else
         {
-            PlayerPrefs.SetInt("clickEnemy", 0);
-            generateBackpackOnMap.ClearBackpackObjects();
+            if (canvasBackpackEnemy != null)
+            {
+                canvasBackpackEnemy.transform.GetChild(0).gameObject.SetActive(true);
+                canvasBackpackEnemy.transform.GetChild(1).gameObject.SetActive(true);
+                generateBackpackOnMap.ClearBackpackObjects();
+                generateBackpackOnMap.Generate(enemyJSON);
+            }
         }
+        //}
+        //else
+        //{
+        //    PlayerPrefs.SetInt("clickEnemy", 0);
+        //    generateBackpackOnMap.ClearBackpackObjects();
+        //}
     }
 
 
