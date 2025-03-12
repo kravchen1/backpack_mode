@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 5
   m_Sprite: {fileID: -3511159105891018699, guid: 1d7fc8568eaacd84badde4b2157d8c7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -436,7 +436,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -656,7 +656,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -747,7 +747,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -839,7 +839,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3511159105891018699, guid: 1d7fc8568eaacd84badde4b2157d8c7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -930,7 +930,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -967,7 +967,7 @@ GameObject:
   - component: {fileID: 5152101484140501344}
   m_Layer: 9
   m_Name: FireFlask1
-  m_TagString: FireItems
+  m_TagString: ItemFire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1044,7 +1044,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: -3511159105891018699, guid: 1d7fc8568eaacd84badde4b2157d8c7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1254,75 +1254,38 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 8.684211, y: -63.026318}
-      - {x: 9.210526, y: -61.447372}
-      - {x: 11.578948, y: -54.868423}
-      - {x: 13.684211, y: -48.552635}
-      - {x: 13.947369, y: -45.13158}
-      - {x: 15.526317, y: -41.71053}
-      - {x: 21.052631, y: -26.973684}
-      - {x: 22.105265, y: -22.236843}
-      - {x: 22.105265, y: -21.447369}
-      - {x: 21.052631, y: -19.342106}
-      - {x: 20.789474, y: -11.710526}
-      - {x: 16.842106, y: -6.7105265}
-      - {x: 10.263158, y: 3.5526316}
-      - {x: 11.31579, y: 5.131579}
-      - {x: 10.526316, y: 10.394737}
-      - {x: 6.052632, y: 15.657895}
-      - {x: 6.052632, y: 25.13158}
-      - {x: 4.4736843, y: 28.552633}
-      - {x: 6.5789475, y: 29.868422}
-      - {x: 7.3684216, y: 30.921053}
-      - {x: 8.157895, y: 34.605263}
-      - {x: 7.8947372, y: 38.026318}
-      - {x: 5, y: 40.13158}
-      - {x: 5.263158, y: 45.394737}
-      - {x: 6.052632, y: 50.394737}
-      - {x: 5.526316, y: 56.44737}
-      - {x: 3.6842108, y: 56.973686}
-      - {x: 2.631579, y: 55.657898}
-      - {x: 1.5789474, y: 58.289474}
-      - {x: 0, y: 64.34211}
-      - {x: -0.5263158, y: 64.60526}
-      - {x: -2.894737, y: 64.60526}
-      - {x: -7.8947372, y: 58.552635}
-      - {x: -7.105263, y: 56.44737}
-      - {x: -7.105263, y: 53.552635}
-      - {x: -9.210526, y: 54.868423}
-      - {x: -9.736842, y: 55.13158}
-      - {x: -11.052632, y: 53.026318}
-      - {x: -10.7894745, y: 48.026318}
-      - {x: -10.263158, y: 45.657898}
-      - {x: -10, y: 39.342106}
-      - {x: -12.894737, y: 36.973686}
-      - {x: -12.368422, y: 31.184212}
-      - {x: -11.578948, y: 30.394737}
-      - {x: -9.736842, y: 29.342106}
-      - {x: -10, y: 26.710527}
-      - {x: -12.368422, y: 23.81579}
-      - {x: -12.631579, y: 21.447369}
-      - {x: -12.631579, y: 20.394737}
-      - {x: -12.105264, y: 18.81579}
-      - {x: -11.31579, y: 17.763159}
-      - {x: -12.631579, y: 8.552632}
-      - {x: -15.526317, y: 1.1842105}
-      - {x: -18.157896, y: -3.8157897}
-      - {x: -23.157896, y: -11.447369}
-      - {x: -23.421053, y: -12.763159}
-      - {x: -25.263159, y: -18.81579}
-      - {x: -25.263159, y: -24.605265}
-      - {x: -21.31579, y: -35.394737}
-      - {x: -17.63158, y: -44.342106}
-      - {x: -16.578947, y: -49.868423}
-      - {x: -12.368422, y: -59.342106}
-      - {x: -11.31579, y: -61.447372}
-      - {x: -10.263158, y: -63.815792}
-      - {x: -7.105263, y: -64.07895}
-      - {x: 0, y: -64.07895}
-      - {x: 0.2631579, y: -63.815792}
-      - {x: 5, y: -64.07895}
-      - {x: 7.8947372, y: -64.07895}
+    - - {x: -8.72387, y: -64.09212}
+      - {x: -25.689392, y: -21.582489}
+      - {x: -22.585922, y: -16.505966}
+      - {x: -22.14209, y: -11.310791}
+      - {x: -12.359253, y: 6.7407227}
+      - {x: -12.576294, y: 10.917664}
+      - {x: -10.451538, y: 16.055847}
+      - {x: -11.5720825, y: 21.331665}
+      - {x: -10.058594, y: 25.129822}
+      - {x: -7.6436768, y: 29.200684}
+      - {x: -11.158174, y: 29.862991}
+      - {x: -11.566284, y: 36.349854}
+      - {x: -8.724609, y: 39.770264}
+      - {x: -9.852051, y: 49.547302}
+      - {x: -8.907837, y: 55.565063}
+      - {x: -5.6639404, y: 54.579163}
+      - {x: -5.7320557, y: 58.54724}
+      - {x: -0.6014404, y: 66.319214}
+      - {x: 4.069702, y: 56.104736}
+      - {x: 7.806885, y: 58.12854}
+      - {x: 7.4468994, y: 40.549927}
+      - {x: 10.270752, y: 38.127747}
+      - {x: 9.362793, y: 30.364136}
+      - {x: 7.1588135, y: 27.679321}
+      - {x: 8.283081, y: 23.421997}
+      - {x: 9.738281, y: 19.147583}
+      - {x: 8.791382, y: 13.792847}
+      - {x: 12.530762, y: 9.89502}
+      - {x: 11.767334, y: 3.585266}
+      - {x: 23.053345, y: -12.572693}
+      - {x: 24.37976, y: -21.439636}
+      - {x: 9.953864, y: -64.36205}
   m_UseDelaunayMesh: 0
 --- !u!114 &8455519246923081337
 MonoBehaviour:
@@ -1373,6 +1336,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
   originalName: FireFlask1
   timer: 0
@@ -1579,7 +1543,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1670,7 +1634,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1761,7 +1725,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

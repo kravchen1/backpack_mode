@@ -17,7 +17,7 @@ public class VampireSword1 : Weapon
     //public int dealDamageDropStack;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "gloves");
+        FillnestedObjectStarsStars(256, "Gloves");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         baseStamina = stamina;
@@ -139,7 +139,7 @@ public class VampireSword1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "gloves");
+            FillnestedObjectStarsStars(256, "Gloves");
             ChangeShowStars(true);
             if (canShowDescription)
             {

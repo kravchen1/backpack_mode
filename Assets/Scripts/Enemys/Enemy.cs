@@ -160,7 +160,7 @@ public class Enemy : EventParent
             {
                 float r = Random.Range(1.0f, 100.0f);
 
-                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("KeyStonesItems") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
+                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
                     r = 0;
                 if (r <= probabilityDropItems[i]) 
                 {

@@ -18,7 +18,7 @@ public class ManaBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "Mana");
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
@@ -125,7 +125,7 @@ public class ManaBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "Mana");
             ChangeShowStars(true);
             if (canShowDescription)
             {

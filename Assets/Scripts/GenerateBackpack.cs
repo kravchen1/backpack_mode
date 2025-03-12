@@ -24,21 +24,52 @@ public class GenerateBackpack : MonoBehaviour
 
     protected void Initialization()
     {
-        LoadChestItems("RAREWEAPON");
+        LoadChestItems("BAGNOCOMMON");
         LoadChestItems("STARTBAG");
         LoadChestItems("BAG");
-        LoadChestItems("BLOCKMANAITEM");
-        LoadChestItems("FIREITEMS");
-        LoadChestItems("BLOCKPET");
-        LoadChestItems("VAMPIREITEMS");
-        LoadChestItems("FIREWEAPONITEMS");
-        LoadChestItems("VAMPIREWEAPONITEMS");
-        LoadChestItems("VAMPIREGLOVESITEMS");
-        LoadChestItems("WITCHCRAFT");
-        LoadChestItems("WEAPON");
+
+
+
         LoadChestItems("ITEMEAT");
-        LoadChestItems("MUSHROOMSITEMS");
-        LoadChestItems("KEYSTONESITEMS");
+
+
+
+        LoadChestItems("ITEMCRYSTALL");
+
+
+        LoadChestItems("ITEMCLOTH");
+
+
+        LoadChestItems("ITEMFIRE");
+        LoadChestItems("ITEMFIREWEAPON");
+        LoadChestItems("ITEMFIRECLOTH");
+        LoadChestItems("ITEMFIRECLOTHGLOVES");
+
+
+        LoadChestItems("ITEMMANA");
+        LoadChestItems("ITEMMANAWEAPON");
+        LoadChestItems("ITEMMANACLOTH");
+        LoadChestItems("ITEMMANACLOTHGLOVES");
+        LoadChestItems("ITEMMANABLOCK");
+
+
+        LoadChestItems("ITEMMUSHROOM");
+
+
+        LoadChestItems("ITEMKEYSTONE");
+
+
+        LoadChestItems("ITEMSTUFF");
+
+
+        LoadChestItems("ITEMVAMPIRE");
+        LoadChestItems("ITEMVAMPIREWEAPON");
+        LoadChestItems("ITEMVAMPIRECLOTH");
+        LoadChestItems("ITEMVAMPIRECLOTHGLOVES");
+
+
+        LoadChestItems("ITEMWEAPON");
+        LoadChestItems("ITEMWITHCRAFT");
     }
 
     void Start()

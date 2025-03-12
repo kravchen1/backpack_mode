@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -171,7 +171,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1000
   m_Sprite: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -321,7 +321,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -412,7 +412,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -503,7 +503,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -594,7 +594,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 4995001229128664961}
   m_Layer: 9
   m_Name: Nunchucks
-  m_TagString: weapon
+  m_TagString: ItemWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -709,7 +709,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: -3194888573424618823, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -907,155 +907,25 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 70.48659, y: -101.84396}
-      - {x: 70.48659, y: -100.228035}
-      - {x: 65.96199, y: -91.82522}
-      - {x: 63.37651, y: -86.97744}
-      - {x: 55.94325, y: -73.080475}
-      - {x: 53.03458, y: -69.20225}
-      - {x: 49.47954, y: -62.738544}
-      - {x: 43.66221, y: -52.07343}
-      - {x: 32.350723, y: -31.389568}
-      - {x: 31.057981, y: -28.480902}
-      - {x: 26.856571, y: -21.370825}
-      - {x: 17.807383, y: -6.8274865}
-      - {x: 16.191458, y: -4.888375}
-      - {x: 14.898716, y: -4.2420044}
-      - {x: 10.374122, y: -2.949263}
-      - {x: 8.111825, y: -2.949263}
-      - {x: 5.203157, y: 2.2217016}
-      - {x: 2.2944894, y: 2.5448868}
-      - {x: 1.0017482, y: 2.5448868}
-      - {x: -3.1996608, y: -0.3637807}
-      - {x: -3.1996608, y: -2.949263}
-      - {x: -5.1387725, y: -1.6565219}
-      - {x: -6.7546988, y: -1.6565219}
-      - {x: -11.602478, y: -3.918819}
-      - {x: -12.89522, y: -4.888375}
-      - {x: -14.511146, y: -5.534745}
-      - {x: -17.096628, y: -5.8579307}
-      - {x: -21.298037, y: -7.7970424}
-      - {x: -22.267593, y: -9.089784}
-      - {x: -30.347225, y: -9.089784}
-      - {x: -30.67041, y: -7.150672}
-      - {x: -33.902264, y: -4.888375}
-      - {x: -35.195004, y: -1.9797072}
-      - {x: -35.195004, y: 3.514443}
-      - {x: -31.316782, y: 4.1608133}
-      - {x: -29.054483, y: 5.77674}
-      - {x: -26.145817, y: 8.039037}
-      - {x: -23.237148, y: 9.331779}
-      - {x: -21.298037, y: 10.301334}
-      - {x: -17.096628, y: 12.886816}
-      - {x: -14.8343315, y: 13.210002}
-      - {x: -9.986552, y: 16.76504}
-      - {x: -4.1692166, y: 18.057781}
-      - {x: -1.5837342, y: 20.320078}
-      - {x: -1.260549, y: 21.61282}
-      - {x: 1.3249334, y: 22.905561}
-      - {x: 5.5263424, y: 27.75334}
-      - {x: 5.5263424, y: 29.046082}
-      - {x: 3.2640452, y: 33.570675}
-      - {x: -4.815587, y: 39.711197}
-      - {x: -8.69381, y: 39.711197}
-      - {x: -9.986552, y: 37.4489}
-      - {x: -12.572034, y: 38.09527}
-      - {x: -16.450258, y: 37.772083}
-      - {x: -22.267593, y: 36.15616}
-      - {x: -24.52989, y: 35.186604}
-      - {x: -25.499447, y: 34.217045}
-      - {x: -28.731298, y: 33.24749}
-      - {x: -32.93271, y: 31.308378}
-      - {x: -33.902264, y: 30.015636}
-      - {x: -35.195004, y: 29.046082}
-      - {x: -38.426857, y: 28.39971}
-      - {x: -41.335526, y: 26.460598}
-      - {x: -43.597824, y: 25.167858}
-      - {x: -47.152863, y: 22.905561}
-      - {x: -48.768787, y: 21.936005}
-      - {x: -46.183304, y: 28.722897}
-      - {x: -44.56738, y: 33.570675}
-      - {x: -44.56738, y: 36.80253}
-      - {x: -30.02404, y: 75.58476}
-      - {x: -28.408113, y: 77.84706}
-      - {x: -27.438559, y: 80.43254}
-      - {x: -19.68211, y: 100.79321}
-      - {x: -19.68211, y: 103.70188}
-      - {x: -22.913963, y: 107.58011}
-      - {x: -30.347225, y: 110.81196}
-      - {x: -33.902264, y: 110.81196}
-      - {x: -36.810932, y: 108.54967}
-      - {x: -45.536934, y: 85.28032}
-      - {x: -46.183304, y: 82.04847}
-      - {x: -48.768787, y: 75.90795}
-      - {x: -60.726643, y: 43.912605}
-      - {x: -61.696198, y: 40.357567}
-      - {x: -70.099014, y: 17.088224}
-      - {x: -70.099014, y: 14.502743}
-      - {x: -69.12946, y: 12.886816}
-      - {x: -68.806274, y: 8.685408}
-      - {x: -66.543976, y: 6.746296}
-      - {x: -62.98894, y: 3.8376281}
-      - {x: -57.49479, y: 1.5753311}
-      - {x: -54.90931, y: 1.8985163}
-      - {x: -51.031086, y: 6.746296}
-      - {x: -43.92101, y: 14.179558}
-      - {x: -38.750042, y: 18.057781}
-      - {x: -36.487747, y: 19.673708}
-      - {x: -32.93271, y: 21.936005}
-      - {x: -30.67041, y: 24.521486}
-      - {x: -28.731298, y: 24.844673}
-      - {x: -25.822632, y: 26.460598}
-      - {x: -18.066185, y: 28.076525}
-      - {x: -14.511146, y: 28.722897}
-      - {x: -9.016996, y: 30.015636}
-      - {x: -4.492402, y: 30.015636}
-      - {x: -5.785143, y: 28.39971}
-      - {x: -9.663366, y: 27.430155}
-      - {x: -12.248849, y: 25.491043}
-      - {x: -17.419813, y: 23.228746}
-      - {x: -21.944408, y: 19.996893}
-      - {x: -23.237148, y: 20.320078}
-      - {x: -28.731298, y: 16.76504}
-      - {x: -30.02404, y: 15.472299}
-      - {x: -33.255894, y: 14.825928}
-      - {x: -37.780487, y: 10.624519}
-      - {x: -37.457302, y: 8.039037}
-      - {x: -41.01234, y: 7.715852}
-      - {x: -42.628265, y: 6.746296}
-      - {x: -43.92101, y: -0.686966}
-      - {x: -42.95145, y: -5.8579307}
-      - {x: -42.95145, y: -10.70571}
-      - {x: -37.134117, y: -15.230305}
-      - {x: -34.87182, y: -15.55349}
-      - {x: -33.57908, y: -14.583934}
-      - {x: -30.67041, y: -19.431713}
-      - {x: -25.17626, y: -20.078083}
-      - {x: -22.267593, y: -18.462156}
-      - {x: -20.005297, y: -16.19986}
-      - {x: -19.03574, y: -18.138971}
-      - {x: -15.803887, y: -17.492601}
-      - {x: -12.572034, y: -16.19986}
-      - {x: -10.309737, y: -13.614378}
-      - {x: -6.1083283, y: -12.644822}
-      - {x: -2.8764753, y: -10.70571}
-      - {x: -0.290993, y: -7.150672}
-      - {x: 0.032192286, y: -7.7970424}
-      - {x: 2.6176746, y: -9.412969}
-      - {x: 2.2944894, y: -12.644822}
-      - {x: 11.020493, y: -28.157717}
-      - {x: 13.605974, y: -32.682312}
-      - {x: 16.837828, y: -38.499645}
-      - {x: 28.472498, y: -59.50669}
-      - {x: 33.96665, y: -69.52544}
-      - {x: 38.49124, y: -80.83692}
-      - {x: 48.186802, y: -97.96574}
-      - {x: 54.32732, y: -108.95404}
-      - {x: 55.94325, y: -110.24678}
-      - {x: 61.437397, y: -110.24678}
-      - {x: 64.66925, y: -109.27722}
-      - {x: 68.22429, y: -106.04537}
-      - {x: 70.1634, y: -102.81352}
+    - - {x: -21.809814, y: 106.6405}
+      - {x: -32.17923, y: 111.26367}
+      - {x: -36.561066, y: 109.295654}
+      - {x: -46.357635, y: 84.78229}
+      - {x: -46.32364, y: 82.991394}
+      - {x: -70.95883, y: 15.788269}
+      - {x: -68.71286, y: 7.1343384}
+      - {x: -26.570099, y: -24.514832}
+      - {x: 1.6373291, y: -12.821167}
+      - {x: 54.82872, y: -110.28476}
+      - {x: 59.58194, y: -111.05786}
+      - {x: 65.01465, y: -109.194336}
+      - {x: 69.16162, y: -105.42969}
+      - {x: 70.828445, y: -101.586494}
+      - {x: 54.079254, y: -71.018005}
+      - {x: 16.422241, y: -4.987732}
+      - {x: 3.017807, y: 40.091164}
+      - {x: -42.522858, y: 41.070923}
+      - {x: -18.972427, y: 102.016945}
   m_UseDelaunayMesh: 0
 --- !u!114 &2204533003978347364
 MonoBehaviour:
@@ -1135,6 +1005,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
   originalName: Nunchucks
   timer: 0
@@ -1231,7 +1102,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 5
   m_Sprite: {fileID: -3194888573424618823, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1322,7 +1193,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3194888573424618823, guid: 59a706f3228db604f8989bfe5a9aec80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1415,7 +1286,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1000
   m_Sprite: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1565,7 +1436,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1656,7 +1527,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1970,7 +1841,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -18,7 +18,7 @@ public class VampireBody : Armor
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "vampire");
+        FillnestedObjectStarsStars(256, "Vampire");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -125,7 +125,7 @@ public class VampireBody : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "vampire");
+            FillnestedObjectStarsStars(256, "Vampire");
             ChangeShowStars(true);
             if (canShowDescription)
             {

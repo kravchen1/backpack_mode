@@ -28,9 +28,9 @@ public class CaveStone : MonoBehaviour
     private void Update()
     {
 
-        if (scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).Count() > 0)
+        if (scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("ItemKeyStone")).Count() > 0)
         {
-            var stone = scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).ToList();
+            var stone = scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("ItemKeyStone")).ToList();
             caveEnemyLvl = stone[0].nestedObject.GetComponent<CaveStonesKeys>().stoneLevel;
             haveCaveLvl = true;
 

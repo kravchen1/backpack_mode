@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -260,7 +260,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -351,7 +351,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: 3111714453781200835, guid: 053fe39590fcd424380fb46668b39587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -442,7 +442,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 5
   m_Sprite: {fileID: 3111714453781200835, guid: 053fe39590fcd424380fb46668b39587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -533,7 +533,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -624,7 +624,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: -5295611436523334264}
   m_Layer: 9
   m_Name: ManaRing1
-  m_TagString: RareWeapon
+  m_TagString: ItemMana
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -737,7 +737,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 3111714453781200835, guid: 053fe39590fcd424380fb46668b39587, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -935,41 +935,28 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 24, y: -15.25}
+    - - {x: 22.501526, y: 10.268311}
+      - {x: 17.311096, y: 18.33722}
+      - {x: 10.38678, y: 24.445068}
+      - {x: 5.553955, y: 27.19281}
+      - {x: 1.4952393, y: 28.93695}
+      - {x: -4.285095, y: 29.092468}
+      - {x: -9.855347, y: 28.70813}
+      - {x: -16.794128, y: 25.87976}
+      - {x: -23.472229, y: 17.70868}
+      - {x: -26.127136, y: 4.9904785}
+      - {x: -23.7453, y: -6.444458}
+      - {x: -16.446045, y: -19.461914}
+      - {x: -5.7124634, y: -27.657349}
+      - {x: 3.406189, y: -30.11322}
+      - {x: 11.764893, y: -28.38324}
+      - {x: 16.340515, y: -25.036804}
+      - {x: 22.17273, y: -19.98114}
+      - {x: 24.93927, y: -12.56543}
       - {x: 25.25, y: -9.75}
+      - {x: 25.817871, y: -6.7470703}
       - {x: 25, y: -1.25}
       - {x: 24, y: 4}
-      - {x: 22.75, y: 7.75}
-      - {x: 20.25, y: 13}
-      - {x: 17, y: 18}
-      - {x: 14.5, y: 20.75}
-      - {x: 12.25, y: 22.75}
-      - {x: 8.5, y: 25.5}
-      - {x: 4.75, y: 27.25}
-      - {x: 2.5, y: 28}
-      - {x: -1, y: 28.75}
-      - {x: -5, y: 28.75}
-      - {x: -7.75, y: 28.25}
-      - {x: -10.25, y: 27.75}
-      - {x: -14.5, y: 26}
-      - {x: -18.25, y: 23.75}
-      - {x: -21.5, y: 20}
-      - {x: -24.25, y: 14}
-      - {x: -25, y: 9.5}
-      - {x: -25, y: 0.5}
-      - {x: -23.5, y: -6}
-      - {x: -20.25, y: -12.75}
-      - {x: -18, y: -16.25}
-      - {x: -14.75, y: -20.25}
-      - {x: -9.75, y: -24.5}
-      - {x: -7.5, y: -26.25}
-      - {x: -2.75, y: -28.5}
-      - {x: 0.75, y: -29.25}
-      - {x: 1.25, y: -29.5}
-      - {x: 8.25, y: -29.5}
-      - {x: 11, y: -28.25}
-      - {x: 14.25, y: -26.5}
-      - {x: 16.25, y: -25}
   m_UseDelaunayMesh: 0
 --- !u!114 &1621701431372403075
 MonoBehaviour:
@@ -1020,6 +1007,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
   originalName: ManaRing1
   timer: 0
@@ -1137,7 +1125,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1228,7 +1216,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1319,7 +1307,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

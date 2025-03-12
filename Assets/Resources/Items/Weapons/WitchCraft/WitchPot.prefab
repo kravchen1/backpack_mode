@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 8398730749598406350}
   m_Layer: 9
   m_Name: WitchPot
-  m_TagString: witchcraft
+  m_TagString: ItemWitchcraft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -376,7 +376,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 1013886147211563051, guid: 1250342dd8feefa45b7a012da1ce546d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -574,115 +574,40 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 13.88491, y: -51.61457}
-      - {x: 14.373292, y: -45.998173}
-      - {x: 16.326822, y: -45.75398}
-      - {x: 20.478075, y: -45.2656}
-      - {x: 22.187414, y: -45.50979}
-      - {x: 23.16418, y: -49.172657}
-      - {x: 23.896753, y: -52.59134}
-      - {x: 25.850285, y: -54.54487}
-      - {x: 27.315434, y: -55.03325}
-      - {x: 29.513155, y: -55.277443}
-      - {x: 34.641174, y: -55.277443}
-      - {x: 36.10632, y: -54.056484}
-      - {x: 36.838894, y: -53.07972}
-      - {x: 37.083088, y: -51.12619}
-      - {x: 36.10632, y: -46.730743}
-      - {x: 34.39698, y: -43.312065}
-      - {x: 35.373745, y: -40.38177}
-      - {x: 40.990147, y: -37.207283}
-      - {x: 46.85074, y: -32.81184}
-      - {x: 51.00199, y: -28.904778}
-      - {x: 54.42067, y: -24.997717}
-      - {x: 57.595158, y: -20.602272}
-      - {x: 59.79288, y: -15.718446}
-      - {x: 61.9906, y: -10.102045}
-      - {x: 62.96737, y: -4.4856443}
-      - {x: 63.69994, y: -0.3343919}
-      - {x: 63.944134, y: 6.5029655}
-      - {x: 63.69994, y: 9.18907}
-      - {x: 65.40928, y: 11.386792}
-      - {x: 67.8512, y: 15.782236}
-      - {x: 68.33958, y: 17.247385}
-      - {x: 68.33958, y: 24.573124}
-      - {x: 68.09538, y: 25.549889}
-      - {x: 66.14185, y: 29.945333}
-      - {x: 63.21156, y: 34.096584}
-      - {x: 56.374203, y: 40.933945}
-      - {x: 51.490376, y: 47.52711}
-      - {x: 51.490376, y: 49.72483}
-      - {x: 53.443905, y: 57.783146}
-      - {x: 53.93229, y: 60.46925}
-      - {x: 53.443905, y: 61.69021}
-      - {x: 51.734566, y: 63.643738}
-      - {x: 46.60655, y: 65.35307}
-      - {x: 39.76919, y: 66.32984}
-      - {x: 32.931835, y: 67.062416}
-      - {x: 23.652563, y: 67.79499}
-      - {x: 16.082632, y: 68.28337}
-      - {x: -17.371582, y: 68.28337}
-      - {x: -24.69732, y: 68.039185}
-      - {x: -28.848574, y: 67.79499}
-      - {x: -31.77887, y: 67.5508}
-      - {x: -38.127846, y: 67.062416}
-      - {x: -43.255863, y: 66.32984}
-      - {x: -53.267708, y: 64.37631}
-      - {x: -54.244473, y: 64.13212}
-      - {x: -56.686386, y: 62.911163}
-      - {x: -57.41896, y: 59.248295}
-      - {x: -56.930576, y: 57.783146}
-      - {x: -54.488663, y: 49.72483}
-      - {x: -55.95381, y: 48.748066}
-      - {x: -57.17477, y: 45.085197}
-      - {x: -59.37249, y: 41.66652}
-      - {x: -61.814404, y: 36.294308}
-      - {x: -63.767933, y: 30.922098}
-      - {x: -65.47727, y: 25.061506}
-      - {x: -66.94242, y: 16.51481}
-      - {x: -67.674995, y: 12.363558}
-      - {x: -67.674995, y: 0.8865648}
-      - {x: -67.186615, y: -2.7763052}
-      - {x: -66.69823, y: -5.706601}
-      - {x: -65.96566, y: -8.881088}
-      - {x: -65.233086, y: -11.811384}
-      - {x: -61.570213, y: -19.381315}
-      - {x: -59.1283, y: -23.288378}
-      - {x: -57.41896, y: -25.730291}
-      - {x: -51.55837, y: -32.079266}
-      - {x: -49.604836, y: -33.544415}
-      - {x: -51.069984, y: -37.207283}
-      - {x: -52.779324, y: -42.3353}
-      - {x: -55.221237, y: -47.463318}
-      - {x: -56.686386, y: -49.172657}
-      - {x: -56.686386, y: -51.61457}
-      - {x: -54.000282, y: -53.568104}
-      - {x: -49.604836, y: -54.056484}
-      - {x: -45.941967, y: -53.812294}
-      - {x: -44.476818, y: -52.102955}
-      - {x: -42.52329, y: -48.440086}
-      - {x: -41.05814, y: -45.021404}
-      - {x: -39.837185, y: -41.602726}
-      - {x: -39.3488, y: -40.13758}
-      - {x: -35.44174, y: -42.09111}
-      - {x: -29.825338, y: -43.55626}
-      - {x: -23.720556, y: -45.021404}
-      - {x: -20.057686, y: -45.75398}
-      - {x: -13.708712, y: -46.974937}
-      - {x: -9.557459, y: -47.463318}
-      - {x: -6.3829713, y: -47.70751}
-      - {x: 0.45438606, y: -51.37038}
-      - {x: 0.6985774, y: -55.765823}
-      - {x: 1.1869601, y: -62.1148}
-      - {x: 1.9195341, y: -65.28928}
-      - {x: 3.1404908, y: -66.75443}
-      - {x: 4.3614473, y: -67.48701}
-      - {x: 8.756891, y: -67.7312}
-      - {x: 9.977848, y: -68.21958}
-      - {x: 12.1755705, y: -68.21958}
-      - {x: 13.640718, y: -66.99863}
-      - {x: 14.129101, y: -65.53348}
-      - {x: 14.129101, y: -60.64965}
+    - - {x: 73.53052, y: 16.902771}
+      - {x: 68.21048, y: 7.7213745}
+      - {x: 66.042694, y: -12.812927}
+      - {x: 61.82715, y: -23.539185}
+      - {x: 52.4971, y: -34.05719}
+      - {x: 36.74774, y: -45.000977}
+      - {x: 41.533073, y: -56.393257}
+      - {x: 35.335358, y: -60.312744}
+      - {x: 25.47287, y: -56.845093}
+      - {x: 22.797455, y: -48.643005}
+      - {x: 15.9149475, y: -49.195007}
+      - {x: 16.388, y: -72.51636}
+      - {x: 11.517197, y: -74.60138}
+      - {x: 0.2672882, y: -72.63098}
+      - {x: -1.7704315, y: -54.329346}
+      - {x: -41.129456, y: -46.195007}
+      - {x: -47.917145, y: -59.159485}
+      - {x: -60.750885, y: -57.564636}
+      - {x: -60.93509, y: -51.93042}
+      - {x: -54.71826, y: -37.944763}
+      - {x: -61.061813, y: -28.9314}
+      - {x: -73.762024, y: -5.482727}
+      - {x: -71.79567, y: 28.176147}
+      - {x: -60.18309, y: 54.219116}
+      - {x: -62.981766, y: 64.66809}
+      - {x: -59.515076, y: 69.69531}
+      - {x: -29.411194, y: 73.220825}
+      - {x: 10.968704, y: 73.531494}
+      - {x: 39.67453, y: 72.306335}
+      - {x: 57.96972, y: 67.91069}
+      - {x: 59.240906, y: 62.001587}
+      - {x: 55.415833, y: 50.34668}
+      - {x: 71.12079, y: 34.48004}
+      - {x: 74.75037, y: 24.708096}
   m_UseDelaunayMesh: 0
 --- !u!114 &-4199713372509802321
 MonoBehaviour:
@@ -764,6 +689,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
   originalName: WitchPot
   timer: 0
@@ -857,7 +783,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1000
   m_Sprite: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1007,7 +933,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 5
   m_Sprite: {fileID: 1013886147211563051, guid: 1250342dd8feefa45b7a012da1ce546d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1098,7 +1024,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1189,7 +1115,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1280,7 +1206,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1373,7 +1299,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1000
   m_Sprite: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1523,7 +1449,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1614,7 +1540,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1929,7 +1855,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: 1013886147211563051, guid: 1250342dd8feefa45b7a012da1ce546d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2196,7 +2122,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

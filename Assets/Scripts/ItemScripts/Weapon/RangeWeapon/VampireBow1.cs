@@ -19,7 +19,7 @@ public class VampireBow1 : Weapon
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "weapon");
+        FillnestedObjectStarsStars(256, "Weapon");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         baseStamina = stamina;
@@ -172,7 +172,7 @@ public class VampireBow1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "weapon");
+            FillnestedObjectStarsStars(256, "Weapon");
             ChangeShowStars(true);
             if (canShowDescription)
             {
