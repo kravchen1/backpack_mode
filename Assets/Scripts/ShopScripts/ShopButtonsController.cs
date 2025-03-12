@@ -93,6 +93,16 @@ public class ShopButtonsController : MonoBehaviour
         SceneLoader.Instance.LoadScene("GenerateMap");
     }
 
+    public void ButtonExitCaveIn1()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.FindWithTag("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopCave1Data.json"));
+        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+        //SceneManager.LoadScene("GenerateMap");
+        SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+    }
+
     public void ButtonExitBackpack()
     {
         GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
