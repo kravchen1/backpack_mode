@@ -1,14 +1,14 @@
-using NUnit.Framework.Interfaces;
+
 using System.Collections;
-using System.Collections.Generic;
+
 using System.IO;
 using System.Linq;
 using TMPro;
-using UnityEditor.SearchService;
+
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 using UnityEngine.UI;
-using static UnityEditor.Progress;
+
 
 public class EndOfBattle : MonoBehaviour
 {
@@ -119,6 +119,7 @@ public class EndOfBattle : MonoBehaviour
             gameObject.AddComponent<AudioSource>().PlayOneShot(loseClip);
             StopFight();
             Lose();
+            PlayerPrefs.DeleteKey("isEnemyAlive");
         }
     }
 
