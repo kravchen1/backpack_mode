@@ -69,7 +69,7 @@ public class Enemy : EventParent
 
 
 
-    private void Update()
+    protected void Update()
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
         {
@@ -112,14 +112,8 @@ public class Enemy : EventParent
     //}
 
     private bool click = false;
-    public void OnMouseUp()
+    private void OnMouseUp()
     {
-        //click = !click;
-        ////if(PlayerPrefs.GetInt("clickEnemy") == 0)
-        //if(click)
-        //{
-        //PlayerPrefs.SetInt("clickEnemy", 1);
-
         if (canvasBackpackEnemy == null)
         {
             canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
@@ -142,12 +136,6 @@ public class Enemy : EventParent
                 generateBackpackOnMap.Generate(enemyJSON);
             }
         }
-        //}
-        //else
-        //{
-        //    PlayerPrefs.SetInt("clickEnemy", 0);
-        //    generateBackpackOnMap.ClearBackpackObjects();
-        //}
     }
 
 

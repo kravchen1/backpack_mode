@@ -812,6 +812,7 @@ GameObject:
   - component: {fileID: 655561974145128764}
   - component: {fileID: 774517236395317578}
   - component: {fileID: 821174433312049974}
+  - component: {fileID: 6956243580224744434}
   m_Layer: 5
   m_Name: Fallen Knight
   m_TagString: EnemyGlobalMap1
@@ -1084,7 +1085,7 @@ CircleCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1103,6 +1104,19 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 25
+--- !u!114 &6956243580224744434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2599852579934880558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idQuests: 04000000
 --- !u!1 &2626382650988068764
 GameObject:
   m_ObjectHideFlags: 0
