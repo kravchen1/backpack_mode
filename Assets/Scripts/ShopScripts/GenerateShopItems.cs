@@ -149,7 +149,7 @@ public class GenerateShopItems : MonoBehaviour
 
     void Start()
     {
-        Invoke("StartInv", 0.2f);
+        Invoke("StartInv", 0.01f);
     }
 
     // Update is called once per frame

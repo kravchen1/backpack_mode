@@ -115,6 +115,8 @@ public class EndOfBattle : MonoBehaviour
             int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
             winGold += Random.Range(0, 10);
             WinGold(winGold);
+
+            PlayerPrefs.DeleteKey("isEnemyAlive");
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
         {
@@ -168,7 +170,7 @@ public class EndOfBattle : MonoBehaviour
             qm.questData = new QuestData();
             qm.questData.questData = new QDataList();
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            qm.CompleteQuest(questID);
+            qm.CompleteQuest(questID, false);
         }
     }
 

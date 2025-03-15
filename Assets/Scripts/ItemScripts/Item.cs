@@ -905,8 +905,10 @@ public abstract class Item : MonoBehaviour
                     {
                         if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                         {
-                            //if(hit.hits[0].collider.GetComponent<Cell>() )
-                            hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
+                            if(hit.hits[0].collider.GetComponent<Cell>().nestedObject != null)
+                                hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.yellow;
+                            else
+                                hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
                             careHits.Add(new RaycastStructure(hit.hits[0]));//�������
                         }
                     }
@@ -1312,22 +1314,25 @@ public abstract class Item : MonoBehaviour
         if (originalSprite != null)
         {
             GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
-            goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
-            goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
-            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
-            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
+            if (goAnimationsAttack.transform.childCount <= 10)
+            {
+                goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+                goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
+                goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
+                goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
 
 
-            int r = UnityEngine.Random.Range(1, 6);
-            if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
-            {
-                goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+                int r = UnityEngine.Random.Range(1, 6);
+                if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
+                {
+                    goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+                }
+                else//атакуют персонажа
+                {
+                    goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
+                }
+                Invoke("StopAttackAnimation", 0.4f);
             }
-            else//атакуют персонажа
-            {
-                goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
-            }
-            Invoke("StopAttackAnimation", 0.4f);
         }
 
     }
