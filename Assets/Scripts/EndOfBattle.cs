@@ -86,11 +86,13 @@ public class EndOfBattle : MonoBehaviour
             {
                 QuestComplete(8);
                 NewQuestId9();
+                PlayerPrefs.SetInt("isEnemyPodpolDefeat", 1);
             }
             else if (enemyName == "General")
             {
                 QuestComplete(10);
                 NewQuestId11();
+                PlayerPrefs.SetInt("isEnemyGeneralDefeat",1);
             }
             else
             {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 772077941444430588}
   - component: {fileID: 3886031284179948911}
   - component: {fileID: 7305368914822546552}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Area
   m_TagString: AreaEvent
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ee5eeaf5320e47a2761621450f9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animation: {fileID: 7034951671821234482}
+  anim: {fileID: 7034951671821234482}
 --- !u!58 &7305368914822546552
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -569,6 +569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShowPressE: 1
   infoText: {fileID: 5725569272100643922}
+  player: {fileID: 0}
   lvlText: {fileID: 188763429311558212}
   lvlEnemy: 1
   idSpawner: 0

@@ -71,7 +71,7 @@ public class GenerateShopItems : MonoBehaviour
         
         generationObjectShop.AddComponent<ShopItem>();
         generationObjectShop.GetComponent<ShopItem>().defaultPosition = place;
-        Debug.Log(generationObjectShop.transform.position);
+        //Debug.Log(generationObjectShop.transform.position);
         generationObjectShop.transform.position = place;
         SetItemCost(item, generationObject.name);
     }

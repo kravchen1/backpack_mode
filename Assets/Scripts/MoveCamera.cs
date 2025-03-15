@@ -16,6 +16,7 @@ public class MoveCamera : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerRectTransform = player.GetComponent<RectTransform>();
+        Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("IgnoreMouse"));
     }
 
     

@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.2, y: 32.3}
+  m_AnchoredPosition: {x: 0.20000076, y: 32.3}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1375675157645240059
@@ -194,10 +194,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5786541004137860275}
-  - component: {fileID: 8118374973826086896}
   - component: {fileID: 4426077157166433267}
   - component: {fileID: 9182990457759714691}
   - component: {fileID: -2230129565960469744}
+  - component: {fileID: 6759061296822528176}
   m_Layer: 5
   m_Name: General
   m_TagString: BossGlobalMap1
@@ -228,30 +228,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8118374973826086896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526035914929251165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 702b2709eeef8b842b235c8b3f055e63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isShowPressE: 1
-  infoText: {fileID: 4655179025110050541}
-  lvlText: {fileID: 5743810767788907397}
-  lvlEnemy: 15
-  idSpawner: -1
-  enemyJSON: 
-  startHP: 800
-  stepHPForLevel: 25
-  startStamina: 5
-  stepStaminaForLevel: 0.5
-  dropItems: []
-  probabilityDropItems: []
 --- !u!58 &4426077157166433267
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -398,6 +374,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idQuests: 0a000000
+--- !u!114 &6759061296822528176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526035914929251165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71495c4e7c3f31444b5a8844106a9bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShowPressE: 1
+  infoText: {fileID: 4655179025110050541}
+  player: {fileID: 0}
+  lvlText: {fileID: 5743810767788907397}
+  lvlEnemy: 15
+  idSpawner: -1
+  enemyJSON: 
+  startHP: 800
+  stepHPForLevel: 25
+  startStamina: 5
+  stepStaminaForLevel: 0.5
+  dropItems: []
+  probabilityDropItems: []
 --- !u!1 &2573446574193442144
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +411,7 @@ GameObject:
   - component: {fileID: 3011663050209038869}
   - component: {fileID: 3101096911569550972}
   - component: {fileID: 1110981780118845873}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Area
   m_TagString: AreaEventEnemy
   m_Icon: {fileID: 0}
@@ -506,7 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ee5eeaf5320e47a2761621450f9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animation: {fileID: 1126915051232459220}
+  anim: {fileID: 1126915051232459220}
 --- !u!1 &4655179025110050541
 GameObject:
   m_ObjectHideFlags: 0

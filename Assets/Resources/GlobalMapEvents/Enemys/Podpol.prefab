@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 4518777090134235345}
   - component: {fileID: 8506893128602568022}
   - component: {fileID: 3010901820744752157}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Area
   m_TagString: AreaEventEnemy
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ee5eeaf5320e47a2761621450f9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animation: {fileID: 7895682459202659918}
+  anim: {fileID: 6743127514306908924}
 --- !u!1 &6743127514306908924
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,10 +303,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8991761463688911240}
-  - component: {fileID: 5931141597596677207}
   - component: {fileID: 7972200016576812209}
   - component: {fileID: 2135425690791066101}
   - component: {fileID: -7819621026906005571}
+  - component: {fileID: 5310878209912732112}
   m_Layer: 5
   m_Name: Podpol
   m_TagString: MiniBossGlobalMap1
@@ -337,30 +337,6 @@ RectTransform:
   m_AnchoredPosition: {x: 4, y: -12.4}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5931141597596677207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6743127514306908924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 702b2709eeef8b842b235c8b3f055e63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isShowPressE: 1
-  infoText: {fileID: 1319310884467489073}
-  lvlText: {fileID: 9219527358221289835}
-  lvlEnemy: 12
-  idSpawner: -1
-  enemyJSON: 
-  startHP: 400
-  stepHPForLevel: 25
-  startStamina: 5
-  stepStaminaForLevel: 0.5
-  dropItems: []
-  probabilityDropItems: []
 --- !u!58 &7972200016576812209
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -507,6 +483,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idQuests: 08000000
+--- !u!114 &5310878209912732112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6743127514306908924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4798075613bf24a43aebbcd2bf1e1f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShowPressE: 1
+  infoText: {fileID: 1319310884467489073}
+  player: {fileID: 0}
+  lvlText: {fileID: 9219527358221289835}
+  lvlEnemy: 12
+  idSpawner: -1
+  enemyJSON: 
+  startHP: 400
+  stepHPForLevel: 25
+  startStamina: 5
+  stepStaminaForLevel: 0.5
+  dropItems: []
+  probabilityDropItems: []
 --- !u!1 &7344352412015862661
 GameObject:
   m_ObjectHideFlags: 0

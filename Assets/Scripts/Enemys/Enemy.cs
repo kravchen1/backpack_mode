@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : EventParent
 {
-    private GameObject player;
+    public GameObject player;
     private bool isPlayerInTrigger = false;
 
     public TextMeshPro lvlText;
@@ -38,7 +38,7 @@ public class Enemy : EventParent
         else
             map = GameObject.FindGameObjectWithTag("Cave");
     }
-    private void OnTriggerEnter2D()
+    protected void OnTriggerEnter2D()
     {
         if (player == null)
         {
@@ -52,7 +52,7 @@ public class Enemy : EventParent
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected void OnTriggerExit2D(Collider2D collision)
     {
         isPlayerInTrigger = false;
         SetActivePressE(false);
@@ -111,9 +111,9 @@ public class Enemy : EventParent
     //        }
     //}
 
-    private bool click = false;
-    private void OnMouseUp()
+    protected void OnMouseUp()
     {
+        Debug.Log("clickBackpackEnemy");
         if (canvasBackpackEnemy == null)
         {
             canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");

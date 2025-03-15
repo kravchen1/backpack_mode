@@ -5,7 +5,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StaticEnemy : Enemy
+public class EnemyGeneral : StaticEnemy
 {
     private bool isPlayerInTrigger = false;
 
@@ -24,5 +24,22 @@ public class StaticEnemy : Enemy
         else
             map = GameObject.FindGameObjectWithTag("Cave");
         JSONBackpackInitialized();
+
+        if (!PlayerPrefs.HasKey("isEnemyGeneralDied"))
+        {
+            if (PlayerPrefs.GetInt("isEnemyGeneralDefeat") == 1)
+            {
+                GetComponentInChildren<Animator>().Play("Die");
+                GetComponentInChildren<Enemy>().Die();
+                PlayerPrefs.SetInt("isEnemyGeneralDied", 1);
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
+
+
 }
