@@ -905,6 +905,7 @@ public abstract class Item : MonoBehaviour
                     {
                         if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                         {
+                            //if(hit.hits[0].collider.GetComponent<Cell>() )
                             hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
                             careHits.Add(new RaycastStructure(hit.hits[0]));//�������
                         }

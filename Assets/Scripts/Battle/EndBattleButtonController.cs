@@ -19,7 +19,7 @@ public class EndBattleButtonController : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("WinLose") == 2)
         {
-            canvas3.SetActive(!canvas2.activeSelf);
+            canvas3.SetActive(!canvas3.activeSelf);
         }
         canvas4.SetActive(!canvas4.activeSelf);
     }
