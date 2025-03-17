@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class EndOfBattle : MonoBehaviour
 {
@@ -67,7 +65,8 @@ public class EndOfBattle : MonoBehaviour
     {
         if (enemyBackpackBattle.hp <= 0 && !awardsReceived) //win
         {
-            gameObject.AddComponent<AudioSource>().PlayOneShot(winClip);
+            gameObject.AddComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
+            gameObject.GetComponent<AudioSource>().PlayOneShot(winClip);
             StopFight();
             PlayerPrefs.SetInt("WinLose", 1);
             if (PlayerPrefs.GetInt("VampireAmulet") == 1)
@@ -116,7 +115,8 @@ public class EndOfBattle : MonoBehaviour
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
         {
-            gameObject.AddComponent<AudioSource>().PlayOneShot(loseClip);
+            gameObject.AddComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
+            gameObject.GetComponent<AudioSource>().PlayOneShot(loseClip);
             StopFight();
             Lose();
         }

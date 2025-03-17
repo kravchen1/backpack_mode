@@ -24,6 +24,7 @@ public class DialogueManager : MonoBehaviour
     }
     private void DisplayDialogue()
     {
+        dialogueSound.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         dialogueSound.Play();
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         nameCharacterText.text = currentNPC.name;
@@ -56,6 +57,7 @@ public class DialogueManager : MonoBehaviour
             // Настраиваем действие кнопки
 
             button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));
+            button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(dialogueResponseSound.GetComponent<SoundVolume>().SetSoundVolume);
             button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(dialogueResponseSound.Play);
         }
     }

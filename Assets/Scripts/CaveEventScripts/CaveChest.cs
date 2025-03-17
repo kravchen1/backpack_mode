@@ -45,6 +45,7 @@ public class CaveChest : EventParent
         characterStats = player.GetComponent<CharacterStats>();
         if(isShowPressE && isClosed)
         {
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
             GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }
@@ -66,6 +67,7 @@ public class CaveChest : EventParent
             }
             isClosed = false;
             PlayerPrefs.SetInt("isChestClosed", 0);
+            transform.parent.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
             transform.parent.GetComponent<AudioSource>().Play();
         }
         //Destroy(gameObject.transform.parent.gameObject);

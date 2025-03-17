@@ -11,6 +11,7 @@ public class ButtonNewGame : MonoBehaviour
 
     public void OnMouseDown()
     {
+        buttonClick.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         buttonClick.GetComponent<AudioSource>().Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f);
     }

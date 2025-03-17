@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RustlingBush : MonoBehaviour
@@ -11,6 +12,7 @@ public class RustlingBush : MonoBehaviour
     {
         if (other.CompareTag("Player")) // Замените "Player" на тег вашего персонажа
         {
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
             audioSource.Play();
         }
     }

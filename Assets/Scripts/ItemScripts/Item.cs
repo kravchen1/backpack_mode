@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -113,15 +114,31 @@ public abstract class Item : MonoBehaviour
     protected bool timer_locked_outStart = true;
     [HideInInspector] protected bool isEat = false;
 
+
+    private Animator playerAnimator;
+    private Animator enemyAnimator;
+
     void Awake()
     {
+        FindPlayerAndEnemyForBattle();
         itemMusicEffects = GetComponent<OtherItemMusicEffects>();
         Initialization();
     }
 
     private void Start()
     {
-        //FillnestedObjectStarsStars(256);
+        
+
+    }
+
+
+    private void FindPlayerAndEnemyForBattle()
+    {
+        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        {
+            playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>();
+            enemyAnimator = GameObject.FindGameObjectWithTag("Enemy").GetComponentInChildren<Animator>();
+        }
     }
 
     public void Initialization()
@@ -1320,11 +1337,22 @@ public abstract class Item : MonoBehaviour
             int r = UnityEngine.Random.Range(1, 6);
             if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
             {
+                var player = GameObject.FindGameObjectWithTag("Player");
                 goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+                if(playerAnimator == null)
+                {
+                    FindPlayerAndEnemyForBattle();
+                }
+                playerAnimator.Play("Attack1", -1, 0f);
             }
             else//атакуют персонажа
             {
                 goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
+                if (enemyAnimator == null)
+                {
+                    FindPlayerAndEnemyForBattle();
+                }
+                enemyAnimator.Play("Attack1", -1, 0f);
             }
             Invoke("StopAttackAnimation", 0.4f);
         }

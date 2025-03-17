@@ -12,11 +12,13 @@ public class DragonSounds : MonoBehaviour
     public GameObject dragonWingsObject;
     public void PlayDragonRoar()
     {
+        dragonRoarObject.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         dragonRoarObject.GetComponent<AudioSource>().Play();
     }
 
     public void PlayDragonWings()
     {
+        dragonWingsObject.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         dragonWingsObject.GetComponent<AudioSource>().Play();
     }
 }

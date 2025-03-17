@@ -24,6 +24,7 @@ public class AimItemMusicEffects : MonoBehaviour
                     audioSource.pitch = Random.Range(1f, 2f);
                     //audioSource.volume = 0.8f;
                     audioSource.clip = hoverSound;
+                    audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
                     audioSource.Play();
                 }
                 else
@@ -33,6 +34,7 @@ public class AimItemMusicEffects : MonoBehaviour
                         audioSource.pitch = Random.Range(1f, 2f);
                         //audioSource.volume = 0.8f;
                         audioSource.clip = hoverSound;
+                        audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
                         audioSource.Play();
                     }
                 }

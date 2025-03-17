@@ -17,11 +17,13 @@ public class OtherItemMusicEffects : MonoBehaviour
     {
         audioSource.pitch = 1f;
         audioSource.clip = pickUpSound;
+        audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         audioSource.Play();
     }
     public void OnItemDown()
     {
         audioSource.clip = dropSound;
+        audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         audioSource.Play();
     }
     //void OnMouseExit()

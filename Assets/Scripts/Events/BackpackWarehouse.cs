@@ -19,6 +19,7 @@ public class BackpackWarehouse : EventParent
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
             GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
         }

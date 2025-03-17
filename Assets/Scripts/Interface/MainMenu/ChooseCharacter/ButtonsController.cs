@@ -10,8 +10,62 @@ public class ButtonsController : MonoBehaviour
 {
     public GameObject mainCanvas;
     public GameObject chooseCharCanvas;
+    // Список ключей, которые нужно сохранить
+    private List<string> keysToKeep = new List<string> { "ScreenMode", "MusicVolume", "SoundVolume", "WindowedResoultionWidth", "WindowedResoultionHeight"};
 
-    public void ToogleMainChoice()
+    // Метод для удаления всех ключей, кроме указанных
+    public void DeleteAllExcept(List<string> keysToKeep)
+    {
+        // Шаг 1: Сохраняем значения ключей, которые нужно оставить
+        Dictionary<string, object> savedValues = new Dictionary<string, object>();
+        foreach (string key in keysToKeep)
+        {
+            if (PlayerPrefs.HasKey(key))
+            {
+                // Определяем тип данных и сохраняем значение
+                if (PlayerPrefs.GetFloat(key, float.MinValue) != float.MinValue) // Проверяем, является ли значение float
+                {
+                    savedValues[key] = PlayerPrefs.GetFloat(key);
+                }
+                else if (PlayerPrefs.GetInt(key, int.MinValue) != int.MinValue) // Проверяем, является ли значение int
+                {
+                    savedValues[key] = PlayerPrefs.GetInt(key);
+                }
+                else if (PlayerPrefs.GetString(key) != null) // Проверяем, является ли значение строкой
+                {
+                    savedValues[key] = PlayerPrefs.GetString(key);
+                }
+            }
+        }
+
+        // Шаг 2: Удаляем все ключи
+        PlayerPrefs.DeleteAll();
+
+        // Шаг 3: Восстанавливаем сохраненные ключи
+        foreach (var kvp in savedValues)
+        {
+            string key = kvp.Key;
+            object value = kvp.Value;
+
+            if (value is string)
+            {
+                PlayerPrefs.SetString(key, (string)value);
+            }
+            else if (value is int)
+            {
+                PlayerPrefs.SetInt(key, (int)value);
+            }
+            else if (value is float)
+            {
+                PlayerPrefs.SetFloat(key, (float)value);
+            }
+        }
+
+        // Сохраняем изменения
+        PlayerPrefs.Save();
+    }
+
+public void ToogleMainChoice()
    {
         mainCanvas.SetActive(!mainCanvas.activeSelf);
         chooseCharCanvas.SetActive(!chooseCharCanvas.activeSelf);
@@ -32,7 +86,7 @@ public class ButtonsController : MonoBehaviour
 
     public void ChooseEarth()
     {
-        PlayerPrefs.DeleteAll();
+        DeleteAllExcept(keysToKeep);
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
         StartStats(85, 135, 1, 150, 100, 1, 11);
@@ -45,7 +99,8 @@ public class ButtonsController : MonoBehaviour
 
     public void ChooseIce()
     {
-        PlayerPrefs.DeleteAll();
+        DeleteAllExcept(keysToKeep);
+        //PlayerPrefs.DeleteAll();
         PlayerPrefs.SetString("characterClass", "Player_Ice");
         Choose();
 
