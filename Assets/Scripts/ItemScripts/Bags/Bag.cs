@@ -99,11 +99,11 @@ public class Bag : Item
                     IgnoreCollisionObject(true);
                     SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
                     StayParentForChild();
-
+                    lastItemPosition = gameObject.transform.position;
                     //TapFirst();
                     TapRotate();
                     TapShowBackPack();
-                    DeleteNestedObject(gameObject.transform.parent.tag);
+                    
                     canShowDescription = false;
                     // Начинаем перетаскивание
                     isDragging = true;
@@ -123,11 +123,11 @@ public class Bag : Item
                 IgnoreCollisionObject(true);
                 SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
                 StayParentForChild();
-
+                lastItemPosition = gameObject.transform.position;
                 //TapFirst();
                 TapRotate();
                 TapShowBackPack();
-                DeleteNestedObject(gameObject.transform.parent.tag);
+                
                 canShowDescription = false;
 
                 // Начинаем перетаскивание
@@ -194,7 +194,7 @@ public class Bag : Item
     }
     public void ChangeColorMyCells()
     {
-        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null && e.raycastHit.collider.GetComponent<Cell>().nestedObject != this.gameObject).Count() == 0)
         {
             foreach (var collider in itemColliders)
             {
@@ -357,7 +357,7 @@ public class Bag : Item
                         {
                             var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
                             //nestedObjectItem.MoveObjectOnEndDrag();
-                            nestedObjectItem.DeleteNestedObject(gameObject.transform.parent.tag);
+                            nestedObjectItem.DeleteNestedObject(nestedObjectItem.transform.parent.tag);
                             nestedObjectItem.needToDynamic = true;
                             //nestedObjectItem.Impulse = true;
                             nestedObjectItem.rb.excludeLayers = 0;
@@ -452,6 +452,7 @@ public class Bag : Item
                 if (hitsForNotShopZone.Any(e => e.collider != null))
                 {
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
+                    DeleteNestedObject(gameObject.transform.parent.tag);
                     EndDrag();
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
                 }
@@ -460,12 +461,22 @@ public class Bag : Item
                     if (shopItem.defaultPosition != transform.position)
                     {
                         StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
+                        SetOrderLayerPriority("Bag", "Weapon", 1);
                     }
                 }
             }
             else
             {
-                EndDrag();
+                if (hitsForNotShopZone.Any(e => e.collider != null))
+                {
+                    DeleteNestedObject(gameObject.transform.parent.tag);
+                    EndDrag();
+                }
+                else
+                {
+                    StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
+                    SetOrderLayerPriority("Bag", "Weapon", 1);
+                }
             }
 
             if (isSellChest)

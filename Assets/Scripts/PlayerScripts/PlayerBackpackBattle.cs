@@ -41,7 +41,7 @@ public class PlayerBackpackBattle : MonoBehaviour
     public TextMeshProUGUI textBarArmor;
 
     private string characterStatsDataFilePath;
-    private CharacterStatsData characterStatsData;
+    public CharacterStatsData characterStatsData;
     public GameObject menuFightIcon;
     [HideInInspector] public FightMenuBuffAndDebuffs menuFightIconData;
     //private EnemyStatData enemyStatData;
