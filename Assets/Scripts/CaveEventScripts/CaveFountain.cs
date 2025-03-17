@@ -40,12 +40,14 @@ public class CaveFountain : EventParent
              {
                 if (PlayerPrefs.GetInt("isFountainFull") == 1)
                 {
+                    GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
                     GetComponent<AudioSource>().Play();
                     SetActivePressE(isShowPressE);
                 }
             }
             else
             {
+                GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
                 GetComponent<AudioSource>().Play();
                 SetActivePressE(isShowPressE);
                 PlayerPrefs.SetInt("isFountainFull", 1);
@@ -55,6 +57,7 @@ public class CaveFountain : EventParent
 
     public void ActivateFountain()
     {
+        waterSaction.volume = PlayerPrefs.GetFloat("SoundVolume",1f);
         waterSaction.Play();
         var randomHeal = UnityEngine.Random.Range(1, 4);
         switch (randomHeal)

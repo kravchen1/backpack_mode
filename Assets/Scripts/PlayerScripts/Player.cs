@@ -209,6 +209,8 @@ public class Player : MonoBehaviour
                 audioSource.clip = grassStep;
             else
                 audioSource.clip = asphaltStep;
+
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
             audioSource.Play();
             nextStepTime = Time.time + stepInterval; // Устанавливаем время для следующего шага
         }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,7 @@ public class ShopItem : MonoBehaviour
         var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
         characterStats = listCharacterStats[0];
         var buyItemSound = GameObject.FindGameObjectWithTag("BuyItemSound");
+        buyItemSound.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         buyItemSound.GetComponent<AudioSource>().Play();
         characterStats.playerCoins = characterStats.playerCoins - item.itemCost;
 

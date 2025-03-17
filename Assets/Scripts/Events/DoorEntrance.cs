@@ -32,6 +32,7 @@ public class DoorEntrance : EventParent
         isPlayerInTrigger = true;
         if(isShowPressE)
         {
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
             audioSource.Play();
             SetActivePressE(isShowPressE);
         }
@@ -110,12 +111,14 @@ public class DoorEntrance : EventParent
             {
                 if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
                 {
+                    parentAudioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
                     parentAudioSource.Play();
                     StartCoroutine(ActivateEntrance());
                 }
             }
             else
             {
+                parentAudioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
                 parentAudioSource.Play();
                 StartCoroutine(ActivateEntrance());
             }

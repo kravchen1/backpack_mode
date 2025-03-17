@@ -33,7 +33,7 @@ public class CreatePlayerStatic : MonoBehaviour
         if (!timer_locked_out)
         {
             timer_locked_out = true;
-            GetComponentInChildren<Animator>().Play("Attack1");
+            //GetComponentInChildren<Animator>().Play("Attack1");
         }
     }
 

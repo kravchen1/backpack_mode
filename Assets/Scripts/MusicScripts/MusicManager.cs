@@ -34,8 +34,13 @@ public class MusicManager : MonoBehaviour
         // Проверяем, если текущая сцена совпадает с заданной и музыка не была остановлена
         if (scene.name == "BackPackBattle" || scene.name == "Main" || scene.name == "Cave")
         {
-            GetComponent<AudioSource>().Stop();
-            Destroy(gameObject); // Уничтожаем объект с музыкой
+            GetComponent<AudioSource>().Pause();
+            //Destroy(gameObject); // Уничтожаем объект с музыкой
+        }
+        else
+        {
+            if(GetComponent<AudioSource>().isPlaying == false)
+                GetComponent<AudioSource>().Play();
         }
     }
 }
