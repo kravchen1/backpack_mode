@@ -1037,7 +1037,7 @@ GameObject:
   - component: {fileID: 13260722647623876}
   - component: {fileID: 8705528442106824347}
   - component: {fileID: 9035894048960151779}
-  - component: {fileID: 1225240611265025021}
+  - component: {fileID: 3774386859473385582}
   m_Layer: 9
   m_Name: WoodenBoard
   m_TagString: weapon
@@ -1402,7 +1402,7 @@ MonoBehaviour:
   pickUpSound: {fileID: 8300000, guid: ca729593dc01b2343893c2dff6e59a27, type: 3}
   dropSound: {fileID: 0}
   audioSource: {fileID: 0}
---- !u!114 &1225240611265025021
+--- !u!114 &3774386859473385582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4989015406427998683}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdfa1159650a91d45834b3930c589707, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f8617bc7a9a867409288a259320166c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedRotation: 500
@@ -1422,14 +1422,14 @@ MonoBehaviour:
   canvas: {fileID: 0}
   imageColor: {r: 0, g: 0, b: 0, a: 0}
   prefabOriginalName: 
-  Description: {fileID: 6692395887974457725, guid: 091864125c72400419defef7889fde7c, type: 3}
-  DescriptionLogCharacter: {fileID: 455213964644552338, guid: e183b6398b897dc4688bc255bbdeaeb4, type: 3}
-  DescriptionLogEnemy: {fileID: 1501799918817682444, guid: d5ebb5bb43a9cc84fab8441d9a9f4c5b, type: 3}
-  originalSprite: {fileID: -70746216359789450, guid: 671f0ab3217deff4383ee745d6028863, type: 3}
-  prefabAnimationAttack: {fileID: 7796841338047436345, guid: 6feadc82e37f2a4409f562a4b57db661, type: 3}
+  Description: {fileID: 5904019013697664006, guid: 548ed99645e0c1c4f98c9ffeaf37010f, type: 3}
+  DescriptionLogCharacter: {fileID: 0}
+  DescriptionLogEnemy: {fileID: 0}
+  originalSprite: {fileID: 0}
+  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  itemCost: 50
+  itemCost: 0
   itemColliders: []
   bagTransform: {fileID: 0}
   collidersArray: []
@@ -1444,8 +1444,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   sellChestSound: {fileID: 0}
   Impulse: 0
-  stars:
-  - {fileID: 1741260524676916766}
+  stars: []
   emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
@@ -1454,17 +1453,11 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
-  originalName: RevolverRing
+  originalName: WoodenBoard
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 4
-  attackMin: 6
-  attackMax: 10
-  stamina: 0.5
-  accuracy: 75
-  critDamage: 150
-  chanceCrit: 5
-  baseStamina: 0
+  baseTimerCooldown: 0
+  startBattleArmorCount: 0
 --- !u!1 &6021665817622766870
 GameObject:
   m_ObjectHideFlags: 0
