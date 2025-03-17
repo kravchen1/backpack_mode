@@ -58,7 +58,7 @@ public class IngotOfMithril : Armor
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
+        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
         {
             defaultItemUpdate();
         }

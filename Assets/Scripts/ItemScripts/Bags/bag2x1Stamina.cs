@@ -70,7 +70,7 @@ public class bag2x1Stamina : Bag
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
+        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
         {
             BagDefauldUpdate();
         }

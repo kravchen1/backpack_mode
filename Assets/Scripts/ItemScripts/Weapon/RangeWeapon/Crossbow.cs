@@ -17,139 +17,22 @@ public class Crossbow : Weapon
 
     public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
-    private void Start()
+    public override void ActivationEffect(int resultDamage)
     {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        baseStamina = stamina;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        int r = UnityEngine.Random.Range(0, 100);
+        if (r <= bleedingChance)
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
-        }
-    }
-
-    public override void Activation()
-    {
-        if (!timer_locked_outStart && !timer_locked_out)
-        {
-            timer_locked_out = true;
-            if (HaveStamina())
+            Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
+            if (Player.isPlayer)
             {
-                if (Player != null && Enemy != null)
-                {
-                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
-                    {
-                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
-                        {
-                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
-                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
-                            {
-                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
-                            }
-                            int block = BlockDamage();
-                            if (resultDamage >= block)
-                                resultDamage -= block;
-                            else
-                                resultDamage = 0;
-                            Attack(resultDamage, true);
-                            VampireHP(resultDamage);
-
-                            int r = UnityEngine.Random.Range(0, 100);
-                            if (r <= bleedingChance)
-                            {
-                                Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
-                                if (Player.isPlayer)
-                                {
-                                    CreateLogMessage(LogBleedStackCharacter, "Crossbow inflict " + bleedingStack.ToString());
-                                }
-                                else
-                                {
-                                    CreateLogMessage(LogBleedStackEnemy, "Crossbow inflict " + bleedingStack.ToString());
-                                }
-                            }
-                            CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                        }
-                        else
-                        {
-                            CreateLogMessage("Crossbow miss", Player.isPlayer);
-                        }
-                    }
-                    else
-                    {
-                        CreateLogMessage("Crossbow miss", Player.isPlayer);
-                    }
-
-                }
+                CreateLogMessage(LogBleedStackCharacter, "Crossbow inflict " + bleedingStack.ToString());
             }
             else
             {
-                CreateLogMessage("Crossbow no have stamina", Player.isPlayer);
+                CreateLogMessage(LogBleedStackEnemy, "Crossbow inflict " + bleedingStack.ToString());
             }
         }
     }
-
-    public override void StarActivation(Item item)
-    {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
-    }
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
-
-
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);

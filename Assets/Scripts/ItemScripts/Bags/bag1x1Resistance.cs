@@ -50,8 +50,6 @@ public class bag1x1Resistance : Bag
         {
             CoolDownStart();
         }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
         else
         {
             BagDefauldUpdate();

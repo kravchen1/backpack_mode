@@ -11,89 +11,165 @@ using UnityEngine.UI;
 
 public class ChainWhip : Weapon
 {
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
-    public int debuffSteal;
+    public int debuffSteal = 2;
 
-    private void Start()
+    public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
+    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
+    public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
+    public GameObject LogManaStackCharacter, LogManaStackEnemy;
+    public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
+    public GameObject LogRegenHpStackCharacter, LogRegenHpStackEnemy;
+    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
+
+    
+
+    public void CreateMessageLog(string iconName)
     {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        switch (iconName)
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
+            case "IconBaseCrit":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogBaseCritStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogBaseCritStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconBurn":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogFireStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogFireStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconChanceCrit":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogChanceCritStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogChanceCritStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconEvasion":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogEvasionStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogEvasionStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconMana":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogManaStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogManaStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconPower":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogPowerStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogPowerStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconResistance":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogResistanceStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogResistanceStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconRegenerate":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogRegenHpStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogRegenHpStackEnemy, "Black claw steal 1");
+                }
+                break;
+            case "IconVampire":
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogVampireStackCharacter, "Black claw steal 1");
+                }
+                else
+                {
+                    CreateLogMessage(LogVampireStackEnemy, "Black claw steal 1");
+                }
+                break;
         }
     }
 
-    public override void Activation()
-    {
 
-        if (!timer_locked_outStart && !timer_locked_out)
+    public void stealBuff()
+    {
+        if (Enemy.menuFightIconData.icons.Where(e => e.Buff == true).Count() > 0)
         {
-            timer_locked_out = true;
-        }
-    }
+            var Buffs = Enemy.menuFightIconData.icons.Where(e => e.Buff == true).ToList();
 
-    public override void StarActivation(Item item)
-    {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
-    }
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
+            int countEnemyBuff = 0;
+            foreach (var icon in Buffs)
             {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
+                countEnemyBuff += icon.countStack;
+            }
+
+            if (countEnemyBuff >= debuffSteal)
+            {
+                int stealNow = 0;
+                while (stealNow < debuffSteal)
+                {
+                    int r = UnityEngine.Random.Range(0, Buffs.Count);
+                    //Debug.Log(Buffs[r].sceneGameObjectIcon.name.Replace("(Clone)", ""));
+                    string buff = Buffs[r].sceneGameObjectIcon.name.Replace("(Clone)", "");
+                    Player.menuFightIconData.AddBuff(1, buff);
+                    Enemy.menuFightIconData.DeleteBuff(1, buff);
+                    CreateMessageLog(buff);
+                    stealNow++;
+                }
+            }
+            else
+            {
+                int stealNow = 0;
+                while (stealNow < countEnemyBuff)
+                {
+                    int r = UnityEngine.Random.Range(0, Buffs.Count);
+                    string buff = Buffs[r].sceneGameObjectIcon.name.Replace("(Clone)", "");
+                    Player.menuFightIconData.AddBuff(1, buff);
+                    Enemy.menuFightIconData.DeleteBuff(1, buff);
+                    CreateMessageLog(buff);
+                    stealNow++;
+                }
             }
         }
     }
 
-
-
-    private void CoolDownStart()
+    public override void ActivationEffect(int resultDamage)
     {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
+        stealBuff();
     }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
-
-
+    
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);

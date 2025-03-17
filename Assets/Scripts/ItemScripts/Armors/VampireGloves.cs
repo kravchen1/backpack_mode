@@ -46,7 +46,7 @@ public class VampireGloves : Armor
             //CoolDown();
             //Activation();
         }
-        else
+        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
         {
             defaultItemUpdate();

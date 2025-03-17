@@ -11,96 +11,51 @@ using UnityEngine.UI;
 
 public class DragonsHead : Weapon
 {
-    //private float timer1sec = 1f;
-    //public int countIncreasesCritDamage = 10;
-    public int fireStack;//надо заменить
-    public int starActivation;//надо заменить
+    public int fireStack  = 2;//
+    public int starActivation = 10;//
 
-    private void Start()
+    private bool isUse = false;
+
+    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    protected override void FillStarts()
     {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        FillnestedObjectStarsStars(256, "Fire", "Dragon");
+    }
+    public override void StartActivation()
+    {
+        if (!isUse)
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
+            isUse = true;
+            int countFillStart = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count();
+            var changeCD = baseTimerCooldown / 100.0f * (starActivation * countFillStart);
+
+            timer_cooldown = timer_cooldown - changeCD;
+            timer = timer_cooldown;
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
-    public override void Activation()
+    public override void ActivationEffect(int resultDamage)
     {
-
-        if (!timer_locked_outStart && !timer_locked_out)
+        Player.menuFightIconData.AddBuff(fireStack, "IconBurn");
+        if (Player.isPlayer)
         {
-            timer_locked_out = true;
+            CreateLogMessage(LogFireStackCharacter, "Dragon`s head give " + fireStack.ToString());
         }
-    }
-
-    public override void StarActivation(Item item)
-    {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
-    }
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
         else
         {
-            defaultItemUpdate();
+            CreateLogMessage(LogFireStackEnemy, "Dragon`s head give " + fireStack.ToString());
         }
     }
-
 
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "Fire", "Dragon");
             ChangeShowStars(true);
             if (canShowDescription)
             {

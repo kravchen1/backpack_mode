@@ -73,6 +73,8 @@ public class GenerateBackpack : MonoBehaviour
 
         LoadChestItems("ITEMPET");
         LoadChestItems("ITEMPETBLOCK");
+
+        LoadChestItems("ITEMDRAGONWEAPON");
     }
 
     void Start()

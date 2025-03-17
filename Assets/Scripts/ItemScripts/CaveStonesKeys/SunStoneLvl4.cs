@@ -9,19 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class SunStoneLvl4 : CaveStonesKeys
 {
     
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
+    
 
     public override IEnumerator ShowDescription()
     {

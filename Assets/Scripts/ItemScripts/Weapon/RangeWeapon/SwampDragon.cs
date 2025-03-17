@@ -21,79 +21,20 @@ public class SwampDragon : Weapon
     public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
     public GameObject LogFireStackCharacter, LogFireStackEnemy;
 
-    private void Start()
+    public override void ActivationEffect(int resultDamage)
     {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        Enemy.menuFightIconData.AddDebuff(poisonStack, "IconPoison");
+        Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");
+
+        if (Player.isPlayer)
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
+            CreateLogMessage(LogPoisonStackCharacter, "Swamp dragon inflict " + poisonStack.ToString());
+            CreateLogMessage(LogBlindStackCharacter, "Swamp dragon inflict " + blindnessStack.ToString());
         }
-    }
-
-    public override void Activation()
-    {
-        if (!timer_locked_outStart && !timer_locked_out)
+        else
         {
-            timer_locked_out = true;
-            if (HaveStamina())
-            {
-                if (Player != null && Enemy != null)
-                {
-                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
-                    {
-                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
-                        {
-                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
-                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
-                            {
-                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
-                            }
-                            int block = BlockDamage();
-                            if (resultDamage >= block)
-                                resultDamage -= block;
-                            else
-                                resultDamage = 0;
-                            Attack(resultDamage, true);
-                            VampireHP(resultDamage);
-
-                            Enemy.menuFightIconData.AddDebuff(poisonStack, "IconPoison");
-                            Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");
-
-                            if (Player.isPlayer)
-                            {
-                                CreateLogMessage(LogPoisonStackCharacter, "Swamp dragon inflict " + poisonStack.ToString());
-                                CreateLogMessage(LogBlindStackCharacter, "Swamp dragon inflict " + blindnessStack.ToString());
-                            }
-                            else
-                            {
-                                CreateLogMessage(LogPoisonStackEnemy, "Swamp dragon inflict " + poisonStack.ToString());
-                                CreateLogMessage(LogBlindStackEnemy, "Swamp dragon inflict " + blindnessStack.ToString());
-                            }
-
-
-                            CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                        }
-                        else
-                        {
-                            CreateLogMessage("Swamp dragon miss", Player.isPlayer);
-                        }
-                    }
-                    else
-                    {
-                        CreateLogMessage("Swamp dragon miss", Player.isPlayer);
-                    }
-
-                }
-            }
-            else
-            {
-                CreateLogMessage("Swamp dragon no have stamina", Player.isPlayer);
-            }
+            CreateLogMessage(LogPoisonStackEnemy, "Swamp dragon inflict " + poisonStack.ToString());
+            CreateLogMessage(LogBlindStackEnemy, "Swamp dragon inflict " + blindnessStack.ToString());
         }
     }
 
@@ -114,65 +55,6 @@ public class SwampDragon : Weapon
 
         return 0;
     }
-
-    public override void StarActivation(Item item)
-    {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
-    }
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
-
-
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);

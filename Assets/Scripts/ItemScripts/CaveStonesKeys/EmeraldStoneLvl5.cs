@@ -11,19 +11,7 @@ public class EmeraldStoneLvl5: CaveStonesKeys
    
 
     
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
+    
 
     public override IEnumerator ShowDescription()
     {

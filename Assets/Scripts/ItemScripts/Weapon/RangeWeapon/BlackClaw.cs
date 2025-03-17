@@ -24,115 +24,102 @@ public class BlackClaw : Weapon
     public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
     public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
 
-    private void Start()
-    {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
-        {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
-        }
-    }
-
-    public void CreateMessageLog(string iconName)
+    public void CreateMessageLogSteal(string iconName, int count)
     {
         switch(iconName)
         {
             case "IconBaseCrit":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogBaseCritStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogBaseCritStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogBaseCritStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogBaseCritStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconBurn":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogFireStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogFireStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogFireStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogFireStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconChanceCrit":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogChanceCritStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogChanceCritStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogChanceCritStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogChanceCritStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconEvasion":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogEvasionStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogEvasionStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogEvasionStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogEvasionStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconMana":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogManaStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogManaStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogManaStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogManaStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconPower":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogPowerStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogPowerStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogPowerStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogPowerStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconResistance":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogResistanceStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogResistanceStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogResistanceStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogResistanceStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconRegenerate":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogRegenHpStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogRegenHpStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogRegenHpStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogRegenHpStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
             case "IconVampire":
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogVampireStackCharacter, "Black claw steal 1");
+                    CreateLogMessage(LogVampireStackCharacter, "Black claw steal + " + count.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogVampireStackEnemy, "Black claw steal 1");
+                    CreateLogMessage(LogVampireStackEnemy, "Black claw steal + " + count.ToString());
                 }
                 break;
         }
     }
-
 
     public void stealBuff()
     {
@@ -156,7 +143,7 @@ public class BlackClaw : Weapon
                     string buff = Buffs[r].sceneGameObjectIcon.name.Replace("(Clone)", "");
                     Player.menuFightIconData.AddBuff(1, buff);
                     Enemy.menuFightIconData.DeleteBuff(1, buff);
-                    CreateMessageLog(buff);
+                    CreateMessageLogSteal(buff, 1);
                     stealNow++;
                 }
             }
@@ -169,7 +156,7 @@ public class BlackClaw : Weapon
                     string buff = Buffs[r].sceneGameObjectIcon.name.Replace("(Clone)", "");
                     Player.menuFightIconData.AddBuff(1, buff);
                     Enemy.menuFightIconData.DeleteBuff(1, buff);
-                    CreateMessageLog(buff);
+                    CreateMessageLogSteal(buff, 1);
                     stealNow++;
                 }
             }
@@ -179,113 +166,10 @@ public class BlackClaw : Weapon
         }
     }
 
-    public override void Activation()
+    public override void ActivationEffect(int resultDamage)
     {
-        if (!timer_locked_outStart && !timer_locked_out)
-        {
-            timer_locked_out = true;
-            if (HaveStamina())
-            {
-                if (Player != null && Enemy != null)
-                {
-                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
-                    {
-                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
-                        {
-                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
-                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
-                            {
-                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
-                            }
-                            int block = BlockDamage();
-                            if (resultDamage >= block)
-                                resultDamage -= block;
-                            else
-                                resultDamage = 0;
-                            Attack(resultDamage, true);
-                            VampireHP(resultDamage);
-
-                            stealBuff();
-                            CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                        }
-                        else
-                        {
-                            CreateLogMessage("Black claw miss", Player.isPlayer);
-                        }
-                    }
-                    else
-                    {
-                        CreateLogMessage("Black claw miss", Player.isPlayer);
-                    }
-
-                }
-            }
-            else
-            {
-                CreateLogMessage("Black claw no have stamina", Player.isPlayer);
-            }
-        }
+        stealBuff();
     }
-
-    public override void StarActivation(Item item)
-    {
-        //if(item.GetComponent<Weapon>() != null)
-        //    item.GetComponent<Weapon>().critDamage += critDamage / 100 * countIncreasesCritDamage;
-    }
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
-
 
     public override IEnumerator ShowDescription()
     {

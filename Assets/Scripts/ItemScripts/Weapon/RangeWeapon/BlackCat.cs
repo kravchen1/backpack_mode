@@ -17,73 +17,16 @@ public class BlackCat : Weapon
     //public int countIncreasesCritDamage = 10;
     public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
     public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
-    private void Start()
+    public override void ActivationEffect(int resultDamage)
     {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
+        if (Player.isPlayer)
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
+            CreateLogMessage(LogBleedStackCharacter, "Black cat inflict  " + bleedingStack.ToString());
         }
-    }
-
-    public override void Activation()
-    {
-        if (!timer_locked_outStart && !timer_locked_out)
+        else
         {
-            timer_locked_out = true;
-            if (HaveStamina())
-            {
-                if (Player != null && Enemy != null)
-                {
-                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
-                    {
-                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
-                        {
-                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
-                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
-                            {
-                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
-                            }
-                            int block = BlockDamage();
-                            if (resultDamage >= block)
-                                resultDamage -= block;
-                            else
-                                resultDamage = 0;
-                            Attack(resultDamage, true);
-                            VampireHP(resultDamage);
-
-                            Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
-                            if (Player.isPlayer)
-                            {
-                                CreateLogMessage(LogBleedStackCharacter, "Black cat inflict  " + bleedingStack.ToString());
-                            }
-                            else
-                            {
-                                CreateLogMessage(LogBleedStackEnemy, "Black cat inflict  " + bleedingStack.ToString());
-                            }
-                            CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                        }
-                        else
-                        {
-                            CreateLogMessage("Black cat miss", Player.isPlayer);
-                        }
-                    }
-                    else
-                    {
-                        CreateLogMessage("Black cat miss", Player.isPlayer);
-                    }
-
-                }
-            }
-            else
-            {
-                CreateLogMessage("Black cat no have stamina", Player.isPlayer);
-            }
+            CreateLogMessage(LogBleedStackEnemy, "Black cat inflict  " + bleedingStack.ToString());
         }
     }
 
@@ -103,57 +46,6 @@ public class BlackCat : Weapon
         }
 
         return 0;
-    }
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
     }
 
 

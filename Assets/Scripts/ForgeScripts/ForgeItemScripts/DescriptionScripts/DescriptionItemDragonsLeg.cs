@@ -38,7 +38,7 @@ public class DescriptionItemDragonsLeg : DescriptionItem
 
     private void Start()
     {
-        SetTextBody();
+        //SetTextBody();
         SetTextStat();
     }
 

@@ -11,85 +11,45 @@ using UnityEngine.UI;
 
 public class Katana : Weapon
 {
-    public int critChance;//надо заменить
+    public int countStealCritChance;//надо заменить
 
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    public GameObject LogChacneCritCharacter, LogChacneCritEnemy;
 
-    private void Start()
+    public override void ActivationEffect(int resultDamage)
     {
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        baseStamina = stamina;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONChanceCrit")))
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
-        }
-    }
-    private bool firstHit = true;
-    
-
-    
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
+            bool b = false;
+            foreach (var icon in Enemy.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONChanceCrit")))
             {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
+                if (icon.countStack >= countStealCritChance)
+                {
+                    b = true;
+                }
+            }
+            if (b)
+            {
+
+                Enemy.menuFightIconData.DeleteBuff(countStealCritChance, "ICONChanceCrit");
+                Player.menuFightIconData.AddBuff(countStealCritChance, "ICONChanceCrit");//true = Player
+
+                if (Player.isPlayer)
+                {
+                    CreateLogMessage(LogChacneCritCharacter, "Katana steal " + countStealCritChance.ToString());
+                }
+                else
+                {
+                    CreateLogMessage(LogChacneCritEnemy, "Katana steal " + countStealCritChance.ToString());
+                }
             }
         }
     }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-        else if (SceneManager.GetActiveScene().name == "GenerateMap")
-        {
-
-        }
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
-
-
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            //FillnestedObjectStarsStars(256);
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -118,7 +78,7 @@ public class Katana : Weapon
                     descr.chanceCrit = chanceCrit;
                 }
                 descr.staminaCost = stamina;
-                descr.critChance = critChance;
+                descr.critChance = countStealCritChance;
                 descr.cooldown = timer_cooldown;
                 descr.SetTextStat();
             }

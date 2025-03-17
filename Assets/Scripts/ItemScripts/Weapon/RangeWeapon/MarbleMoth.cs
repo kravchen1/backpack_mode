@@ -16,131 +16,19 @@ public class MarbleMoth : Weapon
     public GameObject LogEvasionStackCharacter;
     public GameObject LogEvasionStackEnemy;
 
-    private void Start()
+
+    public override void ActivationEffect(int resultDamage)
     {
-        //FillnestedObjectStarsStars(256);
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        Player.menuFightIconData.AddBuff(evasionStack, "IconEvasion");
+        if (Player.isPlayer)
         {
-               animator.speed = 1f / timer_cooldown;
-               animator.enabled = true;
+            CreateLogMessage(LogEvasionStackCharacter, "MarbleMoth give " + evasionStack.ToString());
         }
-    }
-
-    public override void Activation()
-    {
-        if (!timer_locked_outStart && !timer_locked_out)
-        {
-            timer_locked_out = true;
-            if (HaveStamina())
-            {
-                if (Player != null && Enemy != null)
-                {
-                    int resultDamage = UnityEngine.Random.Range(attackMin, attackMax + 1);
-                    if (Player.menuFightIconData.CalculateMissAccuracy(accuracy))//точность + ослепление
-                    {
-                        if (Enemy.menuFightIconData.CalculateMissAvasion())//уворот
-                        {
-                            resultDamage += Player.menuFightIconData.CalculateAddPower();//увеличение силы
-                            if (Player.menuFightIconData.CalculateChanceCrit(chanceCrit))//крит
-                            {
-                                resultDamage *= (int)(Player.menuFightIconData.CalculateCritDamage(critDamage));
-                            }
-                            int block = BlockDamage();
-                            if (resultDamage >= block)
-                                resultDamage -= block;
-                            else
-                                resultDamage = 0;
-                            Attack(resultDamage, true);
-                            VampireHP(resultDamage);
-
-                            Player.menuFightIconData.AddBuff(evasionStack, "IconEvasion");
-                            if (Player.isPlayer)
-                            {
-                                CreateLogMessage(LogEvasionStackCharacter, "MarbleMoth give " + evasionStack.ToString());
-                            }
-                            else
-                            {
-                                CreateLogMessage(LogEvasionStackEnemy, "MarbleMoth give " + evasionStack.ToString());
-                            }
-
-                            CheckNestedObjectActivation("StartBag");
-                            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                        }
-                        else
-                        {
-                            CreateLogMessage("MarbleMoth miss", Player.isPlayer);
-                        }
-                    }
-                    else
-                    {
-                        CreateLogMessage("MarbleMoth miss", Player.isPlayer);
-                    }
-
-                }
-            }
-            else
-            {
-                CreateLogMessage("MarbleMoth no have stamina", Player.isPlayer);
-            }
-        }
-    }
-
-
-
-
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
         else
         {
-            defaultItemUpdate();
+            CreateLogMessage(LogEvasionStackEnemy, "MarbleMoth give " + evasionStack.ToString());
         }
     }
-
-
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);

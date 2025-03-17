@@ -10,20 +10,7 @@ public class Magnifire : Stuff
 {
     private bool isUse = false;
     public int giveBlindnessStack = 5;//надо заменить
-    private void Start()
-    {
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
-        }
-
-    }
-
-
+    
     public override void Activation()
     {
         if (!timer_locked_outStart && !timer_locked_out)
@@ -35,52 +22,6 @@ public class Magnifire : Stuff
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-        }
-    }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                StartActivation();
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
         }
     }
 
@@ -103,5 +44,4 @@ public class Magnifire : Stuff
             }
         }
     }
-
 }
