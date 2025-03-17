@@ -1340,19 +1340,20 @@ public abstract class Item : MonoBehaviour
                 goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
 
 
-            int r = UnityEngine.Random.Range(1, 6);
-            if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
-            {
-                goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+                int r = UnityEngine.Random.Range(1, 6);
+                if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
+                {
+                    goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+                }
+                else//атакуют персонажа
+                {
+                    goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
+                }
+                Invoke("StopAttackAnimation", 0.4f);
             }
-            else//атакуют персонажа
-            {
-                goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
-            }
-            Invoke("StopAttackAnimation", 0.4f);
         }
-
     }
+
 
     protected void Attack(int damage, bool anim)
     {
