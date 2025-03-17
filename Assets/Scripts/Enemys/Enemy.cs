@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class Enemy : EventParent
 
     private GameObject canvasBackpackEnemy;
     private GenerateBackpackOnMap generateBackpackOnMap;
+    private bool isDie = false;
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -148,7 +150,7 @@ public class Enemy : EventParent
             for (int i = 0; i < dropItems.Count; i++)
             {
                 float r = Random.Range(1.0f, 100.0f);
-
+                
                 if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
                     r = 0;
                 if (r <= (probabilityDropItems[i] * lvlEnemy))
@@ -166,6 +168,7 @@ public class Enemy : EventParent
     }
     public void Die()
     {
+        isDie = true;
         Invoke("EndDieAnimation", 1f);
     }
 
@@ -183,10 +186,8 @@ public class Enemy : EventParent
         }
         else if (gameObject.tag == "BossCave1")
         {
-            //if(gameObject.name == "Dragon")
-            Debug.Log("XXXXXX --- " + gameObject.name);
-            enemyJSON = Cave1BossDragon(); //todo
-            //BossCave1Enemy();
+            if(gameObject.name == "Dragon(Clone)")
+                enemyJSON = Cave1BossDragon(); //todo
         }
         else if (gameObject.tag == "BossGlobalMap1")
         {
@@ -201,22 +202,25 @@ public class Enemy : EventParent
     }
     public void StartBattle()
     {
-        PlayerPrefs.SetString("enemyName", gameObject.name);
-        PlayerPrefs.SetInt("enemyLvl", lvlEnemy);
+        if (!isDie)
+        {
+            PlayerPrefs.SetString("enemyName", gameObject.name);
+            PlayerPrefs.SetInt("enemyLvl", lvlEnemy);
 
-        PlayerPrefs.SetInt("enemyHP", startHP + ((lvlEnemy - 1) * stepHPForLevel));
-        PlayerPrefs.SetFloat("enemyStamina", startStamina + ((lvlEnemy - 1) * stepStaminaForLevel));
-        if(currentSceneName == "GenerateMap")
-            PlayerPrefs.SetInt("enemyIdSpawner", idSpawner);
-
-        
-
-        PlayerPrefs.SetString("enemyBackpackJSON", enemyJSON);
+            PlayerPrefs.SetInt("enemyHP", startHP + ((lvlEnemy - 1) * stepHPForLevel));
+            PlayerPrefs.SetFloat("enemyStamina", startStamina + ((lvlEnemy - 1) * stepStaminaForLevel));
+            if (currentSceneName == "GenerateMap")
+                PlayerPrefs.SetInt("enemyIdSpawner", idSpawner);
 
 
 
-        //SceneManager.LoadScene("BackPackBattle");
-        SceneLoader.Instance.LoadScene("BackPackBattle");
+            PlayerPrefs.SetString("enemyBackpackJSON", enemyJSON);
+
+
+
+            //SceneManager.LoadScene("BackPackBattle");
+            SceneLoader.Instance.LoadScene("BackPackBattle");
+        }
     }
 
 
