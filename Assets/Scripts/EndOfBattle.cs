@@ -1,12 +1,14 @@
-using NUnit.Framework.Interfaces;
+
 using System.Collections;
-using System.Collections.Generic;
+
 using System.IO;
 using System.Linq;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class EndOfBattle : MonoBehaviour
 {
@@ -76,42 +78,46 @@ public class EndOfBattle : MonoBehaviour
                 giveItem("AngryFluff");
             }
             var enemyName = PlayerPrefs.GetString("enemyName");
-            if (enemyName == "Fanatik(Clone)"
-                || enemyName == "Fallen Knight(Clone)"
-                || enemyName == "Goblin(Clone)"
-                )
+            if (enemyName == "Dragon(Clone)")
             {
-                
-                if (!QuestComplete(4))
-                {
-                    NewQuestId5();
-                }
-                DieEnemy();
-
-                if (playerBackpackBattle.characterStats.playerLvl < 15)
-                {
-                    int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
-                    winExp += Random.Range(0, 10);
-                    this.winExp = winExp;
-                    WinExp(winExp);
-                }
-
-                int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
-                winGold += Random.Range(0, 10);
-                WinGold(winGold);
+                QuestComplete(6);
+                NewQuestId7();
+            }
+            else if (enemyName == "Podpol")
+            {
+                QuestComplete(8);
+                NewQuestId9();
+                PlayerPrefs.SetInt("isEnemyPodpolDefeat", 1);
+            }
+            else if (enemyName == "General")
+            {
+                QuestComplete(10);
+                NewQuestId11();
+                PlayerPrefs.SetInt("isEnemyGeneralDefeat",1);
             }
             else
             {
-                DieEnemy();
+                if (!QuestCompleteProgress(4))
+                {
+                    NewQuestId5();
+                }
+            }
 
+            DieEnemy();
+
+            if (playerBackpackBattle.characterStats.playerLvl < 15)
+            {
                 int winExp = PlayerPrefs.GetInt("enemyLvl") * 100;
                 winExp += Random.Range(0, 10);
+                this.winExp = winExp;
                 WinExp(winExp);
-
-                int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
-                winGold += Random.Range(0, 10);
-                WinGold(winGold);
             }
+
+            int winGold = PlayerPrefs.GetInt("enemyLvl") * 10;
+            winGold += Random.Range(0, 10);
+            WinGold(winGold);
+
+            PlayerPrefs.DeleteKey("isEnemyAlive");
         }
         else if (playerBackpackBattle.hp <= 0 && !awardsReceived) //lose
         {
@@ -119,6 +125,7 @@ public class EndOfBattle : MonoBehaviour
             gameObject.GetComponent<AudioSource>().PlayOneShot(loseClip);
             StopFight();
             Lose();
+            PlayerPrefs.DeleteKey("isEnemyAlive");
         }
     }
 
@@ -138,8 +145,11 @@ public class EndOfBattle : MonoBehaviour
     private int countLvlUp = 0, showCountLvlUp = 0;
 
     
+
+
+
     private QuestManager qm;
-    public bool QuestComplete(int questID)
+    public bool QuestCompleteProgress(int questID)
     {
         qm = new QuestManager();
 
@@ -151,6 +161,19 @@ public class EndOfBattle : MonoBehaviour
             qm.AddCurrentProgressQuestWithoutUI(questID);
         }
         return qm.CheckQuestComplete(questID);
+    }
+
+    public void QuestComplete(int questID)
+    {
+        qm = new QuestManager();
+
+        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+        {
+            qm.questData = new QuestData();
+            qm.questData.questData = new QDataList();
+            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            qm.CompleteQuest(questID, false);
+        }
     }
 
     public void NewQuestId5()
@@ -174,8 +197,6 @@ public class EndOfBattle : MonoBehaviour
                     PlayerPrefs.SetInt("NPC_King", 4);
                 }
             }
-            
-
         }
         else
         {
@@ -189,9 +210,118 @@ public class EndOfBattle : MonoBehaviour
                 PlayerPrefs.SetInt("NPC_King", 4);
             }
         }
-
-
     }
+
+    public void NewQuestId7()
+    {
+        if (qm == null)
+        {
+            qm = new QuestManager();
+
+            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+            {
+                qm.questData = new QuestData();
+                qm.questData.questData = new QDataList();
+                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                var questDat = qm.questData.questData.quests.Where(e => e.id == 7).ToList();
+                if (questDat.Count == 0)
+                {
+                    Quest quest = new Quest("continue talk7", "talk to the king", -1, 7);
+
+                    qm.questData.questData.quests.Add(quest);
+                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    PlayerPrefs.SetInt("NPC_King", 6);
+                }
+            }
+        }
+        else
+        {
+            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            var questDat = qm.questData.questData.quests.Where(e => e.id == 7).ToList();
+            if (questDat.Count == 0)
+            {
+                Quest quest = new Quest("continue talk7", "talk to the king", -1, 7);
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                PlayerPrefs.SetInt("NPC_King", 6);
+            }
+        }
+    }
+
+    public void NewQuestId9()
+    {
+        if (qm == null)
+        {
+            qm = new QuestManager();
+
+            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+            {
+                qm.questData = new QuestData();
+                qm.questData.questData = new QDataList();
+                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                var questDat = qm.questData.questData.quests.Where(e => e.id == 9).ToList();
+                if (questDat.Count == 0)
+                {
+                    Quest quest = new Quest("continue talk9", "talk to the king", -1, 9);
+
+                    qm.questData.questData.quests.Add(quest);
+                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    PlayerPrefs.SetInt("NPC_King", 8);
+                }
+            }
+        }
+        else
+        {
+            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            var questDat = qm.questData.questData.quests.Where(e => e.id == 9).ToList();
+            if (questDat.Count == 0)
+            {
+                Quest quest = new Quest("continue talk7", "talk to the king", -1, 9);
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                PlayerPrefs.SetInt("NPC_King", 8);
+            }
+        }
+    }
+
+    public void NewQuestId11()
+    {
+        if (qm == null)
+        {
+            qm = new QuestManager();
+
+            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+            {
+                qm.questData = new QuestData();
+                qm.questData.questData = new QDataList();
+                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                var questDat = qm.questData.questData.quests.Where(e => e.id == 11).ToList();
+                if (questDat.Count == 0)
+                {
+                    Quest quest = new Quest("continue talk11", "получите награду от Короля", -1, 11);
+
+                    qm.questData.questData.quests.Add(quest);
+                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                    PlayerPrefs.SetInt("NPC_King", 10);
+                }
+            }
+        }
+        else
+        {
+            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+            var questDat = qm.questData.questData.quests.Where(e => e.id == 11).ToList();
+            if (questDat.Count == 0)
+            {
+                Quest quest = new Quest("continue talk11", "получите награду от Короля", -1, 11);
+                qm.questData.questData.quests.Add(quest);
+                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+                PlayerPrefs.SetInt("NPC_King", 10);
+            }
+        }
+    }
+
+
+
 
     public void DieEnemy()
     {

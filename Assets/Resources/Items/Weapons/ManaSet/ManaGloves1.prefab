@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: -5700192483967081554}
   m_Layer: 9
   m_Name: ManaGloves1
-  m_TagString: RareWeapon
+  m_TagString: ItemManaClothGloves
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: -1560290229154126116, guid: 9970660246af3c243817e731b218cb55, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -299,92 +299,47 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 16.285715, y: -56.57143}
-      - {x: 17.142859, y: -53.714287}
-      - {x: 18.57143, y: -53.14286}
-      - {x: 20, y: -50.857143}
-      - {x: 24.000002, y: -43.714287}
-      - {x: 24.857143, y: -41.14286}
-      - {x: 24.857143, y: -36.57143}
-      - {x: 24.285715, y: -28.285715}
-      - {x: 23.714287, y: -24.857143}
-      - {x: 22.857143, y: -20.857143}
-      - {x: 19.428572, y: -7.1428576}
-      - {x: 21.714287, y: -5.1428576}
-      - {x: 23.428572, y: -0.5714286}
-      - {x: 23.714287, y: 3.4285717}
-      - {x: 24.857143, y: 6.2857146}
-      - {x: 31.714287, y: 17.142859}
-      - {x: 36, y: 23.142859}
-      - {x: 36.857143, y: 25.428572}
-      - {x: 36.857143, y: 26.857143}
-      - {x: 32.857143, y: 32.285717}
-      - {x: 30.285715, y: 34.57143}
-      - {x: 27.714287, y: 36}
-      - {x: 25.142859, y: 38}
-      - {x: 21.428572, y: 40.857143}
-      - {x: 18.857143, y: 41.428574}
-      - {x: 11.428572, y: 41.428574}
-      - {x: 8.285715, y: 40.857143}
-      - {x: 1.7142859, y: 39.14286}
-      - {x: 0, y: 38.285717}
-      - {x: -0.8571429, y: 36.857143}
-      - {x: 0, y: 30.57143}
-      - {x: -2, y: 33.428574}
-      - {x: 0.5714286, y: 52.57143}
-      - {x: 1.7142859, y: 58.857147}
-      - {x: 1.7142859, y: 60.57143}
-      - {x: 0.8571429, y: 62.000004}
-      - {x: -3.7142859, y: 64.28572}
-      - {x: -6.8571434, y: 65.42857}
-      - {x: -14.000001, y: 66.85715}
-      - {x: -19.428572, y: 66.85715}
-      - {x: -22.285715, y: 64.85715}
-      - {x: -29.142859, y: 61.428574}
-      - {x: -30.57143, y: 60.857147}
-      - {x: -36.57143, y: 54.285717}
-      - {x: -36.57143, y: 52.000004}
-      - {x: -26.285715, y: 31.714287}
-      - {x: -26.57143, y: 30.000002}
-      - {x: -26.285715, y: 25.428572}
-      - {x: -25.428572, y: 21.714287}
-      - {x: -23.714287, y: 18}
-      - {x: -28.000002, y: 6.571429}
-      - {x: -28.857143, y: 5.1428576}
-      - {x: -30.57143, y: -0.5714286}
-      - {x: -32.57143, y: -8.285715}
-      - {x: -33.14286, y: -16}
-      - {x: -32.285717, y: -18}
-      - {x: -28.285715, y: -26.857143}
-      - {x: -26.857143, y: -28.57143}
-      - {x: -24.57143, y: -35.714287}
-      - {x: -23.142859, y: -38.57143}
-      - {x: -20.57143, y: -38.857143}
-      - {x: -18.285715, y: -39.14286}
-      - {x: -18.285715, y: -41.14286}
-      - {x: -18, y: -42}
-      - {x: -17.142859, y: -42.857143}
-      - {x: -16.285715, y: -43.14286}
-      - {x: -14.571429, y: -43.428574}
-      - {x: -12.000001, y: -42}
-      - {x: -10.285715, y: -40.285717}
-      - {x: -9.428572, y: -41.714287}
-      - {x: -8.285715, y: -42.285717}
-      - {x: -6.571429, y: -42.285717}
-      - {x: -5.1428576, y: -41.14286}
-      - {x: -5.1428576, y: -48.57143}
-      - {x: -6.2857146, y: -53.714287}
-      - {x: -7.4285717, y: -59.14286}
-      - {x: -6.8571434, y: -64}
-      - {x: -4.2857146, y: -66}
-      - {x: -2.857143, y: -66}
-      - {x: -0.8571429, y: -63.714287}
-      - {x: 1.1428572, y: -65.71429}
-      - {x: 2.5714288, y: -66.571434}
-      - {x: 5.714286, y: -66.571434}
-      - {x: 6.8571434, y: -65.14286}
-      - {x: 11.714286, y: -63.714287}
-      - {x: 13.428572, y: -62.000004}
+    - - {x: 20.722534, y: -52.413757}
+      - {x: 17.483765, y: -53.98413}
+      - {x: 11.926331, y: -64.96771}
+      - {x: 8.445923, y: -64.52374}
+      - {x: 7.2661133, y: -66.40881}
+      - {x: 3.3807983, y: -68.13098}
+      - {x: -0.4520874, y: -64.96796}
+      - {x: -4.512747, y: -66.44136}
+      - {x: -6.869934, y: -64.84088}
+      - {x: -8.473206, y: -58.62195}
+      - {x: -6.218384, y: -49.23712}
+      - {x: -5.764282, y: -43.266113}
+      - {x: -8.147034, y: -43.229492}
+      - {x: -10.6553955, y: -41.69922}
+      - {x: -12.645752, y: -43.295715}
+      - {x: -17.46283, y: -43.58618}
+      - {x: -18.553406, y: -39.895874}
+      - {x: -22.630676, y: -39.950073}
+      - {x: -24.806116, y: -38.223747}
+      - {x: -34.41986, y: -14.177551}
+      - {x: -31.276367, y: 1.3407593}
+      - {x: -24.784302, y: 18.3927}
+      - {x: -27.7453, y: 24.085022}
+      - {x: -27.506104, y: 30.522278}
+      - {x: -37.906475, y: 54.03878}
+      - {x: -32.877563, y: 59.59015}
+      - {x: -21.162231, y: 67.12286}
+      - {x: -17.63092, y: 67.699036}
+      - {x: -0.91381836, y: 64.03021}
+      - {x: 2.407837, y: 61.68811}
+      - {x: -0.48858643, y: 39.686462}
+      - {x: 10.470032, y: 42.166504}
+      - {x: 17.975525, y: 42.179443}
+      - {x: 24.056519, y: 40.655273}
+      - {x: 34.701416, y: 31.09668}
+      - {x: 38.149292, y: 25.682129}
+      - {x: 24.712158, y: 4.3702393}
+      - {x: 24.693542, y: 1.7010498}
+      - {x: 20.540161, y: -8.612732}
+      - {x: 25.42334, y: -27.091187}
+      - {x: 25.249268, y: -42.151333}
   m_UseDelaunayMesh: 0
 --- !u!114 &4549536477543849424
 MonoBehaviour:
@@ -435,6 +390,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
   originalName: ManaGloves1
   timer: 0
@@ -549,7 +505,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -642,7 +598,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1000
   m_Sprite: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -792,7 +748,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -883,7 +839,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -974,7 +930,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1065,7 +1021,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 5
   m_Sprite: {fileID: -1560290229154126116, guid: 9970660246af3c243817e731b218cb55, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1285,7 +1241,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1376,7 +1332,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1467,7 +1423,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1558,7 +1514,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1649,7 +1605,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -1560290229154126116, guid: 9970660246af3c243817e731b218cb55, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

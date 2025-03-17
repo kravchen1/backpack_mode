@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BackpackController : MonoBehaviour
@@ -131,6 +132,9 @@ public class BackpackController : MonoBehaviour
     private Cell cell7_7;
     private Cell cell7_8;
     private Cell cell7_9;
+
+    private List<Cell> cells = new List<Cell>();
+
     private void Awake()
     {
         cell1_1 = cell1_1GO.GetComponent<Cell>();
@@ -196,11 +200,86 @@ public class BackpackController : MonoBehaviour
         cell7_7 = cell7_7GO.GetComponent<Cell>();
         cell7_8 = cell7_8GO.GetComponent<Cell>();
         cell7_9 = cell7_9GO.GetComponent<Cell>();
-}
+
+
+
+        cells.Add(cell1_1);
+        cells.Add(cell1_2);
+        cells.Add(cell1_3);
+        cells.Add(cell1_4);
+        cells.Add(cell1_5);
+        cells.Add(cell1_6);
+        cells.Add(cell1_7);
+        cells.Add(cell1_8);
+        cells.Add(cell1_9);
+        cells.Add(cell2_1);
+        cells.Add(cell2_2);
+        cells.Add(cell2_3);
+        cells.Add(cell2_4);
+        cells.Add(cell2_5);
+        cells.Add(cell2_6);
+        cells.Add(cell2_7);
+        cells.Add(cell2_8);
+        cells.Add(cell2_9);
+        cells.Add(cell3_1);
+        cells.Add(cell3_2);
+        cells.Add(cell3_3);
+        cells.Add(cell3_4);
+        cells.Add(cell3_5);
+        cells.Add(cell3_6);
+        cells.Add(cell3_7);
+        cells.Add(cell3_8);
+        cells.Add(cell3_9);
+        cells.Add(cell4_1);
+        cells.Add(cell4_2);
+        cells.Add(cell4_3);
+        cells.Add(cell4_4);
+        cells.Add(cell4_5);
+        cells.Add(cell4_6);
+        cells.Add(cell4_7);
+        cells.Add(cell4_8);
+        cells.Add(cell4_9);
+        cells.Add(cell5_1);
+        cells.Add(cell5_2);
+        cells.Add(cell5_3);
+        cells.Add(cell5_4);
+        cells.Add(cell5_5);
+        cells.Add(cell5_6);
+        cells.Add(cell5_7);
+        cells.Add(cell5_8);
+        cells.Add(cell5_9);
+        cells.Add(cell6_1);
+        cells.Add(cell6_2);
+        cells.Add(cell6_3);
+        cells.Add(cell6_4);
+        cells.Add(cell6_5);
+        cells.Add(cell6_6);
+        cells.Add(cell6_7);
+        cells.Add(cell6_8);
+        cells.Add(cell6_9);
+        cells.Add(cell7_1);
+        cells.Add(cell7_2);
+        cells.Add(cell7_3);
+        cells.Add(cell7_4);
+        cells.Add(cell7_5);
+        cells.Add(cell7_6);
+        cells.Add(cell7_7);
+        cells.Add(cell7_8);
+        cells.Add(cell7_9);
+    }
+
+    private void ClearCells()
+    {
+        foreach(var cell in cells)
+        {
+            cell.nestedObject = null;
+        }
+    }
 
 
     private void SwitchPosition(float coutSwritchX, float coutSwritchY)
     {
+        ClearCells();
         foreach (var item in gameObject.transform.GetComponentsInChildren<Item>())
         {
             item.DeleteNestedObject(gameObject.transform.parent.tag);
@@ -217,9 +296,11 @@ public class BackpackController : MonoBehaviour
             item.SetNestedObject();
             item.ClearCareRaycast(false);
             //item.updateColorCells();
-
         }
     }
+
+
+
     private float countSwitchY = 0f, countSwitchX = 0f;
     private void Update()
     {

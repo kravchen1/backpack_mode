@@ -74,9 +74,14 @@ public void ToogleMainChoice()
     public void Choose()
     {
         PlayerPrefs.SetString("savePath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's"));
+        PlayerPrefs.SetString("savePathTestBackpack", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's backpacks"));
         if (!Directory.Exists(PlayerPrefs.GetString("savePath")))
         {
             Directory.CreateDirectory(PlayerPrefs.GetString("savePath"));
+        }
+        if (!Directory.Exists(PlayerPrefs.GetString("savePathTestBackpack")))
+        {
+            Directory.CreateDirectory(PlayerPrefs.GetString("savePathTestBackpack"));
         }
         DeleteAllData();
         StartBackPack();

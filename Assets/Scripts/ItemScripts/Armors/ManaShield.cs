@@ -19,6 +19,7 @@ public class ManaShield : Armor
     public GameObject LogAttackStackCharacter, LogAttackStackEnemy;
     private void Start()
     {
+        FillnestedObjectStarsStars(256, "Mana");
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             FillnestedObjectStarsStars(256);
@@ -154,7 +155,7 @@ public class ManaShield : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "Mana");
             ChangeShowStars(true);
             if (canShowDescription)
             {

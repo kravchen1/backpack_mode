@@ -68,9 +68,9 @@ public class DropItem : EventParent
         {
             player = GameObject.FindGameObjectWithTag("Player");
             characterStats = player.GetComponent<CharacterStats>();
-            descriptionPlace = GameObject.FindGameObjectWithTag("DescriptionPlace");
+            //descriptionPlace = GameObject.FindGameObjectWithTag("DescriptionPlace");
         }
-        instDescription = Instantiate(description, descriptionPlace.GetComponent<RectTransform>().transform);
+        //instDescription = Instantiate(description, descriptionPlace.GetComponent<RectTransform>().transform);
         SetActivePressE(isShowPressE);
     }
 
@@ -86,7 +86,7 @@ public class DropItem : EventParent
     {
         isPlayerInTrigger = false;
         SetActivePressE(false);
-        Destroy(instDescription);
+        //Destroy(instDescription);
     }
 
 

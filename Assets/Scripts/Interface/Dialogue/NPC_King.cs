@@ -11,6 +11,13 @@ public class NPC_King : NPC
     public Dialogue alternativeDialogue3;
     public Dialogue alternativeDialogue4;
     public Dialogue alternativeDialogue5;
+    public Dialogue alternativeDialogue6;
+    public Dialogue alternativeDialogue7;
+    public Dialogue alternativeDialogue8;
+    public Dialogue alternativeDialogue9;
+    public Dialogue alternativeDialogue10;
+    public Dialogue alternativeDialogue11;
+
     public void Initialize()
     {
         qm = FindFirstObjectByType<QuestManager>();
@@ -60,6 +67,30 @@ public class NPC_King : NPC
                 break;
             case 5:
                 FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue5, this);
+                //Initialize();
+                break;
+            case 6:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue6, this);
+                //Initialize();
+                break;
+            case 7:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue7, this);
+                //Initialize();
+                break;
+            case 8:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue8, this);
+                //Initialize();
+                break;
+            case 9:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue9, this);
+                //Initialize();
+                break;
+            case 10:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue10, this);
+                //Initialize();
+                break;
+            case 11:
+                FindFirstObjectByType<DialogueManager>().StartDialogue(alternativeDialogue11, this);
                 //Initialize();
                 break;
         }

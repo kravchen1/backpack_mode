@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 772077941444430588}
   - component: {fileID: 3886031284179948911}
   - component: {fileID: 7305368914822546552}
-  m_Layer: 12
+  m_Layer: 30
   m_Name: Area
   m_TagString: AreaEvent
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ee5eeaf5320e47a2761621450f9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animation: {fileID: 7034951671821234482}
+  anim: {fileID: 7034951671821234482}
 --- !u!58 &7305368914822546552
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.2000122, y: 14.5}
+  m_AnchoredPosition: {x: -0.2000122, y: 15}
   m_SizeDelta: {x: 0, y: -17.999073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7192293088594941053
@@ -229,9 +229,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -651902095
-  m_SortingLayer: 13
-  m_SortingOrder: 0
+  m_SortingLayerID: 1196096721
+  m_SortingLayer: 9
+  m_SortingOrder: 10000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &188763429311558212
 MonoBehaviour:
@@ -569,6 +569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShowPressE: 1
   infoText: {fileID: 5725569272100643922}
+  player: {fileID: 0}
   lvlText: {fileID: 188763429311558212}
   lvlEnemy: 1
   idSpawner: 0
@@ -810,7 +811,7 @@ CircleCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -863,11 +864,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 902af8831483ad8449c00367e90666c3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.85
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 902af8831483ad8449c00367e90666c3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.85
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 902af8831483ad8449c00367e90666c3, type: 3}
       propertyPath: m_LocalPosition.x

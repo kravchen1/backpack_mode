@@ -71,6 +71,8 @@ public class GenerateShopItems : MonoBehaviour
         
         generationObjectShop.AddComponent<ShopItem>();
         generationObjectShop.GetComponent<ShopItem>().defaultPosition = place;
+        //Debug.Log(generationObjectShop.transform.position);
+        generationObjectShop.transform.position = place;
         SetItemCost(item, generationObject.name);
     }
 
@@ -138,11 +140,16 @@ public class GenerateShopItems : MonoBehaviour
         }
     }
 
-    void Start()
+    void StartInv()
     {
         LoadSlot();
         if (listShopData == null || listShopData.Count == 0)
             GenerateRandomItem();
+    }
+
+    void Start()
+    {
+        Invoke("StartInv", 0.01f);
     }
 
     // Update is called once per frame

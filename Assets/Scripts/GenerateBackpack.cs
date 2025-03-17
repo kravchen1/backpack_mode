@@ -24,21 +24,55 @@ public class GenerateBackpack : MonoBehaviour
 
     protected void Initialization()
     {
-        LoadChestItems("RAREWEAPON");
+        LoadChestItems("BAGNOCOMMON");
         LoadChestItems("STARTBAG");
         LoadChestItems("BAG");
-        LoadChestItems("BLOCKMANAITEM");
-        LoadChestItems("FIREITEMS");
-        LoadChestItems("BLOCKPET");
-        LoadChestItems("VAMPIREITEMS");
-        LoadChestItems("FIREWEAPONITEMS");
-        LoadChestItems("VAMPIREWEAPONITEMS");
-        LoadChestItems("VAMPIREGLOVESITEMS");
-        LoadChestItems("WITCHCRAFT");
-        LoadChestItems("WEAPON");
+
+
+
         LoadChestItems("ITEMEAT");
-        LoadChestItems("MUSHROOMSITEMS");
-        LoadChestItems("KEYSTONESITEMS");
+
+
+
+        LoadChestItems("ITEMCRYSTALL");
+
+
+        LoadChestItems("ITEMCLOTH");
+
+
+        LoadChestItems("ITEMFIRE");
+        LoadChestItems("ITEMFIREWEAPON");
+        LoadChestItems("ITEMFIRECLOTH");
+        LoadChestItems("ITEMFIRECLOTHGLOVES");
+
+
+        LoadChestItems("ITEMMANA");
+        LoadChestItems("ITEMMANAWEAPON");
+        LoadChestItems("ITEMMANACLOTH");
+        LoadChestItems("ITEMMANACLOTHGLOVES");
+        LoadChestItems("ITEMMANABLOCK");
+
+
+        LoadChestItems("ITEMMUSHROOM");
+
+
+        LoadChestItems("ITEMKEYSTONE");
+
+
+        LoadChestItems("ITEMSTUFF");
+
+
+        LoadChestItems("ITEMVAMPIRE");
+        LoadChestItems("ITEMVAMPIREWEAPON");
+        LoadChestItems("ITEMVAMPIRECLOTH");
+        LoadChestItems("ITEMVAMPIRECLOTHGLOVES");
+
+
+        LoadChestItems("ITEMWEAPON");
+        LoadChestItems("ITEMWITHCRAFT");
+
+        LoadChestItems("ITEMPET");
+        LoadChestItems("ITEMPETBLOCK");
     }
 
     void Start()
@@ -150,7 +184,8 @@ public class GenerateBackpack : MonoBehaviour
             //componentBag.MoveObjectOnEndDrag();
             if(!ObjectInBag(componentItem))
             {
-                componentItem.CouratineMove(new Vector3(0, 0, -1));
+                var pos = gameObject.transform.position;
+                componentItem.CouratineMove(new Vector3(pos.x, pos.y, -2));
             }
         }
         else

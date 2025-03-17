@@ -88,7 +88,7 @@ public class DialogueManager : MonoBehaviour
 
         if (response.questComplete)
         {
-            FindFirstObjectByType<QuestManager>().CompleteQuest(response.idQuestComplete);
+            FindFirstObjectByType<QuestManager>().CompleteQuest(response.idQuestComplete, true);
             FindFirstObjectByType<Player>().InitializedGPSTracker();
         }
 

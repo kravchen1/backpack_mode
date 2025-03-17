@@ -18,7 +18,7 @@ public class RabbitPaw : WitchCraft
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
 
-        FillnestedObjectStarsStars(256, "mushroom", "witchcraft");
+        FillnestedObjectStarsStars(256, "Mushroom", "Witchcraft");
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
@@ -116,7 +116,7 @@ public class RabbitPaw : WitchCraft
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "mushroom", "witchcraft");
+            FillnestedObjectStarsStars(256, "Mushroom", "Witchcraft");
             ChangeShowStars(true);
             if (canShowDescription)
             {

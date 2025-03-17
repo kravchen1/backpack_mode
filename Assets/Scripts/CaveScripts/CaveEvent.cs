@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -54,6 +56,7 @@ public class CaveEvent : MonoBehaviour
                         newObject = Instantiate(battlePrefabs[PlayerPrefs.GetInt("battlePrefabId")], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
                         newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                         newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                        newObject.GetComponent<Enemy>().JSONBackpackInitialized();
                         if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
                         {
                             newObject.GetComponentInChildren<Animator>().Play("Die");
@@ -93,6 +96,7 @@ public class CaveEvent : MonoBehaviour
                         newObject = Instantiate(caveBossPrefab[PlayerPrefs.GetInt("battlePrefabId")], gameObject.transform);
                         //newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                         newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
+                        newObject.GetComponent<Enemy>().JSONBackpackInitialized();
                         if (PlayerPrefs.GetInt("isEnemyAlive") == 0)
                         {
                             newObject.GetComponentInChildren<Animator>().Play("Die");

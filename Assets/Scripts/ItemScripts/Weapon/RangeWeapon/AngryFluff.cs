@@ -150,12 +150,12 @@ public class AngryFluff : Weapon
                         }
                         else
                         {
-                            CreateLogMessage("Dinosaur miss", Player.isPlayer);
+                            CreateLogMessage("Angry Fluff miss", Player.isPlayer);
                         }
                     }
                     else
                     {
-                        CreateLogMessage("Dinosaur miss", Player.isPlayer);
+                        CreateLogMessage("Angry Fluff miss", Player.isPlayer);
                     }
 
                 }

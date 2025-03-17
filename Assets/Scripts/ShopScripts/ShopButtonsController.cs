@@ -64,6 +64,10 @@ public class ShopButtonsController : MonoBehaviour
     public void ButtonExitShopItem()
     {
         GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
+        PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
+
         GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
         GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
         GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
@@ -93,9 +97,24 @@ public class ShopButtonsController : MonoBehaviour
         SceneLoader.Instance.LoadScene("GenerateMap");
     }
 
+    public void ButtonExitCaveIn1()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.FindWithTag("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopCave1Data.json"));
+        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+        //SceneManager.LoadScene("GenerateMap");
+        SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+    }
+
     public void ButtonExitBackpack()
     {
         GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+
+        PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
+        PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
+
         GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
         GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
 

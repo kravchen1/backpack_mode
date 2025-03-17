@@ -231,7 +231,7 @@ public abstract class Item : MonoBehaviour
                     needToDynamic = true;
                     //TapFirst();
                     TapRotate();
-                    DeleteNestedObject(gameObject.transform.parent.tag);
+                    
                     //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                     ChangeShowStars(true);
 
@@ -261,7 +261,7 @@ public abstract class Item : MonoBehaviour
                 //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
                 //TapFirst();
                 TapRotate();
-                DeleteNestedObject(gameObject.transform.parent.tag);
+                
                 //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                 ChangeShowStars(true);
 
@@ -298,7 +298,7 @@ public abstract class Item : MonoBehaviour
             {
                 if (hitsForNotShopZone.Any(e => e.collider != null))
                 {
-
+                    DeleteNestedObject(gameObject.transform.parent.tag);
                     shopItem.BuyItem(gameObject.GetComponent<Item>());
 
                     ExtendedCorrectPosition();
@@ -320,6 +320,7 @@ public abstract class Item : MonoBehaviour
             {
                 if (hitsForNotShopZone.Any(e => e.collider != null))
                 {
+                    DeleteNestedObject(gameObject.transform.parent.tag);
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
                     //careHits.Clear();
@@ -457,7 +458,7 @@ public abstract class Item : MonoBehaviour
                     var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
                     //nestedObjectItem.MoveObjectOnEndDrag();
                     nestedObjectItem.EffectPlaceNoCorrect();
-                    nestedObjectItem.DeleteNestedObject(gameObject.transform.parent.tag);
+                    nestedObjectItem.DeleteNestedObject(nestedObjectItem.transform.parent.tag);
                     nestedObjectItem.needToDynamic = true;
                     timerStatic_locked_out = true;
                     timerStatic = timer_cooldownStatic;
@@ -922,7 +923,10 @@ public abstract class Item : MonoBehaviour
                     {
                         if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
                         {
-                            hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
+                            if(hit.hits[0].collider.GetComponent<Cell>().nestedObject != null && hit.hits[0].collider.GetComponent<Cell>().nestedObject != this.gameObject)
+                                hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.yellow;
+                            else
+                                hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
                             careHits.Add(new RaycastStructure(hit.hits[0]));//�������
                         }
                     }
@@ -1328,31 +1332,22 @@ public abstract class Item : MonoBehaviour
         if (originalSprite != null)
         {
             GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
-            goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
-            goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
-            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
-            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
+            if (goAnimationsAttack.transform.childCount <= 10)
+            {
+                goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+                goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
+                goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
+                goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
 
 
             int r = UnityEngine.Random.Range(1, 6);
             if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
             {
-                var player = GameObject.FindGameObjectWithTag("Player");
                 goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
-                if(playerAnimator == null)
-                {
-                    FindPlayerAndEnemyForBattle();
-                }
-                playerAnimator.Play("Attack1", -1, 0f);
             }
             else//атакуют персонажа
             {
                 goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
-                if (enemyAnimator == null)
-                {
-                    FindPlayerAndEnemyForBattle();
-                }
-                enemyAnimator.Play("Attack1", -1, 0f);
             }
             Invoke("StopAttackAnimation", 0.4f);
         }

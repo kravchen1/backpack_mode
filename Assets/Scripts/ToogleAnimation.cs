@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class ToogleAnimation : MonoBehaviour
 {
-    [SerializeField] private GameObject animation;
-
+    [SerializeField] private GameObject anim;
+    
     private void OnTriggerEnter2D()
     {
         Debug.Log(gameObject.name + "On");
-        animation.gameObject.SetActive(true);
+        anim.gameObject.SetActive(true);
+        //gameObject.transform.parent.GetComponent<CircleCollider2D>().enabled = true;
     }
     private void OnTriggerExit2D()
     {
         Debug.Log(gameObject.name + "Out");
-        animation.gameObject.SetActive(false);
+        anim.gameObject.SetActive(false);
+        //gameObject.transform.parent.GetComponent<CircleCollider2D>().enabled = false;
     }
 }

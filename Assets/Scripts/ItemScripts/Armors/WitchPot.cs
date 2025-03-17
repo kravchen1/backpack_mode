@@ -19,7 +19,7 @@ public class WitchPot : WitchCraft
     public GameObject LogRegenerateStackCharacter, LogRegenerateStackEnemy;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "mushroom");
+        FillnestedObjectStarsStars(256, "Mushroom");
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
 
@@ -146,7 +146,7 @@ public class WitchPot : WitchCraft
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "mushroom");
+            FillnestedObjectStarsStars(256, "Mushroom");
             ChangeShowStars(true);
             if (canShowDescription)
             {

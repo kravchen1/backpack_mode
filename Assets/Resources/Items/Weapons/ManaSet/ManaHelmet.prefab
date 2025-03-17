@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -169,7 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -260,7 +260,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 5
   m_Sprite: {fileID: -1120993719932726122, guid: c35b5dc49f22ea343b0a84020238b87b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -351,7 +351,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: -6394709128788668987}
   m_Layer: 9
   m_Name: ManaHelmet
-  m_TagString: RareWeapon
+  m_TagString: ItemManaCloth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -465,7 +465,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: -1120993719932726122, guid: c35b5dc49f22ea343b0a84020238b87b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -663,69 +663,35 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -8.611112, y: -55.138893}
-      - {x: -8.333334, y: -54.861115}
-      - {x: 8.333334, y: -54.861115}
-      - {x: 8.611112, y: -55.138893}
-      - {x: 18.055557, y: -56.52778}
-      - {x: 19.722223, y: -62.083336}
-      - {x: 21.111113, y: -63.472225}
-      - {x: 23.611113, y: -63.472225}
-      - {x: 26.111113, y: -62.361115}
-      - {x: 31.111113, y: -54.305557}
-      - {x: 36.38889, y: -44.861115}
-      - {x: 36.666668, y: -43.750004}
-      - {x: 36.666668, y: -42.916668}
-      - {x: 33.611115, y: -4.305556}
-      - {x: 33.88889, y: -0.97222227}
-      - {x: 35.27778, y: 0.4166667}
-      - {x: 35.555557, y: 1.5277779}
-      - {x: 34.444447, y: 2.9166667}
-      - {x: 32.222225, y: 5.1388893}
-      - {x: 31.666668, y: 7.6388893}
-      - {x: 33.611115, y: 10.416667}
-      - {x: 33.88889, y: 13.750001}
-      - {x: 33.055557, y: 19.305557}
-      - {x: 33.333336, y: 24.027779}
-      - {x: 34.166668, y: 31.250002}
-      - {x: 30.277779, y: 38.194447}
-      - {x: 25.555557, y: 45.416668}
-      - {x: 23.055557, y: 48.194447}
-      - {x: 15.555556, y: 55.694447}
-      - {x: 11.944445, y: 58.194447}
-      - {x: 8.333334, y: 61.805557}
-      - {x: 6.3888893, y: 62.638893}
-      - {x: 2.5, y: 63.472225}
-      - {x: -3.3333335, y: 63.472225}
-      - {x: -6.666667, y: 62.916668}
-      - {x: -8.333334, y: 61.805557}
-      - {x: -11.944445, y: 58.194447}
-      - {x: -15.555556, y: 55.694447}
-      - {x: -23.055557, y: 48.472225}
-      - {x: -26.944447, y: 43.472225}
-      - {x: -33.333336, y: 33.194447}
-      - {x: -34.166668, y: 31.250002}
-      - {x: -33.333336, y: 24.027779}
-      - {x: -33.055557, y: 19.305557}
-      - {x: -33.611115, y: 15.972223}
-      - {x: -33.611115, y: 10.138889}
-      - {x: -31.944447, y: 6.805556}
-      - {x: -32.222225, y: 5.1388893}
-      - {x: -35.27778, y: 2.3611112}
-      - {x: -35.833336, y: 0.97222227}
-      - {x: -33.88889, y: -2.3611112}
-      - {x: -33.611115, y: -4.305556}
-      - {x: -34.444447, y: -14.861112}
-      - {x: -36.666668, y: -43.194447}
-      - {x: -36.666668, y: -44.305557}
-      - {x: -35.833336, y: -46.250004}
-      - {x: -27.500002, y: -60.416668}
-      - {x: -26.111113, y: -62.083336}
-      - {x: -23.055557, y: -63.472225}
-      - {x: -21.111113, y: -63.472225}
-      - {x: -19.444445, y: -61.250004}
-      - {x: -18.88889, y: -57.083336}
-      - {x: -15.277779, y: -55.972225}
+    - - {x: 11.135193, y: 58.56543}
+      - {x: 8.719849, y: 61.9859}
+      - {x: 0.30419922, y: 63.901917}
+      - {x: -9.204834, y: 62.156006}
+      - {x: -11.008667, y: 58.96924}
+      - {x: -22.30896, y: 50.479004}
+      - {x: -34.609497, y: 31.158936}
+      - {x: -34.218506, y: 11.59845}
+      - {x: -32.406494, y: 5.677307}
+      - {x: -36.67898, y: 3.3220444}
+      - {x: -36.582703, y: 0.05041504}
+      - {x: -33.468384, y: -2.2745361}
+      - {x: -37.365356, y: -44.609802}
+      - {x: -26.903198, y: -61.814087}
+      - {x: -20.955526, y: -64.32773}
+      - {x: -18.197388, y: -56.907593}
+      - {x: 2.6450195, y: -54.96289}
+      - {x: 18.33136, y: -57.284424}
+      - {x: 19.128683, y: -62.500885}
+      - {x: 21.88379, y: -64.6488}
+      - {x: 27.2901, y: -61.99579}
+      - {x: 36.4953, y: -43.800964}
+      - {x: 33.93933, y: -1.9873047}
+      - {x: 36.648865, y: 1.4106445}
+      - {x: 32.26416, y: 6.461426}
+      - {x: 34.086548, y: 12.831665}
+      - {x: 33.26892, y: 25.050232}
+      - {x: 34.598755, y: 31.436218}
+      - {x: 23.392422, y: 48.828453}
   m_UseDelaunayMesh: 0
 --- !u!114 &2569559217283222987
 MonoBehaviour:
@@ -776,6 +742,7 @@ MonoBehaviour:
   isSellChest: 0
   isDragging: 0
   offset: {x: 0, y: 0, z: 0}
+  timerStatic: 12.5
   itemMusicEffects: {fileID: 0}
   originalName: ManaHelmet1
   timer: 0
@@ -897,7 +864,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -988,7 +955,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1081,7 +1048,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1000
   m_Sprite: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1231,7 +1198,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1322,7 +1289,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1542,7 +1509,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -717817303
-  m_SortingLayer: 3
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_Sprite: {fileID: -1120993719932726122, guid: c35b5dc49f22ea343b0a84020238b87b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1633,7 +1600,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -45138613
-  m_SortingLayer: 2
+  m_SortingLayer: 10
   m_SortingOrder: 1
   m_Sprite: {fileID: -3371687104508573381, guid: 25ba56e37e9931948ad7d5475c5e77e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

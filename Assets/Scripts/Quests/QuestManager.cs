@@ -37,14 +37,17 @@ public class QuestManager : MonoBehaviour
         quests.Add(quest);
         UpdateQuestUI();
     }
-    public bool CompleteQuest(int questID)
+    public bool CompleteQuest(int questID, bool updateUI)
     {
         var quest = questData.questData.quests.Where(e => e.id == questID && e.isCompleted == false).ToList();
         if (quest.Count > 0)
         {
             quest[0].isCompleted = true;
             questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            UpdateQuestUI();
+            if (updateUI)
+            {
+                UpdateQuestUI();
+            }
             return true;
         }
         return false;

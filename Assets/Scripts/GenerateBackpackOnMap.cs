@@ -7,7 +7,8 @@ using UnityEngine;
 public class GenerateBackpackOnMap : GenerateBackpack
 {
 
-
+    public GameObject buttonClose;
+    public GameObject background;
 
 
     void Start()
@@ -36,6 +37,13 @@ public class GenerateBackpackOnMap : GenerateBackpack
 
             ItemsGenerated.Clear();
         }
+    }
+
+    public void CloseBackpackEnemy()
+    {
+        ClearBackpackObjects();
+        buttonClose.SetActive(false);
+        background.SetActive(false);
     }
 
 }

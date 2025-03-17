@@ -22,6 +22,7 @@ public class ButtonsWarehouse : MonoBehaviour
     private bool openWarehouse4 = false;
     private bool openWarehouse5 = false;
 
+    public GameObject button1, button2, button3, button4, button5;
 
     //void ReloadColliders(GameObject warehouse)
     //{
@@ -38,45 +39,70 @@ public class ButtonsWarehouse : MonoBehaviour
         {
             case 1:
                 warehouse1.SetActive(true);
+                button1.GetComponent<Image>().color = new Color(0.676827f, 0.8396226f, 0.1544589f);
                 warehouse2.SetActive(false);
+                button2.GetComponent<Image>().color = Color.white;
                 warehouse3.SetActive(false);
+                button3.GetComponent<Image>().color = Color.white;
                 warehouse4.SetActive(false);
+                button4.GetComponent<Image>().color = Color.white;
                 warehouse5.SetActive(false);
+                button5.GetComponent<Image>().color = Color.white;
                 //ReloadColliders(warehouse1);
                 break;
             case 2:
                 warehouse1.SetActive(false);
+                button1.GetComponent<Image>().color = Color.white;
                 warehouse2.SetActive(true);
+                button2.GetComponent<Image>().color = new Color(0.676827f, 0.8396226f, 0.1544589f);
                 warehouse3.SetActive(false);
+                button3.GetComponent<Image>().color = Color.white;
                 warehouse4.SetActive(false);
+                button4.GetComponent<Image>().color = Color.white;
                 warehouse5.SetActive(false);
+                button5.GetComponent<Image>().color = Color.white;
                 openWarehouse2 = true;
                 //ReloadColliders(warehouse2);
                 break;
             case 3:
                 warehouse1.SetActive(false);
+                button1.GetComponent<Image>().color = Color.white;
                 warehouse2.SetActive(false);
+                button2.GetComponent<Image>().color = Color.white;
                 warehouse3.SetActive(true);
+                button3.GetComponent<Image>().color = new Color(0.676827f, 0.8396226f, 0.1544589f);
                 warehouse4.SetActive(false);
+                button4.GetComponent<Image>().color = Color.white;
                 warehouse5.SetActive(false);
+                button5.GetComponent<Image>().color = Color.white;
                 openWarehouse3 = true;
                 //ReloadColliders(warehouse3);
                 break;
             case 4:
                 warehouse1.SetActive(false);
+                button1.GetComponent<Image>().color = Color.white;
                 warehouse2.SetActive(false);
+                button2.GetComponent<Image>().color = Color.white;
                 warehouse3.SetActive(false);
+                button3.GetComponent<Image>().color = Color.white;
                 warehouse4.SetActive(true);
+                button4.GetComponent<Image>().color = new Color(0.676827f, 0.8396226f, 0.1544589f);
                 warehouse5.SetActive(false);
+                button5.GetComponent<Image>().color = Color.white;
                 openWarehouse4 = true;
                 //ReloadColliders(warehouse4);
                 break;
             case 5:
                 warehouse1.SetActive(false);
+                button1.GetComponent<Image>().color = Color.white;
                 warehouse2.SetActive(false);
+                button2.GetComponent<Image>().color = Color.white;
                 warehouse3.SetActive(false);
+                button3.GetComponent<Image>().color = Color.white;
                 warehouse4.SetActive(false);
+                button4.GetComponent<Image>().color = Color.white;
                 warehouse5.SetActive(true);
+                button5.GetComponent<Image>().color = new Color(0.676827f, 0.8396226f, 0.1544589f);
                 openWarehouse5 = true;
                 //ReloadColliders(warehouse5);
                 break;

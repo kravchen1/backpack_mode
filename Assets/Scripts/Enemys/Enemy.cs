@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : EventParent
 {
-    private GameObject player;
+    public GameObject player;
     private bool isPlayerInTrigger = false;
 
     public TextMeshPro lvlText;
@@ -38,7 +38,7 @@ public class Enemy : EventParent
         else
             map = GameObject.FindGameObjectWithTag("Cave");
     }
-    private void OnTriggerEnter2D()
+    protected void OnTriggerEnter2D()
     {
         if (player == null)
         {
@@ -53,7 +53,7 @@ public class Enemy : EventParent
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected void OnTriggerExit2D(Collider2D collision)
     {
         isPlayerInTrigger = false;
         SetActivePressE(false);
@@ -70,7 +70,7 @@ public class Enemy : EventParent
 
 
 
-    private void Update()
+    protected void Update()
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
         {
@@ -112,38 +112,30 @@ public class Enemy : EventParent
     //        }
     //}
 
-    private bool click = false;
-    public void OnMouseUp()
+    protected void OnMouseUp()
     {
-        click = !click;
-        //if(PlayerPrefs.GetInt("clickEnemy") == 0)
-        if(click)
+        Debug.Log("clickBackpackEnemy");
+        if (canvasBackpackEnemy == null)
         {
-            PlayerPrefs.SetInt("clickEnemy", 1);
-            
-            if (canvasBackpackEnemy == null)
+            canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
+            if (canvasBackpackEnemy != null)
             {
-                canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
-                if (canvasBackpackEnemy != null)
-                {
-                    generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
-                    generateBackpackOnMap.ClearBackpackObjects();
-                    generateBackpackOnMap.Generate(enemyJSON);
-                }
-            }
-            else
-            {
-                if (canvasBackpackEnemy != null)
-                {
-                    generateBackpackOnMap.ClearBackpackObjects();
-                    generateBackpackOnMap.Generate(enemyJSON);
-                }
+                canvasBackpackEnemy.transform.GetChild(0).gameObject.SetActive(true);
+                canvasBackpackEnemy.transform.GetChild(1).gameObject.SetActive(true);
+                generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
+                generateBackpackOnMap.ClearBackpackObjects();
+                generateBackpackOnMap.Generate(enemyJSON);
             }
         }
         else
         {
-            PlayerPrefs.SetInt("clickEnemy", 0);
-            generateBackpackOnMap.ClearBackpackObjects();
+            if (canvasBackpackEnemy != null)
+            {
+                canvasBackpackEnemy.transform.GetChild(0).gameObject.SetActive(true);
+                canvasBackpackEnemy.transform.GetChild(1).gameObject.SetActive(true);
+                generateBackpackOnMap.ClearBackpackObjects();
+                generateBackpackOnMap.Generate(enemyJSON);
+            }
         }
     }
 
@@ -157,7 +149,7 @@ public class Enemy : EventParent
             {
                 float r = Random.Range(1.0f, 100.0f);
 
-                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("KeyStonesItems") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
+                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
                     r = 0;
                 if (r <= probabilityDropItems[i]) 
                 {

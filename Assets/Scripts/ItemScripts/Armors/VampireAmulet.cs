@@ -12,7 +12,7 @@ public class VampireAmulet : Armor
     private int currentTick = 0;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "vampire");
+        FillnestedObjectStarsStars(256, "Vampire");
     }
 
     public override void StartActivation()
@@ -58,7 +58,7 @@ public class VampireAmulet : Armor
 
     public override IEnumerator ShowDescription()
     {
-        FillnestedObjectStarsStars(256, "vampire");
+        FillnestedObjectStarsStars(256, "Vampire");
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {

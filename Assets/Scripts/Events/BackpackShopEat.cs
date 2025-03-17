@@ -38,7 +38,7 @@ public class BackpackShopEat : EventParent
         if (PlayerPrefs.GetInt("id2ShopItem") == 1)
         {
             var qm = FindFirstObjectByType<QuestManager>();
-            if (qm.CompleteQuest(2))
+            if (qm.CompleteQuest(2, false))
             {
                 Quest quest = new Quest("talkToTheKing2", "talk to the king", -1, 3);
 

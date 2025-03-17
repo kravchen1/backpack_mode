@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ public class CaveStone : MonoBehaviour
     //private Animator animator;
 
     private int caveEnemyLvl;
+    private GameObject activateStone;
 
     private void Awake()
     {
@@ -25,13 +27,19 @@ public class CaveStone : MonoBehaviour
     //private AnimatorStateInfo currentStateInfo;
     //private float animationLength;
 
+    private void SearchFirstStone()
+    {
+
+    }
+
     private void Update()
     {
 
-        if (scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).Count() > 0)
+        if (scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("ItemKeyStone")).Count() > 0)
         {
-            var stone = scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("KeyStonesItems")).ToList();
+            var stone = scriptCaveStoneCells.Where(e => e.nestedObject != null && e.nestedObject.CompareTag("ItemKeyStone")).ToList();
             caveEnemyLvl = stone[0].nestedObject.GetComponent<CaveStonesKeys>().stoneLevel;
+            activateStone = stone[0].nestedObject;
             haveCaveLvl = true;
 
             //canAnimation = true;
@@ -67,7 +75,12 @@ public class CaveStone : MonoBehaviour
     {
         if (haveCaveLvl)
         {
-            //SceneManager.LoadScene("Cave");
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+            GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
+            GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+            GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+
+            Destroy(activateStone);
             PlayerPrefs.SetInt("caveEnemyLvl", caveEnemyLvl);
             SceneLoader.Instance.LoadScene("Cave");
         }

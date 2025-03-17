@@ -100,8 +100,8 @@ public class ManaHelmet : Armor
                 var descr = CanvasDescription.GetComponent<DescriptionItemManaHelmet>();
                 descr.hpDrop = hpDrop;
                 descr.countArmorStack = countArmorStack;
-                descr.countArmorStack = countResistStack;
-                descr.countArmorStack = countSpendManaStack;
+                descr.countResistStack = countResistStack;
+                descr.countSpendManaStack = countSpendManaStack;
                 descr.SetTextBody();
             }
         }
