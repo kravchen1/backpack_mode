@@ -7,7 +7,7 @@ public class DescriptionItemBread : DescriptionItem
     public int health = 5;//надо заменить
     public void SetTextBody()
     {
-        string text = "When moved into a backpack, it disappears and restores you <u>" + health.ToString() + "</u>\r\nThe effect doesn't stack up";
+        string text = "When moved into a backpack, it disappears and restores you <u>" + health.ToString() + "</u>";
         textBody.text = text;
     }
 
