@@ -46,8 +46,20 @@ public class BackpackShopItem : EventParent
                 qm.questData.SaveData();
             }
         }
-        PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
-        PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
+
+        var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MoveCamera>();
+        var rtPlayer = player.GetComponent<RectTransform>().anchoredPosition;
+
+        if (rtPlayer.x < camera.minX)
+        {
+            PlayerPrefs.SetFloat("PostionMapX", camera.minX+1);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("PostionMapX", rtPlayer.x);
+        }
+        
+        PlayerPrefs.SetFloat("PostionMapY", rtPlayer.y);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);

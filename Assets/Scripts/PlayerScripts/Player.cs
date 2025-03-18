@@ -75,6 +75,11 @@ public class Player : MonoBehaviour
         arrowRectTransform = transform.GetChild(1).GetComponent<RectTransform>();
         PlayerPrefs.SetInt("clickEnemy", 0);
 
+        if (PlayerPrefs.HasKey("QuestTableActive") && PlayerPrefs.GetInt("QuestTableActive") == 0)
+        {
+            arrowRectTransform.gameObject.SetActive(false);
+        }
+
     }
     void LoadCharacterStats()
     {

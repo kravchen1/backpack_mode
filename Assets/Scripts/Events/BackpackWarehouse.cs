@@ -33,8 +33,19 @@ public class BackpackWarehouse : EventParent
 
     public void ActivateShop()
     {
-        PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
-        PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
+        var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MoveCamera>();
+        var rtPlayer = player.GetComponent<RectTransform>().anchoredPosition;
+
+        if (rtPlayer.x > camera.maxX)
+        {
+            PlayerPrefs.SetFloat("PostionMapX", camera.maxX - 1);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("PostionMapX", rtPlayer.x);
+        }
+
+        PlayerPrefs.SetFloat("PostionMapY", rtPlayer.y);
 
         //SceneManager.LoadScene("BackPackWareHouse");
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
