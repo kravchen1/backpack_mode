@@ -10,7 +10,7 @@ public class DescriptionItemWitchPot : DescriptionItem
     public int spendManaStack = 2;//надо заменить
     public void SetTextBody()
     {
-        string text = "Every <u>" + cooldown.ToString() + "</u> sec:apply <u>" + givePoisonStack.ToString() + "</u> \r\non enemy\r\nspends <u>" + spendManaStack.ToString() + "</u> \r\nand gives you <u>" + giveRegenerationStack.ToString() + "</u> \r\n\r\nStart battle: \r\nmushroom        gives you <u>" + giveManaStack.ToString() + "</u>";
+        string text = "Every <u>" + cooldown.ToString() + "</u> sec:inflict <u>" + givePoisonStack.ToString() + "</u>     on enemy\r\nspends <u>" + spendManaStack.ToString() + "</u>     and gives you <u>" + giveRegenerationStack.ToString() + "</u> \r\n\r\n  Start battle: \r\nmushroom        gives you <u>" + giveManaStack.ToString() + "</u>";
         textBody.text = text;
     }
 

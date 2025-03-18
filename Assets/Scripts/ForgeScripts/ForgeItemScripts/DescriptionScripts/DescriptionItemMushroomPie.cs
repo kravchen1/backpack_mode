@@ -8,7 +8,7 @@ public class DescriptionItemMushroomPie : DescriptionItem
     public int poison = 2;//надо заменить
     public void SetTextBody()
     {
-        string text = "When moved into a backpack, it disappears and restores you <u>" + health.ToString() + "</u>\r\nAt the beginning of the next battle will apply <u>" + poison.ToString() + "</u>      on enemy\r\nThe effect doesn't stack up";
+        string text = "When moved into a backpack, it disappears and restores you <u>" + health.ToString() + "</u>\r\nAt the beginning of the next battle will inflict <u>" + poison.ToString() + "</u>      on enemy\r\nThe effect doesn't stack up";
         textBody.text = text;
     }
 
