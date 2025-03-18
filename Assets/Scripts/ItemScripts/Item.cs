@@ -1333,30 +1333,39 @@ public abstract class Item : MonoBehaviour
     }
     public void AttackAnimation(int damage)
     {
-        if (originalSprite != null)
+    if (originalSprite != null)
+    {
+        GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
+        goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+        goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
+        goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
+        goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
+
+
+        int r = UnityEngine.Random.Range(1, 6);
+        if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
         {
-            GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
-            if (goAnimationsAttack.transform.childCount <= 10)
+            var player = GameObject.FindGameObjectWithTag("Player");
+            goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+            if(playerAnimator == null)
             {
-                goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
-                goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
-                goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
-                goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
-
-
-                int r = UnityEngine.Random.Range(1, 6);
-                if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
-                {
-                    goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
-                }
-                else//атакуют персонажа
-                {
-                    goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
-                }
-                Invoke("StopAttackAnimation", 0.4f);
+                FindPlayerAndEnemyForBattle();
             }
+            playerAnimator.Play("Attack1", -1, 0f);
         }
+        else//атакуют персонажа
+        {
+            goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
+            if (enemyAnimator == null)
+            {
+                FindPlayerAndEnemyForBattle();
+            }
+            enemyAnimator.Play("Attack1", -1, 0f);
+        }
+        Invoke("StopAttackAnimation", 0.4f);
     }
+
+}
 
 
     protected void Attack(int damage, bool anim)

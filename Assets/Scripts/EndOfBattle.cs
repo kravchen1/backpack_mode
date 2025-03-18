@@ -4,11 +4,9 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class EndOfBattle : MonoBehaviour
 {
