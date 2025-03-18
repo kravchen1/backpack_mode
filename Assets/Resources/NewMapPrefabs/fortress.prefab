@@ -136,7 +136,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1104486637
-  m_SortingLayer: 11
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
@@ -571,7 +571,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1196096721
-  m_SortingLayer: 12
+  m_SortingLayer: 9
   m_SortingOrder: 100
   m_Sprite: {fileID: 4530166555765881610, guid: 31c234b699998254f9df8d349d462474, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -665,7 +665,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1104486637
-  m_SortingLayer: 11
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
@@ -919,7 +919,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1104486637
-  m_SortingLayer: 11
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
@@ -1277,6 +1277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1939966513039026130}
+  - component: {fileID: 3360313179420935629}
   m_Layer: 2
   m_Name: entranceInFortress1 Right
   m_TagString: Untagged
@@ -1305,6 +1306,19 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -155.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3360313179420935629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4198898939031607846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idQuests: 01000000030000000500000007000000090000000b000000
 --- !u!1 &4710017927372494405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,6 +1328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2434270745202171656}
+  - component: {fileID: 7882695535503431739}
   m_Layer: 2
   m_Name: entranceInFortress1 Left
   m_TagString: Untagged
@@ -1342,6 +1357,19 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -155.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7882695535503431739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710017927372494405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idQuests: 01000000030000000500000007000000090000000b000000
 --- !u!1 &5031256483503180700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,7 +1625,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -618997399
-  m_SortingLayer: 7
+  m_SortingLayer: 4
   m_SortingOrder: 100
   m_Sprite: {fileID: 510365547, guid: 31c234b699998254f9df8d349d462474, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1880,6 +1908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1422497029646827947}
+  - component: {fileID: 5419229945160031333}
   m_Layer: 2
   m_Name: entranceInFortress1 Down
   m_TagString: Untagged
@@ -1908,3 +1937,16 @@ RectTransform:
   m_AnchoredPosition: {x: -10, y: -155.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5419229945160031333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8785632511127167775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 770647d30083e8a43b13d77f03dfba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idQuests: 01000000030000000500000007000000090000000b000000

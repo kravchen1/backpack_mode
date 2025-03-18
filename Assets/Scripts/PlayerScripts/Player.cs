@@ -270,9 +270,16 @@ public class Player : MonoBehaviour
     {
         targets.Clear();
         SearchTargets(1);
+        SearchSpecialTargetsShop();//2
+        SearchTargets(3);
         SearchTargets(4);
         SearchTargets(5);
-        SearchSpecialTargetsShop();
+        SearchTargets(6);
+        SearchTargets(7);
+        SearchTargets(8);
+        SearchTargets(9);
+        SearchTargets(10);
+        SearchTargets(11);
     }
     void GPSTracker()
     {

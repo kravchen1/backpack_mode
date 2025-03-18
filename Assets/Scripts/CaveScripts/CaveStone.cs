@@ -74,13 +74,24 @@ public class CaveStone : MonoBehaviour
     public void StartAdventure()
     {
         if (haveCaveLvl)
-        {
+        { 
+            var caveStoneBP = GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>();
+
+            for (int i = 0; i < caveStoneBP.itemData.items.Count; i++)
+            {
+                if (caveStoneBP.itemData.items[i].name == activateStone.name)
+                {
+                    caveStoneBP.itemData.items.Remove(caveStoneBP.itemData.items[i]);
+                }
+            }
+            caveStoneBP.SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
+            Destroy(activateStone);
+
             GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
-            GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
             GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
             GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
 
-            Destroy(activateStone);
+            
             PlayerPrefs.SetInt("caveEnemyLvl", caveEnemyLvl);
             SceneLoader.Instance.LoadScene("Cave");
         }
