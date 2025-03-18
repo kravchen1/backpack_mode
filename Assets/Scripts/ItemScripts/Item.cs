@@ -1054,6 +1054,10 @@ public abstract class Item : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            DeleteAllDescriptions();
+        }
     }
     private void OnMouseEnter()
     {
@@ -1068,8 +1072,8 @@ public abstract class Item : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!isDragging)
-        {
+        //if (!isDragging)
+        //{
             //Debug.Log(Description.gameObject.name + "�����");
             if (SceneManager.GetActiveScene().name != "BackPackBattle")
                 if (animator != null && !isEat)
@@ -1094,7 +1098,7 @@ public abstract class Item : MonoBehaviour
                 //    starsDesctiprion.enabled = false;
                 //}
             }
-        }
+        //}
     }
 
 
