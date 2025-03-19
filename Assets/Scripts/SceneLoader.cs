@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,8 +12,14 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Slider progressBar;
     [SerializeField] private TextMeshProUGUI progressText;
-
     [SerializeField] private List<Sprite> randomImages;
+
+    public Texture2D cursorTextureSceneGlobalIdle;
+    public Texture2D cursorTextureSceneGlobalClick;
+    public Texture2D cursorTextureSceneShopIdle;
+    public Texture2D cursorTextureSceneShopIdleClick;
+
+    private Vector2 hotspot = Vector2.zero;
 
     private void Awake()
     {
@@ -32,6 +39,20 @@ public class SceneLoader : MonoBehaviour
         int r = Random.Range(0, randomImages.Count);
         loadingScreen.GetComponent<Image>().sprite = randomImages[r];
         StartCoroutine(LoadSceneAsync(sceneName));
+
+        // ћен€ем курсор в зависимости от сцены
+        switch (sceneName)
+        {
+            case "Scene1":
+                Cursor.SetCursor(cursorTextureSceneGlobalIdle, hotspot, CursorMode.Auto);
+                break;
+            case "Scene2":
+                Cursor.SetCursor(cursorTextureSceneShopIdleClick, hotspot, CursorMode.Auto);
+                break;
+            default:
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto); // —брос курсора
+                break;
+        }
     }
 
     private System.Collections.IEnumerator LoadSceneAsync(string sceneName)

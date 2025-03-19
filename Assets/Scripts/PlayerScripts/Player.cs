@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     //GPS индикатор
     private List<Transform> targets = new List<Transform>(); // Целевые объекты, на которые указывает стрелка
     private Transform target; // Целевой объект, на который указывает стрелка (ближайший)
-    private RectTransform arrowRectTransform; // RectTransform стрелки
+    [HideInInspector] public RectTransform arrowRectTransform; // RectTransform стрелки
     private QuestManager questManager;
     public bool needGPSTracker = true;
 
@@ -75,10 +75,7 @@ public class Player : MonoBehaviour
         arrowRectTransform = transform.GetChild(1).GetComponent<RectTransform>();
         PlayerPrefs.SetInt("clickEnemy", 0);
 
-        if (PlayerPrefs.HasKey("QuestTableActive") && PlayerPrefs.GetInt("QuestTableActive") == 0)
-        {
-            arrowRectTransform.gameObject.SetActive(false);
-        }
+        
 
     }
     void LoadCharacterStats()
@@ -290,7 +287,15 @@ public class Player : MonoBehaviour
     {
         if (needGPSTracker && targets.Count > 0)
         {
-            arrowRectTransform.gameObject.SetActive(true);
+            if (PlayerPrefs.HasKey("QuestTableActive") && PlayerPrefs.GetInt("QuestTableActive") == 0)
+            {
+                arrowRectTransform.gameObject.SetActive(false);
+            }
+            else
+            {
+                arrowRectTransform.gameObject.SetActive(true);
+            }
+            
             float minDistance = 99999f;
             int indexMinDestance = 0;
             float Distance = 0;

@@ -38,7 +38,7 @@ public class DescriptionItemHalberd : DescriptionItem
 
     private void Start()
     {
-        SetTextBody();
+        //SetTextBody();
         SetTextStat();
     }
 

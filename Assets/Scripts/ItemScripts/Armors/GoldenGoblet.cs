@@ -80,7 +80,7 @@ public class GoldenGoblet : Armor
                 //descr.cooldown = timer_cooldown;
                 //descr.countStack = countBurnStack;
                 //descr.coolDown = coolDown;
-                descr.SetTextBody();
+                //descr.SetTextBody();
             }
         }
     }

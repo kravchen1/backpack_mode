@@ -9,7 +9,7 @@ public class DescriptionItemVampireBody : DescriptionItem
     public void SetTextBody()
     {
         //string text = "Every <u>" + cooldown.ToString() + "</u> sec: give count        equal\r\n      on enemy";
-        string text = "Every <u>" + Math.Round(cooldown,1).ToString() + "</u> sec: gives      equal      on enemy\r\n\r\nVampire items       activate:  apply <u>" + countBleedStack.ToString() + "</u>";
+        string text = "Every <u>"+Math.Round(cooldown,1)+"</u> sec: gives      equal      on enemy\r\nVampire items       activate:  apply <u>"+countBleedStack.ToString()+"</u>";
         textBody.text = text;
     }
 

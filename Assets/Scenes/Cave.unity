@@ -6216,6 +6216,10 @@ MonoBehaviour:
   randomImages:
   - {fileID: 2350282738744565870, guid: d445b5b152b336542a41a6368e1f4853, type: 3}
   - {fileID: -5843868335497980926, guid: ed33a2ab3fc244e4d87b749b9af05c59, type: 3}
+  cursorTextureSceneGlobalIdle: {fileID: 0}
+  cursorTextureSceneGlobalClick: {fileID: 0}
+  cursorTextureSceneShopIdle: {fileID: 0}
+  cursorTextureSceneShopIdleClick: {fileID: 0}
 --- !u!222 &422613234
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8928,6 +8932,55 @@ MeshRenderer:
   m_SortingLayer: 13
   m_SortingOrder: 100
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &586653758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 586653760}
+  - component: {fileID: 586653759}
+  m_Layer: 0
+  m_Name: CursorLogic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &586653759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586653758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d35f794559cee4893f72462e53e192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTextureSceneGlobalIdle: {fileID: 2800000, guid: 0364992a0328de845bad0154e15f22ee, type: 3}
+  cursorTextureSceneGlobalClick: {fileID: 2800000, guid: 7eca4d4a19abe8a4d953ca30a69b7db5, type: 3}
+  cursorTextureSceneShopIdle: {fileID: 2800000, guid: 65875de67862adf41aeb50b16f8d103c, type: 3}
+  cursorTextureSceneShopClick: {fileID: 2800000, guid: 60c517910ab45594aa950b9f58de6f15, type: 3}
+  hotspot: {x: 0, y: 0}
+--- !u!4 &586653760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586653758}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &589641880
 GameObject:
   m_ObjectHideFlags: 0
@@ -10924,6 +10977,7 @@ MonoBehaviour:
   startMove: 0
   lastCrossCollider: {fileID: 0}
   mainCamera: {fileID: 0}
+  arrowRectTransform: {fileID: 0}
   needGPSTracker: 1
 --- !u!61 &735313696
 BoxCollider2D:
@@ -31482,6 +31536,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 416639957}
+  - {fileID: 586653760}
   - {fileID: 1899323924}
   - {fileID: 729638102}
   - {fileID: 1728683615}
