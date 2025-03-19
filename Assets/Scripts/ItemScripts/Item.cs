@@ -249,6 +249,11 @@ public abstract class Item : MonoBehaviour
             }
             else
             {
+                if(gameObject.transform.parent.tag == "Storage")
+                {
+                    ObjectsDynamic("Storage");
+                }
+
                 DragManager.isDragging = true;
                 itemMusicEffects.OnItemUp();
                 if (animator != null && !isEat) animator.Play("ItemClick");
@@ -1255,7 +1260,23 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public float timer_cooldown = 0f;
     public float baseTimerCooldown = 0f;
 
+    public void ObjectsDynamic(string tag)
+    {
+        GameObject parentObject = GameObject.FindWithTag(tag);
 
+        for(int i = 0; i< parentObject.transform.childCount; i++)
+        {
+           
+            if(parentObject.transform.GetChild(i).GetComponent<Item>() != null)
+            {
+                var item = parentObject.transform.GetChild(i).GetComponent<Item>();
+                item.needToDynamic = true;
+                item.timerStatic_locked_out = true;
+                timerStatic = timer_cooldownStatic;
+            }
+        }
+
+    }
 
 
     public void CheckNestedObjectActivation(string objectActivation)
