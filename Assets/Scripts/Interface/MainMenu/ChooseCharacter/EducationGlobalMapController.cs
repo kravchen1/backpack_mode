@@ -10,6 +10,8 @@ public class EducationGlobalMapController : MonoBehaviour
 {
     public GameObject Education;
 
+    public GameObject Page1, Page2;
+
     private void Start()
     {
         if (PlayerPrefs.GetInt("EducationGlobalMap") == 0)
@@ -27,5 +29,17 @@ public class EducationGlobalMapController : MonoBehaviour
     public void OpenEducation()
     {
         Education.SetActive(!Education.activeSelf);
+    }
+
+    public void Page1Forward()
+    {
+        Page1.SetActive(false);
+        Page2.SetActive(true);
+    }
+
+    public void Page2Back()
+    {
+        Page2.SetActive(false);
+        Page1.SetActive(true);
     }
 }
