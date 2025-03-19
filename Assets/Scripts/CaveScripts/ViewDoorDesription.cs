@@ -25,14 +25,14 @@ namespace Assets.Scripts.CaveScripts
 
         private void OnMouseEnter()
         {
-            //if(GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1)
+            if(GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1)
                 textMeshPro.enabled = true;
         }
 
 
         private void OnMouseExit()
         {
-            //if (GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1)
+            if (GetComponent<Door>().caveLevel <= ded.doorData.DoorDataClass.currentCaveLevel + 1)
                 textMeshPro.enabled = false;
         }
     }

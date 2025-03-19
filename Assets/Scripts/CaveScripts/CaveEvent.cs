@@ -35,7 +35,7 @@ public class CaveEvent : MonoBehaviour
                 if (!PlayerPrefs.HasKey("battlePrefabId"))
                 {
                     var r = UnityEngine.Random.Range(0, battlePrefabs.Count);
-                    r = 0;
+                    //r = 0;
                     newObject = Instantiate(battlePrefabs[r], new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
                     newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                     newObject.GetComponent<Enemy>().lvlEnemy = PlayerPrefs.GetInt("caveEnemyLvl");
