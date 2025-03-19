@@ -121,7 +121,7 @@ public class QuestManager : MonoBehaviour
         }
 
         var player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        player.needGPSTracker = !player.needGPSTracker;
+        player.arrowRectTransform.gameObject.SetActive(!player.arrowRectTransform.gameObject.activeSelf);
 
 
     }

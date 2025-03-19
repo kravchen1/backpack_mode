@@ -26,7 +26,7 @@ public class Halberd : Weapon
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemHalberd>();
                 //descr.countIncreasesCritDamage = countIncreasesCritDamage;
-                descr.SetTextBody();
+                //descr.SetTextBody();
 
 
                 if (Player != null)

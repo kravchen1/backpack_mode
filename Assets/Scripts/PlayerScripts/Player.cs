@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     //GPS индикатор
     private List<Transform> targets = new List<Transform>(); // Целевые объекты, на которые указывает стрелка
     private Transform target; // Целевой объект, на который указывает стрелка (ближайший)
-    private RectTransform arrowRectTransform; // RectTransform стрелки
+    [HideInInspector] public RectTransform arrowRectTransform; // RectTransform стрелки
     private QuestManager questManager;
     public bool needGPSTracker = true;
 

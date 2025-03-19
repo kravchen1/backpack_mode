@@ -17,7 +17,7 @@ public class DescriptionItemGoldenGoblet : DescriptionItem
 
     private void Start()
     {
-        SetTextBody();
+        //SetTextBody();
     }
 
     void Update()

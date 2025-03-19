@@ -350,8 +350,9 @@ public abstract class Item : MonoBehaviour
         isDragging = false;
         ClearCareRaycast(false);
         image.sortingOrder = 1;
+        //ChangeShowStars(true);
+        Exit = false;
         StartCoroutine(ShowDescription());
-        //FillnestedObjectStarsStars(256);
         FindPlaceForDescription();
     }
 
