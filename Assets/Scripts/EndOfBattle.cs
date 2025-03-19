@@ -365,6 +365,10 @@ public class EndOfBattle : MonoBehaviour
         PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
         win = false;
         PlayerPrefs.SetInt("WinLose", 2);
+
+        DoorData doorData = new DoorData();
+        doorData.InitializeFilePath();
+        doorData.DeleteData();
     }
     // Update is called once per frame
     void Update()

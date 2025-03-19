@@ -51,6 +51,11 @@ public class DoorData : MonoBehaviour
         }
     }
 
+    public void InitializeFilePath()
+    {
+        doorDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "doorData.json");
+    }
+
     public void Awake()
     {
         doorDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "doorData.json");

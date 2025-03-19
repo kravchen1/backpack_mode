@@ -582,37 +582,44 @@ public abstract class Item : MonoBehaviour
     {
         if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
         {
-            var maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
-            Vector3 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
+            try
+            {
+                var maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
+                Vector3 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
 
-            for (int i = 1; i < careHitsForBackpack.Count; i++)
-            {
-                if (careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                for (int i = 1; i < careHitsForBackpack.Count; i++)
                 {
-                    maxY = careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y;
-                }
-            }
-            var newListCareHits = careHitsForBackpack.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
-            var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
-            foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
-            {
-                if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
-                {
-                    if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                    if (careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y >= maxY)
                     {
-                        minX = careHit.raycastHit.collider.transform.localPosition.x;
-                        colliderPos = careHit.raycastHit.collider.transform.localPosition;
-
+                        maxY = careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y;
                     }
                 }
+                var newListCareHits = careHitsForBackpack.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
+                var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
+                foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
+                {
+                    if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                    {
+                        if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
+                        {
+                            minX = careHit.raycastHit.collider.transform.localPosition.x;
+                            colliderPos = careHit.raycastHit.collider.transform.localPosition;
+
+                        }
+                    }
+                }
+                var offset = calculateOffset(itemColliders);
+                rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
+                //Debug.Log(offset);
+                needToDynamic = false;
+                foreach (var careHit in careHitsForBackpack)
+                {
+                    careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                }
             }
-            var offset = calculateOffset(itemColliders);
-            rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
-            //Debug.Log(offset);
-            needToDynamic = false;
-            foreach (var careHit in careHitsForBackpack)
+            catch (Exception ex)
             {
-                careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+
             }
         }
     }
@@ -927,13 +934,16 @@ public abstract class Item : MonoBehaviour
                     }
                     if (createCareHit)
                     {
-                        if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
+                        if (hit.hits[0].collider.gameObject.transform.parent.parent.tag != "Storage")
                         {
-                            if(hit.hits[0].collider.GetComponent<Cell>().nestedObject != null && hit.hits[0].collider.GetComponent<Cell>().nestedObject != this.gameObject)
-                                hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.yellow;
-                            else
-                                hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
-                            careHits.Add(new RaycastStructure(hit.hits[0]));//�������
+                            if (careHits.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.hits[0].collider.name).Count() == 0)
+                            {
+                                if (hit.hits[0].collider.GetComponent<Cell>().nestedObject != null && hit.hits[0].collider.GetComponent<Cell>().nestedObject != this.gameObject)
+                                    hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.yellow;
+                                else
+                                    hit.hits[0].collider.GetComponent<SpriteRenderer>().color = Color.green;
+                                careHits.Add(new RaycastStructure(hit.hits[0]));//�������
+                            }
                         }
                     }
                 }
