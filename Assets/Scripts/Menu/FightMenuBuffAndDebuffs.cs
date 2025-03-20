@@ -69,7 +69,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         else
         {
-            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/"+ buffName), new Vector2(0, 0), Quaternion.identity, placeGenerationIconsBuffs.transform);
+            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/"+ buffName), placeGenerationIconsBuffs.transform);
             var icon = sceneGameObjectIcon.GetComponent<Icon>();
             icon.sceneGameObjectIcon = sceneGameObjectIcon;
             icon.countStack = count;
@@ -89,7 +89,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
         else
         {
-            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/" + debuffName), new Vector2(0, 0), Quaternion.identity, placeGenerationIconsDebuffs.transform);
+            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/" + debuffName), placeGenerationIconsDebuffs.transform);
             var icon = sceneGameObjectIcon.GetComponent<Icon>();
             icon.sceneGameObjectIcon = sceneGameObjectIcon;
             icon.countStack = count;

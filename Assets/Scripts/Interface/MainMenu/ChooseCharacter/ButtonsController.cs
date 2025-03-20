@@ -98,6 +98,7 @@ public void ToogleMainChoice()
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
+        PlayerPrefs.SetString("currentLocation", "GenerateMapInternumFortress1");
         SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
         //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
@@ -113,6 +114,7 @@ public void ToogleMainChoice()
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
+        PlayerPrefs.SetString("currentLocation", "GenerateMapInternumFortress1");
         SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
         //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }

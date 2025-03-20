@@ -20,9 +20,9 @@ public class ButtonLoadGame : MonoBehaviour
         if(PlayerPrefs.HasKey("currentLocation"))
            // SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
             SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
-        else
-            //SceneManager.LoadScene("GenerateMapInternumFortress1");
-            SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
+        //else
+        //    //SceneManager.LoadScene("GenerateMapInternumFortress1");
+        //    SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
 
     }
 
