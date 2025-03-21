@@ -13,11 +13,11 @@ public class DescriptionItemSwampDragon : DescriptionItem
     //public int accuracyPercent = 95;
     //public float cooldown = 1.1f;
 
-    public void SetTextBody()
-    {
-        string text = "On hit: inflict <u>" + poisonStack.ToString() + "</u>       and <u>" + blindnessStack.ToString() + "</u> \r\nWhen taking damage, gives <u>" + fireStack.ToString() + "</u>";
-        textBody.text = text;
-    }
+    //public void SetTextBody()
+    //{
+    //    string text = "On hit: inflict <u>" + poisonStack.ToString() + "</u>       and <u>" + blindnessStack.ToString() + "</u> \r\nWhen taking damage, gives <u>" + fireStack.ToString() + "</u>";
+    //    textBody.text = text;
+    //}
 
     public void SetTextStat()
     {

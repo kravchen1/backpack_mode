@@ -1107,12 +1107,7 @@ public abstract class Item : MonoBehaviour
             if (canShowDescription && CanvasDescription != null)
             {
                 
-                Destroy(CanvasDescription.gameObject);
-                //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-                //if (starsDesctiprion != null)
-                //{
-                //    starsDesctiprion.enabled = false;
-                //}
+                //Destroy(CanvasDescription.gameObject);
             }
         //}
     }
