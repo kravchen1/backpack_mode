@@ -6,16 +6,46 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
+using Unity.Burst.CompilerServices;
+using UnityEditor.VersionControl;
 
 public class DescriptionItem : MonoBehaviour
 {
     public string originalName = "hiddenDagger";
 
+    public TextMeshPro weaponStat;
+
     public TextMeshPro textBody;
     public TextMeshPro Stats;
 
+    public TextMeshPro type;
+    public TextMeshPro rarity;
+
+
     public RectTransform bodyRect; // Родительский объект
     public RectTransform textRectForEndPosition;
+
+
+
+    public TextMeshPro iconPoisonDescription;
+    public TextMeshPro iconBleedingDescription;
+    public TextMeshPro iconBlindDescription;
+    public TextMeshPro iconBurnDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+    //public TextMeshPro iconBaseCritDescription;
+
+
+
 
     public int damageMin = 1, damageMax = 2;
     public float staminaCost = 1;
@@ -28,32 +58,57 @@ public class DescriptionItem : MonoBehaviour
 
     
 
-    //public TextMeshPro PoisonDescription;
-    //public TextMeshPro BleedingDescription;
-    //public TextMeshPro BlindDescription;
+    
 
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
-
+    private string settingLanguage = "ru";
     public void SetIconDescriptions()
     {
-
+        if(iconPoisonDescription != null)
+        {
+            iconPoisonDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Poison").description;
+        }
+        if (iconBleedingDescription != null)
+        {
+            iconBleedingDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Bleed").description;
+        }
+        if (iconBlindDescription != null)
+        {
+            iconBlindDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Blind").description;
+        }
+        if (iconBurnDescription != null)
+        {
+            iconBurnDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Burn").description;
+        }
     }
-
+    public void SetWeaponStat()
+    {
+        if(weaponStat != null)
+        {
+            weaponStat.text = LocalizationManager.Instance.GetTextWeaponStat(settingLanguage);
+        }
+    }
+    public void SetTypeAndRarity(ItemsText itemText)
+    {
+        type.text = itemText.type;
+        rarity.text = itemText.rarity;
+    }
+    public void SetFont()
+    {
+        if(settingLanguage == "zh-CN")
+        {
+            var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
+            weaponStat.font = font;
+            Stats.font = font;
+        }
+    }
     public void SetTextBody()
     {
-        ItemsText itemText = LocalizationManager.Instance.GetTextItem("ru", originalName);
+        SetWeaponStat();
+        SetIconDescriptions();
+        SetFont();
 
+        ItemsText itemText = LocalizationManager.Instance.GetTextItem(settingLanguage, originalName);
+        SetTypeAndRarity(itemText);
         string pattern = @"Icon(\w+)\(([-\d.]+)f,([-\d.]+)f\)";
         Regex regex = new Regex(pattern);
 
@@ -118,10 +173,10 @@ public class DescriptionItem : MonoBehaviour
         {
             //Console.WriteLine($"Icon: {data.Name}, Number1: {data.Number1}, Number2: {data.Number2}");
             //
-            Vector2 endPosition = CalculateTextEndPosition(bodyRect, textRectForEndPosition);
+            //Vector2 endPosition = CalculateTextEndPosition(bodyRect, textRectForEndPosition);
             var icon = Instantiate(Resources.Load<GameObject>("Icons/Icon" + data.Name), gameObject.transform.GetChild(1).transform);
-            //icon.GetComponent<RectTransform>().anchoredPosition = new Vector3(float.Parse(data.Number1), float.Parse(data.Number2), 0);
-            icon.GetComponent<RectTransform>().anchoredPosition = new Vector3(endPosition.x, endPosition.y, 0);
+            icon.GetComponent<RectTransform>().anchoredPosition = new Vector3(float.Parse(data.Number1), float.Parse(data.Number2), 0);
+            //icon.GetComponent<RectTransform>().anchoredPosition = new Vector3(endPosition.x, endPosition.y, 0);
             
         }
         

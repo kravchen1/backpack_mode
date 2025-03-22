@@ -20,26 +20,39 @@
         "text": "King here!"
       }
     ],
-    "itemsEducation": [
+    "iconsEducation": [
       {
         "name": "Poison",
-        "description": "Poison: for every stack reduce incoming heal 5%. This value may exceed 100%"
+        "description": "Poison: Reduces incoming healing by 5% per stack. This value can exceed 100%"
       },
       {
         "name": "Bleed",
         "description": "Bleeding: for every stack deals 1/s damage"
-      }
+      },
+      {
+        "name": "Blind",
+        "description": "Blind: For each stack, reduces weapon accuracy by 5%"
+      },
+      {
+        "name": "Burn",
+        "description": "Burn: For each stack, all items activate 2% faster"
+      } 
     ],
     "items": [
       {
         "name": "hiddenDagger",
-        "description": "First hit: inflict {0} IconBleed(205f,-319f)"
+        "description": "First hit: inflict {0} IconBleed(205f,-319f)",
+        "type": "weapon",
+        "rarity": "rare"
       },
       {
         "name": "SwampDragon",
-        "description": "On hit: inflict <u>{0}</u> IconPoison(177f,-367f) and <u>{1}</u> IconBlind(255f,-370f) \r\nWhen taking damage, gives <u>{2}</u> IconBurn(275f,-400f)"
+        "description": "On hit: inflict <u>{0}</u> IconPoison(191f,-215f)     and <u>{1}</u> IconBlind(286f,-215f) \r\nWhen taking damage, gives <u>{2}</u> IconBurn(310f,-250f)",
+        "type": "pets",
+        "rarity": "mythical"
       }
-    ]
+    ],
+    "weaponStat": "Damage: \r\nChanceCrit: \r\nCritDamage: \r\nStamina Cost: \r\nAccuracy: \r\nCoolDown: "
   },
   "ru": {
     "ui": [
@@ -59,10 +72,10 @@
       },
       {
         "name": "start",
-        "text": "вот и корольу!"
+        "text": "вот и король!"
       }
     ],
-    "itemsEducation": [
+    "iconsEducation": [
       {
         "name": "Poison",
         "description": "Яд: за каждый стак уменьшает входящее лечение на 5%. Это значение может превысить 100%"
@@ -70,17 +83,85 @@
       {
         "name": "Bleed",
         "description": "Кровотечение: за каждый стак наносит 1/с урона"
-      }
+      },
+      {
+        "name": "Blind",
+        "description": "Ослепление: за каждый стак уменьшает точность оружия на 5%"
+      },
+      {
+        "name": "Burn",
+        "description": "Горение: за каждый стак все предметы активируются на 2% быстрее"
+      } 
     ],
     "items": [
       {
         "name": "hiddenDagger",
-        "description": "Первый удар: накладывает {0} IconBleed(284f,-317f)"
+        "description": "Первый удар: накладывает {0} IconBleed(284f,-317f)",
+        "type": "оружие",
+        "rarity": "редкий"
       },
       {
         "name": "SwampDragon",
-        "description": "При ударе: накладывает <u>{0}</u> IconPoison(258f,-367f) и <u>{1}</u> IconBlind(312f,-370f) При получении урона: даёт <u>{2}</u> IconBurn(280f,-400f)"
+        "description": "При ударе: накладывает <u>{0}</u> IconPoison(291f,-217f)      и <u>{1}</u> IconBlind(361f,-217f) При получении урона: даёт <u>{2}</u> IconBurn(314f,-251f)",
+        "type": "питомцы",
+        "rarity": "мифический"
       }
-    ]
+    ],
+    "weaponStat": "урон: \r\nшанс крита: \r\nурон крита: \r\nстамина: \r\nточность: \r\nперезарядка: "
+  },
+  "zhCN": {
+    "ui": [
+      {
+        "name": "start_button",
+        "text": "Начать"
+      },
+      {
+        "name": "settings_button",
+        "text": "Настройки"
+      }
+    ],
+    "dialogs": [
+      {
+        "name": "welcome",
+        "text": "Добро пожаловать в игру!"
+      },
+      {
+        "name": "start",
+        "text": "вот и король!"
+      }
+    ],
+    "iconsEducation": [
+      {
+        "name": "Poison",
+        "description": "Яд: за каждый стак уменьшает входящее лечение на 5%. Это значение может превысить 100%"
+      },
+      {
+        "name": "Bleed",
+        "description": "Кровотечение: за каждый стак наносит 1/с урона"
+      },
+      {
+        "name": "Blind",
+        "description": "Ослепление: за каждый стак уменьшает точность оружия на 5%"
+      },
+      {
+        "name": "Burn",
+        "description": "Горение: за каждый стак все предметы активируются на 2% быстрее"
+      } 
+    ],
+    "items": [
+      {
+        "name": "hiddenDagger",
+        "description": "Первый удар: накладывает {0} IconBleed(284f,-317f)",
+        "type": "оружие",
+        "rarity": "редкий"
+      },
+      {
+        "name": "SwampDragon",
+        "description": "При ударе: накладывает <u>{0}</u> IconPoison(291f,-217f)      и <u>{1}</u> IconBlind(361f,-217f) При получении урона: даёт <u>{2}</u> IconBurn(314f,-251f)",
+        "type": "питомцы",
+        "rarity": "мифический"
+      }
+    ],
+    "weaponStat": "损害：\r\n暴击几率：\r\n暴击伤害：\r\n耐力：\r\n准确性：\r\n重新加载："
   }
 }
