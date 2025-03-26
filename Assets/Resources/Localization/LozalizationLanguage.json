@@ -105,7 +105,15 @@
       {
         "name": "ChanceCrit",
         "description": "Шанс крита: за каждый стак увеличивает вероятность критического удара на 2%"
-      } 
+      },
+      {
+        "name": "Regenerate",
+        "description": "Регенерация: За каждый стак восстанавливает 1 здоровья/сек"
+      },
+      {
+        "name": "Evasion",
+        "description": "Уворот: за каждый стак увеличивает шанс уклонения на 2%"
+      }   
     ],
     "items": [
       {
@@ -164,9 +172,63 @@
       },
       {
         "name": "BottleOfWine",
-        "description": "При перемещении в рюкзак, исчезает.\r\n В следующем бою накладывает на вас {0} <sprite name=\"IconPoison\"> и даёт {1} <sprite name=\"IconChanceCrit\">",
+        "description": "При перемещении в рюкзак, исчезает.\r\n В следующем бою накладывает на вас {0} <sprite name=\"IconPoison\"> и даёт {1} <sprite name=\"IconChanceCrit\">\r\nэффекты не стакаются",
         "type": "еда",
         "rarity": "обычный"
+      },
+      {
+        "name": "BowlOfSoup",
+        "description": "При перемещении в рюкзак, исчезает  и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">\r\n В следующем бою даёт {1} <sprite name=\"IconBurn\">\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "обычный"
+      },
+      {
+        "name": "Bread",
+        "description": "При перемещении в рюкзак, исчезает и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">",
+        "type": "еда",
+        "rarity": "обычный"
+      },
+      {
+        "name": "CupOfTea",
+        "description": "При перемещении в рюкзак, исчезает  и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">\r\n В следующем бою даёт {1} <sprite name=\"IconRegenerate\">\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "редкий"
+      },
+      {
+        "name": "FriedMeat",
+        "description": "При перемещении в рюкзак, исчезает  и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">\r\n В следующем бою даёт +{1} <sprite name=\"IconStamina\"> к максимуму\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "редкий"
+      },
+      {
+        "name": "FriedPotato",
+        "description": "При перемещении в рюкзак, исчезает  и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">\r\n В следующем бою даёт +{1} <sprite name=\"IconStamina\"> к максимуму\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "редкий"
+      },
+      {
+        "name": "Jam",
+        "description": "При перемещении в рюкзак, исчезает.\r\n В следующем бою даёт {0} <sprite name=\"IconEvasion\">\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "обычный"
+      },
+      {
+        "name": "MushroomPie",
+        "description": "При перемещении в рюкзак, исчезает  и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">\r\n В следующем бою накладывает на врага {1} <sprite name=\"IconPoison\">\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "обычный"
+      },
+      {
+        "name": "RawMeat",
+        "description": "При перемещении в рюкзак, исчезает и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">",
+        "type": "еда",
+        "rarity": "обычный"
+      },
+      {
+        "name": "Stew",
+        "description": "При перемещении в рюкзак, исчезает  и восстанавливает вам <u>{0}</u> <sprite name=\"IconHP\">\r\n В следующем бою даёт +{1} <sprite name=\"IconStamina\"> к максимуму\r\nэффекты не стакаются",
+        "type": "еда",
+        "rarity": "редкий"
       }
 
     ],
