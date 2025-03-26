@@ -25,6 +25,7 @@ public class DescriptionItem : MonoBehaviour
     public TextMeshPro iconBurnDescription;
     public TextMeshPro iconIceDescription;
     public TextMeshPro iconResistanceDescription;
+    public TextMeshPro iconChanceCritDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
@@ -71,6 +72,10 @@ public class DescriptionItem : MonoBehaviour
         if (iconResistanceDescription != null)
         {
             iconResistanceDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Resistance").description;
+        }
+        if (iconChanceCritDescription != null)
+        {
+            iconChanceCritDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "ChanceCrit").description;
         }
     }
     
