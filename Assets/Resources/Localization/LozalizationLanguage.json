@@ -93,6 +93,14 @@
       {
         "name": "Burn",
         "description": "Горение: за каждый стак все предметы активируются на 2% быстрее"
+      },
+      {
+        "name": "Frost",
+        "description": "Заморозка: за каждый стак все предметы активируются на 2% медленнее"
+      },
+      {
+        "name": "Resistance",
+        "description": "Сопротивление: за каждый стак уменьшает вероятность наложения дебаффа на 3%"
       } 
     ],
     "items": [
@@ -107,7 +115,44 @@
         "description": "При ударе: накладывает <u>{0}</u> <sprite name=\"IconPoison\"> и <u>{1}</u> <sprite name=\"IconBlind\">\r\nПри получении урона: даёт <u>{2}</u> <sprite name=\"IconBurn\">",
         "type": "питомцы",
         "rarity": "мифический"
+      },
+      {
+        "name": "FireBag",
+        "description": "Добавляет 9 слотов\r\nпредметы внутри дают {0} <sprite name=\"IconBurn\"> при активации",
+        "type": "сумки",
+        "rarity": "мифический"
+      },
+      {
+        "name": "EarthBag",
+        "description": "Добавляет 9 слотов\r\nпредметы внутри дают {0} <sprite name=\"IconArmor\"> при активации",
+        "type": "сумки",
+        "rarity": "мифический"
+      },
+      {
+        "name": "IceBag",
+        "description": "Добавляет 9 слотов\r\nпредметы внутри дают {0} <sprite name=\"IconFrost\"> при активации",
+        "type": "сумки",
+        "rarity": "мифический"
+      },
+      {
+        "name": "Bag2x2",
+        "description": "Добавляет 4 слота",
+        "type": "сумки",
+        "rarity": "обычный"
+      },
+      {
+        "name": "Bag1x1Resistance",
+        "description": "Добавляет 1 слот\r\n Начало боя: даёт {0} <sprite name=\"IconResistance\">",
+        "type": "сумки",
+        "rarity": "редкий"
+      },
+      {
+        "name": "Bag2x1Stamina",
+        "description": "Добавляет 2 слота\r\n Начало боя: уменьшает потребление стамины на {0}% у предметов внутри",
+        "type": "сумки",
+        "rarity": "редкий"
       }
+
     ],
     "weaponStat": "урон: \r\nшанс крита: \r\nурон крита: \r\nстамина: \r\nточность: \r\nперезарядка: ",
     "weight": "вес: {0} ед."

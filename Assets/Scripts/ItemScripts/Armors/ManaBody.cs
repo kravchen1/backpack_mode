@@ -134,7 +134,7 @@ public class ManaBody : Armor
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().countStarArmorStack = countStarArmorStack;
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().countStarManaStack = countStarManaStack;
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().countManaStack = countManaStack;
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().Armor = startBattleArmorCount;
+                CanvasDescription.GetComponent<DescriptionItemManaBody>().armor = startBattleArmorCount;
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().SetTextBody();
             }
         }

@@ -9,7 +9,6 @@ public class VampireBoots : Armor
 {
     private bool isUse = false;
     public int countVampireStack = 2;
-    public int countArmorStack = 15;
 
 
 
@@ -29,19 +28,19 @@ public class VampireBoots : Armor
         {
             if (Player != null)
             {
-                Player.armor = Player.armor + countArmorStack;
-                Player.armorMax = Player.armorMax + countArmorStack;
+                Player.armor = Player.armor + startBattleArmorCount;
+                Player.armorMax = Player.armorMax + startBattleArmorCount;
                 isUse = true;
                 Player.menuFightIconData.AddBuff(countVampireStack, "IconVampire");
                 CreateLogMessage("Vampire boots give" + countVampireStack.ToString(), Player.isPlayer);
 
                 if (Player.isPlayer)
                 {
-                    CreateLogMessage(LogArmorStackCharacter, "Dinosaur give " + countArmorStack.ToString());
+                    CreateLogMessage(LogArmorStackCharacter, "Vampire boots give " + startBattleArmorCount.ToString());
                 }
                 else
                 {
-                    CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + countArmorStack.ToString());
+                    CreateLogMessage(LogArmorStackEnemy, "Vampire boots give " + startBattleArmorCount.ToString());
                 }
 
                 CheckNestedObjectActivation("StartBag");
@@ -95,7 +94,7 @@ public class VampireBoots : Armor
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireBoots>();
                 //descr.cooldown = timer_cooldown;
-                descr.countArmorStack = countArmorStack;
+                descr.armor = startBattleArmorCount;
                 descr.countVampireStack = countVampireStack;
                 descr.SetTextBody();
             }

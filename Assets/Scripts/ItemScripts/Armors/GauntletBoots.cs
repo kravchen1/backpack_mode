@@ -84,9 +84,7 @@ public class GauntletBoots : Armor
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemGauntletBoots>();
-                descr.cooldown = timer_cooldown;
                 descr.armor = armor;
-                descr.SetTextBody();
             }
         }
     }

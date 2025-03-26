@@ -23,6 +23,8 @@ public class DescriptionItem : MonoBehaviour
     public TextMeshPro iconBleedingDescription;
     public TextMeshPro iconBlindDescription;
     public TextMeshPro iconBurnDescription;
+    public TextMeshPro iconIceDescription;
+    public TextMeshPro iconResistanceDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
@@ -43,7 +45,7 @@ public class DescriptionItem : MonoBehaviour
 
     
 
-    public string settingLanguage = "en";
+    public string settingLanguage = "ru";
     public void SetIconDescriptions()
     {
         if(iconPoisonDescription != null)
@@ -62,6 +64,14 @@ public class DescriptionItem : MonoBehaviour
         {
             iconBurnDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Burn").description;
         }
+        if (iconIceDescription != null)
+        {
+            iconIceDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Frost").description;
+        }
+        if (iconResistanceDescription != null)
+        {
+            iconResistanceDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Resistance").description;
+        }
     }
     
     public void SetWeight()
@@ -78,12 +88,12 @@ public class DescriptionItem : MonoBehaviour
     }
     public void SetFont()
     {
-        if(settingLanguage == "zh-CN")
-        {
-            var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
-            weaponStat.font = font;
-            Stats.font = font;
-        }
+        //if (settingLanguage == "zh-CN")
+        //{
+        //    var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
+        //    weaponStat.font = font;
+        //    Stats.font = font;
+        //}
     }
     public virtual void SetTextBody()
     {
@@ -155,4 +165,9 @@ public class DescriptionItem : MonoBehaviour
         return (int)fields[index].GetValue(this);
     }
 
+
+    public void Start()
+    {
+        SetTextBody();
+    }
 }
