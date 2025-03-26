@@ -43,6 +43,7 @@ public class LocalizedData
     public List<IconsEducation> iconsEducation;
     public List<ItemsText> items;
     public string weaponStat;
+    public string weight;
 }
 
 [System.Serializable]
@@ -149,6 +150,31 @@ public class LocalizationManager : MonoBehaviour
                     break;
                 default:
                     text = _localizationData.en.weaponStat;
+                    break;
+            }
+        }
+
+        return text;
+    }
+
+    public string GetTextWeight(string lang)
+    {
+        string text = "";
+        if (_localizationData != null)
+        {
+            switch (lang)
+            {
+                case "en":
+                    text = _localizationData.en.weight;
+                    break;
+                case "ru":
+                    text = _localizationData.ru.weight;
+                    break;
+                case "zh-CN":
+                    text = _localizationData.zhCN.weight;
+                    break;
+                default:
+                    text = _localizationData.en.weight;
                     break;
             }
         }

@@ -5,24 +5,4 @@ using UnityEngine;
 public class DescriptionItemVampireGloves : DescriptionItem
 {
     public int countBleedStack = 1;
-    //public float coolDown = 1.1f;
-    public void SetTextBody()
-    {
-        string text = "when      item activate: apply <u>" + countBleedStack.ToString() + "</u>       on enemy";
-        textBody.text = text;
-    }
-
-    /*
-     Every <u>1</u> sec: applies <u>1</u>      on enemy  
-    */
-
-    private void Start()
-    {
-        SetTextBody();
-    }
-
-    void Update()
-    {
-        
-    }
 }

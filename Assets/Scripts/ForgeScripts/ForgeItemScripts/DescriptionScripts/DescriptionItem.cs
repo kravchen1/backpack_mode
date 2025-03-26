@@ -13,19 +13,11 @@ public class DescriptionItem : MonoBehaviour
 {
     public string originalName = "hiddenDagger";
 
-    public TextMeshPro weaponStat;
-
     public TextMeshPro textBody;
-    public TextMeshPro Stats;
 
     public TextMeshPro type;
     public TextMeshPro rarity;
-
-
-    public RectTransform bodyRect; // Родительский объект
-    public RectTransform textRectForEndPosition;
-
-
+    public TextMeshPro weightText;
 
     public TextMeshPro iconPoisonDescription;
     public TextMeshPro iconBleedingDescription;
@@ -45,22 +37,13 @@ public class DescriptionItem : MonoBehaviour
     //public TextMeshPro iconBaseCritDescription;
 
 
-
-
-    public int damageMin = 1, damageMax = 2;
-    public float staminaCost = 1;
-    public int accuracyPercent = 95;
-    public int chanceCrit = 5;
-    public int critDamage = 130;
-    public float cooldown = 1.1f;
-
-    public int Armor = 0;
+    public float weight = 0.5f;
 
     
 
     
 
-    private string settingLanguage = "ru";
+    public string settingLanguage = "en";
     public void SetIconDescriptions()
     {
         if(iconPoisonDescription != null)
@@ -80,11 +63,12 @@ public class DescriptionItem : MonoBehaviour
             iconBurnDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Burn").description;
         }
     }
-    public void SetWeaponStat()
+    
+    public void SetWeight()
     {
-        if(weaponStat != null)
+        if (weightText != null)
         {
-            weaponStat.text = LocalizationManager.Instance.GetTextWeaponStat(settingLanguage);
+            weightText.text = string.Format(LocalizationManager.Instance.GetTextWeight(settingLanguage), weight);
         }
     }
     public void SetTypeAndRarity(ItemsText itemText)
@@ -101,38 +85,26 @@ public class DescriptionItem : MonoBehaviour
             Stats.font = font;
         }
     }
-    public void SetTextBody()
+    public virtual void SetTextBody()
     {
-        SetWeaponStat();
+        SetWeight();
         SetIconDescriptions();
         SetFont();
-
         ItemsText itemText = LocalizationManager.Instance.GetTextItem(settingLanguage, originalName);
         SetTypeAndRarity(itemText);
-        string pattern = @"Icon(\w+)\(([-\d.]+)f,([-\d.]+)f\)";
-        Regex regex = new Regex(pattern);
 
-        // Список для хранения найденных данных
-        var iconData = new List<(string Name, string Number1, string Number2)>();
 
-        // Поиск всех совпадений
-        MatchCollection matches = regex.Matches(itemText.description);
-        foreach (Match match in matches)
+
+        // Загружаем Sprite Asset
+        TMP_SpriteAsset spriteAsset = Resources.Load<TMP_SpriteAsset>("Icons/iconsAtlas");
+
+        if (spriteAsset == null)
         {
-            string iconName = match.Groups[1].Value; // Имя иконки (например, Bleed)
-            string number1 = match.Groups[2].Value;  // Первое число (например, 284)
-            string number2 = match.Groups[3].Value;  // Второе число (например, -317)
-
-            // Добавляем данные в список
-            iconData.Add((iconName, number1, number2));
+            Debug.LogError($"SpriteAsset not found at path: \"Icons/iconsAtlas\"");
+            return;
         }
 
-        // Удаляем блоки с Icon из исходного текста
-        string cleanedText = regex.Replace(itemText.description, "").Trim();
-
-        
-
-
+        textBody.spriteAsset = spriteAsset;
 
 
 
@@ -145,42 +117,31 @@ public class DescriptionItem : MonoBehaviour
         // Количество вхождений
         int count = matchesFigure.Count;
 
-
-
         switch (count)
         {
             case 0:
-                textBody.text = cleanedText;
+                textBody.text = itemText.description;
                 break;
             case 1:
-                textBody.text = string.Format(cleanedText, GetField(0));
+                textBody.text = string.Format(itemText.description, GetField(0));
                 break;
             case 2:
-                textBody.text = string.Format(cleanedText, GetField(0), GetField(1));
+                textBody.text = string.Format(itemText.description, GetField(0), GetField(1));
                 break;
             case 3:
-                textBody.text = string.Format(cleanedText, GetField(0), GetField(1), GetField(2));
+                textBody.text = string.Format(itemText.description, GetField(0), GetField(1), GetField(2));
                 break;
             case 4:
-                textBody.text = string.Format(cleanedText, GetField(0), GetField(1), GetField(2), GetField(3));
+                textBody.text = string.Format(itemText.description, GetField(0), GetField(1), GetField(2), GetField(3));
                 break;
             case 5:
-                textBody.text = string.Format(cleanedText, GetField(0), GetField(1), GetField(2), GetField(3), GetField(4));
+                textBody.text = string.Format(itemText.description, GetField(0), GetField(1), GetField(2), GetField(3), GetField(4));
                 break;
         }
 
-        foreach (var data in iconData)
-        {
-            //Console.WriteLine($"Icon: {data.Name}, Number1: {data.Number1}, Number2: {data.Number2}");
-            //
-            //Vector2 endPosition = CalculateTextEndPosition(bodyRect, textRectForEndPosition);
-            var icon = Instantiate(Resources.Load<GameObject>("Icons/Icon" + data.Name), gameObject.transform.GetChild(1).transform);
-            icon.GetComponent<RectTransform>().anchoredPosition = new Vector3(float.Parse(data.Number1), float.Parse(data.Number2), 0);
-            //icon.GetComponent<RectTransform>().anchoredPosition = new Vector3(endPosition.x, endPosition.y, 0);
-            
-        }
-        
-        //Debug.Log(endPosition);
+        // Принудительное обновление (на всякий случай)
+        textBody.ForceMeshUpdate();
+
     }
 
     public int GetField(int index)
@@ -194,40 +155,4 @@ public class DescriptionItem : MonoBehaviour
         return (int)fields[index].GetValue(this);
     }
 
-
-    Vector2 CalculateTextEndPosition(RectTransform parentRectTransform, RectTransform textRectTransform)
-    {
-        // Размер родительского объекта
-        Vector2 parentSize = parentRectTransform.rect.size;
-
-        // Якоря текста
-        Vector2 anchorMin = textRectTransform.anchorMin; // MinX, MinY
-        Vector2 anchorMax = textRectTransform.anchorMax; // MaxX, MaxY
-
-        // Размер текста
-        Vector2 textSize = textRectTransform.sizeDelta;
-
-        // anchoredPosition текста
-        Vector2 anchoredPosition = textRectTransform.anchoredPosition;
-
-        // Вычисляем абсолютные координаты начала текста
-        Vector2 textStartPosition = new Vector2(
-            parentSize.x * anchorMin.x + anchoredPosition.x,
-            parentSize.y * anchorMin.y + anchoredPosition.y
-        );
-
-        // Вычисляем конечную точку текста
-        Vector2 textEndPosition = textStartPosition + textSize;
-
-        return textEndPosition;
-    }
-
-    private void Awake()
-    {
-    }
-
-    void Update()
-    {
-        
-    }
 }
