@@ -121,7 +121,13 @@
       {
         "name": "Power",
         "description": "Сила: за каждый стак увеличивает урон атакующих предметов на 1"
-      }     
+      },
+      {
+        "name": "Vampire",
+        "description": "вампиризм: за каждый стак, добавляет 2% вампиризма к атакам"
+      }      
+
+      
     ],
     "items": [
       {
@@ -585,13 +591,51 @@
         "description": "Каждые <u>{1}</u> секунды:\r\nнакладывает <u>{0}</u> <sprite name=\"IconBlind\">",
         "type": "всякое",
         "rarity": "обычный"
+      },
+      {
+        "name": "VampieAmulet1",
+        "description": "Победа в бою:\r\nесли все предметы вампира <sprite name=\"IconFillStar\"> заполнены, то добавляет angry fluff на склад",
+        "type": "вампир",
+        "rarity": "мифический"
+      },
+      {
+        "name": "VampieBody1",
+        "description": "Каждые <u>{1}</u> секунды: даёт <sprite name=\"IconVampire\"> равное количеству <sprite name=\"IconBleed\"> на враге\r\n\r\n активация предмета вампира <sprite name=\"IconFillStar\">: накладывает {0} <sprite name=\"IconBleed\">",
+        "type": "вампир",
+        "rarity": "мифический"
+      },
+      {
+        "name": "VampieBoots1",
+        "description": "Начало боя: даёт {1} <sprite name=\"IconArmor\"> и {0} <sprite name=\"IconVampire\">",
+        "type": "вампир",
+        "rarity": "редкий"
+      },
+      {
+        "name": "VampieBow1",
+        "description": "попадание: даёт <sprite name=\"IconChanceCrit\"> равное количеству <sprite name=\"IconBleed\"> на враге\r\n\r\nактивация предмета оружия <sprite name=\"IconFillStar\">: даёт <u>{0}</u> <sprite name=\"IconBaseCrit\">",
+        "type": "вампир/оружие",
+        "rarity": "легенда"
+      },
+      {
+        "name": "VampieGloves1",
+        "description": "активация предмета <sprite name=\"IconFillStar\">: накладывает <u>{0}</u> <sprite name=\"IconBleed\">",
+        "type": "вампир",
+        "rarity": "мифический"
+      },
+      {
+        "name": "VampireSword1",
+        "description": "попадание: наносит урон владельцу\r\n\r\nперчатки <sprite name=\"IconFillStar\">: отменяют наносимый владельцу урон",
+        "type": "вампир/оружие",
+        "rarity": "редкий"
       }
       
       
-      
-      
-      
 
+      
+      
+      
+      
+      
 
       
       

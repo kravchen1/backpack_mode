@@ -72,7 +72,6 @@ public class EndOfBattle : MonoBehaviour
             if (PlayerPrefs.GetInt("VampireAmulet") == 1)
             {
                 PlayerPrefs.SetInt("VampireAmulet", 0);
-
                 giveItem("AngryFluff");
             }
             var enemyName = PlayerPrefs.GetString("enemyName");

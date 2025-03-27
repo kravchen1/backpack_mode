@@ -30,7 +30,7 @@ public class DescriptionItem : MonoBehaviour
     public TextMeshPro iconEvasionDescription;
     public TextMeshPro iconManaDescription;
     public TextMeshPro iconPowerDescription;
-    //public TextMeshPro iconBaseCritDescription;
+    public TextMeshPro iconVampireDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
@@ -94,7 +94,11 @@ public class DescriptionItem : MonoBehaviour
         {
             iconPowerDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Power").description;
         }
-
+        if (iconVampireDescription != null)
+        {
+            iconVampireDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Vampire").description;
+        }
+        
 
     }
     
