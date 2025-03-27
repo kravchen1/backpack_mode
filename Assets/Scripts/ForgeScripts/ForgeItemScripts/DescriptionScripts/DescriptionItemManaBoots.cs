@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DescriptionItemManaBoots : DescriptionItemCooldown
 {
-    public int countNeedManaStack = 2;
+    public int countManaStack = 2;
 }

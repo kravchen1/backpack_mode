@@ -114,7 +114,7 @@ public class ManaBoots : Armor
 
                     var descr = CanvasDescription.GetComponent<DescriptionItemManaBoots>();
                     descr.cooldown = (float)Math.Round(timer_cooldown,2);
-                    descr.countNeedManaStack = countManaStack;
+                    descr.countManaStack = countManaStack;
                     descr.SetTextBody();
             }
         }
