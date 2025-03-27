@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class DescriptionItemBlackClaw : DescriptionItemWeapon
 {
-    public int stealsRandomDebuff;
+    public int stealsRandomBuff;
 }
