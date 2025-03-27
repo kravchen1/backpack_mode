@@ -18,7 +18,7 @@ public class bag1x1Resistance : Bag
         }
     }
 
-    private void CoolDownStart()
+    public override void CoolDownStart()
     {
         if (timer_locked_outStart)
         {
@@ -41,18 +41,6 @@ public class bag1x1Resistance : Bag
         {
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
-        }
-    }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-        }
-        else
-        {
-            BagDefauldUpdate();
         }
     }
 }

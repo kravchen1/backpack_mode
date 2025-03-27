@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
 using Assets.Scripts.ItemScripts;
+using JetBrains.Annotations;
 
 public class Bag : Item
 {
@@ -51,11 +52,14 @@ public class Bag : Item
 
     public void TapShowBackPack()
     {
-        for (int i = 0; i < backpack.transform.childCount; i++)
+        if (backpack != null)
         {
-            if (backpack.transform.GetChild(i).gameObject.name.Contains("Image"))
+            for (int i = 0; i < backpack.transform.childCount; i++)
             {
-                backpack.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                if (backpack.transform.GetChild(i).gameObject.name.Contains("Image"))
+                {
+                    backpack.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                }
             }
         }
     }
@@ -210,7 +214,6 @@ public class Bag : Item
 
     public void BagDefauldUpdate()
     {
-        //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         if(SceneManager.GetActiveScene().name != "BackPackBattle")
         {
             if (isDragging)
@@ -231,7 +234,14 @@ public class Bag : Item
     }
     public override void Update()
     {
-        BagDefauldUpdate();
+        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+        {
+            CoolDownStart();
+        }
+        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
+        {
+            BagDefauldUpdate();
+        }
     }
 
 
@@ -435,7 +445,7 @@ public class Bag : Item
         {
             DragManager.isDragging = false;
             needToRotate = false;
-            if (SceneManager.GetActiveScene().name == "BackPackShop") if (animator != null) animator.Play("ItemClickOff");
+            if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null) animator.Play("ItemClickOff");
             if (GetComponent<AnimationStart>() != null)
             {
                 GetComponent<AnimationStart>().Play();
@@ -492,8 +502,13 @@ public class Bag : Item
             StartCoroutine(ShowDescription());
         }
 
+       
 
 
+    }
+
+    public virtual void CoolDownStart()
+    {
 
     }
 }

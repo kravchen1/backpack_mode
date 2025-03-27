@@ -61,18 +61,4 @@ public class bag2x1Stamina : Bag
             animator.Play(originalName + "Activation");
         }
     }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            BagDefauldUpdate();
-        }
-    }
 }
