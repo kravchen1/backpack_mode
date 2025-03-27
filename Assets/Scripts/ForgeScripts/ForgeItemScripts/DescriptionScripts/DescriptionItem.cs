@@ -28,8 +28,8 @@ public class DescriptionItem : MonoBehaviour
     public TextMeshPro iconChanceCritDescription;
     public TextMeshPro iconRegenerateDescription;
     public TextMeshPro iconEvasionDescription;
-    //public TextMeshPro iconBaseCritDescription;
-    //public TextMeshPro iconBaseCritDescription;
+    public TextMeshPro iconManaDescription;
+    public TextMeshPro iconPowerDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
     //public TextMeshPro iconBaseCritDescription;
@@ -86,6 +86,16 @@ public class DescriptionItem : MonoBehaviour
         {
             iconEvasionDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Evasion").description;
         }
+        if (iconManaDescription != null)
+        {
+            iconManaDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Mana").description;
+        }
+        if (iconPowerDescription != null)
+        {
+            iconPowerDescription.text = LocalizationManager.Instance.GetTextIconDescriptionEducation(settingLanguage, "Power").description;
+        }
+
+
     }
     
     public void SetWeight()
@@ -168,7 +178,7 @@ public class DescriptionItem : MonoBehaviour
 
     }
 
-    public int GetField(int index)
+    public object GetField(int index)
     {
         var childType = this.GetType();
 
@@ -176,7 +186,7 @@ public class DescriptionItem : MonoBehaviour
         FieldInfo[] fields = childType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 
-        return (int)fields[index].GetValue(this);
+        return fields[index].GetValue(this);
     }
 
 

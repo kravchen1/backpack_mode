@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class DescriptionItemFireBody : DescriptionItemArmor
 {
-    public int DamageForStack = 5;
     public int SpendStack = 2;
+    public int DamageForStack = 5;
 }

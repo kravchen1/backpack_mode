@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class DescriptionItemDragonsHead: DescriptionItemWeapon
 {
-    public int fireStack;
     public int starActivation;
+    public int fireStack;
 }

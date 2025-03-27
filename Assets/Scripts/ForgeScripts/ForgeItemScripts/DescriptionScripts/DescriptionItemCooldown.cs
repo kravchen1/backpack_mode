@@ -15,7 +15,7 @@ public class DescriptionItemCooldown : DescriptionItem
 
 
 
-    private void Start()
+    private new void Start()
     {
         SetTextBody();
     }

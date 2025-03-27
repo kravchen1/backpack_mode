@@ -113,7 +113,15 @@
       {
         "name": "Evasion",
         "description": "Уворот: за каждый стак увеличивает шанс уклонения на 2%"
-      }   
+      },
+      {
+        "name": "Mana",
+        "description": "Мана: ресурс"
+      },
+      {
+        "name": "Power",
+        "description": "Сила: за каждый стак увеличивает урон атакующих предметов на 1"
+      }     
     ],
     "items": [
       {
@@ -367,7 +375,90 @@
         "description": "Начало боя: даёт {0} <sprite name=\"IconArmor\">",
         "type": "броня",
         "rarity": "обычный"
+      },
+      {
+        "name": "BlueCrystall",
+        "description": "Каждая активация предмета <sprite name=\"IconFillStar\"> с шансом <u>{0}</u>% даёт <u>{1}</u> <sprite name=\"IconMana\">",
+        "type": "кристалл",
+        "rarity": "редкий"
+      },
+      {
+        "name": "RedCrystall",
+        "description": "Каждая активация предмета <sprite name=\"IconFillStar\"> с шансом <u>{0}</u>% даёт <u>{1}</u> <sprite name=\"IconPower\">",
+        "type": "кристалл",
+        "rarity": "редкий"
+      },
+      {
+        "name": "DragonHead",
+        "description": "Старт боя: за каждый предмет <sprite name=\"IconFillStar\"> дракона или огня уменьшает перезарядку на {0}%\r\n\r\nПопадание: даёт {1} <sprite name=\"IconBurn\">",
+        "type": "дракон",
+        "rarity": "мифический"
+      },
+      {
+        "name": "DragonLeg",
+        "description": "",
+        "type": "дракон",
+        "rarity": "мифический"
+      },
+      {
+        "name": "DragonTail",
+        "description": "попадание: даёт {0} <sprite name=\"IconPower\"> и накладывает {1} <sprite name=\"IconFillStar\">",
+        "type": "дракон",
+        "rarity": "мифический"
+      },
+      {
+        "name": "DragonWing",
+        "description": "попадание: даёт {0} <sprite name=\"IconEvasion\"> и накладывает {1} <sprite name=\"IconFillStar\">",
+        "type": "дракон",
+        "rarity": "мифический"
+      },
+      {
+        "name": "FireBody",
+        "description": "начало боя: даёт <u>{2}</u> <sprite name=\"IconArmor\">\r\n\r\nактивация предмета огня <sprite name=\"IconFillStar\">: тратит <u>{0}</u> <sprite name=\"IconBurn\"> и наносит <u>{1}</u> урона",
+        "type": "огонь/броня",
+        "rarity": "редкий"
+      },
+      {
+        "name": "FireDagger",
+        "description": "активация предмета <sprite name=\"IconFillStar\">:  снимает с врага <u>{1}</u> <sprite name=\"IconBurn\"> и наносит <u>{2}</u> урона\r\n\r\nПопадание: накладывает  <u>{0}</u> <sprite name=\"IconBurn\">",
+        "type": "огонь/оружие",
+        "rarity": "редкий"
+      },
+      {
+        "name": "FireFlask",
+        "description": "выпейте, когда будете иметь <u>{0}</u> <sprite name=\"IconBurn\">\r\nдаёт <u>{1}</u> <sprite name=\"IconBurn\">",
+        "type": "огонь",
+        "rarity": "редкий"
+      },
+      {
+        "name": "FireGloves",
+        "description": "активация предмета <sprite name=\"IconFillStar\">:\r\nснять <u>{0}</u> <sprite name=\"IconBurn\"> с врага и уменьшить перезарядку предмета на <u>{1}</u>%.",
+        "type": "огонь",
+        "rarity": "мифический"
+      },
+      {
+        "name": "FireHelmet",
+        "description": "Каждые <u>{1}</u> секунды: даёт <u>{0}</u> <sprite name=\"IconBurn\">",
+        "type": "огонь",
+        "rarity": "редкий"
       }
+
+
+      
+
+
+      
+
+
+      
+
+
+      
+
+      
+
+      
+      
 
     ],
     "weaponStat": "урон: \r\nшанс крита: \r\nурон крита: \r\nстамина: \r\nточность: \r\nперезарядка: ",

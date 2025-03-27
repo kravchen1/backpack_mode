@@ -16,10 +16,6 @@ public class DescriptionItemWeapon : DescriptionItem
 
     public TextMeshPro Stats;
 
-    
-
-
-
 
     public int damageMin = 1, damageMax = 2;
     public float staminaCost = 1;
@@ -28,10 +24,9 @@ public class DescriptionItemWeapon : DescriptionItem
     public int critDamage = 130;
     public float cooldown = 1.1f;
 
-    public int Armor = 0;
 
 
-    private void Start()
+    private new void Start()
     {
         SetTextBody();
         SetTextStat();
