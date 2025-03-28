@@ -8,6 +8,7 @@ using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 using Unity.Burst.CompilerServices;
 using UnityEditor.VersionControl;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class DescriptionItem : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class DescriptionItem : MonoBehaviour
 
     
 
-    public string settingLanguage = "ru";
+    protected string settingLanguage = "en";
     public void SetIconDescriptions()
     {
         if(iconPoisonDescription != null)
@@ -114,20 +115,75 @@ public class DescriptionItem : MonoBehaviour
         type.text = itemText.type;
         rarity.text = itemText.rarity;
     }
-    public void SetFont()
+    public virtual void SetFont()
     {
-        //if (settingLanguage == "zh-CN")
-        //{
-        //    var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
-        //    weaponStat.font = font;
-        //    Stats.font = font;
-        //}
+        var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
+        switch (settingLanguage)
+        {
+            case "zh":
+                textBody.font = font;
+                type.font = font;
+                rarity.font = font;
+                weightText.font = font;
+                if(iconPoisonDescription != null)
+                    iconPoisonDescription.font = font;
+                if (iconBleedingDescription != null)
+                    iconBleedingDescription.font = font;
+                if (iconBlindDescription != null)
+                    iconBlindDescription.font = font;
+                if (iconBurnDescription != null)
+                    iconBurnDescription.font = font;
+                if (iconIceDescription != null)
+                    iconIceDescription.font = font;
+                if (iconResistanceDescription != null)
+                    iconResistanceDescription.font = font;
+                if (iconChanceCritDescription != null)
+                    iconChanceCritDescription.font = font;
+                if (iconRegenerateDescription != null)
+                    iconRegenerateDescription.font = font;
+                if (iconEvasionDescription != null)
+                    iconEvasionDescription.font = font;
+                if (iconPowerDescription != null)
+                    iconPowerDescription.font = font;
+                if (iconVampireDescription != null)
+                    iconVampireDescription.font = font;
+                break;
+            case "zh_tw":
+                textBody.font = font;
+                type.font = font;
+                rarity.font = font;
+                weightText.font = font;
+                if (iconPoisonDescription != null)
+                    iconPoisonDescription.font = font;
+                if (iconBleedingDescription != null)
+                    iconBleedingDescription.font = font;
+                if (iconBlindDescription != null)
+                    iconBlindDescription.font = font;
+                if (iconBurnDescription != null)
+                    iconBurnDescription.font = font;
+                if (iconIceDescription != null)
+                    iconIceDescription.font = font;
+                if (iconResistanceDescription != null)
+                    iconResistanceDescription.font = font;
+                if (iconChanceCritDescription != null)
+                    iconChanceCritDescription.font = font;
+                if (iconRegenerateDescription != null)
+                    iconRegenerateDescription.font = font;
+                if (iconEvasionDescription != null)
+                    iconEvasionDescription.font = font;
+                if (iconPowerDescription != null)
+                    iconPowerDescription.font = font;
+                if (iconVampireDescription != null)
+                    iconVampireDescription.font = font;
+                break;
+        }
     }
     public virtual void SetTextBody()
     {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+        SetFont();
         SetWeight();
         SetIconDescriptions();
-        SetFont();
         ItemsText itemText = LocalizationManager.Instance.GetTextItem(settingLanguage, originalName);
         SetTypeAndRarity(itemText);
 
@@ -193,9 +249,9 @@ public class DescriptionItem : MonoBehaviour
         return fields[index].GetValue(this);
     }
 
-
     public void Start()
     {
+        
         SetTextBody();
     }
 }

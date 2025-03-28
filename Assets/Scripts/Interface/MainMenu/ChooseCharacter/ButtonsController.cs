@@ -64,13 +64,11 @@ public class ButtonsController : MonoBehaviour
         // Сохраняем изменения
         PlayerPrefs.Save();
     }
-
-public void ToogleMainChoice()
+    public void ToogleMainChoice()
    {
         mainCanvas.SetActive(!mainCanvas.activeSelf);
         chooseCharCanvas.SetActive(!chooseCharCanvas.activeSelf);
     }
-
     public void Choose()
     {
         PlayerPrefs.SetString("savePath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's"));
@@ -88,7 +86,6 @@ public void ToogleMainChoice()
         StartQeust();
         PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
     }
-
     public void ChooseEarth()
     {
         DeleteAllExcept(keysToKeep);
@@ -102,7 +99,6 @@ public void ToogleMainChoice()
         SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
         //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
-
     public void ChooseIce()
     {
         DeleteAllExcept(keysToKeep);
@@ -118,9 +114,6 @@ public void ToogleMainChoice()
         SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
         //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
-
-
-
     void DeleteAllData()
     {
         var saveDirectory = PlayerPrefs.GetString("savePath");
@@ -156,7 +149,6 @@ public void ToogleMainChoice()
         backpackData.itemData.items.Add(data);
         backpackData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackData.json"));
     }
-
     private void StartQeust()
     {
         QuestData questData = new QuestData();
@@ -167,7 +159,6 @@ public void ToogleMainChoice()
         questData.questData.quests.Add(quest);
         questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
     }
-
     private void StartStats(int playerHP, int playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina)
     {
         string characterStatsDataFilePath;
@@ -190,5 +181,10 @@ public void ToogleMainChoice()
             byte[] buffer = Encoding.Default.GetBytes(saveData);
             fileStream.Write(buffer, 0, buffer.Length);
         }
+    }
+
+    public void ButtonShowAllItems()
+    {
+        SceneLoader.Instance.LoadScene("SceneShowItems");
     }
 }

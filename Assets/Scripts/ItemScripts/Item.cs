@@ -1106,8 +1106,7 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(canShowDescription + "/" + CanvasDescription.name);
             if (canShowDescription && CanvasDescription != null)
             {
-                
-                //Destroy(CanvasDescription.gameObject);
+                Destroy(CanvasDescription.gameObject);
             }
         //}
     }

@@ -21,9 +21,6 @@ public class WoodenBoard : Junk
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemWoodenBoard>();
-                //descr.cooldown = timer_cooldown;
-                //descr.countStack = countBurnStack;
-                //descr.coolDown = coolDown;
                 descr.SetTextBody();
             }
         }

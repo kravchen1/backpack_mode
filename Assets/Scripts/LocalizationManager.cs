@@ -49,9 +49,10 @@ public class LocalizedData
 [System.Serializable]
 public class LocalizationFile
 {
-    public LocalizedData en;
     public LocalizedData ru;
-    public LocalizedData zhCN;
+    public LocalizedData en;
+    public LocalizedData zh;
+    public LocalizedData zh_tw;
 }
 
 
@@ -101,6 +102,12 @@ public class LocalizationManager : MonoBehaviour
                 case "ru":
                     text = _localizationData.ru.items.Where(e => e.name == itemName).ToList()[0];
                     break;
+                case "zh":
+                    text = _localizationData.zh.items.Where(e => e.name == itemName).ToList()[0];
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.items.Where(e => e.name == itemName).ToList()[0];
+                    break;
                 default:
                     text = _localizationData.en.items.Where(e => e.name == itemName).ToList()[0];
                     break;
@@ -122,6 +129,12 @@ public class LocalizationManager : MonoBehaviour
                     break;
                 case "ru":
                     text = _localizationData.ru.iconsEducation.Where(e => e.name == itemName).ToList()[0];
+                    break;
+                case "zh":
+                    text = _localizationData.zh.iconsEducation.Where(e => e.name == itemName).ToList()[0];
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.iconsEducation.Where(e => e.name == itemName).ToList()[0];
                     break;
                 default:
                     text = _localizationData.en.iconsEducation.Where(e => e.name == itemName).ToList()[0];
@@ -145,8 +158,11 @@ public class LocalizationManager : MonoBehaviour
                 case "ru":
                     text = _localizationData.ru.weaponStat;
                     break;
-                case "zh-CN":
-                    text = _localizationData.zhCN.weaponStat;
+                case "zh":
+                    text = _localizationData.zh.weaponStat;
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.weaponStat;
                     break;
                 default:
                     text = _localizationData.en.weaponStat;
@@ -170,8 +186,11 @@ public class LocalizationManager : MonoBehaviour
                 case "ru":
                     text = _localizationData.ru.weight;
                     break;
-                case "zh-CN":
-                    text = _localizationData.zhCN.weight;
+                case "zh":
+                    text = _localizationData.zh.weight;
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.weight;
                     break;
                 default:
                     text = _localizationData.en.weight;

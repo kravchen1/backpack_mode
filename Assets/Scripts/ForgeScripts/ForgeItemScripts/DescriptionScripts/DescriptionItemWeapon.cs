@@ -24,7 +24,71 @@ public class DescriptionItemWeapon : DescriptionItem
     public int critDamage = 130;
     public float cooldown = 1.1f;
 
-
+    public override void SetFont()
+    {
+        var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
+        switch (settingLanguage)
+        {
+            case "zh":
+                textBody.font = font;
+                type.font = font;
+                rarity.font = font;
+                weightText.font = font;
+                if (iconPoisonDescription != null)
+                    iconPoisonDescription.font = font;
+                if (iconBleedingDescription != null)
+                    iconBleedingDescription.font = font;
+                if (iconBlindDescription != null)
+                    iconBlindDescription.font = font;
+                if (iconBurnDescription != null)
+                    iconBurnDescription.font = font;
+                if (iconIceDescription != null)
+                    iconIceDescription.font = font;
+                if (iconResistanceDescription != null)
+                    iconResistanceDescription.font = font;
+                if (iconChanceCritDescription != null)
+                    iconChanceCritDescription.font = font;
+                if (iconRegenerateDescription != null)
+                    iconRegenerateDescription.font = font;
+                if (iconEvasionDescription != null)
+                    iconEvasionDescription.font = font;
+                if (iconPowerDescription != null)
+                    iconPowerDescription.font = font;
+                if (iconVampireDescription != null)
+                    iconVampireDescription.font = font;
+                break;
+            case "zh_tw":
+                textBody.font = font;
+                type.font = font;
+                rarity.font = font;
+                weightText.font = font;
+                weaponStat.font = font;
+                Stats.font = font;
+                if (iconPoisonDescription != null)
+                    iconPoisonDescription.font = font;
+                if (iconBleedingDescription != null)
+                    iconBleedingDescription.font = font;
+                if (iconBlindDescription != null)
+                    iconBlindDescription.font = font;
+                if (iconBurnDescription != null)
+                    iconBurnDescription.font = font;
+                if (iconIceDescription != null)
+                    iconIceDescription.font = font;
+                if (iconResistanceDescription != null)
+                    iconResistanceDescription.font = font;
+                if (iconChanceCritDescription != null)
+                    iconChanceCritDescription.font = font;
+                if (iconRegenerateDescription != null)
+                    iconRegenerateDescription.font = font;
+                if (iconEvasionDescription != null)
+                    iconEvasionDescription.font = font;
+                if (iconPowerDescription != null)
+                    iconPowerDescription.font = font;
+                if (iconVampireDescription != null)
+                    iconVampireDescription.font = font;
+                break;
+        }
+    }
 
     private new void Start()
     {
@@ -57,11 +121,12 @@ public class DescriptionItemWeapon : DescriptionItem
 
     public override void SetTextBody()
     {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+        SetFont();
         SetWeaponStat();
         SetWeight();
         SetIconDescriptions();
-        SetFont();
-        ItemsText itemText = LocalizationManager.Instance.GetTextItem(settingLanguage, originalName);
+                ItemsText itemText = LocalizationManager.Instance.GetTextItem(settingLanguage, originalName);
         SetTypeAndRarity(itemText);
 
 

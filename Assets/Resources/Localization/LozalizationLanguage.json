@@ -1,61 +1,4 @@
 {
-  "en": {
-    "ui": [
-      {
-        "name": "start_button",
-        "text": "Begin"
-      },
-      {
-        "name": "settings_button",
-        "text": "Settings"
-      }
-    ],
-    "dialogs": [
-      {
-        "name": "welcome",
-        "text": "Welcome to the game!"
-      },
-      {
-        "name": "start",
-        "text": "King here!"
-      }
-    ],
-    "iconsEducation": [
-      {
-        "name": "Poison",
-        "description": "Poison: Reduces incoming healing by 5% per stack. This value can exceed 100%"
-      },
-      {
-        "name": "Bleed",
-        "description": "Bleeding: for every stack deals 1/s damage"
-      },
-      {
-        "name": "Blind",
-        "description": "Blind: For each stack, reduces weapon accuracy by 5%"
-      },
-      {
-        "name": "Burn",
-        "description": "Burn: For each stack, all items activate 2% faster"
-      } 
-    ],
-    "items": [
-      {
-        "name": "hiddenDagger",
-        "description": "First hit: inflict {0} <sprite name=\"IconBleed\">",
-        "type": "weapon",
-        "rarity": "rare"
-      },
-      {
-        "name": "SwampDragon",
-        "description": "On hit: inflict <u>{0}</u> <sprite name=\"IconPoison\"> and <u>{1}</u> <sprite name=\"IconBlind\">\r\nWhen taking damage: gives <u>{2}</u> <sprite name=\"IconBurn\">",
-        
-        "type": "pets",
-        "rarity": "mythical"
-      }
-    ],
-    "weaponStat": "Damage: \r\nChanceCrit: \r\nCritDamage: \r\nStamina Cost: \r\nAccuracy: \r\nCoolDown: ",
-    "weight": "Weight: {0} unit"
-  },
   "ru": {
     "ui": [
       {
@@ -723,45 +666,2020 @@
         "description": "Каждые <u>{1}</u> секунды:\r\nнакладывает <u>{0}</u> <sprite name=\"IconPoison\">",
         "type": "колдовство",
         "rarity": "обычный"
-      }
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-      
-      
-      
-      
-      
-      
-      
-
-      
-
-      
-
-
-      
-
-
-      
-
-
-      
-
-      
-
-      
-      
-
+      } 
     ],
     "weaponStat": "урон: \r\nшанс крита: \r\nурон крита: \r\nстамина: \r\nточность: \r\nперезарядка: ",
     "weight": "вес: {0} ед."
   }
+  ,"en": {
+    "ui": [
+      {
+        "name": "start_button",
+        "text": "Start"
+      },
+      {
+        "name": "settings_button",
+        "text": "Settings"
+      }
+    ],
+    "dialogs": [
+      {
+        "name": "welcome",
+        "text": "Welcome to the game!"
+      },
+      {
+        "name": "start",
+        "text": "behold the king!"
+      }
+    ],
+    "iconsEducation": [
+      {
+        "name": "Poison",
+        "description": "Poison: each stack reduces incoming healing by 5%. This value can exceed 100%"
+      },
+      {
+        "name": "Bleed",
+        "description": "Bleeding: each stack deals 1 damage per second"
+      },
+      {
+        "name": "Blind",
+        "description": "Blind: each stack reduces weapon accuracy by 5%"
+      },
+      {
+        "name": "Burn",
+        "description": "Burn: each stack makes all items activate 2% faster"
+      },
+      {
+        "name": "Frost",
+        "description": "Frost: each stack makes all items activate 2% slower"
+      },
+      {
+        "name": "Resistance",
+        "description": "Resistance: each stack reduces the chance of receiving a debuff by 3%"
+      },
+      {
+        "name": "ChanceCrit",
+        "description": "Crit Chance: each stack increases critical hit chance by 2%"
+      },
+      {
+        "name": "Regenerate",
+        "description": "Regeneration: each stack restores 1 health per second"
+      },
+      {
+        "name": "Evasion",
+        "description": "Evasion: each stack increases dodge chance by 2%"
+      },
+      {
+        "name": "Mana",
+        "description": "Mana: resource"
+      },
+      {
+        "name": "Power",
+        "description": "Power: each stack increases damage of attack items by 1"
+      },
+      {
+        "name": "Vampire",
+        "description": "Vampirism: each stack adds 2% lifesteal to attacks"
+      }
+    ],
+    "items": [
+      {
+        "name": "hiddenDagger",
+        "description": "First strike: applies {0} <sprite name=\"IconBleed\">",
+        "type": "weapon",
+        "rarity": "rare"
+      },
+      {
+        "name": "SwampDragon",
+        "description": "On hit: applies <u>{0}</u> <sprite name=\"IconPoison\"> and <u>{1}</u> <sprite name=\"IconBlind\">\r\nWhen taking damage: grants <u>{2}</u> <sprite name=\"IconBurn\">",
+        "type": "pet",
+        "rarity": "mythic"
+      },
+      {
+        "name": "FireBag",
+        "description": "Adds 9 slots\r\nitems inside grant {0} <sprite name=\"IconBurn\"> when activated",
+        "type": "bags",
+        "rarity": "mythic"
+      },
+      {
+        "name": "EarthBag",
+        "description": "Adds 9 slots\r\nitems inside grant {0} <sprite name=\"IconArmor\"> when activated",
+        "type": "bags",
+        "rarity": "mythic"
+      },
+      {
+        "name": "IceBag",
+        "description": "Adds 9 slots\r\nitems inside grant {0} <sprite name=\"IconFrost\"> when activated",
+        "type": "bags",
+        "rarity": "mythic"
+      },
+      {
+        "name": "Bag2x2",
+        "description": "Adds 4 slots",
+        "type": "bags",
+        "rarity": "common"
+      },
+      {
+        "name": "Bag1x1Resistance",
+        "description": "Adds 1 slot\r\nStart of battle: grants {0} <sprite name=\"IconResistance\">",
+        "type": "bags",
+        "rarity": "rare"
+      },
+      {
+        "name": "Bag2x1Stamina",
+        "description": "Adds 2 slots\r\nStart of battle: reduces stamina cost by {0}% for items inside",
+        "type": "bags",
+        "rarity": "rare"
+      },
+      {
+        "name": "BoiledPotato",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "BottleOfWine",
+        "description": "When moved to backpack: disappears.\r\nIn next battle applies {0} <sprite name=\"IconPoison\"> and grants {1} <sprite name=\"IconChanceCrit\">\r\neffects don't stack",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "BowlOfSoup",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">\r\nIn next battle grants {1} <sprite name=\"IconBurn\">\r\neffects don't stack",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "Bread",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "CupOfTea",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">\r\nIn next battle grants {1} <sprite name=\"IconRegenerate\">\r\neffects don't stack",
+        "type": "food",
+        "rarity": "rare"
+      },
+      {
+        "name": "FriedMeat",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">\r\nIn next battle grants +{1} <sprite name=\"IconStamina\"> to maximum\r\neffects don't stack",
+        "type": "food",
+        "rarity": "rare"
+      },
+      {
+        "name": "FriedPotato",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">\r\nIn next battle grants +{1} <sprite name=\"IconStamina\"> to maximum\r\neffects don't stack",
+        "type": "food",
+        "rarity": "rare"
+      },
+      {
+        "name": "Jam",
+        "description": "When moved to backpack: disappears.\r\nIn next battle grants {0} <sprite name=\"IconEvasion\">\r\neffects don't stack",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "MushroomPie",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">\r\nIn next battle applies {1} <sprite name=\"IconPoison\"> to enemy\r\neffects don't stack",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "RawMeat",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">",
+        "type": "food",
+        "rarity": "common"
+      },
+      {
+        "name": "Stew",
+        "description": "When moved to backpack: disappears and restores <u>{0}</u> <sprite name=\"IconHP\">\r\nIn next battle grants +{1} <sprite name=\"IconStamina\"> to maximum\r\neffects don't stack",
+        "type": "food",
+        "rarity": "rare"
+      },
+      {
+        "name": "EmeraldStone1",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 11",
+        "rarity": "mythic"
+      },
+      {
+        "name": "EmeraldStone2",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 12",
+        "rarity": "mythic"
+      },
+      {
+        "name": "EmeraldStone3",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 13",
+        "rarity": "mythic"
+      },
+      {
+        "name": "EmeraldStone4",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 14",
+        "rarity": "mythic"
+      },
+      {
+        "name": "EmeraldStone5",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 15",
+        "rarity": "mythic"
+      },
+      {
+        "name": "SkyStone1",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 1",
+        "rarity": "common"
+      },
+      {
+        "name": "SkyStone2",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 2",
+        "rarity": "common"
+      },
+      {
+        "name": "SkyStone3",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 3",
+        "rarity": "common"
+      },
+      {
+        "name": "SkyStone4",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 4",
+        "rarity": "common"
+      },
+      {
+        "name": "SkyStone5",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 5",
+        "rarity": "common"
+      },
+      {
+        "name": "SunStone1",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 6",
+        "rarity": "rare"
+      },
+      {
+        "name": "SunStone2",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 7",
+        "rarity": "rare"
+      },
+      {
+        "name": "SunStone3",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 8",
+        "rarity": "rare"
+      },
+      {
+        "name": "SunStone4",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 9",
+        "rarity": "rare"
+      },
+      {
+        "name": "SunStone5",
+        "description": "Insert the stone into a special slot in the cave.",
+        "type": "level 10",
+        "rarity": "rare"
+      },
+      {
+        "name": "Cogwheel",
+        "description": "Part of an ancient mechanism",
+        "type": "junk",
+        "rarity": "common"
+      },
+      {
+        "name": "Daisy",
+        "description": "flower from the fields",
+        "type": "junk",
+        "rarity": "common"
+      },
+      {
+        "name": "GoldenGoblet",
+        "description": "Old king's goblet made of ancient gold",
+        "type": "junk",
+        "rarity": "mythic"
+      },
+      {
+        "name": "IngotOfMithril",
+        "description": "Forgotten ingot of elven mithril",
+        "type": "junk",
+        "rarity": "rare"
+      },
+      {
+        "name": "WoodenBoard",
+        "description": "Wooden board from an ancient forest",
+        "type": "junk",
+        "rarity": "common"
+      },
+      {
+        "name": "GauntletBoots",
+        "description": "Start of battle: grants {0} <sprite name=\"IconArmor\">",
+        "type": "armor",
+        "rarity": "common"
+      },
+      {
+        "name": "LeatherBoots",
+        "description": "Start of battle: grants {0} <sprite name=\"IconArmor\">",
+        "type": "armor",
+        "rarity": "common"
+      },
+      {
+        "name": "WoodenArmor",
+        "description": "Start of battle: grants {0} <sprite name=\"IconArmor\">",
+        "type": "armor",
+        "rarity": "common"
+      },
+      {
+        "name": "BlueCrystall",
+        "description": "Each item activation <sprite name=\"IconFillStar\">: with {0}% chance grants <u>{1}</u> <sprite name=\"IconMana\">",
+        "type": "crystal",
+        "rarity": "rare"
+      },
+      {
+        "name": "RedCrystall",
+        "description": "Each item activation <sprite name=\"IconFillStar\">: with {0}% chance grants <u>{1}</u> <sprite name=\"IconPower\">",
+        "type": "crystal",
+        "rarity": "rare"
+      },
+      {
+        "name": "DragonHead",
+        "description": "Start of battle: for each dragon or fire item <sprite name=\"IconFillStar\"> reduces cooldown by {0}%\r\n\r\nOn hit: grants {1} <sprite name=\"IconBurn\">",
+        "type": "dragon",
+        "rarity": "mythic"
+      },
+      {
+        "name": "DragonLeg",
+        "description": "",
+        "type": "dragon",
+        "rarity": "mythic"
+      },
+      {
+        "name": "DragonTail",
+        "description": "On hit: grants {0} <sprite name=\"IconPower\"> and applies {1} <sprite name=\"IconFillStar\">",
+        "type": "dragon",
+        "rarity": "mythic"
+      },
+      {
+        "name": "DragonWing",
+        "description": "On hit: grants {0} <sprite name=\"IconEvasion\"> and applies {1} <sprite name=\"IconFillStar\">",
+        "type": "dragon",
+        "rarity": "mythic"
+      },
+      {
+        "name": "FireBody",
+        "description": "Start of battle: grants <u>{2}</u> <sprite name=\"IconArmor\">\r\n\r\nFire item activation <sprite name=\"IconFillStar\">: consumes <u>{0}</u> <sprite name=\"IconBurn\"> and deals <u>{1}</u> damage",
+        "type": "fire/armor",
+        "rarity": "rare"
+      },
+      {
+        "name": "FireDagger",
+        "description": "Item activation <sprite name=\"IconFillStar\">: removes <u>{1}</u> <sprite name=\"IconBurn\"> from enemy and deals <u>{2}</u> damage\r\n\r\nOn hit: applies <u>{0}</u> <sprite name=\"IconBurn\">",
+        "type": "fire/weapon",
+        "rarity": "rare"
+      },
+      {
+        "name": "FireFlask",
+        "description": "Drink when you have <u>{0}</u> <sprite name=\"IconBurn\">\r\ngrants <u>{1}</u> <sprite name=\"IconBurn\">",
+        "type": "fire",
+        "rarity": "rare"
+      },
+      {
+        "name": "FireGloves",
+        "description": "Item activation <sprite name=\"IconFillStar\">:\r\nremoves <u>{0}</u> <sprite name=\"IconBurn\"> from enemy and reduces item cooldown by <u>{1}</u>%.",
+        "type": "fire",
+        "rarity": "mythic"
+      },
+      {
+        "name": "FireHelmet",
+        "description": "Every <u>{1}</u> seconds: grants <u>{0}</u> <sprite name=\"IconBurn\">",
+        "type": "fire",
+        "rarity": "rare"
+      },
+      {
+        "name": "MagicWand",
+        "description": "On hit: grants <u>{0}</u> <sprite name=\"IconMana\">",
+        "type": "mana/weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "ManaAmulet",
+        "description": "Every <u>{2}</u> seconds: consumes <u>{0}</u> <sprite name=\"IconMana\"> and applies {1} of <sprite name=\"IconPoison\"> <sprite name=\"IconBleed\"> <sprite name=\"IconFrost\">",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaBody",
+        "description": "Start of battle:\r\ngrants <u>{3}</u> <sprite name=\"IconArmor\"> + <u>{1}</u> <sprite name=\"IconArmor\"> * number of mana items <sprite name=\"IconFillStar\">\r\ngrants <u>{0}</u> <sprite name=\"IconMana\"> + <u>{2}</u> <sprite name=\"IconMana\"> * number of mana items <sprite name=\"IconFillStar\">",
+        "type": "mana/armor",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaBoots",
+        "description": "Every <u>{1}</u> seconds: grants <u>{0}</u> <sprite name=\"IconMana\">",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaFlask",
+        "description": "Start of battle:\r\ndrink and gain <u>{0}</u> <sprite name=\"IconMana\">",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaGloves",
+        "description": "Every <u>{1}</u> seconds: steals <u>{0}</u> <sprite name=\"IconMana\"> from enemy",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaHelmet",
+        "description": "When health drops below <u>{0}</u>%:\r\nconsumes <u>{3}</u> <sprite name=\"IconMana\">, grants <u>{1}</u> <sprite name=\"IconArmor\"> and <u>{2}</u> <sprite name=\"IconResistance\">",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaRing",
+        "description": "Every <u>{2}</u> seconds:\r\n consumes <u>{0}</u> <sprite name=\"IconMana\"> and grants <u>{1}</u> <sprite name=\"IconBurn\">",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "ManaShield",
+        "description": "Start of battle: grants <u>{0}</u> <sprite name=\"IconResistance\">\r\nwhen taking damage: consumes <u>{1}</u> <sprite name=\"IconMana\"> and blocks <u>{2}</u> damage\r\n\r\nmana item activation <sprite name=\"IconFillStar\">:\r\nsteals <u>{3}</u> <sprite name=\"IconMana\">",
+        "type": "mana",
+        "rarity": "rare"
+      },
+      {
+        "name": "MushroomChanterelle",
+        "description": "Start of battle: for each mushroom <sprite name=\"IconFillStar\"> reduces cooldown by {1}%\r\n\r\nEvery <u>{2}</u> seconds: grants <u>{0}</u> <sprite name=\"IconRegenerate\">",
+        "type": "mushroom",
+        "rarity": "common"
+      },
+      {
+        "name": "MushroomOyster",
+        "description": "Start of battle: for each mushroom <sprite name=\"IconFillStar\"> reduces cooldown by {1}%\r\n\r\nEvery <u>{2}</u> seconds: grants <u>{0}</u> <sprite name=\"IconMana\">",
+        "type": "mushroom",
+        "rarity": "common"
+      },
+      {
+        "name": "MushroomRussula",
+        "description": "Start of battle: for each mushroom <sprite name=\"IconFillStar\"> reduces cooldown by {1}%\r\n\r\nEvery <u>{2}</u> seconds: grants <u>{0}</u> <sprite name=\"IconPower\">",
+        "type": "mushroom",
+        "rarity": "common"
+      },
+      {
+        "name": "MushroomWhite",
+        "description": "Start of battle: for each mushroom <sprite name=\"IconFillStar\"> reduces cooldown by {1}%\r\n\r\nEvery <u>{2}</u> seconds: grants <u>{0}</u> <sprite name=\"IconStamina\">",
+        "type": "mushroom",
+        "rarity": "common"
+      },
+      {
+        "name": "AngryFluff",
+        "description": "On hit: removes <u>{0}</u> random debuff",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "BlackCat",
+        "description": "On hit: applies <u>{0}</u> <sprite name=\"IconBleed\">\r\nwhen taking damage: grants <u>{1}</u> <sprite name=\"IconResistance\">",
+        "type": "pet",
+        "rarity": "mythic"
+      },
+      {
+        "name": "BlackClaw",
+        "description": "On hit: removes <u>{0}</u> random buff",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "Dinosaur",
+        "description": "On hit: with {1}% chance grants {0} <sprite name=\"IconPower\">",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "GlamorousToad",
+        "description": "On hit: applies {0} <sprite name=\"IconPoison\">",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "MarbleMoth",
+        "description": "On hit: grants {0} <sprite name=\"IconEvasion\">",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "MudWorm",
+        "description": "On hit: removes <u>{0}</u> random debuffs",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "Nibbler",
+        "description": "On hit: grants <u>{0}</u> <sprite name=\"IconArmor\">",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "Slug",
+        "description": "On hit: removes <u>{0}</u> <sprite name=\"IconPoison\">",
+        "type": "pet",
+        "rarity": "rare"
+      },
+      {
+        "name": "Kettlebell",
+        "description": "Every <u>{1}</u> seconds: grants <u>{0}</u> <sprite name=\"IconPower\">",
+        "type": "miscellaneous",
+        "rarity": "common"
+      },
+      {
+        "name": "Magnifire",
+        "description": "Every <u>{1}</u> seconds:\r\napplies <u>{0}</u> <sprite name=\"IconBlind\">",
+        "type": "miscellaneous",
+        "rarity": "common"
+      },
+      {
+        "name": "VampieAmulet1",
+        "description": "Battle victory:\r\nif all vampire items <sprite name=\"IconFillStar\"> are filled, adds angry fluff to storage",
+        "type": "vampire",
+        "rarity": "mythic"
+      },
+      {
+        "name": "VampieBody1",
+        "description": "Every <u>{1}</u> seconds: grants <sprite name=\"IconVampire\"> equal to number of <sprite name=\"IconBleed\"> on enemy\r\n\r\nvampire item activation <sprite name=\"IconFillStar\">: applies {0} <sprite name=\"IconBleed\">",
+        "type": "vampire",
+        "rarity": "mythic"
+      },
+      {
+        "name": "VampieBoots1",
+        "description": "Start of battle: grants {1} <sprite name=\"IconArmor\"> and {0} <sprite name=\"IconVampire\">",
+        "type": "vampire",
+        "rarity": "rare"
+      },
+      {
+        "name": "VampieBow1",
+        "description": "On hit: grants <sprite name=\"IconChanceCrit\"> equal to number of <sprite name=\"IconBleed\"> on enemy\r\n\r\nweapon item activation <sprite name=\"IconFillStar\">: grants <u>{0}</u> <sprite name=\"IconBaseCrit\">",
+        "type": "vampire/weapon",
+        "rarity": "legendary"
+      },
+      {
+        "name": "VampieGloves1",
+        "description": "Item activation <sprite name=\"IconFillStar\">: applies <u>{0}</u> <sprite name=\"IconBleed\">",
+        "type": "vampire",
+        "rarity": "mythic"
+      },
+      {
+        "name": "VampireSword1",
+        "description": "On hit: deals damage to owner\r\n\r\ngloves <sprite name=\"IconFillStar\">: cancel damage dealt to owner",
+        "type": "vampire/weapon",
+        "rarity": "rare"
+      },
+      {
+        "name": "AutomaticCrossbow",
+        "description": "On hit: applies <u>{0}</u> <sprite name=\"IconBleed\">\r\nand increases reload speed by <u>{1}</u>%",
+        "type": "weapon",
+        "rarity": "mythic"
+      },
+      {
+        "name": "ChainWhip",
+        "description": "On hit: steals <u>{0}</u> random buffs from enemy",
+        "type": "weapon",
+        "rarity": "rare"
+      },
+      {
+        "name": "Club",
+        "description": "On hit: with <u>{0}</u>% chance applies <u>{1}</u> <sprite name=\"IconBlind\">",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Crossbow",
+        "description": "On hit: with <u>{0}</u>% chance applies <u>{1}</u> <sprite name=\"IconBleed\">",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Dagger",
+        "description": "",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Halberd",
+        "description": "",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Katana",
+        "description": "On hit: steals <u>{0}</u> <sprite name=\"IconChanceCrit\"> from enemy",
+        "type": "weapon",
+        "rarity": "rare"
+      },
+      {
+        "name": "Nunchucks",
+        "description": "On hit: applies <u>{1}</u> <sprite name=\"IconChanceCrit\">\r\nand increases reload speed by <u>{0}</u>%",
+        "type": "weapon",
+        "rarity": "mythic"
+      },
+      {
+        "name": "RevolverRing",
+        "description": "Activates together with item activation <sprite name=\"IconFillStar\">",
+        "type": "weapon",
+        "rarity": "rare"
+      },
+      {
+        "name": "Sling",
+        "description": "",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Slingshot",
+        "description": "",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Spear",
+        "description": "",
+        "type": "weapon",
+        "rarity": "common"
+      },
+      {
+        "name": "Broom",
+        "description": "Start of battle: item <sprite name=\"IconFillStar\">: reduces cooldown by <u>15</u>%",
+        "type": "witchcraft",
+        "rarity": "common"
+      },
+      {
+        "name": "RabbitPaw",
+        "description": "Start of battle:\r\nmushroom and witchcraft items <sprite name=\"IconFillStar\">: grant <u>1</u> <sprite name=\"IconMana\">\r\n\r\nevery <u>2.1</u> sec: grants <u>1</u> <sprite name=\"IconChanceCrit\">",
+        "type": "witchcraft",
+        "rarity": "rare"
+      },
+      {
+        "name": "WitchPotBig",
+        "description": "Start of battle:\r\nmushroom items <sprite name=\"IconFillStar\">: grant <u>{0}</u> <sprite name=\"IconMana\">\r\n\r\nEvery <u>{4}</u> seconds: applies <u>{1}</u> <sprite name=\"IconPoison\"> consumes <u>{2}</u> <sprite name=\"IconMana\"> and grants <u>{3}</u> <sprite name=\"IconRegenerate\">",
+        "type": "witchcraft",
+        "rarity": "rare"
+      },
+      {
+        "name": "WitchPotSmall",
+        "description": "Every <u>{1}</u> seconds:\r\napplies <u>{0}</u> <sprite name=\"IconPoison\">",
+        "type": "witchcraft",
+        "rarity": "common"
+      }
+    ],
+    "weaponStat": "damage: \r\ncrit chance: \r\ncrit damage: \r\nstamina: \r\naccuracy: \r\ncooldown: ",
+    "weight": "weight: {0} units."
+  },
+  "zh": {
+    "ui": [
+      {
+        "name": "start_button",
+        "text": "开始"
+      },
+      {
+        "name": "settings_button",
+        "text": "设置"
+      }
+    ],
+    "dialogs": [
+      {
+        "name": "welcome",
+        "text": "欢迎来到游戏！"
+      },
+      {
+        "name": "start",
+        "text": "国王驾到！"
+      }
+    ],
+    "iconsEducation": [
+      {
+        "name": "Poison",
+        "description": "毒药：每层减少5%受到的治疗效果。此数值可超过100%"
+      },
+      {
+        "name": "Bleed",
+        "description": "流血：每层造成1点/秒伤害"
+      },
+      {
+        "name": "Blind",
+        "description": "致盲：每层降低武器5%命中率"
+      },
+      {
+        "name": "Burn",
+        "description": "燃烧：每层使所有物品激活速度加快2%"
+      },
+      {
+        "name": "Frost",
+        "description": "冰冻：每层使所有物品激活速度减慢2%"
+      },
+      {
+        "name": "Resistance",
+        "description": "抗性：每层降低3%受到减益效果的概率"
+      },
+      {
+        "name": "ChanceCrit",
+        "description": "暴击几率：每层增加2%暴击概率"
+      },
+      {
+        "name": "Regenerate",
+        "description": "再生：每层恢复1点生命/秒"
+      },
+      {
+        "name": "Evasion",
+        "description": "闪避：每层增加2%闪避几率"
+      },
+      {
+        "name": "Mana",
+        "description": "法力：资源"
+      },
+      {
+        "name": "Power",
+        "description": "力量：每层增加攻击物品1点伤害"
+      },
+      {
+        "name": "Vampire",
+        "description": "吸血：每层为攻击附加2%吸血效果"
+      }
+    ],
+    "items": [
+      {
+        "name": "hiddenDagger",
+        "description": "首次攻击：施加{0}层<sprite name=\"IconBleed\">",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SwampDragon",
+        "description": "攻击时：施加<u>{0}</u>层<sprite name=\"IconPoison\">和<u>{1}</u>层<sprite name=\"IconBlind\">\r\n受到伤害时：获得<u>{2}</u>层<sprite name=\"IconBurn\">",
+        "type": "宠物",
+        "rarity": "神话"
+      },
+      {
+        "name": "FireBag",
+        "description": "增加9个格子\r\n内部物品激活时获得{0}层<sprite name=\"IconBurn\">",
+        "type": "背包",
+        "rarity": "神话"
+      },
+      {
+        "name": "EarthBag",
+        "description": "增加9个格子\r\n内部物品激活时获得{0}层<sprite name=\"IconArmor\">",
+        "type": "背包",
+        "rarity": "神话"
+      },
+      {
+        "name": "IceBag",
+        "description": "增加9个格子\r\n内部物品激活时获得{0}层<sprite name=\"IconFrost\">",
+        "type": "背包",
+        "rarity": "神话"
+      },
+      {
+        "name": "Bag2x2",
+        "description": "增加4个格子",
+        "type": "背包",
+        "rarity": "普通"
+      },
+      {
+        "name": "Bag1x1Resistance",
+        "description": "增加1个格子\r\n战斗开始时：获得{0}层<sprite name=\"IconResistance\">",
+        "type": "背包",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Bag2x1Stamina",
+        "description": "增加2个格子\r\n战斗开始时：内部物品耐力消耗减少{0}%",
+        "type": "背包",
+        "rarity": "稀有"
+      },
+      {
+        "name": "BoiledPotato",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "BottleOfWine",
+        "description": "移至背包时：消失\r\n下回合战斗施加{0}层<sprite name=\"IconPoison\">并获得{1}层<sprite name=\"IconChanceCrit\">\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "BowlOfSoup",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">\r\n下回合战斗获得{1}层<sprite name=\"IconBurn\">\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "Bread",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "CupOfTea",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">\r\n下回合战斗获得{1}层<sprite name=\"IconRegenerate\">\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FriedMeat",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">\r\n下回合战斗增加{1}点<sprite name=\"IconStamina\">上限\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FriedPotato",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">\r\n下回合战斗增加{1}点<sprite name=\"IconStamina\">上限\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Jam",
+        "description": "移至背包时：消失\r\n下回合战斗获得{0}层<sprite name=\"IconEvasion\">\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomPie",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">\r\n下回合战斗对敌人施加{1}层<sprite name=\"IconPoison\">\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "RawMeat",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "Stew",
+        "description": "移至背包时：消失并恢复<u>{0}</u>点<sprite name=\"IconHP\">\r\n下回合战斗增加{1}点<sprite name=\"IconStamina\">上限\r\n效果不叠加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "EmeraldStone1",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级11",
+        "rarity": "神话"
+      },
+      {
+        "name": "EmeraldStone2",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级12",
+        "rarity": "神话"
+      },
+      {
+        "name": "EmeraldStone3",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级13",
+        "rarity": "神话"
+      },
+      {
+        "name": "EmeraldStone4",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级14",
+        "rarity": "神话"
+      },
+      {
+        "name": "EmeraldStone5",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级15",
+        "rarity": "神话"
+      },
+      {
+        "name": "SkyStone1",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级1",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone2",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级2",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone3",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级3",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone4",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级4",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone5",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级5",
+        "rarity": "普通"
+      },
+      {
+        "name": "SunStone1",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级6",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone2",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级7",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone3",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级8",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone4",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级9",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone5",
+        "description": "将石头插入洞穴的特殊插槽中",
+        "type": "等级10",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Cogwheel",
+        "description": "古老机械的零件",
+        "type": "垃圾",
+        "rarity": "普通"
+      },
+      {
+        "name": "Daisy",
+        "description": "田野里的小花",
+        "type": "垃圾",
+        "rarity": "普通"
+      },
+      {
+        "name": "GoldenGoblet",
+        "description": "用古老黄金制成的国王旧酒杯",
+        "type": "垃圾",
+        "rarity": "神话"
+      },
+      {
+        "name": "IngotOfMithril",
+        "description": "被遗忘的精灵秘银锭",
+        "type": "垃圾",
+        "rarity": "稀有"
+      },
+      {
+        "name": "WoodenBoard",
+        "description": "来自远古森林的木板",
+        "type": "垃圾",
+        "rarity": "普通"
+      },
+      {
+        "name": "GauntletBoots",
+        "description": "战斗开始时：获得{0}层<sprite name=\"IconArmor\">",
+        "type": "护甲",
+        "rarity": "普通"
+      },
+      {
+        "name": "LeatherBoots",
+        "description": "战斗开始时：获得{0}层<sprite name=\"IconArmor\">",
+        "type": "护甲",
+        "rarity": "普通"
+      },
+      {
+        "name": "WoodenArmor",
+        "description": "战斗开始时：获得{0}层<sprite name=\"IconArmor\">",
+        "type": "护甲",
+        "rarity": "普通"
+      },
+      {
+        "name": "BlueCrystall",
+        "description": "每次物品激活<sprite name=\"IconFillStar\">：有<u>{0}</u>%几率获得<u>{1}</u>点<sprite name=\"IconMana\">",
+        "type": "水晶",
+        "rarity": "稀有"
+      },
+      {
+        "name": "RedCrystall",
+        "description": "每次物品激活<sprite name=\"IconFillStar\">：有<u>{0}</u>%几率获得<u>{1}</u>层<sprite name=\"IconPower\">",
+        "type": "水晶",
+        "rarity": "稀有"
+      },
+      {
+        "name": "DragonHead",
+        "description": "战斗开始时：每个龙或火系物品<sprite name=\"IconFillStar\">减少{0}%冷却时间\r\n\r\n攻击时：获得{1}层<sprite name=\"IconBurn\">",
+        "type": "龙",
+        "rarity": "神话"
+      },
+      {
+        "name": "DragonLeg",
+        "description": "",
+        "type": "龙",
+        "rarity": "神话"
+      },
+      {
+        "name": "DragonTail",
+        "description": "攻击时：获得{0}层<sprite name=\"IconPower\">并施加{1}层<sprite name=\"IconFillStar\">",
+        "type": "龙",
+        "rarity": "神话"
+      },
+      {
+        "name": "DragonWing",
+        "description": "攻击时：获得{0}层<sprite name=\"IconEvasion\">并施加{1}层<sprite name=\"IconFillStar\">",
+        "type": "龙",
+        "rarity": "神话"
+      },
+      {
+        "name": "FireBody",
+        "description": "战斗开始时：获得<u>{2}</u>层<sprite name=\"IconArmor\">\r\n\r\n火系物品激活<sprite name=\"IconFillStar\">：消耗<u>{0}</u>层<sprite name=\"IconBurn\">并造成<u>{1}</u>点伤害",
+        "type": "火焰/护甲",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FireDagger",
+        "description": "物品激活<sprite name=\"IconFillStar\">：移除敌人<u>{1}</u>层<sprite name=\"IconBurn\">并造成<u>{2}</u>点伤害\r\n\r\n攻击时：施加<u>{0}</u>层<sprite name=\"IconBurn\">",
+        "type": "火焰/武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FireFlask",
+        "description": "当拥有<u>{0}</u>层<sprite name=\"IconBurn\">时饮用\r\n获得<u>{1}</u>层<sprite name=\"IconBurn\">",
+        "type": "火焰",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FireGloves",
+        "description": "物品激活<sprite name=\"IconFillStar\">：\r\n移除敌人<u>{0}</u>层<sprite name=\"IconBurn\">并减少物品<u>{1}</u>%冷却时间",
+        "type": "火焰",
+        "rarity": "神话"
+      },
+      {
+        "name": "FireHelmet",
+        "description": "每<u>{1}</u>秒：获得<u>{0}</u>层<sprite name=\"IconBurn\">",
+        "type": "火焰",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MagicWand",
+        "description": "攻击时：获得<u>{0}</u>点<sprite name=\"IconMana\">",
+        "type": "法力/武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "ManaAmulet",
+        "description": "每<u>{2}</u>秒：消耗<u>{0}</u>点<sprite name=\"IconMana\">并随机施加{sprite name=\"IconPoison\"> <sprite name=\"IconBleed\"> <sprite name=\"IconFrost\">中的{1}种效果",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaBody",
+        "description": "战斗开始时：\r\n获得<u>{3}</u>层<sprite name=\"IconArmor\"> + 法力物品<sprite name=\"IconFillStar\">数量×<u>{1}</u>层<sprite name=\"IconArmor\">\r\n获得<u>{0}</u>点<sprite name=\"IconMana\"> + 法力物品<sprite name=\"IconFillStar\">数量×<u>{2}</u>点<sprite name=\"IconMana\">",
+        "type": "法力/护甲",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaBoots",
+        "description": "每<u>{1}</u>秒：获得<u>{0}</u>点<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaFlask",
+        "description": "战斗开始时：\r\n饮用并获得<u>{0}</u>点<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaGloves",
+        "description": "每<u>{1}</u>秒：从敌人处窃取<u>{0}</u>点<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaHelmet",
+        "description": "当生命值低于<u>{0}</u>%时：\r\n消耗<u>{3}</u>点<sprite name=\"IconMana\">，获得<u>{1}</u>层<sprite name=\"IconArmor\">和<u>{2}</u>层<sprite name=\"IconResistance\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaRing",
+        "description": "每<u>{2}</u>秒：\r\n消耗<u>{0}</u>点<sprite name=\"IconMana\">并获得<u>{1}</u>层<sprite name=\"IconBurn\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaShield",
+        "description": "战斗开始时：获得<u>{0}</u>层<sprite name=\"IconResistance\">\r\n受到伤害时：消耗<u>{1}</u>点<sprite name=\"IconMana\">并格挡<u>{2}</u>点伤害\r\n\r\n法力物品激活<sprite name=\"IconFillStar\">：\r\n窃取<u>{3}</u>点<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MushroomChanterelle",
+        "description": "战斗开始时：每个蘑菇物品<sprite name=\"IconFillStar\">减少{1}%冷却时间\r\n\r\n每<u>{2}</u>秒：获得<u>{0}</u>层<sprite name=\"IconRegenerate\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomOyster",
+        "description": "战斗开始时：每个蘑菇物品<sprite name=\"IconFillStar\">减少{1}%冷却时间\r\n\r\n每<u>{2}</u>秒：获得<u>{0}</u>点<sprite name=\"IconMana\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomRussula",
+        "description": "战斗开始时：每个蘑菇物品<sprite name=\"IconFillStar\">减少{1}%冷却时间\r\n\r\n每<u>{2}</u>秒：获得<u>{0}</u>层<sprite name=\"IconPower\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomWhite",
+        "description": "战斗开始时：每个蘑菇物品<sprite name=\"IconFillStar\">减少{1}%冷却时间\r\n\r\n每<u>{2}</u>秒：获得<u>{0}</u>点<sprite name=\"IconStamina\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "AngryFluff",
+        "description": "攻击时：移除<u>{0}</u>个随机减益效果",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "BlackCat",
+        "description": "攻击时：施加<u>{0}</u>层<sprite name=\"IconBleed\">\r\n受到伤害时：获得<u>{1}</u>层<sprite name=\"IconResistance\">",
+        "type": "宠物",
+        "rarity": "神话"
+      },
+      {
+        "name": "BlackClaw",
+        "description": "攻击时：移除<u>{0}</u>个随机增益效果",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Dinosaur",
+        "description": "攻击时：有{1}%几率获得{0}层<sprite name=\"IconPower\">",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "GlamorousToad",
+        "description": "攻击时：施加{0}层<sprite name=\"IconPoison\">",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MarbleMoth",
+        "description": "攻击时：获得{0}层<sprite name=\"IconEvasion\">",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MudWorm",
+        "description": "攻击时：移除<u>{0}</u>个随机减益效果",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Nibbler",
+        "description": "攻击时：获得<u>{0}</u>层<sprite name=\"IconArmor\">",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Slug",
+        "description": "攻击时：移除<u>{0}</u>层<sprite name=\"IconPoison\">",
+        "type": "宠物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Kettlebell",
+        "description": "每<u>{1}</u>秒：获得<u>{0}</u>层<sprite name=\"IconPower\">",
+        "type": "杂项",
+        "rarity": "普通"
+      },
+      {
+        "name": "Magnifire",
+        "description": "每<u>{1}</u>秒：\r\n施加<u>{0}</u>层<sprite name=\"IconBlind\">",
+        "type": "杂项",
+        "rarity": "普通"
+      },
+      {
+        "name": "VampieAmulet1",
+        "description": "战斗胜利：\r\n如果所有吸血鬼物品<sprite name=\"IconFillStar\">已激活，则添加angry fluff到仓库",
+        "type": "吸血鬼",
+        "rarity": "神话"
+      },
+      {
+        "name": "VampieBody1",
+        "description": "每<u>{1}</u>秒：获得等同于敌人<sprite name=\"IconBleed\">层数的<sprite name=\"IconVampire\">\r\n\r\n吸血鬼物品激活<sprite name=\"IconFillStar\">：施加{0}层<sprite name=\"IconBleed\">",
+        "type": "吸血鬼",
+        "rarity": "神话"
+      },
+      {
+        "name": "VampieBoots1",
+        "description": "战斗开始时：获得{1}层<sprite name=\"IconArmor\">和{0}层<sprite name=\"IconVampire\">",
+        "type": "吸血鬼",
+        "rarity": "稀有"
+      },
+      {
+        "name": "VampieBow1",
+        "description": "攻击时：获得等同于敌人<sprite name=\"IconBleed\">层数的<sprite name=\"IconChanceCrit\">\r\n\r\n武器物品激活<sprite name=\"IconFillStar\">：获得<u>{0}</u>层<sprite name=\"IconBaseCrit\">",
+        "type": "吸血鬼/武器",
+        "rarity": "传说"
+      },
+      {
+        "name": "VampieGloves1",
+        "description": "物品激活<sprite name=\"IconFillStar\">：施加<u>{0}</u>层<sprite name=\"IconBleed\">",
+        "type": "吸血鬼",
+        "rarity": "神话"
+      },
+      {
+        "name": "VampireSword1",
+        "description": "攻击时：对持有者造成伤害\r\n\r\n手套<sprite name=\"IconFillStar\">：取消对持有者的伤害",
+        "type": "吸血鬼/武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "AutomaticCrossbow",
+        "description": "攻击时：施加<u>{0}</u>层<sprite name=\"IconBleed\">\r\n并增加<u>{1}</u>%装填速度",
+        "type": "武器",
+        "rarity": "神话"
+      },
+      {
+        "name": "ChainWhip",
+        "description": "攻击时：窃取敌人<u>{0}</u>个随机增益效果",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Club",
+        "description": "攻击时：有<u>{0}</u>%几率施加<u>{1}</u>层<sprite name=\"IconBlind\">",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Crossbow",
+        "description": "攻击时：有<u>{0}</u>%几率施加<u>{1}</u>层<sprite name=\"IconBleed\">",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Dagger",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Halberd",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Katana",
+        "description": "攻击时：窃取敌人<u>{0}</u>层<sprite name=\"IconChanceCrit\">",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Nunchucks",
+        "description": "攻击时：施加<u>{1}</u>层<sprite name=\"IconChanceCrit\">\r\n并增加<u>{0}</u>%装填速度",
+        "type": "武器",
+        "rarity": "神话"
+      },
+      {
+        "name": "RevolverRing",
+        "description": "与物品激活<sprite name=\"IconFillStar\">同时触发",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Sling",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Slingshot",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Spear",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Broom",
+        "description": "战斗开始时：物品<sprite name=\"IconFillStar\">：减少15%冷却时间",
+        "type": "巫术",
+        "rarity": "普通"
+      },
+      {
+        "name": "RabbitPaw",
+        "description": "战斗开始时：\r\n蘑菇和巫术物品<sprite name=\"IconFillStar\">：获得<u>1</u>点<sprite name=\"IconMana\">\r\n\r\n每<u>2.1</u>秒：获得<u>1</u>层<sprite name=\"IconChanceCrit\">",
+        "type": "巫术",
+        "rarity": "稀有"
+      },
+      {
+        "name": "WitchPotBig",
+        "description": "战斗开始时：\r\n蘑菇物品<sprite name=\"IconFillStar\">：获得<u>{0}</u>点<sprite name=\"IconMana\">\r\n\r\n每<u>{4}</u>秒：施加<u>{1}</u>层<sprite name=\"IconPoison\">，消耗<u>{2}</u>点<sprite name=\"IconMana\">并获得<u>{3}</u>层<sprite name=\"IconRegenerate\">",
+        "type": "巫术",
+        "rarity": "稀有"
+      },
+      {
+        "name": "WitchPotSmall",
+        "description": "每<u>{1}</u>秒：\r\n施加<u>{0}</u>层<sprite name=\"IconPoison\">",
+        "type": "巫术",
+        "rarity": "普通"
+      }
+    ],
+    "weaponStat": "伤害：\r\n暴击几率：\r\n暴击伤害：\r\n耐力：\r\n命中率：\r\n冷却时间：",
+    "weight": "重量：{0}单位"
+  },
+  "zh_tw": {
+    "ui": [
+      {
+        "name": "start_button",
+        "text": "開始"
+      },
+      {
+        "name": "settings_button",
+        "text": "設定"
+      }
+    ],
+    "dialogs": [
+      {
+        "name": "welcome",
+        "text": "歡迎來到遊戲！"
+      },
+      {
+        "name": "start",
+        "text": "國王駕到！"
+      }
+    ],
+    "iconsEducation": [
+      {
+        "name": "Poison",
+        "description": "毒藥：每層減少5%受到的治疗效果。此數值可超過100%"
+      },
+      {
+        "name": "Bleed",
+        "description": "流血：每層造成1點/秒傷害"
+      },
+      {
+        "name": "Blind",
+        "description": "致盲：每層降低武器5%命中率"
+      },
+      {
+        "name": "Burn",
+        "description": "燃燒：每層使所有物品激活速度加快2%"
+      },
+      {
+        "name": "Frost",
+        "description": "冰凍：每層使所有物品激活速度減慢2%"
+      },
+      {
+        "name": "Resistance",
+        "description": "抗性：每層降低3%受到減益效果的概率"
+      },
+      {
+        "name": "ChanceCrit",
+        "description": "暴擊機率：每層增加2%暴擊概率"
+      },
+      {
+        "name": "Regenerate",
+        "description": "再生：每層恢復1點生命/秒"
+      },
+      {
+        "name": "Evasion",
+        "description": "閃避：每層增加2%閃避機率"
+      },
+      {
+        "name": "Mana",
+        "description": "法力：資源"
+      },
+      {
+        "name": "Power",
+        "description": "力量：每層增加攻擊物品1點傷害"
+      },
+      {
+        "name": "Vampire",
+        "description": "吸血：每層為攻擊附加2%吸血效果"
+      }
+    ],
+    "items": [
+      {
+        "name": "hiddenDagger",
+        "description": "首次攻擊：施加{0}層<sprite name=\"IconBleed\">",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SwampDragon",
+        "description": "攻擊時：施加<u>{0}</u>層<sprite name=\"IconPoison\">和<u>{1}</u>層<sprite name=\"IconBlind\">\r\n受到傷害時：獲得<u>{2}</u>層<sprite name=\"IconBurn\">",
+        "type": "寵物",
+        "rarity": "神話"
+      },
+      {
+        "name": "FireBag",
+        "description": "增加9個格子\r\n內部物品激活時獲得{0}層<sprite name=\"IconBurn\">",
+        "type": "背包",
+        "rarity": "神話"
+      },
+      {
+        "name": "EarthBag",
+        "description": "增加9個格子\r\n內部物品激活時獲得{0}層<sprite name=\"IconArmor\">",
+        "type": "背包",
+        "rarity": "神話"
+      },
+      {
+        "name": "IceBag",
+        "description": "增加9個格子\r\n內部物品激活時獲得{0}層<sprite name=\"IconFrost\">",
+        "type": "背包",
+        "rarity": "神話"
+      },
+      {
+        "name": "Bag2x2",
+        "description": "增加4個格子",
+        "type": "背包",
+        "rarity": "普通"
+      },
+      {
+        "name": "Bag1x1Resistance",
+        "description": "增加1個格子\r\n戰鬥開始時：獲得{0}層<sprite name=\"IconResistance\">",
+        "type": "背包",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Bag2x1Stamina",
+        "description": "增加2個格子\r\n戰鬥開始時：內部物品耐力消耗減少{0}%",
+        "type": "背包",
+        "rarity": "稀有"
+      },
+      {
+        "name": "BoiledPotato",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "BottleOfWine",
+        "description": "移至背包時：消失\r\n下回合戰鬥施加{0}層<sprite name=\"IconPoison\">並獲得{1}層<sprite name=\"IconChanceCrit\">\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "BowlOfSoup",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">\r\n下回合戰鬥獲得{1}層<sprite name=\"IconBurn\">\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "Bread",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "CupOfTea",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">\r\n下回合戰鬥獲得{1}層<sprite name=\"IconRegenerate\">\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FriedMeat",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">\r\n下回合戰鬥增加{1}點<sprite name=\"IconStamina\">上限\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FriedPotato",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">\r\n下回合戰鬥增加{1}點<sprite name=\"IconStamina\">上限\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Jam",
+        "description": "移至背包時：消失\r\n下回合戰鬥獲得{0}層<sprite name=\"IconEvasion\">\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomPie",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">\r\n下回合戰鬥對敵人施加{1}層<sprite name=\"IconPoison\">\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "RawMeat",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">",
+        "type": "食物",
+        "rarity": "普通"
+      },
+      {
+        "name": "Stew",
+        "description": "移至背包時：消失並恢復<u>{0}</u>點<sprite name=\"IconHP\">\r\n下回合戰鬥增加{1}點<sprite name=\"IconStamina\">上限\r\n效果不疊加",
+        "type": "食物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "EmeraldStone1",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級11",
+        "rarity": "神話"
+      },
+      {
+        "name": "EmeraldStone2",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級12",
+        "rarity": "神話"
+      },
+      {
+        "name": "EmeraldStone3",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級13",
+        "rarity": "神話"
+      },
+      {
+        "name": "EmeraldStone4",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級14",
+        "rarity": "神話"
+      },
+      {
+        "name": "EmeraldStone5",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級15",
+        "rarity": "神話"
+      },
+      {
+        "name": "SkyStone1",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級1",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone2",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級2",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone3",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級3",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone4",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級4",
+        "rarity": "普通"
+      },
+      {
+        "name": "SkyStone5",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級5",
+        "rarity": "普通"
+      },
+      {
+        "name": "SunStone1",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級6",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone2",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級7",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone3",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級8",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone4",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級9",
+        "rarity": "稀有"
+      },
+      {
+        "name": "SunStone5",
+        "description": "將石頭插入洞穴的特殊插槽中",
+        "type": "等級10",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Cogwheel",
+        "description": "古老機械的零件",
+        "type": "垃圾",
+        "rarity": "普通"
+      },
+      {
+        "name": "Daisy",
+        "description": "田野裡的小花",
+        "type": "垃圾",
+        "rarity": "普通"
+      },
+      {
+        "name": "GoldenGoblet",
+        "description": "用古老黃金製成的國王舊酒杯",
+        "type": "垃圾",
+        "rarity": "神話"
+      },
+      {
+        "name": "IngotOfMithril",
+        "description": "被遺忘的精靈秘銀錠",
+        "type": "垃圾",
+        "rarity": "稀有"
+      },
+      {
+        "name": "WoodenBoard",
+        "description": "來自遠古森林的木板",
+        "type": "垃圾",
+        "rarity": "普通"
+      },
+      {
+        "name": "GauntletBoots",
+        "description": "戰鬥開始時：獲得{0}層<sprite name=\"IconArmor\">",
+        "type": "護甲",
+        "rarity": "普通"
+      },
+      {
+        "name": "LeatherBoots",
+        "description": "戰鬥開始時：獲得{0}層<sprite name=\"IconArmor\">",
+        "type": "護甲",
+        "rarity": "普通"
+      },
+      {
+        "name": "WoodenArmor",
+        "description": "戰鬥開始時：獲得{0}層<sprite name=\"IconArmor\">",
+        "type": "護甲",
+        "rarity": "普通"
+      },
+      {
+        "name": "BlueCrystall",
+        "description": "每次物品激活<sprite name=\"IconFillStar\">：有<u>{0}</u>%機率獲得<u>{1}</u>點<sprite name=\"IconMana\">",
+        "type": "水晶",
+        "rarity": "稀有"
+      },
+      {
+        "name": "RedCrystall",
+        "description": "每次物品激活<sprite name=\"IconFillStar\">：有<u>{0}</u>%機率獲得<u>{1}</u>層<sprite name=\"IconPower\">",
+        "type": "水晶",
+        "rarity": "稀有"
+      },
+      {
+        "name": "DragonHead",
+        "description": "戰鬥開始時：每個龍或火系物品<sprite name=\"IconFillStar\">減少{0}%冷卻時間\r\n\r\n攻擊時：獲得{1}層<sprite name=\"IconBurn\">",
+        "type": "龍",
+        "rarity": "神話"
+      },
+      {
+        "name": "DragonLeg",
+        "description": "",
+        "type": "龍",
+        "rarity": "神話"
+      },
+      {
+        "name": "DragonTail",
+        "description": "攻擊時：獲得{0}層<sprite name=\"IconPower\">並施加{1}層<sprite name=\"IconFillStar\">",
+        "type": "龍",
+        "rarity": "神話"
+      },
+      {
+        "name": "DragonWing",
+        "description": "攻擊時：獲得{0}層<sprite name=\"IconEvasion\">並施加{1}層<sprite name=\"IconFillStar\">",
+        "type": "龍",
+        "rarity": "神話"
+      },
+      {
+        "name": "FireBody",
+        "description": "戰鬥開始時：獲得<u>{2}</u>層<sprite name=\"IconArmor\">\r\n\r\n火系物品激活<sprite name=\"IconFillStar\">：消耗<u>{0}</u>層<sprite name=\"IconBurn\">並造成<u>{1}</u>點傷害",
+        "type": "火焰/護甲",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FireDagger",
+        "description": "物品激活<sprite name=\"IconFillStar\">：移除敵人<u>{1}</u>層<sprite name=\"IconBurn\">並造成<u>{2}</u>點傷害\r\n\r\n攻擊時：施加<u>{0}</u>層<sprite name=\"IconBurn\">",
+        "type": "火焰/武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FireFlask",
+        "description": "當擁有<u>{0}</u>層<sprite name=\"IconBurn\">時飲用\r\n獲得<u>{1}</u>層<sprite name=\"IconBurn\">",
+        "type": "火焰",
+        "rarity": "稀有"
+      },
+      {
+        "name": "FireGloves",
+        "description": "物品激活<sprite name=\"IconFillStar\">：\r\n移除敵人<u>{0}</u>層<sprite name=\"IconBurn\">並減少物品<u>{1}</u>%冷卻時間",
+        "type": "火焰",
+        "rarity": "神話"
+      },
+      {
+        "name": "FireHelmet",
+        "description": "每<u>{1}</u>秒：獲得<u>{0}</u>層<sprite name=\"IconBurn\">",
+        "type": "火焰",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MagicWand",
+        "description": "攻擊時：獲得<u>{0}</u>點<sprite name=\"IconMana\">",
+        "type": "法力/武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "ManaAmulet",
+        "description": "每<u>{2}</u>秒：消耗<u>{0}</u>點<sprite name=\"IconMana\">並隨機施加{sprite name=\"IconPoison\"> <sprite name=\"IconBleed\"> <sprite name=\"IconFrost\">中的{1}種效果",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaBody",
+        "description": "戰鬥開始時：\r\n獲得<u>{3}</u>層<sprite name=\"IconArmor\"> + 法力物品<sprite name=\"IconFillStar\">數量×<u>{1}</u>層<sprite name=\"IconArmor\">\r\n獲得<u>{0}</u>點<sprite name=\"IconMana\"> + 法力物品<sprite name=\"IconFillStar\">數量×<u>{2}</u>點<sprite name=\"IconMana\">",
+        "type": "法力/護甲",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaBoots",
+        "description": "每<u>{1}</u>秒：獲得<u>{0}</u>點<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaFlask",
+        "description": "戰鬥開始時：\r\n飲用並獲得<u>{0}</u>點<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaGloves",
+        "description": "每<u>{1}</u>秒：從敵人處竊取<u>{0}</u>點<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaHelmet",
+        "description": "當生命值低於<u>{0}</u>%時：\r\n消耗<u>{3}</u>點<sprite name=\"IconMana\">，獲得<u>{1}</u>層<sprite name=\"IconArmor\">和<u>{2}</u>層<sprite name=\"IconResistance\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaRing",
+        "description": "每<u>{2}</u>秒：\r\n消耗<u>{0}</u>點<sprite name=\"IconMana\">並獲得<u>{1}</u>層<sprite name=\"IconBurn\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "ManaShield",
+        "description": "戰鬥開始時：獲得<u>{0}</u>層<sprite name=\"IconResistance\">\r\n受到傷害時：消耗<u>{1}</u>點<sprite name=\"IconMana\">並格擋<u>{2}</u>點傷害\r\n\r\n法力物品激活<sprite name=\"IconFillStar\">：\r\n竊取<u>{3}</u>點<sprite name=\"IconMana\">",
+        "type": "法力",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MushroomChanterelle",
+        "description": "戰鬥開始時：每個蘑菇物品<sprite name=\"IconFillStar\">減少{1}%冷卻時間\r\n\r\n每<u>{2}</u>秒：獲得<u>{0}</u>層<sprite name=\"IconRegenerate\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomOyster",
+        "description": "戰鬥開始時：每個蘑菇物品<sprite name=\"IconFillStar\">減少{1}%冷卻時間\r\n\r\n每<u>{2}</u>秒：獲得<u>{0}</u>點<sprite name=\"IconMana\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomRussula",
+        "description": "戰鬥開始時：每個蘑菇物品<sprite name=\"IconFillStar\">減少{1}%冷卻時間\r\n\r\n每<u>{2}</u>秒：獲得<u>{0}</u>層<sprite name=\"IconPower\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "MushroomWhite",
+        "description": "戰鬥開始時：每個蘑菇物品<sprite name=\"IconFillStar\">減少{1}%冷卻時間\r\n\r\n每<u>{2}</u>秒：獲得<u>{0}</u>點<sprite name=\"IconStamina\">",
+        "type": "蘑菇",
+        "rarity": "普通"
+      },
+      {
+        "name": "AngryFluff",
+        "description": "攻擊時：移除<u>{0}</u>個隨機減益效果",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "BlackCat",
+        "description": "攻擊時：施加<u>{0}</u>層<sprite name=\"IconBleed\">\r\n受到傷害時：獲得<u>{1}</u>層<sprite name=\"IconResistance\">",
+        "type": "寵物",
+        "rarity": "神話"
+      },
+      {
+        "name": "BlackClaw",
+        "description": "攻擊時：移除<u>{0}</u>個隨機增益效果",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Dinosaur",
+        "description": "攻擊時：有{1}%機率獲得{0}層<sprite name=\"IconPower\">",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "GlamorousToad",
+        "description": "攻擊時：施加{0}層<sprite name=\"IconPoison\">",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MarbleMoth",
+        "description": "攻擊時：獲得{0}層<sprite name=\"IconEvasion\">",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "MudWorm",
+        "description": "攻擊時：移除<u>{0}</u>個隨機減益效果",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Nibbler",
+        "description": "攻擊時：獲得<u>{0}</u>層<sprite name=\"IconArmor\">",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Slug",
+        "description": "攻擊時：移除<u>{0}</u>層<sprite name=\"IconPoison\">",
+        "type": "寵物",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Kettlebell",
+        "description": "每<u>{1}</u>秒：獲得<u>{0}</u>層<sprite name=\"IconPower\">",
+        "type": "雜項",
+        "rarity": "普通"
+      },
+      {
+        "name": "Magnifire",
+        "description": "每<u>{1}</u>秒：\r\n施加<u>{0}</u>層<sprite name=\"IconBlind\">",
+        "type": "雜項",
+        "rarity": "普通"
+      },
+      {
+        "name": "VampieAmulet1",
+        "description": "戰鬥勝利：\r\n如果所有吸血鬼物品<sprite name=\"IconFillStar\">已激活，則添加angry fluff到倉庫",
+        "type": "吸血鬼",
+        "rarity": "神話"
+      },
+      {
+        "name": "VampieBody1",
+        "description": "每<u>{1}</u>秒：獲得等同於敵人<sprite name=\"IconBleed\">層數的<sprite name=\"IconVampire\">\r\n\r\n吸血鬼物品激活<sprite name=\"IconFillStar\">：施加{0}層<sprite name=\"IconBleed\">",
+        "type": "吸血鬼",
+        "rarity": "神話"
+      },
+      {
+        "name": "VampieBoots1",
+        "description": "戰鬥開始時：獲得{1}層<sprite name=\"IconArmor\">和{0}層<sprite name=\"IconVampire\">",
+        "type": "吸血鬼",
+        "rarity": "稀有"
+      },
+      {
+        "name": "VampieBow1",
+        "description": "攻擊時：獲得等同於敵人<sprite name=\"IconBleed\">層數的<sprite name=\"IconChanceCrit\">\r\n\r\n武器物品激活<sprite name=\"IconFillStar\">：獲得<u>{0}</u>層<sprite name=\"IconBaseCrit\">",
+        "type": "吸血鬼/武器",
+        "rarity": "傳說"
+      },
+      {
+        "name": "VampieGloves1",
+        "description": "物品激活<sprite name=\"IconFillStar\">：施加<u>{0}</u>層<sprite name=\"IconBleed\">",
+        "type": "吸血鬼",
+        "rarity": "神話"
+      },
+      {
+        "name": "VampireSword1",
+        "description": "攻擊時：對持有者造成傷害\r\n\r\n手套<sprite name=\"IconFillStar\">：取消對持有者的傷害",
+        "type": "吸血鬼/武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "AutomaticCrossbow",
+        "description": "攻擊時：施加<u>{0}</u>層<sprite name=\"IconBleed\">\r\n並增加<u>{1}</u>%裝填速度",
+        "type": "武器",
+        "rarity": "神話"
+      },
+      {
+        "name": "ChainWhip",
+        "description": "攻擊時：竊取敵人<u>{0}</u>個隨機增益效果",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Club",
+        "description": "攻擊時：有<u>{0}</u>%機率施加<u>{1}</u>層<sprite name=\"IconBlind\">",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Crossbow",
+        "description": "攻擊時：有<u>{0}</u>%機率施加<u>{1}</u>層<sprite name=\"IconBleed\">",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Dagger",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Halberd",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Katana",
+        "description": "攻擊時：竊取敵人<u>{0}</u>層<sprite name=\"IconChanceCrit\">",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Nunchucks",
+        "description": "攻擊時：施加<u>{1}</u>層<sprite name=\"IconChanceCrit\">\r\n並增加<u>{0}</u>%裝填速度",
+        "type": "武器",
+        "rarity": "神話"
+      },
+      {
+        "name": "RevolverRing",
+        "description": "與物品激活<sprite name=\"IconFillStar\">同時觸發",
+        "type": "武器",
+        "rarity": "稀有"
+      },
+      {
+        "name": "Sling",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Slingshot",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Spear",
+        "description": "",
+        "type": "武器",
+        "rarity": "普通"
+      },
+      {
+        "name": "Broom",
+        "description": "戰鬥開始時：物品<sprite name=\"IconFillStar\">：減少15%冷卻時間",
+        "type": "巫術",
+        "rarity": "普通"
+      },
+      {
+        "name": "RabbitPaw",
+        "description": "戰鬥開始時：\r\n蘑菇和巫術物品<sprite name=\"IconFillStar\">：獲得<u>1</u>點<sprite name=\"IconMana\">\r\n\r\n每<u>2.1</u>秒：獲得<u>1</u>層<sprite name=\"IconChanceCrit\">",
+        "type": "巫術",
+        "rarity": "稀有"
+      },
+      {
+        "name": "WitchPotBig",
+        "description": "戰鬥開始時：\r\n蘑菇物品<sprite name=\"IconFillStar\">：獲得<u>{0}</u>點<sprite name=\"IconMana\">\r\n\r\n每<u>{4}</u>秒：施加<u>{1}</u>層<sprite name=\"IconPoison\">，消耗<u>{2}</u>點<sprite name=\"IconMana\">並獲得<u>{3}</u>層<sprite name=\"IconRegenerate\">",
+        "type": "巫術",
+        "rarity": "稀有"
+      },
+      {
+        "name": "WitchPotSmall",
+        "description": "每<u>{1}</u>秒：\r\n施加<u>{0}</u>層<sprite name=\"IconPoison\">",
+        "type": "巫術",
+        "rarity": "普通"
+      }
+    ],
+    "weaponStat": "傷害：\r\n暴擊機率：\r\n暴擊傷害：\r\n耐力：\r\n命中率：\r\n冷卻時間：",
+    "weight": "重量：{0}單位"
+  }
 }
+
