@@ -740,4 +740,96 @@ public class ButtonsShowItems : MonoBehaviour
         SceneLoader.Instance.LoadScene("Main");
     }
 
+
+    public GameObject placeForDescription1;
+    public GameObject placeForDescription2;
+    public LocalizationManager lm;
+    public void SwitchRU()
+    {
+        lm.Initialize();
+        PlayerPrefs.SetString("LanguageSettings", "ru");
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+    }
+
+    public void SwitchEN()
+    {
+        lm.Initialize();
+        PlayerPrefs.SetString("LanguageSettings", "en");
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+    }
+
+    public void SwitchZH()
+    {
+        lm.Initialize();
+        PlayerPrefs.SetString("LanguageSettings", "zh");
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+    }
+
+    public void SwitchZH_TW()
+    {
+        lm.Initialize();
+        PlayerPrefs.SetString("LanguageSettings", "zh_tw");
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItem>())
+        {
+            go.SetTextBody();
+        }
+        foreach (var go in placeForDescription1.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+        foreach (var go in placeForDescription2.GetComponentsInChildren<DescriptionItemWeapon>())
+        {
+            go.SetTextStat();
+        }
+    }
+
 }

@@ -77,6 +77,11 @@ public class LocalizationManager : MonoBehaviour
         LoadLocalizedText("LozalizationLanguage"); // Загружаем язык по умолчанию
     }
 
+    public void Initialize()
+    {
+        LoadLocalizedText("LozalizationLanguage");
+    }
+
     public void LoadLocalizedText(string languageCode)
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("Localization/" + languageCode);

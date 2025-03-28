@@ -117,16 +117,21 @@ public class DescriptionItem : MonoBehaviour
     }
     public virtual void SetFont()
     {
-        TMP_FontAsset font;
+        TMP_FontAsset font = Resources.Load<TMP_FontAsset>("Fonts/NotoSansSC-Black SDF");
         switch (settingLanguage)
         {
             case "zh":
-                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSansSC-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
                 weightText.font = font;
-                if(iconPoisonDescription != null)
+
+                textBody.lineSpacing = -30;
+                type.lineSpacing = -30;
+                rarity.lineSpacing = -30;
+                weightText.lineSpacing = -30;
+
+                if (iconPoisonDescription != null)
                     iconPoisonDescription.font = font;
                 if (iconBleedingDescription != null)
                     iconBleedingDescription.font = font;
@@ -150,11 +155,16 @@ public class DescriptionItem : MonoBehaviour
                     iconVampireDescription.font = font;
                 break;
             case "zh_tw":
-                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSerifTC-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
                 weightText.font = font;
+
+                textBody.lineSpacing = -30;
+                type.lineSpacing = -30;
+                rarity.lineSpacing = -30;
+                weightText.lineSpacing = -30;
+
                 if (iconPoisonDescription != null)
                     iconPoisonDescription.font = font;
                 if (iconBleedingDescription != null)
@@ -179,7 +189,6 @@ public class DescriptionItem : MonoBehaviour
                     iconVampireDescription.font = font;
                 break;
             default:
-                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans_ExtraCondensed-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
@@ -218,7 +227,7 @@ public class DescriptionItem : MonoBehaviour
     public virtual void SetTextBody()
     {
         //en ru zh zh_tw
-        settingLanguage = "ru";//PlayerPrefs.GetString("LanguageSettings");
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
         SetFont();
         SetWeight();
         SetIconDescriptions();
