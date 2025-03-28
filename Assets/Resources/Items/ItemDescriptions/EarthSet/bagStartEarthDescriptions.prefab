@@ -162,8 +162,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1554086, y: 0.4357375}
   m_AnchorMax: {x: 0.8518871, y: 0.7556562}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -17.48}
+  m_SizeDelta: {x: 0, y: 34.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3875738773932986674
 MeshRenderer:
@@ -188,7 +188,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,12 +230,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Add 9 backpack slots
-
-    items inside give 5      when they activate'
+  m_text: "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 9 \u0441\u043B\u043E\u0442\u043E\u0432\\r\\n\\r\\n\u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B
+    \u0432\u043D\u0443\u0442\u0440\u0438 \u0434\u0430\u044E\u0442 1 <sprite name=\"IconBurn\">
+    \u043F\u0440\u0438 \u0430\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u0438"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
+  m_sharedMaterial: {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -251,7 +251,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 65d1c5c244dcd6e4490625dfc52ee123, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -271,9 +271,9 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -30
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 41
+  m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -0.000000003716403}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -367,8 +367,15 @@ MonoBehaviour:
   iconBleedingDescription: {fileID: 0}
   iconBlindDescription: {fileID: 0}
   iconBurnDescription: {fileID: 0}
+  iconIceDescription: {fileID: 0}
+  iconResistanceDescription: {fileID: 0}
+  iconChanceCritDescription: {fileID: 0}
+  iconRegenerateDescription: {fileID: 0}
+  iconEvasionDescription: {fileID: 0}
+  iconManaDescription: {fileID: 0}
+  iconPowerDescription: {fileID: 0}
+  iconVampireDescription: {fileID: 0}
   weight: 3
-  settingLanguage: ru
   countArmorStack: 4
 --- !u!1 &2552709204808615449
 GameObject:
@@ -478,7 +485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1.4000015, y: 14.5}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7206174577682532168
@@ -504,7 +511,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -546,10 +553,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u043F\u0438\u0442\u043E\u043C\u0446\u044B"
+  m_text: "\u0441\u0443\u043C\u043A\u0438"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
+  m_sharedMaterial: {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -984,7 +991,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1026,10 +1033,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'height: 1 unit'
+  m_text: "\u0432\u0435\u0441: 1 \u0435\u0434."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
+  m_sharedMaterial: {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1091,7 +1098,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -35.97603, y: 0, z: -45.726616, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -1225,7 +1232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2.0999985, y: 15.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &5518622841983533091
@@ -1251,7 +1258,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1295,8 +1302,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u043C\u0438\u0444\u0438\u043A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
+  m_sharedMaterial: {fileID: -5777049168305432814, guid: c2cce9b3908add441ac4513c322f198a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

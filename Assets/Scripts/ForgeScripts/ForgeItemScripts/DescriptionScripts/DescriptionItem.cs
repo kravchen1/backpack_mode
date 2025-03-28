@@ -117,10 +117,11 @@ public class DescriptionItem : MonoBehaviour
     }
     public virtual void SetFont()
     {
-        var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
+        TMP_FontAsset font;
         switch (settingLanguage)
         {
             case "zh":
+                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSansSC-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
@@ -149,6 +150,7 @@ public class DescriptionItem : MonoBehaviour
                     iconVampireDescription.font = font;
                 break;
             case "zh_tw":
+                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSerifTC-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
@@ -176,11 +178,47 @@ public class DescriptionItem : MonoBehaviour
                 if (iconVampireDescription != null)
                     iconVampireDescription.font = font;
                 break;
+            default:
+                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans_ExtraCondensed-Black SDF");
+                textBody.font = font;
+                type.font = font;
+                rarity.font = font;
+                weightText.font = font;
+
+                textBody.lineSpacing = -30;
+                type.lineSpacing = -30;
+                rarity.lineSpacing = -30;
+                weightText.lineSpacing = -30;
+
+                if (iconPoisonDescription != null)
+                    iconPoisonDescription.font = font;
+                if (iconBleedingDescription != null)
+                    iconBleedingDescription.font = font;
+                if (iconBlindDescription != null)
+                    iconBlindDescription.font = font;
+                if (iconBurnDescription != null)
+                    iconBurnDescription.font = font;
+                if (iconIceDescription != null)
+                    iconIceDescription.font = font;
+                if (iconResistanceDescription != null)
+                    iconResistanceDescription.font = font;
+                if (iconChanceCritDescription != null)
+                    iconChanceCritDescription.font = font;
+                if (iconRegenerateDescription != null)
+                    iconRegenerateDescription.font = font;
+                if (iconEvasionDescription != null)
+                    iconEvasionDescription.font = font;
+                if (iconPowerDescription != null)
+                    iconPowerDescription.font = font;
+                if (iconVampireDescription != null)
+                    iconVampireDescription.font = font;
+                break;
         }
     }
     public virtual void SetTextBody()
     {
-        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+        //en ru zh zh_tw
+        settingLanguage = "ru";//PlayerPrefs.GetString("LanguageSettings");
         SetFont();
         SetWeight();
         SetIconDescriptions();

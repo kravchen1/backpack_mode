@@ -26,10 +26,11 @@ public class DescriptionItemWeapon : DescriptionItem
 
     public override void SetFont()
     {
-        var font = Resources.Load<TMP_FontAsset>("Fonts/china main SDF");
+        TMP_FontAsset font; 
         switch (settingLanguage)
         {
             case "zh":
+                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSansSC-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
@@ -58,6 +59,7 @@ public class DescriptionItemWeapon : DescriptionItem
                     iconVampireDescription.font = font;
                 break;
             case "zh_tw":
+                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSerifTC-Black SDF");
                 textBody.font = font;
                 type.font = font;
                 rarity.font = font;
@@ -87,8 +89,48 @@ public class DescriptionItemWeapon : DescriptionItem
                 if (iconVampireDescription != null)
                     iconVampireDescription.font = font;
                 break;
+            default:
+                font = Resources.Load<TMP_FontAsset>("Fonts/NotoSans_ExtraCondensed-Black SDF");
+                textBody.font = font;
+                type.font = font;
+                rarity.font = font;
+                weightText.font = font;
+                weaponStat.font = font;
+                Stats.font = font;
+
+                textBody.lineSpacing = -30;
+                type.lineSpacing = -30;
+                rarity.lineSpacing = -30;
+                weightText.lineSpacing = -30;
+                weaponStat.lineSpacing = -30;
+                Stats.lineSpacing = -30;
+
+                if (iconPoisonDescription != null)
+                    iconPoisonDescription.font = font;
+                if (iconBleedingDescription != null)
+                    iconBleedingDescription.font = font;
+                if (iconBlindDescription != null)
+                    iconBlindDescription.font = font;
+                if (iconBurnDescription != null)
+                    iconBurnDescription.font = font;
+                if (iconIceDescription != null)
+                    iconIceDescription.font = font;
+                if (iconResistanceDescription != null)
+                    iconResistanceDescription.font = font;
+                if (iconChanceCritDescription != null)
+                    iconChanceCritDescription.font = font;
+                if (iconRegenerateDescription != null)
+                    iconRegenerateDescription.font = font;
+                if (iconEvasionDescription != null)
+                    iconEvasionDescription.font = font;
+                if (iconPowerDescription != null)
+                    iconPowerDescription.font = font;
+                if (iconVampireDescription != null)
+                    iconVampireDescription.font = font;
+                break;
         }
     }
+    
 
     private new void Start()
     {
@@ -112,7 +154,7 @@ public class DescriptionItemWeapon : DescriptionItem
         string text = "<u>" + damageMin.ToString() + "</u>-<u>" + damageMax.ToString() + "</u> (" + Mathf.Round(((damageMin + damageMax) / 2 / cooldown)).ToString() + ")/sec"
             + "\r\n<u>" + chanceCrit.ToString() +
             "</u>%\r\n<u>" + critDamage.ToString() +
-            "</u>%\r\n<u>" + staminaCost.ToString() +
+            "</u>%\r\n<u>" + staminaCost.ToString() + " (" + Mathf.Round(staminaCost / cooldown).ToString() + ") / sec" +
             "</u>\r\n<u>" + accuracyPercent.ToString() +
             "</u>%\r\n<u>" + cooldown.ToString() + "</u> sec";
 
@@ -121,7 +163,9 @@ public class DescriptionItemWeapon : DescriptionItem
 
     public override void SetTextBody()
     {
-        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+        //en ru zh zh_tw
+        settingLanguage = "ru";
+        //settingLanguage = PlayerPrefs.GetString("LanguageSettings");
         SetFont();
         SetWeaponStat();
         SetWeight();
