@@ -9,6 +9,8 @@ public class Armor : Item
 
     private void Start()
     {
+        FillnestedObjectStarsStars(256);
+
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
 
@@ -17,7 +19,6 @@ public class Armor : Item
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
-
     }
 
 
@@ -44,7 +45,7 @@ public class Armor : Item
         }
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
+        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
             defaultItemUpdate();
         }

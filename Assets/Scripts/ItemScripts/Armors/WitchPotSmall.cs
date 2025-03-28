@@ -8,8 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class WitchPotSmall : WitchCraft
 {
-    private bool isUse = false;
-    public int givePoisonStack = 5;//надо заменить
+    public int givePoisonStack = 5;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;
@@ -18,11 +17,9 @@ public class WitchPotSmall : WitchCraft
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
         }
 
     }
-
 
     public override void Activation()
     {
@@ -35,53 +32,6 @@ public class WitchPotSmall : WitchCraft
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-        }
-    }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
         }
     }
 

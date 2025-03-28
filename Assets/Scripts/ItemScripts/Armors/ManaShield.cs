@@ -9,7 +9,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ManaShield : Armor
 {
-    private bool isUse = false;
     public int countStartResistanceStack = 5;
     public int countNeedManaStack = 1;
     public int blockDamage = 11;
@@ -28,35 +27,28 @@ public class ManaShield : Armor
         }
         
     }
- 
-
     public override void StartActivation()
     {
-        if (!isUse)
+        if (Player != null)
         {
-            if (Player != null)
-            {
-                
-                Player.menuFightIconData.AddBuff(countStartResistanceStack, "ICONRESISTANCE");
-                isUse = true;
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogResistanceStackCharacter, "Mana shield give " + countStartResistanceStack.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogResistanceStackEnemy, "Mana shield give " + countStartResistanceStack.ToString());
-                }
 
-                CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+            Player.menuFightIconData.AddBuff(countStartResistanceStack, "ICONRESISTANCE");
+            if (Player.isPlayer)
+            {
+                CreateLogMessage(LogResistanceStackCharacter, "Mana shield give " + countStartResistanceStack.ToString());
             }
+            else
+            {
+                CreateLogMessage(LogResistanceStackEnemy, "Mana shield give " + countStartResistanceStack.ToString());
+            }
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
     public override void StarActivation(Item item)
     {
-        //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
         if (Player != null && Enemy != null)
         {
             if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
@@ -119,37 +111,7 @@ public class ManaShield : Armor
         }
         else return 0;
     }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                //animator.Play("New State");
-            }
-        }
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //FillnestedObjectStarsStars(256);
-            CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
-        }
-    }
-
+    
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);

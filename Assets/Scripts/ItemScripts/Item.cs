@@ -68,7 +68,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public BoxCollider2D[] collidersArray;
 
     [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public PolygonCollider2D collider;
+    [HideInInspector] public Collider2D collider;
 
     [HideInInspector] public Vector3 lastItemPosition;
 
