@@ -135,6 +135,14 @@ public class DescriptionItem : MonoBehaviour
                     {
                         go.fontStyle = FontStyles.Bold;
                     }
+                    if (go.name == "TextWeight")
+                    {
+                        go.fontSize = 220;
+                    }
+                    if (go.name == "TextBodyStats" || go.name == "TextBodyStatsValue")
+                    {
+                        go.fontSize = 255;
+                    }
                 }
                 break;
             case "zh_tw":
@@ -143,6 +151,7 @@ public class DescriptionItem : MonoBehaviour
                 {
                     go.font = font;
                     go.lineSpacing = -30;
+                    go.paragraphSpacing = 0;
                     if (go.name == "TextHeader")
                     {
                         go.fontStyle = FontStyles.Bold | FontStyles.Underline;
@@ -150,6 +159,14 @@ public class DescriptionItem : MonoBehaviour
                     else
                     {
                         go.fontStyle = FontStyles.Bold;
+                    }
+                    if (go.name == "TextWeight")
+                    {
+                        go.fontSize = 220;
+                    }
+                    if (go.name == "TextBodyStats" || go.name == "TextBodyStatsValue")
+                    {
+                        go.fontSize = 255;
                     }
                 }
                 break;
@@ -167,6 +184,14 @@ public class DescriptionItem : MonoBehaviour
                     {
                         go.fontStyle = FontStyles.Bold;
                     }
+                    if (go.name == "TextWeight")
+                    {
+                        go.fontSize = 220;
+                    }
+                    if (go.name == "TextBodyStats" || go.name == "TextBodyStatsValue")
+                    {
+                        go.fontSize = 255;
+                    }
                 }
                 break;
             case "en":
@@ -182,6 +207,14 @@ public class DescriptionItem : MonoBehaviour
                     else
                     {
                         go.fontStyle = FontStyles.Normal;
+                    }
+                    if(go.name == "TextWeight")
+                    {
+                        go.fontSize = 220;
+                    }
+                    if (go.name == "TextBodyStats" || go.name == "TextBodyStatsValue")
+                    {
+                        go.fontSize = 255;
                     }
 
                 }
