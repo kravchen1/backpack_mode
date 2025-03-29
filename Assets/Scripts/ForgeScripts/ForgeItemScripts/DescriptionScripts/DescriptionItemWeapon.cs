@@ -8,6 +8,7 @@ using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 using Unity.Burst.CompilerServices;
 using UnityEditor.VersionControl;
+using Unity.VisualScripting;
 
 public class DescriptionItemWeapon : DescriptionItem
 {
@@ -24,127 +25,50 @@ public class DescriptionItemWeapon : DescriptionItem
     public int critDamage = 130;
     public float cooldown = 1.1f;
 
-    public override void SetFont()
-    {
-        TMP_FontAsset font = Resources.Load<TMP_FontAsset>("Fonts/NotoSansSC-Black SDF"); 
-        switch (settingLanguage)
-        {
-            case "zh":
-                textBody.font = font;
-                type.font = font;
-                rarity.font = font;
-                weightText.font = font;
-                weaponStat.font = font;
-                Stats.font = font;
-
-                textBody.lineSpacing = -30;
-                type.lineSpacing = -30;
-                rarity.lineSpacing = -30;
-                weightText.lineSpacing = -30;
-                weaponStat.lineSpacing = -30;
-                Stats.lineSpacing = -30;
-
-                if (iconPoisonDescription != null)
-                    iconPoisonDescription.font = font;
-                if (iconBleedingDescription != null)
-                    iconBleedingDescription.font = font;
-                if (iconBlindDescription != null)
-                    iconBlindDescription.font = font;
-                if (iconBurnDescription != null)
-                    iconBurnDescription.font = font;
-                if (iconIceDescription != null)
-                    iconIceDescription.font = font;
-                if (iconResistanceDescription != null)
-                    iconResistanceDescription.font = font;
-                if (iconChanceCritDescription != null)
-                    iconChanceCritDescription.font = font;
-                if (iconRegenerateDescription != null)
-                    iconRegenerateDescription.font = font;
-                if (iconEvasionDescription != null)
-                    iconEvasionDescription.font = font;
-                if (iconPowerDescription != null)
-                    iconPowerDescription.font = font;
-                if (iconVampireDescription != null)
-                    iconVampireDescription.font = font;
-                break;
-            case "zh_tw":
-                textBody.font = font;
-                type.font = font;
-                rarity.font = font;
-                weightText.font = font;
-                weaponStat.font = font;
-                Stats.font = font;
-
-                textBody.lineSpacing = -30;
-                type.lineSpacing = -30;
-                rarity.lineSpacing = -30;
-                weightText.lineSpacing = -30;
-                weaponStat.lineSpacing = -30;
-                Stats.lineSpacing = -30;
-
-                if (iconPoisonDescription != null)
-                    iconPoisonDescription.font = font;
-                if (iconBleedingDescription != null)
-                    iconBleedingDescription.font = font;
-                if (iconBlindDescription != null)
-                    iconBlindDescription.font = font;
-                if (iconBurnDescription != null)
-                    iconBurnDescription.font = font;
-                if (iconIceDescription != null)
-                    iconIceDescription.font = font;
-                if (iconResistanceDescription != null)
-                    iconResistanceDescription.font = font;
-                if (iconChanceCritDescription != null)
-                    iconChanceCritDescription.font = font;
-                if (iconRegenerateDescription != null)
-                    iconRegenerateDescription.font = font;
-                if (iconEvasionDescription != null)
-                    iconEvasionDescription.font = font;
-                if (iconPowerDescription != null)
-                    iconPowerDescription.font = font;
-                if (iconVampireDescription != null)
-                    iconVampireDescription.font = font;
-                break;
-            default:
-                textBody.font = font;
-                type.font = font;
-                rarity.font = font;
-                weightText.font = font;
-                weaponStat.font = font;
-                Stats.font = font;
-
-                textBody.lineSpacing = -30;
-                type.lineSpacing = -30;
-                rarity.lineSpacing = -30;
-                weightText.lineSpacing = -30;
-                weaponStat.lineSpacing = -30;
-                Stats.lineSpacing = -30;
-
-                if (iconPoisonDescription != null)
-                    iconPoisonDescription.font = font;
-                if (iconBleedingDescription != null)
-                    iconBleedingDescription.font = font;
-                if (iconBlindDescription != null)
-                    iconBlindDescription.font = font;
-                if (iconBurnDescription != null)
-                    iconBurnDescription.font = font;
-                if (iconIceDescription != null)
-                    iconIceDescription.font = font;
-                if (iconResistanceDescription != null)
-                    iconResistanceDescription.font = font;
-                if (iconChanceCritDescription != null)
-                    iconChanceCritDescription.font = font;
-                if (iconRegenerateDescription != null)
-                    iconRegenerateDescription.font = font;
-                if (iconEvasionDescription != null)
-                    iconEvasionDescription.font = font;
-                if (iconPowerDescription != null)
-                    iconPowerDescription.font = font;
-                if (iconVampireDescription != null)
-                    iconVampireDescription.font = font;
-                break;
-        }
-    }
+    //public override void SetFont()
+    //{
+    //    TMP_FontAsset font;// = Resources.Load<TMP_FontAsset>("Fonts/Cinzel-Black SDF"); 
+    //    switch (settingLanguage)
+    //    {
+    //        //tw - tradithional
+    //        case "zh":
+    //            //NotoSerifTC-Regular SDF
+    //            font = Resources.Load<TMP_FontAsset>("Fonts/NotoSerifSC-Regular SDF");
+    //            foreach (var go in gameObject.GetComponentsInChildren<TextMeshPro>())
+    //            {
+    //                go.font = font;
+    //                go.lineSpacing = -30;
+    //                go.fontStyle = FontStyles.Bold;
+    //            }
+    //            break;
+    //        case "zh_tw":
+    //            font = Resources.Load<TMP_FontAsset>("Fonts/NotoSerifTC-Regular SDF");
+    //            foreach (var go in gameObject.GetComponentsInChildren<TextMeshPro>())
+    //            {
+    //                go.font = font;
+    //                go.lineSpacing = -30;
+    //                go.fontStyle = FontStyles.Bold;
+    //            }
+    //            break;
+    //        case "ru":
+    //            font = Resources.Load<TMP_FontAsset>("Fonts/PTSerif-Regular SDF");
+    //            foreach(var go in gameObject.GetComponentsInChildren<TextMeshPro>())
+    //            {
+    //                go.font = font;
+    //                go.lineSpacing = -30;
+    //                go.fontStyle = FontStyles.Bold;
+    //            }
+    //            break;
+    //        case "en":
+    //            font = Resources.Load<TMP_FontAsset>("Fonts/Cinzel-Black SDF");
+    //            foreach (var go in gameObject.GetComponentsInChildren<TextMeshPro>())
+    //            {
+    //                go.font = font;
+    //                go.lineSpacing = -30;
+    //            }
+    //            break;
+    //    }
+    //}
     
 
     private new void Start()
