@@ -6,23 +6,4 @@ public class DescriptionItemFireGloves : DescriptionItem
 {
     public int countStack = 1;
     public float coolDown = 50f;
-    public void SetTextBody()
-    {
-        string text = "items       activate:  \r\ntake <u>" + countStack.ToString() + "</u>       from enemy and reduces cooldown by <u>" + coolDown.ToString() + "</u>%.";
-        textBody.text = text;
-    }
-
-    /*
-     fire items      activate:  will spend <u>1</u>       and reduces cooldown by <u>50</u>%.  
-    */
-
-    private void Start()
-    {
-        SetTextBody();
-    }
-
-    void Update()
-    {
-        
-    }
 }

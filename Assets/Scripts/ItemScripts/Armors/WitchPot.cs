@@ -9,11 +9,10 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class WitchPot : WitchCraft
 {
-    private bool isUse = false;
-    public int giveManaStack = 5;//надо заменить
-    public int givePoisonStack = 2;//надо заменить
-    public int giveRegenerationStack = 2;//надо заменить
-    public int spendManaStack = 1;//надо заменить
+    public int giveManaStack = 5;//
+    public int givePoisonStack = 2;//
+    public int giveRegenerationStack = 2;//
+    public int spendManaStack = 1;//
 
     public GameObject LogManaStackCharacter, LogManaStackEnemy;
     public GameObject LogRegenerateStackCharacter, LogRegenerateStackEnemy;
@@ -34,24 +33,20 @@ public class WitchPot : WitchCraft
 
     public override void StartActivation()
     {
-        if (!isUse)
+        int countMana = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() * giveManaStack;
+        Player.menuFightIconData.AddBuff(countMana, "IconMana");
+
+        if (Player.isPlayer)
         {
-            isUse = true;
-            int countMana = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() * giveManaStack;
-            Player.menuFightIconData.AddBuff(countMana, "IconMana");
-
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogManaStackCharacter, "big witch pot give " + countMana.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogManaStackEnemy, "big witch pot give " + countMana.ToString());
-            }
-
-            CheckNestedObjectActivation("StartBag");
-            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+            CreateLogMessage(LogManaStackCharacter, "big witch pot give " + countMana.ToString());
         }
+        else
+        {
+            CreateLogMessage(LogManaStackEnemy, "big witch pot give " + countMana.ToString());
+        }
+
+        CheckNestedObjectActivation("StartBag");
+        CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
     }
     public override void Activation()
     {
@@ -91,53 +86,6 @@ public class WitchPot : WitchCraft
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-        }
-    }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                StartActivation();
-                animator.speed = 1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
         }
     }
 

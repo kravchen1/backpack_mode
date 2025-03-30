@@ -5,28 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class VampireGloves : Armor
+public class VampireGloves : Stuff
 {
-    private bool isUse = false;
     public int countBleedStack = 1;
-    //public int countArmorStack = 15;
-    //protected bool timer_locked_out = true;
-
-    
-
-
-    private void Start()
-    {
-        FillnestedObjectStarsStars(256);
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
-        }
-    }
-
-
-
 
     public override void StarActivation(Item item)
     {
@@ -35,21 +16,6 @@ public class VampireGloves : Armor
         {
             Enemy.menuFightIconData.AddDebuff(countBleedStack, "ICONBLEED");
             CreateLogMessage("Vampire gloves inflict " + countBleedStack.ToString(), Player.isPlayer);
-        }
-    }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //CoolDownStart();
-            //CoolDown();
-            //Activation();
-        }
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        {
-            defaultItemUpdate();
         }
     }
 
@@ -66,8 +32,6 @@ public class VampireGloves : Armor
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireGloves>();
                 descr.countBleedStack = countBleedStack;
-                //descr.countArmorStack = countArmorStack;
-                //descr.countVampireStack = countVampireStack;
                 descr.SetTextBody();
             }
         }

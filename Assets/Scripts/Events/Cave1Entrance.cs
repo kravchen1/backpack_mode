@@ -34,8 +34,7 @@ public class Cave1Entrance : EventParent
 
     public void ActivateCave()
     {
-        PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
-        PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
+        checkCameraPositionAndSavePlayerPosition(player);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
         //SceneManager.LoadScene("BackPackShopEat");

@@ -5,23 +5,4 @@ using UnityEngine;
 public class DescriptionItemManaFlask : DescriptionItem
 {
     public float giveStack = 30;
-    public void SetTextBody()
-    {
-        string text = "Start battle:\r\ndrink and get <u>" + giveStack.ToString() + "</u>";
-        textBody.text = text;
-    }
-
-    /*
-     Every <u>1</u> sec: applies <u>1</u>      on enemy  
-    */
-
-    private void Start()
-    {
-        SetTextBody();
-    }
-
-    void Update()
-    {
-        
-    }
 }

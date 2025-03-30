@@ -49,8 +49,6 @@ public class Hammer : Weapon
                     descr.chanceCrit = chanceCrit;
                 }
                 descr.staminaCost = stamina;
-                descr.stunChance = stunChance;
-                descr.stunTimer = stunTimer;
                 descr.cooldown = timer_cooldown;
                 descr.SetTextStat();
             }

@@ -49,9 +49,7 @@ public class HiddenDagger : Weapon
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemHiddenDagger>();
                 //descr.countIncreasesCritDamage = countIncreasesCritDamage;
-                descr.SetTextBody();
 
-                
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();
@@ -71,6 +69,7 @@ public class HiddenDagger : Weapon
                 descr.staminaCost = stamina;
                 descr.bleeding = bleeding;
                 descr.cooldown = timer_cooldown;
+                descr.SetTextBody();
                 descr.SetTextStat();
             }
         }

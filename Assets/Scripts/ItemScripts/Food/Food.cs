@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Food : Item
 {
@@ -44,5 +45,13 @@ public class Food : Item
     public override void EffectPlaceNoCorrect()
     {
         isEat = false;
+    }
+
+    public override void Update()
+    {
+        if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
+        {
+            defaultItemUpdate();
+        }
     }
 }

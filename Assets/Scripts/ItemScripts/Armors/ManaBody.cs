@@ -8,7 +8,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ManaBody : Armor
 {
-    private bool isUse = false;
     public int countStarArmorStack = 5;
     public int countStarManaStack = 3;
     public int countManaStack = 1;
@@ -22,101 +21,31 @@ public class ManaBody : Armor
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
-        
     }
-
-
     public override void StartActivation()
     {
-        if (!isUse)
+        if (Player != null)
         {
-            if (Player != null)
+            int countStar = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count();
+            int resultArmor = (startBattleArmorCount + countStar * countStarArmorStack);
+            int resultMana = countManaStack + countStar * countStarManaStack;
+            Player.armor = Player.armor + resultArmor;
+            Player.armorMax = Player.armorMax + resultArmor;
+            Player.menuFightIconData.AddBuff(resultMana, "IconMana");
+
+            CreateLogMessage("Mana Body give " + resultMana.ToString(), Player.isPlayer);
+
+            if (Player.isPlayer)
             {
-                int countStar = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count();
-                int resultArmor = (startBattleArmorCount + countStar * countStarArmorStack);
-                int resultMana = countManaStack + countStar * countStarManaStack;
-                Player.armor = Player.armor + resultArmor;
-                Player.armorMax = Player.armorMax + resultArmor;
-                isUse = true;
-                Player.menuFightIconData.AddBuff(resultMana, "IconMana");
-
-                CreateLogMessage("Mana Body give " + resultMana.ToString(), Player.isPlayer);
-
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogArmorStackCharacter, "Mana Body give " + resultArmor.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + resultArmor.ToString());
-                }
-
-                CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                CreateLogMessage(LogArmorStackCharacter, "Mana Body give " + resultArmor.ToString());
             }
-        }
-    }
-
-    //public override void StarActivation(Item item)
-    //{
-    //    //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
-    //    if (Player != null && Enemy != null)
-    //    {
-    //        if (Player.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-    //        {
-    //            bool b = false;
-    //            foreach (var icon in Player.menuFightIconData.icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
-    //            {
-    //                if(icon.countStack >= SpendStack)
-    //                {
-    //                    //Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-    //                    b = true;
-    //                    //Enemy.hp -= DamageForStack;
-    //                    Attack(DamageForStack);
-    //                    //Debug.Log("FiryBody сняла" + SpendStack.ToString() + " ожёг и нанесла 5 урона");
-    //                    CreateLogMessage("FireBody removed " + SpendStack.ToString() + " burn and apply " + DamageForStack.ToString() + " damage");
-    //                    //animator.SetTrigger(originalName + "StarActivation");
-    //                    //animator.Play("New State");
-    //                    animator.Play(originalName + "Activation2", 0, 0f);
-    //                    //animator.StartPlayback
-    //                }
-    //            }
-    //            if(b)
-    //            {
-    //                Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
-    //                Player.menuFightIconData.CalculateFireFrostStats();//true = Player
-    //            }
-    //        }
-    //    }
-    //}
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
+            else
             {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                animator.Play("New State");
+                CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + resultArmor.ToString());
             }
-        }
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //FillnestedObjectStarsStars(256);
-            CoolDownStart();
-        }
 
-        // if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
@@ -134,7 +63,7 @@ public class ManaBody : Armor
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().countStarArmorStack = countStarArmorStack;
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().countStarManaStack = countStarManaStack;
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().countManaStack = countManaStack;
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().Armor = startBattleArmorCount;
+                CanvasDescription.GetComponent<DescriptionItemManaBody>().armor = startBattleArmorCount;
                 CanvasDescription.GetComponent<DescriptionItemManaBody>().SetTextBody();
             }
         }

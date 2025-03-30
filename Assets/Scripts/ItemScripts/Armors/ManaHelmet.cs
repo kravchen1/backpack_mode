@@ -5,24 +5,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ManaHelmet : Armor
+public class ManaHelmet : Stuff
 {
-    
-
     public int hpDrop = 71;
     public int countArmorStack = 34;
     public int countResistStack = 10;
     public int countSpendManaStack = 2;
 
-
     private bool isUse = false;
-    private int currentTick = 0;
 
     public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
     public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
-    private void Start()
-    {
-    }
+
     float f_ToPercent(float a, float p)
     {
         return (a / 100 * p); //возвращает значение из процентов, например если передать 200 и 30, то вернёт 60
@@ -69,22 +63,6 @@ public class ManaHelmet : Armor
         }
     }
 
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //CoolDownStart();
-            //CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
-        }
-    }
 
     public override IEnumerator ShowDescription()
     {

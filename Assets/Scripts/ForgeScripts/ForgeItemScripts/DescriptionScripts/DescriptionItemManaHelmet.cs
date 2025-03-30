@@ -9,24 +9,4 @@ public class DescriptionItemManaHelmet: DescriptionItem
     public int countArmorStack = 34;
     public int countResistStack = 10;
     public int countSpendManaStack = 2;
-    public void SetTextBody()
-    {
-        string text = "if health drops below <u>" + hpDrop.ToString() + "</u>%:\r\nspends <u>" + countSpendManaStack.ToString() + "</u>      gives <u>" + countArmorStack.ToString() 
-            + "</u>        and <u>" + countResistStack.ToString() + "</u>";
-        textBody.text = text;
-    }
-
-    /*
-     Every <u>1</u> sec: applies <u>1</u>      on enemy  
-    */
-
-    private void Start()
-    {
-        SetTextBody();
-    }
-
-    void Update()
-    {
-        
-    }
 }

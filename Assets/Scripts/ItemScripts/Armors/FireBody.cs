@@ -8,7 +8,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class FireBody : Armor
 {
-    private bool isUse = false;
     public int DamageForStack = 5;
     public int SpendStack = 2;
 
@@ -17,38 +16,32 @@ public class FireBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            FillnestedObjectStarsStars(256);
+            FillnestedObjectStarsStars(256, "Fire");
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
-
     }
 
 
     public override void StartActivation()
     {
-        if (!isUse)
+        if (Player != null)
         {
-            if (Player != null)
+            Player.armor = Player.armor + startBattleArmorCount;
+            Player.armorMax = Player.armorMax + startBattleArmorCount;
+            if (Player.isPlayer)
             {
-                Player.armor = Player.armor + startBattleArmorCount;
-                Player.armorMax = Player.armorMax + startBattleArmorCount;
-                isUse = true;
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(DebugArmorLogCharacter, "FireBody give " + startBattleArmorCount.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(DebugArmorLogEnemy, "FireBody give " + startBattleArmorCount.ToString());
-                }
-
-                CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+                CreateLogMessage(DebugArmorLogCharacter, "FireBody give " + startBattleArmorCount.ToString());
             }
+            else
+            {
+                CreateLogMessage(DebugArmorLogEnemy, "FireBody give " + startBattleArmorCount.ToString());
+            }
+
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
-
     public override void StarActivation(Item item)
     {
         //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
@@ -83,35 +76,6 @@ public class FireBody : Armor
         }
     }
 
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                animator.Play("New State");
-            }
-        }
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //FillnestedObjectStarsStars(256);
-            CoolDownStart();
-        }
-
-        // if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else
-        {
-            defaultItemUpdate();
-        }
-    }
 
     public override IEnumerator ShowDescription()
     {

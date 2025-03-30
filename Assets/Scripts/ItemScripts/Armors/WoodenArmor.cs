@@ -8,73 +8,20 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class WoodenArmor : Armor
 {
-    private bool isUse = false;
-    public int armor = 5;
-    private void Start()
-    {
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
-        }
-
-    }
-
-
     public override void StartActivation()
     {
-        if (!isUse)
+        if (Player != null)
         {
-            if (Player != null)
-            {
-                Player.armor = Player.armor + armor;
-                Player.armorMax = Player.armorMax + armor;
-                isUse = true;
-                //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-                CreateLogMessage("WoodenArmor give " + armor.ToString(), Player.isPlayer);
-                CheckNestedObjectActivation("StartBag");
-                CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-            }
+            Player.armor = Player.armor + startBattleArmorCount;
+            Player.armorMax = Player.armorMax + startBattleArmorCount;
+            //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
+            CreateLogMessage("WoodenArmor give " + startBattleArmorCount.ToString(), Player.isPlayer);
+            CheckNestedObjectActivation("StartBag");
+            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
 
-    public override void StarActivation(Item item)
-    {
-        
-    }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                //animator.speed = 1f / timer_cooldown;
-                StartActivation();
-                animator.Play("New State");
-            }
-        }
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
-        }
-    }
-
+    
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
@@ -88,7 +35,7 @@ public class WoodenArmor : Armor
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemWoodenArmor>();
-                descr.armor = armor;
+                descr.armor = startBattleArmorCount;
                 descr.SetTextBody();
             }
         }
