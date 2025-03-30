@@ -31,6 +31,8 @@ public class BackpackShopItem : EventParent
         SetActivePressE(false);
     }
 
+
+
     public void ActivateShop()
     {
         PlayerPrefs.SetInt("id2ShopItem", 1);
@@ -47,21 +49,7 @@ public class BackpackShopItem : EventParent
             }
         }
 
-        var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MoveCamera>();
-        var rtPlayer = player.GetComponent<RectTransform>().anchoredPosition;
-
-        if (rtPlayer.x < camera.minX)
-        {
-            PlayerPrefs.SetFloat("PostionMapX", camera.minX+1);
-        }
-        else
-        {
-            PlayerPrefs.SetFloat("PostionMapX", rtPlayer.x);
-        }
-        
-        PlayerPrefs.SetFloat("PostionMapY", rtPlayer.y);
-        PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
-
+        checkCameraPositionAndSavePlayerPosition(player);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
         //SceneManager.LoadScene("BackPackShop");

@@ -19,6 +19,23 @@ public class Stuff : Item
         }
     }
 
+    private void CoolDownStart()
+    {
+        if (timer_locked_outStart)
+        {
+            timerStart -= Time.deltaTime;
+
+            if (timerStart <= 0)
+            {
+                StartActivation();
+                timer_locked_outStart = false;
+                animator.speed = 1f / timer_cooldown;
+                animator.Play(originalName + "Activation");
+
+            }
+        }
+    }
+
     public void CoolDown()
     {
         if (!timer_locked_outStart && timer_locked_out == true)
@@ -38,6 +55,7 @@ public class Stuff : Item
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            CoolDownStart();
             CoolDown();
             Activation();
         }

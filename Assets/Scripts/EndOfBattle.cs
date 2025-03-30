@@ -77,19 +77,19 @@ public class EndOfBattle : MonoBehaviour
             var enemyName = PlayerPrefs.GetString("enemyName");
             if (enemyName == "Dragon(Clone)")
             {
-                QuestComplete(6);
-                NewQuestId7();
+                if(QuestComplete(6))
+                    NewQuestId7();
             }
             else if (enemyName == "Podpol")
             {
-                QuestComplete(8);
-                NewQuestId9();
+                if(QuestComplete(8))
+                    NewQuestId9();
                 PlayerPrefs.SetInt("isEnemyPodpolDefeat", 1);
             }
             else if (enemyName == "General")
             {
-                QuestComplete(10);
-                NewQuestId11();
+                if(QuestComplete(10))
+                    NewQuestId11();
                 PlayerPrefs.SetInt("isEnemyGeneralDefeat",1);
             }
             else
@@ -160,7 +160,7 @@ public class EndOfBattle : MonoBehaviour
         return qm.CheckQuestComplete(questID);
     }
 
-    public void QuestComplete(int questID)
+    public bool QuestComplete(int questID)
     {
         qm = new QuestManager();
 
@@ -169,8 +169,10 @@ public class EndOfBattle : MonoBehaviour
             qm.questData = new QuestData();
             qm.questData.questData = new QDataList();
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            qm.CompleteQuest(questID, false);
+            return qm.CompleteQuest(questID, false);
         }
+        else
+            return false;
     }
 
     public void NewQuestId5()

@@ -47,8 +47,8 @@ public class BackpackShopEat : EventParent
                 qm.questData.SaveData();
             }
         }
-        PlayerPrefs.SetFloat("PostionMapX", player.GetComponent<RectTransform>().anchoredPosition.x);
-        PlayerPrefs.SetFloat("PostionMapY", player.GetComponent<RectTransform>().anchoredPosition.y);
+
+        checkCameraPositionAndSavePlayerPosition(player);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
         //SceneManager.LoadScene("BackPackShopEat");

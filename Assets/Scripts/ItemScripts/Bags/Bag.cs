@@ -231,6 +231,11 @@ public class Bag : Item
             OnImpulse();
             RotationToStartRotation();
         }
+        else
+        {
+            CoolDownStart();
+            StartActivation();
+        }
     }
     public override void Update()
     {

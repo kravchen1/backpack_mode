@@ -7,14 +7,11 @@ public class bag1x1Resistance : Bag
     private bool isUse = false;
     public override void StartActivation()
     {
-        if (!isUse)
+        if (Player != null)
         {
-            if (Player != null)
-            {
-                Player.menuFightIconData.AddBuff(countResistanceStack, "IconResistance");
-                CreateLogMessage("bag1x1Resistance give " + countResistanceStack.ToString(), Player.isPlayer);
-                isUse = true;
-            }
+            Player.menuFightIconData.AddBuff(countResistanceStack, "IconResistance");
+            CreateLogMessage("bag1x1Resistance give " + countResistanceStack.ToString(), Player.isPlayer);
+            isUse = true;
         }
     }
 

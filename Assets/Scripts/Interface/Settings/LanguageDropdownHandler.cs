@@ -49,6 +49,9 @@ public class LanguageDropdownHandler : MonoBehaviour
 
     }
 
+
+
+
     // Метод для изменения режима экрана
     //0 - English
     //1 - Russian

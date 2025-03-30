@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 6831413471298922566}
   - component: {fileID: 8459181392521859929}
   - component: {fileID: 5871556243645325731}
+  - component: {fileID: 7448295893046828744}
   m_Layer: 9
   m_Name: Dragon`sLegCave
   m_TagString: ItemDragonWeapon
@@ -211,7 +212,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3257134702267423937}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -223,7 +224,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.11, y: 0.7125}
   m_AnchorMax: {x: 0.22, y: 0.9975}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 963.99994, y: -684}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2279427069881591990
@@ -359,6 +360,42 @@ MonoBehaviour:
   item: {fileID: 3257134702267423937, guid: 73e9f1d7805923c4ebc946e23a2f0b1d, type: 3}
   description: {fileID: 6938751224380617222, guid: e3cea8416d33c004ea86108c04b9e34c, type: 3}
   stoneLevel: 0
+--- !u!58 &7448295893046828744
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3257134702267423937}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 150
 --- !u!1 &3814983526337582207
 GameObject:
   m_ObjectHideFlags: 0

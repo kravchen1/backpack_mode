@@ -5,11 +5,8 @@ using UnityEngine.SceneManagement;
 public class bag2x1Stamina : Bag
 {
     public int countStaminaPercentLess = 10;
-    private bool isUse = false;
     public override void StartActivation()
     {
-        if (!isUse)
-        {
             var cellList = gameObject.GetComponentsInChildren<Cell>();
             List<Weapon> distinctItem = new List<Weapon>();
             foreach (var cell in cellList)
@@ -32,11 +29,9 @@ public class bag2x1Stamina : Bag
                     }
                 }
             }
-            isUse = true;
-        }
     }
 
-    private void CoolDownStart()
+    public override void CoolDownStart()
     {
         if (timer_locked_outStart)
         {
