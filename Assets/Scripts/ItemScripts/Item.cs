@@ -1034,14 +1034,14 @@ public abstract class Item : MonoBehaviour
 
     public void DeleteAllDescriptions()
     {
-        //var dp = GameObject.FindWithTag("DescriptionPlace");
-        //if (dp != null)
-        //    for (int i = 0; i < dp.transform.childCount; i++)
-        //        Destroy(dp.transform.GetChild(i).gameObject);
-        //dp = GameObject.FindWithTag("DescriptionPlaceEnemy");
-        //if(dp != null)
-        //    for (int i = 0; i < dp.transform.childCount; i++)
-        //        Destroy(dp.transform.GetChild(i).gameObject);
+        var dp = GameObject.FindWithTag("DescriptionPlace");
+        if (dp != null)
+            for (int i = 0; i < dp.transform.childCount; i++)
+                Destroy(dp.transform.GetChild(i).gameObject);
+        dp = GameObject.FindWithTag("DescriptionPlaceEnemy");
+        if (dp != null)
+            for (int i = 0; i < dp.transform.childCount; i++)
+                Destroy(dp.transform.GetChild(i).gameObject);
     }
     public virtual IEnumerator ShowDescription()
     {
@@ -1106,7 +1106,7 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(canShowDescription + "/" + CanvasDescription.name);
             if (canShowDescription && CanvasDescription != null)
             {
-                //Destroy(CanvasDescription.gameObject);
+                Destroy(CanvasDescription.gameObject);
             }
         //}
     }
