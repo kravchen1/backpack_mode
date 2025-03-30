@@ -1,11 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 public class WoodenBoard : Junk
 {
@@ -19,7 +13,7 @@ public class WoodenBoard : Junk
             if (canShowDescription)
             {
                 DeleteAllDescriptions();
-                CanvasDescription = PrefabUtility.InstantiatePrefab(Description, placeForDescription.GetComponent<RectTransform>().transform) as GameObject;
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform) as GameObject;
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemWoodenBoard>();
                 descr.SetTextBody();

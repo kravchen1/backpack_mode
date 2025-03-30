@@ -1,14 +1,3 @@
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using TMPro;
-using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
-using Unity.Burst.CompilerServices;
-using UnityEditor.VersionControl;
-
 public class DescriptionItemArmor : DescriptionItem
 {
     public int armor = 10;
