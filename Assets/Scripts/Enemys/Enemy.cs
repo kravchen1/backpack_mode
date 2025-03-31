@@ -1,5 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,6 +35,17 @@ public class Enemy : EventParent
     private GameObject canvasBackpackEnemy;
     private GenerateBackpackOnMap generateBackpackOnMap;
     private bool isDie = false;
+
+    public float moveSpeed = 30f;
+    public Animator animator;
+
+    //private static readonly int IsRunning = Animator.StringToHash("Run1");
+    //private static readonly int IsIdle = Animator.StringToHash("Idle");
+    private List<Vector2> pointsRun = new List<Vector2>();
+    private RectTransform rt;
+
+    private string Biom = "1";
+    private int idSpawn = 0;
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -39,7 +54,88 @@ public class Enemy : EventParent
             map = GameObject.FindGameObjectWithTag("GoMap");
         else
             map = GameObject.FindGameObjectWithTag("Cave");
+        if (gameObject.transform.parent.GetComponent<BattleSpawn>() != null)
+        {
+            idSpawn = gameObject.transform.parent.GetComponent<BattleSpawn>().id;
+
+            pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
+        }
+        rt = GetComponent<RectTransform>();
     }
+
+    public virtual void Move()
+    {
+        if (!isDie)
+        {
+            pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
+
+            rt = GetComponent<RectTransform>();
+            StartCoroutine(MoveBetweenPoints());
+        }
+    }
+
+    public IEnumerator MoveBetweenPoints()
+    {
+        // Проверяем, есть ли точки для перемещения
+        if (pointsRun == null || pointsRun.Count == 0)
+        {
+            Debug.LogWarning("No points to move!");
+            yield break;
+        }
+        // Проверяем, назначен ли аниматор
+        if (animator == null)
+        {
+            Debug.LogWarning("No animator!");
+            yield break;
+        }
+        // Начинаем с первой точки в списке
+        int currentPointIndex = 0;
+        rt.anchoredPosition = pointsRun[currentPointIndex];
+
+        while (true)
+        {
+            // Включаем анимацию покоя
+            animator.Play("Idle");
+
+            // Ждем r секунд
+            //float r = UnityEngine.Random.Range(3f, 7f);
+            //yield return new WaitForSeconds(r);
+            yield return new WaitForSeconds(0.5f);
+            // Переходим к следующей точке
+            currentPointIndex = (currentPointIndex + 1) % pointsRun.Count;
+            Vector2 targetPoint = pointsRun[currentPointIndex];
+            Vector3 theScale = transform.GetChild(0).localScale;
+            // Включаем анимацию бега
+            animator.Play("Run1");
+
+            if (rt.anchoredPosition.x < targetPoint.x)
+            {
+                if(theScale.x > 0)
+                    theScale.x = -theScale.x;
+            }
+            else
+            {
+                theScale.x = Math.Abs(theScale.x);
+            }
+            transform.GetChild(0).localScale = theScale;
+
+            // Двигаемся к точке
+            while (Vector2.Distance(rt.anchoredPosition, targetPoint) > 0.1f)
+            {
+                rt.anchoredPosition = Vector2.MoveTowards(
+                    rt.anchoredPosition,
+                    targetPoint,
+                    moveSpeed * Time.deltaTime
+                );
+                yield return null;
+            }
+
+            // Гарантируем, что мы точно достигли точки
+            rt.anchoredPosition = targetPoint;
+        }
+    }
+
+
     protected void OnTriggerEnter2D()
     {
         if (player == null)
@@ -66,6 +162,16 @@ public class Enemy : EventParent
         checkCameraPositionAndSavePlayerPosition(player);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
+        if (gameObject.transform.parent.GetComponent<BattleSpawn>() != null)
+        {
+            BattlesSpawnerData battlesSpawnerData = new BattlesSpawnerData();
+            battlesSpawnerData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn" + Biom + ".json"));
+
+            battlesSpawnerData.battlesSpawnerDataClass.battleData.Where(e => e.id == idSpawn).ToList()[0].position = rt.anchoredPosition;
+
+            battlesSpawnerData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn" + Biom + ".json"));
+        }
+
         StartBattle();
     }
 
@@ -81,37 +187,13 @@ public class Enemy : EventParent
 
 
 
-    //private void OnMouseEnter()
-    //{
-    //    if (PlayerPrefs.GetInt("clickEnemy") == 0)
-    //    {
-    //        if (canvasBackpackEnemy == null)
-    //        {
-    //            canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
-    //            if (canvasBackpackEnemy != null)
-    //            {
-    //                generateBackpackOnMap = canvasBackpackEnemy.GetComponent<GenerateBackpackOnMap>();
-    //                generateBackpackOnMap.Generate(enemyJSON);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (canvasBackpackEnemy != null)
-    //            {
-    //                generateBackpackOnMap.Generate(enemyJSON);
-    //            }
-    //        }
-    //    }
-    //}
 
-    //private void OnMouseExit()
-    //{
-    //    if (PlayerPrefs.GetInt("clickEnemy") == 0)
-    //        if (canvasBackpackEnemy != null)
-    //        {
-    //            generateBackpackOnMap.ClearBackpackObjects();
-    //        }
-    //}
+
+
+
+
+
+
 
     protected void OnMouseUp()
     {
@@ -148,7 +230,7 @@ public class Enemy : EventParent
         {
             for (int i = 0; i < dropItems.Count; i++)
             {
-                float r = Random.Range(1.0f, 100.0f);
+                float r = UnityEngine.Random.Range(1.0f, 100.0f);
                 //Debug.Log("Index: " + i);
                 //Debug.Log("dropItems[i]: " + dropItems[i].name);
                 if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") && dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl")+1)
@@ -229,7 +311,7 @@ public class Enemy : EventParent
 
     string GlobalMap1EnemyLevel1()
     {
-        int r = Random.Range(0, 10);
+        int r = UnityEngine.Random.Range(0, 10);
         string result = "{\"items\":[{\"name\":\"bagCommon2x2\",\"position\":{\"x\":36.83209228515625,\"y\":-122.88605499267578,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Crossbow\",\"position\":{\"x\":39.6099853515625,\"y\":-81.04045104980469,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Dagger\",\"position\":{\"x\":39.6099853515625,\"y\":-161.37620544433595,\"z\":-2.0006103515625},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}]}";
         switch (r)
         {
@@ -269,7 +351,7 @@ public class Enemy : EventParent
 
     string GlobalMap1EnemyLevel2()
     {
-        int r = Random.Range(0, 10);
+        int r = UnityEngine.Random.Range(0, 10);
         string result = "";
         switch (r)
         {
@@ -876,14 +958,9 @@ public class Enemy : EventParent
         return "";
     }
 
-
-
-
-
-
     string Cave1EnemyLevel1()
     {
-        int r = Random.Range(0, 10);
+        int r = UnityEngine.Random.Range(0, 10);
         string result = "{\"items\":[{\"name\":\"bagCommon2x2\",\"position\":{\"x\":-301.08795166015627,\"y\":-42.550262451171878,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bagCommon2x2\",\"position\":{\"x\":-132.12786865234376,\"y\":-203.22189331054688,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bagCommon2x2\",\"position\":{\"x\":-301.08795166015627,\"y\":-203.22189331054688,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bag2x1Stamina\",\"position\":{\"x\":334.0799865722656,\"y\":-203.22189331054688,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.7071068286895752,\"w\":0.7071068286895752}},{\"name\":\"bag2x1Stamina\",\"position\":{\"x\":334.0799865722656,\"y\":-42.550262451171878,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.7071068286895752,\"w\":0.7071068286895752}},{\"name\":\"bagCommon2x2\",\"position\":{\"x\":205.7921142578125,\"y\":-42.550262451171878,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"bagCommon2x2\",\"position\":{\"x\":205.7921142578125,\"y\":-203.22189331054688,\"z\":-1.00030517578125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Spear\",\"position\":{\"x\":247.92001342773438,\"y\":-241.7121124267578,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":1.0,\"w\":0.0}},{\"name\":\"Spear\",\"position\":{\"x\":248.81997680664063,\"y\":-161.3762969970703,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"Spear\",\"position\":{\"x\":247.92001342773438,\"y\":-81.04047393798828,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":1.0,\"w\":0.0}},{\"name\":\"Spear\",\"position\":{\"x\":248.81997680664063,\"y\":-0.7046966552734375,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"MushroomWhite\",\"position\":{\"x\":-341.760009765625,\"y\":-197.97630310058595,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"MushroomChanterelle\",\"position\":{\"x\":-257.280029296875,\"y\":-241.71209716796876,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":-1.0,\"w\":4.371138828673793e-8}},{\"name\":\"MushroomChanterelle\",\"position\":{\"x\":-257.280029296875,\"y\":-161.37631225585938,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.7071068286895752,\"w\":0.7071068286895752}},{\"name\":\"MushroomWhite\",\"position\":{\"x\":-172.79998779296876,\"y\":-197.97630310058595,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}},{\"name\":\"RabbitPaw\",\"position\":{\"x\":-304.86004638671877,\"y\":-80.84049987792969,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":-0.7071067094802856,\"w\":0.7071068286895752}},{\"name\":\"Crossbow\",\"position\":{\"x\":-88.32000732421875,\"y\":-204.82630920410157,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":-0.7071068286895752,\"w\":0.7071068286895752}},{\"name\":\"Crossbow\",\"position\":{\"x\":-298.30999755859377,\"y\":-0.7046966552734375,\"z\":-1.999786376953125},\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}]}";
         switch (r)
         {
@@ -923,7 +1000,7 @@ public class Enemy : EventParent
 
     string Cave1EnemyLevel2()
     {
-        int r = Random.Range(0, 10);
+        int r = UnityEngine.Random.Range(0, 10);
         string result = "";
         switch (r)
         {

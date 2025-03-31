@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,5 +21,10 @@ public class StaticEnemy : Enemy
         else
             map = GameObject.FindGameObjectWithTag("Cave");
         JSONBackpackInitialized();
+    }
+
+
+    public override void Move()
+    {
     }
 }
