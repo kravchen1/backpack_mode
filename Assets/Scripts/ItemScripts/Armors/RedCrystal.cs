@@ -11,18 +11,6 @@ public class RedCrystal : Armor
     private bool isUse = false;
     public int powerStack = 5;
     public int powerStackChance = 5;
-    private void Start()
-    {
-        FillnestedObjectStarsStars(256);
-    }
-
-
-    public override void StartActivation()
-    {
-        if (!isUse)
-        {
-        }
-    }
 
     public override void StarActivation(Item item)
     {
@@ -36,23 +24,6 @@ public class RedCrystal : Armor
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }
-        }
-    }
-
-    private void CoolDownStart()
-    {
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
         }
     }
 

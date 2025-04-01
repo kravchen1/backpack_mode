@@ -69,7 +69,7 @@ public class SwampDragon : Weapon
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemSwampDragon>();
                 //descr.countIncreasesCritDamage = countIncreasesCritDamage;
-                descr.SetTextBody();
+                //descr.SetTextBody();
 
                 
                 if (Player != null)

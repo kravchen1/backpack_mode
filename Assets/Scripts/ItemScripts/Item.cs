@@ -69,7 +69,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public BoxCollider2D[] collidersArray;
 
     [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public PolygonCollider2D collider;
+    [HideInInspector] public Collider2D collider;
 
     [HideInInspector] public Vector3 lastItemPosition;
 
@@ -1063,7 +1063,7 @@ public abstract class Item : MonoBehaviour
             for (int i = 0; i < dp.transform.childCount; i++)
                 Destroy(dp.transform.GetChild(i).gameObject);
         dp = GameObject.FindWithTag("DescriptionPlaceEnemy");
-        if(dp != null)
+        if (dp != null)
             for (int i = 0; i < dp.transform.childCount; i++)
                 Destroy(dp.transform.GetChild(i).gameObject);
     }
@@ -1130,13 +1130,7 @@ public abstract class Item : MonoBehaviour
             //Debug.Log(canShowDescription + "/" + CanvasDescription.name);
             if (canShowDescription && CanvasDescription != null)
             {
-                
                 Destroy(CanvasDescription.gameObject);
-                //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-                //if (starsDesctiprion != null)
-                //{
-                //    starsDesctiprion.enabled = false;
-                //}
             }
         //}
     }

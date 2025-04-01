@@ -13,17 +13,4 @@ public class StartFireBag : Bag
             Player.menuFightIconData.CalculateFireFrostStats();//true = Player
         }
     }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            // Activation();
-        }
-
-        if (SceneManager.GetActiveScene().name == "BackPackShop")
-        {
-            BagDefauldUpdate();
-        }
-    }
 }

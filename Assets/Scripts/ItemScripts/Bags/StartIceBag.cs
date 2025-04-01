@@ -13,16 +13,4 @@ public class StartIceBag : Bag
             Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
         }
     }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            // Activation();
-        }
-        else
-        {
-            BagDefauldUpdate();
-        }
-    }
 }

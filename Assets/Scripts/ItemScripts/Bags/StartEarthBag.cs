@@ -12,16 +12,4 @@ public class StartEarthBag : Bag
             CreateLogMessage("StartEarthBag give " + countArmorStack.ToString(), Player.isPlayer);
         }
     }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            // Activation();
-        }
-        else
-        {
-            BagDefauldUpdate();
-        }
-    }
 }

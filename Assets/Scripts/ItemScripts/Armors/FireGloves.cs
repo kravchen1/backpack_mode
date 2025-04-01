@@ -8,32 +8,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class FireGloves : Armor
+public class FireGloves : Stuff
 {
-    //public float timer_cooldown = 2.1f;
-    protected bool timer_locked_out = true;
     public int countBurnStack = 2;
     public int coolDown = 50;
-
-    private bool isUse = false;
 
     public GameObject LogFireStackCharacter, LogFireStackEnemy;
     public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
-
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            FillnestedObjectStarsStars(256);
-        }
-    }
-
-
-
     public override void StarActivation(Item item)
     {
-        //Активация звёздочек(предмет огня): тратит 1 эффект горения и наносит врагу 5 урона
         if (Player != null && Enemy != null && item.baseTimerCooldown != 0)
         {
             if (Enemy.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
@@ -62,7 +46,7 @@ public class FireGloves : Armor
                 {
                     Enemy.menuFightIconData.DeleteBuff(countBurnStack, "ICONBURN");
 
-                    Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
+                    Enemy.menuFightIconData.CalculateFireFrostStats();
                     item.animator.Play(item.originalName + "Activation", 0, 1.0f / 100 * coolDown);
                 }
                 else
@@ -72,88 +56,6 @@ public class FireGloves : Armor
             }
         }
     }
-
-
-
-    //public void CoolDown()
-    //{
-    //    if (!timer_locked_outStart && timer_locked_out == true)
-    //    {
-    //        timer -= Time.deltaTime;
-
-    //        if (timer <= 0)
-    //        {
-    //            timer = timer_cooldown;
-    //            timer_locked_out = false;
-    //            //animator.speed = 1f / timer_cooldown;
-    //        }
-    //    }
-    //}
-
-
-    //public override void StartActivation()
-    //{
-    //    if (!isUse)
-    //    {
-    //        if (Player != null)
-    //        {
-    //            Player.armor = Player.armor + startBattleArmorCount;
-    //            Player.armorMax = Player.armorMax + startBattleArmorCount;
-    //            isUse = true;
-    //            CreateLogMessage("FireHelmet give " + startBattleArmorCount.ToString() + " armor");
-    //            CheckNestedObjectActivation("StartBag");
-    //        }
-    //    }
-    //}
-
-    //public override void Activation()
-    //{
-    //    if (!timer_locked_outStart && !timer_locked_out)
-    //    {
-    //        timer_locked_out = true;
-    //        if (Player != null)
-    //        {
-    //            Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
-    //            //Debug.Log("шлем дал" + countBurnStack.ToString() + " эффектов горения");
-    //            CreateLogMessage("FireHelmet give " + countBurnStack.ToString() + " burn");
-    //            CheckNestedObjectActivation("StartBag");
-    //            CheckNestedObjectStarActivation();
-    //            //var calculateFight = GameObject.FindGameObjectWithTag("CalculatedFight").GetComponent<CalculatedFight>();
-    //            Player.menuFightIconData.CalculateFireFrostStats();//true = Player
-    //        }
-    //    }
-    //}
-
-    //private void CoolDownStart()
-    //{
-    //    if (timer_locked_outStart)
-    //    {
-    //        timerStart -= Time.deltaTime;
-
-    //        if (timerStart <= 0)
-    //        {
-    //            timer_locked_outStart = false;
-    //            animator.speed =  1f / timer_cooldown;
-    //            StartActivation();
-    //        }
-    //    }
-    //}
-    //public override void Update()
-    //{
-    //    if (SceneManager.GetActiveScene().name == "BackPackBattle")
-    //    {
-    //        //CoolDownStart();
-    //        //CoolDown();
-    //        //Activation();
-    //    }
-
-    //    if (SceneManager.GetActiveScene().name == "BackPackShop")
-    //    {
-    //        defaultItemUpdate();
-    //    }
-    //}
-
-
 
     public override IEnumerator ShowDescription()
     {

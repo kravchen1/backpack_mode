@@ -8,13 +8,8 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class BlueCrystal : Armor
 {
-    private bool isUse = false;
     public int manaStackChance = 5;//надо заменить
     public int manaStack = 2;//надо заменить
-    private void Start()
-    {
-        FillnestedObjectStarsStars(256);
-    }
 
 
 
@@ -33,20 +28,7 @@ public class BlueCrystal : Armor
         }
     }
 
-    
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            //CoolDownStart();
-        }
 
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
-        }
-    }
 
     public override IEnumerator ShowDescription()
     {

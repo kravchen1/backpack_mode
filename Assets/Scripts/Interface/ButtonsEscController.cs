@@ -51,13 +51,45 @@ public class ButtonsEscController : MonoBehaviour
         playerRectTransform = player.GetComponent<RectTransform>();
 
 
-        PlayerPrefs.SetFloat("PostionMapX", playerRectTransform.anchoredPosition.x);
-        PlayerPrefs.SetFloat("PostionMapY", playerRectTransform.anchoredPosition.y);
+        checkCameraPositionAndSavePlayerPosition(player);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
 
         player.GetComponent<Player>().characterStats.SaveData();
 
+    }
+
+
+    public void checkCameraPositionAndSavePlayerPosition(GameObject player)
+    {
+        var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MoveCamera>();
+        var rtPlayer = player.GetComponent<RectTransform>().anchoredPosition;
+
+        if (rtPlayer.x <= camera.minX)
+        {
+            PlayerPrefs.SetFloat("PostionMapX", camera.minX + 1);
+        }
+        else if (rtPlayer.x >= camera.maxX)
+        {
+            PlayerPrefs.SetFloat("PostionMapX", camera.maxX - 1);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("PostionMapX", rtPlayer.x);
+        }
+
+        if (rtPlayer.y <= camera.minY)
+        {
+            PlayerPrefs.SetFloat("PostionMapY", camera.minY + 1);
+        }
+        else if (rtPlayer.y >= camera.maxY)
+        {
+            PlayerPrefs.SetFloat("PostionMapY", camera.maxY - 1);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("PostionMapY", rtPlayer.y);
+        }
     }
 
 

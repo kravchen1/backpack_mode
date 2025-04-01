@@ -7,8 +7,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class VampireAmulet : Armor
 {
-    private bool isUse = false;
-    private bool usable = false;
     private int currentTick = 0;
     private void Start()
     {
@@ -17,44 +15,12 @@ public class VampireAmulet : Armor
 
     public override void StartActivation()
     {
-        if (!isUse)
+        if (stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() == stars.Count)
         {
-            if (stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() == stars.Count)
-            {
-                PlayerPrefs.SetInt("VampireAmulet", 1);
-            }
+            PlayerPrefs.SetInt("VampireAmulet", 1);
         }
     }
 
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                StartActivation();
-                //animator.speed = 1f / timer_cooldown;
-                //animator.Play(originalName + "Activation");
-            }
-        }
-    }
-
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
-        }
-    }
 
     public override IEnumerator ShowDescription()
     {

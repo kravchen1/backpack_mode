@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8083406396718938302}
   - component: {fileID: 3778118805987613455}
   - component: {fileID: 973183100838213845}
+  - component: {fileID: 1250756236101540379}
   m_Layer: 9
   m_Name: Dragon`sTailCave
   m_TagString: ItemDragonWeapon
@@ -29,7 +30,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2211416280339612861}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
@@ -41,7 +42,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.7125}
   m_AnchorMax: {x: 0.33, y: 0.9975}
-  m_AnchoredPosition: {x: 0, y: 0.7047119}
+  m_AnchoredPosition: {x: 963.99994, y: -683.2953}
   m_SizeDelta: {x: -0.000030518, y: 1.4095}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1697852689980235558
@@ -177,6 +178,42 @@ MonoBehaviour:
   item: {fileID: 2211416280339612861, guid: 5161fc8699660cf49b0a5b5d66079797, type: 3}
   description: {fileID: 2840849063445739084, guid: 459589c074a43b3479335e005d0f4b9f, type: 3}
   stoneLevel: 0
+--- !u!58 &1250756236101540379
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211416280339612861}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 150
 --- !u!1 &7526175440943809592
 GameObject:
   m_ObjectHideFlags: 0

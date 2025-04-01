@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class BlackClaw : Weapon
 {
-    public int stealsRandomDebuff;
+    public int stealsRandomBuff;
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
     public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
@@ -133,10 +133,10 @@ public class BlackClaw : Weapon
                 countEnemyBuff += icon.countStack;
             }
 
-            if(countEnemyBuff >= stealsRandomDebuff)
+            if(countEnemyBuff >= stealsRandomBuff)
             {
                 int stealNow = 0;
-                while(stealNow < stealsRandomDebuff)
+                while(stealNow < stealsRandomBuff)
                 {
                     int r = UnityEngine.Random.Range(0, Buffs.Count);
                     //Debug.Log(Buffs[r].sceneGameObjectIcon.name.Replace("(Clone)", ""));
@@ -205,7 +205,7 @@ public class BlackClaw : Weapon
                     descr.chanceCrit = chanceCrit;
                 }
                 descr.staminaCost = stamina;
-                descr.stealsRandomDebuff = stealsRandomDebuff;
+                descr.stealsRandomBuff = stealsRandomBuff;
                 descr.cooldown = timer_cooldown;
                 descr.SetTextStat();
             }

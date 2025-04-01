@@ -8,44 +8,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ManaRing : Armor
+public class ManaRing : Stuff
 {
-    
-    protected bool timer_locked_out = true;
     public int countNeedManaStack = 2;
     public int countBurnStack = 2;
 
-    private bool isUse = false;
 
     public GameObject LogFireStackCharacter, LogFireStackEnemy;
-
-    private void Start()
-    {
-        timer_cooldown = baseTimerCooldown;
-        timer = timer_cooldown;
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            
-        }
-    }
- 
-
-    public void CoolDown()
-    {
-        if (!timer_locked_outStart && timer_locked_out == true)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                timer = timer_cooldown;
-                timer_locked_out = false;
-                animator.speed = 1f / timer_cooldown;
-            }
-        }
-    }
-
-
 
     public override void Activation()
     {
@@ -87,40 +56,6 @@ public class ManaRing : Armor
             }
         }
     }
-
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
-
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
-                animator.speed =  1f / timer_cooldown;
-                animator.Play(originalName + "Activation");
-                //StartActivation();
-            }
-        }
-    }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave")
-        {
-            defaultItemUpdate();
-        }
-    }
-
-
-
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);

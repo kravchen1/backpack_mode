@@ -1004,7 +1004,6 @@ MonoBehaviour:
   - {fileID: 4217299676553367204, guid: e2ecaf449cd296d42933f6494907cfab, type: 3}
   - {fileID: 7310824748807998876, guid: ce7eb30dbdf412f4dbd83bf43f9b47bd, type: 3}
   - {fileID: 9134884360108648221, guid: 28f3eb3358476734ba0269712855f0bb, type: 3}
-  - {fileID: 3062095582422501163, guid: 2cb7851925694244cab95529bb70eb48, type: 3}
   - {fileID: 7506997146230552944, guid: fad98f0932e1c0444be6dbc4624e5500, type: 3}
   - {fileID: 6593898795692725298, guid: 6da3b49384b547d4dbe69c8220d3dee2, type: 3}
   - {fileID: 4759339204684948177, guid: 55ac2e864db72784ba27dcd9a25c79e8, type: 3}
@@ -1069,7 +1068,8 @@ MonoBehaviour:
   - 2
   - 2
   - 2
-  - 2
+  moveSpeed: 30
+  animator: {fileID: 5518751143922550801}
 --- !u!58 &821174433312049974
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1646,7 +1646,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 9
+  m_SortingOrder: 16
   m_Sprite: {fileID: -6010899475841027823, guid: 3050c6fc30cb5574da27a08fc1e1b922, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3230,7 +3230,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 15
   m_Sprite: {fileID: 6582673285778143450, guid: 3050c6fc30cb5574da27a08fc1e1b922, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
