@@ -198,7 +198,7 @@ public class GenerateBackpack : MonoBehaviour
         }
 
         //componentItem.needToDynamic = false; todo
-        componentItem.timerStatic = 6f;
+        componentItem.timerStatic = 2f;
 
     }
     public void GenerationBackpack()

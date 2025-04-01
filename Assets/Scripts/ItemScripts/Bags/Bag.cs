@@ -109,6 +109,8 @@ public class Bag : Item
                     TapShowBackPack();
                     
                     canShowDescription = false;
+                    originalLayer = gameObject.layer;
+                    gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
@@ -133,7 +135,8 @@ public class Bag : Item
                 TapShowBackPack();
                 
                 canShowDescription = false;
-
+                originalLayer = gameObject.layer;
+                gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                 // Начинаем перетаскивание
                 isDragging = true;
                 // Вычисляем смещение между курсором и объектом
@@ -228,7 +231,7 @@ public class Bag : Item
             }
             Rotate();
             SwitchDynamicStatic();
-            OnImpulse();
+            //OnImpulse();
             RotationToStartRotation();
         }
         else
@@ -504,6 +507,7 @@ public class Bag : Item
             ChangeColorToDefault();
             // Заканчиваем перетаскивание
             isDragging = false;
+            gameObject.layer = originalLayer;
             StartCoroutine(ShowDescription());
         }
 
