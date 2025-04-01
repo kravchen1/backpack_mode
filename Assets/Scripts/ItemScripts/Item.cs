@@ -49,6 +49,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public bool Exit = false;
     //public float rbMass = 0.1f;
 
+    public int originalLayer;
 
     public int itemCost;
 
@@ -127,7 +128,7 @@ public abstract class Item : MonoBehaviour
 
     private void Start()
     {
-        
+        //OnImpulse();
 
     }
 
@@ -170,18 +171,18 @@ public abstract class Item : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
-            if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)
+            if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)
             {
                 placeForDescription = GameObject.FindWithTag("DescriptionPlace");
-                Player = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
-                Enemy = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
+                Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBackpackBattle>();
+                Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<PlayerBackpackBattle>();
             }
 
-            if (gameObject.transform.parent.name == GameObject.Find("backpackEnemy").transform.name)
+            if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpackEnemy").transform.name)
             {
                 placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
-                Player = GameObject.Find("CharacterEnemy").GetComponent<PlayerBackpackBattle>();
-                Enemy = GameObject.Find("Character").GetComponent<PlayerBackpackBattle>();
+                Player = GameObject.FindGameObjectWithTag("Enemy").GetComponent<PlayerBackpackBattle>();
+                Enemy = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBackpackBattle>();
             }
         }
         else
@@ -232,9 +233,10 @@ public abstract class Item : MonoBehaviour
                     //TapFirst();
                     TapRotate();
                     
-                    //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                    //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                     ChangeShowStars(true);
-
+                    originalLayer = gameObject.layer;
+                    gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
@@ -249,7 +251,7 @@ public abstract class Item : MonoBehaviour
             }
             else
             {
-                if(gameObject.transform.parent.tag == "Storage")
+                if(gameObject.transform.parent.CompareTag("Storage"))
                 {
                     ObjectsDynamic("Storage");
                 }
@@ -267,12 +269,15 @@ public abstract class Item : MonoBehaviour
                 //TapFirst();
                 TapRotate();
                 
-                //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                 ChangeShowStars(true);
 
 
                 // Начинаем перетаскивание
                 isDragging = true;
+                originalLayer = gameObject.layer;
+                gameObject.layer = LayerMask.NameToLayer("DraggingObject");
+                //Меняем слой на DraggingObject
                 // Вычисляем смещение между курсором и объектом
                 offset = transform.position - GetMouseWorldPosition();
             }
@@ -348,6 +353,7 @@ public abstract class Item : MonoBehaviour
 
         // Заканчиваем перетаскивание
         isDragging = false;
+        gameObject.layer = originalLayer;
         ClearCareRaycast(false);
         image.sortingOrder = 1;
         //ChangeShowStars(true);
@@ -402,9 +408,14 @@ public abstract class Item : MonoBehaviour
         }
         Rotate();
         SwitchDynamicStatic();
-        OnImpulse();
+        //OnImpulse();
         RotationToStartRotation();
         CoolDownStatic();
+    }
+
+    private void FixedUpdate()
+    {
+        //OnImpulse();
     }
     public virtual void Update()
     {
@@ -471,9 +482,9 @@ public abstract class Item : MonoBehaviour
                     //nestedObjectItem.Impulse = true;
                     //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
                     nestedObjectItem.rb.excludeLayers = 0;
-                    nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                    nestedObjectItem.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
                 }
-                //gameObject.transform.SetParent(GameObject.Find("backpack").transform);
+                //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                 gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
                 CorrectPosition();
                 SetNestedObject();
@@ -481,7 +492,7 @@ public abstract class Item : MonoBehaviour
                 EffectPlaceCorrect();
                 break;
             case 3:
-                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
                 needToDynamic = true;
                 timerStatic_locked_out = true;
                 timerStatic = timer_cooldownStatic;
@@ -643,7 +654,7 @@ public abstract class Item : MonoBehaviour
     {
         //List<GameObject> list = new List<GameObject>();
         //if (ItemInGameObject("Storage", list))
-        var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
+        var storageRect = GameObject.FindGameObjectWithTag("Storage").GetComponent<RectTransform>().rect;
         int storageWidthDelenie = 3;
         if (gameObject.transform.localPosition.x > storageRect.min.x + storageRect.width / storageWidthDelenie
             &&
@@ -655,7 +666,7 @@ public abstract class Item : MonoBehaviour
         else
         {
             //StartCoroutine(moveObject(lastItemPosition));
-            StartCoroutine(moveObject(new Vector3(GameObject.Find("Storage").transform.position.x - 1, transform.position.y + 3, 0f)));
+            StartCoroutine(moveObject(new Vector3(GameObject.FindGameObjectWithTag("Storage").transform.position.x - 1, transform.position.y + 3, 0f)));
         }
     }
     public IEnumerator moveObject(Vector3 destination)
@@ -663,7 +674,7 @@ public abstract class Item : MonoBehaviour
         //IgnoreCollisionObject(true);//включаем игнорирование
         var origin = transform.position;
 
-        //var destination = GameObject.Find("Storage").transform.position;
+        //var destination = GameObject.FindGameObjectWithTag("Storage").transform.position;
         //var destination = new Vector3(0,0,0);
         float totalMovementTime = 0.5f; //the amount of time you want the movement to take
         float currentMovementTime = 0f;//The amount of time that has passed
@@ -768,7 +779,7 @@ public abstract class Item : MonoBehaviour
 
             //if (rectTransform.eulerAngles.z >= -5 && rectTransform.eulerAngles.z <= 5)
             //{
-                
+
             //}
             //else
             //{
@@ -786,21 +797,37 @@ public abstract class Item : MonoBehaviour
             //}
         }
     }
+
+    public float minDelay = 0.1f;
+    public float maxDelay = 1.0f;
+    public float moveDistance = 0.5f;
+    IEnumerator MoveWithRandomDelay()
+    {
+        // Рандомная задержка для распределения нагрузки
+        float delay = UnityEngine.Random.Range(minDelay, maxDelay);
+        yield return new WaitForSeconds(delay);
+
+        // Смещаем объект в случайном направлении (без физики)
+        Vector2 randomDir = UnityEngine.Random.insideUnitCircle.normalized;
+        transform.position += (Vector3)(randomDir * moveDistance);
+    }
     public void OnImpulse()
     {
         if (Impulse)
         {
+            //Time.fixedDeltaTime = 0.06f;
             Impulse = false;
             // float screenWidth = Camera.main.orthographicSize * 2 * Screen.width / Screen.height;
             // float screenHeight = Camera.main.orthographicSize * 2;
 
-            var storageRect = GameObject.Find("Storage").GetComponent<RectTransform>().rect;
-
-
+            //var storageRect = GameObject.FindGameObjectWithTag("Storage").GetComponent<RectTransform>().rect;
+            MoveWithRandomDelay();
+            //rb.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
             //rb.useAutoMass = true; //= baseMass + (storageRect.xMin + storageRect.yMin) * massMultiplier;
-            rb.mass = 0.2f;
-            rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
-            rb.AddTorque(15);
+            //rb.mass = 0.2f;
+            //rb.AddForce(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), ForceMode2D.Impulse);
+            //rb.AddForce(new Vector2(randomX, randomY), ForceMode2D.Impulse);
+            //rb.AddTorque(15);
             // rb.AddRelativeForceX(10, ForceMode2D.Impulse);
         }
     }
@@ -835,6 +862,8 @@ public abstract class Item : MonoBehaviour
         mouseScreenPosition.z = mainCamera.nearClipPlane; // Устанавливаем Z, чтобы получить координаты в 3D пространстве
         return mainCamera.ScreenToWorldPoint(mouseScreenPosition);
     }
+    private List<Collider2D> _ignoredColliders = new List<Collider2D>();
+
     public void IgnoreCollisionObject(bool ignoreCollisionObject)//true - ignore //false - not ignore
     {
         Collider2D[] colliders = FindObjectsByType<Collider2D>(FindObjectsSortMode.None);
@@ -869,17 +898,12 @@ public abstract class Item : MonoBehaviour
             try
             {
                 List<RaycastHit2D> hits = new List<RaycastHit2D>();
-
-
-
-                // 
                 Vector2[] corners = new Vector2[4];
                 corners[0] = collider.bounds.min; // ������ ����� ����
                 corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // ������� ����� ����
                 corners[2] = collider.bounds.max; // ������� ������ ����
                 corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // ������ ������ ����
 
-                // 
                 float t = 1f / 5f;
                 // 
                 Vector2 center = collider.bounds.center;
@@ -893,7 +917,7 @@ public abstract class Item : MonoBehaviour
 
                 rayCasts.Add(new HitsStructure(hits));
             }
-            catch 
+            catch
             {
                 return null;
             }
@@ -1049,12 +1073,11 @@ public abstract class Item : MonoBehaviour
         if (!Exit)
         {
             ChangeShowStars(true);
-            if (canShowDescription)
+            if (canShowDescription && !DragManager.isDragging)
             {
                 if (!showCanvasBefore)
                 {
                     DeleteAllDescriptions();
-
 
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                     //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
@@ -1077,11 +1100,12 @@ public abstract class Item : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        if (!isDragging)
+        if (!DragManager.isDragging)
         {
             // Код, который выполнится при наведении курсора на коллайдер
             if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemAiming");
             Exit = false;
+            Debug.Log(DragManager.isDragging);
             StartCoroutine(ShowDescription());
         }
     }
@@ -1258,7 +1282,7 @@ public abstract class Item : MonoBehaviour
                 timerStatic = timer_cooldownStatic;
                 timerStatic_locked_out = false;
                 this.needToDynamic = false;
-
+                //Time.fixedDeltaTime = 0.02f;
                 // a delayed action could be called from here
                 // once the lock-out period expires
             }
@@ -1375,7 +1399,7 @@ public abstract class Item : MonoBehaviour
 
 
         int r = UnityEngine.Random.Range(1, 6);
-        if (gameObject.transform.parent.name == GameObject.Find("backpack").transform.name)//значит атакует врага
+        if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)//значит атакует врага
         {
             var player = GameObject.FindGameObjectWithTag("Player");
             goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
