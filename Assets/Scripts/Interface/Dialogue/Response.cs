@@ -7,6 +7,7 @@ using UnityEngine;
 public class Response
 {
     public string responseText;
+    public LocalizationText responseLocalizationText;
     public Dialogue nextDialogue; // следующая часть диалога
     public int switchDialogID = 0;
 

@@ -121,4 +121,11 @@ public class ShopButtonsController : MonoBehaviour
         //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
         SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
     }
+
+
+    public void SaveDevBackpacks()
+    {
+        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+    }
 }

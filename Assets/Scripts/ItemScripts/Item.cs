@@ -1105,7 +1105,7 @@ public abstract class Item : MonoBehaviour
             // Код, который выполнится при наведении курсора на коллайдер
             if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemAiming");
             Exit = false;
-            Debug.Log(DragManager.isDragging);
+            //Debug.Log(DragManager.isDragging);
             StartCoroutine(ShowDescription());
         }
     }
