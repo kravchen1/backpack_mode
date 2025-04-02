@@ -10,6 +10,9 @@ public class DoorEventDistributor : MonoBehaviour
 {
     public List<GameObject> doorsList = new List<GameObject>();
 
+
+    public GameObject glowCircle;
+
     [HideInInspector] public DoorData doorData;
     private enum DoorEvent
     {
@@ -32,10 +35,13 @@ public class DoorEventDistributor : MonoBehaviour
     {
         var currentDoor = doorData.DoorDataClass.currentDoorId;
         var door = doorsList.Where(e => e.GetComponent<Door>().doorId == currentDoor).ToList();
-        foreach(var arrow in door[0].GetComponentsInChildren<SpriteRenderer>().Where(e => e != door[0].GetComponent<SpriteRenderer>()))
-        {
-            arrow.color = Color.red;
-        }
+        glowCircle.transform.SetParent(door[0].transform);
+        glowCircle.transform.localPosition = Vector3.zero;
+        glowCircle.GetComponent<ParticleSystem>().Play();
+        //foreach(var arrow in door[0].GetComponentsInChildren<SpriteRenderer>().Where(e => e != door[0].GetComponent<SpriteRenderer>()))
+        //{
+        //    arrow.color = Color.red;
+        //}
     }
 
     private void DistributeEvents()

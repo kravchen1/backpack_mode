@@ -6536,6 +6536,7 @@ GameObject:
   m_Component:
   - component: {fileID: 258680665}
   - component: {fileID: 258680664}
+  - component: {fileID: 258680666}
   m_Layer: 0
   m_Name: ButtonClick
   m_TagString: Untagged
@@ -6655,6 +6656,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &258680666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258680663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c93a114a088334b40b992fa7b65f1faf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &268319180
 GameObject:
   m_ObjectHideFlags: 0
@@ -21584,6 +21597,7 @@ GameObject:
   - component: {fileID: 827864097}
   - component: {fileID: 827864096}
   - component: {fileID: 827864095}
+  - component: {fileID: 827864098}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -21651,6 +21665,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &827864098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827864094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb802b263f8e5b45aa3b0c45ff18771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToogleCanvas: {fileID: 0}
 --- !u!1 &836525656
 GameObject:
   m_ObjectHideFlags: 0
@@ -21685,7 +21712,7 @@ RectTransform:
   m_Father: {fileID: 1590516785}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.13, y: 0.43}
-  m_AnchorMax: {x: 0.86, y: 0.90275013}
+  m_AnchorMax: {x: 0.86, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -21779,6 +21806,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 258680666}
+        m_TargetAssemblyTypeName: SoundVolume, Assembly-CSharp
+        m_MethodName: SetSoundVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 258680664}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1590516791}
         m_TargetAssemblyTypeName: EndBattleButtonController, Assembly-CSharp
         m_MethodName: ToogleHide
@@ -21811,7 +21862,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3378596166232897767, guid: 074fdbcdeeb6b454886a0ff37dd94c29, type: 3}
+  m_Sprite: {fileID: -4650002048367683836, guid: ee6e23d34e79e9e4a83183a5cb909d5e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25015,7 +25066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3520164766665038639, guid: bd73d70bd6310424094860926c851e9a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 47.199997
+      value: 47.2
       objectReference: {fileID: 0}
     - target: {fileID: 3520164766665038639, guid: bd73d70bd6310424094860926c851e9a, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -25321,11 +25372,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4563972177018257851, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 390.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4563972177018257851, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -34.55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4563972177018257851, guid: 3f07a3a556d850e478af50cc7f59f8cc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -27547,7 +27598,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.32258508, y: 0}
   m_AnchorMax: {x: 0.6915375, y: 0.165}
-  m_AnchoredPosition: {x: 0, y: -38.400024}
+  m_AnchoredPosition: {x: 0, y: -38.400055}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1182391177
@@ -27594,6 +27645,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 258680666}
+        m_TargetAssemblyTypeName: SoundVolume, Assembly-CSharp
+        m_MethodName: SetSoundVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 258680664}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1609504437}
         m_TargetAssemblyTypeName: EndOfBattle, Assembly-CSharp
         m_MethodName: buttonEndFightOk
@@ -29291,7 +29366,7 @@ RectTransform:
   m_Father: {fileID: 1590516785}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.13, y: 0.43}
-  m_AnchorMax: {x: 0.86, y: 0.95100003}
+  m_AnchorMax: {x: 0.86, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -29313,9 +29388,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1261186195}
   - component: {fileID: 1261186194}
+  - component: {fileID: 1261186196}
   m_Layer: 0
   m_Name: BackgroudBattleMusic
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29432,6 +29508,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1261186196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261186193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f22885d811c31448ada481f4af544f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1266162227
 GameObject:
   m_ObjectHideFlags: 0
@@ -30177,7 +30265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.32258508, y: 0}
   m_AnchorMax: {x: 0.6915375, y: 0.165}
-  m_AnchoredPosition: {x: 0, y: -38.400024}
+  m_AnchoredPosition: {x: 0, y: -38.40001}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1297163073
@@ -30224,9 +30312,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609504437}
-        m_TargetAssemblyTypeName: EndOfBattle, Assembly-CSharp
-        m_MethodName: buttonEndFightOk
+      - m_Target: {fileID: 258680666}
+        m_TargetAssemblyTypeName: SoundVolume, Assembly-CSharp
+        m_MethodName: SetSoundVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30239,6 +30327,18 @@ MonoBehaviour:
       - m_Target: {fileID: 258680664}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1609504437}
+        m_TargetAssemblyTypeName: EndOfBattle, Assembly-CSharp
+        m_MethodName: buttonEndFightOk
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34665,11 +34765,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703776799927689235, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 390.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4703776799927689235, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -68.65
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4703776799927689235, guid: a4d4ccf0294925a4cb8549cd906a5601, type: 3}
       propertyPath: m_LocalPosition.z
@@ -36690,6 +36790,7 @@ GameObject:
   - component: {fileID: 1590516790}
   - component: {fileID: 1590516789}
   - component: {fileID: 1590516791}
+  - component: {fileID: 1590516792}
   m_Layer: 6
   m_Name: EndOfBattle
   m_TagString: Untagged
@@ -36838,6 +36939,18 @@ MonoBehaviour:
   canvas2: {fileID: 836525656}
   canvas3: {fileID: 1251325551}
   canvas4: {fileID: 1604142162}
+--- !u!225 &1590516792
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590516784}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1604142162
 GameObject:
   m_ObjectHideFlags: 0
@@ -42772,7 +42885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2359716787225938871, guid: d7901b654818b3f41a0487772e8bd4bd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50.800003
+      value: 50.800007
       objectReference: {fileID: 0}
     - target: {fileID: 2359716787225938871, guid: d7901b654818b3f41a0487772e8bd4bd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -44746,11 +44859,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891067736378094990, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 390.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8891067736378094990, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -102.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8891067736378094990, guid: 9f3e0f050232b7342b83ae2336e7b77c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -49652,6 +49765,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1850196035}
     m_Modifications:
+    - target: {fileID: 2964079385570476552, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 6.300003
+      objectReference: {fileID: 0}
     - target: {fileID: 3453100301189453360, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -49686,11 +49803,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3453100301189453360, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 390.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3453100301189453360, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -136.85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3453100301189453360, guid: cbcb561f951cda8448b3dbb86ac06fbf, type: 3}
       propertyPath: m_LocalPosition.z
