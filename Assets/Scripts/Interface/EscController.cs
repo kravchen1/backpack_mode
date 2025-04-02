@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EscController : MonoBehaviour
 {
@@ -18,7 +19,8 @@ public class EscController : MonoBehaviour
         isPaused = !isPaused;
 
         // Останавливаем или возобновляем время
-        Time.timeScale = isPaused ? 0 : 1;
+        if(SceneManager.GetActiveScene().name != "BackPackBattle")
+            Time.timeScale = isPaused ? 0 : 1;
 
         // Включаем или выключаем меню паузы
         if (ToogleCanvas != null)
