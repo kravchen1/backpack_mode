@@ -500,7 +500,7 @@ public abstract class Item : MonoBehaviour
                 //Impulse = true;
                 //MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
-                rb.excludeLayers = 0;// (1 << 9);
+                rb.excludeLayers = (1 << 10) | (1 << 11);
                 EffectPlaceNoCorrect();
                 break;
         }
