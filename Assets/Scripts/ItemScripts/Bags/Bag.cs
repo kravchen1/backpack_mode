@@ -394,7 +394,7 @@ public class Bag : Item
                         //objectInCell.gameObject.Impulse = true;
                         //objectInCell.gameObject.MoveObjectOnEndDrag();
                         objectInCell.gameObject.IgnoreCollisionObject(false);
-                        objectInCell.gameObject.rb.excludeLayers = 0;// (1 << 9);
+                        objectInCell.gameObject.rb.excludeLayers = (1 << 10) | (1 << 11);// (1 << 9);
                         break;
                 }
             }
@@ -402,6 +402,7 @@ public class Bag : Item
             {
                 objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                 objectInCell.gameObject.needToDynamic = true;
+                objectInCell.gameObject.rb.excludeLayers = (1 << 10) | (1 << 11);
             }
             objectInCell.gameObject.ChangeColorToDefault();
         }

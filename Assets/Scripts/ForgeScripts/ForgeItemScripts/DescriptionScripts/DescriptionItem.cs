@@ -100,6 +100,7 @@ public class DescriptionItem : MonoBehaviour
     {
         if (weightText != null)
         {
+            Debug.Log(settingLanguage);
             weightText.text = string.Format(LocalizationManager.Instance.GetTextWeight(settingLanguage), weight);
         }
     }

@@ -500,7 +500,7 @@ public abstract class Item : MonoBehaviour
                 //Impulse = true;
                 //MoveObjectOnEndDrag();
                 IgnoreCollisionObject(false);
-                rb.excludeLayers = 0;// (1 << 9);
+                rb.excludeLayers = (1 << 10) | (1 << 11);
                 EffectPlaceNoCorrect();
                 break;
         }
@@ -1105,7 +1105,7 @@ public abstract class Item : MonoBehaviour
             // Код, который выполнится при наведении курсора на коллайдер
             if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemAiming");
             Exit = false;
-            Debug.Log(DragManager.isDragging);
+            //Debug.Log(DragManager.isDragging);
             StartCoroutine(ShowDescription());
         }
     }
