@@ -34,8 +34,6 @@ public class GenerateShopItems : MonoBehaviour
 
     private void Awake()
     {
-        PlayerPrefs.DeleteKey("FirstGenerationShopItem");
-
         placeForChanterelleCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
         placeForWhiteCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();

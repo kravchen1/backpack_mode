@@ -767,7 +767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &55079892
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8655,7 +8655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.15}
   m_AnchorMax: {x: 0.2, y: 0.85}
-  m_AnchoredPosition: {x: 88.899704, y: 0}
+  m_AnchoredPosition: {x: 88.8997, y: 0}
   m_SizeDelta: {x: 16.12, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413623632
@@ -9465,7 +9465,6 @@ RectTransform:
   - {fileID: 537049674}
   - {fileID: 713641707}
   - {fileID: 374470595}
-  - {fileID: 1559478263}
   m_Father: {fileID: 1903748065}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.20347917, y: 0.37}
@@ -34027,15 +34026,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0422\u0435\u043F\u0435\u0440\u044C, \u0435\u0441\u043B\u0438 \u043D\u0430\u0432\u0435\u0441\u0442\u0438\u0441\u044C
-    \u043D\u0430 \u0433\u0440\u0438\u0431 \"Chanterelle\", \u0442\u043E \u043C\u043E\u0436\u043D\u043E
-    \u0443\u0432\u0438\u0434\u0435\u0442\u044C, \u0447\u0442\u043E \u0443 \u043D\u0435\u0433\u043E
-    \u0437\u0432\u0451\u0437\u0434\u043E\u0447\u043A\u0430 \u0437\u0430\u0433\u043E\u0440\u0435\u043B\u0430\u0441\u044C
-    \u0438 \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430 \u0435\u0451
-    \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0438 \u0441\u043D\u0438\u0437\u0438\u043B\u0430\u0441\u044C
-    \u043D\u0430 10%. \u041C\u043E\u0436\u043D\u043E \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C
+  m_text: "\u0422\u0435\u043F\u0435\u0440\u044C, \u0435\u0441\u043B\u0438 \u043D\u0430\u0432\u0435\u0441\u0442\u0438
+    \u043A\u0443\u0440\u0441\u043E\u0440 \u043D\u0430 \u0433\u0440\u0438\u0431 'Chanterelle',
+    \u043C\u043E\u0436\u043D\u043E \u0443\u0432\u0438\u0434\u0435\u0442\u044C, \u0447\u0442\u043E
+    \u0435\u0433\u043E \u0437\u0432\u0451\u0437\u0434\u043E\u0447\u043A\u0430 \u0437\u0430\u0433\u043E\u0440\u0435\u043B\u0430\u0441\u044C,
+    \u0430 \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430 \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u043E\u0441\u0442\u0438
+    \u0443\u043C\u0435\u043D\u044C\u0448\u0438\u043B\u0430\u0441\u044C \u043D\u0430
+    10%. \u041C\u043E\u0436\u043D\u043E \u0434\u043E\u0431\u0430\u0432\u0438\u0442\u044C
     \u0435\u0449\u0451 \u0433\u0440\u0438\u0431\u043E\u0432 \u2014 \u043A\u0430\u0436\u0434\u044B\u0439
-    \u0434\u0430\u0441\u0442 -10% \u043A \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0435!"
+    \u043D\u043E\u0432\u044B\u0439 \u0434\u0430\u0441\u0442 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435
+    \u0441\u043E\u043A\u0440\u0430\u0449\u0435\u043D\u0438\u0435 \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0438
+    \u043D\u0430 10%!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -37481,81 +37482,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552361421}
   m_CullTransparentMesh: 1
---- !u!1 &1559478262
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1559478263}
-  - component: {fileID: 1559478265}
-  - component: {fileID: 1559478264}
-  m_Layer: 6
-  m_Name: ArrowRed
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1559478263
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559478262}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 443090093}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
-  m_AnchorMin: {x: 0.74039596, y: 0.883329}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -960, y: 221}
-  m_SizeDelta: {x: 0, y: 9.34}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1559478264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559478262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.1061573, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -7771081766056490613, guid: 717b502acb2616b40a01ffc0d7a0a607, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1559478265
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559478262}
-  m_CullTransparentMesh: 1
 --- !u!1 &1572719241
 GameObject:
   m_ObjectHideFlags: 0
@@ -38824,12 +38750,8 @@ MonoBehaviour:
     \u043F\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u0435 \u043F\u0440\u0435\u0434\u043C\u0435\u0442
     \u0438\u0437 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0430, \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u044B\u0439
     \u0443\u043A\u0430\u0437\u044B\u0432\u0435\u0442 \u0437\u0435\u043B\u0435\u043D\u0430\u044F
-    \u0441\u0442\u0440\u0435\u043B\u043A\u0430 \u0432 \u044F\u0447\u0435\u0439\u043A\u0443
-    \u0432\u0430\u0448\u0435\u0433\u043E \u0440\u044E\u043A\u0437\u0430\u043A\u0430,
-    \u043D\u0430 \u043A\u043E\u0442\u043E\u0440\u0443\u044E \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442
-    \u043A\u0440\u0430\u0441\u043D\u0430\u044F \u0441\u0442\u0440\u0435\u043B\u043A\u0430.
-    \u041D\u0430 \u0435\u0433\u043E \u043F\u0440\u0438\u043C\u0435\u0440\u0435 \u043C\u044B
-    \u0443\u0432\u0438\u0434\u0438\u043C \u0432\u0435\u0441\u044C \u043F\u043E\u0442\u0435\u043D\u0446\u0438\u0430\u043B
+    \u0441\u0442\u0440\u0435\u043B\u043A\u0430. \u041D\u0430 \u0435\u0433\u043E \u043F\u0440\u0438\u043C\u0435\u0440\u0435
+    \u043C\u044B \u0443\u0432\u0438\u0434\u0438\u043C \u0432\u0435\u0441\u044C \u043F\u043E\u0442\u0435\u043D\u0446\u0438\u0430\u043B
     \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u0430."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -38857,8 +38779,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.4
-  m_fontSizeBase: 27.4
+  m_fontSize: 30.8
+  m_fontSizeBase: 30.8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

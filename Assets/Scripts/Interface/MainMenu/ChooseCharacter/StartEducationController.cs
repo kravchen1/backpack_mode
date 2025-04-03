@@ -14,11 +14,10 @@ public class StartEducationController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(PlayerPrefs.GetInt("StartEducation"));
         if(PlayerPrefs.GetInt("StartEducation") == 0)
         {
             OpenEducation();
-            //PlayerPrefs.SetInt("StartEducation", 1);
+            PlayerPrefs.SetInt("StartEducation", 1);
         }
     }
 
