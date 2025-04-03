@@ -6,6 +6,14 @@ public class LanguageDropdownHandler : MonoBehaviour
 {
     public TMP_Dropdown languageDropdown; // Ссылка на компонент Dropdown
 
+    public ButtonNewGame newGame_button;
+    public ButtonLoadGame loadGame_button;
+    public ButtonSettings settings_button;
+    public ButtonExit exit_button;
+    public ButtonAwards awards_button;
+    public ButtonShowItems showItems_button;
+
+
     void Start()
     {
         
@@ -73,6 +81,13 @@ public class LanguageDropdownHandler : MonoBehaviour
             case 3:
                 PlayerPrefs.SetString("LanguageSettings", "zh_tw");
                 break;
-        }        
+        }
+
+        showItems_button.updateText();
+        newGame_button.updateText();
+        loadGame_button.updateText();
+        //settings_button.updateText();
+        //exit_button.updateText();
+        //awards_button.updateText();
     }
 }

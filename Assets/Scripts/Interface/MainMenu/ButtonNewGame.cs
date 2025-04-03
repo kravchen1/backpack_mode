@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,12 @@ public class ButtonNewGame : MonoBehaviour
     [SerializeField] protected GameObject chooseCharCanvas;
     [SerializeField] protected GameObject buttonClick;
 
+    private string settingLanguage = "en";
+
+    public void Start()
+    {
+        updateText();
+    }
 
     public void OnMouseDown()
     {
@@ -22,24 +29,18 @@ public class ButtonNewGame : MonoBehaviour
         ChangeActive();
     }
 
-
-    //public override void OnMouseUpAsButton()
-    //{
-    //    switch (gameObject.name)
-    //    {
-    //        case "Button_MainMenu":
-    //            ChangeActive();
-    //            break;
-    //        case "Button_NewGame":
-    //            Time.timeScale = 1f;
-    //            ChangeActive();
-    //            break;
-    //    }
-    //}
-
     protected void ChangeActive()
     {
         mainCanvas.SetActive(!mainCanvas.activeSelf);
         chooseCharCanvas.SetActive(!chooseCharCanvas.activeSelf);
+    }
+
+    public void updateText()
+    {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+        string itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "NewGame_button");
+
+        gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
     }
 }

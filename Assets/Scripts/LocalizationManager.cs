@@ -206,4 +206,32 @@ public class LocalizationManager : MonoBehaviour
         return text;
     }
 
+    public string GetTextUI(string lang, string uiName)
+    {
+        string text = null;
+        if (_localizationData != null)
+        {
+            switch (lang)
+            {
+                case "en":
+                    text = _localizationData.en.ui.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "ru":
+                    text = _localizationData.ru.ui.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "zh":
+                    text = _localizationData.zh.ui.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.ui.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                default:
+                    text = _localizationData.en.ui.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+            }
+        }
+
+        return text;
+    }
+
 }

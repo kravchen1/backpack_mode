@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,15 @@ public class ButtonSettings : MonoBehaviour
     [SerializeField] protected GameObject mainCanvas;
     [SerializeField] protected GameObject settingsCanvas;
     [SerializeField] protected GameObject buttonClick;
+
+    private string settingLanguage = "en";
+
+    public void Start()
+    {
+        //updateText();
+    }
+
+
     public void OnMouseDown()
     {
         buttonClick.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
@@ -37,5 +47,14 @@ public class ButtonSettings : MonoBehaviour
             settingsCanvas.SetActive(!settingsCanvas.activeSelf);
             mainCanvas.GetComponent<CanvasGroup>().interactable = !mainCanvas.GetComponent<CanvasGroup>().interactable;
         }
+    }
+
+    public void updateText()
+    {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+        string itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "Settings_button");
+
+        gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
     }
 }

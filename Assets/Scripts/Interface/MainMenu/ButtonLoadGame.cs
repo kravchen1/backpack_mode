@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -5,6 +6,14 @@ using UnityEngine.SceneManagement;
 public class ButtonLoadGame : MonoBehaviour
 {
     [SerializeField] protected GameObject buttonClick;
+
+    private string settingLanguage = "en";
+
+    public void Start()
+    {
+        updateText();
+    }
+
     public void OnMouseDown()
     {
         buttonClick.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
@@ -23,7 +32,15 @@ public class ButtonLoadGame : MonoBehaviour
         //else
         //    //SceneManager.LoadScene("GenerateMapInternumFortress1");
         //    SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
+    }
 
+    public void updateText()
+    {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+        string itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "LoadGame_button");
+
+        gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
     }
 
 
