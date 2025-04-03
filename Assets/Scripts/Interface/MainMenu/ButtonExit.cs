@@ -1,9 +1,17 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ButtonExit : MonoBehaviour
 {
     [SerializeField] protected GameObject buttonClick;
+
+    private string settingLanguage = "en";
+
+    public void Start()
+    {
+        //updateText();
+    }
     public void OnMouseDown()
     {
         buttonClick.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
@@ -17,6 +25,13 @@ public class ButtonExit : MonoBehaviour
         Application.Quit();
     }
 
+    public void updateText()
+    {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
 
+        string itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "Exit_button");
+
+        gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
+    }
 
 }
