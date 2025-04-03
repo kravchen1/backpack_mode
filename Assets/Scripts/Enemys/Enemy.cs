@@ -98,9 +98,9 @@ public class Enemy : EventParent
             animator.Play("Idle");
 
             // ∆дем r секунд
-            //float r = UnityEngine.Random.Range(3f, 7f);
-            //yield return new WaitForSeconds(r);
-            yield return new WaitForSeconds(0.5f);
+            float r = UnityEngine.Random.Range(3f, 7f);
+            yield return new WaitForSeconds(r);
+            //yield return new WaitForSeconds(0.5f);
             // ѕереходим к следующей точке
             currentPointIndex = (currentPointIndex + 1) % pointsRun.Count;
             Vector2 targetPoint = pointsRun[currentPointIndex];
@@ -190,7 +190,7 @@ public class Enemy : EventParent
 
     protected void OnMouseUp()
     {
-        Debug.Log("clickBackpackEnemy");
+        //Debug.Log("clickBackpackEnemy");
         if (canvasBackpackEnemy == null)
         {
             canvasBackpackEnemy = GameObject.FindGameObjectWithTag("backpack");
