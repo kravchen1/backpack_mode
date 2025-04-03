@@ -262,7 +262,8 @@ public abstract class Item : MonoBehaviour
                 DeletenestedObjectStars();
                 IgnoreCollisionObject(true);
                 image.sortingOrder = 4;
-                lastItemPosition = gameObject.transform.position;
+                if(!returnToOriginalPosition)
+                    lastItemPosition = gameObject.transform.position;
                 needToDynamic = true;
                 //List<GameObject> list = new List<GameObject>();
                 //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
@@ -367,9 +368,10 @@ public abstract class Item : MonoBehaviour
         StartCoroutine(ReturnToOriginalPosition(destination));
     }
 
+    private bool returnToOriginalPosition = false;
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
-
+        returnToOriginalPosition = true;
         float time = 1f; // Время возвращения
         float elapsedTime = 0f;
         Vector3 startingPos = transform.position;
@@ -384,6 +386,7 @@ public abstract class Item : MonoBehaviour
         }
 
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
+        returnToOriginalPosition = false;
     }
     public void defaultItemUpdate()
     {
@@ -1112,8 +1115,8 @@ public abstract class Item : MonoBehaviour
 
     private void OnMouseExit()
     {
-        //if (!isDragging)
-        //{
+        if (!DragManager.isDragging)
+        {
             //Debug.Log(Description.gameObject.name + "�����");
             if (SceneManager.GetActiveScene().name != "BackPackBattle")
                 if (animator != null && !isEat)
@@ -1132,7 +1135,7 @@ public abstract class Item : MonoBehaviour
             {
                 Destroy(CanvasDescription.gameObject);
             }
-        //}
+        }
     }
 
 
