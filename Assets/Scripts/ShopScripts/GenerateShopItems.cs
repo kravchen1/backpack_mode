@@ -9,9 +9,9 @@ public class GenerateShopItems : MonoBehaviour
 {
     public List<GameObject> generateItems;
     private GameObject[] prefabs;
-
     private Collider2D placeForItemCollider;
-
+    private Collider2D placeForChanterelleCollider;
+    private Collider2D placeForWhiteCollider;
     public ShopData shopData;
 
     public List<string> tagItems;
@@ -34,9 +34,17 @@ public class GenerateShopItems : MonoBehaviour
 
     private void Awake()
     {
+        PlayerPrefs.DeleteKey("FirstGenerationShopItem");
+
+        placeForChanterelleCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
+
+        placeForWhiteCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
+
         placeForItemCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
 
-        foreach(var tag in tagItems)
+        //placeForChanterelleCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
+        //placeForWhiteCollider = GetComponent<RectTransform>().GetChild(0).GetComponent<Collider2D>();
+        foreach (var tag in tagItems)
         {
             LoadItems(tag);
         }
@@ -68,7 +76,7 @@ public class GenerateShopItems : MonoBehaviour
 
         var item = generationObjectShop.GetComponent<Item>();
         item.prefabOriginalName = generationObject.name;
-        
+
         generationObjectShop.AddComponent<ShopItem>();
         generationObjectShop.GetComponent<ShopItem>().defaultPosition = place;
         //Debug.Log(generationObjectShop.transform.position);
@@ -83,12 +91,35 @@ public class GenerateShopItems : MonoBehaviour
         priceTxt.text = item.itemCost.ToString();
     }
 
+    private GameObject GenerateChanterelleItem()
+    {
+        foreach (GameObject item in generateItems)
+        {
+            if (item.name == "MushroomChanterelle")
+            {
+                return item;
+            }
+        }
+        return generateItems[0];
+    }
+
+    private GameObject GenerateWhiteItem()
+    {
+        foreach (GameObject item in generateItems)
+        {
+            if (item.name == "MushroomWhite")
+            {
+                return item;
+            }
+        }
+        return generateItems[0];
+    }
 
     private GameObject GenerateFirstItem()
     {
-        foreach(GameObject item in generateItems)
+        foreach (GameObject item in generateItems)
         {
-            if(item.name == "HiddenDagger")
+            if (item.name == "HiddenDagger")
             {
                 return item;
             }
@@ -101,21 +132,30 @@ public class GenerateShopItems : MonoBehaviour
         r = Random.Range(0, generateItems.Count);
         if (r < generateItems.Count)
         {
-            if (!PlayerPrefs.HasKey("FirstGenerationShopItem") && SceneManager.GetActiveScene().name == "BackPackShop")
             {
-                Generation(GenerateFirstItem(), placeForItemCollider.bounds.center);
-                PlayerPrefs.SetInt("FirstGenerationShopItem", 1);
+                if (!PlayerPrefs.HasKey("FirstGenerationShopItem") && SceneManager.GetActiveScene().name == "BackPackShop" && name == "Price1")
+                {
+                    Generation(GenerateFirstItem(), placeForItemCollider.bounds.center);
+                }
+                else if (!PlayerPrefs.HasKey("FirstGenerationShopItem") && SceneManager.GetActiveScene().name == "BackPackShop" && name == "Price2")
+                {
+                    Generation(GenerateWhiteItem(), placeForWhiteCollider.bounds.center);
+                }
+                else if (!PlayerPrefs.HasKey("FirstGenerationShopItem") && SceneManager.GetActiveScene().name == "BackPackShop" && name == "Price3")
+                {
+                    Generation(GenerateChanterelleItem(), placeForChanterelleCollider.bounds.center);
+                    PlayerPrefs.SetInt("FirstGenerationShopItem", 1);
+                }
+                else
+                {
+                    Generation(generateItems[r], placeForItemCollider.bounds.center);
+                }
             }
-            else
-            {
-                Generation(generateItems[r], placeForItemCollider.bounds.center);
-            }
-            
+            //else
+            //{
+            //    Generation(generateItems[r], placeForItemCollider.bounds.center);
+            //}
         }
-        //else
-        //{
-        //    Generation(generateItems[r], placeForItemCollider.bounds.center);
-        //}
     }
 
     void LoadSlot()
@@ -127,9 +167,9 @@ public class GenerateShopItems : MonoBehaviour
         {
             foreach (var sd in listShopData.Where(e => e.slotName == gameObject.name))
             {
-                foreach(var generateItem in generateItems)
+                foreach (var generateItem in generateItems)
                 {
-                    if(generateItem.name == sd.prefabName)
+                    if (generateItem.name == sd.prefabName)
                     {
                         Generation(generateItem, placeForItemCollider.bounds.center);
                         GetComponent<Price>().LockItem(sd.locking);
@@ -155,6 +195,6 @@ public class GenerateShopItems : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

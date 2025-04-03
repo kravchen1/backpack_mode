@@ -8,16 +8,17 @@ using UnityEngine.SceneManagement;
 
 public class StartEducationController : MonoBehaviour
 {
-    public GameObject page1, page1_2, page2, page3, page3_1, page3_2, page4, page5, page6, page7, page8;
+    public GameObject page1, page1_2, page2, page3, page3_1, page3_2, page4, page5, page5_0, page5_1, page5_2, page5_3, page5_4, page6, page7, page8;
 
     public GameObject startEducation;
 
     private void Start()
     {
+        Debug.Log(PlayerPrefs.GetInt("StartEducation"));
         if(PlayerPrefs.GetInt("StartEducation") == 0)
         {
             OpenEducation();
-            PlayerPrefs.SetInt("StartEducation", 1);
+            //PlayerPrefs.SetInt("StartEducation", 1);
         }
     }
 
@@ -121,12 +122,77 @@ public class StartEducationController : MonoBehaviour
     public void Page5Forward()
     {
         page5.SetActive(false);
-        page6.SetActive(true);
+        page5_0.SetActive(true);
     }
     public void Page5Back()
     {
         page5.SetActive(false);
         page4.SetActive(true);
+    }
+
+
+
+    public void Page5_0Forward()
+    {
+        page5_0.SetActive(false);
+        page5_1.SetActive(true);
+    }
+    public void Page5_0Back()
+    {
+        page5_0.SetActive(false);
+        page5.SetActive(true);
+    }
+
+
+
+    public void Page5_1Forward()
+    {
+        page5_1.SetActive(false);
+        page5_2.SetActive(true);
+    }
+    public void Page5_1Back()
+    {
+        page5_1.SetActive(false);
+        page5_0.SetActive(true);
+    }
+
+
+
+    public void Page5_2Forward()
+    {
+        page5_2.SetActive(false);
+        page5_3.SetActive(true);
+    }
+    public void Page5_2Back()
+    {
+        page5_2.SetActive(false);
+        page5_1.SetActive(true);
+    }
+
+
+
+    public void Page5_3Forward()
+    {
+        page5_3.SetActive(false);
+        page5_4.SetActive(true);
+    }
+    public void Page5_3Back()
+    {
+        page5_3.SetActive(false);
+        page5_2.SetActive(true);
+    }
+
+
+
+    public void Page5_4Forward()
+    {
+        page5_4.SetActive(false);
+        page6.SetActive(true);
+    }
+    public void Page5_4Back()
+    {
+        page5_4.SetActive(false);
+        page5_3.SetActive(true);
     }
 
 
@@ -139,7 +205,7 @@ public class StartEducationController : MonoBehaviour
     public void Page6Back()
     {
         page6.SetActive(false);
-        page5.SetActive(true);
+        page5_4.SetActive(true);
     }
 
 

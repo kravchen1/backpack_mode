@@ -11,7 +11,9 @@ public class ButtonsController : MonoBehaviour
     public GameObject mainCanvas;
     public GameObject chooseCharCanvas;
     // Список ключей, которые нужно сохранить
-    private List<string> keysToKeep = new List<string> { "ScreenMode", "MusicVolume", "SoundVolume", "WindowedResoultionWidth", "WindowedResoultionHeight", "EducationGlobalMap", "CaveEducation", "StartEducation", "EducationCaveIn", "LanguageSettings" };
+    private List<string> keysToKeep = new List<string> { "ScreenMode", "MusicVolume", "SoundVolume", "WindowedResoultionWidth", "WindowedResoultionHeight", 
+        "EducationGlobalMap", "CaveEducation"//, "StartEducation"
+        , "EducationCaveIn", "LanguageSettings" };
 
     // Метод для удаления всех ключей, кроме указанных
     public void DeleteAllExcept(List<string> keysToKeep)
@@ -91,7 +93,7 @@ public class ButtonsController : MonoBehaviour
         DeleteAllExcept(keysToKeep);
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
-        StartStats(85, 135, 1, 150, 100, 1, 11);
+        StartStats(85, 135, 1, 200, 100, 1, 11);
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
@@ -106,7 +108,7 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.SetString("characterClass", "Player_Ice");
         Choose();
 
-        StartStats(50, 100, 1, 150, 100, 1, 9);
+        StartStats(50, 100, 1, 200, 100, 1, 9);
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
