@@ -13,7 +13,7 @@ public class ButtonSettings : MonoBehaviour
 
     public void Start()
     {
-        //updateText();
+        updateText();
     }
 
 

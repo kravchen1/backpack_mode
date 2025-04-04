@@ -86,8 +86,8 @@ public class LanguageDropdownHandler : MonoBehaviour
         showItems_button.updateText();
         newGame_button.updateText();
         loadGame_button.updateText();
-        //settings_button.updateText();
-        //exit_button.updateText();
-        //awards_button.updateText();
+        settings_button.updateText();
+        exit_button.updateText();
+        awards_button.updateText();
     }
 }
