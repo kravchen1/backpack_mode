@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ public class LanguageDropdownHandler : MonoBehaviour
     public ButtonAwards awards_button;
     public ButtonShowItems showItems_button;
 
+    public List<LocalizationTextToogle> lttObjects;
+
+    public ScreenModeDropdownHandler screenModeDropdownHandler;
 
     void Start()
     {
@@ -89,5 +93,12 @@ public class LanguageDropdownHandler : MonoBehaviour
         settings_button.updateText();
         exit_button.updateText();
         awards_button.updateText();
+
+        foreach (var obj in lttObjects)
+        {
+            obj.updateText();
+        }
+
+        screenModeDropdownHandler.InitializeDropdown();
     }
 }
