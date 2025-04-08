@@ -23,7 +23,9 @@ public class bag2x1Stamina : Bag
                             if (item.stamina - decrStamina > 0)
                             {
                                 item.stamina -= decrStamina;
-                                CreateLogMessage("bag2x1Stamina decrease " + item.name + " stamina for " + decrStamina.ToString(), Player.isPlayer);
+                                //CreateLogMessage("bag2x1Stamina decrease " + item.name + " stamina for " + decrStamina.ToString(), Player.isPlayer);
+
+                                logManager.CreateLogMessageDecreaseStamina(originalName, "stamina", decrStamina, item.name, Player.isPlayer);
                             }
                         }
                     }

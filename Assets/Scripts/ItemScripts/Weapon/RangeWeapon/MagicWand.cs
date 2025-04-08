@@ -18,14 +18,15 @@ public class MagicWand : Weapon
     {
         Player.menuFightIconData.AddBuff(giveManaStack, "IconMana");
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogManaStackCharacter, "Magic wand give " + giveManaStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogManaStackEnemy, "Magic wand give " + giveManaStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogManaStackCharacter, "Magic wand give " + giveManaStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogManaStackEnemy, "Magic wand give " + giveManaStack.ToString());
+        //}
+        logManager.CreateLogMessageGive(originalName, "mana", giveManaStack, Player.isPlayer);
     }
     
     public override IEnumerator ShowDescription()

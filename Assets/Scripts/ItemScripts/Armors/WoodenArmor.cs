@@ -15,7 +15,8 @@ public class WoodenArmor : Armor
             Player.armor = Player.armor + startBattleArmorCount;
             Player.armorMax = Player.armorMax + startBattleArmorCount;
             //Debug.Log("FireBody give " + startBattleArmorCount + " armor");
-            CreateLogMessage("WoodenArmor give " + startBattleArmorCount.ToString(), Player.isPlayer);
+            //CreateLogMessage("WoodenArmor give " + startBattleArmorCount.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "armor", startBattleArmorCount, Player.isPlayer);
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }

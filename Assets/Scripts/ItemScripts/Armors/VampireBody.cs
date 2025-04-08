@@ -42,7 +42,8 @@ public class VampireBody : Stuff
                 {
                     Player.menuFightIconData.AddBuff(countBleedOnEnemy, "ICONVAMPIRE");
 
-                    CreateLogMessage("Vampire body give" + countBleedOnEnemy.ToString(), Player.isPlayer);
+                    //CreateLogMessage("Vampire body give" + countBleedOnEnemy.ToString(), Player.isPlayer);
+                    logManager.CreateLogMessageGive(originalName, "vampire", countBleedOnEnemy, Player.isPlayer);
 
                     CheckNestedObjectActivation("StartBag");
                     CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
@@ -58,14 +59,16 @@ public class VampireBody : Stuff
         {
             Enemy.menuFightIconData.AddDebuff(countBleedStack, "ICONBLEED");
 
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogBleedStackCharacter, "Vampire body inflict " + countBleedStack.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogBleedStackEnemy, "Vampire body inflict " + countBleedStack.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogBleedStackCharacter, "Vampire body inflict " + countBleedStack.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogBleedStackEnemy, "Vampire body inflict " + countBleedStack.ToString());
+            //}
+
+            logManager.CreateLogMessageInflict(originalName, "bleed", countBleedStack, Player.isPlayer);
         }
     }
 

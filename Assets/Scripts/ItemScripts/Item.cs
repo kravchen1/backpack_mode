@@ -83,7 +83,6 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] protected PlayerBackpackBattle Player;
     [HideInInspector] protected PlayerBackpackBattle Enemy;
     [HideInInspector] protected GameObject placeForDescription;
-    [HideInInspector] protected GameObject placeForLogDescription;
 
 
     [HideInInspector] public Animator animator;
@@ -118,6 +117,10 @@ public abstract class Item : MonoBehaviour
 
     private Animator playerAnimator;
     private Animator enemyAnimator;
+
+    protected LogManager logManager;
+    
+
 
     void Awake()
     {
@@ -170,7 +173,7 @@ public abstract class Item : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
+            logManager = GameObject.FindGameObjectWithTag("BattleLog").GetComponent<LogManager>();
             if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)
             {
                 placeForDescription = GameObject.FindWithTag("DescriptionPlace");
@@ -1356,27 +1359,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public void CreateLogMessage(string message, bool Player)
-    {
-        GameObject obj;
-        if (Player)
-        {
-            obj = Instantiate(DescriptionLogCharacter, placeForLogDescription.GetComponent<RectTransform>().transform);
-        }
-        else
-        {
-            obj = Instantiate(DescriptionLogEnemy, placeForLogDescription.GetComponent<RectTransform>().transform);
-        }
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
-        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
-    }
-
-    public void CreateLogMessage(GameObject log, string message)
-    {
-        var obj = Instantiate(log, placeForLogDescription.GetComponent<RectTransform>().transform);
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = message;
-        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
-    }
+    
 
 
     private GameObject goAnimationAttack;
@@ -1413,7 +1396,7 @@ public abstract class Item : MonoBehaviour
             {
                 FindPlayerAndEnemyForBattle();
             }
-            enemyAnimator.Play("Attack1", -1, 0f);
+            if(enemyAnimator != null) enemyAnimator.Play("Attack1", -1, 0f);
         }
         Invoke("StopAttackAnimation", 0.4f);
     }
@@ -1427,11 +1410,15 @@ public abstract class Item : MonoBehaviour
         {
             AttackAnimation(damage);
         }
-        float armorBefore = Enemy.armor;
+
+
+
+        int armorBefore = Enemy.armor;
         if (damage < armorBefore)
         {
             Enemy.armor -= damage;
-            CreateLogMessage(gameObject.name + " destroy " + damage.ToString() + " armor", Player.isPlayer);
+            logManager.CreateLogMessageAttackOnArmor(originalName, damage, Player.isPlayer);
+            //CreateLogMessage(gameObject.name + " destroy " + damage.ToString() + " armor", Player.isPlayer);
         }
         else
         {
@@ -1439,11 +1426,13 @@ public abstract class Item : MonoBehaviour
             Enemy.hp -= (damage - dmgArmor);
             if (armorBefore == 0)
             {
-                CreateLogMessage(gameObject.name + " deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
+                //CreateLogMessage(gameObject.name + " deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
+                logManager.CreateLogMessageAttackWithoutArmor(originalName, damage, Player.isPlayer);
             }
             else
             {
-                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
+                //CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Enemy.armor - damage)).ToString() + " damage", Player.isPlayer);
+                logManager.CreateLogMessageAttackOnHalfArmor(originalName, Math.Abs((Enemy.armor - damage)), armorBefore, Player.isPlayer);
             }
             Enemy.armor = 0;
         }
@@ -1451,11 +1440,11 @@ public abstract class Item : MonoBehaviour
 
     protected void AttackSelf(int damage)
     {
-        float armorBefore = Player.armor;
+        int armorBefore = Player.armor;
         if (damage < Player.armor)
         {
             Player.armor -= damage;
-            CreateLogMessage(gameObject.name + " destroy " + damage.ToString() + " armor", !Player.isPlayer);
+            logManager.CreateLogMessageAttackOnArmor(originalName, damage, !Player.isPlayer);
         }
         else
         {
@@ -1463,14 +1452,46 @@ public abstract class Item : MonoBehaviour
             Player.hp -= (damage - dmgArmor);
             if (armorBefore == 0)
             {
-                CreateLogMessage(gameObject.name + " deal " + Math.Abs((Player.armor - damage)).ToString() + " damage", !Player.isPlayer);
+                logManager.CreateLogMessageAttackWithoutArmor(originalName, damage, !Player.isPlayer);
             }
             else
             {
-                CreateLogMessage(gameObject.name + " destroy " + armorBefore.ToString() + " armor and deal " + Math.Abs((Player.armor - damage)).ToString() + " damage", !Player.isPlayer);
+                logManager.CreateLogMessageAttackOnHalfArmor(originalName, Math.Abs((Enemy.armor - damage)), armorBefore, !Player.isPlayer);
             }
             Player.armor = 0;
         }
     }
 
+
+
+
+
+
+
+
+    
+    public void CreateLogMessage(string message, bool Player)
+    {
+
+        
+        if (Player)
+        {
+            //obj = Instantiate(DescriptionLogCharacter, placeForLogDescription.GetComponent<RectTransform>().transform);
+        }
+        else
+        {
+            //obj = Instantiate(DescriptionLogEnemy, placeForLogDescription.GetComponent<RectTransform>().transform);
+        }
+        //obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ts.nowTime.ToString() + " - " + message;
+        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+    public void CreateLogMessage(GameObject log, string message)
+    {
+        TimeSpeed ts;
+        ts = GameObject.FindGameObjectWithTag("SliderTime").GetComponent<TimeSpeed>();
+        //var obj = Instantiate(log, placeForLogDescription.GetComponent<RectTransform>().transform);
+        //obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ts.nowTime.ToString() + " - " + message;
+        //obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
 }

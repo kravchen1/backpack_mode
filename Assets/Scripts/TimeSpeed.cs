@@ -9,6 +9,7 @@ public class TimeSpeed : MonoBehaviour
     public TextMeshProUGUI TextSpeed;
     public TextMeshProUGUI TextTime;
     private float startTime;
+    [HideInInspector] public double nowTime;
     private void Start()
     {
         startTime = Time.time;
@@ -20,7 +21,8 @@ public class TimeSpeed : MonoBehaviour
             Time.timeScale = timeSpeed.value;
             TextSpeed.text = "x " + Math.Round(timeSpeed.value, 2).ToString();
         }
-        TextTime.text = Math.Round(Time.time - startTime, 1).ToString() + " sec";
+        nowTime = Math.Round(Time.time - startTime, 1);
+        TextTime.text = nowTime.ToString() + " sec";
     }
 
     public void PauseSpeed()

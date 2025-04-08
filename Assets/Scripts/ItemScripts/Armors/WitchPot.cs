@@ -36,14 +36,15 @@ public class WitchPot : WitchCraft
         int countMana = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() * giveManaStack;
         Player.menuFightIconData.AddBuff(countMana, "IconMana");
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogManaStackCharacter, "big witch pot give " + countMana.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogManaStackEnemy, "big witch pot give " + countMana.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogManaStackCharacter, "big witch pot give " + countMana.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogManaStackEnemy, "big witch pot give " + countMana.ToString());
+        //}
+        logManager.CreateLogMessageGive(originalName, "mana", countMana, Player.isPlayer);
 
         CheckNestedObjectActivation("StartBag");
         CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
@@ -55,7 +56,8 @@ public class WitchPot : WitchCraft
             timer_locked_out = true;
             
             Enemy.menuFightIconData.AddDebuff(givePoisonStack, "IconPoison");
-            CreateLogMessage("big witch pot inflict " + givePoisonStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("big witch pot inflict " + givePoisonStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageInflict(originalName, "poison", givePoisonStack, Player.isPlayer);
 
             if (Player.menuFightIconData.icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONMANA")))
             {
@@ -71,16 +73,18 @@ public class WitchPot : WitchCraft
                 {
                     Player.menuFightIconData.DeleteBuff(spendManaStack, "ICONMANA");
                     Player.menuFightIconData.AddBuff(giveRegenerationStack, "IconRegenerate");
-                    if (Player.isPlayer)
-                    {
-                        CreateLogMessage(LogManaStackCharacter, "big witch pot used " + spendManaStack.ToString());
-                        CreateLogMessage(LogRegenerateStackCharacter, "big witch pot give " + giveRegenerationStack.ToString());
-                    }
-                    else
-                    {
-                        CreateLogMessage(LogManaStackEnemy, "big witch pot used " + spendManaStack.ToString());
-                        CreateLogMessage(LogRegenerateStackEnemy, "big witch pot give " + giveRegenerationStack.ToString());
-                    }
+                    //if (Player.isPlayer)
+                    //{
+                    //    CreateLogMessage(LogManaStackCharacter, "big witch pot used " + spendManaStack.ToString());
+                    //    CreateLogMessage(LogRegenerateStackCharacter, "big witch pot give " + giveRegenerationStack.ToString());
+                    //}
+                    //else
+                    //{
+                    //    CreateLogMessage(LogManaStackEnemy, "big witch pot used " + spendManaStack.ToString());
+                    //    CreateLogMessage(LogRegenerateStackEnemy, "big witch pot give " + giveRegenerationStack.ToString());
+                    //}
+                    logManager.CreateLogMessageUse(originalName, "mana", spendManaStack, Player.isPlayer);
+                    logManager.CreateLogMessageGive(originalName, "regenerate", giveRegenerationStack, Player.isPlayer);
                 }
             }
 

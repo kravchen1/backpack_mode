@@ -21,8 +21,9 @@ public class ManaBoots : Stuff
             if (Player != null)
             {
                 Player.menuFightIconData.AddBuff(countManaStack, "IconMana");
-                
-                CreateLogMessage("Mana Boots give " + countManaStack.ToString(), Player.isPlayer);
+
+                //CreateLogMessage("Mana Boots give " + countManaStack.ToString(), Player.isPlayer);
+                logManager.CreateLogMessageGive(originalName, "mana", countManaStack, Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                 

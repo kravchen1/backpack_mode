@@ -23,16 +23,19 @@ public class Nunchucks : Weapon
         double speedUp = baseTimerCooldown / 100.0 * activationSpeedUp;
         timer_cooldown -= (float)speedUp;
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogChanceCritStackCharacter, "Nunchucks give " + giveCritStack.ToString());
-            CreateLogMessage(LogTimerStackCharacter, "Nunchucks increased cooldown by " + Math.Round(speedUp, 2).ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogChanceCritStackEnemy, "Nunchucks give " + giveCritStack.ToString());
-            CreateLogMessage(LogTimerStackEnemy, "Nunchucks increased cooldown by " + Math.Round(speedUp, 2).ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogChanceCritStackCharacter, "Nunchucks give " + giveCritStack.ToString());
+        //    CreateLogMessage(LogTimerStackCharacter, "Nunchucks increased cooldown by " + Math.Round(speedUp, 2).ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogChanceCritStackEnemy, "Nunchucks give " + giveCritStack.ToString());
+        //    CreateLogMessage(LogTimerStackEnemy, "Nunchucks increased cooldown by " + Math.Round(speedUp, 2).ToString());
+        //}
+
+        logManager.CreateLogMessageGive(originalName, "chancecrit", giveCritStack, Player.isPlayer);
+        logManager.CreateLogMessageReduced(originalName, "timer", Math.Round(speedUp, 2), Player.isPlayer);
     }
 
     public override IEnumerator ShowDescription()

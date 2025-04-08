@@ -27,14 +27,15 @@ public class Broom : Weapon
                 starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
                 starItem.timer = starItem.timer_cooldown;
 
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
+                //}
+                logManager.CreateLogMessageReducedForItem(originalName, "timer", Math.Round(changeCD, 2), starItem.name, Player.isPlayer);
             }
         }
     }

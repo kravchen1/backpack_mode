@@ -25,14 +25,15 @@ public class Club : Weapon
         if (r <= blindnessChance)
         {
             Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogBlindStackCharacter, "Club inflict " + blindnessStack.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogBlindStackEnemy, "Club inflict " + blindnessStack.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogBlindStackCharacter, "Club inflict " + blindnessStack.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogBlindStackEnemy, "Club inflict " + blindnessStack.ToString());
+            //}
+            logManager.CreateLogMessageInflict(originalName, "blind", blindnessStack, Player.isPlayer);
         }
     }
 

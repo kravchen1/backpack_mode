@@ -19,14 +19,15 @@ public class GlamorousToad : Weapon
     public override void ActivationEffect(int resultDamage)
     {
         Enemy.menuFightIconData.AddDebuff(poisonStack, "IconPoison");
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogPoisonStackCharacter, "Glamorous toad inflict " + poisonStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogPoisonStackEnemy, "Glamorous toad inflict " + poisonStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogPoisonStackCharacter, "Glamorous toad inflict " + poisonStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogPoisonStackEnemy, "Glamorous toad inflict " + poisonStack.ToString());
+        //}
+        logManager.CreateLogMessageInflict(originalName, "poison", poisonStack, Player.isPlayer);
     }
     
     public override IEnumerator ShowDescription()

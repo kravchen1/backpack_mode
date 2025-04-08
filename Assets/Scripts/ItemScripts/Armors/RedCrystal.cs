@@ -20,7 +20,8 @@ public class RedCrystal : Armor
             if (r <= powerStackChance)
             {
                 Player.menuFightIconData.AddBuff(powerStack, "IconPower");
-                CreateLogMessage("RedCrystal give " + powerStack.ToString(), Player.isPlayer);
+                //CreateLogMessage("RedCrystal give " + powerStack.ToString(), Player.isPlayer);
+                logManager.CreateLogMessageGive(originalName, "power", powerStack, Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }

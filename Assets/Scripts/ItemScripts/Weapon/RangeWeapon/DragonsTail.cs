@@ -22,16 +22,18 @@ public class DragonsTail : Weapon
         Player.menuFightIconData.AddBuff(powerStack, "IconPower");
         Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
-            CreateLogMessage(LogPowerStackCharacter, "Dragon`s tail give " + powerStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
-            CreateLogMessage(LogPowerStackEnemy, "Dragon`s tail give " + powerStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
+        //    CreateLogMessage(LogPowerStackCharacter, "Dragon`s tail give " + powerStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
+        //    CreateLogMessage(LogPowerStackEnemy, "Dragon`s tail give " + powerStack.ToString());
+        //}
+        logManager.CreateLogMessageInflict(originalName, "blind", blindnessStack, Player.isPlayer);
+        logManager.CreateLogMessageGive(originalName, "power", powerStack, Player.isPlayer);
     }
     public override IEnumerator ShowDescription()
     {

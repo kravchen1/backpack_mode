@@ -15,7 +15,9 @@ public class VampireGloves : Stuff
         if(Enemy != null)
         {
             Enemy.menuFightIconData.AddDebuff(countBleedStack, "ICONBLEED");
-            CreateLogMessage("Vampire gloves inflict " + countBleedStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Vampire gloves inflict " + countBleedStack.ToString(), Player.isPlayer);
+
+            logManager.CreateLogMessageInflict(originalName, "bleed", countBleedStack, Player.isPlayer);
         }
     }
 

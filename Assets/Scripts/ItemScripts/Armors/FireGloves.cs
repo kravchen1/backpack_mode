@@ -30,16 +30,20 @@ public class FireGloves : Stuff
                         b = true;
                         //CreateLogMessage("FireGloves removed " + countBurnStack.ToString() + " burn and reset " + coolDown.ToString() + " % cooldown");
                         item.timer = item.timer_cooldown / 100 * coolDown;
-                        if (Player.isPlayer)
-                        {
-                            CreateLogMessage(LogFireStackCharacter, "FireGloves removed " + countBurnStack.ToString() + " from enemy");
-                            CreateLogMessage(LogTimerStackCharacter, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
-                        }
-                        else
-                        {
-                            CreateLogMessage(LogFireStackEnemy, "FireGloves removed " + countBurnStack.ToString() + " from enemy");
-                            CreateLogMessage(LogTimerStackEnemy, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
-                        }
+                        //if (Player.isPlayer)
+                        //{
+                        //    CreateLogMessage(LogFireStackCharacter, "FireGloves removed " + countBurnStack.ToString() + " from enemy");
+                        //    CreateLogMessage(LogTimerStackCharacter, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
+                        //}
+                        //else
+                        //{
+                        //    CreateLogMessage(LogFireStackEnemy, "FireGloves removed " + countBurnStack.ToString() + " from enemy");
+                        //    CreateLogMessage(LogTimerStackEnemy, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
+                        //}
+                        logManager.CreateLogMessageUseFromEnemy(originalName, "fire", countBurnStack, Player.isPlayer);
+                        logManager.CreateLogMessageReset(originalName, "timer", countBurnStack, item.originalName, Player.isPlayer);
+
+
                     }
                 }
                 if (b)

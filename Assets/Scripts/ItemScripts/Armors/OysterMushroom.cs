@@ -31,7 +31,8 @@ public class OysterMushroom : Mushroom
         {
             timer_locked_out = true;
             Player.menuFightIconData.AddBuff(giveManaStack, "IconMana");
-            CreateLogMessage("Oyster mushroom give " + giveManaStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Oyster mushroom give " + giveManaStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "mana", giveManaStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

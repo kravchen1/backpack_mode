@@ -34,7 +34,8 @@ public class FireFlask : Flask
                     Player.menuFightIconData.CalculateFireFrostStats();//true = Player
                     CheckNestedObjectActivation("StartBag");
                     CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
-                    CreateLogMessage("FireFlask give " + giveStack.ToString(), Player.isPlayer);
+                    //CreateLogMessage("FireFlask give " + giveStack.ToString(), Player.isPlayer);
+                    logManager.CreateLogMessageGive(originalName, "fire", giveStack, Player.isPlayer);
                 }
             }
         }

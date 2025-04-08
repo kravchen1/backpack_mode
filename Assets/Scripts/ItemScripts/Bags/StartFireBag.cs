@@ -7,7 +7,8 @@ public class StartFireBag : Bag
     {
         if (Player != null)
         {
-            Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
+            //Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
+            logManager.CreateLogMessageGive(originalName, "fire", countBurnStack, Player.isPlayer);
             //Debug.Log("сумка огня наложила 1 ожёг");
             //CreateLogMessage("FireBag give " + countBurnStack.ToString() + " burn");
             Player.menuFightIconData.CalculateFireFrostStats();//true = Player

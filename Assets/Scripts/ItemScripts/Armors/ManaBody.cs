@@ -33,16 +33,18 @@ public class ManaBody : Armor
             Player.armorMax = Player.armorMax + resultArmor;
             Player.menuFightIconData.AddBuff(resultMana, "IconMana");
 
-            CreateLogMessage("Mana Body give " + resultMana.ToString(), Player.isPlayer);
+            //CreateLogMessage("Mana Body give " + resultMana.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "mana", resultMana, Player.isPlayer);
 
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogArmorStackCharacter, "Mana Body give " + resultArmor.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + resultArmor.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogArmorStackCharacter, "Mana Body give " + resultArmor.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogArmorStackEnemy, "Dinosaur give " + resultArmor.ToString());
+            //}
+            logManager.CreateLogMessageGive(originalName, "armor", resultArmor, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

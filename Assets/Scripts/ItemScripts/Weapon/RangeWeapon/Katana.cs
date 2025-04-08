@@ -33,14 +33,15 @@ public class Katana : Weapon
                 Enemy.menuFightIconData.DeleteBuff(countStealCritChance, "ICONChanceCrit");
                 Player.menuFightIconData.AddBuff(countStealCritChance, "ICONChanceCrit");//true = Player
 
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogChacneCritCharacter, "Katana steal " + countStealCritChance.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogChacneCritEnemy, "Katana steal " + countStealCritChance.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogChacneCritCharacter, "Katana steal " + countStealCritChance.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogChacneCritEnemy, "Katana steal " + countStealCritChance.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "chancecrit", countStealCritChance, Player.isPlayer);
             }
         }
     }

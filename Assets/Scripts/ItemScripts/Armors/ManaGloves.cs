@@ -34,7 +34,9 @@ public class ManaGloves : Stuff
                         Enemy.menuFightIconData.DeleteBuff(countSteelManaStack, "ICONMANA");
                         Player.menuFightIconData.AddBuff(countSteelManaStack, "ICONMANA");//true = Player
 
-                        CreateLogMessage("Mana gloves steal " + countSteelManaStack.ToString(), Player.isPlayer);
+                        //CreateLogMessage("Mana gloves steal " + countSteelManaStack.ToString(), Player.isPlayer);
+                        logManager.CreateLogMessageSteal(originalName, "mana", countSteelManaStack, Player.isPlayer);
+                        
                         CheckNestedObjectActivation("StartBag");
                         CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                     }

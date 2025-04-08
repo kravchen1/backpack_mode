@@ -31,7 +31,8 @@ public class RussulaMushroom : Mushroom
             timer_locked_out = true;
             Player.menuFightIconData.AddBuff(givePowerStack, "IconPower");
 
-            CreateLogMessage("Russula mushroom give " + givePowerStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Russula mushroom give " + givePowerStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "power", givePowerStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

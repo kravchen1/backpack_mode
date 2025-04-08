@@ -8,7 +8,6 @@ using static UnityEngine.Rendering.DebugUI;
 public class VampireBoots : Armor
 {
     public int countVampireStack = 2;
-    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -25,16 +24,18 @@ public class VampireBoots : Armor
             Player.armor = Player.armor + startBattleArmorCount;
             Player.armorMax = Player.armorMax + startBattleArmorCount;
             Player.menuFightIconData.AddBuff(countVampireStack, "IconVampire");
-            CreateLogMessage("Vampire boots give" + countVampireStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Vampire boots give" + countVampireStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "vampire", countVampireStack, Player.isPlayer);
 
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogArmorStackCharacter, "Vampire boots give " + startBattleArmorCount.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogArmorStackEnemy, "Vampire boots give " + startBattleArmorCount.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogArmorStackCharacter, "Vampire boots give " + startBattleArmorCount.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogArmorStackEnemy, "Vampire boots give " + startBattleArmorCount.ToString());
+            //}
+            logManager.CreateLogMessageGive(originalName, "armor", startBattleArmorCount, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

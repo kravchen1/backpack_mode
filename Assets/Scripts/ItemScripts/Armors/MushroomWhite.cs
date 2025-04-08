@@ -37,7 +37,8 @@ public class MushroomWhite : Mushroom
                 Player.stamina = Player.staminaMax;
             }
 
-            CreateLogMessage("Russula mushroom give " + stamina.ToString(), Player.isPlayer);
+            //CreateLogMessage("Russula mushroom give " + stamina.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "stamina", stamina, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

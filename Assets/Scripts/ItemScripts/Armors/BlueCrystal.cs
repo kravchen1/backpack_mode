@@ -21,7 +21,8 @@ public class BlueCrystal : Armor
             if (r <= manaStackChance)
             {
                 Player.menuFightIconData.AddBuff(manaStack, "IconMana");
-                CreateLogMessage("BlueCrystal give " + manaStack.ToString(), Player.isPlayer);
+                //CreateLogMessage("BlueCrystal give " + manaStack.ToString(), Player.isPlayer);
+                logManager.CreateLogMessageGive(originalName, "mana", manaStack, Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
             }

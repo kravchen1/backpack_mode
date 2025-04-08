@@ -23,14 +23,15 @@ public class Crossbow : Weapon
         if (r <= bleedingChance)
         {
             Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogBleedStackCharacter, "Crossbow inflict " + bleedingStack.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogBleedStackEnemy, "Crossbow inflict " + bleedingStack.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogBleedStackCharacter, "Crossbow inflict " + bleedingStack.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogBleedStackEnemy, "Crossbow inflict " + bleedingStack.ToString());
+            //}
+            logManager.CreateLogMessageInflict(originalName, "bleed", bleedingStack, Player.isPlayer);
         }
     }
     public override IEnumerator ShowDescription()

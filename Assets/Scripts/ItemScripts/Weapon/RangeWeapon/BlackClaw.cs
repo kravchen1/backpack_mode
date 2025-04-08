@@ -29,94 +29,103 @@ public class BlackClaw : Weapon
         switch(iconName)
         {
             case "IconBaseCrit":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogBaseCritStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogBaseCritStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogBaseCritStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogBaseCritStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "basecrit", count, Player.isPlayer);
                 break;
             case "IconBurn":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogFireStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogFireStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogFireStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogFireStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "fire", count, Player.isPlayer);
                 break;
             case "IconChanceCrit":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogChanceCritStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogChanceCritStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogChanceCritStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogChanceCritStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "chancecrit", count, Player.isPlayer);
                 break;
             case "IconEvasion":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogEvasionStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogEvasionStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogEvasionStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogEvasionStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "evasion", count, Player.isPlayer);
                 break;
             case "IconMana":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogManaStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogManaStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogManaStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogManaStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "mana", count, Player.isPlayer);
                 break;
             case "IconPower":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogPowerStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogPowerStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogPowerStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogPowerStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "power", count, Player.isPlayer);
                 break;
             case "IconResistance":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogResistanceStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogResistanceStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogResistanceStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogResistanceStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "resist", count, Player.isPlayer);
                 break;
             case "IconRegenerate":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogRegenHpStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogRegenHpStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogRegenHpStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogRegenHpStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "regenerate", count, Player.isPlayer);
                 break;
             case "IconVampire":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogVampireStackCharacter, "Black claw steal + " + count.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogVampireStackEnemy, "Black claw steal + " + count.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogVampireStackCharacter, "Black claw steal + " + count.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogVampireStackEnemy, "Black claw steal + " + count.ToString());
+                //}
+                logManager.CreateLogMessageSteal(originalName, "vampire", count, Player.isPlayer);
                 break;
         }
     }

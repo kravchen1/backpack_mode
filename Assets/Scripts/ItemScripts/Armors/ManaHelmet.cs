@@ -34,23 +34,27 @@ public class ManaHelmet : Stuff
                         if (icon.countStack >= countSpendManaStack)
                         {
                             isUse = true;
-                            CreateLogMessage("Mana helmet spend " + countSpendManaStack.ToString(), Player.isPlayer);
+                            //CreateLogMessage("Mana helmet spend " + countSpendManaStack.ToString(), Player.isPlayer);
+                            logManager.CreateLogMessageUse(originalName, "mana", countSpendManaStack, Player.isPlayer);
                             animator.speed = 5f;
                             animator.Play(originalName + "Activation", 0, 0f);
                         }
                     }
                     if(isUse)
                     {
-                        if (Player.isPlayer)
-                        {
-                            CreateLogMessage(LogArmorStackCharacter, "Mana helmet give " + countArmorStack.ToString());
-                            CreateLogMessage(LogResistanceStackCharacter, "Mana helmet give " + countResistStack.ToString());
-                        }
-                        else
-                        {
-                            CreateLogMessage(LogArmorStackEnemy, "Mana helmet give " + countArmorStack.ToString());
-                            CreateLogMessage(LogResistanceStackEnemy, "Mana helmet give " + countResistStack.ToString());
-                        }
+                        //if (Player.isPlayer)
+                        //{
+                        //    CreateLogMessage(LogArmorStackCharacter, "Mana helmet give " + countArmorStack.ToString());
+                        //    CreateLogMessage(LogResistanceStackCharacter, "Mana helmet give " + countResistStack.ToString());
+                        //}
+                        //else
+                        //{
+                        //    CreateLogMessage(LogArmorStackEnemy, "Mana helmet give " + countArmorStack.ToString());
+                        //    CreateLogMessage(LogResistanceStackEnemy, "Mana helmet give " + countResistStack.ToString());
+                        //}
+                        logManager.CreateLogMessageGive(originalName, "armor", countArmorStack, Player.isPlayer);
+                        logManager.CreateLogMessageGive(originalName, "resist", countResistStack, Player.isPlayer);
+
                         Player.menuFightIconData.DeleteBuff(countSpendManaStack, "ICONMANA");
                         Player.armor = Player.armor + countArmorStack;
                         Player.armorMax = Player.armorMax + countArmorStack;

@@ -16,7 +16,8 @@ public class Kettlebell : Stuff
         {
             timer_locked_out = true;
             Player.menuFightIconData.AddBuff(givePowerStack, "IconPower");
-            CreateLogMessage("Kettlebell give " + givePowerStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Kettlebell give " + givePowerStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "power", givePowerStack, Player.isPlayer);
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
