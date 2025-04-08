@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 
@@ -11,8 +12,22 @@ public class EventParent : MonoBehaviour
     public bool isShowPressE = true;
     public GameObject infoText;
 
+    private string settingLanguage = "en";
+
     public void SetActivePressE(bool active)
     {
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+        string pressE_text = LocalizationManager.Instance.GetTextUI(settingLanguage, "pressE_text");
+
+        TMP_Text text;
+        if (gameObject.GetComponent<TextMeshPro>() != null)
+            text = gameObject.GetComponent<TextMeshPro>();
+        else
+            text = gameObject.GetComponent<TextMeshProUGUI>();
+
+        text.text = pressE_text;
+
         infoText.SetActive(active);
     }
 
