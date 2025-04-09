@@ -32,7 +32,8 @@ public class ManaAmulet : Stuff
                         if (icon.countStack >= countManaStack)
                         {
                             b = true;
-                            CreateLogMessage("Mana amulet spend " + countManaStack.ToString(), Player.isPlayer);
+                           // CreateLogMessage("Mana amulet spend " + countManaStack.ToString(), Player.isPlayer);
+                            logManager.CreateLogMessageUse(originalName, "mana", countManaStack, Player.isPlayer);
                             //CreateLogMessage("ManaAmulet removed " + countManaStack.ToString() + " mana and inflict " + countDebuffStack.ToString() + " debuffs");
                             int r = Random.Range(0, 3);
                             string text = "ICON";
@@ -40,36 +41,39 @@ public class ManaAmulet : Stuff
                             {
                                 case 0:
                                     text += "POISON";
-                                    if (Player.isPlayer)
-                                    {
-                                        CreateLogMessage(LogPoisonStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
-                                    }
-                                    else
-                                    {
-                                        CreateLogMessage(LogPoisonStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
-                                    }
+                                    //if (Player.isPlayer)
+                                    //{
+                                    //    CreateLogMessage(LogPoisonStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    //}
+                                    //else
+                                    //{
+                                    //    CreateLogMessage(LogPoisonStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    //}
+                                    logManager.CreateLogMessageInflict(originalName, "poison", countDebuffStack, Player.isPlayer);
                                     break;
                                 case 1:
                                     text += "BLEED";
-                                    if (Player.isPlayer)
-                                    {
-                                        CreateLogMessage(LogBleedStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
-                                    }
-                                    else
-                                    {
-                                        CreateLogMessage(LogBleedStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
-                                    }
+                                    //if (Player.isPlayer)
+                                    //{
+                                    //    CreateLogMessage(LogBleedStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    //}
+                                    //else
+                                    //{
+                                    //    CreateLogMessage(LogBleedStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    //}
+                                    logManager.CreateLogMessageInflict(originalName, "bleed", countDebuffStack, Player.isPlayer);
                                     break;
                                 case 2:
                                     text += "FROST";
-                                    if (Player.isPlayer)
-                                    {
-                                        CreateLogMessage(LogFrostStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
-                                    }
-                                    else
-                                    {
-                                        CreateLogMessage(LogFrostStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
-                                    }
+                                    //if (Player.isPlayer)
+                                    //{
+                                    //    CreateLogMessage(LogFrostStackCharacter, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    //}
+                                    //else
+                                    //{
+                                    //    CreateLogMessage(LogFrostStackEnemy, "Mana amulet inflict " + countDebuffStack.ToString());
+                                    //}
+                                    logManager.CreateLogMessageInflict(originalName, "frost", countDebuffStack, Player.isPlayer);
                                     break;
                             }
                             Enemy.menuFightIconData.AddDebuff(countDebuffStack, text);

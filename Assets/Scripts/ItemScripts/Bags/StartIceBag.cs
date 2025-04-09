@@ -9,7 +9,8 @@ public class StartIceBag : Bag
         {
             Enemy.menuFightIconData.AddDebuff(countIceStack, "IconFrost");
             //Debug.Log("StartIceBag inflict 1");
-            CreateLogMessage("StartIceBag inflict " + countIceStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("StartIceBag inflict " + countIceStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageInflict(originalName, "frost", countIceStack, Player.isPlayer);
             Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
         }
     }

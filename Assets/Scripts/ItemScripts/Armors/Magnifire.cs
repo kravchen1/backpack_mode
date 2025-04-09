@@ -17,7 +17,8 @@ public class Magnifire : Stuff
             timer_locked_out = true;
             Enemy.menuFightIconData.AddDebuff(giveBlindnessStack, "IconBlind");
 
-            CreateLogMessage("Magnifire inflict " + giveBlindnessStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Magnifire inflict " + giveBlindnessStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageInflict(originalName, "blind", giveBlindnessStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

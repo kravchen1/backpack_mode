@@ -29,7 +29,8 @@ public class ChantarelleMushroom : Mushroom
         {
             timer_locked_out = true;
             Player.menuFightIconData.AddBuff(giveRegenerationStack, "IconRegenerate");
-            CreateLogMessage("Chantarelle mushroom give " + giveRegenerationStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Chantarelle mushroom give " + giveRegenerationStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "regenerate", giveRegenerationStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

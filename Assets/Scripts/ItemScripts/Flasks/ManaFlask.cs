@@ -14,7 +14,8 @@ public class ManaFlask : Flask
         if (Player != null)
         {
             Player.menuFightIconData.AddBuff(giveStack, "IconMana");
-            CreateLogMessage("Mana flask give " + giveStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Mana flask give " + giveStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "mana", giveStack, Player.isPlayer);
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }

@@ -23,44 +23,48 @@ public class AngryFluff : Weapon
         switch (iconName)
         {
             case "IconPoison":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogPoisonStackCharacter, "Mud worm remove 1");
-                }
-                else
-                {
-                    CreateLogMessage(LogPoisonStackEnemy, "Mud worm remove 1");
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogPoisonStackCharacter, "Mud worm remove 1");
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogPoisonStackEnemy, "Mud worm remove 1");
+                //}
+                logManager.CreateLogMessageRemove(originalName, "poison", 1, Player.isPlayer);
                 break;
             case "IconFrost":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogFrostStackCharacter, "Mud worm remove 1");
-                }
-                else
-                {
-                    CreateLogMessage(LogFrostStackEnemy, "Mud worm remove 1");
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogFrostStackCharacter, "Mud worm remove 1");
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogFrostStackEnemy, "Mud worm remove 1");
+                //}
+                logManager.CreateLogMessageRemove(originalName, "frost", 1, Player.isPlayer);
                 break;
             case "IconBlind":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogBlindStackCharacter, "Mud worm remove 1");
-                }
-                else
-                {
-                    CreateLogMessage(LogBleedStackEnemy, "Mud worm remove 1");
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogBlindStackCharacter, "Mud worm remove 1");
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogBleedStackEnemy, "Mud worm remove 1");
+                //}
+                logManager.CreateLogMessageRemove(originalName, "blind", 1, Player.isPlayer);
                 break;
             case "IconBleed":
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogBleedStackCharacter, "Mud worm remove 1");
-                }
-                else
-                {
-                    CreateLogMessage(LogBleedStackEnemy, "Mud worm remove 1");
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogBleedStackCharacter, "Mud worm remove 1");
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogBleedStackEnemy, "Mud worm remove 1");
+                //}
+                logManager.CreateLogMessageRemove(originalName, "bleed", 1, Player.isPlayer);
                 break;
         }
     }

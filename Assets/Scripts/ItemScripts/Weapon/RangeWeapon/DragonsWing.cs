@@ -25,16 +25,18 @@ public class DragonsWing : Weapon
         Player.menuFightIconData.AddBuff(evasionStack, "IconPower");
         Enemy.menuFightIconData.AddDebuff(blindnessStack, "IconBlind");
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
-            CreateLogMessage(LogEvasionStackCharacter, "Dragon`s tail give " + evasionStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
-            CreateLogMessage(LogEvasionStackEnemy, "Dragon`s tail give " + evasionStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
+        //    CreateLogMessage(LogEvasionStackCharacter, "Dragon`s tail give " + evasionStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogBlindStackCharacter, "Dragon`s tail inflict " + blindnessStack.ToString());
+        //    CreateLogMessage(LogEvasionStackEnemy, "Dragon`s tail give " + evasionStack.ToString());
+        //}
+        logManager.CreateLogMessageInflict(originalName, "blind", blindnessStack, Player.isPlayer);
+        logManager.CreateLogMessageGive(originalName, "evasion", evasionStack, Player.isPlayer);
     }
     public override IEnumerator ShowDescription()
     {

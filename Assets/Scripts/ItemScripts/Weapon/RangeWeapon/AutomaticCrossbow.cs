@@ -23,16 +23,18 @@ public class AutomaticCrossbow : Weapon
         double speedUp = baseTimerCooldown / 100.0 * cooldownSpeedUp;
         timer_cooldown -= (float)speedUp;
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogBleedStackCharacter, "Automatic Crossbow inflict " + bleedingStack.ToString());
-            CreateLogMessage(LogTimerStackCharacter, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp, 2).ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogBleedStackEnemy, "Automatic Crossbow inflict " + bleedingStack.ToString());
-            CreateLogMessage(LogTimerStackEnemy, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp, 2).ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogBleedStackCharacter, "Automatic Crossbow inflict " + bleedingStack.ToString());
+        //    CreateLogMessage(LogTimerStackCharacter, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp, 2).ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogBleedStackEnemy, "Automatic Crossbow inflict " + bleedingStack.ToString());
+        //    CreateLogMessage(LogTimerStackEnemy, "Automatic Crossbow reduced cooldown by " + Math.Round(speedUp, 2).ToString());
+        //}
+        logManager.CreateLogMessageInflict(originalName, "bleed", bleedingStack, Player.isPlayer);
+        logManager.CreateLogMessageReduced(originalName, "timer", Math.Round(speedUp, 2), Player.isPlayer);
     }
 
     public override IEnumerator ShowDescription()

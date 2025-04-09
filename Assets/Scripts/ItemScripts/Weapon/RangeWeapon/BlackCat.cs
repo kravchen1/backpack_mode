@@ -20,14 +20,15 @@ public class BlackCat : Weapon
     public override void ActivationEffect(int resultDamage)
     {
         Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogBleedStackCharacter, "Black cat inflict  " + bleedingStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogBleedStackEnemy, "Black cat inflict  " + bleedingStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogBleedStackCharacter, "Black cat inflict  " + bleedingStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogBleedStackEnemy, "Black cat inflict  " + bleedingStack.ToString());
+        //}
+        logManager.CreateLogMessageInflict(originalName, "bleed", bleedingStack, Player.isPlayer);
     }
 
     public override int BlockActivation()
@@ -35,14 +36,15 @@ public class BlackCat : Weapon
         if (Player != null)
         {
             Player.menuFightIconData.AddBuff(resistingStack, "IconResistance");
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogResistanceStackCharacter, "Black cat give  " + resistingStack.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogResistanceStackEnemy, "Black cat give  " + resistingStack.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogResistanceStackCharacter, "Black cat give  " + resistingStack.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogResistanceStackEnemy, "Black cat give  " + resistingStack.ToString());
+            //}
+            logManager.CreateLogMessageGive(originalName, "resist", resistingStack, Player.isPlayer);
         }
 
         return 0;

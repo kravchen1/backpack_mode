@@ -24,14 +24,15 @@ public class FireDagger1 : Weapon
     public override void ActivationEffect(int attack)
     {
         Enemy.menuFightIconData.AddBuff(countBurnStackOnHit, "IconBurn");
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(DebugFireLogCharacter, "FireDagger inflict " + countBurnStackOnHit.ToString());
-        }
-        else
-        {
-            CreateLogMessage(DebugFireLogEnemy, "FireDagger inflict " + countBurnStackOnHit.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(DebugFireLogCharacter, "FireDagger inflict " + countBurnStackOnHit.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(DebugFireLogEnemy, "FireDagger inflict " + countBurnStackOnHit.ToString());
+        //}
+        logManager.CreateLogMessageInflict(originalName, "fire", countBurnStackOnHit, Player.isPlayer);
 
         Enemy.menuFightIconData.CalculateFireFrostStats();
     }
@@ -52,7 +53,8 @@ public class FireDagger1 : Weapon
                 if (b)
                 {
                     Enemy.menuFightIconData.DeleteBuff(dropFireStack, "ICONBURN");
-                    CreateLogMessage(DebugFireLogCharacter, "FireDagger removed " + dropFireStack.ToString());
+                    //CreateLogMessage(DebugFireLogCharacter, "FireDagger removed " + dropFireStack.ToString());
+                    logManager.CreateLogMessageUseFromEnemy(originalName, "fire", dropFireStack, Player.isPlayer);
                     Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
                     Attack(dealDamageDropStack, false);
                 }

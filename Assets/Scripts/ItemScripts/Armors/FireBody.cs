@@ -29,14 +29,15 @@ public class FireBody : Armor
         {
             Player.armor = Player.armor + startBattleArmorCount;
             Player.armorMax = Player.armorMax + startBattleArmorCount;
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(DebugArmorLogCharacter, "FireBody give " + startBattleArmorCount.ToString());
-            }
-            else
-            {
-                CreateLogMessage(DebugArmorLogEnemy, "FireBody give " + startBattleArmorCount.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    //CreateLogMessage(DebugArmorLogCharacter, "FireBody give " + startBattleArmorCount.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(DebugArmorLogEnemy, "FireBody give " + startBattleArmorCount.ToString());
+            //}
+            logManager.CreateLogMessageGive(originalName, "armor", startBattleArmorCount, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
@@ -55,22 +56,25 @@ public class FireBody : Armor
                     if (icon.countStack >= SpendStack)
                     {
                         b = true;
-                        Attack(DamageForStack, false);
-                        animator.Play(originalName + "Activation2", 0, 0f);
                     }
                 }
                 if (b)
                 {
                     Player.menuFightIconData.DeleteBuff(SpendStack, "ICONBURN");
                     Player.menuFightIconData.CalculateFireFrostStats();
-                    if (Player.isPlayer)
-                    {
-                        CreateLogMessage(DebugFireLogCharacter, "FireBody removed " + SpendStack.ToString());
-                    }
-                    else
-                    {
-                        CreateLogMessage(DebugFireLogEnemy, "FireBody removed " + SpendStack.ToString());
-                    }
+                    //if (Player.isPlayer)
+                    //{
+                    //    CreateLogMessage(DebugFireLogCharacter, "FireBody removed " + SpendStack.ToString());
+                    //}
+                    //else
+                    //{
+                    //    CreateLogMessage(DebugFireLogEnemy, "FireBody removed " + SpendStack.ToString());
+                    //}
+                    logManager.CreateLogMessageUse(originalName, "fire", SpendStack, Player.isPlayer);
+
+
+                    Attack(DamageForStack, false);
+                    animator.Play(originalName + "Activation2", 0, 0f);
                 }
             }
         }

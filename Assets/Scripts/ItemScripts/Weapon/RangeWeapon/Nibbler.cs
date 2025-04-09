@@ -20,14 +20,15 @@ public class Nibbler : Weapon
         Player.armorMax += armorStack;
         Player.armor += armorStack;
 
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogArmorStackCharacter, "Nibbler give " + armorStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogArmorStackEnemy, "Nibbler give " + armorStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogArmorStackCharacter, "Nibbler give " + armorStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogArmorStackEnemy, "Nibbler give " + armorStack.ToString());
+        //}
+        logManager.CreateLogMessageGive(originalName, "armor", armorStack, Player.isPlayer);
     }
     public override IEnumerator ShowDescription()
     {

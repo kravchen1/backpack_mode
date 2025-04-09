@@ -16,11 +16,28 @@ public class ScreenModeDropdownHandler : MonoBehaviour
     }
 
     // Инициализация Dropdown
-    private void InitializeDropdown()
+    public void InitializeDropdown()
     {
         // Добавляем опции в Dropdown
         screenModeDropdown.ClearOptions();
-        screenModeDropdown.AddOptions(new System.Collections.Generic.List<string> { "Windowed", "Fullscreen" });
+        string langsett = PlayerPrefs.GetString("LanguageSettings");
+
+        switch (langsett)
+        {
+            case "en":
+                screenModeDropdown.AddOptions(new System.Collections.Generic.List<string> { "Windowed", "Fullscreen" });
+                break;
+            case "ru":
+                screenModeDropdown.AddOptions(new System.Collections.Generic.List<string> { "В окне", "Весь экран" });
+                break;
+            case "zh":
+                screenModeDropdown.AddOptions(new System.Collections.Generic.List<string> { "窗口化", "全屏" });
+                break;
+            case "zh_tw":
+                screenModeDropdown.AddOptions(new System.Collections.Generic.List<string> { "視窗模式", "全螢幕" });
+                break;
+        }
+        
 
         // Загружаем сохраненный режим экрана
         int savedMode = PlayerPrefs.GetInt("ScreenMode", 1); // 1 - Fullscreen, 0 - Windowed

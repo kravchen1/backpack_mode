@@ -41,18 +41,21 @@ public class RevolverRing : Weapon
                     }
                     else
                     {
-                        CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                        //CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                        logManager.CreateLogMessageMiss(originalName, Player.isPlayer);
                     }
                 }
                 else
                 {
-                    CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                    //CreateLogMessage("Revolver ring miss", Player.isPlayer);
+                    logManager.CreateLogMessageMiss(originalName, Player.isPlayer);
                 }
             }
         }
         else
         {
-            CreateLogMessage("Revolver ring no have stamina", Player.isPlayer);
+            //CreateLogMessage("Revolver ring no have stamina", Player.isPlayer);
+            logManager.CreateLogMessageNoHaveStamina(originalName, Player.isPlayer);
         }
     }
     public override void StarActivation(Item item)

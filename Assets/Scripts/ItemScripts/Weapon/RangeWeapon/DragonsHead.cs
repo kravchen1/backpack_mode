@@ -40,14 +40,15 @@ public class DragonsHead : Weapon
     public override void ActivationEffect(int resultDamage)
     {
         Player.menuFightIconData.AddBuff(fireStack, "IconBurn");
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogFireStackCharacter, "Dragon`s head give " + fireStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogFireStackEnemy, "Dragon`s head give " + fireStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogFireStackCharacter, "Dragon`s head give " + fireStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogFireStackEnemy, "Dragon`s head give " + fireStack.ToString());
+        //}
+        logManager.CreateLogMessageGive(originalName, "fire", fireStack, Player.isPlayer);
     }
 
     public override IEnumerator ShowDescription()

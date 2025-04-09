@@ -29,21 +29,22 @@ public class RabbitPaw : WitchCraft
 
     public override void StartActivation()
     {
+        int countMana = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() * giveManaStack;
+        Player.menuFightIconData.AddBuff(countMana, "IconMana");
 
-            int countMana = stars.Where(e => e.GetComponent<Cell>().nestedObject != null).Count() * giveManaStack;
-            Player.menuFightIconData.AddBuff(countMana, "IconMana");
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogManaStackCharacter, "The rabbit`s paw give " + countMana.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogManaStackEnemy, "The rabbit`s paw give " + countMana.ToString());
+        //}
 
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogManaStackCharacter, "The rabbit`s paw give " + countMana.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogManaStackEnemy, "The rabbit`s paw give " + countMana.ToString());
-            }
+        logManager.CreateLogMessageGive(originalName, "mana", countMana, Player.isPlayer);
 
-            CheckNestedObjectActivation("StartBag");
-            CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+        CheckNestedObjectActivation("StartBag");
+        CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
     }
 
     public override void Activation()
@@ -52,8 +53,10 @@ public class RabbitPaw : WitchCraft
         {
             timer_locked_out = true;
             Player.menuFightIconData.AddBuff(giveCritStack, "IconChanceCrit");
-            
-            CreateLogMessage("The rabbit`s paw give " + giveCritStack.ToString(), Player.isPlayer);
+
+            //CreateLogMessage("The rabbit`s paw give " + giveCritStack.ToString(), Player.isPlayer);
+
+            logManager.CreateLogMessageGive(originalName, "chanceCrit", giveCritStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

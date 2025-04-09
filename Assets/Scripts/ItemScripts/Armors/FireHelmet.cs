@@ -21,7 +21,8 @@ public class FireHelmet : Stuff
             if (Player != null)
             {
                 Player.menuFightIconData.AddBuff(countBurnStack, "IconBurn");
-                CreateLogMessage("FireHelmet give " + countBurnStack.ToString(), Player.isPlayer);
+                //CreateLogMessage("FireHelmet give " + countBurnStack.ToString(), Player.isPlayer);
+                logManager.CreateLogMessageGive(originalName, "fire", countBurnStack, Player.isPlayer);
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
                 Player.menuFightIconData.CalculateFireFrostStats();

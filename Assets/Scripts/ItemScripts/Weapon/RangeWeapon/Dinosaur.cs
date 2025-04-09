@@ -25,14 +25,15 @@ public class Dinosaur : Weapon
         if (r <= randomChance)
         {
             Player.menuFightIconData.AddBuff(powerStack, "IconPower");
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogPowerStackCharacter, "Dinosaur give " + powerStack.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogPowerStackEnemy, "Dinosaur give " + powerStack.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogPowerStackCharacter, "Dinosaur give " + powerStack.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogPowerStackEnemy, "Dinosaur give " + powerStack.ToString());
+            //}
+            logManager.CreateLogMessageGive(originalName, "power", powerStack, Player.isPlayer);
         }
     }
     

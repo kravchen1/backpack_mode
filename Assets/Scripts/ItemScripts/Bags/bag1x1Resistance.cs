@@ -10,7 +10,8 @@ public class bag1x1Resistance : Bag
         if (Player != null)
         {
             Player.menuFightIconData.AddBuff(countResistanceStack, "IconResistance");
-            CreateLogMessage("bag1x1Resistance give " + countResistanceStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("bag1x1Resistance give " + countResistanceStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "resist", countResistanceStack, Player.isPlayer);
             isUse = true;
         }
     }

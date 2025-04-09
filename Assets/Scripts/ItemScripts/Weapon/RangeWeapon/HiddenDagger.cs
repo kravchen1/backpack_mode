@@ -22,14 +22,15 @@ public class HiddenDagger : Weapon
         {
             Enemy.menuFightIconData.AddDebuff(bleeding, "IconBleed");
             firstHit = false;
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogBleedStackCharacter, "Hidden dagger inflict " + bleeding.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogBleedStackEnemy, "Hidden dagger inflict " + bleeding.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogBleedStackCharacter, "Hidden dagger inflict " + bleeding.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogBleedStackEnemy, "Hidden dagger inflict " + bleeding.ToString());
+            //}
+            logManager.CreateLogMessageInflict(originalName, "bleed", bleeding, Player.isPlayer);
         }
     }
 

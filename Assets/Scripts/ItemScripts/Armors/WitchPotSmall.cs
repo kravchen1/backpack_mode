@@ -28,7 +28,8 @@ public class WitchPotSmall : WitchCraft
             timer_locked_out = true;
             Enemy.menuFightIconData.AddDebuff(givePoisonStack, "IconPoison");
 
-            CreateLogMessage("Small witch pot inflict " + givePoisonStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("Small witch pot inflict " + givePoisonStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageInflict(originalName, "poison", givePoisonStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

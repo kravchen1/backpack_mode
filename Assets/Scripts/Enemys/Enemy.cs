@@ -49,7 +49,9 @@ public class Enemy : EventParent
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
-        lvlText.text = "lvl. " + lvlEnemy.ToString();
+        string settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+        string lvl_text = LocalizationManager.Instance.GetTextUI(settingLanguage, "lvl_text"); ;
+        lvlText.text = lvl_text + lvlEnemy.ToString();
         if(currentSceneName == "GenerateMap")
             map = GameObject.FindGameObjectWithTag("GoMap");
         else

@@ -40,14 +40,15 @@ public class Slug : Weapon
                 countRemoved = poisons[0].countStack;
             }
 
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogPoisonStackCharacter, "Slug removed " + countRemoved.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogPoisonStackEnemy, "Slug removed " + countRemoved.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogPoisonStackCharacter, "Slug removed " + countRemoved.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogPoisonStackEnemy, "Slug removed " + countRemoved.ToString());
+            //}
+            logManager.CreateLogMessageRemove(originalName, "poison", countRemoved, Player.isPlayer);
         }
     }
     public override IEnumerator ShowDescription()

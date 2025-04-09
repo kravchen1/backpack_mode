@@ -9,7 +9,8 @@ public class StartEarthBag : Bag
         {
             Player.armorMax += countArmorStack;
             Player.armor += countArmorStack;
-            CreateLogMessage("StartEarthBag give " + countArmorStack.ToString(), Player.isPlayer);
+            //CreateLogMessage("StartEarthBag give " + countArmorStack.ToString(), Player.isPlayer);
+            logManager.CreateLogMessageGive(originalName, "armor", countArmorStack, Player.isPlayer);
         }
     }
 }

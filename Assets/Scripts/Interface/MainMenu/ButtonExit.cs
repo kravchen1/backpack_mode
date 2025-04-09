@@ -10,7 +10,7 @@ public class ButtonExit : MonoBehaviour
 
     public void Start()
     {
-        //updateText();
+        updateText();
     }
     public void OnMouseDown()
     {

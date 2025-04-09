@@ -35,16 +35,18 @@ public class ManaRing : Stuff
                     }
                     if (b)
                     {
-                        CreateLogMessage("Mana ring spend " + countNeedManaStack.ToString(), Player.isPlayer);
+                        //CreateLogMessage("Mana ring spend " + countNeedManaStack.ToString(), Player.isPlayer);
+                        logManager.CreateLogMessageUse(originalName, "mana", countNeedManaStack, Player.isPlayer);
 
-                        if (Player.isPlayer)
-                        {
-                            CreateLogMessage(LogFireStackCharacter, "Mana ring give " + countBurnStack.ToString());
-                        }
-                        else
-                        {
-                            CreateLogMessage(LogFireStackEnemy, "Mana ring give " + countBurnStack.ToString());
-                        }
+                        //if (Player.isPlayer)
+                        //{
+                        //    CreateLogMessage(LogFireStackCharacter, "Mana ring give " + countBurnStack.ToString());
+                        //}
+                        //else
+                        //{
+                        //    CreateLogMessage(LogFireStackEnemy, "Mana ring give " + countBurnStack.ToString());
+                        //}
+                        logManager.CreateLogMessageGive(originalName, "fire", countBurnStack, Player.isPlayer);
 
                         Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
                         Player.menuFightIconData.AddBuff(countBurnStack, "ICONBURN");

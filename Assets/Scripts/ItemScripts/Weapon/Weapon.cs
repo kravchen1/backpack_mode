@@ -155,19 +155,22 @@ public class Weapon : Item
                         }
                         else
                         {
-                            CreateLogMessage(originalName + " miss", Player.isPlayer);
+                            //CreateLogMessage(originalName + " miss", Player.isPlayer);
+                            logManager.CreateLogMessageMiss(originalName, Player.isPlayer);
                         }
                     }
                     else
                     {
-                        CreateLogMessage(originalName + " miss", Player.isPlayer);
+                        //CreateLogMessage(originalName + " miss", Player.isPlayer);
+                        logManager.CreateLogMessageMiss(originalName, Player.isPlayer);
                     }
 
                 }
             }
             else
             {
-                CreateLogMessage(originalName + " no have stamina", Player.isPlayer);
+                //CreateLogMessage(originalName + " no have stamina", Player.isPlayer);
+                logManager.CreateLogMessageNoHaveStamina(originalName, Player.isPlayer);
             }
         }
     }

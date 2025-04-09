@@ -20,14 +20,15 @@ public class MarbleMoth : Weapon
     public override void ActivationEffect(int resultDamage)
     {
         Player.menuFightIconData.AddBuff(evasionStack, "IconEvasion");
-        if (Player.isPlayer)
-        {
-            CreateLogMessage(LogEvasionStackCharacter, "MarbleMoth give " + evasionStack.ToString());
-        }
-        else
-        {
-            CreateLogMessage(LogEvasionStackEnemy, "MarbleMoth give " + evasionStack.ToString());
-        }
+        //if (Player.isPlayer)
+        //{
+        //    CreateLogMessage(LogEvasionStackCharacter, "MarbleMoth give " + evasionStack.ToString());
+        //}
+        //else
+        //{
+        //    CreateLogMessage(LogEvasionStackEnemy, "MarbleMoth give " + evasionStack.ToString());
+        //}
+        logManager.CreateLogMessageGive(originalName, "evasion", evasionStack, Player.isPlayer);
     }
     public override IEnumerator ShowDescription()
     {

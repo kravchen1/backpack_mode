@@ -33,14 +33,15 @@ public class ManaShield : Armor
         {
 
             Player.menuFightIconData.AddBuff(countStartResistanceStack, "ICONRESISTANCE");
-            if (Player.isPlayer)
-            {
-                CreateLogMessage(LogResistanceStackCharacter, "Mana shield give " + countStartResistanceStack.ToString());
-            }
-            else
-            {
-                CreateLogMessage(LogResistanceStackEnemy, "Mana shield give " + countStartResistanceStack.ToString());
-            }
+            //if (Player.isPlayer)
+            //{
+            //    CreateLogMessage(LogResistanceStackCharacter, "Mana shield give " + countStartResistanceStack.ToString());
+            //}
+            //else
+            //{
+            //    CreateLogMessage(LogResistanceStackEnemy, "Mana shield give " + countStartResistanceStack.ToString());
+            //}
+            logManager.CreateLogMessageGive(originalName, "resist", countStartResistanceStack, Player.isPlayer);
 
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
@@ -65,7 +66,8 @@ public class ManaShield : Armor
                 {
                     Enemy.menuFightIconData.DeleteBuff(countStealManaStack, "ICONMANA");
                     Player.menuFightIconData.AddBuff(countStealManaStack, "ICONMANA");
-                    CreateLogMessage("Mana shield steal " + countStealManaStack.ToString(), Player.isPlayer);
+                    //CreateLogMessage("Mana shield steal " + countStealManaStack.ToString(), Player.isPlayer);
+                    logManager.CreateLogMessageSteal(originalName, "mana", countStealManaStack, Player.isPlayer);
                 }
             }
         }
@@ -88,16 +90,18 @@ public class ManaShield : Armor
                 Player.menuFightIconData.DeleteBuff(countNeedManaStack, "ICONMANA");
                 animator.Play(originalName + "Activation2", 0, 0f);
 
-                CreateLogMessage("Mana shield spend " + countNeedManaStack.ToString(), Player.isPlayer);
+                //CreateLogMessage("Mana shield spend " + countNeedManaStack.ToString(), Player.isPlayer);
+                logManager.CreateLogMessageUse(originalName, "mana", countNeedManaStack, Player.isPlayer);
 
-                if (Player.isPlayer)
-                {
-                    CreateLogMessage(LogAttackStackCharacter, "Mana shield block " + blockDamage.ToString());
-                }
-                else
-                {
-                    CreateLogMessage(LogAttackStackEnemy, "Mana shield block " + blockDamage.ToString());
-                }
+                //if (Player.isPlayer)
+                //{
+                //    CreateLogMessage(LogAttackStackCharacter, "Mana shield block " + blockDamage.ToString());
+                //}
+                //else
+                //{
+                //    CreateLogMessage(LogAttackStackEnemy, "Mana shield block " + blockDamage.ToString());
+                //}
+                logManager.CreateLogMessageBlock(originalName, "attack", blockDamage, Player.isPlayer);
 
                 CheckNestedObjectActivation("StartBag");
                 CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
