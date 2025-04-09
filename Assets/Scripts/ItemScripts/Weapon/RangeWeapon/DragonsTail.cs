@@ -14,8 +14,8 @@ public class DragonsTail : Weapon
     public int powerStack;//надо заменить
     public int blindnessStack;//надо заменить
 
-    public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
-    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+    //public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
+    //public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

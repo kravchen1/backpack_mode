@@ -14,9 +14,9 @@ public class AutomaticCrossbow : Weapon
     public int bleedingStack;//надо заменить
     public int cooldownSpeedUp;//надо заменить
 
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
-    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
-
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+    
     public override void ActivationEffect(int resultDamage)
     {
         Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");

@@ -13,7 +13,7 @@ public class Katana : Weapon
 {
     public int countStealCritChance;//надо заменить
 
-    public GameObject LogChacneCritCharacter, LogChacneCritEnemy;
+   // public GameObject LogChacneCritCharacter, LogChacneCritEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

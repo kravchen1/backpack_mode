@@ -9,7 +9,7 @@ public class VampireBody : Stuff
 {
     public int countBleedStack = 1;
 
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     private void Start()
     {

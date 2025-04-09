@@ -14,8 +14,8 @@ public class ManaShield : Armor
     public int blockDamage = 11;
     public int countStealManaStack = 1;
 
-    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
-    public GameObject LogAttackStackCharacter, LogAttackStackEnemy;
+    //public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    //public GameObject LogAttackStackCharacter, LogAttackStackEnemy;
     private void Start()
     {
         FillnestedObjectStarsStars(256, "Mana");

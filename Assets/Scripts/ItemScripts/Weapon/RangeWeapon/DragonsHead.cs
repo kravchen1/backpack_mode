@@ -16,7 +16,7 @@ public class DragonsHead : Weapon
 
     private bool isUse = false;
 
-    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    //public GameObject LogFireStackCharacter, LogFireStackEnemy;
     protected override void FillStarts()
     {
         FillnestedObjectStarsStars(256, "Fire", "Dragon");

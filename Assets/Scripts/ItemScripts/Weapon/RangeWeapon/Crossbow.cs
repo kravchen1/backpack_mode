@@ -15,7 +15,7 @@ public class Crossbow : Weapon
     public int bleedingChance;//надо заменить
     public int bleedingStack;//надо заменить
 
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

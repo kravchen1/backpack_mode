@@ -16,7 +16,7 @@ public class Slug : Weapon
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
 
-    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+    //public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
     public override void ActivationEffect(int resultDamage)
     {
         RemovePoison();

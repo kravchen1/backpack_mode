@@ -14,7 +14,7 @@ public class ManaRing : Stuff
     public int countBurnStack = 2;
 
 
-    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    //public GameObject LogFireStackCharacter, LogFireStackEnemy;
 
     public override void Activation()
     {

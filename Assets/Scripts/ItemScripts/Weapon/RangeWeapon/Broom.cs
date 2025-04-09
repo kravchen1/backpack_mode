@@ -13,7 +13,7 @@ public class Broom : Weapon
 {
     public int activationSpeedUp;//надо заменить
 
-    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+   // public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
 
     public override void StartActivation()

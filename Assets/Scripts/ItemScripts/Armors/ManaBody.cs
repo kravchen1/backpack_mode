@@ -12,7 +12,7 @@ public class ManaBody : Armor
     public int countStarManaStack = 3;
     public int countManaStack = 1;
 
-    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
+    //public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
     private void Start()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")

@@ -13,9 +13,9 @@ public class ManaAmulet : Stuff
     public int countManaStack = 2;
     public int countDebuffStack = 2;
 
-    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
-    public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
+    //public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
 
     public override void Activation()
     {

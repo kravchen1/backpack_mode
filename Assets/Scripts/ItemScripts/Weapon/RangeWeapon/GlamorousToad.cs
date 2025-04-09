@@ -13,7 +13,7 @@ public class GlamorousToad : Weapon
 {
     public int poisonStack;
 
-    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+   // public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
 
 
     public override void ActivationEffect(int resultDamage)

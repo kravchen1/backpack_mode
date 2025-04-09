@@ -14,15 +14,15 @@ public class BlackClaw : Weapon
     public int stealsRandomBuff;
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
-    public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
-    public GameObject LogFireStackCharacter, LogFireStackEnemy;
-    public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
-    public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
-    public GameObject LogManaStackCharacter, LogManaStackEnemy;
-    public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
-    public GameObject LogRegenHpStackCharacter, LogRegenHpStackEnemy;
-    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
-    public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
+    //public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
+    //public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    //public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
+    //public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
+    //public GameObject LogManaStackCharacter, LogManaStackEnemy;
+    //public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
+    //public GameObject LogRegenHpStackCharacter, LogRegenHpStackEnemy;
+    //public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    //public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
 
     public void CreateMessageLogSteal(string iconName, int count)
     {

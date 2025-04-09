@@ -11,7 +11,7 @@ public class RabbitPaw : WitchCraft
     public int giveCritStack = 2;
     public int giveManaStack = 4;
 
-    public GameObject LogManaStackCharacter, LogManaStackEnemy;
+    //public GameObject LogManaStackCharacter, LogManaStackEnemy;
     private void Start()
     {
         timer_cooldown = baseTimerCooldown;

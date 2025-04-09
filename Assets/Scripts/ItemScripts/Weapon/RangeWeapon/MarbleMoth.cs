@@ -13,8 +13,8 @@ public class MarbleMoth : Weapon
 {
     public int evasionStack;
 
-    public GameObject LogEvasionStackCharacter;
-    public GameObject LogEvasionStackEnemy;
+   // public GameObject LogEvasionStackCharacter;
+   // public GameObject LogEvasionStackEnemy;
 
 
     public override void ActivationEffect(int resultDamage)

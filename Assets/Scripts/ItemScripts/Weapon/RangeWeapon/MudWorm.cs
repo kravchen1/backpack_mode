@@ -13,10 +13,10 @@ public class MudWorm : Weapon
 {
     public int removesRandomDebuff;
 
-    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
-    public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
-    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+   // public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+   // public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
+   // public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+   // public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
     public override void ActivationEffect(int resultDamage)

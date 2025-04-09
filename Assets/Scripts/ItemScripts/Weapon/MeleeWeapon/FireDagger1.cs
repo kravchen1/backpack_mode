@@ -16,7 +16,7 @@ public class FireDagger1 : Weapon
     public int dropFireStack;
     public int dealDamageDropStack;
 
-    public GameObject DebugFireLogCharacter, DebugFireLogEnemy;
+    //public GameObject DebugFireLogCharacter, DebugFireLogEnemy;
     protected override void FillStarts()
     {
         FillnestedObjectStarsStars(256);

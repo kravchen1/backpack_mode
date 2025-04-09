@@ -14,7 +14,7 @@ public class Dinosaur : Weapon
     public int powerStack;
     public int powerStackChance;
 
-    public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
+    //public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
     public override void ActivationEffect(int resultDamage)
     {
         RandomAddBuff(powerStackChance);

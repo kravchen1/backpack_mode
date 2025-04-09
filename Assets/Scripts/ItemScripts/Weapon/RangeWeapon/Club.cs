@@ -16,7 +16,7 @@ public class Club : Weapon
     public int blindnessChance;//надо заменить
     public int blindnessStack;//надо заменить
 
-    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+    //public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
 
 
     public override void ActivationEffect(int resultDamage)

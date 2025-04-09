@@ -13,10 +13,10 @@ public class AngryFluff : Weapon
 {
     public int removesRandomDebuff;
 
-    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
-    public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
-    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+    //public GameObject LogFrostStackCharacter, LogFrostStackEnemy;
+    //public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     public void CreateMessageLog(string iconName)
     {

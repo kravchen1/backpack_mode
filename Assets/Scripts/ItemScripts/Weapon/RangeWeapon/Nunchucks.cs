@@ -14,8 +14,8 @@ public class Nunchucks : Weapon
     public int activationSpeedUp;//надо заменить
     public int giveCritStack;//надо заменить
 
-    public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
-    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+   // public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
+   // public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

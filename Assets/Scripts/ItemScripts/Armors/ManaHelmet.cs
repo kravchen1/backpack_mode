@@ -14,8 +14,8 @@ public class ManaHelmet : Stuff
 
     private bool isUse = false;
 
-    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
-    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    //public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
+    //public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
 
     float f_ToPercent(float a, float p)
     {

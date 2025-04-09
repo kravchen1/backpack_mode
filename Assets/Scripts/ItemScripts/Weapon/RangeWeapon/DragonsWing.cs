@@ -16,8 +16,8 @@ public class DragonsWing : Weapon
     public int evasionStack;//надо заменить
     public int blindnessStack;//надо заменить
 
-    public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
-    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+    //public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
+    //public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
 
 
     public override void ActivationEffect(int resultDamage)

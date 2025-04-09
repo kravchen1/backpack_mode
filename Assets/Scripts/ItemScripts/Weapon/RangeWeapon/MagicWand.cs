@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class MagicWand : Weapon
 {
     public int giveManaStack;//надо заменить
-    public GameObject LogManaStackCharacter, LogManaStackEnemy;
+    //public GameObject LogManaStackCharacter, LogManaStackEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

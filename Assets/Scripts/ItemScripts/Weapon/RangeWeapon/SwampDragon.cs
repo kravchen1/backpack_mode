@@ -17,9 +17,9 @@ public class SwampDragon : Weapon
 
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
-    public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
-    public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
-    public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    //public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
+    //public GameObject LogBlindStackCharacter, LogBlindStackEnemy;
+    //public GameObject LogFireStackCharacter, LogFireStackEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

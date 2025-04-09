@@ -35,8 +35,8 @@ public abstract class Item : MonoBehaviour
 
 
     public GameObject Description;
-    public GameObject DescriptionLogCharacter;
-    public GameObject DescriptionLogEnemy;
+    //public GameObject DescriptionLogCharacter;
+    //public GameObject DescriptionLogEnemy;
 
     public Sprite originalSprite;
     public GameObject prefabAnimationAttack;

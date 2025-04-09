@@ -13,8 +13,8 @@ public class FireGloves : Stuff
     public int countBurnStack = 2;
     public int coolDown = 50;
 
-    public GameObject LogFireStackCharacter, LogFireStackEnemy;
-    public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+    //public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    //public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
     public override void StarActivation(Item item)
     {

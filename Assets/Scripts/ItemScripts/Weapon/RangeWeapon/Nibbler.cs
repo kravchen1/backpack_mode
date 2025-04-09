@@ -13,7 +13,7 @@ public class Nibbler : Weapon
 {
     public int armorStack;
 
-    public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
+   // public GameObject LogArmorStackCharacter, LogArmorStackEnemy;
 
     public override void ActivationEffect(int resultDamage)
     {

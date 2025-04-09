@@ -13,15 +13,15 @@ public class ChainWhip : Weapon
 {
     public int debuffSteal = 2;
 
-    public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
-    public GameObject LogFireStackCharacter, LogFireStackEnemy;
-    public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
-    public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
-    public GameObject LogManaStackCharacter, LogManaStackEnemy;
-    public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
-    public GameObject LogRegenHpStackCharacter, LogRegenHpStackEnemy;
-    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
-    public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
+    //public GameObject LogBaseCritStackCharacter, LogBaseCritStackEnemy;
+    //public GameObject LogFireStackCharacter, LogFireStackEnemy;
+    //public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
+    //public GameObject LogEvasionStackCharacter, LogEvasionStackEnemy;
+    //public GameObject LogManaStackCharacter, LogManaStackEnemy;
+    //public GameObject LogPowerStackCharacter, LogPowerStackEnemy;
+    //public GameObject LogRegenHpStackCharacter, LogRegenHpStackEnemy;
+    //public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    //public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
 
     
 

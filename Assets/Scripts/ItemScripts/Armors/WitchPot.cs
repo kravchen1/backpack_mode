@@ -14,8 +14,8 @@ public class WitchPot : WitchCraft
     public int giveRegenerationStack = 2;//
     public int spendManaStack = 1;//
 
-    public GameObject LogManaStackCharacter, LogManaStackEnemy;
-    public GameObject LogRegenerateStackCharacter, LogRegenerateStackEnemy;
+    //public GameObject LogManaStackCharacter, LogManaStackEnemy;
+    //public GameObject LogRegenerateStackCharacter, LogRegenerateStackEnemy;
     private void Start()
     {
         FillnestedObjectStarsStars(256, "Mushroom");

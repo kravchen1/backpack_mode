@@ -15,8 +15,8 @@ public class BlackCat : Weapon
     public int resistingStack;//надо заменить
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
-    public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogResistanceStackCharacter, LogResistanceStackEnemy;
     public override void ActivationEffect(int resultDamage)
     {
         Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");

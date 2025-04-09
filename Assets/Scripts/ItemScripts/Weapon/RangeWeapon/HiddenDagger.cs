@@ -13,7 +13,7 @@ public class HiddenDagger : Weapon
 {
     public int bleeding;//надо заменить
 
-    public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
+    //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
 
     private bool firstHit = true;
     public override void ActivationEffect(int resultDamage)
