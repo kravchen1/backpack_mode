@@ -79,6 +79,7 @@ public class DoorEntrance : EventParent
             else
             {
                 playerClass.distributor.doorData.GetComponent<DoorData>().DeleteData();
+                PlayerPrefs.DeleteKey("caveEnemyLvl");
                 PlayerPrefs.SetFloat("PostionMapX", 45f);
                 PlayerPrefs.SetFloat("PostionMapY", 383f);
                 loadScene = "GenerateMap";

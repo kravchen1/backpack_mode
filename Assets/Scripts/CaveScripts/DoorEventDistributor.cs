@@ -95,28 +95,79 @@ public class DoorEventDistributor : MonoBehaviour
         }
     }
 
+    private List<DoorEvent> _recentEvents = new List<DoorEvent>();
+    private int _memorySize = 3; // «апоминаем последние 3 событи€
+
     private DoorEvent GetRandomEvent()
     {
-        float randNum = Random.value; // √енерируем случайное число от 0 до 1
+        var baseProbabilities = new Dictionary<DoorEvent, float>()
+    {
+        { DoorEvent.Battle, 0.7f }, // Ѕазовый шанс
+        { DoorEvent.Chest, 0.1f },
+        { DoorEvent.Fountain, 0.1f },
+        { DoorEvent.Store, 0.1f }
+    };
 
-        // ќпредел€ем событи€ и их веро€тности
-        if (randNum < 0.7f) // 70% веро€тность бо€
+        // ”меньшаем шанс недавних событий
+        foreach (var recentEvent in _recentEvents)
         {
-            return DoorEvent.Battle;
+            baseProbabilities[recentEvent] *= 0.5f;
         }
-        else if (randNum < 0.8f) // 10% веро€тность сундука (70% + 10%)
+
+        // ¬ыбираем событие
+        DoorEvent selectedEvent = ChooseEvent(baseProbabilities);
+
+        // ќбновл€ем историю
+        if(selectedEvent != DoorEvent.Battle)
+            _recentEvents.Add(selectedEvent);
+        if (_recentEvents.Count > _memorySize)
         {
-            return DoorEvent.Chest;
+            _recentEvents.RemoveAt(0);
         }
-        else if (randNum < 0.9f) // 10% веро€тность фонтана (70% + 10% + 10%)
-        {
-            return DoorEvent.Fountain;
-        }
-        else
-        {
-            return DoorEvent.Store;
-        }
+
+        return selectedEvent;
     }
+
+    private DoorEvent ChooseEvent(Dictionary<DoorEvent, float> probabilities)
+    {
+        float total = probabilities.Values.Sum();
+        float randNum = Random.Range(0f, total);
+        float cumulative = 0f;
+
+        foreach (var pair in probabilities)
+        {
+            cumulative += pair.Value;
+            if (randNum < cumulative)
+            {
+                return pair.Key;
+            }
+        }
+
+        return DoorEvent.Battle;
+    }
+
+    //private DoorEvent GetRandomEvent()
+    //{
+    //    float randNum = Random.value; // √енерируем случайное число от 0 до 1
+
+    //    // ќпредел€ем событи€ и их веро€тности
+    //    if (randNum < 0.7f) // 70% веро€тность бо€
+    //    {
+    //        return DoorEvent.Battle;
+    //    }
+    //    else if (randNum < 0.8f) // 10% веро€тность сундука (70% + 10%)
+    //    {
+    //        return DoorEvent.Chest;
+    //    }
+    //    else if (randNum < 0.9f) // 10% веро€тность фонтана (70% + 10% + 10%)
+    //    {
+    //        return DoorEvent.Fountain;
+    //    }
+    //    else
+    //    {
+    //        return DoorEvent.Store;
+    //    }
+    //}
 
     //private string GetRandomOpponent()
     //{

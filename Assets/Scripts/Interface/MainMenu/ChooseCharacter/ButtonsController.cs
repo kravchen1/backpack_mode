@@ -12,7 +12,7 @@ public class ButtonsController : MonoBehaviour
     public GameObject chooseCharCanvas;
     // Список ключей, которые нужно сохранить
     private List<string> keysToKeep = new List<string> { "ScreenMode", "MusicVolume", "SoundVolume", "WindowedResoultionWidth", "WindowedResoultionHeight", 
-        "EducationGlobalMap", "CaveEducation"//, "StartEducation"
+        "EducationGlobalMap", "CaveEducation", "StartEducation", "StartEatEducation"
         , "EducationCaveIn", "LanguageSettings" };
 
     // Метод для удаления всех ключей, кроме указанных
