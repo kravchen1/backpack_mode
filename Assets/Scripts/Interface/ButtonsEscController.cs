@@ -42,6 +42,13 @@ public class ButtonsEscController : MonoBehaviour
         SceneLoader.Instance.LoadScene("BackPack");
     }
 
+    public void BackpackButtonWithoutCheck()
+    {
+        SaveFromWorldWithoutCheck();
+        //SceneManager.LoadScene("BackPack");
+        SceneLoader.Instance.LoadScene("BackPack");
+    }
+
     private void SaveFromWorld()
     {
         GameObject player;
@@ -52,6 +59,26 @@ public class ButtonsEscController : MonoBehaviour
 
 
         checkCameraPositionAndSavePlayerPosition(player);
+        PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
+
+
+        player.GetComponent<Player>().characterStats.SaveData();
+
+        Debug.Log("X: " + PlayerPrefs.GetFloat("PostionMapX"));
+        Debug.Log("Y: " + PlayerPrefs.GetFloat("PostionMapY"));
+
+    }
+
+    private void SaveFromWorldWithoutCheck()
+    {
+        GameObject player;
+        RectTransform playerRectTransform;
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerRectTransform = player.GetComponent<RectTransform>();
+
+        PlayerPrefs.SetFloat("PostionMapX", playerRectTransform.anchoredPosition.x);
+        PlayerPrefs.SetFloat("PostionMapY", playerRectTransform.anchoredPosition.y);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
 
