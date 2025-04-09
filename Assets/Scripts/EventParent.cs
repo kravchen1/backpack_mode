@@ -21,10 +21,10 @@ public class EventParent : MonoBehaviour
         string pressE_text = LocalizationManager.Instance.GetTextUI(settingLanguage, "pressE_text");
 
         TMP_Text text;
-        if (gameObject.GetComponent<TextMeshPro>() != null)
-            text = gameObject.GetComponent<TextMeshPro>();
+        if (infoText.GetComponent<TextMeshPro>() != null)
+            text = infoText.GetComponent<TextMeshPro>();
         else
-            text = gameObject.GetComponent<TextMeshProUGUI>();
+            text = infoText.GetComponent<TextMeshProUGUI>();
 
         text.text = pressE_text;
 
