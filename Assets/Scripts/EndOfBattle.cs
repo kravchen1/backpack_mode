@@ -50,6 +50,9 @@ public class EndOfBattle : MonoBehaviour
 
     public float fillExpSpeed = 0.00001f;// —корость заполнени€ полосы - чем меньше, тем быстрее
 
+    private int hpAddCountForLvl = 35;
+
+
     private void Awake()
     {
     }
@@ -430,7 +433,7 @@ public class EndOfBattle : MonoBehaviour
 
     public void LevelUpAddUI(int countLvlUp)
     {
-        var hpAddCount = (countLvlUp * 10);
+        var hpAddCount = (countLvlUp * hpAddCountForLvl);
         winHPAddCount.text = "+" + hpAddCount.ToString();
 
         var staminaAddCount = (countLvlUp * 0.2f);
@@ -485,7 +488,7 @@ public class EndOfBattle : MonoBehaviour
 
     public void LevelUpAdd(int countLvlUp)
     {
-        var hpAddCount = (countLvlUp * 10);
+        var hpAddCount = (countLvlUp * hpAddCountForLvl);
         playerBackpackBattle.characterStats.playerMaxHp += hpAddCount;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.characterStats.playerMaxHp;
 
