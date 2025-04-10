@@ -29,7 +29,14 @@ public class uiTexts
 }
 
 [System.Serializable]
-public class dialoguesTexts
+public class battleLogTexts
+{
+    public string name;
+    public string text;
+}
+
+[System.Serializable]
+public class EducationTexts
 {
     public string name;
     public string text;
@@ -39,7 +46,8 @@ public class dialoguesTexts
 public class LocalizedData
 {
     public List<uiTexts> ui;
-    public List<dialoguesTexts> dialogs;
+    public List<battleLogTexts> battleLogs;
+    public List<EducationTexts> educationTexts;
     public List<IconsEducation> iconsEducation;
     public List<ItemsText> items;
     public string weaponStat;
@@ -234,4 +242,59 @@ public class LocalizationManager : MonoBehaviour
         return text;
     }
 
+    public string GetTextBattleLog(string lang, string uiName)
+    {
+        string text = null;
+        if (_localizationData != null)
+        {
+            switch (lang)
+            {
+                case "en":
+                    text = _localizationData.en.battleLogs.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "ru":
+                    text = _localizationData.ru.battleLogs.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "zh":
+                    text = _localizationData.zh.battleLogs.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.battleLogs.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                default:
+                    text = _localizationData.en.battleLogs.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+            }
+        }
+
+        return text;
+    }
+
+    public string GetTextEducation(string lang, string uiName)
+    {
+        string text = null;
+        if (_localizationData != null)
+        {
+            switch (lang)
+            {
+                case "en":
+                    text = _localizationData.en.educationTexts.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "ru":
+                    text = _localizationData.ru.educationTexts.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "zh":
+                    text = _localizationData.zh.educationTexts.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                case "zh_tw":
+                    text = _localizationData.zh_tw.educationTexts.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+                default:
+                    text = _localizationData.en.educationTexts.Where(e => e.name == uiName).ToList()[0].text;
+                    break;
+            }
+        }
+
+        return text;
+    }
 }

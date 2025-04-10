@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
 
 
         //currentDialogue.HeightText;
-        dialogueText.text = currentDialogue.dialogueText;
+        dialogueText.text = currentDialogue.dialogueLocalizationText.GetText();
 
         dialogueText.ForceMeshUpdate();
         
@@ -53,7 +53,7 @@ public class DialogueManager : MonoBehaviour
         foreach (var response in currentDialogue.responses)
         {
             GameObject button = Instantiate(responseButtonPrefab, responsesContainer);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
+            button.GetComponentInChildren<TextMeshProUGUI>().text = response.responseLocalizationText.GetText();
             // Настраиваем действие кнопки
 
             button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnResponseSelected(response));

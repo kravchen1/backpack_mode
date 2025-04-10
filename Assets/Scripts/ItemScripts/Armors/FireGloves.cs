@@ -41,7 +41,7 @@ public class FireGloves : Stuff
                         //    CreateLogMessage(LogTimerStackEnemy, "FireGloves reset on " + coolDown.ToString() + "% " + item.originalName);
                         //}
                         logManager.CreateLogMessageUseFromEnemy(originalName, "fire", countBurnStack, Player.isPlayer);
-                        logManager.CreateLogMessageReset(originalName, "timer", countBurnStack, item.originalName, Player.isPlayer);
+                        logManager.CreateLogMessageReducedForItem(originalName, "timer", coolDown, item.originalName, Player.isPlayer);
 
 
                     }
