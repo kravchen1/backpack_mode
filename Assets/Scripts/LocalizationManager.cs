@@ -92,7 +92,7 @@ public class LocalizationManager : MonoBehaviour
 
     public void LoadLocalizedText(string languageCode)
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("Localization/" + languageCode);
+        TextAsset jsonFile = Resources.Load<TextAsset>("JSONs/" + languageCode);
         if (jsonFile == null)
         {
             Debug.LogError("Localization file not found!");

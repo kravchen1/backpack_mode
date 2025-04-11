@@ -94,7 +94,14 @@ public class DialogueManager : MonoBehaviour
 
         if (response.quest)
         {
-            Quest quest = new Quest(response.questName, response.questDescription, response.necessaryProgress, response.questID);
+            string settingLanguage = "en";
+            settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+            string questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, response.questID);
+            string questText = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, response.questID);
+            int questProgress = QuestManagerJSON.Instance.GetProgressQuest(settingLanguage, response.questID);
+
+            Quest quest = new Quest(questName, questText, questProgress, response.questID);
             FindFirstObjectByType<QuestManager>().AddQuest(quest);
             FindFirstObjectByType<Player>().InitializedGPSTracker();
         }

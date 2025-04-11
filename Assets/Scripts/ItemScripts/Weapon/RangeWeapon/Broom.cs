@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class Broom : Weapon
 {
@@ -24,8 +25,14 @@ public class Broom : Weapon
             if (starItem.timer_cooldown >= 0)
             {
                 var changeCD = starItem.baseTimerCooldown / 100.0f * activationSpeedUp;
-                starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
+                if (starItem.timer_cooldown - changeCD > 0.1f)
+                    starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
+                else
+                    starItem.timer_cooldown = 0.1f;
                 starItem.timer = starItem.timer_cooldown;
+
+
+                
 
                 //if (Player.isPlayer)
                 //{

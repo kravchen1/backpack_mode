@@ -370,11 +370,14 @@ public class BackpackController : MonoBehaviour
             item.ClearCareRaycast(false);
             
         }
-        foreach (var item in gameObject.transform.GetComponentsInChildren<Item>())
+        foreach (var item in gameObject.transform.GetComponentsInChildren<Item>())//da huyna, i 4to? clear colors cells
         {
-            foreach (var cellBag in item.GetComponentsInChildren<Cell>())
+            if (item.name.ToUpper().Contains("BAG"))
             {
-                cellBag.GetComponent<SpriteRenderer>().color = Color.black;
+                foreach (var cellBag in item.GetComponentsInChildren<Cell>())
+                {
+                    cellBag.GetComponent<SpriteRenderer>().color = Color.black;
+                }
             }
         }
 
