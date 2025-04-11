@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ManaHelmet : Stuff
+public class ManaHelmet : Flask
 {
     public int hpDrop = 71;
     public int countArmorStack = 34;
