@@ -498,6 +498,9 @@ public class Bag : Item
             else
             {
                 objectInCell.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                var nestedObjectSprite = objectInCell.gameObject.GetComponent<SpriteRenderer>();
+                nestedObjectSprite.sortingLayerName = "Weapon";
+                nestedObjectSprite.sortingOrder = 1;
                 if (!objectInCell.gameObject.lastParentWasStorage)
                 {
                     if (characterStats == null)
