@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -52,10 +53,10 @@ public class Enemy : EventParent
         string settingLanguage = PlayerPrefs.GetString("LanguageSettings");
         string lvl_text = LocalizationManager.Instance.GetTextUI(settingLanguage, "lvl_text"); ;
         lvlText.text = lvl_text + lvlEnemy.ToString();
-        if(currentSceneName == "GenerateMap")
-            map = GameObject.FindGameObjectWithTag("GoMap");
-        else
-            map = GameObject.FindGameObjectWithTag("Cave");
+        //if(currentSceneName == "GenerateMap")
+            map = GameObject.FindGameObjectWithTag("PlaceForDropItems");
+        //else
+            //map = GameObject.FindGameObjectWithTag("Cave");
         if (gameObject.transform.parent.GetComponent<BattleSpawn>() != null)
         {
             idSpawn = gameObject.transform.parent.GetComponent<BattleSpawn>().id;
@@ -319,7 +320,7 @@ public class Enemy : EventParent
         }
         else
         {
-            position += new Vector3(100 * positionIndex, 0, 0);
+            position = gameObject.transform.position; //Instantiate(dropItems[i], gameObject.transform.position, Quaternion.identity, map.GetComponent<RectTransform>().transform);
         }
 
         Instantiate(item, position, Quaternion.identity, map.GetComponent<RectTransform>().transform);

@@ -93,7 +93,7 @@ public class ButtonsController : MonoBehaviour
         DeleteAllExcept(keysToKeep);
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
-        StartStats(85, 135, 1, 200, 100, 1, 11);
+        StartStats(85, 135, 1, 200, 100, 1, 11, 0, 100);
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
@@ -108,7 +108,7 @@ public class ButtonsController : MonoBehaviour
         PlayerPrefs.SetString("characterClass", "Player_Ice");
         Choose();
 
-        StartStats(50, 100, 1, 200, 100, 1, 9);
+        StartStats(50, 100, 1, 200, 100, 1, 9, 0, 100);
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
@@ -161,13 +161,13 @@ public class ButtonsController : MonoBehaviour
         questData.questData.quests.Add(quest);
         questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
     }
-    private void StartStats(int playerHP, int playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina)
+    private void StartStats(int playerHP, int playerMaxHp, int playerExp, int playerCoins, int requiredExp, int playerLvl, float playerMaxStamina, float storageWeight, float maxStorageWeight)
     {
         string characterStatsDataFilePath;
         CharacterStatsData characterStatsData;
 
         characterStatsDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json");
-        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina);
+        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina, storageWeight, maxStorageWeight);
 
         var saveData = JsonUtility.ToJson(characterStatsData);
 

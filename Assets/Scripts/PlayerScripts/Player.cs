@@ -330,6 +330,21 @@ public class Player : MonoBehaviour
             arrowRectTransform.gameObject.SetActive(false);
         }
     }
+
+    float CheckStorageWeight()
+    {
+        float startSpeed = speed;
+        if (characterStats.storageWeight >= characterStats.maxStorageWeigth * 0.85 && characterStats.storageWeight <= characterStats.maxStorageWeigth)
+        {
+            startSpeed = startSpeed / 2;
+        }
+        else if (characterStats.storageWeight > characterStats.maxStorageWeigth)
+        {
+            startSpeed = 0;
+        }
+        return startSpeed;
+    }
+
     void Update()
     {
         GPSTracker();
@@ -345,8 +360,10 @@ public class Player : MonoBehaviour
                 Filp();
             }
             StepSound();
-            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
-            animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
+            float currentSpeed = CheckStorageWeight();
+            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * currentSpeed, Input.GetAxis("Vertical") * currentSpeed);
+            if(currentSpeed > 0)
+                animator.SetFloat("Move", Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical")));
 
             RaycastEvent();
         }

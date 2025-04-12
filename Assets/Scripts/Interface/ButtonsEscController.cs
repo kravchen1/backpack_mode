@@ -39,6 +39,8 @@ public class ButtonsEscController : MonoBehaviour
     {
         SaveFromWorld();
         //SceneManager.LoadScene("BackPack");
+        //CameraManager.DisableMainCamera();
+        //SceneManager.LoadScene("BackPack", LoadSceneMode.Additive);
         SceneLoader.Instance.LoadScene("BackPack");
     }
 

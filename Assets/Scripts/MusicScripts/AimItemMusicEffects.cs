@@ -9,8 +9,8 @@ public class AimItemMusicEffects : MonoBehaviour
 
     void Start()
     {
-        // Получаем компонент AudioSource на этом объекте
         audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     void OnMouseEnter()
