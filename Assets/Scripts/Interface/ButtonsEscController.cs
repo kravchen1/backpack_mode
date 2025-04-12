@@ -66,8 +66,8 @@ public class ButtonsEscController : MonoBehaviour
 
         player.GetComponent<Player>().characterStats.SaveData();
 
-        Debug.Log("X: " + PlayerPrefs.GetFloat("PostionMapX"));
-        Debug.Log("Y: " + PlayerPrefs.GetFloat("PostionMapY"));
+        //Debug.Log("X: " + PlayerPrefs.GetFloat("PostionMapX"));
+        //Debug.Log("Y: " + PlayerPrefs.GetFloat("PostionMapY"));
 
     }
 

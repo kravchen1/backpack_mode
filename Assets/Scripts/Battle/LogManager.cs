@@ -65,12 +65,15 @@ public class LogManager : MonoBehaviour
     public GameObject DescriptionLogCharacterVampire;
     public GameObject DescriptionLogEnemyVampire;
 
-    private GameObject needGameobject;
+
+
+    private string settingLanguage = "en";
 
     private void Start()
     {
         placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
         ts = GameObject.FindGameObjectWithTag("SliderTime").GetComponent<TimeSpeed>();
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
     }
 
 
@@ -123,16 +126,11 @@ public class LogManager : MonoBehaviour
         GameObject obj;
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
-        if (Player)
-        {
-            obj = Instantiate(DescriptionLogCharacterAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " destroy " + damage.ToString() + " armor.";
-        }
-        else
-        {
-            obj = Instantiate(DescriptionLogEnemyAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " destroy " + damage.ToString() + " armor.";
-        }
+
+        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
+
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Destroy") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Armor") + ".";
+
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
     }
@@ -142,30 +140,17 @@ public class LogManager : MonoBehaviour
         GameObject obj;
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
-        if (Player)
-        {
-            obj = Instantiate(DescriptionLogCharacterAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " destroy " + damage.ToString() + " armor.";
-            obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-            obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
 
-            obj = Instantiate(DescriptionLogCharacterAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " deal " + damage.ToString() + " damage.";
-            obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-            obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
-        }
-        else
-        {
-            obj = Instantiate(DescriptionLogCharacterAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " destroy " + damage.ToString() + " armor.";
-            obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-            obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Destroy") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Armor") + ".";
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
+        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
 
-            obj = Instantiate(DescriptionLogCharacterAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " deal " + damage.ToString() + " damage.";
-            obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-            obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
-        } 
+        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Deal") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Damage") + ".";
+        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
+        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+
     }
 
     public void CreateLogMessageAttackWithoutArmor(string nameItem, int damage, bool Player)
@@ -173,16 +158,10 @@ public class LogManager : MonoBehaviour
         GameObject obj;
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
-        if (Player)
-        {
-            obj = Instantiate(DescriptionLogCharacterAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " deal " + damage.ToString() + " damage.";
-        }
-        else
-        {
-            obj = Instantiate(DescriptionLogEnemyAttack, placeForLogDescription.GetComponent<RectTransform>().transform);
-            text = nameItem + " deal " + damage.ToString() + " damage.";
-        }
+
+        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Deal") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Damage") + ".";
+
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
     }
@@ -194,7 +173,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog("stamina", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " miss.";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Miss") + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -206,7 +185,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " no have stamina.";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "NoHaveStamina") + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -223,7 +202,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " give " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Give") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -235,7 +214,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " give " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Give") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -247,7 +226,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " inflict " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Inflict") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -261,7 +240,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " used " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Used") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -273,19 +252,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " used " + count.ToString() + " from enemy.";
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
-    }
-
-    public void CreateLogMessageReset(string nameItem, string tagIcon, int count, string resetItem, bool Player)
-    {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " reset on " + count.ToString() + resetItem + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Used") + " " + count.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "FromEnemy") + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -297,7 +264,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " steal " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Steal") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -309,7 +276,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " block " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Block") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -321,7 +288,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " decrease "+ decreaseItem + "stamina for " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "DecreaseStamina") + " " + decreaseItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "On") + " " + count.ToString() + ".";
 
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
@@ -334,7 +301,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " removed " + count.ToString() + ".";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Remove") + " " + count.ToString() + ".";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -346,7 +313,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " cooldown reduced by " + count.ToString() + "%.";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "CooldownReducded") + " " + count.ToString() + "%.";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
@@ -358,7 +325,7 @@ public class LogManager : MonoBehaviour
         string text = "";
         string textTime = ts.nowTime.ToString() + "s";
         obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " cooldown reduced for " + reducedItem + " by " + count.ToString() + "%.";
+        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "CooldownReducdedFor") + " " + reducedItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "By") + " " + count.ToString() + "%.";
 
         obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
         obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;

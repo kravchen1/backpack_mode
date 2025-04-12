@@ -3,14 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyGeneral : StaticEnemy
 {
-    private bool isPlayerInTrigger = false;
 
-    private string currentSceneName;
-    private GameObject map;
-
-    private GameObject canvasBackpackEnemy;
-    private GenerateBackpackOnMap generateBackpackOnMap;
-    private bool click = false;
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;

@@ -88,7 +88,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -651902095
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4180429906283832095
@@ -113,7 +113,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: press e
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -182,7 +182,7 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_renderer: {fileID: 7086471703018486395}
   m_maskType: 0
 --- !u!1 &4361146862611757977
@@ -506,8 +506,30 @@ MonoBehaviour:
   stepHPForLevel: 25
   startStamina: 5
   stepStaminaForLevel: 0.5
-  dropItems: []
-  probabilityDropItems: []
+  dropItems:
+  - {fileID: 4168892939486688126, guid: fff909ee1eda61c4c909c02b99ddf4a3, type: 3}
+  - {fileID: 4033809830316034083, guid: 36d2a21f264a1bc41a5e1cf029b8f002, type: 3}
+  - {fileID: 1900486107371603265, guid: 5e0b9ab6b87df8044b9354c9f6901e46, type: 3}
+  - {fileID: 4327296606255391805, guid: 6feebd812877bdc469c9d89fb0898f35, type: 3}
+  - {fileID: 6607773281957799602, guid: 811174bd02314614187cd7541bbe494f, type: 3}
+  - {fileID: 6845517113088591839, guid: d53a34a973e79e44f8de12ea17a67b83, type: 3}
+  - {fileID: 1405918183329983527, guid: 0e925482fa623014f860bd7d6a3a1b7b, type: 3}
+  - {fileID: 8766512363777757646, guid: 340135a220d473743819c4161ba31778, type: 3}
+  - {fileID: 7855283207414801867, guid: c86d209358e8f7f4fa162fbcb4ec4968, type: 3}
+  - {fileID: 5024846995323609630, guid: 06aaac19c991aea4485d8ee31fe74772, type: 3}
+  probabilityDropItems:
+  - 35
+  - 20
+  - 25
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 35
+  - 10
+  moveSpeed: 30
+  animator: {fileID: 0}
 --- !u!1 &7344352412015862661
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +599,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: 468962855052056279, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -596,7 +618,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1196096721
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 10000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &9219527358221289835
@@ -621,8 +643,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: lvl. 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
+  m_sharedMaterial: {fileID: 468962855052056279, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -652,7 +674,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -662,7 +684,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -684,7 +706,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -10.332958, w: -3.3660393}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -716,7 +738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: 94dc030266dfbee459e29d1de2f74685, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7793855833432745113, guid: 94dc030266dfbee459e29d1de2f74685, type: 3}
       propertyPath: m_SortingLayer

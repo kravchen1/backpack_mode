@@ -31,6 +31,8 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     public int countPercentPoisonDegenHP = 5;
     public int countPercentVampireRegenHP = 5;
 
+    public int countPercentResistance = 1;
+
     public int countPercentBlind = 5;
     public int countDamagePower = 1;
     public int countDamageBleed = 1;
@@ -79,22 +81,39 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     }
     public void AddDebuff(int count, string debuffName)
     {
-        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper())))
+        int percentChanceResist = -1;
+        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONRESISTANCE")))
         {
-            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper())))
-            {
-                icon.countStack += count;
-            }
+            int countResistance = 0;
+            countResistance = icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONRESISTANCE")).ToList()[0].countStack;
 
+            percentChanceResist = countResistance * countPercentResistance;
+            if (percentChanceResist > 75)
+            {
+                percentChanceResist = 75;
+            }
         }
-        else
+
+        int r = UnityEngine.Random.Range(0, 100);
+        if (r <= percentChanceResist)//успех наложения дебаффа
         {
-            var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/" + debuffName), placeGenerationIconsDebuffs.transform);
-            var icon = sceneGameObjectIcon.GetComponent<Icon>();
-            icon.sceneGameObjectIcon = sceneGameObjectIcon;
-            icon.countStack = count;
-            icon.Buff = false;
-            icons.Add(icon);
+            if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper())))
+            {
+                foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper())))
+                {
+                    icon.countStack += count;
+                }
+
+            }
+            else
+            {
+                var sceneGameObjectIcon = Instantiate(Resources.Load<GameObject>("Icons/" + debuffName), placeGenerationIconsDebuffs.transform);
+                var icon = sceneGameObjectIcon.GetComponent<Icon>();
+                icon.sceneGameObjectIcon = sceneGameObjectIcon;
+                icon.countStack = count;
+                icon.Buff = false;
+                icons.Add(icon);
+            }
         }
     }
 

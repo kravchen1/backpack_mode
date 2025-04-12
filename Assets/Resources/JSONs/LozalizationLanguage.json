@@ -77,22 +77,263 @@
         "name": "pressE_text",
         "text": "нажмите E"
       }
-
-      
-
-      
-
-
-      
     ],
-    "dialogs": [
+    "battleLogs": [
       {
-        "name": "welcome",
-        "text": "Добро пожаловать в игру!"
+        "name": "Destroy",
+        "text": "разрушил"
       },
       {
-        "name": "start",
-        "text": "вот и король!"
+        "name": "Armor",
+        "text": "брони"
+      },
+      {
+        "name": "Deal",
+        "text": "нанёс"
+      },
+      {
+        "name": "Damage",
+        "text": "урона"
+      },
+      {
+        "name": "NoHaveStamina",
+        "text": "не хватило выносливости"
+      },
+      {
+        "name": "Miss",
+        "text": "промахнулся"
+      },
+      {
+        "name": "Give",
+        "text": "дал"
+      },
+      {
+        "name": "Inflict",
+        "text": "наложил"
+      },
+      {
+        "name": "Used",
+        "text": "использовал"
+      },
+      {
+        "name": "FromEnemy",
+        "text": "на врага"
+      },
+      {
+        "name": "Steal",
+        "text": "украл"
+      },
+      {
+        "name": "Block",
+        "text": "заблокировал"
+      },
+      {
+        "name": "DecreaseStamina",
+        "text": "снизил потребление выносливости"
+      },
+      {
+        "name": "On",
+        "text": "на"
+      },
+      {
+        "name": "Remove",
+        "text": "сбросил"
+      },
+      {
+        "name": "CooldownReducded",
+        "text": "уменьшил перезарядку на"
+      },
+      {
+        "name": "CooldownReducdedFor",
+        "text": "уменьшил перезарядку для"
+      },
+      {
+        "name": "By",
+        "text": "на"
+      }
+    ],
+    "educationTexts": [
+      {
+        "name": "BuffsDescription",
+        "text": "баффы: особые улучшения, которые работают только во время боя"
+      },
+      {
+        "name": "ManaDescription",
+        "text": "Мана: ресурс, который расходуется при срабатывании некоторых предметов"
+      },
+      {
+        "name": "ChanceCritDescription",
+        "text": "Шанс крита: за каждый 1 стак увеличивается шанс крита на 1%"
+      },
+      {
+        "name": "BaseCritDescription",
+        "text": "крит. урон: за каждый 1 стак крит. урон увеличивается на 1%"
+      },
+      {
+        "name": "BurnDescription",
+        "text": "Горение: за каждый 1 стак все предметы активируются на 2% быстрее."
+      },
+      {
+        "name": "RegenerationDescription",
+        "text": "Регенерация: За каждый стак восстанавливает 1 здоровья каждую секунду"
+      },
+      {
+        "name": "EvasionDescription",
+        "text": "Уклонение: За каждый стак увеличивает вероятность уклонения на 2%"
+      },
+      {
+        "name": "PowerDescription",
+        "text": "Сила: За каждый стак дает +1 к атаке для всех видов оружия/питомцев"
+      },
+      {
+        "name": "VampireDescription",
+        "text": "Вампиризм: за каждый 1 стак добавляет 2% вампиризма владельцу."
+      },
+      {
+        "name": "ResistanceDescription",
+        "text": "Сопротивление: за каждый 1 стак появляется шанс 1% отмены наложения дебаффа. Не может быть выше 75%, если не указано другое"
+      },
+      {
+        "name": "ArmorDescription",
+        "text": "Броня: блокирует урон"
+      },
+      {
+        "name": "DebuffsDescription",
+        "text": "Ослабления: особые ослабления, которые работают только во время боя"
+      },
+      {
+        "name": "BleedDescription",
+        "text": "Кровотечение: За каждый 1 стак наносит владельцу 1 урона каждую секунду"
+      },
+      {
+        "name": "FrostDescription",
+        "text": "Заморозка: за каждый стак все предметы активируются на 2% медленнее"
+      },
+      {
+        "name": "PoisonDescription",
+        "text": "Яд: за каждый стак уменьшает входящее лечение на 5%. Это значение может превысить 100%"
+      },
+      {
+        "name": "BlindDescription",
+        "text": "Ослепление: за каждый стак уменьшает точность оружия/питомцев на 5%"
+      },
+      {
+        "name": "BasicConceptsDescription",
+        "text": "Основные понятия"
+      },
+      {
+        "name": "DamageDescriptionBase",
+        "desctextription": "Урон: наносит случайный указанный урон врагу"
+      },
+      {
+        "name": "CooldownDescriptionBase",
+        "text": "Перезарядка: после срабатывания каждого эффекта предмету требуется перезарядка в течение указанного количества секунд."
+      },
+      {
+        "name": "ChanceCritDescriptionBase",
+        "text": "шанскрита: каждое оружие/питомец имеет шанс нанести критический урон, указанный на предмете"
+      },
+      {
+        "name": "CritDamageDescriptionBase",
+        "text": "Критический урон: количество урона в процентном соотношении, наносимого при срабатывании шанса крита"
+      },
+      {
+        "name": "StaminaCostDescriptionBase",
+        "text": "Стоимость выносливости: у каждого персонажа есть выносливость, которая тратится на активацию большинства видов оружия в игре"
+      },
+      {
+        "name": "AccuracyDescriptionBase",
+        "text": "Точность: почти у каждого оружия в игре есть свой показатель точности, который определяет вероятность возникновения события"
+      },
+
+
+      {
+        "name": "InCave1",
+        "text": "здорово! Вы дошли до первого подземелья. Чтобы войти внутрь вам нужно переместить камень-ключ в указанные ячейки. После этого станет доступна кнопка запуска пещеры уровня, который указан на камне-ключе"
+      },
+      {
+        "name": "GenerateMapPage1",
+        "text": "Добро пожаловать за стены города!\r\nздесь вам пока что встретятся только враги и подземелья\r\n(в будущем мы добавим ещё много всего интересного)\r\nВы имеете возможность посмотреть рюкзак врага просто кликнув по врагу. Приятного путешествия"
+      },
+      {
+        "name": "GenerateMapPage2",
+        "text": "Вы можете скрыть/раскрыть отображение квестов нажав на эту кнопку"
+      },
+      {
+        "name": "CavePage1",
+        "text": "Вот и пещера. Чтобый пройти пещеру нужно пройти лабиринт, который можно посмотреть нажав на эту кнопку"
+      },
+      {
+        "name": "BackpackShopItemPage1",
+        "text": "Привет! Спасибо, что согласились поиграть в альфа версию нашей игры! Надеюсь вы получите интересный опыт.\r\nЭто обучение поможет вам понять как играть в эту игру и почему она очень интересная"
+      },
+      {
+        "name": "BackpackShopItemPage1_2",
+        "text": "Цель игры — собрать лучший набор предметов в рюкзаке, чтобы побеждать противников в автоматических боях. Вы должны стратегически размещать предметы, комбинировать их эффекты и улучшать их, чтобы стать сильнее."
+      },
+      {
+        "name": "BackpackShopItemPage2",
+        "text": "Рюкзак\r\nЭто ваше основное игровое поле. Вы размещаете в нем предметы, которые будут использоваться в бою.\r\nРюкзак имеет ограниченное количество ячеек, поэтому важно оптимизировать расположение предметов.\r\n\r\nНекоторые предметы занимают несколько ячеек, поэтому планируйте их размещение заранее."
+      },
+      {
+        "name": "BackpackShopItemPage3",
+        "text": "Золото — это основная валюта в игре, которую вы получаете после боев или продажи ненужных предметов."
+      },
+      {
+        "name": "BackpackShopItemPage3_1",
+        "text": "Здоровье\r\nне восстанавливается в конце битвы, поэтому вам будет необходимо восстанавливать его специальными предметами \"еда\", которые можно купить в таверне"
+      },
+      {
+        "name": "BackpackShopItemPage3_2",
+        "text": "Опыт\r\nпобеждая врагов вы будете увеличивать свой уровень. На текущий момент каждый увроень увеличивает ваш максимальный запас здоровья и выносливости"
+      },
+      {
+        "name": "BackpackShopItemPage4",
+        "text": "Магазин\r\nЗдесь вы можете купить предметы. Следите за его стоимостью и не забудьте изучть покупаемый предмет, наведитесь на любой предмет и почитайте что он делает. Если вам хватает золота, то просто нажмите и перетащите предмет в свой рюкзак"
+      },
+      {
+        "name": "BackpackShopItemPage5",
+        "text": "Предметы - это основа вашей стратегии. Они делятся на несколько типов:\r\n\r\nОружие: Наносит урон противнику.\r\n\r\nБроня: Защищает вас от урона.\r\n\r\nЗелья: Дают временные или постоянные эффекты (например, лечение или усиление).\r\n\r\nАртефакты: Дают уникальные эффекты, которые могут изменить ход боя."
+      },
+      {
+        "name": "BackpackShopItemPage5_0",
+        "text": "Давайте купим гриб \"Chanterelle\". Для этого перетащите предмет из магазина, на который указывет зеленая стрелка. На его примере мы увидим весь потенциал предмета."
+      },
+      {
+        "name": "BackpackShopItemPage5_1",
+        "text": "Некоторые предметы в игре обладают особыми звёздочками, которые расположены вокруг их иконки. Количество звёздочек может быть разным — от одной до нескольких.\r\nКаждая звёздочка требует определённый предмет для активации. Чтобы её заполнить:\r\nОткройте описание предмета — там указано, что нужно для каждой звёздочки.\r\nПеретащите нужный предмет в  ячейку рюкзака так, чтобы он заполнил пустую звёздочку.\r\nЕсли предмет подходит — звёздочка загорится, и эффект активируется!"
+      },
+      {
+        "name": "BackpackShopItemPage5_2",
+        "text": "Давайте разберём, как работают звёздочки, на примере грибов.\r\nУ вас в рюкзаке лежит гриб \"Chanterelle\". В его описании указано:\r\nза каждый гриб под звездой перезарядка способности уменьшается на 10%\r\nЭто значит, если поместить любой другой гриб в эту звёздочку, \"Chanterelle\" станет действовать быстрее!"
+      },
+      {
+        "name": "BackpackShopItemPage5_3",
+        "text": "Покупаем любой гриб, например, \"PORCINI\" из магазина и перетаскиваем его в пустую звёздочку у \"Chanterelle\" в рюкзаке."
+      },
+      {
+        "name": "BackpackShopItemPage5_4",
+        "text": "Теперь, если навести курсор на гриб \"Chanterelle\", можно увидеть, что его звёздочка загорелась, а перезарядка способности уменьшилась на 10%. Можно добавить ещё грибов — каждый новый даст дополнительное сокращение перезарядки на 10%!"
+      },
+      {
+        "name": "BackpackShopItemPage6",
+        "text": "Бои\r\nБои происходят автоматически. Вы и ваш противник используете предметы из своих рюкзаков, чтобы наносить урон и защищаться.\r\n\r\nПобеждает тот, кто первым истощит здоровье противника."
+      },
+      {
+        "name": "BackpackShopItemPage7",
+        "text": "Кликнув по этой кнопке вам откроется энциклопедия по всем базовым аспектам боя. Не стесняйтесь подглядывать сюда для разработки своих стратегий"
+      },
+      {
+        "name": "BackpackShopItemPage8",
+        "text": "На этом обучение заканчивается. Приятной игры! Надеюсь вы сможете победить босса альфа версии. Чтобы найти его - следуйте квестам, которые привели вас в этот магазин"
+      },
+      {
+        "name": "BackpackShopEatPage1",
+        "text": "В этом магазине вы найдёте полезные предметы, которые помогут восстановить здоровье. Выбирайте нужное и возвращайтесь в бой с новыми силами!"
+      },
+      {
+        "name": "BackpackShopEatPage2",
+        "text": "Просто перетащите предмет из магазина в свободную ячейку рюкзака. Как только вы отпустите его, он мгновенно активируется. Через мгновение вы почувствуете прилив сил, а предмет исчезнет, восстановив вам часть здоровья, либо получите боевое преимущество на следующую схватку."
       }
     ],
     "iconsEducation": [
@@ -118,7 +359,7 @@
       },
       {
         "name": "Resistance",
-        "description": "Сопротивление: за каждый стак уменьшает вероятность наложения дебаффа на 3%"
+        "description": "Сопротивление: за каждый стак уменьшает вероятность наложения дебаффа на 1%"
       },
       {
         "name": "ChanceCrit",
@@ -143,9 +384,7 @@
       {
         "name": "Vampire",
         "description": "вампиризм: за каждый стак, добавляет 2% вампиризма к атакам"
-      }      
-
-      
+      }
     ],
     "items": [
       {
@@ -741,12 +980,12 @@
         "description": "Каждые <u>{1}</u> секунды:\r\nнакладывает <u>{0}</u> <sprite name=\"IconPoison\">",
         "type": "колдовство",
         "rarity": "обычный"
-      } 
+      }
     ],
     "weaponStat": "урон: \r\nшанс крита: \r\nурон крита: \r\nстамина: \r\nточность: \r\nперезарядка: ",
     "weight": "вес: {0} ед."
-  }
-  ,"en": {
+  },
+  "en": {
     "ui": [
       {
         "name": "NewGame_button",
@@ -771,7 +1010,8 @@
       {
         "name": "ShowItem_button",
         "text": "Items"
-      },{
+      },
+      {
         "name": "Music_volume",
         "text": "Music volume"
       },
@@ -824,16 +1064,264 @@
         "text": "press E"
       }
     ],
-    "dialogs": [
+    "battleLogs": [
       {
-        "name": "welcome",
-        "text": "Welcome to the game!"
+          "name": "Destroy",
+          "text": "destroyed"
       },
       {
-        "name": "start",
-        "text": "behold the king!"
+          "name": "Armor",
+          "text": "armor"
+      },
+      {
+          "name": "Deal",
+          "text": "dealt"
+      },
+      {
+          "name": "Damage",
+          "text": "damage"
+      },
+      {
+          "name": "NoHaveStamina",
+          "text": "not enough stamina"
+      },
+      {
+          "name": "Miss",
+          "text": "missed"
+      },
+      {
+          "name": "Give",
+          "text": "gave"
+      },
+      {
+          "name": "Inflict",
+          "text": "inflicted"
+      },
+      {
+          "name": "Used",
+          "text": "used"
+      },
+      {
+          "name": "FromEnemy",
+          "text": "on the enemy"
+      },
+      {
+          "name": "Steal",
+          "text": "stole"
+      },
+      {
+          "name": "Block",
+          "text": "blocked"
+      },
+      {
+          "name": "DecreaseStamina",
+          "text": "reduced stamina consumption"
+      },
+      {
+          "name": "On",
+          "text": "on"
+      },
+      {
+          "name": "Remove",
+          "text": "removed"
+      },
+      {
+          "name": "CooldownReducded",
+          "text": "reduced cooldown by"
+      },
+      {
+          "name": "CooldownReducdedFor",
+          "text": "reduced cooldown for"
+      },
+      {
+          "name": "By",
+          "text": "by"
       }
     ],
+    
+      "educationTexts": [
+        {
+          "name": "BuffsDescription",
+          "text": "Buffs: special enhancements that only work during combat"
+        },
+        {
+          "name": "ManaDescription",
+          "text": "Mana: a resource that is consumed when certain items trigger"
+        },
+        {
+          "name": "ChanceCritDescription",
+          "text": "Crit chance: each stack increases crit chance by 1%"
+        },
+        {
+          "name": "BaseCritDescription",
+          "text": "Crit damage: each stack increases crit damage by 1%"
+        },
+        {
+          "name": "BurnDescription",
+          "text": "Burn: each stack makes all items activate 2% faster"
+        },
+        {
+          "name": "RegenerationDescription",
+          "text": "Regeneration: each stack restores 1 HP per second"
+        },
+        {
+          "name": "EvasionDescription",
+          "text": "Evasion: each stack increases dodge chance by 2%"
+        },
+        {
+          "name": "PowerDescription",
+          "text": "Power: each stack grants +1 attack to all weapons/pets"
+        },
+        {
+          "name": "VampireDescription",
+          "text": "Vampirism: each stack adds 2% lifesteal to the owner"
+        },
+        {
+          "name": "ResistanceDescription",
+          "text": "Resistance: each stack gives a 1% chance to cancel a debuff application. Cannot exceed 75% unless otherwise stated"
+        },
+        {
+          "name": "ArmorDescription",
+          "text": "Armor: blocks damage"
+        },
+        {
+          "name": "DebuffsDescription",
+          "text": "Debuffs: special penalties that only work during combat"
+        },
+        {
+          "name": "BleedDescription",
+          "text": "Bleed: each stack deals 1 damage per second to the owner"
+        },
+        {
+          "name": "FrostDescription",
+          "text": "Freeze: each stack makes all items activate 2% slower"
+        },
+        {
+          "name": "PoisonDescription",
+          "text": "Poison: each stack reduces incoming healing by 5%. This value can exceed 100%"
+        },
+        {
+          "name": "BlindDescription",
+          "text": "Blind: each stack reduces weapon/pet accuracy by 5%"
+        },
+        {
+          "name": "BasicConceptsDescription",
+          "text": "Basic Concepts"
+        },
+        {
+          "name": "DamageDescriptionBase",
+          "text": "Damage: deals random specified damage to the enemy"
+        },
+        {
+          "name": "CooldownDescriptionBase",
+          "text": "Cooldown: after each effect triggers, the item requires a cooldown for the specified number of seconds"
+        },
+        {
+          "name": "ChanceCritDescriptionBase",
+          "text": "Crit chance: each weapon/pet has a chance to deal critical damage, as specified on the item"
+        },
+        {
+          "name": "CritDamageDescriptionBase",
+          "text": "Critical damage: the amount of damage (as a percentage) dealt when a crit triggers"
+        },
+        {
+          "name": "StaminaCostDescriptionBase",
+          "text": "Stamina cost: each character has stamina, which is spent to activate most weapons in the game"
+        },
+        {
+          "name": "AccuracyDescriptionBase",
+          "text": "Accuracy: almost every weapon in the game has an accuracy stat that determines the chance of an event occurring"
+        },
+        {
+          "name": "InCave1",
+          "text": "Great! You've reached the first dungeon. To enter, you need to place the key stone in the designated slots. After that, the dungeon launch button will become available for the level specified on the key stone."
+        },
+        {
+          "name": "GenerateMapPage1",
+          "text": "Welcome beyond the city walls!\nHere, you'll only encounter enemies and dungeons for now\n(we'll add many more interesting things in the future)\nYou can check an enemy's backpack by simply clicking on them. Have a nice journey!"
+        },
+        {
+          "name": "GenerateMapPage2",
+          "text": "You can hide/show quest markers by clicking this button"
+        },
+        {
+          "name": "CavePage1",
+          "text": "Here's the cave. To complete it, you need to navigate the maze, which you can view by clicking this button"
+        },
+        {
+          "name": "BackpackShopItemPage1",
+          "text": "Hello! Thanks for agreeing to play the alpha version of our game! I hope you have an interesting experience.\nThis tutorial will help you understand how to play and why the game is so engaging."
+        },
+        {
+          "name": "BackpackShopItemPage1_2",
+          "text": "The goal of the game is to assemble the best set of items in your backpack to defeat opponents in automatic battles. You must strategically place items, combine their effects, and upgrade them to grow stronger."
+        },
+        {
+          "name": "BackpackShopItemPage2",
+          "text": "Backpack\nThis is your main playing field. You place items here that will be used in battle.\nThe backpack has a limited number of slots, so optimizing item placement is crucial.\n\nSome items take up multiple slots, so plan their placement in advance."
+        },
+        {
+          "name": "BackpackShopItemPage3",
+          "text": "Gold is the main currency in the game, obtained after battles or by selling unwanted items."
+        },
+        {
+          "name": "BackpackShopItemPage3_1",
+          "text": "Health\ndoes not regenerate after battle, so you’ll need to restore it with special \"food\" items, which can be bought at the tavern."
+        },
+        {
+          "name": "BackpackShopItemPage3_2",
+          "text": "Experience\ndefeating enemies increases your level. Currently, each level raises your max HP and stamina."
+        },
+        {
+          "name": "BackpackShopItemPage4",
+          "text": "Shop\nHere, you can buy items. Pay attention to their cost and don’t forget to examine them—hover over any item to see what it does. If you have enough gold, simply click and drag the item into your backpack."
+        },
+        {
+          "name": "BackpackShopItemPage5",
+          "text": "Items are the core of your strategy. They come in several types:\n\nWeapons: Deal damage to enemies.\n\nArmor: Protects you from damage.\n\nPotions: Provide temporary or permanent effects (e.g., healing or buffs).\n\nArtifacts: Grant unique effects that can turn the tide of battle."
+        },
+        {
+          "name": "BackpackShopItemPage5_0",
+          "text": "Let’s buy the \"Chanterelle\" mushroom. To do this, drag the item marked by the green arrow from the shop. We’ll use it to demonstrate the full potential of items."
+        },
+        {
+          "name": "BackpackShopItemPage5_1",
+          "text": "Some items in the game have special stars around their icon. The number of stars varies—from one to several.\nEach star requires a specific item to activate. To fill it:\nOpen the item’s description—it will show what’s needed for each star.\nDrag the required item into the backpack slot so it fills the empty star.\nIf the item fits—the star will light up, and the effect activates!"
+        },
+        {
+          "name": "BackpackShopItemPage5_2",
+          "text": "Let’s see how stars work using mushrooms as an example.\nYou have a \"Chanterelle\" mushroom in your backpack. Its description says:\nFor each mushroom under a star, cooldown is reduced by 10%.\nThis means if you place any other mushroom in that star, \"Chanterelle\" will activate faster!"
+        },
+        {
+          "name": "BackpackShopItemPage5_3",
+          "text": "Buy any mushroom, like \"PORCINI\" from the shop, and drag it into the empty star slot on \"Chanterelle\" in your backpack."
+        },
+        {
+          "name": "BackpackShopItemPage5_4",
+          "text": "Now, if you hover over \"Chanterelle,\" you’ll see its star is lit, and its cooldown is reduced by 10%. You can add more mushrooms—each new one will further reduce cooldown by 10%!"
+        },
+        {
+          "name": "BackpackShopItemPage6",
+          "text": "Battles\nBattles happen automatically. You and your opponent use items from your backpacks to deal damage and defend.\n\nThe first to deplete the enemy’s health wins."
+        },
+        {
+          "name": "BackpackShopItemPage7",
+          "text": "Clicking this button will open an encyclopedia of all basic combat mechanics. Feel free to check it when planning your strategies."
+        },
+        {
+          "name": "BackpackShopItemPage8",
+          "text": "This concludes the tutorial. Enjoy the game! We hope you can defeat the alpha boss. To find him—follow the quests that led you to this shop."
+        },
+        {
+          "name": "BackpackShopEatPage1",
+          "text": "This shop contains useful items to restore health. Choose what you need and return to battle refreshed!"
+        },
+        {
+          "name": "BackpackShopEatPage2",
+          "text": "Simply drag an item from the shop into an empty backpack slot. Once released, it activates instantly. You’ll regain some HP momentarily, or gain a combat advantage for the next fight, and the item will disappear."
+        }
+      ]
+    ,
     "iconsEducation": [
       {
         "name": "Poison",
@@ -857,7 +1345,7 @@
       },
       {
         "name": "Resistance",
-        "description": "Resistance: each stack reduces the chance of receiving a debuff by 3%"
+        "description": "Resistance: each stack reduces the chance of receiving a debuff by 1%"
       },
       {
         "name": "ChanceCrit",
@@ -1508,7 +1996,8 @@
       {
         "name": "ShowItem_button",
         "text": "物品"
-      },{
+      },
+      {
         "name": "Music_volume",
         "text": "音乐音量"
       },
@@ -1555,21 +2044,268 @@
       {
         "name": "lvl_text",
         "text": "级 "
-      }
-    ],
-    "dialogs": [
-      {
-        "name": "welcome",
-        "text": "欢迎来到游戏！"
-      },
-      {
-        "name": "start",
-        "text": "国王驾到！"
       },
       {
         "name": "pressE_text",
         "text": "按 E"
       }
+    ],
+    "battleLogs": [
+      {
+          "name": "Destroy",
+          "text": "摧毁了"
+      },
+      {
+          "name": "Armor",
+          "text": "护甲"
+      },
+      {
+          "name": "Deal",
+          "text": "造成"
+      },
+      {
+          "name": "Damage",
+          "text": "伤害"
+      },
+      {
+          "name": "NoHaveStamina",
+          "text": "耐力不足"
+      },
+      {
+          "name": "Miss",
+          "text": "未命中"
+      },
+      {
+          "name": "Give",
+          "text": "给予"
+      },
+      {
+          "name": "Inflict",
+          "text": "施加了"
+      },
+      {
+          "name": "Used",
+          "text": "使用了"
+      },
+      {
+          "name": "FromEnemy",
+          "text": "对敌人"
+      },
+      {
+          "name": "Steal",
+          "text": "偷取了"
+      },
+      {
+          "name": "Block",
+          "text": "格挡了"
+      },
+      {
+          "name": "DecreaseStamina",
+          "text": "降低耐力消耗"
+      },
+      {
+          "name": "On",
+          "text": "于"
+      },
+      {
+          "name": "Remove",
+          "text": "移除了"
+      },
+      {
+          "name": "CooldownReducded",
+          "text": "冷却时间减少"
+      },
+      {
+          "name": "CooldownReducdedFor",
+          "text": "为...减少冷却"
+      },
+      {
+          "name": "By",
+          "text": "减少"
+      }
+  ],
+  
+    "educationTexts": [
+      {
+        "name": "BuffsDescription",
+        "text": "增益：仅在战斗中生效的特殊强化效果"
+      },
+      {
+        "name": "ManaDescription",
+        "text": "法力：触发某些物品时消耗的资源"
+      },
+      {
+        "name": "ChanceCritDescription",
+        "text": "暴击几率：每层叠加使暴击几率提高1%"
+      },
+      {
+        "name": "BaseCritDescription",
+        "text": "暴击伤害：每层叠加使暴击伤害提高1%"
+      },
+      {
+        "name": "BurnDescription",
+        "text": "燃烧：每层叠加使所有物品触发速度提高2%"
+      },
+      {
+        "name": "RegenerationDescription",
+        "text": "再生：每层叠加每秒恢复1点生命值"
+      },
+      {
+        "name": "EvasionDescription",
+        "text": "闪避：每层叠加使闪避几率提高2%"
+      },
+      {
+        "name": "PowerDescription",
+        "text": "力量：每层叠加使所有武器/宠物的攻击力+1"
+      },
+      {
+        "name": "VampireDescription",
+        "text": "吸血：每层叠加为持有者增加2%的生命偷取"
+      },
+      {
+        "name": "ResistanceDescription",
+        "text": "抗性：每层叠加有1%概率抵消减益效果。除非特殊说明，最高不超过75%"
+      },
+      {
+        "name": "ArmorDescription",
+        "text": "护甲：格挡伤害"
+      },
+      {
+        "name": "DebuffsDescription",
+        "text": "减益：仅在战斗中生效的特殊削弱效果"
+      },
+      {
+        "name": "BleedDescription",
+        "text": "流血：每层叠加每秒对持有者造成1点伤害"
+      },
+      {
+        "name": "FrostDescription",
+        "text": "冰冻：每层叠加使所有物品触发速度降低2%"
+      },
+      {
+        "name": "PoisonDescription",
+        "text": "中毒：每层叠加使受到的治疗效果降低5%。该效果可超过100%"
+      },
+      {
+        "name": "BlindDescription",
+        "text": "致盲：每层叠加使武器/宠物的命中率降低5%"
+      },
+      {
+        "name": "BasicConceptsDescription",
+        "text": "基本概念"
+      },
+      {
+        "name": "DamageDescriptionBase",
+        "text": "伤害：对敌人造成随机的指定伤害"
+      },
+      {
+        "name": "CooldownDescriptionBase",
+        "text": "冷却：每次触发效果后，物品需要指定的秒数进行冷却"
+      },
+      {
+        "name": "ChanceCritDescriptionBase",
+        "text": "暴击几率：每件武器/宠物有概率造成暴击，具体数值见物品描述"
+      },
+      {
+        "name": "CritDamageDescriptionBase",
+        "text": "暴击伤害：暴击触发时造成的额外伤害百分比"
+      },
+      {
+        "name": "StaminaCostDescriptionBase",
+        "text": "耐力消耗：每个角色都有耐力值，用于激活游戏中大多数武器"
+      },
+      {
+        "name": "AccuracyDescriptionBase",
+        "text": "命中率：游戏中几乎所有武器都有命中率属性，决定事件触发的概率"
+      },
+      {
+        "name": "InCave1",
+        "text": "太棒了！你已到达第一个地下城。要进入，需将钥匙石放入指定槽位。之后，会根据钥匙石上显示的等级解锁地下城启动按钮。"
+      },
+      {
+        "name": "GenerateMapPage1",
+        "text": "欢迎来到城墙之外！\n目前这里只有敌人和地下城\n（未来我们会添加更多有趣内容）\n点击敌人即可查看其背包。祝旅途愉快！"
+      },
+      {
+        "name": "GenerateMapPage2",
+        "text": "点击此按钮可隐藏/显示任务标记"
+      },
+      {
+        "name": "CavePage1",
+        "text": "这里是洞穴。通关需走完迷宫，点击此按钮可查看地图"
+      },
+      {
+        "name": "BackpackShopItemPage1",
+        "text": "你好！感谢试玩我们的Alpha版本！希望你能获得有趣的体验。\n本教程将帮助你理解游戏玩法及其独特魅力。"
+      },
+      {
+        "name": "BackpackShopItemPage1_2",
+        "text": "游戏目标是通过在背包中搭配最佳物品组合，在自动战斗中击败对手。你需要策略性放置物品、组合效果并升级它们以变得更强。"
+      },
+      {
+        "name": "BackpackShopItemPage2",
+        "text": "背包\n这是你的主战场。放入的物品将在战斗中使用。\n背包格子有限，合理规划至关重要。\n\n部分物品占用多格，请提前安排布局。"
+      },
+      {
+        "name": "BackpackShopItemPage3",
+        "text": "金币是游戏主要货币，通过战斗或出售物品获得。"
+      },
+      {
+        "name": "BackpackShopItemPage3_1",
+        "text": "生命值\n不会在战斗后自动恢复，需使用酒馆购买的\"食物\"类物品回复。"
+      },
+      {
+        "name": "BackpackShopItemPage3_2",
+        "text": "经验值\n击败敌人提升等级。当前每级增加最大生命值和耐力值。"
+      },
+      {
+        "name": "BackpackShopItemPage4",
+        "text": "商店\n在此购买物品。注意价格并查看物品描述——悬停可查看效果。金币足够时，点击拖拽物品至背包即可购买。"
+      },
+      {
+        "name": "BackpackShopItemPage5",
+        "text": "物品是策略核心，分为几种类型：\n\n武器：对敌人造成伤害\n\n护甲：减免受到的伤害\n\n药水：提供临时或永久效果（如治疗或强化）\n\n神器：赋予改变战局的独特效果"
+      },
+      {
+        "name": "BackpackShopItemPage5_0",
+        "text": "现在购买\"鸡油菌\"蘑菇。按绿色箭头指示从商店拖拽该物品，我们将用它展示物品的完整潜力。"
+      },
+      {
+        "name": "BackpackShopItemPage5_1",
+        "text": "部分物品图标周围有特殊星标，数量从1到多个不等。\n每颗星需特定物品激活：\n查看物品描述——会注明每颗星的需求\n将所需物品拖入背包填充空星位\n若匹配成功——星标亮起，效果激活！"
+      },
+      {
+        "name": "BackpackShopItemPage5_2",
+        "text": "以蘑菇为例解析星标机制：\n背包中的\"鸡油菌\"描述显示：\n每颗星位放置蘑菇可使冷却时间减少10%\n这意味着在该星位放置任意蘑菇，\"鸡油菌\"的触发速度都会加快！"
+      },
+      {
+        "name": "BackpackShopItemPage5_3",
+        "text": "从商店购买任意蘑菇（如\"牛肝菌\"），将其拖至背包中\"鸡油菌\"的空星位。"
+      },
+      {
+        "name": "BackpackShopItemPage5_4",
+        "text": "现在悬停查看\"鸡油菌\"，可见星标已点亮且冷却缩减10%。继续添加蘑菇可叠加效果——每个额外蘑菇再减10%冷却！"
+      },
+      {
+        "name": "BackpackShopItemPage6",
+        "text": "战斗\n战斗自动进行。双方使用背包物品攻击与防御。\n\n先耗尽对方生命值者获胜。"
+      },
+      {
+        "name": "BackpackShopItemPage7",
+        "text": "点击此按钮可查阅战斗基础百科。制定策略时随时参考。"
+      },
+      {
+        "name": "BackpackShopItemPage8",
+        "text": "教程到此结束。祝游戏愉快！希望你能击败Alpha版首领。根据指引你来到商店的任务线，即可找到他。"
+      },
+      {
+        "name": "BackpackShopEatPage1",
+        "text": "本商店出售恢复生命值的实用物品。选购所需，满状态重返战斗！"
+      },
+      {
+        "name": "BackpackShopEatPage2",
+        "text": "只需将物品从商店拖入背包空位。松开即瞬间生效——立即恢复生命值或获得下回合战斗优势，随后物品消失。"
+      }  
     ],
     "iconsEducation": [
       {
@@ -1594,7 +2330,7 @@
       },
       {
         "name": "Resistance",
-        "description": "抗性：每层降低3%受到减益效果的概率"
+        "description": "抗性：每层降低1%受到减益效果的概率"
       },
       {
         "name": "ChanceCrit",
@@ -2245,7 +2981,8 @@
       {
         "name": "ShowItem_button",
         "text": "物品"
-      },{
+      },
+      {
         "name": "Music_volume",
         "text": "音樂音量"
       },
@@ -2298,16 +3035,264 @@
         "text": "按 E"
       }
     ],
-    "dialogs": [
+    "battleLogs": [
       {
-        "name": "welcome",
-        "text": "歡迎來到遊戲！"
+          "name": "Destroy",
+          "text": "摧毀了"
       },
       {
-        "name": "start",
-        "text": "國王駕到！"
+          "name": "Armor",
+          "text": "護甲"
+      },
+      {
+          "name": "Deal",
+          "text": "造成"
+      },
+      {
+          "name": "Damage",
+          "text": "傷害"
+      },
+      {
+          "name": "NoHaveStamina",
+          "text": "耐力不足"
+      },
+      {
+          "name": "Miss",
+          "text": "未命中"
+      },
+      {
+          "name": "Give",
+          "text": "給予"
+      },
+      {
+          "name": "Inflict",
+          "text": "施加了"
+      },
+      {
+          "name": "Used",
+          "text": "使用了"
+      },
+      {
+          "name": "FromEnemy",
+          "text": "對敵人"
+      },
+      {
+          "name": "Steal",
+          "text": "偷取了"
+      },
+      {
+          "name": "Block",
+          "text": "格擋了"
+      },
+      {
+          "name": "DecreaseStamina",
+          "text": "降低耐力消耗"
+      },
+      {
+          "name": "On",
+          "text": "於"
+      },
+      {
+          "name": "Remove",
+          "text": "移除了"
+      },
+      {
+          "name": "CooldownReducded",
+          "text": "冷卻時間減少"
+      },
+      {
+          "name": "CooldownReducdedFor",
+          "text": "為...減少冷卻"
+      },
+      {
+          "name": "By",
+          "text": "減少"
       }
-    ],
+  ],
+  
+    "educationTexts": [
+      {
+        "name": "BuffsDescription",
+        "text": "增益：僅在戰鬥中生效的特殊強化效果"
+      },
+      {
+        "name": "ManaDescription",
+        "text": "法力：觸發某些物品時消耗的資源"
+      },
+      {
+        "name": "ChanceCritDescription",
+        "text": "暴擊機率：每層疊加使暴擊機率提高1%"
+      },
+      {
+        "name": "BaseCritDescription",
+        "text": "暴擊傷害：每層疊加使暴擊傷害提高1%"
+      },
+      {
+        "name": "BurnDescription",
+        "text": "燃燒：每層疊加使所有物品觸發速度提高2%"
+      },
+      {
+        "name": "RegenerationDescription",
+        "text": "再生：每層疊加每秒恢復1點生命值"
+      },
+      {
+        "name": "EvasionDescription",
+        "text": "閃避：每層疊加使閃避機率提高2%"
+      },
+      {
+        "name": "PowerDescription",
+        "text": "力量：每層疊加使所有武器/寵物的攻擊力+1"
+      },
+      {
+        "name": "VampireDescription",
+        "text": "吸血：每層疊加為持有者增加2%的生命偷取"
+      },
+      {
+        "name": "ResistanceDescription",
+        "text": "抗性：每層疊加有1%概率抵消減益效果。除非特殊說明，最高不超過75%"
+      },
+      {
+        "name": "ArmorDescription",
+        "text": "護甲：格擋傷害"
+      },
+      {
+        "name": "DebuffsDescription",
+        "text": "減益：僅在戰鬥中生效的特殊削弱效果"
+      },
+      {
+        "name": "BleedDescription",
+        "text": "流血：每層疊加每秒對持有者造成1點傷害"
+      },
+      {
+        "name": "FrostDescription",
+        "text": "冰凍：每層疊加使所有物品觸發速度降低2%"
+      },
+      {
+        "name": "PoisonDescription",
+        "text": "中毒：每層疊加使受到的治療效果降低5%。該效果可超過100%"
+      },
+      {
+        "name": "BlindDescription",
+        "text": "致盲：每層疊加使武器/寵物的命中率降低5%"
+      },
+      {
+        "name": "BasicConceptsDescription",
+        "text": "基本概念"
+      },
+      {
+        "name": "DamageDescriptionBase",
+        "text": "傷害：對敵人造成隨機的指定傷害"
+      },
+      {
+        "name": "CooldownDescriptionBase",
+        "text": "冷卻：每次觸發效果後，物品需要指定的秒數進行冷卻"
+      },
+      {
+        "name": "ChanceCritDescriptionBase",
+        "text": "暴擊機率：每件武器/寵物有概率造成暴擊，具體數值見物品描述"
+      },
+      {
+        "name": "CritDamageDescriptionBase",
+        "text": "暴擊傷害：暴擊觸發時造成的額外傷害百分比"
+      },
+      {
+        "name": "StaminaCostDescriptionBase",
+        "text": "耐力消耗：每個角色都有耐力值，用於激活遊戲中大多數武器"
+      },
+      {
+        "name": "AccuracyDescriptionBase",
+        "text": "命中率：遊戲中幾乎所有武器都有命中率屬性，決定事件觸發的概率"
+      },
+      {
+        "name": "InCave1",
+        "text": "太棒了！你已到達第一個地下城。要進入，需將鑰匙石放入指定槽位。之後，會根據鑰匙石上顯示的等級解鎖地下城啟動按鈕。"
+      },
+      {
+        "name": "GenerateMapPage1",
+        "text": "歡迎來到城牆之外！\n目前這裡只有敵人和地下城\n（未來我們會添加更多有趣內容）\n點擊敵人即可查看其背包。祝旅途愉快！"
+      },
+      {
+        "name": "GenerateMapPage2",
+        "text": "點擊此按鈕可隱藏/顯示任務標記"
+      },
+      {
+        "name": "CavePage1",
+        "text": "這裡是洞穴。通關需走完迷宮，點擊此按鈕可查看地圖"
+      },
+      {
+        "name": "BackpackShopItemPage1",
+        "text": "你好！感謝試玩我們的Alpha版本！希望你能獲得有趣的體驗。\n本教程將幫助你理解遊戲玩法及其獨特魅力。"
+      },
+      {
+        "name": "BackpackShopItemPage1_2",
+        "text": "遊戲目標是通過在背包中搭配最佳物品組合，在自動戰鬥中擊敗對手。你需要策略性放置物品、組合效果並升級它們以變得更強。"
+      },
+      {
+        "name": "BackpackShopItemPage2",
+        "text": "背包\n這是你的主戰場。放入的物品將在戰鬥中使用。\n背包格子有限，合理規劃至關重要。\n\n部分物品佔用多格，請提前安排佈局。"
+      },
+      {
+        "name": "BackpackShopItemPage3",
+        "text": "金幣是遊戲主要貨幣，通過戰鬥或出售物品獲得。"
+      },
+      {
+        "name": "BackpackShopItemPage3_1",
+        "text": "生命值\n不會在戰鬥後自動恢復，需使用酒館購買的\"食物\"類物品回復。"
+      },
+      {
+        "name": "BackpackShopItemPage3_2",
+        "text": "經驗值\n擊敗敵人提升等級。當前每級增加最大生命值和耐力值。"
+      },
+      {
+        "name": "BackpackShopItemPage4",
+        "text": "商店\n在此購買物品。注意價格並查看物品描述——懸停可查看效果。金幣足夠時，點擊拖拽物品至背包即可購買。"
+      },
+      {
+        "name": "BackpackShopItemPage5",
+        "text": "物品是策略核心，分為幾種類型：\n\n武器：對敵人造成傷害\n\n護甲：減免受到的傷害\n\n藥水：提供臨時或永久效果（如治療或強化）\n\n神器：賦予改變戰局的獨特效果"
+      },
+      {
+        "name": "BackpackShopItemPage5_0",
+        "text": "現在購買\"雞油菌\"蘑菇。按綠色箭頭指示從商店拖拽該物品，我們將用它展示物品的完整潛力。"
+      },
+      {
+        "name": "BackpackShopItemPage5_1",
+        "text": "部分物品圖標周圍有特殊星標，數量從1到多個不等。\n每顆星需特定物品激活：\n查看物品描述——會註明每顆星的需求\n將所需物品拖入背包填充空星位\n若匹配成功——星標亮起，效果激活！"
+      },
+      {
+        "name": "BackpackShopItemPage5_2",
+        "text": "以蘑菇為例解析星標機制：\n背包中的\"雞油菌\"描述顯示：\n每顆星位放置蘑菇可使冷卻時間減少10%\n這意味著在該星位放置任意蘑菇，\"雞油菌\"的觸發速度都會加快！"
+      },
+      {
+        "name": "BackpackShopItemPage5_3",
+        "text": "從商店購買任意蘑菇（如\"牛肝菌\"），將其拖至背包中\"雞油菌\"的空星位。"
+      },
+      {
+        "name": "BackpackShopItemPage5_4",
+        "text": "現在懸停查看\"雞油菌\"，可見星標已點亮且冷卻縮減10%。繼續添加蘑菇可疊加效果——每個額外蘑菇再減10%冷卻！"
+      },
+      {
+        "name": "BackpackShopItemPage6",
+        "text": "戰鬥\n戰鬥自動進行。雙方使用背包物品攻擊與防禦。\n\n先耗盡對方生命值者獲勝。"
+      },
+      {
+        "name": "BackpackShopItemPage7",
+        "text": "點擊此按鈕可查閱戰鬥基礎百科。制定策略時隨時參考。"
+      },
+      {
+        "name": "BackpackShopItemPage8",
+        "text": "教程到此結束。祝遊戲愉快！希望你能擊敗Alpha版首領。根據指引你來到商店的任務線，即可找到他。"
+      },
+      {
+        "name": "BackpackShopEatPage1",
+        "text": "本商店出售恢復生命值的實用物品。選購所需，滿狀態重返戰鬥！"
+      },
+      {
+        "name": "BackpackShopEatPage2",
+        "text": "只需將物品從商店拖入背包空位。鬆開即瞬間生效——立即恢復生命值或獲得下回合戰鬥優勢，隨後物品消失。"
+      }
+    ]
+  ,
     "iconsEducation": [
       {
         "name": "Poison",
@@ -2331,7 +3316,7 @@
       },
       {
         "name": "Resistance",
-        "description": "抗性：每層降低3%受到減益效果的概率"
+        "description": "抗性：每層降低1%受到減益效果的概率"
       },
       {
         "name": "ChanceCrit",
@@ -2958,4 +3943,3 @@
     "weight": "重量：{0}單位"
   }
 }
-

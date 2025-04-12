@@ -14,7 +14,9 @@ public class CaveEducationController : MonoBehaviour
 
     private void Start()
     {
-        if(PlayerPrefs.GetInt("CaveEducation") == 0)
+        //PlayerPrefs.SetString("LanguageSettings", "ru");
+        PlayerPrefs.SetInt("CaveEducation", 0);
+        if (PlayerPrefs.GetInt("CaveEducation") == 0)
         {
             OpenEducation();
             PlayerPrefs.SetInt("CaveEducation", 1);

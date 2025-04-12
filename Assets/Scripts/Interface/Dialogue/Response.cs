@@ -14,9 +14,9 @@ public class Response
 
     //взять квест
     public bool quest = false;
-    public string questName = "";
-    public string questDescription = "";
-    public int necessaryProgress = 0;
+    //public string questName = "";
+    //public string questDescription = "";
+    //public int necessaryProgress = 0;
     public int questID = 0;
 
     //выдать предметы

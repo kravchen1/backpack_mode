@@ -9,7 +9,7 @@ public class Flask : Item
         {
             FillnestedObjectStarsStars(256);
             animator.speed = 1f / 0.5f;
-            animator.Play(originalName + "Activation");
+            //animator.Play(originalName + "Activation");
         }
     }
 

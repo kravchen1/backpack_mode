@@ -31,7 +31,6 @@ public class Stuff : Item
                 timer_locked_outStart = false;
                 animator.speed = 1f / timer_cooldown;
                 animator.Play(originalName + "Activation");
-
             }
         }
     }

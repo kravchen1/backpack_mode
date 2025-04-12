@@ -50,6 +50,9 @@ public class EndOfBattle : MonoBehaviour
 
     public float fillExpSpeed = 0.00001f;// Скорость заполнения полосы - чем меньше, тем быстрее
 
+    private int hpAddCountForLvl = 35;
+
+
     private void Awake()
     {
     }
@@ -79,26 +82,37 @@ public class EndOfBattle : MonoBehaviour
             var enemyName = PlayerPrefs.GetString("enemyName");
             if (enemyName == "Dragon(Clone)")
             {
-                if(QuestComplete(6))
-                    NewQuestId7();
+                if (QuestComplete(6))
+                {
+                    NewQuest(7, "NPC_King", 6);
+                    //NewQuestId7();
+                }
+
             }
             else if (enemyName == "Podpol")
             {
-                if(QuestComplete(8))
-                    NewQuestId9();
+                if (QuestComplete(8))
+                {
+                    NewQuest(9, "NPC_King", 8);
+                    //NewQuestId9();
+                }
                 PlayerPrefs.SetInt("isEnemyPodpolDefeat", 1);
             }
             else if (enemyName == "General")
             {
-                if(QuestComplete(10))
-                    NewQuestId11();
+                if (QuestComplete(10))
+                {
+                    NewQuest(11, "NPC_King", 10);
+                    //NewQuestId11();
+                }
                 PlayerPrefs.SetInt("isEnemyGeneralDefeat",1);
             }
             else
             {
                 if (!QuestCompleteProgress(4))
                 {
-                    NewQuestId5();
+                    NewQuest(5, "NPC_King", 4);
+                    //NewQuestId5();
                 }
             }
 
@@ -177,8 +191,15 @@ public class EndOfBattle : MonoBehaviour
             return false;
     }
 
-    public void NewQuestId5()
+    public void NewQuest(int idQuest, string NPCName, int ppDialogueID)
     {
+        string settingLanguage = "en";
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+        string questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, idQuest);
+        string questText = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, idQuest);
+        int questProgress = QuestManagerJSON.Instance.GetProgressQuest(settingLanguage, idQuest);
+
         if (qm == null)
         {
             qm = new QuestManager();
@@ -188,135 +209,30 @@ public class EndOfBattle : MonoBehaviour
                 qm.questData = new QuestData();
                 qm.questData.questData = new QDataList();
                 qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                var questDat = qm.questData.questData.quests.Where(e => e.id == 5).ToList();
+
+                
+
+                var questDat = qm.questData.questData.quests.Where(e => e.id == idQuest).ToList();
                 if (questDat.Count == 0)
                 {
-                    Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+                    Quest quest = new Quest(questName, questText, questProgress, idQuest);
 
                     qm.questData.questData.quests.Add(quest);
                     qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                    PlayerPrefs.SetInt("NPC_King", 4);
+                    PlayerPrefs.SetInt(NPCName, ppDialogueID);
                 }
             }
         }
         else
         {
             qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            var questDat = qm.questData.questData.quests.Where(e => e.id == 5).ToList();
+            var questDat = qm.questData.questData.quests.Where(e => e.id == idQuest).ToList();
             if (questDat.Count == 0)
             {
-                Quest quest = new Quest("continue talk5", "talk to the king", -1, 5);
+                Quest quest = new Quest(questName, questText, questProgress, idQuest);
                 qm.questData.questData.quests.Add(quest);
                 qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                PlayerPrefs.SetInt("NPC_King", 4);
-            }
-        }
-    }
-
-    public void NewQuestId7()
-    {
-        if (qm == null)
-        {
-            qm = new QuestManager();
-
-            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
-            {
-                qm.questData = new QuestData();
-                qm.questData.questData = new QDataList();
-                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                var questDat = qm.questData.questData.quests.Where(e => e.id == 7).ToList();
-                if (questDat.Count == 0)
-                {
-                    Quest quest = new Quest("continue talk7", "talk to the king", -1, 7);
-
-                    qm.questData.questData.quests.Add(quest);
-                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                    PlayerPrefs.SetInt("NPC_King", 6);
-                }
-            }
-        }
-        else
-        {
-            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            var questDat = qm.questData.questData.quests.Where(e => e.id == 7).ToList();
-            if (questDat.Count == 0)
-            {
-                Quest quest = new Quest("continue talk7", "talk to the king", -1, 7);
-                qm.questData.questData.quests.Add(quest);
-                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                PlayerPrefs.SetInt("NPC_King", 6);
-            }
-        }
-    }
-
-    public void NewQuestId9()
-    {
-        if (qm == null)
-        {
-            qm = new QuestManager();
-
-            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
-            {
-                qm.questData = new QuestData();
-                qm.questData.questData = new QDataList();
-                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                var questDat = qm.questData.questData.quests.Where(e => e.id == 9).ToList();
-                if (questDat.Count == 0)
-                {
-                    Quest quest = new Quest("continue talk9", "talk to the king", -1, 9);
-
-                    qm.questData.questData.quests.Add(quest);
-                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                    PlayerPrefs.SetInt("NPC_King", 8);
-                }
-            }
-        }
-        else
-        {
-            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            var questDat = qm.questData.questData.quests.Where(e => e.id == 9).ToList();
-            if (questDat.Count == 0)
-            {
-                Quest quest = new Quest("continue talk7", "talk to the king", -1, 9);
-                qm.questData.questData.quests.Add(quest);
-                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                PlayerPrefs.SetInt("NPC_King", 8);
-            }
-        }
-    }
-
-    public void NewQuestId11()
-    {
-        if (qm == null)
-        {
-            qm = new QuestManager();
-
-            if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
-            {
-                qm.questData = new QuestData();
-                qm.questData.questData = new QDataList();
-                qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                var questDat = qm.questData.questData.quests.Where(e => e.id == 11).ToList();
-                if (questDat.Count == 0)
-                {
-                    Quest quest = new Quest("continue talk11", "получите награду от Короля", -1, 11);
-
-                    qm.questData.questData.quests.Add(quest);
-                    qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                    PlayerPrefs.SetInt("NPC_King", 10);
-                }
-            }
-        }
-        else
-        {
-            qm.questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-            var questDat = qm.questData.questData.quests.Where(e => e.id == 11).ToList();
-            if (questDat.Count == 0)
-            {
-                Quest quest = new Quest("continue talk11", "получите награду от Короля", -1, 11);
-                qm.questData.questData.quests.Add(quest);
-                qm.questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-                PlayerPrefs.SetInt("NPC_King", 10);
+                PlayerPrefs.SetInt(NPCName, ppDialogueID);
             }
         }
     }
@@ -438,7 +354,7 @@ public class EndOfBattle : MonoBehaviour
 
     public void LevelUpAddUI(int countLvlUp)
     {
-        var hpAddCount = (countLvlUp * 10);
+        var hpAddCount = (countLvlUp * hpAddCountForLvl);
         winHPAddCount.text = "+" + hpAddCount.ToString();
 
         var staminaAddCount = (countLvlUp * 0.2f);
@@ -493,7 +409,7 @@ public class EndOfBattle : MonoBehaviour
 
     public void LevelUpAdd(int countLvlUp)
     {
-        var hpAddCount = (countLvlUp * 10);
+        var hpAddCount = (countLvlUp * hpAddCountForLvl);
         playerBackpackBattle.characterStats.playerMaxHp += hpAddCount;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.characterStats.playerMaxHp;
 

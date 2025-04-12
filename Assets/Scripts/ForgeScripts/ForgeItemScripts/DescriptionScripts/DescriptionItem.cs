@@ -100,7 +100,7 @@ public class DescriptionItem : MonoBehaviour
     {
         if (weightText != null)
         {
-            Debug.Log(settingLanguage);
+            //Debug.Log(settingLanguage);
             weightText.text = string.Format(LocalizationManager.Instance.GetTextWeight(settingLanguage), weight);
         }
     }
@@ -202,7 +202,7 @@ public class DescriptionItem : MonoBehaviour
                     {
                         go.fontStyle = FontStyles.Normal;
                     }
-                    if(go.name == "TextWeight")
+                    if (go.name == "TextWeight")
                     {
                         go.fontSize = 220;
                     }

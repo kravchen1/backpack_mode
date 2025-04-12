@@ -156,7 +156,14 @@ public class ButtonsController : MonoBehaviour
         QuestData questData = new QuestData();
         questData.questData = new QDataList();
 
-        Quest quest = new Quest("Еhe beginning of time", "talk to the king", -1, 1);
+        string settingLanguage = "en";
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+        string questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, 1);
+        string questText = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, 1);
+        int questProgress = QuestManagerJSON.Instance.GetProgressQuest(settingLanguage, 1);
+
+        Quest quest = new Quest(questName, questText, questProgress, 1);
 
         questData.questData.quests.Add(quest);
         questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));

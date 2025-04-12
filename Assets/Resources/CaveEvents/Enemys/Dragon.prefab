@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -20.71997, y: -5.340027}
+  m_AnchoredPosition: {x: -20.71997, y: -5.340088}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1683857023149169673
@@ -180,12 +180,6 @@ MonoBehaviour:
   startStamina: 8
   stepStaminaForLevel: 0.5
   dropItems:
-  - {fileID: 4435276784434985165, guid: 00b25bb3f4ea4b347990d863ecd4bd41, type: 3}
-  - {fileID: 1302777022262495037, guid: b5a806d72473537498da1d45764c2bb8, type: 3}
-  - {fileID: 7771945592325118772, guid: 8ed1c289411b56f4e9616a71f62ad48b, type: 3}
-  - {fileID: 6178730246548121751, guid: 93efdc76d68891646a3a53b62225f9e4, type: 3}
-  - {fileID: 1785654062779963286, guid: e05a12609da694745b873a7e1039957d, type: 3}
-  - {fileID: 3780810946225660016, guid: 1a6d52cefc208e84ba9d834edb35f942, type: 3}
   - {fileID: 8287826245098617239, guid: 96cbe768519e8584e85a6e494343e3f9, type: 3}
   - {fileID: 9008947792721157327, guid: 28b65ab53e7766946adf9b8c2ce4881e, type: 3}
   - {fileID: 5588805258437177774, guid: 43dc3bb2827e317408b7c7b7b20ab370, type: 3}
@@ -207,22 +201,16 @@ MonoBehaviour:
   - {fileID: 6869543898501832560, guid: b1d76b85e061bed41a0948da02c33149, type: 3}
   - {fileID: 8792677308760069717, guid: acaf2b3ba1f9c04469d4128d09f7e91c, type: 3}
   probabilityDropItems:
-  - 50
-  - 50
-  - 50
-  - 35
-  - 50
-  - 50
   - 0
   - 0
   - 0
   - 0
   - 0
   - 0
-  - 5
-  - 20
-  - 15
   - 10
+  - 40
+  - 30
+  - 20
   - 0
   - 0
   - 0
@@ -460,7 +448,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: 468962855052056279, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -504,8 +492,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: lvl. 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
+  m_sharedMaterial: {fileID: 468962855052056279, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -535,7 +523,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -594,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6338026939531088339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -611,7 +599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4143546, y: 0.5987236}
   m_AnchorMax: {x: 0.4656834, y: 0.6344793}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 19.5, y: 1.1000061}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1926970991150962238
@@ -645,7 +633,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  - {fileID: 468962855052056279, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -689,8 +677,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: press e
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
-  m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
+  m_sharedMaterial: {fileID: 468962855052056279, guid: d9d29a76ad271a04ba233029674db1f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -720,7 +708,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -730,7 +718,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
