@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class Enemy : EventParent
 {
     public GameObject player;
-    private bool isPlayerInTrigger = false;
+    protected bool isPlayerInTrigger = false;
 
     public TextMeshPro lvlText;
 
@@ -29,12 +29,12 @@ public class Enemy : EventParent
     public List<GameObject> dropItems;
     public List<float> probabilityDropItems;
 
-    private string currentSceneName;
-    private GameObject map;
+    protected string currentSceneName;
+    protected GameObject map;
 
-    private GameObject canvasBackpackEnemy;
-    private GenerateBackpackOnMap generateBackpackOnMap;
-    private bool isDie = false;
+    protected GameObject canvasBackpackEnemy;
+    protected GenerateBackpackOnMap generateBackpackOnMap;
+    protected bool isDie = false;
 
     public float moveSpeed = 30f;
     public Animator animator;
@@ -64,64 +64,73 @@ public class Enemy : EventParent
         }
         rt = GetComponent<RectTransform>();
     }
+    // В классе Enemy:
+    private Coroutine moveCoroutine;
+    private bool isMoving = false; // Флаг движения
 
-    public virtual void Move()
+    public virtual void Move(bool startMove)
     {
-        if (!isDie)
+        if (!isDie && !isMoving)
         {
             pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
-
             rt = GetComponent<RectTransform>();
-            StartCoroutine(MoveBetweenPoints());
+            isMoving = true;
+            moveCoroutine = StartCoroutine(MoveBetweenPoints(startMove));
         }
     }
 
-    public IEnumerator MoveBetweenPoints()
+    public virtual void StopMove()
     {
-        // Проверяем, есть ли точки для перемещения
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+            isMoving = false;
+        }
+    }
+
+    private int currentPointIndex = 1;
+    public IEnumerator MoveBetweenPoints(bool startMove)
+    {
         if (pointsRun == null || pointsRun.Count == 0)
         {
             Debug.LogWarning("No points to move!");
             yield break;
         }
-        // Проверяем, назначен ли аниматор
+
         if (animator == null)
         {
             Debug.LogWarning("No animator!");
             yield break;
         }
-        // Начинаем с первой точки в списке
-        int currentPointIndex = 0;
-        rt.anchoredPosition = pointsRun[currentPointIndex];
 
+        // Убрано принудительное перемещение в точку
         while (true)
         {
-            // Включаем анимацию покоя
-            animator.Play("Idle");
+            // Если только начали движение и не телепортируемся
+            if (!startMove)
+            {
+                animator.Play("Idle");
+                yield return new WaitForSeconds(UnityEngine.Random.Range(3f, 7f));
+            }
+            startMove = false; // Сбрасываем флаг после первого использования
 
-            // Ждем r секунд
-            float r = UnityEngine.Random.Range(3f, 7f);
-            yield return new WaitForSeconds(r);
-            //yield return new WaitForSeconds(0.5f);
-            // Переходим к следующей точке
-            currentPointIndex = (currentPointIndex + 1) % pointsRun.Count;
             Vector2 targetPoint = pointsRun[currentPointIndex];
-            Vector3 theScale = transform.GetChild(0).localScale;
-            // Включаем анимацию бега
             animator.Play("Run1");
 
+            // Поворот спрайта
+            Vector3 theScale = transform.GetChild(0).localScale;
             if (rt.anchoredPosition.x < targetPoint.x)
             {
-                if(theScale.x > 0)
-                    theScale.x = -theScale.x;
+                theScale.x = -Mathf.Abs(theScale.x);
             }
             else
             {
-                theScale.x = Math.Abs(theScale.x);
+                theScale.x = Mathf.Abs(theScale.x);
             }
             transform.GetChild(0).localScale = theScale;
 
-            // Двигаемся к точке
+            // Движение к точке
             while (Vector2.Distance(rt.anchoredPosition, targetPoint) > 0.1f)
             {
                 rt.anchoredPosition = Vector2.MoveTowards(
@@ -132,8 +141,8 @@ public class Enemy : EventParent
                 yield return null;
             }
 
-            // Гарантируем, что мы точно достигли точки
-            rt.anchoredPosition = targetPoint;
+            // Переход к следующей точке
+            currentPointIndex = (currentPointIndex + 1) % pointsRun.Count;
         }
     }
 

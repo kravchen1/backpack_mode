@@ -4,14 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class StaticEnemy : Enemy
 {
-    private bool isPlayerInTrigger = false;
 
-    private string currentSceneName;
-    private GameObject map;
-
-    private GameObject canvasBackpackEnemy;
-    private GenerateBackpackOnMap generateBackpackOnMap;
-    private bool click = false;
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -24,7 +17,7 @@ public class StaticEnemy : Enemy
     }
 
 
-    public override void Move()
+    public override void Move(bool StartMove)
     {
     }
 }
