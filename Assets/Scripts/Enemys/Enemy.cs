@@ -146,7 +146,6 @@ public class Enemy : EventParent
         }
     }
 
-
     protected void OnTriggerEnter2D()
     {
         if (player == null)
@@ -159,6 +158,7 @@ public class Enemy : EventParent
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
             GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);
+            StopMove();
         }
     }
 
@@ -166,6 +166,7 @@ public class Enemy : EventParent
     {
         isPlayerInTrigger = false;
         SetActivePressE(false);
+        Move(true);
     }
 
     public void ActivateEnemy()
@@ -194,6 +195,27 @@ public class Enemy : EventParent
         {
             ActivateEnemy();
         }
+        else if(isPlayerInTrigger)
+        {
+            Vector3 theScale = transform.GetChild(0).localScale;
+            //Debug.Log("Player: " + player.transform.position.x);
+            //Debug.Log("Enemy: " + gameObject.transform.position.x);
+            if (player.transform.position.x > gameObject.transform.position.x)
+            {
+                theScale.x = -Mathf.Abs(theScale.x);
+                transform.GetChild(0).localScale = theScale;
+            }
+            else
+            {
+                theScale.x = Mathf.Abs(theScale.x);
+                transform.GetChild(0).localScale = theScale;
+            }
+        }
+    }
+
+    protected void SeePlayer()
+    {
+
     }
 
 
