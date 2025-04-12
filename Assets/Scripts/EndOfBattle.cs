@@ -72,6 +72,8 @@ public class EndOfBattle : MonoBehaviour
             if (PlayerPrefs.GetInt("VampireAmulet") == 1)
             {
                 PlayerPrefs.SetInt("VampireAmulet", 0);
+                GameObject prefab = Resources.Load<GameObject>("Items/Weapons/Pets/AngryFluff");
+                SetStorageWeigth(prefab.GetComponent<Item>().weight);
                 giveItem("AngryFluff");
             }
             var enemyName = PlayerPrefs.GetString("enemyName");
@@ -411,6 +413,12 @@ public class EndOfBattle : MonoBehaviour
             //SceneManager.LoadScene("GenerateMapFortress1");
             SceneLoader.Instance.LoadScene("GenerateMapFortress1");
         }
+    }
+
+    private void SetStorageWeigth(float weight)
+    {
+        decimal preciseWeight = (decimal)playerBackpackBattle.characterStats.storageWeight + (decimal)weight;
+        playerBackpackBattle.characterStats.storageWeight = (float)System.Math.Round(preciseWeight, 2);
     }
 
     private void giveItem(string itemName)

@@ -77,6 +77,7 @@ public class DropItem : EventParent
     public void Activate()
     {
         giveItem(item.name);
+        SetStorageWeigth(item.GetComponent<Item>().weight);
         //player.animator.play("giveItem");
         Destroy(gameObject);
     }
@@ -150,6 +151,13 @@ public class DropItem : EventParent
         int x = backPackAndStorageData.storageData.itemData.items.Count % 8;
         backPackAndStorageData.storageData.itemData.items.Add(new Data(itemName, new Vector3(-370 + (82 * x), -120 + (45 * y), -2)));
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
+    }
+
+    private void SetStorageWeigth(float weight)
+    {
+        decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)weight;
+        characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+        characterStats.SaveData();
     }
 }
 

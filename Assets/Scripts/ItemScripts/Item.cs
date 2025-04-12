@@ -32,8 +32,9 @@ public abstract class Item : MonoBehaviour
     //protected CanvasGroup canvasGroup;
     [HideInInspector] public Color imageColor;
     [HideInInspector] public string prefabOriginalName;
+    [HideInInspector] public CharacterStats characterStats;
 
-
+    [HideInInspector] public bool lastParentWasStorage;
     public GameObject Description;
     //public GameObject DescriptionLogCharacter;
     //public GameObject DescriptionLogEnemy;
@@ -119,7 +120,18 @@ public abstract class Item : MonoBehaviour
     private Animator enemyAnimator;
 
     protected LogManager logManager;
+
     
+    public enum ItemRarity
+    {
+        Common,      // Обычный
+        Rare,        // Редкий
+        Epic,        // Эпический
+        Legendary  // Легендарный
+    }
+    public ItemRarity rarity;
+
+    public float weight;
 
 
     void Awake()
@@ -217,6 +229,7 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
+        lastParentWasStorage = transform.parent.CompareTag("Storage");
         shopItem = GetComponent<ShopItem>();
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         if (SceneManager.GetActiveScene().name != "BackPackBattle")
@@ -468,8 +481,18 @@ public abstract class Item : MonoBehaviour
         switch (ExtendedCorrectEndPoint())
         {
             case 1:
+                Debug.Log("case1");
                 gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
-
+                if (characterStats == null)
+                {
+                    characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                }
+                if (lastParentWasStorage)
+                {
+                    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                    lastParentWasStorage = false;
+                }
                 CorrectPosition();
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
@@ -489,6 +512,14 @@ public abstract class Item : MonoBehaviour
                     //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
                     nestedObjectItem.rb.excludeLayers = 0;
                     nestedObjectItem.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
+                    if(characterStats == null)
+                    {
+                        characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                    }
+                    nestedObjectItem.lastParentWasStorage = true;
+                    decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
+                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                    Debug.Log("case2");
                 }
                 //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                 gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
@@ -496,9 +527,26 @@ public abstract class Item : MonoBehaviour
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
                 EffectPlaceCorrect();
+                if (lastParentWasStorage)
+                {
+                    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                    lastParentWasStorage = false;
+                }
                 break;
             case 3:
+                Debug.Log("case3");
                 gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
+                if (characterStats == null)
+                {
+                    characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                }
+                if (!lastParentWasStorage)
+                {
+                    decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)weight;
+                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                    lastParentWasStorage = true;
+                }
                 needToDynamic = true;
                 timerStatic_locked_out = true;
                 timerStatic = timer_cooldownStatic;
@@ -884,8 +932,12 @@ public abstract class Item : MonoBehaviour
     }
     public virtual void SellItem()
     {
-        var listCharacterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None);
-        var characterStats = listCharacterStats[0];
+        characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+        if (lastParentWasStorage)
+        {
+            decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+        }
         characterStats.playerCoins = characterStats.playerCoins + (int)(itemCost / 2);
         characterStats.coinsText.text = characterStats.playerCoins.ToString();
         sellChestSound.Play();

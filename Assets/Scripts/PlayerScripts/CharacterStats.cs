@@ -10,10 +10,11 @@ public class CharacterStats : MonoBehaviour
 {
     public bool dev = false;
     public float playerMaxStamina;
+    public float storageWeight, maxStorageWeigth;
     public int playerHP, playerMaxHp, playerCoins, playerLvl, playerExp, requiredExp;
     public float playerTime = 0f;
 
-    public TextMeshProUGUI hpText, lvlText, coinsText, expText;
+    public TextMeshProUGUI hpText, lvlText, coinsText, expText, weightText;
 
     public GameObject hpBar;
     public GameObject expBar;
@@ -42,6 +43,7 @@ public class CharacterStats : MonoBehaviour
         lvlText = GameObject.FindGameObjectWithTag("LvlTxt").GetComponent<TextMeshProUGUI>();
         coinsText = GameObject.FindGameObjectWithTag("CoinTxt").GetComponent<TextMeshProUGUI>();
         expText = GameObject.FindGameObjectWithTag("ExpTxt").GetComponent<TextMeshProUGUI>();
+        weightText = GameObject.FindGameObjectWithTag("WeightTxt").GetComponent<TextMeshProUGUI>();
         //arrowTime = GameObject.FindGameObjectWithTag("ArrowTime");
     }
     public void InitializeCharacterStats()
@@ -59,7 +61,9 @@ public class CharacterStats : MonoBehaviour
                 int y = 2;
                 requiredExp = (int)(x * Math.Pow(playerLvl, y) - (x * playerLvl)) + 1000;
                 playerTime = 0f;
-                playerMaxStamina = 5f;
+                playerMaxStamina = 5;
+                storageWeight = 0;
+                maxStorageWeigth = 100;
             }
             else
             {
@@ -72,6 +76,9 @@ public class CharacterStats : MonoBehaviour
                 int x = 500;
                 int y = 2;
                 requiredExp = characterStatsData.requiredExp;
+                storageWeight = characterStatsData.storageWeight;
+                maxStorageWeigth = characterStatsData.maxStorageWeigth;
+
             }
         }
         else
@@ -83,7 +90,7 @@ public class CharacterStats : MonoBehaviour
     public void SaveData()
     {
         characterStatsDataFilePath = Path.Combine(PlayerPrefs.GetString("savePath"), "characterStatsData.json");
-        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina);
+        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina, storageWeight, maxStorageWeigth);
 
         //var saveData = "[";
         var saveData = JsonUtility.ToJson(characterStatsData);
@@ -104,7 +111,7 @@ public class CharacterStats : MonoBehaviour
     }
     public CharacterStatsData LoadData(String filePath)
     {
-        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina);
+        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina, storageWeight, maxStorageWeigth);
         if (File.Exists(filePath))
         {
             characterStatsData = JsonUtility.FromJson<CharacterStatsData>(File.ReadAllText(filePath));
@@ -113,7 +120,7 @@ public class CharacterStats : MonoBehaviour
     }
     public CharacterStatsData LoadDataEnemy(String jsonData)
     {
-        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina);
+        characterStatsData = new CharacterStatsData(playerHP, playerMaxHp, playerExp, playerCoins, requiredExp, playerLvl, playerMaxStamina, storageWeight, maxStorageWeigth);
         characterStatsData = JsonUtility.FromJson<CharacterStatsData>(jsonData);
         return characterStatsData;
     }
@@ -126,5 +133,15 @@ public class CharacterStats : MonoBehaviour
         if (expText != null) expText.text = playerExp.ToString() + " / " + requiredExp.ToString();
         if(expBar != null) expBar.GetComponent<Image>().fillAmount = (float)playerExp / (float)requiredExp;
         if (hpBar != null) hpBar.GetComponent<Image>().fillAmount = (float)playerHP / (float)playerMaxHp;
+        if (weightText != null)
+        {
+            weightText.text = storageWeight.ToString() + " / " + maxStorageWeigth.ToString();
+            if(storageWeight < maxStorageWeigth * 0.85)
+                weightText.color = Color.white;
+            else if (storageWeight >= maxStorageWeigth * 0.85 && storageWeight <= maxStorageWeigth)
+                weightText.color = new Color(1.0f, 0.5f, 0.0f, 1.0f);
+            else if(storageWeight > maxStorageWeigth)
+                weightText.color = Color.red;
+        }
     }
 }

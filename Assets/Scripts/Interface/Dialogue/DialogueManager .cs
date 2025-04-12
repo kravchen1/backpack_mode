@@ -16,6 +16,9 @@ public class DialogueManager : MonoBehaviour
 
 
     private BackPackAndStorageData backPackAndStorageData;
+
+    private CharacterStats characterStats;
+    private GameObject player;
     public void StartDialogue(Dialogue dialogue, NPC npc)
     {
         currentDialogue = dialogue;
@@ -62,6 +65,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void SetStorageWeigth(float weight)
+    {
+        decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)weight;
+        characterStats.storageWeight = (float)System.Math.Round(preciseWeight, 2);
+    }
+
     private void giveItem(GameObject item)
     {
         backPackAndStorageData = new BackPackAndStorageData();
@@ -78,12 +87,19 @@ public class DialogueManager : MonoBehaviour
 
     private void OnResponseSelected(Response response)
     {
-        if(response.giveItem)
+        if (response.giveItem)
         {
-            foreach(var item in response.giveItemPrefab)
+            if (player == null)
             {
+                player = GameObject.FindGameObjectWithTag("Player");
+                characterStats = player.GetComponent<CharacterStats>();
+            }
+            foreach (var item in response.giveItemPrefab)
+            {
+                SetStorageWeigth(item.GetComponent<Item>().weight);
                 giveItem(item);
             }
+            characterStats.SaveData();
         }
 
         if (response.questComplete)
