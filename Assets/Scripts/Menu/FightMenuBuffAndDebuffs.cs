@@ -95,7 +95,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
         }
 
         int r = UnityEngine.Random.Range(0, 100);
-        if (r <= percentChanceResist)//успех наложения дебаффа
+        if (percentChanceResist <= r)//успех наложения дебаффа
         {
             if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains(debuffName.ToUpper())))
             {

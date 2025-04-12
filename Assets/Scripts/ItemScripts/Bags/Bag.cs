@@ -28,18 +28,7 @@ public class Bag : Item
         }
     }
     private Vector3 shopItemStartPosition;
-    //public new void TapFirst()
-    //{
-    //    if (firstTap)
-    //    {
-    //        firstTap = false;
-    //        rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-    //        shopItem = GetComponent<ShopItem>();
-    //        if(shopItem != null)
-    //            shopItemStartPosition = shopItem.transform.position;
-    //        backpack = GameObject.Find("backpack");
-    //    }
-    //}
+
     public new void TapRotate()
     {
         needToRotate = true;
@@ -87,6 +76,10 @@ public class Bag : Item
 
     public override void OnMouseDown()
     {
+        if (returnToOriginalPosition != null)
+        {
+            StopCoroutine(returnToOriginalPosition);
+        }
         lastParentWasStorage = transform.parent.CompareTag("Storage");
         //rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         shopItem = GetComponent<ShopItem>();
@@ -110,8 +103,8 @@ public class Bag : Item
                     TapShowBackPack();
                     
                     canShowDescription = false;
-                    originalLayer = gameObject.layer;
-                    gameObject.layer = LayerMask.NameToLayer("DraggingObject");
+                    //originalLayer = gameObject.layer;
+                    //gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
@@ -130,14 +123,15 @@ public class Bag : Item
                 IgnoreCollisionObject(true);
                 SetOrderLayerPriority("DraggingObject", "DraggingObject", 100);
                 StayParentForChild();
-                lastItemPosition = gameObject.transform.position;
+                if (!DragManager.isReturnToOrgignalPos)
+                    lastItemPosition = gameObject.transform.position;
                 //TapFirst();
                 TapRotate();
                 TapShowBackPack();
                 
                 canShowDescription = false;
-                originalLayer = gameObject.layer;
-                gameObject.layer = LayerMask.NameToLayer("DraggingObject");
+                //originalLayer = gameObject.layer;
+               //gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                 // Начинаем перетаскивание
                 isDragging = true;
                 // Вычисляем смещение между курсором и объектом
@@ -328,6 +322,65 @@ public class Bag : Item
             return false;
         }
     }
+
+    private void swapBags()
+    {
+        foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+        {
+            var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Bag>();
+            //nestedObjectItem.MoveObjectOnEndDrag();
+            nestedObjectItem.EffectPlaceNoCorrect();
+            //nestedObjectItem.ClearParentForChild();
+            nestedObjectItem.EndDragForChildObjects(false);
+            nestedObjectItem.DeleteNestedObject(nestedObjectItem.transform.parent.tag);
+            nestedObjectItem.needToDynamic = true;
+            timerStatic_locked_out = true;
+            timerStatic = timer_cooldownStatic;
+            //nestedObjectItem.Impulse = true;
+            //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
+            nestedObjectItem.rb.excludeLayers = 0;
+            nestedObjectItem.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
+            if (characterStats == null)
+            {
+                characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+            }
+            nestedObjectItem.lastParentWasStorage = true;
+            decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
+            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+            //Debug.Log("case2");
+        }
+        //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
+        gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
+        CorrectPosition();
+        SetNestedObject();
+        rb.excludeLayers = (1 << 9) | (1 << 10);
+        EffectPlaceCorrect();
+        if (lastParentWasStorage)
+        {
+            decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+            lastParentWasStorage = false;
+        }
+    }
+    public override int ExtendedCorrectEndPoint()
+    {
+        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+        {
+            CorrectPosition();
+            return 1; //no swap item
+        }
+        else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
+        {
+            //CorrectPosition();
+            needToDynamic = true;
+            return 2; //swap item
+        }
+        else
+        {
+            needToDynamic = true;
+            return 3; //don`t correct
+        }
+    }
     public new void ChangeColorToDefault()
     {
         foreach (var collider in itemColliders)
@@ -416,7 +469,7 @@ public class Bag : Item
                             characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
                             objectInCell.gameObject.lastParentWasStorage = false;
                         }
-                        //objectInCell.gameObject.CorrectPosition();
+
                         objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
                         objectInCell.gameObject.SetNestedObject();
                         objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
@@ -459,6 +512,7 @@ public class Bag : Item
                 objectInCell.gameObject.rb.excludeLayers = (1 << 10) | (1 << 11);
             }
             objectInCell.gameObject.ChangeColorToDefault();
+            //objectInCell.gameObject.gameObject.layer = objectInCell.gameObject.originalLayer;
         }
         objectsInCells.Clear();
     }
@@ -470,27 +524,107 @@ public class Bag : Item
         }
     }
 
+    public override void CorrectPosition()
+    {
+        if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
+        {
+            var maxY = careHits[0].raycastHit.collider.transform.localPosition.y;
+            Vector3 colliderPos = careHits[0].raycastHit.collider.transform.localPosition;
+            //Vector2 colliderPos2 = careHits[0].raycastHit.collider.transform.position;
+
+            for (int i = 1; i < careHits.Count; i++)
+            {
+                if (careHits[i].raycastHit.collider.transform.localPosition.y >= maxY)
+                {
+                    maxY = careHits[i].raycastHit.collider.transform.localPosition.y;
+                }
+            }
+            var newListCareHits = careHits.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
+            var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
+            foreach (var careHit in newListCareHits)
+            {
+                if (careHit.raycastHit.collider.transform.localPosition.y == maxY)
+                {
+                    if (careHit.raycastHit.collider.transform.localPosition.x <= minX)
+                    {
+                        minX = careHit.raycastHit.collider.transform.localPosition.x;
+                        colliderPos = careHit.raycastHit.collider.transform.localPosition;
+                    }
+                }
+            }
+            rectTransform.SetParent(bagTransform);
+            gameObject.transform.SetAsFirstSibling();
+            Vector3 offset;
+            //offset = calculateOffset(itemColliders);
+            if (itemColliders.Count == 4)
+                offset = new Vector2(itemColliders[0].size.x / 2, -itemColliders[0].size.y / 2);
+            else if (itemColliders.Count == 9)
+                offset = new Vector2(itemColliders[0].size.x, -itemColliders[0].size.y);
+            else if (itemColliders.Count == 2)
+            {
+                if (rectTransform.eulerAngles.z == 90f || rectTransform.eulerAngles.z == 270f)
+                {
+                    offset = new Vector2(0, -itemColliders[0].size.y / 2);
+                }
+                else
+                {
+                    offset = new Vector2(itemColliders[0].size.x / 2, 0);
+                }
+            }
+            else
+            {
+                offset = new Vector2(0, 0);
+            }
+
+            rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -1f);
+            needToDynamic = false;
+            //Debug.Log("offset: " + offset.ToString());
+            //Debug.Log("colliderPos: " + colliderPos.ToString());
+            //Debug.Log("offset + colliderPos: " + rectTransform.localPosition.ToString());
+            foreach (var careHit in careHits)
+            {
+                careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+            }
+        }
+    }
+    public override void ExtendedCorrectPosition()
+    {
+        switch (ExtendedCorrectEndPoint())
+        {
+            case 1:
+                //Debug.Log("1");
+                //rb.bodyType = RigidbodyType2D.Static;
+                SetNestedObject();
+                EndDragForChildObjects(true);
+                rb.excludeLayers = (1 << 9) | (1 << 10);
+                break;
+            case 2:
+                //Debug.Log("3");
+                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                EndDragForChildObjects(false);
+                Impulse = true;
+                //MoveObjectOnEndDrag();
+                rb.excludeLayers = 0;
+                break;
+            case 3:
+                //Debug.Log("3");
+                gameObject.transform.SetParent(GameObject.Find("Storage").transform);
+                EndDragForChildObjects(false);
+                Impulse = true;
+                //MoveObjectOnEndDrag();
+                rb.excludeLayers = 0;
+                break;
+        }
+    }
+
     private void EndDrag()
     {
         ChangeColorToDefault();
-        if (CorrectEndPoint())
-        {
-            //rb.bodyType = RigidbodyType2D.Static;
-            SetNestedObject();
-            EndDragForChildObjects(true);
-            rb.excludeLayers = (1 << 9) | (1 << 10);
-        }
-        else
-        {
-            gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-            EndDragForChildObjects(false);
-            Impulse = true;
-            //MoveObjectOnEndDrag();
-            rb.excludeLayers = 0;
-        }
+        ExtendedCorrectPosition();
         DisableBackpackCells();
         //ClearParentForChild();
         SetOrderLayerPriority("Bag", "Weapon", 1);
+        Debug.Log(3);
         careHits.Clear();
         canShowDescription = true;
         
@@ -533,8 +667,9 @@ public class Bag : Item
                 {
                     if (shopItem.defaultPosition != transform.position)
                     {
-                        StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
+                        returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
                         SetOrderLayerPriority("Bag", "Weapon", 1);
+                        Debug.Log(1);
                     }
                 }
             }
@@ -547,8 +682,9 @@ public class Bag : Item
                 }
                 else
                 {
-                    StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
+                    returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
                     SetOrderLayerPriority("Bag", "Weapon", 1);
+                    Debug.Log(2);
                 }
             }
 
@@ -562,7 +698,7 @@ public class Bag : Item
             ChangeColorToDefault();
             // Заканчиваем перетаскивание
             isDragging = false;
-            gameObject.layer = originalLayer;
+            //gameObject.layer = originalLayer;
             StartCoroutine(ShowDescription());
         }
 

@@ -9,5 +9,6 @@ namespace Assets.Scripts.ItemScripts
     public static class DragManager
     {
         public static bool isDragging = false;
+        public static bool isReturnToOrgignalPos = false;
     }
 }

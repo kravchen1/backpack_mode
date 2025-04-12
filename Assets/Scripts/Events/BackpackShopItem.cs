@@ -41,7 +41,14 @@ public class BackpackShopItem : EventParent
             var qm = FindFirstObjectByType<QuestManager>();
             if (qm.CompleteQuest(2, false))
             {
-                Quest quest = new Quest("talkToTheKing2", "talk to the king", -1, 3);
+                string settingLanguage = "en";
+                settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+                string questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, 3);
+                string questText = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, 3);
+                int questProgress = QuestManagerJSON.Instance.GetProgressQuest(settingLanguage, 3);
+
+                Quest quest = new Quest(questName, questText, questProgress, 3);
 
                 PlayerPrefs.SetInt("NPC_King", 2);
                 qm.questData.questData.quests.Add(quest);

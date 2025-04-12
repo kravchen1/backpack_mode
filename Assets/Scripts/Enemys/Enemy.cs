@@ -76,7 +76,10 @@ public class Enemy : EventParent
             pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
             rt = GetComponent<RectTransform>();
             isMoving = true;
-            moveCoroutine = StartCoroutine(MoveBetweenPoints(startMove));
+            if (moveCoroutine != null)
+            {
+                moveCoroutine = StartCoroutine(MoveBetweenPoints(startMove));
+            }
         }
     }
 
@@ -87,6 +90,7 @@ public class Enemy : EventParent
             StopCoroutine(moveCoroutine);
             moveCoroutine = null;
             isMoving = false;
+            animator.Play("Idle");
         }
     }
 

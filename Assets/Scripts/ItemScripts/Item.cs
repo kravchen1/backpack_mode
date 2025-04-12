@@ -50,7 +50,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public bool Exit = false;
     //public float rbMass = 0.1f;
 
-    public int originalLayer;
+    public int originalLayer = 0;
 
     public int itemCost;
 
@@ -103,7 +103,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public Vector3 offset;
     [HideInInspector] private int countClickRotate = 0, maxCountClickRotate = 100;
-    private float timer_cooldownStatic = 12.5f;
+    protected float timer_cooldownStatic = 12.5f;
     public float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
@@ -168,6 +168,7 @@ public abstract class Item : MonoBehaviour
         imageColor = GetComponent<SpriteRenderer>().color;
         needToRotate = false;
         collider = GetComponent<PolygonCollider2D>();
+        //originalLayer = gameObject.layer;
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
@@ -229,6 +230,10 @@ public abstract class Item : MonoBehaviour
     private Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
+        if (returnToOriginalPosition != null)
+        {
+            StopCoroutine(returnToOriginalPosition);
+        }
         lastParentWasStorage = transform.parent.CompareTag("Storage");
         shopItem = GetComponent<ShopItem>();
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
@@ -251,8 +256,7 @@ public abstract class Item : MonoBehaviour
                     
                     //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                     ChangeShowStars(true);
-                    originalLayer = gameObject.layer;
-                    gameObject.layer = LayerMask.NameToLayer("DraggingObject");
+                    //gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                     // Начинаем перетаскивание
                     isDragging = true;
                     // Вычисляем смещение между курсором и объектом
@@ -278,7 +282,7 @@ public abstract class Item : MonoBehaviour
                 DeletenestedObjectStars();
                 IgnoreCollisionObject(true);
                 image.sortingOrder = 4;
-                if(!returnToOriginalPosition)
+                if(!DragManager.isReturnToOrgignalPos)
                     lastItemPosition = gameObject.transform.position;
                 needToDynamic = true;
                 //List<GameObject> list = new List<GameObject>();
@@ -292,14 +296,14 @@ public abstract class Item : MonoBehaviour
 
                 // Начинаем перетаскивание
                 isDragging = true;
-                originalLayer = gameObject.layer;
-                gameObject.layer = LayerMask.NameToLayer("DraggingObject");
+                //gameObject.layer = LayerMask.NameToLayer("DraggingObject");
                 //Меняем слой на DraggingObject
                 // Вычисляем смещение между курсором и объектом
                 offset = transform.position - GetMouseWorldPosition();
             }
         }
     }
+    protected Coroutine returnToOriginalPosition;
 
     public virtual void OnMouseUp()
     {
@@ -339,7 +343,7 @@ public abstract class Item : MonoBehaviour
                 {
                     if (shopItem.defaultPosition != transform.position)
                     {
-                        StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
+                        returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(shopItem.defaultPosition));
                     }
                 }
             }
@@ -358,7 +362,7 @@ public abstract class Item : MonoBehaviour
                 {
                     if (lastItemPosition != transform.position)
                     {
-                        StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
+                        returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
                     }
                 }
             }
@@ -370,7 +374,7 @@ public abstract class Item : MonoBehaviour
 
         // Заканчиваем перетаскивание
         isDragging = false;
-        gameObject.layer = originalLayer;
+        //gameObject.layer = originalLayer;
         ClearCareRaycast(false);
         image.sortingOrder = 1;
         //ChangeShowStars(true);
@@ -384,10 +388,9 @@ public abstract class Item : MonoBehaviour
         StartCoroutine(ReturnToOriginalPosition(destination));
     }
 
-    private bool returnToOriginalPosition = false;
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
-        returnToOriginalPosition = true;
+        DragManager.isReturnToOrgignalPos = true;
         float time = 1f; // Время возвращения
         float elapsedTime = 0f;
         Vector3 startingPos = transform.position;
@@ -402,7 +405,8 @@ public abstract class Item : MonoBehaviour
         }
 
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
-        returnToOriginalPosition = false;
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
+        DragManager.isReturnToOrgignalPos = false;
     }
     public void defaultItemUpdate()
     {
@@ -432,10 +436,7 @@ public abstract class Item : MonoBehaviour
         CoolDownStatic();
     }
 
-    private void FixedUpdate()
-    {
-        //OnImpulse();
-    }
+
     public virtual void Update()
     {
         defaultItemUpdate();
@@ -461,7 +462,7 @@ public abstract class Item : MonoBehaviour
             return false;
         }
     }
-    public int ExtendedCorrectEndPoint()
+    public virtual int ExtendedCorrectEndPoint()
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
         {
@@ -476,12 +477,12 @@ public abstract class Item : MonoBehaviour
             return 3; //don`t correct
         }
     }
-    public void ExtendedCorrectPosition()
+    public virtual void ExtendedCorrectPosition()
     {
         switch (ExtendedCorrectEndPoint())
         {
             case 1:
-                Debug.Log("case1");
+                //Debug.Log("case1");
                 gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
                 if (characterStats == null)
                 {
@@ -519,7 +520,7 @@ public abstract class Item : MonoBehaviour
                     nestedObjectItem.lastParentWasStorage = true;
                     decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
                     characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-                    Debug.Log("case2");
+                    //Debug.Log("case2");
                 }
                 //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                 gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
@@ -535,7 +536,7 @@ public abstract class Item : MonoBehaviour
                 }
                 break;
             case 3:
-                Debug.Log("case3");
+                //Debug.Log("case3");
                 gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
                 if (characterStats == null)
                 {
@@ -643,7 +644,7 @@ public abstract class Item : MonoBehaviour
 
         return offset;
     }
-    public void CorrectPosition()
+    public virtual void CorrectPosition()
     {
         if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
         {
@@ -1170,6 +1171,12 @@ public abstract class Item : MonoBehaviour
 
     private void OnMouseExit()
     {
+        Exit = true;
+        Invoke("MouseExit", 0.2f);
+    }
+
+    void MouseExit()
+    {
         if (!DragManager.isDragging)
         {
             //Debug.Log(Description.gameObject.name + "�����");
@@ -1183,7 +1190,6 @@ public abstract class Item : MonoBehaviour
                     }
                 }
             //Debug.Log(Description.gameObject.name + " ItemAiming");
-            Exit = true;
             ChangeShowStars(false);
             //Debug.Log(canShowDescription + "/" + CanvasDescription.name);
             if (canShowDescription && CanvasDescription != null)

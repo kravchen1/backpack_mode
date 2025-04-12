@@ -1,3 +1,4 @@
+using Assets.Scripts.ItemScripts;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -389,71 +390,74 @@ public class BackpackController : MonoBehaviour
     private float countSwitchY = 0f, countSwitchX = 0f;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (!DragManager.isReturnToOrgignalPos)
         {
-            countSwitchY = 80.3359f;
-            countSwitchX = 0f;
-            if ( cell1_1.nestedObject == null &&
-                cell1_2.nestedObject == null &&
-                cell1_3.nestedObject == null &&
-                cell1_4.nestedObject == null &&
-                cell1_5.nestedObject == null &&
-                cell1_6.nestedObject == null &&
-                cell1_7.nestedObject == null &&
-                cell1_8.nestedObject == null &&
-                cell1_9.nestedObject == null)
+            if (Input.GetKeyDown(KeyCode.W))
             {
-                SwitchPosition(countSwitchX, countSwitchY);
+                countSwitchY = 80.3359f;
+                countSwitchX = 0f;
+                if (cell1_1.nestedObject == null &&
+                    cell1_2.nestedObject == null &&
+                    cell1_3.nestedObject == null &&
+                    cell1_4.nestedObject == null &&
+                    cell1_5.nestedObject == null &&
+                    cell1_6.nestedObject == null &&
+                    cell1_7.nestedObject == null &&
+                    cell1_8.nestedObject == null &&
+                    cell1_9.nestedObject == null)
+                {
+                    SwitchPosition(countSwitchX, countSwitchY);
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            countSwitchY = -80.3359f;
-            countSwitchX = 0f;
-            if (cell7_1.nestedObject == null &&
-                cell7_2.nestedObject == null &&
-                cell7_3.nestedObject == null &&
-                cell7_4.nestedObject == null &&
-                cell7_5.nestedObject == null &&
-                cell7_6.nestedObject == null &&
-                cell7_7.nestedObject == null &&
-                cell7_8.nestedObject == null &&
-                cell7_9.nestedObject == null)
+            if (Input.GetKeyDown(KeyCode.S))
             {
-                SwitchPosition(countSwitchX, countSwitchY);
+                countSwitchY = -80.3359f;
+                countSwitchX = 0f;
+                if (cell7_1.nestedObject == null &&
+                    cell7_2.nestedObject == null &&
+                    cell7_3.nestedObject == null &&
+                    cell7_4.nestedObject == null &&
+                    cell7_5.nestedObject == null &&
+                    cell7_6.nestedObject == null &&
+                    cell7_7.nestedObject == null &&
+                    cell7_8.nestedObject == null &&
+                    cell7_9.nestedObject == null)
+                {
+                    SwitchPosition(countSwitchX, countSwitchY);
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            countSwitchY = 0f;
-            countSwitchX = -84.48f;
-            if (cell1_1.nestedObject == null &&
-                cell2_1.nestedObject == null &&
-                cell3_1.nestedObject == null &&
-                cell4_1.nestedObject == null &&
-                cell5_1.nestedObject == null &&
-                cell6_1.nestedObject == null &&
-                cell7_1.nestedObject == null)
+            if (Input.GetKeyDown(KeyCode.A))
             {
-                SwitchPosition(countSwitchX, countSwitchY);
+                countSwitchY = 0f;
+                countSwitchX = -84.48f;
+                if (cell1_1.nestedObject == null &&
+                    cell2_1.nestedObject == null &&
+                    cell3_1.nestedObject == null &&
+                    cell4_1.nestedObject == null &&
+                    cell5_1.nestedObject == null &&
+                    cell6_1.nestedObject == null &&
+                    cell7_1.nestedObject == null)
+                {
+                    SwitchPosition(countSwitchX, countSwitchY);
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            countSwitchY = 0f;
-            countSwitchX = 84.48f;
-            if (cell1_9.nestedObject == null &&
-                cell2_9.nestedObject == null &&
-                cell3_9.nestedObject == null &&
-                cell4_9.nestedObject == null &&
-                cell5_9.nestedObject == null &&
-                cell6_9.nestedObject == null &&
-                cell7_9.nestedObject == null)
+            if (Input.GetKeyDown(KeyCode.D))
             {
-                SwitchPosition(countSwitchX, countSwitchY);
+                countSwitchY = 0f;
+                countSwitchX = 84.48f;
+                if (cell1_9.nestedObject == null &&
+                    cell2_9.nestedObject == null &&
+                    cell3_9.nestedObject == null &&
+                    cell4_9.nestedObject == null &&
+                    cell5_9.nestedObject == null &&
+                    cell6_9.nestedObject == null &&
+                    cell7_9.nestedObject == null)
+                {
+                    SwitchPosition(countSwitchX, countSwitchY);
+                }
             }
         }
     }

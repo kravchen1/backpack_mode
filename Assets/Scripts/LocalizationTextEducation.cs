@@ -131,11 +131,103 @@ public class LocalizationTextEducation : MonoBehaviour
 
 
 
-
-
-
             case "InCave1":
                 itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "InCave1");
+                text.text = itemText;
+                break;
+
+
+
+            case "BackpackShopItemPage1":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage1");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage1_2":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage1_2");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage2":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage2");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage3":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage3");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage3_1":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage3_1");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage3_2":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage3_2");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage4":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage4");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage5":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage5");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage5_0":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage5_0");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage5_1":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage5_1");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage5_2":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage5_2");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage5_3":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage5_3");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage5_4":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage5_4");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage6":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage6");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage7":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage7");
+                text.text = itemText;
+                break;
+            case "BackpackShopItemPage8":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopItemPage8");
+                text.text = itemText;
+                break;
+
+
+
+            case "BackpackShopEatPage1":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopEatPage1");
+                text.text = itemText;
+                break;
+            case "BackpackShopEatPage2":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "BackpackShopEatPage2");
+                text.text = itemText;
+                break;
+
+
+
+            case "GenerateMapPage1":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "GenerateMapPage1");
+                text.text = itemText;
+                break;
+            case "GenerateMapPage2":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "GenerateMapPage2");
+                text.text = itemText;
+                break;
+
+
+            case "CavePage1":
+                itemText = LocalizationManager.Instance.GetTextEducation(settingLanguage, "CavePage1");
                 text.text = itemText;
                 break;
         }

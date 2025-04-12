@@ -14,7 +14,7 @@ public class InvisibleTree : MonoBehaviour
         if (other.CompareTag("Player")) // Замените "Player" на тег вашего персонажа
         {
             sortingLayer = GetComponent<SpriteRenderer>().sortingLayerName;
-            Debug.Log(sortingLayer);
+            //Debug.Log(sortingLayer);
             foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
             {
                 GetComponent<SpriteRenderer>().sortingLayerName = "Tree";

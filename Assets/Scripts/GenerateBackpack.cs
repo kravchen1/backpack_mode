@@ -159,6 +159,7 @@ public class GenerateBackpack : MonoBehaviour
 
         generationObjectItem.transform.SetParent(GetComponent<RectTransform>());
         generationObjectItem.transform.localPosition = place;
+        componentItem.lastItemPosition = place;
         //var z = GameObject.Find("backpack");
         componentItem.hits = new List<HitsStructure>();
         Physics2D.SyncTransforms();
@@ -190,15 +191,30 @@ public class GenerateBackpack : MonoBehaviour
             {
                 var pos = gameObject.transform.position;
                 componentItem.CouratineMove(new Vector3(pos.x, pos.y, -2));
+                componentItem.timerStatic = 4f;
+            }
+            else
+            {
+                componentItem.timerStatic = 2f;
             }
         }
-        else
+        else if(generationObjectItem.transform.parent.name == "backpack")
         {
+            if(!ObjectInBackpack(componentItem))
+            {
+                componentItem.needToDynamic = true;
+                componentItem.Impulse = true;
+                var storage = GameObject.FindGameObjectWithTag("Storage").transform;
+                generationObjectItem.transform.SetParent(storage);
+                var pos = storage.position;
+                componentItem.CouratineMove(new Vector3(pos.x, pos.y, -2));
+                componentItem.timerStatic = 4f;
+            }
             componentItem.rb.excludeLayers = (1 << 9) | (1 << 10);
         }
 
         //componentItem.needToDynamic = false; todo
-        componentItem.timerStatic = 2f;
+        
 
     }
     public void GenerationBackpack()
@@ -230,7 +246,18 @@ public class GenerateBackpack : MonoBehaviour
             return true;
     }
 
-    
+    public bool ObjectInBackpack(Item item)
+    {
+        var rect = gameObject.GetComponent<RectTransform>().rect;
+        if (item.transform.localPosition.x > rect.max.x || item.transform.localPosition.y > rect.max.y || item.transform.localPosition.x < rect.min.x || item.transform.localPosition.y < rect.min.y)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
+
+
 
 }
 
