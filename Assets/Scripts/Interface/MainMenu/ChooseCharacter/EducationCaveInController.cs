@@ -14,6 +14,7 @@ public class EducationCaveInController : MonoBehaviour
 
     private void Start()
     {
+        //PlayerPrefs.SetInt("EducationCaveIn", 0);
         if (PlayerPrefs.GetInt("EducationCaveIn") == 0)
         {
             OpenEducation();

@@ -117,7 +117,7 @@ public class ShopButtonsController : MonoBehaviour
 
         GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
         GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        Debug.Log("Unload");
+        //Debug.Log("Unload");
         //SceneManager.UnloadSceneAsync("BackPack");
         //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
         SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));

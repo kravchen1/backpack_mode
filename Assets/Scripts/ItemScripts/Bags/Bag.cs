@@ -430,13 +430,13 @@ public class Bag : Item
                             characterStats.storageWeight -= (float)Math.Round(preciseWeight, 2);
                             objectInCell.gameObject.lastParentWasStorage = false;
                         }
-                        Debug.Log("case1:");
+                        //Debug.Log("case1:");
                         objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
                         objectInCell.gameObject.SetNestedObject();
                         objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
                         break;
                     case 2:
-                        Debug.Log("case2:");
+                        //Debug.Log("case2:");
                         foreach (var Carehit in objectInCell.gameObject.careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
                         {
                             var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Item>();
@@ -475,7 +475,7 @@ public class Bag : Item
                         objectInCell.gameObject.rb.excludeLayers = (1 << 9) | (1 << 10);
                         break;
                     case 3:
-                        Debug.Log("case3:");
+                        //Debug.Log("case3:");
                         objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
                         if (objectInCell.gameObject.lastParentWasStorage)
                         {
@@ -627,7 +627,7 @@ public class Bag : Item
         DisableBackpackCells();
         //ClearParentForChild();
         SetOrderLayerPriority("Bag", "Weapon", 1);
-        Debug.Log(3);
+       // Debug.Log(3);
         careHits.Clear();
         canShowDescription = true;
         

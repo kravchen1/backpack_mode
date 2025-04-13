@@ -14,6 +14,7 @@ public class EducationGlobalMapController : MonoBehaviour
 
     private void Start()
     {
+        //PlayerPrefs.SetInt("EducationGlobalMap", 0);
         if (PlayerPrefs.GetInt("EducationGlobalMap") == 0)
         {
             OpenEducation();
