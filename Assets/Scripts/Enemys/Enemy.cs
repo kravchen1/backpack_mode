@@ -114,7 +114,7 @@ public class Enemy : EventParent
             if (!startMove)
             {
                 animator.Play("Idle");
-                yield return new WaitForSeconds(UnityEngine.Random.Range(30f, 70f));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(3f, 7f));
             }
             startMove = false; // Сбрасываем флаг после первого использования
 
@@ -274,7 +274,7 @@ public class Enemy : EventParent
                 // Для ключевых камней делаем 100% шанс
                 InstantiateAndPositionItem(guaranteedItem, droppedItems.Count);
                 droppedItems.Add(guaranteedItem);
-                Debug.Log("Guaranteed key stone drop: " + guaranteedItem.name);
+                //Debug.Log("Guaranteed key stone drop: " + guaranteedItem.name);
             }
             else
             {
@@ -284,7 +284,7 @@ public class Enemy : EventParent
                 {
                     InstantiateAndPositionItem(guaranteedItem, droppedItems.Count);
                     droppedItems.Add(guaranteedItem);
-                    Debug.Log("Guaranteed drop: " + guaranteedItem.name + " with prob: " + modifiedProb);
+                    //Debug.Log("Guaranteed drop: " + guaranteedItem.name + " with prob: " + modifiedProb);
                 }
                 else
                 {
@@ -328,7 +328,7 @@ public class Enemy : EventParent
                 {
                     InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
                     droppedItems.Add(dropItems[i]);
-                    Debug.Log(dropItems[i].name + " bonus loot with prob: " + modifiedProbability);
+                    //Debug.Log(dropItems[i].name + " bonus loot with prob: " + modifiedProbability);
                 }
             }
 
@@ -336,7 +336,7 @@ public class Enemy : EventParent
             if (droppedItems.Count == 0)
             {
                 InstantiateAndPositionItem(dropItems[0], 0);
-                Debug.Log("Fallback drop: " + dropItems[0].name);
+                //Debug.Log("Fallback drop: " + dropItems[0].name);
             }
         }
 
