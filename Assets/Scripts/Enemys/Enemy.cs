@@ -37,7 +37,7 @@ public class Enemy : EventParent
     protected GenerateBackpackOnMap generateBackpackOnMap;
     protected bool isDie = false;
 
-    public float moveSpeed = 30f;
+    public float moveSpeed = 20f;
     public Animator animator;
 
     //private static readonly int IsRunning = Animator.StringToHash("Run1");
@@ -69,16 +69,16 @@ public class Enemy : EventParent
     private Coroutine moveCoroutine;
     private bool isMoving = false; // Флаг движения
 
-    public virtual void Move(bool startMove)
+    public virtual void Move()
     {
         if (!isDie && !isMoving)
         {
             pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
             rt = GetComponent<RectTransform>();
             isMoving = true;
-            if (moveCoroutine != null)
+            if (moveCoroutine == null)
             {
-                moveCoroutine = StartCoroutine(MoveBetweenPoints(startMove));
+                moveCoroutine = StartCoroutine(MoveBetweenPoints());
             }
         }
     }
@@ -95,8 +95,9 @@ public class Enemy : EventParent
     }
 
     private int currentPointIndex = 1;
-    public IEnumerator MoveBetweenPoints(bool startMove)
+    public IEnumerator MoveBetweenPoints()
     {
+        bool startMove = true;
         if (pointsRun == null || pointsRun.Count == 0)
         {
             Debug.LogWarning("No points to move!");
@@ -116,7 +117,7 @@ public class Enemy : EventParent
             if (!startMove)
             {
                 animator.Play("Idle");
-                yield return new WaitForSeconds(UnityEngine.Random.Range(3f, 7f));
+                yield return new WaitForSeconds(UnityEngine.Random.Range(30f, 70f));
             }
             startMove = false; // Сбрасываем флаг после первого использования
 
@@ -171,7 +172,7 @@ public class Enemy : EventParent
     {
         isPlayerInTrigger = false;
         SetActivePressE(false);
-        Move(true);
+        Invoke("Move", 0.1f);
     }
 
     public void ActivateEnemy()

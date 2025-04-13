@@ -227,7 +227,7 @@ public abstract class Item : MonoBehaviour
         colliderCount = itemColliders.Count();
     }
 
-    private Vector3 shopItemStartPosition;
+    protected Vector3 shopItemStartPosition;
     public virtual void OnMouseDown()
     {
         if (returnToOriginalPosition != null)

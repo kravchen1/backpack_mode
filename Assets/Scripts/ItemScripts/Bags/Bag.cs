@@ -27,7 +27,7 @@ public class Bag : Item
             objectInCell.gameObject.DeleteNestedObject(gameObject.transform.parent.tag);
         }
     }
-    private Vector3 shopItemStartPosition;
+    //private Vector3 shopItemStartPosition;
 
     public new void TapRotate()
     {
