@@ -10,7 +10,7 @@ public class ToogleAnimation : MonoBehaviour
     private void OnTriggerEnter2D()
     {
         anim.gameObject.SetActive(true);
-        gameObject.transform.parent.GetComponent<Enemy>().Move(true);
+        gameObject.transform.parent.GetComponent<Enemy>().Move();
     }
 
     private void OnTriggerExit2D()

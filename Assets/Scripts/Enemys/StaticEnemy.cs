@@ -17,7 +17,7 @@ public class StaticEnemy : Enemy
     }
 
 
-    public override void Move(bool StartMove)
+    public override void Move()
     {
     }
 }

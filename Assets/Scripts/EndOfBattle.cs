@@ -95,8 +95,9 @@ public class EndOfBattle : MonoBehaviour
                 {
                     NewQuest(9, "NPC_King", 8);
                     //NewQuestId9();
+                    PlayerPrefs.SetInt("isEnemyPodpolDefeat", 1);
                 }
-                PlayerPrefs.SetInt("isEnemyPodpolDefeat", 1);
+                
             }
             else if (enemyName == "General")
             {
@@ -104,8 +105,9 @@ public class EndOfBattle : MonoBehaviour
                 {
                     NewQuest(11, "NPC_King", 10);
                     //NewQuestId11();
+                    PlayerPrefs.SetInt("isEnemyGeneralDefeat", 1);
                 }
-                PlayerPrefs.SetInt("isEnemyGeneralDefeat",1);
+                
             }
             else
             {
