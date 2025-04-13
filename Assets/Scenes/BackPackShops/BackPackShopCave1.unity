@@ -2169,7 +2169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.61, y: 0.15}
   m_AnchorMax: {x: 1, y: 0.85}
-  m_AnchoredPosition: {x: 136.3167, y: 0}
+  m_AnchoredPosition: {x: 136.31671, y: 0}
   m_SizeDelta: {x: -72.633545, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &90055782
@@ -4149,8 +4149,8 @@ GameObject:
   m_Component:
   - component: {fileID: 155191973}
   - component: {fileID: 155191975}
-  - component: {fileID: 155191976}
   - component: {fileID: 155191974}
+  - component: {fileID: 155191976}
   m_Layer: 6
   m_Name: StoneContent
   m_TagString: Untagged
@@ -4232,14 +4232,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 155191972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a056b4d656ea7f44ab519435a2eee92, type: 3}
+  m_Script: {fileID: 11500000, guid: adc373262ffa9a9408ad6c69a8b74ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   storage: {fileID: 2058633717}
   filteredItemPrefab: {fileID: 357703754088549397, guid: fdf2406725790e44b81fe0c5ed0ac4e3, type: 3}
   rarity: 0
-  itemTag: ItemKeyStone
   filteredItems: []
+  itemType: 3
 --- !u!1 &155549810
 GameObject:
   m_ObjectHideFlags: 0
@@ -6020,7 +6020,6 @@ MonoBehaviour:
   storage: {fileID: 2058633717}
   filteredItemPrefab: {fileID: 357703754088549397, guid: b1360977b6a25794cb0f2b79b963907e, type: 3}
   rarity: 3
-  itemTag: 
   filteredItems: []
 --- !u!1 &240839628
 GameObject:
@@ -13986,6 +13985,7 @@ GameObject:
   - component: {fileID: 602018269}
   - component: {fileID: 602018271}
   - component: {fileID: 602018270}
+  - component: {fileID: 602018272}
   m_Layer: 6
   m_Name: BagsContent
   m_TagString: Untagged
@@ -14058,6 +14058,23 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &602018272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602018268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc373262ffa9a9408ad6c69a8b74ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storage: {fileID: 2058633717}
+  filteredItemPrefab: {fileID: 357703754088549397, guid: fdf2406725790e44b81fe0c5ed0ac4e3, type: 3}
+  rarity: 0
+  filteredItems: []
+  itemType: 1
 --- !u!1 &610387049
 GameObject:
   m_ObjectHideFlags: 0
@@ -15547,7 +15564,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.15669793, y: 0.71745235}
   m_AnchorMax: {x: 0.275, y: 0.82832134}
-  m_AnchoredPosition: {x: 41.79998, y: -398.29996}
+  m_AnchoredPosition: {x: 41.799988, y: -398.29996}
   m_SizeDelta: {x: -18, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &693058676
@@ -18228,7 +18245,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 155191976}
-        m_TargetAssemblyTypeName: SellFilters, Assembly-CSharp
+        m_TargetAssemblyTypeName: ItemTypeSellFilter, Assembly-CSharp
         m_MethodName: GetFilter
         m_Mode: 1
         m_Arguments:
@@ -18239,8 +18256,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1571498661}
-        m_TargetAssemblyTypeName: SellFilters, Assembly-CSharp
+      - m_Target: {fileID: 602018272}
+        m_TargetAssemblyTypeName: ItemTypeSellFilter, Assembly-CSharp
+        m_MethodName: GetFilter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1571498665}
+        m_TargetAssemblyTypeName: ItemTypeSellFilter, Assembly-CSharp
         m_MethodName: GetFilter
         m_Mode: 1
         m_Arguments:
@@ -23411,7 +23440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.15}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: -108.09996}
+  m_AnchoredPosition: {x: 0, y: -108.099976}
   m_SizeDelta: {x: 0, y: 0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1079245622
@@ -27459,7 +27488,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df56c645282016448bba95f920a1e209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listFilter: []
+  listFilter:
+  - {fileID: 602018268}
 --- !u!114 &1291912144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27503,7 +27533,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1291912145}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1291912143}
+        m_TargetAssemblyTypeName: AllFilter, Assembly-CSharp
+        m_MethodName: SelectAllItemInFilter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1291912145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31819,7 +31861,6 @@ MonoBehaviour:
   storage: {fileID: 2058633717}
   filteredItemPrefab: {fileID: 357703754088549397, guid: 7377fcd1d6e5ee74e8fb0cf83a9a104e, type: 3}
   rarity: 2
-  itemTag: 
   filteredItems: []
 --- !u!1 &1441858223
 GameObject:
@@ -34749,8 +34790,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1571498664}
   - component: {fileID: 1571498663}
-  - component: {fileID: 1571498661}
   - component: {fileID: 1571498662}
+  - component: {fileID: 1571498665}
   m_Layer: 6
   m_Name: FoodContent
   m_TagString: Untagged
@@ -34758,23 +34799,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1571498661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571498660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a056b4d656ea7f44ab519435a2eee92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  storage: {fileID: 2058633717}
-  filteredItemPrefab: {fileID: 357703754088549397, guid: fdf2406725790e44b81fe0c5ed0ac4e3, type: 3}
-  rarity: 0
-  itemTag: ItemEat
-  filteredItems: []
 --- !u!114 &1571498662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34840,6 +34864,23 @@ RectTransform:
   m_AnchoredPosition: {x: 708, y: -3}
   m_SizeDelta: {x: 104, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1571498665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571498660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc373262ffa9a9408ad6c69a8b74ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storage: {fileID: 2058633717}
+  filteredItemPrefab: {fileID: 357703754088549397, guid: fdf2406725790e44b81fe0c5ed0ac4e3, type: 3}
+  rarity: 0
+  filteredItems: []
+  itemType: 4
 --- !u!1 &1571967316
 GameObject:
   m_ObjectHideFlags: 0
@@ -37452,7 +37493,6 @@ MonoBehaviour:
   storage: {fileID: 2058633717}
   filteredItemPrefab: {fileID: 357703754088549397, guid: b1360977b6a25794cb0f2b79b963907e, type: 3}
   rarity: 1
-  itemTag: 
   filteredItems: []
 --- !u!1 &1735201109
 GameObject:
@@ -40095,7 +40135,6 @@ MonoBehaviour:
   storage: {fileID: 2058633717}
   filteredItemPrefab: {fileID: 357703754088549397, guid: fdf2406725790e44b81fe0c5ed0ac4e3, type: 3}
   rarity: 0
-  itemTag: 
   filteredItems: []
 --- !u!1 &1893207237
 GameObject:
@@ -42527,6 +42566,7 @@ GameObject:
   - component: {fileID: 2058633719}
   - component: {fileID: 2058633722}
   - component: {fileID: 2058633721}
+  - component: {fileID: 2058633723}
   m_Layer: 6
   m_Name: Storage
   m_TagString: Storage
@@ -42621,6 +42661,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData:
     items: []
+--- !u!114 &2058633723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058633717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc69edd095650ad4184ef71a0a1dc3c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterStats: {fileID: 1354089593}
 --- !u!1001 &2059202648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43846,7 +43899,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 863444140}
+  - {fileID: 187629815}
   - {fileID: 1462207166}
   - {fileID: 827864097}
   - {fileID: 296171431}
-  - {fileID: 187629815}

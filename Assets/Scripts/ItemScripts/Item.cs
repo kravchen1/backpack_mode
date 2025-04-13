@@ -131,6 +131,17 @@ public abstract class Item : MonoBehaviour
     }
     public ItemRarity rarity;
 
+
+    public enum ItemType
+    {
+        Weapon,
+        Bag,
+        Pet,
+        Stone,
+        Food
+    }
+    public ItemType itemType;
+
     public float weight;
 
 
@@ -488,12 +499,12 @@ public abstract class Item : MonoBehaviour
                 {
                     characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
                 }
-                if (lastParentWasStorage)
-                {
-                    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
-                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-                    lastParentWasStorage = false;
-                }
+                //if (lastParentWasStorage)
+                //{
+                //    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+                //    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                //    lastParentWasStorage = false;
+                //}
                 CorrectPosition();
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
@@ -517,9 +528,9 @@ public abstract class Item : MonoBehaviour
                     {
                         characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
                     }
-                    nestedObjectItem.lastParentWasStorage = true;
-                    decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
-                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                    //nestedObjectItem.lastParentWasStorage = true;
+                    //decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
+                    //characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
                     //Debug.Log("case2");
                 }
                 //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
@@ -528,12 +539,12 @@ public abstract class Item : MonoBehaviour
                 SetNestedObject();
                 rb.excludeLayers = (1 << 9) | (1 << 10);
                 EffectPlaceCorrect();
-                if (lastParentWasStorage)
-                {
-                    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
-                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-                    lastParentWasStorage = false;
-                }
+                //if (lastParentWasStorage)
+                //{
+                //    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+                //    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                //    lastParentWasStorage = false;
+                //}
                 break;
             case 3:
                 //Debug.Log("case3");
@@ -542,12 +553,12 @@ public abstract class Item : MonoBehaviour
                 {
                     characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
                 }
-                if (!lastParentWasStorage)
-                {
-                    decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)weight;
-                    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-                    lastParentWasStorage = true;
-                }
+                //if (!lastParentWasStorage)
+                //{
+                //    decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)weight;
+                //    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                //    lastParentWasStorage = true;
+                //}
                 needToDynamic = true;
                 timerStatic_locked_out = true;
                 timerStatic = timer_cooldownStatic;
@@ -754,9 +765,12 @@ public abstract class Item : MonoBehaviour
                     sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
                     sellChestAnimator.Play("SellChestOpen");
                     isSellChest = true;
-                    sellPrice = hit.collider.gameObject.transform.GetChild(0).gameObject;
-                    sellPrice.SetActive(true);
-                    sellPrice.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = ((int)(itemCost / 2)).ToString();
+                    if (SceneManager.GetActiveScene().name != "BackPack")
+                    {
+                        sellPrice = hit.collider.gameObject.transform.GetChild(0).gameObject;
+                        sellPrice.SetActive(true);
+                        sellPrice.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = ((int)(itemCost / 2)).ToString();
+                    }
                 }
             }
         }
@@ -764,7 +778,10 @@ public abstract class Item : MonoBehaviour
         {
             sellChestAnimator.Play("SellChestClose");
             isSellChest = false;
-            sellPrice.SetActive(false);
+            if (SceneManager.GetActiveScene().name != "BackPack")
+            {
+                sellPrice.SetActive(false);
+            }
         }
     }
 
@@ -934,16 +951,22 @@ public abstract class Item : MonoBehaviour
     public virtual void SellItem()
     {
         characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
-        if (lastParentWasStorage)
+        //if (lastParentWasStorage)
+        //{
+        //    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+        //    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+        //}
+        if (SceneManager.GetActiveScene().name != "BackPack")
         {
-            decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
-            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+            characterStats.playerCoins = characterStats.playerCoins + (int)(itemCost / 2);
+            characterStats.coinsText.text = characterStats.playerCoins.ToString();
         }
-        characterStats.playerCoins = characterStats.playerCoins + (int)(itemCost / 2);
-        characterStats.coinsText.text = characterStats.playerCoins.ToString();
         sellChestSound.Play();
         sellChestAnimator.Play("SellChestClose");
-        sellPrice.SetActive(false);
+        if (sellPrice != null)
+        {
+            sellPrice.SetActive(false);
+        }
         Destroy(gameObject);
         Destroy(CanvasDescription.gameObject);
     }

@@ -16,38 +16,26 @@ public class SellFilters : MonoBehaviour
 
 
     public ItemRarity rarity;
-    public string itemTag = "";
 
-    //public List<Item> allItems = new List<Item>();
     public List<Item> filteredItems = new List<Item>();
-
+    List<ItemType> excludedTypes = new List<ItemType> { ItemType.Bag, ItemType.Stone, ItemType.Food };
     public void FilterByRarity(ItemRarity rarity)
     {
         filteredItems.Clear();
-        filteredItems = storage.GetComponentsInChildren<Item>().Where(item => item.rarity == rarity && !item.CompareTag("ItemKeyStone") && !item.CompareTag("ItemEat")).ToList();
-        filteredItems = filteredItems.OrderBy(item => item.originalName).ToList();
+        filteredItems = storage.GetComponentsInChildren<Item>().Where(item => item.rarity == rarity && !excludedTypes.Contains(item.itemType)).OrderBy(item => item.originalName).ToList();
     }
 
-    public void FilterByTags(string itemTag)
+
+    public void FilterByItemType(ItemType itemType)
     {
         filteredItems.Clear();
-        filteredItems = storage.GetComponentsInChildren<Item>().Where(item => item.CompareTag(itemTag)).ToList();
-        filteredItems = filteredItems.OrderBy(item => item.originalName).ToList();
+        filteredItems = storage.GetComponentsInChildren<Item>().Where(item => item.itemType == itemType).OrderBy(item => item.originalName).ToList();
     }
 
-
-    //private void Start()
-    //{
-    //    GetFilter();
-    //}
-
-    public void GetFilter()
+    public virtual void GetFilter()
     {
-        if (itemTag != "")
-            FilterByTags(itemTag);
-        else
-            FilterByRarity(rarity);
-        foreach(Transform child in transform)
+        FilterByRarity(rarity);
+        foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
@@ -58,17 +46,5 @@ public class SellFilters : MonoBehaviour
             newItem.GetComponent<ItemInFilter>().item = item.gameObject;
         }
     }
-    //public void FilterByCost(float itemCost)
-    //{
-    //    filteredItems.Clear();
-    //    filteredItems = storage.GetComponentsInChildren<Item>().Where(item => item.itemCost <= itemCost).ToList();
-    //}
-
-    //public void FilterCommon() => FilterByRarity(ItemRarity.Common);
-    //public void FilterRare() => FilterByRarity(ItemRarity.Rare);
-    //public void FilterEpic() => FilterByRarity(ItemRarity.Epic);
-    //public void FilterLegendary() => FilterByRarity(ItemRarity.Legendary);
-    //public void FilterCaveStones() => FilterByTags("ItemKeyStone");
-    //public void FilterFood() => FilterByTags("ItemEat");
 }
 
