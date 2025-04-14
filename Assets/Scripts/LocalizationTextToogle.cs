@@ -87,6 +87,18 @@ public class LocalizationTextToogle : MonoBehaviour
                 itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "BattleLog_Button");
                 text.text = itemText;
                 break;
+            case "Settings_button":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "Settings_button");
+                text.text = itemText;
+                break;
+            case "MainMenu_Button":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "MainMenu_Button");
+                text.text = itemText;
+                break;
+            case "Surrend_Button":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "Surrend_Button");
+                text.text = itemText;
+                break;
 
 
 
