@@ -60,24 +60,29 @@ public class FireGloves : Stuff
             }
         }
     }
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256);
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                    DeleteAllDescriptions();
-                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemFireGloves>();
-                    //descr.cooldown = timer_cooldown;
-                    descr.countStack = countBurnStack;
-                    descr.coolDown = coolDown;
-                    descr.SetTextBody();
+                var descr = CanvasDescription.GetComponent<DescriptionItemFireGloves>();
+                //descr.cooldown = timer_cooldown;
+                CanvasDescription.GetComponent<DescriptionItemFireBody>().weight = weight;
+                descr.countStack = countBurnStack;
+                descr.coolDown = coolDown;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

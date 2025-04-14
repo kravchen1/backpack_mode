@@ -53,14 +53,17 @@ public class VampireBow1 : Weapon
         }
     }
 
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Weapon");
+    }
 
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Weapon");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -69,9 +72,10 @@ public class VampireBow1 : Weapon
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireBow>();
                 descr.countBaseCritStack = countBaseCritStack;
+                descr.weight = weight;
                 descr.SetTextBody();
 
-                
+
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();

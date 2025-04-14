@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartEarthBag : Bag
@@ -11,6 +13,26 @@ public class StartEarthBag : Bag
             Player.armor += countArmorStack;
             //CreateLogMessage("StartEarthBag give " + countArmorStack.ToString(), Player.isPlayer);
             logManager.CreateLogMessageGive(originalName, "armor", countArmorStack, Player.isPlayer);
+        }
+    }
+
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSecondsRealtime(.1f);
+        if (!Exit)
+        {
+            FillStars();
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemEarthBag>();
+                descr.countArmorStack = countArmorStack;
+                descr.weight = weight;
+                descr.SetTextBody();
+            }
         }
     }
 }

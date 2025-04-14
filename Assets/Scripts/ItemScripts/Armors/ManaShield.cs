@@ -18,7 +18,7 @@ public class ManaShield : Armor
     //public GameObject LogAttackStackCharacter, LogAttackStackEnemy;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "Mana");
+        FillStars();
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             FillnestedObjectStarsStars(256);
@@ -115,13 +115,16 @@ public class ManaShield : Armor
         }
         else return 0;
     }
-    
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Mana");
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mana");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -132,6 +135,7 @@ public class ManaShield : Armor
                 descr.countNeedManaStack = countNeedManaStack;
                 descr.blockDamage = blockDamage;
                 descr.countStealManaStack = countStealManaStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

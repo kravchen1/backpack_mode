@@ -50,7 +50,7 @@ public class MushroomWhite : Mushroom
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mushroom");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -61,6 +61,7 @@ public class MushroomWhite : Mushroom
                 descr.cooldown = timer_cooldown;
                 descr.stamina = stamina;
                 descr.activationForStar = activationForStar;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

@@ -20,6 +20,7 @@ public class BoiledPotato : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
+            FillStars();
             if (canShowDescription)
             {
                 DeleteAllDescriptions();
@@ -27,6 +28,7 @@ public class BoiledPotato : Food
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemBoiledPotato>();
                 descr.health = health;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

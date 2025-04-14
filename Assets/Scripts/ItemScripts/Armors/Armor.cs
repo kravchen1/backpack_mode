@@ -9,7 +9,7 @@ public class Armor : Item
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256);
+        FillStars();
 
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
@@ -36,6 +36,11 @@ public class Armor : Item
                 animator.Play("New State");
             }
         }
+    }
+
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256);
     }
     public override void Update()
     {

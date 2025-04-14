@@ -119,7 +119,7 @@ public class AngryFluff : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -128,9 +128,10 @@ public class AngryFluff : Weapon
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemAngryFluff>();
                 //descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                descr.weight = weight;
                 descr.SetTextBody();
 
-                
+
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();

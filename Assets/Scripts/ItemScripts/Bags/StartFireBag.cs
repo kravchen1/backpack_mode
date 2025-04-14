@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartFireBag : Bag
@@ -12,6 +14,27 @@ public class StartFireBag : Bag
             //Debug.Log("сумка огня наложила 1 ожёг");
             //CreateLogMessage("FireBag give " + countBurnStack.ToString() + " burn");
             Player.menuFightIconData.CalculateFireFrostStats();//true = Player
+        }
+    }
+
+
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSecondsRealtime(.1f);
+        if (!Exit)
+        {
+            FillStars();
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemFireBag>();
+                descr.countFireStack = countBurnStack;
+                descr.weight = weight;
+                descr.SetTextBody();
+            }
         }
     }
 }

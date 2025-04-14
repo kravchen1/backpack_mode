@@ -17,7 +17,7 @@ public class RabbitPaw : WitchCraft
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
 
-        FillnestedObjectStarsStars(256, "Mushroom", "Witchcraft");
+        FillStars();
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
@@ -63,14 +63,17 @@ public class RabbitPaw : WitchCraft
         }
     }
 
-    
 
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Mushroom", "Witchcraft");
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mushroom", "Witchcraft");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -81,6 +84,7 @@ public class RabbitPaw : WitchCraft
                 descr.cooldown = timer_cooldown;
                 descr.giveCritStack = giveCritStack;
                 descr.giveManaStack = giveManaStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

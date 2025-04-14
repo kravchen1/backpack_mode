@@ -20,7 +20,7 @@ public class Jam : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -29,6 +29,7 @@ public class Jam : Food
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemJam>();
                 descr.avoidance = avoidance;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

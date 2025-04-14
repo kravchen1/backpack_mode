@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,6 +40,27 @@ public class bag1x1Resistance : Bag
         {
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
+        }
+    }
+
+
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSecondsRealtime(.1f);
+        if (!Exit)
+        {
+            FillStars();
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemBag1x1Resistance>();
+                descr.countStackResistance = countResistanceStack;
+                descr.weight = weight;
+                descr.SetTextBody();
+            }
         }
     }
 }

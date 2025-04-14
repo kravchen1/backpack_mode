@@ -19,7 +19,7 @@ public class Bread : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -28,6 +28,7 @@ public class Bread : Food
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemBread>();
                 descr.health = health;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

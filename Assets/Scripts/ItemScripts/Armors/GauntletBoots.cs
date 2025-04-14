@@ -27,7 +27,7 @@ public class GauntletBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -36,6 +36,8 @@ public class GauntletBoots : Armor
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemGauntletBoots>();
                 descr.armor = startBattleArmorCount;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

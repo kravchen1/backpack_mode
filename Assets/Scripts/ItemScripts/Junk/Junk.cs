@@ -18,4 +18,9 @@ public class Junk : Item
             defaultItemUpdate();
         }
     }
+
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256);
+    }
 }

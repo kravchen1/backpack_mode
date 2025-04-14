@@ -18,7 +18,7 @@ public class WitchPot : WitchCraft
     //public GameObject LogRegenerateStackCharacter, LogRegenerateStackEnemy;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "Mushroom");
+        FillStars();
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
 
@@ -93,12 +93,16 @@ public class WitchPot : WitchCraft
         }
     }
 
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Mushroom");
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mushroom");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -111,6 +115,7 @@ public class WitchPot : WitchCraft
                 descr.givePoisonStack = givePoisonStack;
                 descr.giveRegenerationStack = giveRegenerationStack;
                 descr.spendManaStack = spendManaStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

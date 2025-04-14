@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -56,6 +57,26 @@ public class bag2x1Stamina : Bag
         {
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
+        }
+    }
+
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSecondsRealtime(.1f);
+        if (!Exit)
+        {
+            FillStars();
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemBag2x1Stamina>();
+                descr.countLessStamina = countStaminaPercentLess;
+                descr.weight = weight;
+                descr.SetTextBody();
+            }
         }
     }
 }

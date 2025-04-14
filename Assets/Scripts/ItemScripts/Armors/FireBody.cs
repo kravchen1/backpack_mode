@@ -80,21 +80,27 @@ public class FireBody : Armor
         }
     }
 
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Fire");
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Fire");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                CanvasDescription.GetComponent<DescriptionItemFireBody>().SpendStack = SpendStack;
-                CanvasDescription.GetComponent<DescriptionItemFireBody>().DamageForStack = DamageForStack;
-                CanvasDescription.GetComponent<DescriptionItemFireBody>().SetTextBody();
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemFireBody>();
+                descr.SpendStack = SpendStack;
+                descr.DamageForStack = DamageForStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

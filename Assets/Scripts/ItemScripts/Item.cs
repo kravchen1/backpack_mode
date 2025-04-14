@@ -450,8 +450,9 @@ public abstract class Item : MonoBehaviour
                 RaycastEvent();
                 DeleteAllDescriptions();
                 SellChest();
+                FillStars();
             }
-            canShowDescription = false;
+            canShowDescription = false; 
         }
         else
         {
@@ -463,6 +464,7 @@ public abstract class Item : MonoBehaviour
         //OnImpulse();
         RotationToStartRotation();
         CoolDownStatic();
+
     }
 
 
@@ -1593,5 +1595,11 @@ public abstract class Item : MonoBehaviour
         //var obj = Instantiate(log, placeForLogDescription.GetComponent<RectTransform>().transform);
         //obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ts.nowTime.ToString() + " - " + message;
         //obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+
+    protected virtual void FillStars()
+    {
+        //FillnestedObjectStarsStars(256);
     }
 }

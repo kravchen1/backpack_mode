@@ -35,17 +35,18 @@ public class FireHelmet : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                    DeleteAllDescriptions();
-                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemFireHelmet>();
-                    descr.cooldown = (float)Math.Round(timer_cooldown,2);
-                    descr.countStack = countBurnStack;
-                    descr.SetTextBody();
+                var descr = CanvasDescription.GetComponent<DescriptionItemFireHelmet>();
+                descr.cooldown = (float)Math.Round(timer_cooldown, 2);
+                descr.countStack = countBurnStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

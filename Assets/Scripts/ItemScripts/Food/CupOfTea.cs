@@ -20,7 +20,7 @@ public class CupOfTea : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -30,6 +30,7 @@ public class CupOfTea : Food
                 var descr = CanvasDescription.GetComponent<DescriptionItemCupOfTea>();
                 descr.health = health;
                 descr.regeneration = regeneration;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

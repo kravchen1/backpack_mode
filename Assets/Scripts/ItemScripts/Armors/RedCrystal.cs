@@ -27,13 +27,12 @@ public class RedCrystal : Armor
             }
         }
     }
-
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -44,6 +43,7 @@ public class RedCrystal : Armor
                 //descr.cooldown = timer_cooldown;
                 descr.powerStack = powerStack;
                 descr.powerStackChance = powerStackChance;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

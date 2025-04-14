@@ -13,7 +13,7 @@ public class Cogweel : Junk
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -24,6 +24,7 @@ public class Cogweel : Junk
                 //descr.cooldown = timer_cooldown;
                 //descr.countStack = countBurnStack;
                 //descr.coolDown = coolDown;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

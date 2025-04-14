@@ -28,7 +28,7 @@ public class WoodenArmor : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -37,6 +37,7 @@ public class WoodenArmor : Armor
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemWoodenArmor>();
                 descr.armor = startBattleArmorCount;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class VampireSword1 : Weapon
 {
-    protected override void FillStarts()
+    protected override void FillStars()
     {
         FillnestedObjectStarsStars(256, "Gloves");
     }
@@ -27,7 +27,7 @@ public class VampireSword1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Gloves");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -35,7 +35,8 @@ public class VampireSword1 : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireSword>();
-
+                descr.weight = weight;
+                descr.SetTextBody();
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();

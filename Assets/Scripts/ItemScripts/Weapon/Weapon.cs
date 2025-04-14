@@ -17,14 +17,14 @@ public class Weapon : Item
     //protected float timer = 0f;
     protected bool timer_locked_out = true;
 
-    protected virtual void FillStarts()
+    protected override void FillStars()
     {
         FillnestedObjectStarsStars(256);
     }
 
     private void Start()
     {
-        FillStarts();
+        FillStars();
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         baseStamina = stamina;

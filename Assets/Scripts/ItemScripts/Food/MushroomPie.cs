@@ -21,7 +21,7 @@ public class MushroomPie : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -31,6 +31,7 @@ public class MushroomPie : Food
                 var descr = CanvasDescription.GetComponent<DescriptionItemMushroomPie>();
                 descr.health = health;
                 descr.poison = poison;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

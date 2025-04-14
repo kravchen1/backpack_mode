@@ -17,7 +17,7 @@ public class Halberd : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            //FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -25,8 +25,8 @@ public class Halberd : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemHalberd>();
-                //descr.countIncreasesCritDamage = countIncreasesCritDamage;
-                //descr.SetTextBody();
+                descr.weight = weight;
+                descr.SetTextBody();
 
 
                 if (Player != null)

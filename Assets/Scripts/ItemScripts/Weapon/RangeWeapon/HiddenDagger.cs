@@ -41,7 +41,7 @@ public class HiddenDagger : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -49,7 +49,8 @@ public class HiddenDagger : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemHiddenDagger>();
-                //descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                descr.weight = weight;
+                descr.SetTextBody();
 
                 if (Player != null)
                 {

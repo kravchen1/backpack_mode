@@ -20,7 +20,7 @@ public class BowlOfSoup : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -30,6 +30,7 @@ public class BowlOfSoup : Food
                 var descr = CanvasDescription.GetComponent<DescriptionItemBowlOfSoup>();
                 descr.health = health;
                 descr.fireBuff = fireBuff;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

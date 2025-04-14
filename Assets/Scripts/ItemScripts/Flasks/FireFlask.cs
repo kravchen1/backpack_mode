@@ -46,6 +46,7 @@ public class FireFlask : Flask
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -54,6 +55,7 @@ public class FireFlask : Flask
                 var descr = CanvasDescription.GetComponent<DescriptionItemFireFlask>();
                 descr.giveStack = giveStack;
                 descr.countStack = countStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

@@ -12,6 +12,7 @@ public class VampireBoots : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            FillStars();
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
@@ -47,7 +48,7 @@ public class VampireBoots : Armor
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -57,6 +58,7 @@ public class VampireBoots : Armor
                 //descr.cooldown = timer_cooldown;
                 descr.armor = startBattleArmorCount;
                 descr.countVampireStack = countVampireStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

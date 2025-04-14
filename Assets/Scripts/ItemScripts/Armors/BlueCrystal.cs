@@ -28,15 +28,14 @@ public class BlueCrystal : Armor
             }
         }
     }
-
-
+    
 
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -49,7 +48,7 @@ public class BlueCrystal : Armor
                 //descr.coolDown = coolDown;
                 descr.manaStackChance = manaStackChance;
                 descr.manaStack = manaStack;
-
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

@@ -21,7 +21,7 @@ public class Stew : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -31,6 +31,7 @@ public class Stew : Food
                 var descr = CanvasDescription.GetComponent<DescriptionItemStew>();
                 descr.health = health;
                 descr.stamina = stamina;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

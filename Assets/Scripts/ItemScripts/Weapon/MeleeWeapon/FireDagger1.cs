@@ -17,7 +17,7 @@ public class FireDagger1 : Weapon
     public int dealDamageDropStack;
 
     //public GameObject DebugFireLogCharacter, DebugFireLogEnemy;
-    protected override void FillStarts()
+    protected override void FillStars()
     {
         FillnestedObjectStarsStars(256);
     }
@@ -66,7 +66,7 @@ public class FireDagger1 : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -77,6 +77,7 @@ public class FireDagger1 : Weapon
                 descr.hitFireStack = countBurnStackOnHit;
                 descr.dropFireStack = dropFireStack;
                 descr.dealDamageDropStack = dealDamageDropStack;
+                descr.weight = weight;
                 descr.SetTextBody();
 
                 if (Player != null)
