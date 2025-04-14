@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts.ItemScripts;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 public class HitsStructure
@@ -389,8 +390,25 @@ public abstract class Item : MonoBehaviour
         ClearCareRaycast(false);
         image.sortingOrder = 1;
         //ChangeShowStars(true);
-        Exit = false;
-        StartCoroutine(ShowDescription());
+
+        Vector2 mousePos = Input.mousePosition;
+
+        if (!(mousePos.x < 0 ||
+                mousePos.x > Screen.width ||
+                mousePos.y < 0 ||
+                mousePos.y > Screen.height)
+        )
+        {
+            Exit = false;
+            StartCoroutine(ShowDescription());
+        }
+        else
+        {
+            //Debug.Log("Курсор за пределами игрового экрана!");
+            ChangeShowStars(false);
+        }
+
+        
         FindPlaceForDescription();
     }
 
@@ -1195,6 +1213,7 @@ public abstract class Item : MonoBehaviour
     private void OnMouseExit()
     {
         Exit = true;
+        MouseExit();
         Invoke("MouseExit", 0.2f);
     }
 
