@@ -99,6 +99,10 @@ public class LocalizationTextToogle : MonoBehaviour
                 itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "Surrend_Button");
                 text.text = itemText;
                 break;
+            case "UnitsWeight":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "UnitsWeight");
+                text.text = itemText;
+                break;
 
 
 

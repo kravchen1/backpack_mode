@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonsEscController : MonoBehaviour
 {
-    
+    public List<BattleSpawn> battleSpawns;
     public void BackToMainMenuFromWorld()
     {
         SaveFromWorld();
@@ -61,6 +62,27 @@ public class ButtonsEscController : MonoBehaviour
 
 
         checkCameraPositionAndSavePlayerPosition(player);
+
+
+        if (battleSpawns != null && battleSpawns.Count > 0)
+        {
+            string Biom = "1";
+
+            BattlesSpawnerData battlesSpawnerData = new BattlesSpawnerData();
+            battlesSpawnerData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn" + Biom + ".json"));
+
+            foreach (var battleSpawn in battleSpawns)
+            {
+                if (battleSpawn.transform.childCount > 0)
+                {
+                    battlesSpawnerData.battlesSpawnerDataClass.battleData.Where(e => e.id == battleSpawn.id).ToList()[0].position = battleSpawn.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition;
+                }
+            }
+
+            battlesSpawnerData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "battlesIn" + Biom + ".json"));
+
+        }
+
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
         //Debug.Log(PlayerPrefs.GetFloat("PostionMapX"));
