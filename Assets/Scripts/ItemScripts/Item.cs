@@ -92,9 +92,9 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
-    public List<GameObject> stars;
-    public Sprite emptyStar;
-    public Sprite fillStar;
+    protected List<GameObject> stars;
+    private Sprite emptyStar;
+    private Sprite fillStar;
 
     [HideInInspector] public ShopItem shopItem;
 
@@ -185,6 +185,18 @@ public abstract class Item : MonoBehaviour
         originalSprite = image.sprite;
 
         prefabAnimationAttack = Resources.Load<GameObject>("AttackAnimation");
+        emptyStar = Resources.Load<Sprite>("Items/stars/EmptyStar");
+        fillStar = Resources.Load<Sprite>("Items/stars/FillStar");
+
+        stars = new List<GameObject>();
+        for(int i = 0;i < transform.childCount;i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.tag == "StarActivation")
+            {
+                stars.Add(child);
+            }
+        }
 
         needToRotate = false;
         collider = GetComponent<PolygonCollider2D>();
@@ -341,7 +353,7 @@ public abstract class Item : MonoBehaviour
 
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        if (SceneManager.GetActiveScene().name != "BackPackBattle")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle" && SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
             needToRotate = false;
             image.color = imageColor;
@@ -759,7 +771,6 @@ public abstract class Item : MonoBehaviour
         }
         else
         {
-            //StartCoroutine(moveObject(lastItemPosition));
             StartCoroutine(moveObject(new Vector3(GameObject.FindGameObjectWithTag("Storage").transform.position.x - 1, transform.position.y + 3, 0f)));
         }
     }
@@ -1221,11 +1232,13 @@ public abstract class Item : MonoBehaviour
     private void OnMouseExit()
     {
         Exit = true;
-        MouseExit();
-        Invoke("MouseExit", 0.2f);
+        if (!MouseExit())
+        {
+            Invoke("MouseExit", 0.2f);
+        }
     }
 
-    void MouseExit()
+    bool MouseExit()
     {
         if (!DragManager.isDragging)
         {
@@ -1245,8 +1258,11 @@ public abstract class Item : MonoBehaviour
             if (canShowDescription && CanvasDescription != null)
             {
                 Destroy(CanvasDescription.gameObject);
+                return true;
             }
+            return false;
         }
+        return false;
     }
 
 
