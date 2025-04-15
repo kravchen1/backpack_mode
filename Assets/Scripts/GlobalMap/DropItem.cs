@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Item;
 
 
 public class DropItem : EventParent
@@ -58,6 +59,24 @@ public class DropItem : EventParent
         targetPosition = startPosition + new Vector3(jumpDistanceX, jumpDistanceY, 0);
 
         isJumping = true;
+        Item itemClass = item.GetComponent<Item>();
+        Color newColorForCircle;
+        switch (itemClass.rarity)
+        {
+            case ItemRarity.Rare:
+                newColorForCircle = new Color(0.5707547f, 0.6549992f, 1f, 0.4f);
+                break;
+            case ItemRarity.Epic:
+                newColorForCircle = new Color(0.6559475f, 0.4571022f, 0.9056604f, 0.4f);
+                break;
+            case ItemRarity.Legendary:
+                newColorForCircle = new Color(0.8584906f, 0.590014f, 0.4170969f, 0.6705883f);
+                break;
+            default:
+                newColorForCircle = new Color(1f, 1f, 1f, 0.4f);
+                break;
+        }
+        Light.GetComponent<SpriteRenderer>().color = newColorForCircle;
     }
 
 

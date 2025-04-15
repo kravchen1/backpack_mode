@@ -63,6 +63,8 @@ public class ButtonsEscController : MonoBehaviour
         checkCameraPositionAndSavePlayerPosition(player);
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
+        //Debug.Log(PlayerPrefs.GetFloat("PostionMapX"));
+        //Debug.Log(PlayerPrefs.GetFloat("PostionMapY"));
 
         player.GetComponent<Player>().characterStats.SaveData();
 
@@ -81,6 +83,8 @@ public class ButtonsEscController : MonoBehaviour
 
         PlayerPrefs.SetFloat("PostionMapX", playerRectTransform.anchoredPosition.x);
         PlayerPrefs.SetFloat("PostionMapY", playerRectTransform.anchoredPosition.y);
+
+
         PlayerPrefs.SetString("currentLocation", SceneManager.GetActiveScene().name);
 
 
@@ -94,29 +98,37 @@ public class ButtonsEscController : MonoBehaviour
         var camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MoveCamera>();
         var rtPlayer = player.GetComponent<RectTransform>().anchoredPosition;
 
-        if (rtPlayer.x <= camera.minX)
+        if (camera != null)
         {
-            PlayerPrefs.SetFloat("PostionMapX", camera.minX + 1);
-        }
-        else if (rtPlayer.x >= camera.maxX)
-        {
-            PlayerPrefs.SetFloat("PostionMapX", camera.maxX - 1);
+            if (rtPlayer.x <= camera.minX)
+            {
+                PlayerPrefs.SetFloat("PostionMapX", camera.minX + 1);
+            }
+            else if (rtPlayer.x >= camera.maxX)
+            {
+                PlayerPrefs.SetFloat("PostionMapX", camera.maxX - 1);
+            }
+            else
+            {
+                PlayerPrefs.SetFloat("PostionMapX", rtPlayer.x);
+            }
+
+            if (rtPlayer.y <= camera.minY)
+            {
+                PlayerPrefs.SetFloat("PostionMapY", camera.minY + 1);
+            }
+            else if (rtPlayer.y >= camera.maxY)
+            {
+                PlayerPrefs.SetFloat("PostionMapY", camera.maxY - 1);
+            }
+            else
+            {
+                PlayerPrefs.SetFloat("PostionMapY", rtPlayer.y);
+            }
         }
         else
         {
             PlayerPrefs.SetFloat("PostionMapX", rtPlayer.x);
-        }
-
-        if (rtPlayer.y <= camera.minY)
-        {
-            PlayerPrefs.SetFloat("PostionMapY", camera.minY + 1);
-        }
-        else if (rtPlayer.y >= camera.maxY)
-        {
-            PlayerPrefs.SetFloat("PostionMapY", camera.maxY - 1);
-        }
-        else
-        {
             PlayerPrefs.SetFloat("PostionMapY", rtPlayer.y);
         }
     }

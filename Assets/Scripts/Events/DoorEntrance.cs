@@ -108,6 +108,7 @@ public class DoorEntrance : EventParent
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE && !isCoroutineRunning)
         {
+            PlayerPrefs.SetInt("isEnemyAlive", 0);
             if (PlayerPrefs.HasKey("isEnemyAlive"))
             {
                 if (PlayerPrefs.GetInt("isEnemyAlive") == 0)

@@ -61,6 +61,9 @@ public class Enemy : EventParent
             pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
         }
         rt = GetComponent<RectTransform>();
+
+        //PlayerPrefs.SetInt("caveEnemyLvl", 15);
+        //Die();
     }
     // В классе Enemy:
     private Coroutine moveCoroutine;
@@ -68,14 +71,17 @@ public class Enemy : EventParent
 
     public virtual void Move()
     {
-        if (!isDie && !isMoving)
+        if (gameObject.transform.parent.GetComponent<BattleSpawn>() != null)
         {
-            pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
-            rt = GetComponent<RectTransform>();
-            isMoving = true;
-            if (moveCoroutine == null)
+            if (!isDie && !isMoving)
             {
-                moveCoroutine = StartCoroutine(MoveBetweenPoints());
+                pointsRun = gameObject.transform.parent.GetComponent<BattleSpawn>().pointsRun;
+                rt = GetComponent<RectTransform>();
+                isMoving = true;
+                if (moveCoroutine == null)
+                {
+                    moveCoroutine = StartCoroutine(MoveBetweenPoints());
+                }
             }
         }
     }
@@ -304,34 +310,35 @@ public class Enemy : EventParent
                     }
                 }
             }
-
-            // 2. Дополнительные предметы с уменьшающейся вероятностью
-            for (int i = 0; i < dropItems.Count; i++)
+            if (PlayerPrefs.GetInt("caveEnemyLvl") != 1)
             {
-                if (droppedItems.Contains(dropItems[i])) continue; // Уже выпал
-
-                // Особый случай для ключевых камней
-                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") &&
-                    dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl") + 1)
+                // 2. Дополнительные предметы с уменьшающейся вероятностью
+                for (int i = 0; i < dropItems.Count; i++)
                 {
-                    InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
-                    droppedItems.Add(dropItems[i]);
-                    Debug.Log("Additional key stone drop: " + dropItems[i].name);
-                    continue;
-                }
+                    if (droppedItems.Contains(dropItems[i])) continue; // Уже выпал
 
-                // Обычные предметы
-                float baseProb = probabilityDropItems[i] + (lvlEnemy - 1) * 0.15f;
-                float modifiedProbability = baseProb * Mathf.Pow(probabilityReductionFactor, droppedItems.Count);
+                    // Особый случай для ключевых камней
+                    if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") &&
+                        dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl") + 1)
+                    {
+                        InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
+                        droppedItems.Add(dropItems[i]);
+                        Debug.Log("Additional key stone drop: " + dropItems[i].name);
+                        continue;
+                    }
 
-                if (rand.NextFloat(0.0f, 100.0f) <= modifiedProbability)
-                {
-                    InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
-                    droppedItems.Add(dropItems[i]);
-                    //Debug.Log(dropItems[i].name + " bonus loot with prob: " + modifiedProbability);
+                    // Обычные предметы
+                    float baseProb = probabilityDropItems[i] + (lvlEnemy - 1) * 0.15f;
+                    float modifiedProbability = baseProb * Mathf.Pow(probabilityReductionFactor, droppedItems.Count);
+
+                    if (rand.NextFloat(0.0f, 100.0f) <= modifiedProbability)
+                    {
+                        InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
+                        droppedItems.Add(dropItems[i]);
+                        //Debug.Log(dropItems[i].name + " bonus loot with prob: " + modifiedProbability);
+                    }
                 }
             }
-
             // Если почему-то ничего не выпало (маловероятно), выбираем первый предмет
             if (droppedItems.Count == 0)
             {

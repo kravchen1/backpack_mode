@@ -40,8 +40,8 @@ public abstract class Item : MonoBehaviour
     //public GameObject DescriptionLogCharacter;
     //public GameObject DescriptionLogEnemy;
 
-    public Sprite originalSprite;
-    public GameObject prefabAnimationAttack;
+    private Sprite originalSprite;
+    private GameObject prefabAnimationAttack;
 
     [HideInInspector] public GameObject CanvasDescription;
 
@@ -51,7 +51,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public bool Exit = false;
     //public float rbMass = 0.1f;
 
-    public int originalLayer = 0;
+    //public int originalLayer = 0;
 
     public int itemCost;
 
@@ -89,7 +89,7 @@ public abstract class Item : MonoBehaviour
 
     [HideInInspector] public Animator animator;
     [HideInInspector] Animator sellChestAnimator;
-    public AudioSource sellChestSound;
+    [HideInInspector] public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
     public List<GameObject> stars;
@@ -105,7 +105,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public Vector3 offset;
     [HideInInspector] private int countClickRotate = 0, maxCountClickRotate = 100;
     protected float timer_cooldownStatic = 12.5f;
-    public float timerStatic = 12.5f;
+    [HideInInspector] public float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
     [HideInInspector] public OtherItemMusicEffects itemMusicEffects;
@@ -122,7 +122,11 @@ public abstract class Item : MonoBehaviour
 
     protected LogManager logManager;
 
-    
+    private float minDelay = 0.1f;
+    private float maxDelay = 1.0f;
+    private float moveDistance = 0.5f;
+
+
     public enum ItemRarity
     {
         Common,      // Обычный
@@ -177,7 +181,11 @@ public abstract class Item : MonoBehaviour
         startRectTransformZ = rectTransform.eulerAngles.z;
         image = GetComponent<SpriteRenderer>();
         canvas = GetComponentInParent<Canvas>();
-        imageColor = GetComponent<SpriteRenderer>().color;
+        imageColor = image.color;
+        originalSprite = image.sprite;
+
+        prefabAnimationAttack = Resources.Load<GameObject>("AttackAnimation");
+
         needToRotate = false;
         collider = GetComponent<PolygonCollider2D>();
         //originalLayer = gameObject.layer;
@@ -890,9 +898,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public float minDelay = 0.1f;
-    public float maxDelay = 1.0f;
-    public float moveDistance = 0.5f;
+    
     IEnumerator MoveWithRandomDelay()
     {
         // Рандомная задержка для распределения нагрузки
@@ -1475,6 +1481,10 @@ public abstract class Item : MonoBehaviour
     {
         GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
         goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+        if(prefabAnimationAttack == null)
+        {
+            Debug.Log(originalName + " не заполнена анимации атаки, а используется");
+        }
         goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
         goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
         goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;

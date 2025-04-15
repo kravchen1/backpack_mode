@@ -61,16 +61,16 @@ public class CaveEvent : MonoBehaviour
                 }
                 break;
             case 1:
-                newObject = Instantiate(chestPrefab, new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                newObject = Instantiate(chestPrefab, gameObject.transform);
+                //newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                 break;
             case 2:
-                newObject = Instantiate(fountainPrefab, new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                newObject = Instantiate(fountainPrefab, gameObject.transform);
+                //newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                 break;
             case 3:
-                newObject = Instantiate(storePrefab, new Vector3(0, 0, -1), Quaternion.identity, gameObject.transform);
-                newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
+                newObject = Instantiate(storePrefab, gameObject.transform);
+                //newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, -1);
                 break;
             case 4:
                 if (!PlayerPrefs.HasKey("battlePrefabId"))

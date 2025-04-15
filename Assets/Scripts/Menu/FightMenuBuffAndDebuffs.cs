@@ -450,7 +450,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     {
         if (countFatigue > 0)
         {
-            Debug.Log("fatigue: " + countFatigue.ToString());
+            //Debug.Log("fatigue: " + countFatigue.ToString());
             OwnerStat.GetComponent<PlayerBackpackBattle>().MinusHP(countFatigue);
             //CreateLogMessage(transform.parent.parent.gameObject.name + " fatiguing for " + Math.Abs(countFatigue).ToString());
             fatigueAnimation.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + (countFatigue).ToString();
