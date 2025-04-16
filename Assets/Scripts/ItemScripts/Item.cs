@@ -84,7 +84,7 @@ public abstract class Item : MonoBehaviour
 
     [HideInInspector] protected PlayerBackpackBattle Player;
     [HideInInspector] protected PlayerBackpackBattle Enemy;
-    [HideInInspector] protected GameObject placeForDescription;
+    [HideInInspector] public GameObject placeForDescription;
 
 
     [HideInInspector] public Animator animator;

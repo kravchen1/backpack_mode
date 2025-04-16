@@ -11,22 +11,23 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public abstract class ItemShowCase : MonoBehaviour
+public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
-    public GameObject Description;
+    public Item item;
     bool Exit = false;
     private GameObject CanvasDescription;
-    public string originalName;
-    public GameObject placeForDescription;
+    private GameObject placeForDescription;
     private List<GameObject> stars;
-    
+    private AimItemMusicEffects aimItemMusicEffects;
+    private Animator animator;
+
     void FindPlaceForDescription()
     {
         if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)
-            placeForDescription = GameObject.FindWithTag("DescriptionPlace");
+            item.placeForDescription = GameObject.FindWithTag("DescriptionPlace");
         else
-            placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
+            item.placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
     }
     private void Awake()
     {
@@ -40,32 +41,37 @@ public abstract class ItemShowCase : MonoBehaviour
                 stars.Add(child);
             }
         }
+        aimItemMusicEffects = GetComponent<AimItemMusicEffects>();
+        animator = GetComponent<Animator>();
     }
 
 
-    private void OnMouseEnter()
+    // Срабатывает при наведении курсора
+    public void OnPointerEnter(PointerEventData eventData)
     {
+        //if (PlayerPrefs.GetInt("Found" + item.originalName) == 1)
+        //{
+        //CanvasDescription = Instantiate(item.Description, placeForDescription.GetComponent<RectTransform>().transform);
+        animator.Play("aim", 0, 0f);
 
-        if (!DragManager.isDragging)
-        {
-            Exit = false;
-            if (PlayerPrefs.GetInt("Found" + originalName) == 1)
-            {
-                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-            }
-        }
+        StartCoroutine(item.ShowDescription());
+        //}
+        aimItemMusicEffects.PlayAimSound();
     }
 
-    private void OnMouseExit()
+    // Срабатывает при выходе курсора
+    public void OnPointerExit(PointerEventData eventData)
     {
-        Exit = true;
+        animator.Play("aimRevert", 0, 0f);
         MouseExit();
     }
+
+
 
     void MouseExit()
     {
         ChangeShowStars(false);
-        Destroy(CanvasDescription.gameObject);
+        Destroy(item.CanvasDescription.gameObject);
     }
 
     public void ChangeShowStars(bool enabled)
