@@ -85,7 +85,7 @@ public class BattleSpawner : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log(characterStatsData.playerLvl);
+                        //Debug.Log(characterStatsData.playerLvl);
                         if (characterStatsData.playerLvl > 1)
                         {
                             randomLevel = Random.Range(characterStatsData.playerLvl - 1, characterStatsData.playerLvl + 6);

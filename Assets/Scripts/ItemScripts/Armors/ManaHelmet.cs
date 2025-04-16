@@ -73,7 +73,7 @@ public class ManaHelmet : Flask
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -84,6 +84,7 @@ public class ManaHelmet : Flask
                 descr.countArmorStack = countArmorStack;
                 descr.countResistStack = countResistStack;
                 descr.countSpendManaStack = countSpendManaStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

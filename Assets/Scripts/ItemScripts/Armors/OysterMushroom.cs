@@ -44,7 +44,7 @@ public class OysterMushroom : Mushroom
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mushroom");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -55,6 +55,7 @@ public class OysterMushroom : Mushroom
                 descr.cooldown = timer_cooldown;
                 descr.giveManaStack = giveManaStack;
                 descr.activationForStar = activationForStar;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

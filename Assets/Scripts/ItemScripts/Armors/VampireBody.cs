@@ -13,7 +13,7 @@ public class VampireBody : Stuff
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "Vampire");
+        FillStars();
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
@@ -73,13 +73,16 @@ public class VampireBody : Stuff
     }
 
 
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Vampire");
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Vampire");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -88,6 +91,7 @@ public class VampireBody : Stuff
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireBody>();
                 descr.cooldown = timer_cooldown;
                 descr.countBleedStack = countBleedStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

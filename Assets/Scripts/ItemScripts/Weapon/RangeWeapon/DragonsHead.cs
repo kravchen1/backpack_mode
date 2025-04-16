@@ -17,7 +17,7 @@ public class DragonsHead : Weapon
     private bool isUse = false;
 
     //public GameObject LogFireStackCharacter, LogFireStackEnemy;
-    protected override void FillStarts()
+    protected override void FillStars()
     {
         FillnestedObjectStarsStars(256, "Fire", "Dragon");
     }
@@ -51,12 +51,14 @@ public class DragonsHead : Weapon
         logManager.CreateLogMessageGive(originalName, "fire", fireStack, Player.isPlayer);
     }
 
+
+
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Fire", "Dragon");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -64,10 +66,10 @@ public class DragonsHead : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemDragonsHead>();
-                //descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                descr.weight = weight;
                 descr.SetTextBody();
 
-                
+
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();

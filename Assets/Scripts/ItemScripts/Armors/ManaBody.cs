@@ -17,7 +17,7 @@ public class ManaBody : Armor
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
-            FillnestedObjectStarsStars(256, "Mana");
+            FillStars();
             animator.speed = 1f / 0.5f;
             animator.Play(originalName + "Activation");
         }
@@ -50,23 +50,30 @@ public class ManaBody : Armor
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Mana");
+    }
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mana");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().countStarArmorStack = countStarArmorStack;
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().countStarManaStack = countStarManaStack;
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().countManaStack = countManaStack;
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().armor = startBattleArmorCount;
-                CanvasDescription.GetComponent<DescriptionItemManaBody>().SetTextBody();
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemManaBody>();
+                descr.countStarArmorStack = countStarArmorStack;
+                descr.countStarManaStack = countStarManaStack;
+                descr.countManaStack = countManaStack;
+                descr.armor = startBattleArmorCount;
+                descr.weight = weight;
+                descr.SetTextBody();
+
             }
         }
     }

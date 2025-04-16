@@ -43,7 +43,7 @@ public class Nunchucks : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -51,10 +51,10 @@ public class Nunchucks : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemNunchucks>();
-                //descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                descr.weight = weight;
                 descr.SetTextBody();
 
-                
+
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();

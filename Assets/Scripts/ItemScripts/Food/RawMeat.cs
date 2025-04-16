@@ -20,7 +20,7 @@ public class RawMeat : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -29,6 +29,7 @@ public class RawMeat : Food
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemRawMeat>();
                 descr.health = health;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

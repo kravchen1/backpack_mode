@@ -79,19 +79,19 @@ public class CaveStone : MonoBehaviour
 
             for (int i = 0; i < caveStoneBP.itemData.items.Count; i++)
             {
-                Debug.Log("caveStoneBP.itemData.items[i].name: " + caveStoneBP.itemData.items[i].name);
-                Debug.Log("activateStone.GetComponent<Item>().originalName: " + activateStone.GetComponent<Item>().originalName);
+                //Debug.Log("caveStoneBP.itemData.items[i].name: " + caveStoneBP.itemData.items[i].name);
+                //Debug.Log("activateStone.GetComponent<Item>().originalName: " + activateStone.GetComponent<Item>().originalName);
                 if (caveStoneBP.itemData.items[i].name == activateStone.GetComponent<Item>().originalName)
                 {
-                    Debug.Log("caveStoneBP.itemData.items.Count(): " + caveStoneBP.itemData.items.Count());
+                    //Debug.Log("caveStoneBP.itemData.items.Count(): " + caveStoneBP.itemData.items.Count());
                     caveStoneBP.itemData.items.Remove(caveStoneBP.itemData.items[i]);
-                    Debug.Log("caveStoneBP.itemData.items.Count(): " + caveStoneBP.itemData.items.Count());
+                    //Debug.Log("caveStoneBP.itemData.items.Count(): " + caveStoneBP.itemData.items.Count());
                 }
             }
             DestroyImmediate(activateStone);
-            Debug.Log("caveStoneBP.itemData.items.Count(): " + caveStoneBP.itemData.items.Count());
+            //Debug.Log("caveStoneBP.itemData.items.Count(): " + caveStoneBP.itemData.items.Count());
             caveStoneBP.SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
-            Debug.Log("Saved");
+            //Debug.Log("Saved");
             GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
             GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
             GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();

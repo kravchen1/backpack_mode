@@ -4,6 +4,7 @@ using UnityEngine;
 public class RustlingBush : MonoBehaviour
 {
     AudioSource audioSource;
+    public float SoundValumeForDefault = 1f;
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -12,7 +13,7 @@ public class RustlingBush : MonoBehaviour
     {
         if (other.CompareTag("Player")) // Замените "Player" на тег вашего персонажа
         {
-            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f) / SoundValumeForDefault;
             audioSource.Play();
         }
     }

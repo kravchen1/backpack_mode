@@ -36,13 +36,13 @@ public class ChantarelleMushroom : Mushroom
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
         }
     }
-
+    
     public override IEnumerator ShowDescription()
     {
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256, "Mushroom");
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -53,6 +53,7 @@ public class ChantarelleMushroom : Mushroom
                 descr.cooldown = timer_cooldown;
                 descr.giveRegenerationStack = giveRegenerationStack;
                 descr.activationForStar = activationForStar;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

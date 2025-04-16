@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartIceBag : Bag
@@ -12,6 +14,26 @@ public class StartIceBag : Bag
             //CreateLogMessage("StartIceBag inflict " + countIceStack.ToString(), Player.isPlayer);
             logManager.CreateLogMessageInflict(originalName, "frost", countIceStack, Player.isPlayer);
             Enemy.menuFightIconData.CalculateFireFrostStats();//true = Player
+        }
+    }
+
+    public override IEnumerator ShowDescription()
+    {
+        yield return new WaitForSecondsRealtime(.1f);
+        if (!Exit)
+        {
+            FillStars();
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemIceBag>();
+                descr.countIceStack = countIceStack;
+                descr.weight = weight;
+                descr.SetTextBody();
+            }
         }
     }
 }

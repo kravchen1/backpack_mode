@@ -8,7 +8,7 @@ public class WoodenBoard : Junk
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -16,6 +16,7 @@ public class WoodenBoard : Junk
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform) as GameObject;
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemWoodenBoard>();
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

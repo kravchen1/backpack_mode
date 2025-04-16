@@ -35,17 +35,18 @@ public class ManaBoots : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                    DeleteAllDescriptions();
-                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemManaBoots>();
-                    descr.cooldown = (float)Math.Round(timer_cooldown,2);
-                    descr.countManaStack = countManaStack;
-                    descr.SetTextBody();
+                var descr = CanvasDescription.GetComponent<DescriptionItemManaBoots>();
+                descr.cooldown = (float)Math.Round(timer_cooldown, 2);
+                descr.countManaStack = countManaStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts.ItemScripts;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 public class HitsStructure
@@ -39,8 +40,8 @@ public abstract class Item : MonoBehaviour
     //public GameObject DescriptionLogCharacter;
     //public GameObject DescriptionLogEnemy;
 
-    public Sprite originalSprite;
-    public GameObject prefabAnimationAttack;
+    private Sprite originalSprite;
+    private GameObject prefabAnimationAttack;
 
     [HideInInspector] public GameObject CanvasDescription;
 
@@ -50,7 +51,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public bool Exit = false;
     //public float rbMass = 0.1f;
 
-    public int originalLayer = 0;
+    //public int originalLayer = 0;
 
     public int itemCost;
 
@@ -83,17 +84,17 @@ public abstract class Item : MonoBehaviour
 
     [HideInInspector] protected PlayerBackpackBattle Player;
     [HideInInspector] protected PlayerBackpackBattle Enemy;
-    [HideInInspector] protected GameObject placeForDescription;
+    [HideInInspector] public GameObject placeForDescription;
 
 
     [HideInInspector] public Animator animator;
     [HideInInspector] Animator sellChestAnimator;
-    public AudioSource sellChestSound;
+    [HideInInspector] public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
-    public List<GameObject> stars;
-    public Sprite emptyStar;
-    public Sprite fillStar;
+    protected List<GameObject> stars;
+    private Sprite emptyStar;
+    private Sprite fillStar;
 
     [HideInInspector] public ShopItem shopItem;
 
@@ -104,7 +105,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public Vector3 offset;
     [HideInInspector] private int countClickRotate = 0, maxCountClickRotate = 100;
     protected float timer_cooldownStatic = 12.5f;
-    public float timerStatic = 12.5f;
+    [HideInInspector] public float timerStatic = 12.5f;
     protected bool timerStatic_locked_out = true;
 
     [HideInInspector] public OtherItemMusicEffects itemMusicEffects;
@@ -121,7 +122,11 @@ public abstract class Item : MonoBehaviour
 
     protected LogManager logManager;
 
-    
+    private float minDelay = 0.1f;
+    private float maxDelay = 1.0f;
+    private float moveDistance = 0.5f;
+
+
     public enum ItemRarity
     {
         Common,      // Обычный
@@ -176,7 +181,23 @@ public abstract class Item : MonoBehaviour
         startRectTransformZ = rectTransform.eulerAngles.z;
         image = GetComponent<SpriteRenderer>();
         canvas = GetComponentInParent<Canvas>();
-        imageColor = GetComponent<SpriteRenderer>().color;
+        imageColor = image.color;
+        originalSprite = image.sprite;
+
+        prefabAnimationAttack = Resources.Load<GameObject>("AttackAnimation");
+        emptyStar = Resources.Load<Sprite>("Items/stars/EmptyStar");
+        fillStar = Resources.Load<Sprite>("Items/stars/FillStar");
+
+        stars = new List<GameObject>();
+        for(int i = 0;i < transform.childCount;i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.tag == "StarActivation")
+            {
+                stars.Add(child);
+            }
+        }
+
         needToRotate = false;
         collider = GetComponent<PolygonCollider2D>();
         //originalLayer = gameObject.layer;
@@ -332,7 +353,7 @@ public abstract class Item : MonoBehaviour
 
 
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        if (SceneManager.GetActiveScene().name != "BackPackBattle")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle" && SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
             needToRotate = false;
             image.color = imageColor;
@@ -389,8 +410,25 @@ public abstract class Item : MonoBehaviour
         ClearCareRaycast(false);
         image.sortingOrder = 1;
         //ChangeShowStars(true);
-        Exit = false;
-        StartCoroutine(ShowDescription());
+
+        Vector2 mousePos = Input.mousePosition;
+
+        if (!(mousePos.x < 0 ||
+                mousePos.x > Screen.width ||
+                mousePos.y < 0 ||
+                mousePos.y > Screen.height)
+        )
+        {
+            Exit = false;
+            StartCoroutine(ShowDescription());
+        }
+        else
+        {
+            //Debug.Log("Курсор за пределами игрового экрана!");
+            ChangeShowStars(false);
+        }
+
+        
         FindPlaceForDescription();
     }
 
@@ -432,8 +470,9 @@ public abstract class Item : MonoBehaviour
                 RaycastEvent();
                 DeleteAllDescriptions();
                 SellChest();
+                FillStars();
             }
-            canShowDescription = false;
+            canShowDescription = false; 
         }
         else
         {
@@ -445,6 +484,7 @@ public abstract class Item : MonoBehaviour
         //OnImpulse();
         RotationToStartRotation();
         CoolDownStatic();
+
     }
 
 
@@ -731,7 +771,6 @@ public abstract class Item : MonoBehaviour
         }
         else
         {
-            //StartCoroutine(moveObject(lastItemPosition));
             StartCoroutine(moveObject(new Vector3(GameObject.FindGameObjectWithTag("Storage").transform.position.x - 1, transform.position.y + 3, 0f)));
         }
     }
@@ -870,9 +909,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public float minDelay = 0.1f;
-    public float maxDelay = 1.0f;
-    public float moveDistance = 0.5f;
+    
     IEnumerator MoveWithRandomDelay()
     {
         // Рандомная задержка для распределения нагрузки
@@ -1195,10 +1232,13 @@ public abstract class Item : MonoBehaviour
     private void OnMouseExit()
     {
         Exit = true;
-        Invoke("MouseExit", 0.2f);
+        if (!MouseExit())
+        {
+            Invoke("MouseExit", 0.2f);
+        }
     }
 
-    void MouseExit()
+    bool MouseExit()
     {
         if (!DragManager.isDragging)
         {
@@ -1218,8 +1258,11 @@ public abstract class Item : MonoBehaviour
             if (canShowDescription && CanvasDescription != null)
             {
                 Destroy(CanvasDescription.gameObject);
+                return true;
             }
+            return false;
         }
+        return false;
     }
 
 
@@ -1454,6 +1497,10 @@ public abstract class Item : MonoBehaviour
     {
         GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
         goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+        if(prefabAnimationAttack == null)
+        {
+            Debug.Log(originalName + " не заполнена анимации атаки, а используется");
+        }
         goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
         goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
         goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
@@ -1574,5 +1621,11 @@ public abstract class Item : MonoBehaviour
         //var obj = Instantiate(log, placeForLogDescription.GetComponent<RectTransform>().transform);
         //obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = ts.nowTime.ToString() + " - " + message;
         //obj.GetComponent<LogMessage>().nestedObject = gameObject;
+    }
+
+
+    protected virtual void FillStars()
+    {
+        //FillnestedObjectStarsStars(256);
     }
 }

@@ -100,18 +100,19 @@ public class ManaAmulet : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                    DeleteAllDescriptions();
-                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemManaAmulet>();
-                    descr.cooldown = timer_cooldown;
-                    descr.countNeedManaStack = countManaStack;
-                    descr.countDebuffStack = countDebuffStack;
-                    descr.SetTextBody();
+                var descr = CanvasDescription.GetComponent<DescriptionItemManaAmulet>();
+                descr.cooldown = timer_cooldown;
+                descr.countNeedManaStack = countManaStack;
+                descr.countDebuffStack = countDebuffStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

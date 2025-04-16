@@ -28,7 +28,7 @@ public class Kettlebell : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -38,7 +38,7 @@ public class Kettlebell : Stuff
                 var descr = CanvasDescription.GetComponent<DescriptionItemKettlebell>();
                 descr.cooldown = timer_cooldown;
                 descr.givePowerStack = givePowerStack;
-                
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

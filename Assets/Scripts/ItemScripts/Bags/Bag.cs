@@ -232,7 +232,6 @@ public class Bag : Item
         else
         {
             CoolDownStart();
-            StartActivation();
         }
     }
     public override void Update()
@@ -653,7 +652,7 @@ public class Bag : Item
             IgnoreCollisionObject(false);
         }
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-        if(SceneManager.GetActiveScene().name != "BackPackBattle")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle" && SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
             //List<GameObject> gameObjects = new List<GameObject>();
             //ItemInGameObject("backpack", gameObjects);
@@ -696,14 +695,28 @@ public class Bag : Item
                 SellItem();
             }
 
+        }   
+        canShowDescription = true;
+        ChangeColorToDefault();
+        // Заканчиваем перетаскивание
+        isDragging = false;
 
-            canShowDescription = true;
-            ChangeColorToDefault();
-            // Заканчиваем перетаскивание
-            isDragging = false;
-            //gameObject.layer = originalLayer;
+        Vector2 mousePos = Input.mousePosition;
+        if (!(mousePos.x < 0 ||
+            mousePos.x > Screen.width ||
+            mousePos.y < 0 ||
+            mousePos.y > Screen.height)
+        )
+        {
+            Exit = false;
             StartCoroutine(ShowDescription());
         }
+        else
+        {
+            //Debug.Log("Курсор за пределами игрового экрана!");
+            ChangeShowStars(false);
+        }
+        
 
        
 

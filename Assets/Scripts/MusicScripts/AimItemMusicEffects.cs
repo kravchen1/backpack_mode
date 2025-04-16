@@ -41,4 +41,27 @@ public class AimItemMusicEffects : MonoBehaviour
             }
         }
     }
+
+    public void PlayAimSound()
+    {
+        if (!gameObject.tag.ToUpper().Contains("BAG"))
+        {
+            audioSource.pitch = Random.Range(1f, 2f);
+            //audioSource.volume = 0.8f;
+            audioSource.clip = hoverSound;
+            audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
+            audioSource.Play();
+        }
+        else
+        {
+            //if (gameObject.GetComponent<ShopItem>() != null)
+            //{
+                audioSource.pitch = Random.Range(1f, 2f);
+                //audioSource.volume = 0.8f;
+                audioSource.clip = hoverSound;
+                audioSource.volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
+                audioSource.Play();
+            //}
+        }
+    }
 }

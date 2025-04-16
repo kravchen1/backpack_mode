@@ -12,6 +12,7 @@ public class EscController : MonoBehaviour
     public GameObject EducationStart;
     public GameObject backpackEnemy;
     public GameObject caveMap;
+    public GameObject settings;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -24,7 +25,11 @@ public class EscController : MonoBehaviour
             {
                 if (CloseEducationOrNull())
                 {
-                    if(caveMap != null && caveMap.activeSelf)
+                    if (settings != null && settings.activeSelf)
+                    {
+                        settings.GetComponent<ButtonSettings>().ChangeActive();
+                    }
+                    else if (caveMap != null && caveMap.activeSelf)
                     {
                         caveMap.SetActive(false);
                     }

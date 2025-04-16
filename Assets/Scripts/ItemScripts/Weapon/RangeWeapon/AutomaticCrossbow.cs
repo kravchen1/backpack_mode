@@ -42,7 +42,7 @@ public class AutomaticCrossbow : Weapon
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -50,10 +50,10 @@ public class AutomaticCrossbow : Weapon
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemAutomaticCrossbow>();
-                //descr.countIncreasesCritDamage = countIncreasesCritDamage;
+                descr.weight = weight;
                 descr.SetTextBody();
 
-                
+
                 if (Player != null)
                 {
                     descr.damageMin = attackMin + Player.menuFightIconData.CalculateAddPower();

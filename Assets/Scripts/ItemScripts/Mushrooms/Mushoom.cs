@@ -11,7 +11,7 @@ public class Mushroom : Item
 
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "Mushroom");
+        FillStars();
 
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
@@ -57,7 +57,10 @@ public class Mushroom : Item
     }
 
 
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256, "Mushroom");
+    }
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")

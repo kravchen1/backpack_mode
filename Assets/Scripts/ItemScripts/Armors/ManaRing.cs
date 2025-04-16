@@ -63,18 +63,19 @@ public class ManaRing : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
-                    DeleteAllDescriptions();
-                    CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
-                    var descr = CanvasDescription.GetComponent<DescriptionItemManaRing>();
-                    descr.cooldown = timer_cooldown;
-                    descr.countNeedManaStack = countNeedManaStack;
-                    descr.countBurnStack = countBurnStack;
-                    descr.SetTextBody();
+                var descr = CanvasDescription.GetComponent<DescriptionItemManaRing>();
+                descr.cooldown = timer_cooldown;
+                descr.countNeedManaStack = countNeedManaStack;
+                descr.countBurnStack = countBurnStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

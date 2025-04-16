@@ -68,25 +68,28 @@ public class CaveChest : EventParent
             );
             droppedItems.Add(guaranteedItem);
             Debug.Log("Guaranteed drop: " + dropItems[guaranteedDropIndex].name);
-
-            // Пробуем выпасть остальные предметы с уменьшающейся вероятностью
-            for (int i = 0; i < dropItems.Count; i++)
+            //PlayerPrefs.SetInt("caveEnemyLvl", 1);
+            if (PlayerPrefs.GetInt("caveEnemyLvl") != 1)
             {
-                if (i == guaranteedDropIndex) continue; // Уже выпал
-
-                float modifiedProbability = probabilityDropItems[i] * Mathf.Pow(probabilityReductionFactor, droppedItems.Count);
-                float r = UnityEngine.Random.Range(0f, 100f);
-
-                if (r <= modifiedProbability)
+                // Пробуем выпасть остальные предметы с уменьшающейся вероятностью
+                for (int i = 0; i < dropItems.Count; i++)
                 {
-                    Debug.Log(dropItems[i].name + " bonus loot with roll " + r + " (modified prob: " + modifiedProbability + ")");
-                    GameObject droppedItem = Instantiate(
-                        dropItems[i],
-                        gameObject.transform.position + new Vector3(-200 * (droppedItems.Count + 1), 0, 0),
-                        Quaternion.identity,
-                        cave.GetComponent<RectTransform>().transform
-                    );
-                    droppedItems.Add(droppedItem);
+                    if (i == guaranteedDropIndex) continue; // Уже выпал
+
+                    float modifiedProbability = probabilityDropItems[i] * Mathf.Pow(probabilityReductionFactor, droppedItems.Count);
+                    float r = UnityEngine.Random.Range(0f, 100f);
+
+                    if (r <= modifiedProbability)
+                    {
+                        Debug.Log(dropItems[i].name + " bonus loot with roll " + r + " (modified prob: " + modifiedProbability + ")");
+                        GameObject droppedItem = Instantiate(
+                            dropItems[i],
+                            gameObject.transform.position + new Vector3(-200 * (droppedItems.Count + 1), 0, 0),
+                            Quaternion.identity,
+                            cave.GetComponent<RectTransform>().transform
+                        );
+                        droppedItems.Add(droppedItem);
+                    }
                 }
             }
 

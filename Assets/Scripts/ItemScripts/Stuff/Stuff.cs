@@ -12,7 +12,7 @@ public class Stuff : Item
     {
         timer_cooldown = baseTimerCooldown;
         timer = timer_cooldown;
-        FillnestedObjectStarsStars(256);
+        FillStars();
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
             animator.speed = 1f / 0.5f;
@@ -49,7 +49,10 @@ public class Stuff : Item
             }
         }
     }
-
+    protected override void FillStars()
+    {
+        FillnestedObjectStarsStars(256);
+    }
     public override void Update()
     {
         if (SceneManager.GetActiveScene().name == "BackPackBattle")

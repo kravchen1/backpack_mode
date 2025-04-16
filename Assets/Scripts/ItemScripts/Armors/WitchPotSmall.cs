@@ -16,6 +16,7 @@ public class WitchPotSmall : WitchCraft
 
         if (SceneManager.GetActiveScene().name == "BackPackBattle")
         {
+            FillStars();
             animator.speed = 1f / 0.5f;
         }
 
@@ -41,6 +42,7 @@ public class WitchPotSmall : WitchCraft
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -50,7 +52,7 @@ public class WitchPotSmall : WitchCraft
                 var descr = CanvasDescription.GetComponent<DescriptionItemWitchPotSmall>();
                 descr.cooldown = timer_cooldown;
                 descr.givePoisonStack = givePoisonStack;
-               
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

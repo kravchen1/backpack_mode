@@ -26,6 +26,7 @@ public class VampireGloves : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -34,6 +35,7 @@ public class VampireGloves : Stuff
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireGloves>();
                 descr.countBleedStack = countBleedStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

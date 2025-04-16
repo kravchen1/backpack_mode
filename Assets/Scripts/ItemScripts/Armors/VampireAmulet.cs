@@ -10,7 +10,7 @@ public class VampireAmulet : Armor
     private int currentTick = 0;
     private void Start()
     {
-        FillnestedObjectStarsStars(256, "Vampire");
+        FillStars();
     }
 
     public override void StartActivation()
@@ -21,10 +21,13 @@ public class VampireAmulet : Armor
         }
     }
 
-
-    public override IEnumerator ShowDescription()
+    protected override void FillStars()
     {
         FillnestedObjectStarsStars(256, "Vampire");
+    }
+    public override IEnumerator ShowDescription()
+    {
+        FillStars();
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
@@ -35,10 +38,7 @@ public class VampireAmulet : Armor
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
                 var descr = CanvasDescription.GetComponent<DescriptionItemVampireAmulet>();
-                //descr.hpDrop = hpDrop;
-                //descr.countArmorStack = countArmorStack;
-                //descr.countArmorStack = countResistStack;
-                //descr.countArmorStack = countSpendManaStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

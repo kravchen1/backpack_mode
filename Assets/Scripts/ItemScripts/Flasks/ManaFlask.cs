@@ -26,13 +26,17 @@ public class ManaFlask : Flask
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
                 DeleteAllDescriptions();
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                CanvasDescription.GetComponent<DescriptionItemManaFlask>().giveStack = giveStack;
-                CanvasDescription.GetComponent<DescriptionItemManaFlask>().SetTextBody();
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemManaFlask>();
+                descr.giveStack = giveStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }

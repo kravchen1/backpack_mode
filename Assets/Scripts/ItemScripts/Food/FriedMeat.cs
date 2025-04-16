@@ -20,7 +20,7 @@ public class FriedMeat : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -30,6 +30,7 @@ public class FriedMeat : Food
                 var descr = CanvasDescription.GetComponent<DescriptionItemFriedMeat>();
                 descr.health = health;
                 descr.stamina = stamina;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

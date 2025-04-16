@@ -30,7 +30,7 @@ public class Magnifire : Stuff
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            //FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -40,6 +40,7 @@ public class Magnifire : Stuff
                 var descr = CanvasDescription.GetComponent<DescriptionItemMagnifire>();
                 descr.cooldown = timer_cooldown;
                 descr.giveBlindnessStack = giveBlindnessStack;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

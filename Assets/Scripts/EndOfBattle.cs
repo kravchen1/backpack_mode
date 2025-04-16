@@ -45,6 +45,9 @@ public class EndOfBattle : MonoBehaviour
 
     [SerializeField] private AudioSource backgroundBattleMusic;
 
+
+
+
     private bool awardsReceived = false;
     private bool win = true;
 
@@ -52,6 +55,11 @@ public class EndOfBattle : MonoBehaviour
 
     private int hpAddCountForLvl = 35;
 
+
+
+    public GameObject DescriptionPlace;
+    public GameObject DescriptionEnemyPlace;
+    public GameObject animationsPlace;
 
     private void Awake()
     {
@@ -273,6 +281,9 @@ public class EndOfBattle : MonoBehaviour
         animations.SetActive(false);
         backgroundBattleMusic.Stop();
 
+        DescriptionPlace.transform.localScale = new Vector3(0, 0, 0);
+        DescriptionEnemyPlace.transform.localScale = new Vector3(0, 0, 0);
+        animationsPlace.transform.localScale = new Vector3(0, 0, 0);
 
         awardsReceived = true;
         playerBackpackBattle.characterStats.playerHP = playerBackpackBattle.hp;

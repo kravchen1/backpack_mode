@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void Filp()
+    public void Flip()
     {
         B_FacingRight = !B_FacingRight;
 
@@ -353,11 +353,11 @@ public class Player : MonoBehaviour
 
             if (Input.GetAxis("Horizontal") > 0 && B_FacingRight)
             {
-                Filp();
+                Flip();
             }
             else if (Input.GetAxis("Horizontal") < 0 && !B_FacingRight)
             {
-                Filp();
+                Flip();
             }
             StepSound();
             float currentSpeed = CheckStorageWeight();

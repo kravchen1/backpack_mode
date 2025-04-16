@@ -13,7 +13,7 @@ public class IngotOfMithril : Junk
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -21,9 +21,7 @@ public class IngotOfMithril : Junk
                 CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemIngotOfMithril>();
-                //descr.cooldown = timer_cooldown;
-                //descr.countStack = countBurnStack;
-                //descr.coolDown = coolDown;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }

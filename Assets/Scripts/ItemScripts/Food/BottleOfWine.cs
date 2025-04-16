@@ -22,7 +22,7 @@ public class BottleOfWine : Food
         yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {
@@ -32,6 +32,7 @@ public class BottleOfWine : Food
                 var descr = CanvasDescription.GetComponent<DescriptionItemBottleOfWine>();
                 descr.poison = poison;
                 descr.critChance = critChance;
+                descr.weight = weight;
                 descr.SetTextBody();
             }
         }
