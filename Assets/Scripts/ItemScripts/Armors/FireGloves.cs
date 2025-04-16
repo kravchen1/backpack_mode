@@ -78,7 +78,7 @@ public class FireGloves : Stuff
 
                 var descr = CanvasDescription.GetComponent<DescriptionItemFireGloves>();
                 //descr.cooldown = timer_cooldown;
-                CanvasDescription.GetComponent<DescriptionItemFireBody>().weight = weight;
+                //CanvasDescription.GetComponent<DescriptionItemFireBody>().weight = weight;
                 descr.countStack = countBurnStack;
                 descr.coolDown = coolDown;
                 descr.weight = weight;

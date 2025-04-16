@@ -43,27 +43,42 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         aimItemMusicEffects = GetComponent<AimItemMusicEffects>();
         animator = GetComponent<Animator>();
+        item.timer_cooldown = item.baseTimerCooldown;
+        if (PlayerPrefs.GetInt("Found" + item.originalName) != 1)
+        {
+            Color black = new Color(0f,0f,0f,0f);
+            //animator.Play("black", 0, 0f);
+            //transform.GetChild(0).GetComponent<Image>().color = black;
+            transform.GetChild(1).GetComponent<Image>().color = black;
+            //animator.Play("black", 0, 0f);
+            //Debug.Log("Alo");
+        }
     }
 
 
     // Срабатывает при наведении курсора
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //if (PlayerPrefs.GetInt("Found" + item.originalName) == 1)
-        //{
-        //CanvasDescription = Instantiate(item.Description, placeForDescription.GetComponent<RectTransform>().transform);
-        animator.Play("aim", 0, 0f);
+        if (PlayerPrefs.GetInt("Found" + item.originalName) == 1)
+        {
+            CanvasDescription = Instantiate(item.Description, placeForDescription.GetComponent<RectTransform>().transform);
+            animator.Play("aim", 0, 0f);
+            item.Exit = false;
+            StartCoroutine(item.ShowDescription());
 
-        StartCoroutine(item.ShowDescription());
-        //}
+            ChangeShowStars(true);
+        }
         aimItemMusicEffects.PlayAimSound();
     }
 
     // Срабатывает при выходе курсора
     public void OnPointerExit(PointerEventData eventData)
     {
-        animator.Play("aimRevert", 0, 0f);
-        MouseExit();
+        if (PlayerPrefs.GetInt("Found" + item.originalName) == 1)
+        {
+            animator.Play("aimRevert", 0, 0f);
+            MouseExit();
+        }
     }
 
 
@@ -71,6 +86,7 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     void MouseExit()
     {
         ChangeShowStars(false);
+        item.Exit = true;
         Destroy(item.CanvasDescription.gameObject);
     }
 
@@ -78,7 +94,7 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         foreach (var star in stars)
         {
-            star.gameObject.GetComponent<SpriteRenderer>().enabled = enabled;//SetActive(enabled);
+            star.gameObject.GetComponent<Image>().enabled = enabled;//SetActive(enabled);
         }
     }
 
