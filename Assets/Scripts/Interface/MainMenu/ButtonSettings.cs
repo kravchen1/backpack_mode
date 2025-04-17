@@ -57,4 +57,15 @@ public class ButtonSettings : MonoBehaviour
 
         gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (settingsCanvas.activeSelf)
+            {
+                ChangeActive();
+            }
+        }
+    }
 }

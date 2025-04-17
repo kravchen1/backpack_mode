@@ -77,6 +77,7 @@ public class BattleSpawner : MonoBehaviour
                 var instPref = Instantiate(battlesPrefabs[randomPrefab], battleSpawns[i].transform);
                 //var instPref = Instantiate(battlesPrefabs[1], battleSpawns[i].transform);
                 int randomLevel = 0;
+                int rangeLvl = 3;
                 if (characterStatsData.playerLvl <= 10)
                 {
                     if (!PlayerPrefs.HasKey("FirstOut"))
@@ -88,11 +89,11 @@ public class BattleSpawner : MonoBehaviour
                         //Debug.Log(characterStatsData.playerLvl);
                         if (characterStatsData.playerLvl > 1)
                         {
-                            randomLevel = Random.Range(characterStatsData.playerLvl - 1, characterStatsData.playerLvl + 6);
+                            randomLevel = Random.Range(characterStatsData.playerLvl - 1, characterStatsData.playerLvl + rangeLvl);
                         }
                         else
                         {
-                            randomLevel = Random.Range(1, characterStatsData.playerLvl + 6);
+                            randomLevel = Random.Range(1, characterStatsData.playerLvl + rangeLvl);
                         }
                     }
                 }

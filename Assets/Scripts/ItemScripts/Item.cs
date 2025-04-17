@@ -2,13 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts.ItemScripts;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 
 public class HitsStructure
@@ -92,7 +89,7 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
-    protected List<GameObject> stars;
+    [HideInInspector] public List<GameObject> stars;
     private Sprite emptyStar;
     private Sprite fillStar;
 
@@ -175,6 +172,11 @@ public abstract class Item : MonoBehaviour
 
     public void Initialization()
     {
+        if (!PlayerPrefs.HasKey("Found" + originalName))
+        {
+            PlayerPrefs.SetInt("Found" + originalName, 1);
+        }
+
         shopItem = GetComponent<ShopItem>();
         rb = GetComponent<Rigidbody2D>();
         rectTransform = GetComponent<RectTransform>();

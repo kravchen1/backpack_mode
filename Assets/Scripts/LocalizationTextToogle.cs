@@ -107,7 +107,81 @@ public class LocalizationTextToogle : MonoBehaviour
 
 
 
+            case "BagsText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "BagsText");
+                text.text = itemText;
+                break;
+            case "FoodText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "FoodText");
+                text.text = itemText;
+                break;
+            case "WeaponsText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "WeaponsText");
+                text.text = itemText;
+                break;
+            case "ClothingText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ClothingText");
+                text.text = itemText;
+                break;
+            case "CrystalsText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "CrystalsText");
+                text.text = itemText;
+                break;
+            case "KeyStonesText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "KeyStonesText");
+                text.text = itemText;
+                break;
+            case "JunkText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "JunkText");
+                text.text = itemText;
+                break;
+            case "MushroomsText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "MushroomsText");
+                text.text = itemText;
+                break;
+            case "StuffText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "StuffText");
+                text.text = itemText;
+                break;
+            case "DragonText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "DragonText");
+                text.text = itemText;
+                break;
+            case "PetsText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "PetsText");
+                text.text = itemText;
+                break;
+            case "WitchCraftText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "WitchCraftText");
+                text.text = itemText;
+                break;
+            case "ManaText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ManaText");
+                text.text = itemText;
+                break;
+            case "FireText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "FireText");
+                text.text = itemText;
+                break;
+            case "VampireText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "VampireText");
+                text.text = itemText;
+                break;
 
+
+
+            case "WinFightText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "WinFightText");
+                text.text = itemText;
+                break;
+            case "LoseFightText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "LoseFightText");
+                text.text = itemText;
+                break;
+            case "PauseText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "PauseText");
+                text.text = itemText;
+                break;
 
         }
         
