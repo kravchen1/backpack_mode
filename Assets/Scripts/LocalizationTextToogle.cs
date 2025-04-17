@@ -168,6 +168,21 @@ public class LocalizationTextToogle : MonoBehaviour
                 text.text = itemText;
                 break;
 
+
+
+            case "WinFightText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "WinFightText");
+                text.text = itemText;
+                break;
+            case "LoseFightText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "LoseFightText");
+                text.text = itemText;
+                break;
+            case "PauseText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "PauseText");
+                text.text = itemText;
+                break;
+
         }
         
     }

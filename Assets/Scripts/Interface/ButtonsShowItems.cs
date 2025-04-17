@@ -732,7 +732,7 @@ public class ButtonsShowItems : MonoBehaviour
                 buttonVampireSet.GetComponent<Image>().color = new Color(0.676827f, 0.8396226f, 0.1544589f);
                 break;
         }
-        
+
     }
 
     public void ExitScene()
@@ -832,4 +832,12 @@ public class ButtonsShowItems : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ExitScene();
+        }
+    }
 }
