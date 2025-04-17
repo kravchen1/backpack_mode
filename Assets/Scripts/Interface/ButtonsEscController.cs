@@ -73,9 +73,10 @@ public class ButtonsEscController : MonoBehaviour
 
             foreach (var battleSpawn in battleSpawns)
             {
-                if (battleSpawn.transform.childCount > 0)
+                var battleSpawnerData = battlesSpawnerData.battlesSpawnerDataClass.battleData.Where(e => e.id == battleSpawn.id).ToList();
+                if (battleSpawnerData.Count > 0)
                 {
-                    battlesSpawnerData.battlesSpawnerDataClass.battleData.Where(e => e.id == battleSpawn.id).ToList()[0].position = battleSpawn.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition;
+                    battleSpawnerData[0].position = battleSpawn.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition;
                 }
             }
 

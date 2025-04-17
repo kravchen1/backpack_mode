@@ -44,8 +44,8 @@ public class DropItem : EventParent
         itemSprite = transform.GetChild(0).gameObject;
         startPosition = itemSprite.transform.position;
 
-        jumpDistanceX = UnityEngine.Random.Range(-45, 45);
-        jumpDistanceY = UnityEngine.Random.Range(0, 30);
+        jumpDistanceX = UnityEngine.Random.Range(-35, 35);
+        jumpDistanceY = UnityEngine.Random.Range(-5, 5);
         rotationSpeed = UnityEngine.Random.Range(180, 360);
         jumpHeight = UnityEngine.Random.Range(10, 60);
         ///int rX = UnityEngine.Random.Range(1, 3);
@@ -93,7 +93,7 @@ public class DropItem : EventParent
         SetActivePressE(isShowPressE);
     }
 
-    public void Activate()
+    public virtual void Activate()
     {
         giveItem(item.name);
         SetStorageWeigth(item.GetComponent<Item>().weight);
@@ -154,7 +154,7 @@ public class DropItem : EventParent
 
     }
 
-    private void giveItem(string itemName)
+    protected void giveItem(string itemName)
     {
         BackPackAndStorageData backPackAndStorageData = new BackPackAndStorageData();
         backPackAndStorageData.storageData = new BackpackData();
@@ -172,7 +172,7 @@ public class DropItem : EventParent
         backPackAndStorageData.storageData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "storageData.json"));
     }
 
-    private void SetStorageWeigth(float weight)
+    protected void SetStorageWeigth(float weight)
     {
         decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)weight;
         characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
