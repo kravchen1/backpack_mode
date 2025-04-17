@@ -8038,6 +8038,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1124048279}
   m_CullTransparentMesh: 1
+--- !u!1 &1126912929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1126912930}
+  - component: {fileID: 1126912931}
+  m_Layer: 0
+  m_Name: InteractionHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1126912930
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126912929}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 108, y: 108, z: 108}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1632225399}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1126912931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126912929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c24755ce7e4ab44861ef39c8deca87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 5
+  radius: 2
 --- !u!1 &1153080681
 GameObject:
   m_ObjectHideFlags: 0
@@ -8254,7 +8304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.3, y: 0.1}
   m_AnchorMax: {x: 0.6, y: 0.2}
-  m_AnchoredPosition: {x: 203, y: 95.999954}
+  m_AnchoredPosition: {x: 203, y: 95.99994}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1185733581
@@ -10723,7 +10773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.59996, y: -53.199997}
+  m_AnchoredPosition: {x: -89.599976, y: -53.200012}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1466318105
@@ -13053,6 +13103,8 @@ RectTransform:
   - {fileID: 240053707}
   - {fileID: 1208509073}
   - {fileID: 706002002}
+  - {fileID: 1126912930}
+  - {fileID: 1756584353}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -13433,6 +13485,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740629369}
   m_CullTransparentMesh: 1
+--- !u!1 &1756584352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1756584353}
+  - component: {fileID: 1756584354}
+  m_Layer: 0
+  m_Name: LeafSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1756584353
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756584352}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1632225399}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1756584354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756584352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56c0f2609a95eea449e640ae38735b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leafPrefab: {fileID: 6736997058493639900, guid: dea5733682866c54d8c702a91a69fa57, type: 3}
+  spawnRate: 0.2
+  spawnHeightAboveCamera: 1
+  leafSprites:
+  - {fileID: -4362404774414244859, guid: ee0bbdefbdf02fc43a3f8223a9ae52dc, type: 3}
+  - {fileID: 4875125383439003057, guid: 919e4d10bb676fe4ab4dcea6ac9b2bca, type: 3}
+  - {fileID: -5454674783299695546, guid: 6a35e3463b0bd614dafe29450696540f, type: 3}
+  - {fileID: 2077948340219466215, guid: 48882584ac5848a45905f4bd32b6c7d5, type: 3}
+  - {fileID: -3626653852744092021, guid: 7bd66032d1797a841a6f3e3251cb5004, type: 3}
 --- !u!1 &1763559495
 GameObject:
   m_ObjectHideFlags: 0
