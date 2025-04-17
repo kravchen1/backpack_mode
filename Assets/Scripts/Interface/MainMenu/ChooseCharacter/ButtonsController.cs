@@ -11,9 +11,8 @@ public class ButtonsController : MonoBehaviour
     public GameObject mainCanvas;
     public GameObject chooseCharCanvas;
     // Список ключей, которые нужно сохранить
-    private List<string> keysToKeep = new List<string> { "ScreenMode", "MusicVolume", "SoundVolume", "WindowedResoultionWidth", "WindowedResoultionHeight", 
-        "EducationGlobalMap", "CaveEducation", "StartEducation", "StartEatEducation"
-        , "EducationCaveIn", "LanguageSettings" };
+    private List<string> keysToKeep;
+
 
     // Метод для удаления всех ключей, кроме указанных
     public void DeleteAllExcept(List<string> keysToKeep)
@@ -88,8 +87,30 @@ public class ButtonsController : MonoBehaviour
         StartQeust();
         PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
     }
+    void LoadkKeysToKeep()
+    {
+        keysToKeep = new List<string> { "ScreenMode", "MusicVolume", "SoundVolume", "WindowedResoultionWidth", "WindowedResoultionHeight",
+        "EducationGlobalMap", "CaveEducation", "StartEducation", "StartEatEducation"
+        , "EducationCaveIn", "LanguageSettings" };
+
+        GameObject[] prefabs;
+        prefabs = Resources.LoadAll<GameObject>("Items/");
+
+        foreach (GameObject pref in prefabs)
+        {
+            string keyToKeep = "";
+            Item item;
+            if(pref.GetComponent<Item>() != null)
+            {
+                item = pref.GetComponent<Item>();
+                keyToKeep = "Found" + item.originalName;
+                keysToKeep.Add(keyToKeep);
+            }
+        }
+    }
     public void ChooseEarth()
     {
+        LoadkKeysToKeep();
         DeleteAllExcept(keysToKeep);
         PlayerPrefs.SetString("characterClass", "Player_Earth");
         Choose();
@@ -103,6 +124,7 @@ public class ButtonsController : MonoBehaviour
     }
     public void ChooseIce()
     {
+        LoadkKeysToKeep();
         DeleteAllExcept(keysToKeep);
         //PlayerPrefs.DeleteAll();
         PlayerPrefs.SetString("characterClass", "Player_Ice");

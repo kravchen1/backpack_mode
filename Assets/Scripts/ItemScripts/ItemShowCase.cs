@@ -21,6 +21,8 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private List<GameObject> stars;
     private AimItemMusicEffects aimItemMusicEffects;
     private Animator animator;
+    private bool isPointerEntered = false;
+    private Image image;
 
     void FindPlaceForDescription()
     {
@@ -33,6 +35,7 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         FindPlaceForDescription();
         stars = new List<GameObject>();
+        item.stars = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
@@ -43,42 +46,43 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         aimItemMusicEffects = GetComponent<AimItemMusicEffects>();
         animator = GetComponent<Animator>();
+        
         item.timer_cooldown = item.baseTimerCooldown;
+
+        image = transform.GetChild(1).GetComponent<Image>();
         if (PlayerPrefs.GetInt("Found" + item.originalName) != 1)
         {
             Color black = new Color(0f,0f,0f,0f);
-            //animator.Play("black", 0, 0f);
-            //transform.GetChild(0).GetComponent<Image>().color = black;
-            transform.GetChild(1).GetComponent<Image>().color = black;
-            //animator.Play("black", 0, 0f);
-            //Debug.Log("Alo");
+            image.color = black;
         }
     }
 
 
-    // Срабатывает при наведении курсора
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (PlayerPrefs.GetInt("Found" + item.originalName) == 1)
-        {
-            CanvasDescription = Instantiate(item.Description, placeForDescription.GetComponent<RectTransform>().transform);
-            animator.Play("aim", 0, 0f);
-            item.Exit = false;
-            StartCoroutine(item.ShowDescription());
-
-            ChangeShowStars(true);
-        }
+        if (isPointerEntered || PlayerPrefs.GetInt("Found" + item.originalName) != 1)
+            return;
+        //Debug.Log(FindObjectsOfType<EventSystem>().Length);
+        //Debug.Log($"OnPointerEnter: {Time.frameCount}");
+        isPointerEntered = true;
+        animator.Rebind();
+        animator.Play("aim", 0, 0f);
+        item.Exit = false;
+        StartCoroutine(item.ShowDescription());
+        ChangeShowStars(true);
         aimItemMusicEffects.PlayAimSound();
     }
 
-    // Срабатывает при выходе курсора
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (PlayerPrefs.GetInt("Found" + item.originalName) == 1)
-        {
-            animator.Play("aimRevert", 0, 0f);
-            MouseExit();
-        }
+        if (!isPointerEntered || PlayerPrefs.GetInt("Found" + item.originalName) != 1)
+            return;
+
+        //Debug.Log($"OnPointerExit: {Time.frameCount}");
+        isPointerEntered = false;
+        animator.Play("aimRevert", 0, 0f);
+        image.raycastTarget = true; // Включаем обратно
+        MouseExit();
     }
 
 
@@ -87,7 +91,8 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         ChangeShowStars(false);
         item.Exit = true;
-        Destroy(item.CanvasDescription.gameObject);
+        if(item.CanvasDescription.gameObject != null)
+            Destroy(item.CanvasDescription.gameObject);
     }
 
     public void ChangeShowStars(bool enabled)
@@ -97,5 +102,19 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             star.gameObject.GetComponent<Image>().enabled = enabled;//SetActive(enabled);
         }
     }
+
+
+
+
+
+    //private void OnDestroy()
+    //{
+    //    if (item != null)
+    //    {
+    //        item.Exit = true;
+    //        if (item.CanvasDescription != null)
+    //            Destroy(item.CanvasDescription);
+    //    }
+    //}
 
 }

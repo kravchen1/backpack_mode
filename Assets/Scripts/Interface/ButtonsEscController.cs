@@ -93,6 +93,9 @@ public class ButtonsEscController : MonoBehaviour
         //Debug.Log("X: " + PlayerPrefs.GetFloat("PostionMapX"));
         //Debug.Log("Y: " + PlayerPrefs.GetFloat("PostionMapY"));
 
+
+        if (Time.timeScale == 0) Time.timeScale = 1;
+
     }
 
     private void SaveFromWorldWithoutCheck()
