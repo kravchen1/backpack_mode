@@ -12,12 +12,13 @@ using static Item;
 
 public class StaticDropItem : DropItem
 {
+    public int countLoadRecreate = 10;
     private void Awake()
     {
         if (PlayerPrefs.GetInt("FindStaticDropItem" + gameObject.name, 0) > 0)
         {
             PlayerPrefs.SetInt("FindStaticDropItem" + gameObject.name, PlayerPrefs.GetInt("FindStaticDropItem" + gameObject.name) + 1);
-            if(PlayerPrefs.GetInt("FindStaticDropItem" + gameObject.name) > 10)
+            if(PlayerPrefs.GetInt("FindStaticDropItem" + gameObject.name) > countLoadRecreate)
             {
                 PlayerPrefs.SetInt("FindStaticDropItem" + gameObject.name, 0);
             }

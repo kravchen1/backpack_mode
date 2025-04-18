@@ -1,3 +1,4 @@
+using Assets.Scripts.ItemScripts;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -109,18 +110,32 @@ public class EscController : MonoBehaviour
 
     void ExitBackpack()
     {
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
-
-        PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
-        PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
-
-        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
-        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        //Debug.Log("Unload");
-        //SceneManager.UnloadSceneAsync("BackPack");
-        //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
-        SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            if (SceneManager.GetActiveScene().name == "BackPack")
+            {
+                FindFirstObjectByType<ShopButtonsController>().ButtonExitBackpack();
+            }
+            else if (SceneManager.GetActiveScene().name == "BackPackCave1")
+            {
+                FindFirstObjectByType<ShopButtonsController>().ButtonExitCave1();
+            }
+            else if (SceneManager.GetActiveScene().name == "BackPackShop")
+            {
+                FindFirstObjectByType<ShopButtonsController>().ButtonExitEatItem();
+            }
+            else if (SceneManager.GetActiveScene().name == "BackPackShopCave1")
+            {
+                FindFirstObjectByType<ShopButtonsController>().ButtonExitCaveIn1();
+            }
+            else if (SceneManager.GetActiveScene().name == "BackPackShopEat")
+            {
+                FindFirstObjectByType<ShopButtonsController>().ButtonExitEatItem();
+            }
+            else if (SceneManager.GetActiveScene().name == "BackPackWareHouse")
+            {
+                FindFirstObjectByType<ButtonsWarehouse>().ExitScene();
+            }
     }
+
+
 }
 

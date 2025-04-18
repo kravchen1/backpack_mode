@@ -1,3 +1,4 @@
+using Assets.Scripts.ItemScripts;
 using System;
 using System.IO;
 using UnityEngine;
@@ -112,24 +113,27 @@ public class ButtonsWarehouse : MonoBehaviour
 
     public void ExitScene()
     {
-        if(openWarehouse1)
-            warehouse1.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse1.json"));
-        if (openWarehouse2)
-            warehouse2.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse2.json"));
-        if (openWarehouse3)
-            warehouse3.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse3.json"));
-        if (openWarehouse4)
-            warehouse4.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse4.json"));
-        if (openWarehouse5)
-            warehouse5.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse5.json"));
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            if (openWarehouse1)
+                warehouse1.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse1.json"));
+            if (openWarehouse2)
+                warehouse2.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse2.json"));
+            if (openWarehouse3)
+                warehouse3.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse3.json"));
+            if (openWarehouse4)
+                warehouse4.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse4.json"));
+            if (openWarehouse5)
+                warehouse5.GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "backpackWarehouse5.json"));
 
 
-        backpack.GetComponent<BackpackData>().SaveData();
-        stats.GetComponent<CharacterStats>().SaveData();
-        storage.GetComponent<BackpackData>().SaveData();
+            backpack.GetComponent<BackpackData>().SaveData();
+            stats.GetComponent<CharacterStats>().SaveData();
+            storage.GetComponent<BackpackData>().SaveData();
 
-        //SceneManager.LoadScene("GenerateMapFortress1");
-        SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+            //SceneManager.LoadScene("GenerateMapFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+        }
     }
 
 }

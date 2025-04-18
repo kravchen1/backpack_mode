@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class Enemy : EventParent
 {
     public GameObject player;
-    protected bool isPlayerInTrigger = false;
+    public bool isPlayerInTrigger = false;
 
     public TextMeshPro lvlText;
 
@@ -93,6 +93,7 @@ public class Enemy : EventParent
             StopCoroutine(moveCoroutine);
             moveCoroutine = null;
             isMoving = false;
+            animator.Rebind();
             animator.Play("Idle");
         }
     }
@@ -119,12 +120,14 @@ public class Enemy : EventParent
             // Если только начали движение и не телепортируемся
             if (!startMove)
             {
+                animator.Rebind();
                 animator.Play("Idle");
                 yield return new WaitForSeconds(UnityEngine.Random.Range(3f, 7f));
             }
             startMove = false; // Сбрасываем флаг после первого использования
 
             Vector2 targetPoint = pointsRun[currentPointIndex];
+            animator.Rebind();
             animator.Play("Run1");
 
             // Поворот спрайта
@@ -164,6 +167,7 @@ public class Enemy : EventParent
         isPlayerInTrigger = true;
         if (isShowPressE)
         {
+            Debug.Log(Time.time + "Ontrigger1");
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume",1f);
             GetComponent<AudioSource>().Play();
             SetActivePressE(isShowPressE);

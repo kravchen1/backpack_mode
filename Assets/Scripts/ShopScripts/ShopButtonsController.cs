@@ -1,4 +1,5 @@
-﻿using NUnit.Framework.Interfaces;
+﻿using Assets.Scripts.ItemScripts;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -63,64 +64,79 @@ public class ShopButtonsController : MonoBehaviour
 
     public void ButtonExitShopItem()
     {
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
-        PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
-        PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+            //PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
+            //PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
 
-        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
-        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
+            GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+            GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+            GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopData.json"));
 
-        //SceneManager.LoadScene("GenerateMapFortress1");
-        SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+            //SceneManager.LoadScene("GenerateMapFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+        }
     }
 
     public void ButtonExitEatItem()
     {
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
-        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
-        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopDataEat.json"));
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+            GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+            GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+            GameObject.Find("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopDataEat.json"));
 
-        //SceneManager.LoadScene("GenerateMapFortress1");
-        SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+            //SceneManager.LoadScene("GenerateMapFortress1");
+            SceneLoader.Instance.LoadScene("GenerateMapFortress1");
+        }
     }
 
     public void ButtonExitCave1()
     {
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
-        GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
-        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
-        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        //SceneManager.LoadScene("GenerateMap");
-        SceneLoader.Instance.LoadScene("GenerateMap");
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+            GameObject.FindWithTag("CaveStone").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePath"), "caveStoneData.json"));
+            GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+            GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+            //SceneManager.LoadScene("GenerateMap");
+            SceneLoader.Instance.LoadScene("GenerateMap");
+        }
     }
 
     public void ButtonExitCaveIn1()
     {
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
-        GameObject.FindWithTag("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopCave1Data.json"));
-        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
-        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        //SceneManager.LoadScene("GenerateMap");
-        SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+            GameObject.FindWithTag("Shop").GetComponent<Shop>().SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "shopCave1Data.json"));
+            GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+            GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+            //SceneManager.LoadScene("GenerateMap");
+            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+        }
     }
 
     public void ButtonExitBackpack()
     {
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveData();
 
-        PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
-        PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
-        GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
+            PlayerPrefs.SetString("ComputerName", System.Environment.MachineName.Replace("-", "_"));
+            PlayerPrefs.SetInt("IdBackpack", PlayerPrefs.GetInt("IdBackpack") + 1);
+            GameObject.Find("backpack").GetComponent<BackpackData>().SaveNewData(Path.Combine(PlayerPrefs.GetString("savePathTestBackpack"), PlayerPrefs.GetString("ComputerName") + "_" + PlayerPrefs.GetInt("IdBackpack").ToString() + ".json"));
 
-        GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
-        GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
-        //Debug.Log("Unload");
-        //SceneManager.UnloadSceneAsync("BackPack");
-        //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
-        SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            GameObject.Find("Stats").GetComponent<CharacterStats>().SaveData();
+            GameObject.Find("Storage").GetComponent<BackpackData>().SaveData();
+            //Debug.Log("Unload");
+            //SceneManager.UnloadSceneAsync("BackPack");
+            //SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+        }
     }
 
 
