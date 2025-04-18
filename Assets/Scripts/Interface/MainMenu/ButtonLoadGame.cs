@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class ButtonLoadGame : MonoBehaviour
 {
     [SerializeField] protected GameObject buttonClick;
-
+    [SerializeField] protected float timeToRotate = 0.1f;
+    [SerializeField] protected float angleToRotate = 0.1f;
     private string settingLanguage = "en";
 
     public void Start()
@@ -25,10 +27,19 @@ public class ButtonLoadGame : MonoBehaviour
     {
         
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
-
-        if(PlayerPrefs.HasKey("currentLocation"))
-           // SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
-            SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+        transform.DORotate(new Vector3(0, 0, angleToRotate), timeToRotate)
+           .SetEase(Ease.InOutSine).OnComplete(() =>
+           {
+               transform.DORotate(new Vector3(0, 0, 0), timeToRotate)
+           .SetEase(Ease.InOutSine).OnComplete(() => {
+               if (PlayerPrefs.HasKey("currentLocation"))
+                   // SceneManager.LoadScene(PlayerPrefs.GetString("currentLocation"));
+                   SceneLoader.Instance.LoadScene(PlayerPrefs.GetString("currentLocation"));
+           });
+               
+           }
+       );
+        
         //else
         //    //SceneManager.LoadScene("GenerateMapInternumFortress1");
         //    SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");

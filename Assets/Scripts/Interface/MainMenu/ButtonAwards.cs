@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,11 +7,14 @@ using UnityEngine.EventSystems;
 public class ButtonAwards : MonoBehaviour
 {
     [SerializeField] protected GameObject buttonClick;
-
+    [SerializeField] protected float jumpHeight = 50f;    // Высота прыжка в пикселях
+    [SerializeField] protected float jumpDuration = 0.5f; // Длительность в секундах
+    private float staticY;
     private string settingLanguage = "en";
 
     public void Start()
     {
+        staticY = transform.localPosition.y;
         updateText();
     }
     public void OnMouseDown()
@@ -23,6 +27,7 @@ public class ButtonAwards : MonoBehaviour
     public void OnMouseUp()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+        Jump();
     }
 
 
@@ -33,5 +38,22 @@ public class ButtonAwards : MonoBehaviour
         string itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "Awards_button");
 
         gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
+    }
+
+    void Jump()
+    {
+
+        // Отменяем предыдущие анимации, чтобы не было наложений
+        transform.DOKill();
+
+        // Прыжок вверх и возврат с "пружинкой"
+        transform.DOLocalMoveY(jumpHeight, jumpDuration / 2)
+            .SetEase(Ease.OutQuad) // Плавный взлёт
+            .OnComplete(() =>
+            {
+                // Падение вниз с эффектом "приземления"
+                transform.DOLocalMoveY(staticY, jumpDuration / 2)
+                    .SetEase(Ease.InOutBack); // Лёгкая "пружинка"
+            });
     }
 }

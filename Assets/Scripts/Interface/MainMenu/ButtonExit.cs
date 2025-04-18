@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,10 +7,14 @@ public class ButtonExit : MonoBehaviour
 {
     [SerializeField] protected GameObject buttonClick;
 
+    public float jumpHeight = 50f;    // Высота прыжка в пикселях
+    public float jumpDuration = 0.5f; // Длительность в секундах
+    private float staticY;
     private string settingLanguage = "en";
 
     public void Start()
     {
+        staticY = transform.localPosition.y;
         updateText();
     }
     public void OnMouseDown()
@@ -17,6 +22,7 @@ public class ButtonExit : MonoBehaviour
         buttonClick.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
         buttonClick.GetComponent<AudioSource>().Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f);
+        Jump();
     }
 
     public void OnMouseUp()
@@ -34,4 +40,21 @@ public class ButtonExit : MonoBehaviour
         gameObject.GetComponentInChildren<TextMeshPro>().text = itemText;
     }
 
+
+    void Jump()
+    {
+        
+        // Отменяем предыдущие анимации, чтобы не было наложений
+        transform.DOKill();
+
+        // Прыжок вверх и возврат с "пружинкой"
+        transform.DOLocalMoveY(jumpHeight, jumpDuration / 2)
+            .SetEase(Ease.OutQuad) // Плавный взлёт
+            .OnComplete(() =>
+            {
+                // Падение вниз с эффектом "приземления"
+                transform.DOLocalMoveY(staticY, jumpDuration / 2)
+                    .SetEase(Ease.InOutBack); // Лёгкая "пружинка"
+            });
+    }
 }
