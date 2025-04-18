@@ -85,7 +85,7 @@ public abstract class Item : MonoBehaviour
 
 
     [HideInInspector] public Animator animator;
-    [HideInInspector] Animator sellChestAnimator;
+    [HideInInspector] public Animator sellChestAnimator;
     [HideInInspector] public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
@@ -368,7 +368,7 @@ public abstract class Item : MonoBehaviour
 
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    //careHits.Clear();
+                    
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
@@ -388,13 +388,13 @@ public abstract class Item : MonoBehaviour
                     DeleteNestedObject(gameObject.transform.parent.tag);
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    //careHits.Clear();
+                    
 
                     needToRotateToStartRotation = false;
                 }
                 else
                 {
-                    if (lastItemPosition != transform.position)
+                    if (lastItemPosition != transform.position && !isSellChest)
                     {
                         returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
                     }
@@ -441,7 +441,9 @@ public abstract class Item : MonoBehaviour
 
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
+        Debug.Log(DragManager.isReturnToOrgignalPos);
         DragManager.isReturnToOrgignalPos = true;
+        Debug.Log(DragManager.isReturnToOrgignalPos);
         float time = 1f; // Время возвращения
         float elapsedTime = 0f;
         Vector3 startingPos = transform.position;
@@ -458,6 +460,7 @@ public abstract class Item : MonoBehaviour
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
         DragManager.isReturnToOrgignalPos = false;
+        Debug.Log(DragManager.isReturnToOrgignalPos);
     }
     public void defaultItemUpdate()
     {
@@ -616,6 +619,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void EffectPlaceCorrect()
     {
+        //lastItemPosition = transform.position;
     }
     public virtual void EffectPlaceNoCorrect()
     {
@@ -793,7 +797,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    private GameObject sellPrice;
+    protected GameObject sellPrice;
     public virtual void SellChest()
     {
         if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
