@@ -274,80 +274,52 @@ public class Enemy : EventParent
             // 1. Гарантированный дроп - выбираем случайный предмет, который точно выпадет
             int guaranteedDropIndex = rand.NextInt(0, dropItems.Count);
             GameObject guaranteedItem = dropItems[guaranteedDropIndex];
+            droppedItems.Add(guaranteedItem);
 
-            // Проверка для ключевых камней
-            if (guaranteedItem.GetComponent<DropItem>().item.CompareTag("ItemKeyStone") &&
-                guaranteedItem.GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl") + 1 &&
-                gameObject.tag == "BossCave1"
-                )
+            
+            
+            // 2. Дополнительные предметы с уменьшающейся вероятностью
+            for (int i = 0; i < dropItems.Count; i++)
             {
-                // Для ключевых камней делаем 100% шанс
-                InstantiateAndPositionItem(guaranteedItem, droppedItems.Count);
-                droppedItems.Add(guaranteedItem);
-                //Debug.Log("Guaranteed key stone drop: " + guaranteedItem.name);
-            }
-            else
-            {
-                // Для обычных предметов
-                float modifiedProb = probabilityDropItems[guaranteedDropIndex] + (lvlEnemy - 1) * 0.25f;
-                if (rand.NextFloat(0.0f, 100.0f) <= modifiedProb)
+                if (droppedItems.Contains(dropItems[i])) continue; // Уже выпал
+
+                // Особый случай для ключевых камней
+                if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") &&
+                    dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl") + 1 &&
+                    gameObject.tag == "BossCave1"
+                    )
                 {
-                    InstantiateAndPositionItem(guaranteedItem, droppedItems.Count);
-                    droppedItems.Add(guaranteedItem);
-                    //Debug.Log("Guaranteed drop: " + guaranteedItem.name + " with prob: " + modifiedProb);
+                    //InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
+                    droppedItems.Add(dropItems[i]);
+                    Debug.Log("Additional key stone drop: " + dropItems[i].name);
+                    continue;
                 }
-                else
+                if (PlayerPrefs.GetInt("caveEnemyLvl") != 1)
                 {
-                    // Если гарантированный предмет не прошел, выбираем другой
-                    for (int i = 0; i < dropItems.Count; i++)
-                    {
-                        if (i == guaranteedDropIndex) continue;
-
-                        float prob = probabilityDropItems[i] + (lvlEnemy - 1) * 0.15f;
-                        if (rand.NextFloat(0.0f, 100.0f) <= prob)
-                        {
-                            InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
-                            droppedItems.Add(dropItems[i]);
-                            Debug.Log("Alternative guaranteed drop: " + dropItems[i].name);
-                            break;
-                        }
-                    }
-                }
-            }
-            if (PlayerPrefs.GetInt("caveEnemyLvl") != 1)
-            {
-                // 2. Дополнительные предметы с уменьшающейся вероятностью
-                for (int i = 0; i < dropItems.Count; i++)
-                {
-                    if (droppedItems.Contains(dropItems[i])) continue; // Уже выпал
-
-                    // Особый случай для ключевых камней
-                    if (dropItems[i].GetComponent<DropItem>().item.CompareTag("ItemKeyStone") &&
-                        dropItems[i].GetComponent<DropItem>().item.GetComponent<CaveStonesKeys>().stoneLevel == PlayerPrefs.GetInt("caveEnemyLvl") + 1)
-                    {
-                        InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
-                        droppedItems.Add(dropItems[i]);
-                        Debug.Log("Additional key stone drop: " + dropItems[i].name);
-                        continue;
-                    }
-
                     // Обычные предметы
                     float baseProb = probabilityDropItems[i] + (lvlEnemy - 1) * 0.15f;
                     float modifiedProbability = baseProb * Mathf.Pow(probabilityReductionFactor, droppedItems.Count);
 
                     if (rand.NextFloat(0.0f, 100.0f) <= modifiedProbability)
                     {
-                        InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
+                        //InstantiateAndPositionItem(dropItems[i], droppedItems.Count);
                         droppedItems.Add(dropItems[i]);
                         //Debug.Log(dropItems[i].name + " bonus loot with prob: " + modifiedProbability);
                     }
                 }
             }
+            
             // Если почему-то ничего не выпало (маловероятно), выбираем первый предмет
             if (droppedItems.Count == 0)
             {
-                InstantiateAndPositionItem(dropItems[0], 0);
+                droppedItems.Add(dropItems[0]);
                 //Debug.Log("Fallback drop: " + dropItems[0].name);
+            }
+            int i2 = 0;
+            foreach (var droppedItem in droppedItems)
+            {
+                InstantiateAndPositionItem(droppedItem, i2);
+                i2++;
             }
         }
 
