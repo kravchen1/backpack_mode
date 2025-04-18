@@ -14,7 +14,7 @@ public class StartEducationController : MonoBehaviour
 
     private void Start()
     {
-        PlayerPrefs.SetInt("StartEducation", 0);
+        //PlayerPrefs.SetInt("StartEducation", 0);
         if (PlayerPrefs.GetInt("StartEducation") == 0)
         {
             OpenEducation();

@@ -137,5 +137,10 @@ public class EscController : MonoBehaviour
     }
 
 
+
+    public void DeleteAllSavesPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
 
