@@ -714,7 +714,7 @@ public class Bag : Item
         )
         {
             Exit = false;
-            StartCoroutine(ShowDescription());
+            ShowDescription();
         }
         else
         {

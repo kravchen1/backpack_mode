@@ -17,9 +17,9 @@ public class BottleOfWine : Food
         PlayerPrefs.SetInt("BottleOfWineCritChance", critChance);
     }
 
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+       // yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

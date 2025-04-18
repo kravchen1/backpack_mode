@@ -8,9 +8,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class SunStoneLvl4 : CaveStonesKeys
 {
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

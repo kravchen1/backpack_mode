@@ -68,7 +68,7 @@ public class ItemShowCase : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         animator.Rebind();
         animator.Play("aim", 0, 0f);
         item.Exit = false;
-        StartCoroutine(item.ShowDescription());
+        item.ShowDescription();
         ChangeShowStars(true);
         aimItemMusicEffects.PlayAimSound();
     }

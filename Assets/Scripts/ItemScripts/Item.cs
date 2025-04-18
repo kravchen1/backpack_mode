@@ -422,12 +422,17 @@ public abstract class Item : MonoBehaviour
         )
         {
             Exit = false;
-            StartCoroutine(ShowDescription());
+            canShowDescription = true;
+            Debug.Log(canShowDescription);
+            Debug.Log(Exit);
+            ShowDescription();
+            Debug.Log(1);
         }
         else
         {
             //Debug.Log("Курсор за пределами игрового экрана!");
             ChangeShowStars(false);
+            Debug.Log(2);
         }
 
         
@@ -478,11 +483,6 @@ public abstract class Item : MonoBehaviour
                 FillStars();
             }
             canShowDescription = false; 
-        }
-        else
-        {
-            //if (SceneManager.GetActiveScene().name == "BackPackShop")
-            canShowDescription = true;
         }
         Rotate();
         SwitchDynamicStatic();
@@ -1192,9 +1192,8 @@ public abstract class Item : MonoBehaviour
             for (int i = 0; i < dp.transform.childCount; i++)
                 Destroy(dp.transform.GetChild(i).gameObject);
     }
-    public virtual IEnumerator ShowDescription()
+    public virtual void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             ChangeShowStars(true);
@@ -1205,16 +1204,6 @@ public abstract class Item : MonoBehaviour
                     DeleteAllDescriptions();
 
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                    //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
-                }
-                else
-                {
-                    //CanvasDescription.SetActive(true);
-                    //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-                    //if (starsDesctiprion != null)
-                    //{
-                    //    starsDesctiprion.enabled = true;
-                    //}
                 }
             }
         }
@@ -1223,6 +1212,7 @@ public abstract class Item : MonoBehaviour
             DeleteAllDescriptions();
         }
     }
+
     private void OnMouseEnter()
     {
         if (!DragManager.isDragging)
@@ -1230,17 +1220,25 @@ public abstract class Item : MonoBehaviour
             // Код, который выполнится при наведении курсора на коллайдер
             if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemAiming");
             Exit = false;
+            //Debug.Log(Time.time + (!Exit).ToString());
             //Debug.Log(DragManager.isDragging);
-            StartCoroutine(ShowDescription());
+            ShowDescription();
+            //ShowDescription2();
         }
     }
 
     private void OnMouseExit()
     {
-        Exit = true;
+        if (!Exit)
+        {
+            Exit = true;
+            //Debug.Log(Time.time + (!Exit).ToString());
+        }
+        
         if (!MouseExit())
         {
             Invoke("MouseExit", 0.2f);
+            //StartCoroutine(ShowDescription());
         }
     }
 

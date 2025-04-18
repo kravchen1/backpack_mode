@@ -22,9 +22,9 @@ public class VampireSword1 : Weapon
             AttackSelf(resultDamage);
     }
 
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

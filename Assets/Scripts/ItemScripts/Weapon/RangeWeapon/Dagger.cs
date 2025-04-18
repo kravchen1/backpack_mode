@@ -14,9 +14,10 @@ public class Dagger : Weapon
     //private float timer1sec = 1f;
     //public int countIncreasesCritDamage = 10;
 
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
+        //Debug.Log(Time.time + "dag " + !Exit);
         if (!Exit)
         {
             FillStars();
