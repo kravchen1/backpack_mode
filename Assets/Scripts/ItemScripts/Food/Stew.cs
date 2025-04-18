@@ -16,9 +16,9 @@ public class Stew : Food
         Heal(health);
         PlayerPrefs.SetFloat("StewStamina", stamina);
     }
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

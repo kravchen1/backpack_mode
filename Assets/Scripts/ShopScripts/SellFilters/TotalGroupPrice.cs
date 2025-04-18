@@ -19,7 +19,7 @@ public class TotalGroupPrice : MonoBehaviour
     {
         totalPrice = filter.GetComponentsInChildren<ItemInFilter>()
                     .Where(e => e.coinImage.enabled)
-                    .Sum(e => e.item.GetComponent<Item>().itemCost);
+                    .Sum(e => (int)(e.item.GetComponent<Item>().itemCost / 2));
         //int spriteIndex = totalPriceText.spriteAsset.GetSpriteIndexFromName(spriteToInsert.name);
         totalPriceText.text = $"{totalPrice.ToString()} <sprite name={spriteToInsert.name}>";
     }

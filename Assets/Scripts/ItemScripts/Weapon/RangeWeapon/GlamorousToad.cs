@@ -30,9 +30,9 @@ public class GlamorousToad : Weapon
         logManager.CreateLogMessageInflict(originalName, "poison", poisonStack, Player.isPlayer);
     }
     
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

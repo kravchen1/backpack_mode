@@ -25,13 +25,12 @@ public class VampireAmulet : Armor
     {
         FillnestedObjectStarsStars(256, "Vampire");
     }
-    public override IEnumerator ShowDescription()
-    {
-        FillStars();
-        yield return new WaitForSecondsRealtime(.1f);
+    public override void ShowDescription()
+    {  
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
-            FillnestedObjectStarsStars(256);
+            FillStars();
             ChangeShowStars(true);
             if (canShowDescription)
             {

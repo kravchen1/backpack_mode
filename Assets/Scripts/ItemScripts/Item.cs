@@ -85,7 +85,7 @@ public abstract class Item : MonoBehaviour
 
 
     [HideInInspector] public Animator animator;
-    [HideInInspector] Animator sellChestAnimator;
+    [HideInInspector] public Animator sellChestAnimator;
     [HideInInspector] public AudioSource sellChestSound;
     [HideInInspector] public bool Impulse = false;
 
@@ -368,7 +368,7 @@ public abstract class Item : MonoBehaviour
 
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    //careHits.Clear();
+                    
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
@@ -388,13 +388,13 @@ public abstract class Item : MonoBehaviour
                     DeleteNestedObject(gameObject.transform.parent.tag);
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    //careHits.Clear();
+                    
 
                     needToRotateToStartRotation = false;
                 }
                 else
                 {
-                    if (lastItemPosition != transform.position)
+                    if (lastItemPosition != transform.position && !isSellChest)
                     {
                         returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
                     }
@@ -422,12 +422,17 @@ public abstract class Item : MonoBehaviour
         )
         {
             Exit = false;
-            StartCoroutine(ShowDescription());
+            canShowDescription = true;
+            Debug.Log(canShowDescription);
+            Debug.Log(Exit);
+            ShowDescription();
+            Debug.Log(1);
         }
         else
         {
             //Debug.Log("Курсор за пределами игрового экрана!");
             ChangeShowStars(false);
+            Debug.Log(2);
         }
 
         
@@ -441,7 +446,9 @@ public abstract class Item : MonoBehaviour
 
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
+        Debug.Log(DragManager.isReturnToOrgignalPos);
         DragManager.isReturnToOrgignalPos = true;
+        Debug.Log(DragManager.isReturnToOrgignalPos);
         float time = 1f; // Время возвращения
         float elapsedTime = 0f;
         Vector3 startingPos = transform.position;
@@ -458,6 +465,7 @@ public abstract class Item : MonoBehaviour
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
         DragManager.isReturnToOrgignalPos = false;
+        Debug.Log(DragManager.isReturnToOrgignalPos);
     }
     public void defaultItemUpdate()
     {
@@ -475,11 +483,6 @@ public abstract class Item : MonoBehaviour
                 FillStars();
             }
             canShowDescription = false; 
-        }
-        else
-        {
-            //if (SceneManager.GetActiveScene().name == "BackPackShop")
-            canShowDescription = true;
         }
         Rotate();
         SwitchDynamicStatic();
@@ -616,6 +619,7 @@ public abstract class Item : MonoBehaviour
 
     public virtual void EffectPlaceCorrect()
     {
+        //lastItemPosition = transform.position;
     }
     public virtual void EffectPlaceNoCorrect()
     {
@@ -793,7 +797,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    private GameObject sellPrice;
+    protected GameObject sellPrice;
     public virtual void SellChest()
     {
         if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
@@ -1188,9 +1192,8 @@ public abstract class Item : MonoBehaviour
             for (int i = 0; i < dp.transform.childCount; i++)
                 Destroy(dp.transform.GetChild(i).gameObject);
     }
-    public virtual IEnumerator ShowDescription()
+    public virtual void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             ChangeShowStars(true);
@@ -1201,16 +1204,6 @@ public abstract class Item : MonoBehaviour
                     DeleteAllDescriptions();
 
                     CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
-                    //showCanvas.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
-                }
-                else
-                {
-                    //CanvasDescription.SetActive(true);
-                    //var starsDesctiprion = CanvasDescription.GetComponentInChildren<SpriteRenderer>();
-                    //if (starsDesctiprion != null)
-                    //{
-                    //    starsDesctiprion.enabled = true;
-                    //}
                 }
             }
         }
@@ -1219,6 +1212,7 @@ public abstract class Item : MonoBehaviour
             DeleteAllDescriptions();
         }
     }
+
     private void OnMouseEnter()
     {
         if (!DragManager.isDragging)
@@ -1226,17 +1220,25 @@ public abstract class Item : MonoBehaviour
             // Код, который выполнится при наведении курсора на коллайдер
             if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemAiming");
             Exit = false;
+            //Debug.Log(Time.time + (!Exit).ToString());
             //Debug.Log(DragManager.isDragging);
-            StartCoroutine(ShowDescription());
+            ShowDescription();
+            //ShowDescription2();
         }
     }
 
     private void OnMouseExit()
     {
-        Exit = true;
+        if (!Exit)
+        {
+            Exit = true;
+            //Debug.Log(Time.time + (!Exit).ToString());
+        }
+        
         if (!MouseExit())
         {
             Invoke("MouseExit", 0.2f);
+            //StartCoroutine(ShowDescription());
         }
     }
 

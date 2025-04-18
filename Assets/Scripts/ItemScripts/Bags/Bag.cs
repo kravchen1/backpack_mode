@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 using Assets.Scripts.ItemScripts;
 using JetBrains.Annotations;
+using TMPro;
 
 public class Bag : Item
 {
@@ -599,6 +600,7 @@ public class Bag : Item
                 SetNestedObject();
                 EndDragForChildObjects(true);
                 rb.excludeLayers = (1 << 9) | (1 << 10);
+                EffectPlaceCorrect();
                 break;
             case 2:
                 //Debug.Log("3");
@@ -684,9 +686,12 @@ public class Bag : Item
                 }
                 else
                 {
-                    returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
-                    SetOrderLayerPriority("Bag", "Weapon", 1);
-                    Debug.Log(2);
+                    if (!isSellChest)
+                    {
+                        returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
+                        SetOrderLayerPriority("Bag", "Weapon", 1);
+                        Debug.Log(2);
+                    }
                 }
             }
 
@@ -709,22 +714,87 @@ public class Bag : Item
         )
         {
             Exit = false;
-            StartCoroutine(ShowDescription());
+            ShowDescription();
         }
         else
         {
             //Debug.Log("Курсор за пределами игрового экрана!");
             ChangeShowStars(false);
         }
-        
-
-       
-
-
     }
 
     public virtual void CoolDownStart()
     {
 
+    }
+
+
+    public override void SellItem()
+    {
+        characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+        //if (lastParentWasStorage)
+        //{
+        //    decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+        //    characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+        //}
+        if (SceneManager.GetActiveScene().name != "BackPack")
+        {
+            int textCost = (int)(itemCost / 2);
+            foreach (var objectInCell in objectsInCells)
+            {
+                Item item = objectInCell.gameObject.GetComponent<Item>();
+                textCost += (int)(item.itemCost / 2);
+            }
+
+            characterStats.playerCoins = characterStats.playerCoins + textCost;
+            characterStats.coinsText.text = characterStats.playerCoins.ToString();
+        }
+        sellChestSound.Play();
+        sellChestAnimator.Play("SellChestClose");
+        if (sellPrice != null)
+        {
+            sellPrice.SetActive(false);
+        }
+        Destroy(gameObject);
+        Destroy(CanvasDescription.gameObject);
+    }
+    public override void SellChest()
+    {
+        if (hitSellChest.Any(e => e.collider != null && e.collider.name == "SellChest") && gameObject.GetComponent<ShopItem>() == null)
+        {
+            foreach (var hit in hitSellChest.Where(e => e.collider != null && e.collider.name == "SellChest"))
+            {
+                if (!isSellChest)
+                {
+                    sellChestSound = hit.collider.gameObject.GetComponent<AudioSource>();
+                    sellChestAnimator = hit.collider.gameObject.GetComponent<Animator>();
+                    sellChestAnimator.Play("SellChestOpen");
+                    isSellChest = true;
+                    if (SceneManager.GetActiveScene().name != "BackPack")
+                    {
+                        sellPrice = hit.collider.gameObject.transform.GetChild(0).gameObject;
+                        sellPrice.SetActive(true);
+
+                        int textCost = (int)(itemCost / 2);
+                        foreach (var objectInCell in objectsInCells)
+                        {
+                            Item item = objectInCell.gameObject.GetComponent<Item>();
+                            textCost += (int)(item.itemCost / 2);
+                        }
+
+                        sellPrice.transform.GetChild(0).GetChild(1).GetComponent<TextMeshPro>().text = textCost.ToString();
+                    }
+                }
+            }
+        }
+        else if (isSellChest)
+        {
+            sellChestAnimator.Play("SellChestClose");
+            isSellChest = false;
+            if (SceneManager.GetActiveScene().name != "BackPack")
+            {
+                sellPrice.SetActive(false);
+            }
+        }
     }
 }

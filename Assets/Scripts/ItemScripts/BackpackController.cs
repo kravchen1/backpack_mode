@@ -390,7 +390,7 @@ public class BackpackController : MonoBehaviour
     private float countSwitchY = 0f, countSwitchX = 0f;
     private void Update()
     {
-        if (!DragManager.isReturnToOrgignalPos)
+        if (!DragManager.isReturnToOrgignalPos && !DragManager.isDragging)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {

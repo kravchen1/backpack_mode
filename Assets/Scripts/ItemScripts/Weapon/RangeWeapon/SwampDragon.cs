@@ -58,9 +58,9 @@ public class SwampDragon : Weapon
 
         return 0;
     }
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

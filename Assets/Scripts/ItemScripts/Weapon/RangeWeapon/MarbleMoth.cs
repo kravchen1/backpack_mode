@@ -30,9 +30,9 @@ public class MarbleMoth : Weapon
         //}
         logManager.CreateLogMessageGive(originalName, "evasion", evasionStack, Player.isPlayer);
     }
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();

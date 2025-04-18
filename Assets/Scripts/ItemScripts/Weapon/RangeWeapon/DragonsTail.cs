@@ -35,9 +35,9 @@ public class DragonsTail : Weapon
         logManager.CreateLogMessageInflict(originalName, "blind", blindnessStack, Player.isPlayer);
         logManager.CreateLogMessageGive(originalName, "power", powerStack, Player.isPlayer);
     }
-    public override IEnumerator ShowDescription()
+    public override void ShowDescription()
     {
-        yield return new WaitForSecondsRealtime(.1f);
+        //yield return new WaitForSecondsRealtime(.1f);
         if (!Exit)
         {
             FillStars();
