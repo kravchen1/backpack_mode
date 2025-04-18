@@ -1,8 +1,11 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class InvisibleTree : MonoBehaviour
 {
     private string sortingLayer;
+
+    public bool needToSetSortTree = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +20,8 @@ public class InvisibleTree : MonoBehaviour
             //Debug.Log(sortingLayer);
             foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
             {
-                GetComponent<SpriteRenderer>().sortingLayerName = "Tree";
+                if(needToSetSortTree)
+                    GetComponent<SpriteRenderer>().sortingLayerName = "Tree";
                 Color color = spriteRenderer.color;
                 //Debug.Log(color.ToString()); 
                 spriteRenderer.color = new Color(color.r, color.g, color.b, color.a/2);
@@ -31,7 +35,8 @@ public class InvisibleTree : MonoBehaviour
         {
             foreach (var spriteRenderer in gameObject.transform.parent.GetComponentsInChildren<SpriteRenderer>())
             {
-                GetComponent<SpriteRenderer>().sortingLayerName = sortingLayer;
+                if (needToSetSortTree)
+                    GetComponent<SpriteRenderer>().sortingLayerName = sortingLayer;
                 Color color = spriteRenderer.color;
                 //Debug.Log(color.ToString());
                 spriteRenderer.color = new Color(color.r, color.g, color.b, color.a*2);

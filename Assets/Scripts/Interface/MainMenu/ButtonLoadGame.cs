@@ -10,7 +10,7 @@ public class ButtonLoadGame : MonoBehaviour
     [SerializeField] protected float timeToRotate = 0.1f;
     [SerializeField] protected float angleToRotate = 0.1f;
     private string settingLanguage = "en";
-
+    public float glowFadeDuration = 0.3f; // Длительность эффекта
     public void Start()
     {
         updateText();
@@ -22,7 +22,14 @@ public class ButtonLoadGame : MonoBehaviour
         buttonClick.GetComponent<AudioSource>().Play();
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f);
     }
-
+    public void OnMouseEnter()
+    {
+        transform.DOScale(1.05f, glowFadeDuration).SetEase(Ease.OutBack);
+    }
+    public void OnMouseExit()
+    {
+        transform.DOScale(1f, glowFadeDuration).SetEase(Ease.InOutSine);
+    }
     public void OnMouseUp()
     {
         

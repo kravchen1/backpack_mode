@@ -11,29 +11,21 @@ public class ButtonSettings : MonoBehaviour
     [SerializeField] protected GameObject settingsCanvas;
     [SerializeField] protected GameObject buttonClick;
 
-    public float jumpHeight = -260;    // Высота прыжка в пикселях
-    public float jumpDuration = 0.2f; // Длительность в секундах
     public float glowFadeDuration = 0.3f; // Длительность эффекта
-    private float staticY;
     private string settingLanguage = "en";
 
     public void Start()
     {
-        staticY = transform.localPosition.y;
         updateText();
     }
-
-    // При наведении курсора
-    //public void OnMouseEnter()
-    //{
-    //    transform.DOScale(1.05f, glowFadeDuration).SetEase(Ease.OutBack);
-    //}
-
-    //// При уходе курсора
-    //public void OnMouseExit()
-    //{
-    //    transform.DOScale(1f, glowFadeDuration).SetEase(Ease.InOutSine);
-    //}
+    public void OnMouseEnter()
+    {
+        transform.DOScale(1.05f, glowFadeDuration).SetEase(Ease.OutBack);
+    }
+    public void OnMouseExit()
+    {
+        transform.DOScale(1f, glowFadeDuration).SetEase(Ease.InOutSine);
+    }
     public void OnMouseDown()
     {
         buttonClick.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);

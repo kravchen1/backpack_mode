@@ -10,6 +10,7 @@ public class ButtonAwards : MonoBehaviour
     [SerializeField] protected float jumpHeight = 50f;    // Высота прыжка в пикселях
     [SerializeField] protected float jumpDuration = 0.5f; // Длительность в секундах
     private float staticY;
+    public float glowFadeDuration = 0.3f; // Длительность эффекта
     private string settingLanguage = "en";
 
     public void Start()
@@ -30,7 +31,14 @@ public class ButtonAwards : MonoBehaviour
         Jump();
     }
 
-
+    public void OnMouseEnter()
+    {
+        transform.DOScale(1.05f, glowFadeDuration).SetEase(Ease.OutBack);
+    }
+    public void OnMouseExit()
+    {
+        transform.DOScale(1f, glowFadeDuration).SetEase(Ease.InOutSine);
+    }
     public void updateText()
     {
         settingLanguage = PlayerPrefs.GetString("LanguageSettings");

@@ -11,7 +11,7 @@ public class ButtonExit : MonoBehaviour
     public float jumpDuration = 0.5f; // Длительность в секундах
     private float staticY;
     private string settingLanguage = "en";
-
+    public float glowFadeDuration = 0.3f; // Длительность эффекта
     public void Start()
     {
         staticY = transform.localPosition.y;
@@ -24,7 +24,14 @@ public class ButtonExit : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.7f, 0.7f);
         Jump();
     }
-
+    public void OnMouseEnter()
+    {
+        transform.DOScale(1.05f, glowFadeDuration).SetEase(Ease.OutBack);
+    }
+    public void OnMouseExit()
+    {
+        transform.DOScale(1f, glowFadeDuration).SetEase(Ease.InOutSine);
+    }
     public void OnMouseUp()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);

@@ -130,7 +130,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 1}
-    oldSize: {x: 171, y: 41.75}
+    oldSize: {x: 171, y: 71.75}
     newSize: {x: 72, y: 129.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -138,16 +138,20 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 83.75, y: -5.5}
+    - - {x: 83.75, y: -44.75}
+      - {x: 83.75, y: -1}
       - {x: 83.5, y: 0}
-      - {x: -83.5, y: 0}
-      - {x: -83.5, y: -39.5}
-      - {x: -81.75, y: -40.75}
-      - {x: -58.5, y: -41}
-      - {x: -16.5, y: -41}
-      - {x: -15.5, y: -39}
-      - {x: 83, y: -15}
-      - {x: 83.75, y: -14.5}
+      - {x: -84.25, y: 0}
+      - {x: -85.25, y: -2.25}
+      - {x: -85.25, y: -30}
+      - {x: -83.5, y: -30.75}
+      - {x: -83.25, y: -69.25}
+      - {x: -81.75, y: -70.75}
+      - {x: -58.5, y: -71}
+      - {x: -16.5, y: -71}
+      - {x: -15.5, y: -69}
+      - {x: -16.25, y: -45.25}
+      - {x: 81.5, y: -45.75}
   m_UseDelaunayMesh: 0
 --- !u!1 &7318948540106968730
 GameObject:
@@ -229,7 +233,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1196096721
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 7496579325629833647, guid: 47ce9277f46c0244fb398908dc05d09e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -280,7 +284,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 171, y: 87.75}
+    oldSize: {x: 171, y: 57.75}
     newSize: {x: 72, y: 129.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -288,31 +292,21 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 85.5, y: 31.25}
-      - {x: 85.5, y: 85}
-      - {x: 83.25, y: 86.5}
-      - {x: 77.75, y: 86.25}
-      - {x: 77.5, y: 86}
-      - {x: -42.75, y: 86}
-      - {x: -42.75, y: 86.5}
-      - {x: -48, y: 87}
-      - {x: -50.75, y: 87}
-      - {x: -70.25, y: 67.25}
-      - {x: -84, y: 54.75}
-      - {x: -84.5, y: 46}
-      - {x: -84, y: 39.25}
-      - {x: -85, y: 32}
-      - {x: -84.25, y: 27.5}
-      - {x: -85.25, y: 25}
-      - {x: -84.5, y: 20.75}
-      - {x: -85.25, y: 18}
-      - {x: -85.25, y: 5}
-      - {x: -84.5, y: 0.5}
-      - {x: -83.75, y: 0}
-      - {x: 83.5, y: 0}
-      - {x: 83.5, y: 27.5}
-      - {x: 84, y: 27.5}
-      - {x: 85.25, y: 30.5}
+    - - {x: 83.25, y: 56.5}
+      - {x: 77.75, y: 56.25}
+      - {x: 77.5, y: 56}
+      - {x: -42.75, y: 56}
+      - {x: -42.75, y: 56.5}
+      - {x: -48.5, y: 57}
+      - {x: -50.5, y: 57}
+      - {x: -52.5, y: 55.25}
+      - {x: -78.25, y: 29.5}
+      - {x: -83.25, y: 26}
+      - {x: -84.5, y: 22.5}
+      - {x: -84.5, y: 0}
+      - {x: 85, y: 0}
+      - {x: 85.5, y: 0.25}
+      - {x: 85.5, y: 55}
   m_UseDelaunayMesh: 0
 --- !u!114 &1155039338420292237
 MonoBehaviour:
@@ -326,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f767cb174ce254e4aa5c603af4655125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needToSetSortTree: 0
 --- !u!1 &8227919546160890624
 GameObject:
   m_ObjectHideFlags: 0
