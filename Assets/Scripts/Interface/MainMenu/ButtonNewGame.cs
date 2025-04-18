@@ -1,7 +1,9 @@
+using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class ButtonNewGame : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class ButtonNewGame : MonoBehaviour
     [SerializeField] protected GameObject chooseCharCanvas;
     [SerializeField] protected GameObject buttonClick;
 
+    [SerializeField] protected float timeToRotate = 0.1f;
+    [SerializeField] protected float angleToRotate = 0.1f;
     private string settingLanguage = "en";
 
     public void Start()
@@ -26,7 +30,14 @@ public class ButtonNewGame : MonoBehaviour
     public void OnMouseUp()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
-        ChangeActive();
+        transform.DORotate(new Vector3(0, 0, angleToRotate), timeToRotate)
+            .SetEase(Ease.InOutSine).OnComplete(() =>
+            {
+                transform.DORotate(new Vector3(0, 0, 0), timeToRotate)
+            .SetEase(Ease.InOutSine).OnComplete(() => { ChangeActive(); });
+                
+            }
+        );
     }
 
     protected void ChangeActive()
