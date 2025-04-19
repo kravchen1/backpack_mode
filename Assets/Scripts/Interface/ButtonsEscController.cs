@@ -23,6 +23,8 @@ public class ButtonsEscController : MonoBehaviour
         Application.Quit();
     }
 
+    
+
     public void ExitCave()
     {
         var doorData = GameObject.FindGameObjectWithTag("DoorEventDistributor");

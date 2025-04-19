@@ -14,6 +14,8 @@ public class EscController : MonoBehaviour
     public GameObject backpackEnemy;
     public GameObject caveMap;
     public GameObject settings;
+
+    public ButtonsEscController canvasPause;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -79,6 +81,18 @@ public class EscController : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+
+        if (canvasPause != null && Time.timeScale > 0 && (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.I)))
+        {
+            if (SceneManager.GetActiveScene().name == "Cave" || SceneManager.GetActiveScene().name == "GenerateMapInternumFortress1")
+            {
+                canvasPause.BackpackButtonWithoutCheck();
+            }
+            else if (SceneManager.GetActiveScene().name == "GenerateMap" || SceneManager.GetActiveScene().name == "GenerateMapFortress1")
+            {
+                canvasPause.BackpackButton();
             }
         }
     }
