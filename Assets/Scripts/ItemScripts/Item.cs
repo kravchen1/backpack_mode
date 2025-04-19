@@ -353,7 +353,7 @@ public abstract class Item : MonoBehaviour
             if (SceneManager.GetActiveScene().name != "BackPackBattle") if (animator != null && !isEat) animator.Play("ItemClickOff");
         }
 
-
+        bool sellItem = false;
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         if (SceneManager.GetActiveScene().name != "BackPackBattle" && SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
@@ -402,6 +402,7 @@ public abstract class Item : MonoBehaviour
             }
             if (isSellChest)
             {
+                sellItem = true;
                 SellItem();
             }
         }
@@ -421,18 +422,17 @@ public abstract class Item : MonoBehaviour
                 mousePos.y > Screen.height)
         )
         {
-            Exit = false;
-            canShowDescription = true;
-            Debug.Log(canShowDescription);
-            Debug.Log(Exit);
-            ShowDescription();
-            Debug.Log(1);
+            if (!sellItem)
+            {
+                Exit = false;
+                canShowDescription = true;
+                ShowDescription();
+            }
         }
         else
         {
             //Debug.Log("Курсор за пределами игрового экрана!");
             ChangeShowStars(false);
-            Debug.Log(2);
         }
 
         
@@ -446,9 +446,9 @@ public abstract class Item : MonoBehaviour
 
     public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
-        Debug.Log(DragManager.isReturnToOrgignalPos);
+        //Debug.Log(DragManager.isReturnToOrgignalPos);
         DragManager.isReturnToOrgignalPos = true;
-        Debug.Log(DragManager.isReturnToOrgignalPos);
+        //Debug.Log(DragManager.isReturnToOrgignalPos);
         float time = 1f; // Время возвращения
         float elapsedTime = 0f;
         Vector3 startingPos = transform.position;
@@ -465,7 +465,7 @@ public abstract class Item : MonoBehaviour
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
         DragManager.isReturnToOrgignalPos = false;
-        Debug.Log(DragManager.isReturnToOrgignalPos);
+        //Debug.Log(DragManager.isReturnToOrgignalPos);
     }
     public void defaultItemUpdate()
     {
