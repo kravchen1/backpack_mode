@@ -5310,7 +5310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 74/100
+  m_text: 25,5/100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
   m_sharedMaterial: {fileID: -5462856892143755493, guid: 9f4a80815084c244f90d2f048391e206, type: 2}
@@ -5337,8 +5337,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6777,6 +6777,7 @@ MonoBehaviour:
   mainCanvas: {fileID: 182505748}
   settingsCanvas: {fileID: 164486670}
   buttonClick: {fileID: 2107757601}
+  glowFadeDuration: 0.3
 --- !u!114 &164486672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10871,7 +10872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.006693882, y: 0.354}
   m_AnchorMax: {x: 0.081, y: 0.642}
-  m_AnchoredPosition: {x: -27.776672, y: 0.99993896}
+  m_AnchoredPosition: {x: -27.776428, y: 0.99993896}
   m_SizeDelta: {x: -43.505356, y: 0.009429932}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &415650997
@@ -32833,6 +32834,9 @@ MonoBehaviour:
   mainCanvas: {fileID: 0}
   chooseCharCanvas: {fileID: 0}
   buttonClick: {fileID: 0}
+  glowFadeDuration: 0.3
+  timeToRotate: 0.1
+  angleToRotate: 0.1
 --- !u!61 &1891448728
 BoxCollider2D:
   m_ObjectHideFlags: 0
