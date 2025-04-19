@@ -30,7 +30,7 @@ public class UISlideAnimation : MonoBehaviour
     private void Awake()
     {
         _shownPosition = target.anchoredPosition;
-        _shownPosition = Camera.main.GetComponent<RectTransform>().anchoredPosition;
+        //_shownPosition = Camera.main.GetComponent<RectTransform>().anchoredPosition;
         var directionVector = GetDirectionVector(slideDirection);
         var childColliders = GetComponentsInChildren<Collider2D>();
         _hiddenPosition = _shownPosition - directionVector * (hiddenX);
