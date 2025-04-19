@@ -653,6 +653,7 @@ public class Bag : Item
             }
             IgnoreCollisionObject(false);
         }
+        bool sellItem = false;
         //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
         if (SceneManager.GetActiveScene().name != "BackPackBattle" && SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
@@ -697,6 +698,7 @@ public class Bag : Item
 
             if (isSellChest)
             {
+                sellItem = true;
                 SellItem();
             }
 
@@ -713,8 +715,11 @@ public class Bag : Item
             mousePos.y > Screen.height)
         )
         {
-            Exit = false;
-            ShowDescription();
+            if (!sellItem)
+            {
+                Exit = false;
+                ShowDescription();
+            }
         }
         else
         {
