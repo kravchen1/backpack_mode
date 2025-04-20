@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,7 +27,7 @@ public class SellFiltersController : MonoBehaviour
         canvasFilters.SetActive(!canvasFilters.activeSelf);
         storage.SetActive(!storage.activeSelf);
         backpack.SetActive(!backpack.activeSelf);
-        if(shop != null)
+        if (shop != null)
             shop.SetActive(!shop.activeSelf);
     }
 
@@ -39,13 +41,19 @@ public class SellFiltersController : MonoBehaviour
             characterStats.playerCoins = characterStats.playerCoins + (int)(item.itemCost / 2);
             characterStats.coinsText.text = characterStats.playerCoins.ToString();
         }
+
         Destroy(item.gameObject);
-        Destroy(item.CanvasDescription.gameObject);
+
+
+        if (item.CanvasDescription != null)
+            Destroy(item.CanvasDescription.gameObject);
+
+
     }
 
     public void SellSelectedItems()
     {
-        
+        listForDestroy.Clear();
         for (int i = 0; i < storage.transform.childCount; i++)
         {
             var child = storage.transform.GetChild(i);
@@ -54,21 +62,15 @@ public class SellFiltersController : MonoBehaviour
                 listForDestroy.Add(child.GetComponent<Item>());
                 ItemsForSale.items.Remove(child.gameObject);
                 var prefabList = content.GetComponentsInChildren<ItemInFilter>().Where(e => e.item == child.gameObject).ToList();
-                try
-                {
-                    Destroy(prefabList[0].gameObject);
-                }
-                catch(Exception ex)
-                {
-                    Log.Error(ex.Message);
-                }
+                Destroy(prefabList[0].gameObject);
             }
         }
-        foreach(var item in listForDestroy)
+        foreach (var item in listForDestroy.ToList())
         {
+
             SellItem(item);
+
         }
     }
 
 }
-
