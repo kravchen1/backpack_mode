@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
         if (hit.collider != null)
         {
             activePoint = hit.collider.gameObject.GameObject();
-
+            Debug.Log(activePoint.tag);
             if (hit.collider.tag == "AreaEventNPC" && !speakNow)
             {
                 activePoint.GetComponentInParent<NPC>().StartDialogue();
