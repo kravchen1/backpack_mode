@@ -267,6 +267,7 @@ public abstract class Item : MonoBehaviour
         if (returnToOriginalPosition != null)
         {
             StopCoroutine(returnToOriginalPosition);
+            DragManager.isReturnToOrgignalPos = false;
         }
         lastParentWasStorage = transform.parent.CompareTag("Storage");
         shopItem = GetComponent<ShopItem>();
@@ -341,6 +342,11 @@ public abstract class Item : MonoBehaviour
 
     public virtual void OnMouseUp()
     {
+        MouseUp();
+    }
+
+    private void MouseUp()
+    {
         if (isDragging)
         {
             DragManager.isDragging = false;
@@ -368,7 +374,7 @@ public abstract class Item : MonoBehaviour
 
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    
+
                     placeForDescription = GameObject.FindWithTag("DescriptionPlace");
 
                     needToRotateToStartRotation = false;
@@ -388,7 +394,7 @@ public abstract class Item : MonoBehaviour
                     DeleteNestedObject(gameObject.transform.parent.tag);
                     ExtendedCorrectPosition();
                     ChangeColorToDefault();
-                    
+
 
                     needToRotateToStartRotation = false;
                 }
@@ -435,7 +441,7 @@ public abstract class Item : MonoBehaviour
             ChangeShowStars(false);
         }
 
-        
+
         FindPlaceForDescription();
     }
 
@@ -444,7 +450,7 @@ public abstract class Item : MonoBehaviour
         StartCoroutine(ReturnToOriginalPosition(destination));
     }
 
-    public System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
+    public virtual System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
     {
         //Debug.Log(DragManager.isReturnToOrgignalPos);
         DragManager.isReturnToOrgignalPos = true;
@@ -465,7 +471,6 @@ public abstract class Item : MonoBehaviour
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
         DragManager.isReturnToOrgignalPos = false;
-        //Debug.Log(DragManager.isReturnToOrgignalPos);
     }
     public void defaultItemUpdate()
     {
@@ -495,7 +500,14 @@ public abstract class Item : MonoBehaviour
 
     public virtual void Update()
     {
-        defaultItemUpdate();
+        try
+        {
+            defaultItemUpdate();
+        }
+        catch
+        {
+            MouseUp();
+        }
     }
 
 

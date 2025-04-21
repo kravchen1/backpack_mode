@@ -80,6 +80,7 @@ public class Bag : Item
         if (returnToOriginalPosition != null)
         {
             StopCoroutine(returnToOriginalPosition);
+            DragManager.isReturnToOrgignalPos = false;
         }
         lastParentWasStorage = transform.parent.CompareTag("Storage");
         //rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -243,7 +244,14 @@ public class Bag : Item
         }
         else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
-            BagDefauldUpdate();
+            try
+            {
+                BagDefauldUpdate();
+            }
+            catch
+            {
+                MouseUp();
+            }
         }
     }
 
@@ -642,6 +650,11 @@ public class Bag : Item
 
     public override void OnMouseUp()
     {
+        MouseUp();
+    }
+
+    void MouseUp()
+    {
         if (isDragging)
         {
             DragManager.isDragging = false;
@@ -691,7 +704,8 @@ public class Bag : Item
                     {
                         returnToOriginalPosition = StartCoroutine(ReturnToOriginalPosition(lastItemPosition));
                         SetOrderLayerPriority("Bag", "Weapon", 1);
-                        Debug.Log(2);
+                        //Debug.Log(2);
+                        DisableBackpackCells();
                     }
                 }
             }
@@ -700,9 +714,10 @@ public class Bag : Item
             {
                 sellItem = true;
                 SellItem();
+                DisableBackpackCells();
             }
 
-        }   
+        }
         canShowDescription = true;
         ChangeColorToDefault();
         // Заканчиваем перетаскивание
@@ -733,6 +748,33 @@ public class Bag : Item
 
     }
 
+    public override System.Collections.IEnumerator ReturnToOriginalPosition(Vector3 originalPosition)
+    {
+        //Debug.Log(DragManager.isReturnToOrgignalPos);
+        DragManager.isReturnToOrgignalPos = true;
+        //Debug.Log(DragManager.isReturnToOrgignalPos);
+        float time = 1f; // Время возвращения
+        float elapsedTime = 0f;
+        Vector3 startingPos = transform.position;
+        Quaternion startingRot = transform.rotation;
+        while (elapsedTime < time)
+        {
+            //Debug.Log(transform.position);
+            transform.position = Vector3.Lerp(startingPos, originalPosition, (elapsedTime / time));
+            //transform.rotation = Quaternion.Lerp(startingRot, Quaternion.identity, (elapsedTime / time));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = originalPosition; // Убедитесь, что позиция точно установлена
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
+        DragManager.isReturnToOrgignalPos = false;
+        if (itemType == ItemType.Bag)
+        {
+            RaycastEvent();
+            EndDragForChildObjects(true);
+        }
+    }
 
     public override void SellItem()
     {
