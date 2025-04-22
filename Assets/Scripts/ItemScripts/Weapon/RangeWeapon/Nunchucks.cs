@@ -26,7 +26,14 @@ public class Nunchucks : Weapon
         {
             speedUp = baseTimerCooldown / 100.0 * activationSpeedUp;
         }
-        timer_cooldown -= (float)speedUp;
+        if (timer_cooldown - (float)speedUp >= 0.1f)
+        {
+            timer_cooldown -= (float)speedUp;
+        }
+        else
+        {
+            timer_cooldown = 0.1f;
+        }
         baseTimerCooldown = timer_cooldown;
 
         //if (Player.isPlayer)
