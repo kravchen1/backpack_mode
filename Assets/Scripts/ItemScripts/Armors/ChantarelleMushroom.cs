@@ -18,6 +18,7 @@ public class ChantarelleMushroom : Mushroom
 
         timer_cooldown = timer_cooldown - changeCD;
         timer = timer_cooldown;
+        baseTimerCooldown = timer_cooldown;
 
         CheckNestedObjectActivation("StartBag");
         CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());

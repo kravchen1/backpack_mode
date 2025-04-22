@@ -2,14 +2,33 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Broom : Weapon
 {
     public int activationSpeedUp;//надо заменить
 
-   // public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+    // public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
+    private float changeCD = 0;
+    private void Start()
+    {
+        FillStars();
+        timer_cooldown = baseTimerCooldown;
+        timer = timer_cooldown;
+        baseStamina = stamina;
+        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
+        {
+            animator.speed = 1f / timer_cooldown;
+            animator.enabled = true;
+        }
+        if (stars[0].GetComponent<Cell>().nestedObject != null)
+        {
+            var starItem = stars[0].GetComponent<Cell>().nestedObject.GetComponent<Item>();
+            changeCD = starItem.baseTimerCooldown / 100.0f * activationSpeedUp;
+        }
 
+    }
     public override void StartActivation()
     {
         if (stars[0].GetComponent<Cell>().nestedObject != null)
@@ -17,24 +36,15 @@ public class Broom : Weapon
             var starItem = stars[0].GetComponent<Cell>().nestedObject.GetComponent<Item>();
             if (starItem.timer_cooldown >= 0)
             {
-                var changeCD = starItem.baseTimerCooldown / 100.0f * activationSpeedUp;
                 if (starItem.timer_cooldown - changeCD > 0.1f)
                     starItem.timer_cooldown = starItem.timer_cooldown - changeCD;
                 else
                     starItem.timer_cooldown = 0.1f;
                 starItem.timer = starItem.timer_cooldown;
+                starItem.baseTimerCooldown = starItem.timer_cooldown;
 
 
-                
 
-                //if (Player.isPlayer)
-                //{
-                //    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
-                //}
-                //else
-                //{
-                //    CreateLogMessage(LogTimerStackCharacter, "Broom increased cooldown for " + starItem.name + " by " + Math.Round(changeCD, 2).ToString());
-                //}
                 logManager.CreateLogMessageReducedForItem(originalName, "timer", Math.Round(changeCD, 2), starItem.name, Player.isPlayer);
             }
         }
