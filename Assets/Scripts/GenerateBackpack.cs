@@ -34,7 +34,7 @@ public class GenerateBackpack : MonoBehaviour
 
 
 
-        LoadChestItems("ITEMCRYSTALL");
+        LoadChestItems("ITEMCRYSTAL");
 
 
         LoadChestItems("ITEMCLOTH");

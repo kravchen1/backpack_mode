@@ -14,14 +14,27 @@ public class Nunchucks : Weapon
     public int activationSpeedUp;//надо заменить
     public int giveCritStack;//надо заменить
 
-   // public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
-   // public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
+    // public GameObject LogChanceCritStackCharacter, LogChanceCritStackEnemy;
+    // public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
 
+    private double speedUp = 0;
     public override void ActivationEffect(int resultDamage)
     {
         Player.menuFightIconData.AddBuff(giveCritStack, "IconChanceCrit");
-        double speedUp = baseTimerCooldown / 100.0 * activationSpeedUp;
-        timer_cooldown -= (float)speedUp;
+
+        if (speedUp == 0)
+        {
+            speedUp = baseTimerCooldown / 100.0 * activationSpeedUp;
+        }
+        if (timer_cooldown - (float)speedUp >= 0.1f)
+        {
+            timer_cooldown -= (float)speedUp;
+        }
+        else
+        {
+            timer_cooldown = 0.1f;
+        }
+        baseTimerCooldown = timer_cooldown;
 
         //if (Player.isPlayer)
         //{

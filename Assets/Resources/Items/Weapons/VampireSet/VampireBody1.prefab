@@ -1594,11 +1594,8 @@ MonoBehaviour:
   characterStats: {fileID: 0}
   lastParentWasStorage: 0
   Description: {fileID: 500184359935961799, guid: 820450213598e984aa064fc87433029c, type: 3}
-  originalSprite: {fileID: 0}
-  prefabAnimationAttack: {fileID: 0}
   CanvasDescription: {fileID: 0}
   Exit: 0
-  originalLayer: 0
   itemCost: 1200
   itemColliders: []
   bagTransform: {fileID: 0}
@@ -1611,7 +1608,9 @@ MonoBehaviour:
   needToRotate: 0
   needToDynamic: 0
   needToRotateToStartRotation: 0
+  placeForDescription: {fileID: 0}
   animator: {fileID: 0}
+  sellChestAnimator: {fileID: 0}
   sellChestSound: {fileID: 0}
   Impulse: 0
   stars:
@@ -1621,8 +1620,6 @@ MonoBehaviour:
   - {fileID: 2365963069081499278}
   - {fileID: 6483391469317506449}
   - {fileID: 1699718054703778903}
-  emptyStar: {fileID: -1143086056931258051, guid: 29c3db9b1f942674db35fac0cd044425, type: 3}
-  fillStar: {fileID: -7212729817332942576, guid: 8de78954b156acb47a5254f8410f24d2, type: 3}
   shopItem: {fileID: 0}
   isSellChest: 0
   isDragging: 0
@@ -1633,12 +1630,9 @@ MonoBehaviour:
   rarity: 2
   itemType: 0
   weight: 5
-  minDelay: 0.1
-  maxDelay: 1
-  moveDistance: 0.5
   timer: 0
   timer_cooldown: 0
-  baseTimerCooldown: 6.1
+  baseTimerCooldown: 3.6
   startBattleArmorCount: 0
   countBleedStack: 1
 --- !u!114 &-3915854043932951938

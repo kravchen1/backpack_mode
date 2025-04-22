@@ -222,11 +222,14 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
 
             foreach (var item in allItems)
             {
-                var changeCD = item.baseTimerCooldown * (countPercentFire * (countBurn - countFrost));
-                if (item.baseTimerCooldown - changeCD > 0.1f)
-                    item.timer_cooldown = item.baseTimerCooldown - changeCD;
-                else
-                    item.timer_cooldown = 0.1f;
+                if (item.timer_cooldown > 0)
+                {
+                    var changeCD = item.baseTimerCooldown * (countPercentFire * (countBurn - countFrost));
+                    if (item.baseTimerCooldown - changeCD > 0.1f)
+                        item.timer_cooldown = item.baseTimerCooldown - changeCD;
+                    else
+                        item.timer_cooldown = 0.1f;
+                }
             }
         }
     }

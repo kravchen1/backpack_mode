@@ -16,23 +16,25 @@ public class AutomaticCrossbow : Weapon
 
     //public GameObject LogBleedStackCharacter, LogBleedStackEnemy;
     //public GameObject LogTimerStackCharacter, LogTimerStackEnemy;
-    
+
+    private double speedUp = 0;
     public override void ActivationEffect(int resultDamage)
     {
+        if(speedUp == 0)
+        {
+            speedUp = baseTimerCooldown / 100.0 * cooldownSpeedUp;
+        }
         Enemy.menuFightIconData.AddDebuff(bleedingStack, "IconBleed");
-        double speedUp = baseTimerCooldown / 100.0 * cooldownSpeedUp;
-        timer_cooldown -= (float)speedUp;
+        if (timer_cooldown - (float)speedUp >= 0.1f)
+        {
+            timer_cooldown -= (float)speedUp;
+        }
+        else
+        {
+            timer_cooldown = 0.1f;
+        }
+        baseTimerCooldown = timer_cooldown;
 
-        //if (Player.isPlayer)
-        //{
-        //    CreateLogMessage(LogBleedStackCharacter, "Automatic Crossbow inflict " + bleedingStack.ToString());
-        //    CreateLogMessage(LogTimerStackCharacter, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp, 2).ToString());
-        //}
-        //else
-        //{
-        //    CreateLogMessage(LogBleedStackEnemy, "Automatic Crossbow inflict " + bleedingStack.ToString());
-        //    CreateLogMessage(LogTimerStackEnemy, "Automatic Crossbow reduced cooldown by " + Math.Round(speedUp, 2).ToString());
-        //}
         logManager.CreateLogMessageInflict(originalName, "bleed", bleedingStack, Player.isPlayer);
         logManager.CreateLogMessageReduced(originalName, "timer", Math.Round(speedUp, 2), Player.isPlayer);
     }
