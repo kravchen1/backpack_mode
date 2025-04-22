@@ -1,13 +1,13 @@
+using TMPro;
 using UnityEngine;
 
-public class NPC : MonoBehaviour
+public class NPC : EventParent
 {
     public Dialogue dialogue;
     public Dialogue alternativeDialogue1;
     public Dialogue alternativeDialogue2;
-
+    protected bool isPlayerInTrigger = false;
     protected int dialogueNumber = 0;
-
     //public virtual void Initialize()
     //{
     //}
@@ -33,6 +33,32 @@ public class NPC : MonoBehaviour
                 //Initialize();
                 break;
         }
-        
+
+    }
+
+    protected void OnTriggerEnter2D()
+    {
+        isPlayerInTrigger = true;
+        if (isShowPressE)
+        {
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SoundVolume", 1f);
+            GetComponent<AudioSource>().Play();
+            SetActivePressE(isShowPressE);
+        }
+    }
+
+    protected void OnTriggerExit2D()
+    {
+        isPlayerInTrigger = false;
+        SetActivePressE(false);
+        FindFirstObjectByType<DialogueManager>().EndDialogue();
+    }
+
+    protected void Update()
+    {
+        if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E) && isShowPressE)
+        {
+            StartDialogue();
+        }
     }
 }

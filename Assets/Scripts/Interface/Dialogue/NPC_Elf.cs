@@ -77,23 +77,4 @@ public class NPC_Elf : NPC
         }
 
     }
-
-    private void Update()
-    {
-        //if (qm != null)
-        //{
-        //    if (qm.questData.questData.quests.Where(e => e.id == 1 && e.isCompleted == false).Count() > 0)
-        //    {
-        //        gameObject.transform.GetChild(1).gameObject.SetActive(true);
-        //    }
-        //    else
-        //    {
-        //        gameObject.transform.GetChild(1).gameObject.SetActive(false);
-        //    }
-        //}
-        //else
-        //{
-        //    qm = FindFirstObjectByType<QuestManager>();
-        //}
-    }
 }
