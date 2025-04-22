@@ -117,41 +117,41 @@ public class Player : MonoBehaviour
         }
 
 
-        if (hit.collider != null)
-        {
-            activePoint = hit.collider.gameObject.GameObject();
+        //if (hit.collider != null)
+        //{
+        //    activePoint = hit.collider.gameObject.GameObject();
+        //    Debug.Log(speakNow);
+        //    if (hit.collider.tag == "AreaEventNPC" && !speakNow)
+        //    {
+        //        activePoint.GetComponentInParent<NPC>().StartDialogue();
+        //        speakNow = true;
+        //    }
+        //    //if (hit.collider.tag == "AreaEventEntrance")
+        //    //{
+        //    //    if (activePoint.name == "entranceInCave1")
+        //    //    {
+        //    //        if (Input.GetKeyDown(KeyCode.E))
+        //    //        {
+        //    //            //SceneManager.LoadScene("BackPackCave1");
+        //    //            SceneLoader.Instance.LoadScene("BackPackCave1");
+        //    //        }
+        //    //    }   
+        //    //}
+        //}
+        //else
+        //{
 
-            if (hit.collider.tag == "AreaEventNPC" && !speakNow)
-            {
-                activePoint.GetComponentInParent<NPC>().StartDialogue();
-                speakNow = true;
-            }
-            //if (hit.collider.tag == "AreaEventEntrance")
-            //{
-            //    if (activePoint.name == "entranceInCave1")
-            //    {
-            //        if (Input.GetKeyDown(KeyCode.E))
-            //        {
-            //            //SceneManager.LoadScene("BackPackCave1");
-            //            SceneLoader.Instance.LoadScene("BackPackCave1");
-            //        }
-            //    }   
-            //}
-        }
-        else
-        {
-
-            if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
-            {
-                //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
-                isCollidingArea = false;
-                if (speakNow)
-                {
-                    FindFirstObjectByType<DialogueManager>().EndDialogue();
-                }
-                speakNow = false;
-            }
-        }
+        //    if (activePoint != null && (hit.collider == null || activePoint != hit.collider.gameObject.GameObject()))
+        //    {
+        //        //activePoint.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1);
+        //        isCollidingArea = false;
+        //        if (speakNow)
+        //        {
+        //            FindFirstObjectByType<DialogueManager>().EndDialogue();
+        //        }
+        //        speakNow = false;
+        //    }
+        //}
 
         
     }
