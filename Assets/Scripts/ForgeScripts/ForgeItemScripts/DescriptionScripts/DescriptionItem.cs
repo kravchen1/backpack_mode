@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using TMPro;
@@ -279,12 +280,17 @@ public class DescriptionItem : MonoBehaviour
     public object GetField(int index)
     {
         var childType = this.GetType();
-
-        // Получаем все поля дочернего класса
         FieldInfo[] fields = childType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
+        object value = fields[index].GetValue(this);
 
-        return fields[index].GetValue(this);
+        // Если значение является float, округляем его
+        if (value is float floatValue)
+        {
+            return (float)Math.Round(floatValue, 2);
+        }
+
+        return value;
     }
 
     public void Start()

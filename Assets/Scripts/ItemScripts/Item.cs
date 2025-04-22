@@ -167,6 +167,7 @@ public abstract class Item : MonoBehaviour
         {
             playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>();
             enemyAnimator = GameObject.FindGameObjectWithTag("Enemy").GetComponentInChildren<Animator>();
+            goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
         }
     }
 
@@ -191,7 +192,7 @@ public abstract class Item : MonoBehaviour
         fillStar = Resources.Load<Sprite>("Items/stars/FillStar");
 
         stars = new List<GameObject>();
-        for(int i = 0;i < transform.childCount;i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
             if (child.tag == "StarActivation")
@@ -288,7 +289,7 @@ public abstract class Item : MonoBehaviour
                     needToDynamic = true;
                     //TapFirst();
                     TapRotate();
-                    
+
                     //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                     ChangeShowStars(true);
                     //gameObject.layer = LayerMask.NameToLayer("DraggingObject");
@@ -306,7 +307,7 @@ public abstract class Item : MonoBehaviour
             }
             else
             {
-                if(gameObject.transform.parent.CompareTag("Storage"))
+                if (gameObject.transform.parent.CompareTag("Storage"))
                 {
                     ObjectsDynamic("Storage");
                 }
@@ -317,14 +318,14 @@ public abstract class Item : MonoBehaviour
                 DeletenestedObjectStars();
                 IgnoreCollisionObject(true);
                 image.sortingOrder = 4;
-                if(!DragManager.isReturnToOrgignalPos)
+                if (!DragManager.isReturnToOrgignalPos)
                     lastItemPosition = gameObject.transform.position;
                 needToDynamic = true;
                 //List<GameObject> list = new List<GameObject>();
                 //if (ItemInGameObject("Shop", list) && shopData.CanBuy(gameObject.GetComponent<Item>()))
                 //TapFirst();
                 TapRotate();
-                
+
                 //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
                 ChangeShowStars(true);
 
@@ -487,7 +488,7 @@ public abstract class Item : MonoBehaviour
                 SellChest();
                 FillStars();
             }
-            canShowDescription = false; 
+            canShowDescription = false;
         }
         Rotate();
         SwitchDynamicStatic();
@@ -532,17 +533,24 @@ public abstract class Item : MonoBehaviour
     }
     public virtual int ExtendedCorrectEndPoint()
     {
-        if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+        if (careHits != null)
         {
-            return 1; //no swap item
-        }
-        else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
-        {
-            return 2; //swap item
+            if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
+            {
+                return 1; //no swap item
+            }
+            else if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() != 0)
+            {
+                return 2; //swap item
+            }
+            else
+            {
+                return 3; //don`t correct
+            }
         }
         else
         {
-            return 3; //don`t correct
+            return 0;
         }
     }
     public virtual void ExtendedCorrectPosition()
@@ -581,7 +589,7 @@ public abstract class Item : MonoBehaviour
                     //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
                     nestedObjectItem.rb.excludeLayers = 0;
                     nestedObjectItem.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
-                    if(characterStats == null)
+                    if (characterStats == null)
                     {
                         characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
                     }
@@ -695,18 +703,18 @@ public abstract class Item : MonoBehaviour
         //if (rectTransform.eulerAngles.z == 90f)
         //{
 
-            
+
 
         //}
         //if (rectTransform.eulerAngles.z == 270f)
         //{
 
-            
+
 
         //}
         //if (rectTransform.eulerAngles.z == 0)
         //{
-            
+
         //}
 
         //Debug.Log(rectTransform.eulerAngles.z);
@@ -927,7 +935,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    
+
     IEnumerator MoveWithRandomDelay()
     {
         // Рандомная задержка для распределения нагрузки
@@ -1116,10 +1124,10 @@ public abstract class Item : MonoBehaviour
             {
                 if (careHitsForBackpack.Where(e => e.raycastHit.collider != null && e.raycastHit.collider.name == hit.collider.name).Count() == 0)
                 {
-                        careHitsForBackpack.Add(new RaycastStructure(hit));//�������
-                        hit.collider.GetComponent<SpriteRenderer>().color = Color.yellow;
-                        hit.collider.GetComponent<SpriteRenderer>().enabled = true;
-                    
+                    careHitsForBackpack.Add(new RaycastStructure(hit));//�������
+                    hit.collider.GetComponent<SpriteRenderer>().color = Color.yellow;
+                    hit.collider.GetComponent<SpriteRenderer>().enabled = true;
+
                 }
             }
         }
@@ -1131,50 +1139,53 @@ public abstract class Item : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                    hit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-                    hit.collider.GetComponent<SpriteRenderer>().enabled = false;
+                hit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                hit.collider.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
     }
 
     public virtual void ClearCareRaycast(bool nested) //true - если внутри сумки, false - если без сумки
     {
-        //Debug.Log(gameObject.name + "1");
-        foreach (var Carehit in careHits)
+        if (careHits != null && hits != null)
         {
-            foreach (var hit in hits)
+            //Debug.Log(gameObject.name + "1");
+            foreach (var Carehit in careHits)
             {
-
-                // 1 hit
-                // 4 hits
-                if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount * 4)//ToDo
+                foreach (var hit in hits)
                 {
-                    //Debug.Log(gameObject.name + "2");
-                    Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-                    Carehit.isDeleted = true;
+
+                    // 1 hit
+                    // 4 hits
+                    if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount * 4)//ToDo
+                    {
+                        //Debug.Log(gameObject.name + "2");
+                        Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                        Carehit.isDeleted = true;
+                    }
                 }
             }
-        }
 
-        careHits.RemoveAll(e => e.isDeleted == true);
+            careHits.RemoveAll(e => e.isDeleted == true);
 
-        foreach (var Carehit in careHitsForBackpack)
-        {
-            foreach (var hit in hits)
+            foreach (var Carehit in careHitsForBackpack)
             {
-                //Debug.Log(gameObject.name + " 2.5 " + hit.hits.Where(e => e.collider == null).Count() + " / " + colliderCount + " : " + hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count());
-                if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount)
+                foreach (var hit in hits)
                 {
-                    //Debug.Log(gameObject.name + "3");
-                    Carehit.isDeleted = true;
-                    Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-                    if(!nested)
-                        Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().enabled = false;
+                    //Debug.Log(gameObject.name + " 2.5 " + hit.hits.Where(e => e.collider == null).Count() + " / " + colliderCount + " : " + hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count());
+                    if ((hit.hits.Where(e => e.collider != null && e.collider.name == Carehit.raycastHit.collider.name).Count() == 0) || hit.hits.Where(e => e.collider == null).Count() == colliderCount)
+                    {
+                        //Debug.Log(gameObject.name + "3");
+                        Carehit.isDeleted = true;
+                        Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
+                        if (!nested)
+                            Carehit.raycastHit.collider.GetComponent<SpriteRenderer>().enabled = false;
+                    }
                 }
             }
-        }
 
-        careHitsForBackpack.RemoveAll(e => e.isDeleted == true);
+            careHitsForBackpack.RemoveAll(e => e.isDeleted == true);
+        }
     }
     public virtual void RaycastEvent()
     {
@@ -1503,49 +1514,55 @@ public abstract class Item : MonoBehaviour
 
 
     private GameObject goAnimationAttack;
+    private GameObject goAnimationsAttack;
     public void StopAttackAnimation()
     {
         Destroy(goAnimationAttack);
     }
     public void AttackAnimation(int damage)
     {
-    if (originalSprite != null)
-    {
-        GameObject goAnimationsAttack = GameObject.FindGameObjectWithTag("BattleAnimations");
-        goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
-        if(prefabAnimationAttack == null)
+        if (originalSprite != null)
         {
-            Debug.Log(originalName + " не заполнена анимации атаки, а используется");
-        }
-        goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
-        goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
-        goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
+            
+            if (goAnimationAttack != null)
+            {
+                Destroy(goAnimationAttack);
+            }
+            //Debug.Log(prefabAnimationAttack);
+            goAnimationAttack = Instantiate(prefabAnimationAttack, goAnimationsAttack.GetComponent<RectTransform>().transform);
+            if (prefabAnimationAttack == null)
+            {
+                Debug.Log(originalName + " не заполнена анимации атаки, а используется");
+            }
+            goAnimationAttack.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = originalSprite;
+            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().text = "-" + damage.ToString();
+            goAnimationAttack.transform.GetChild(1).GetComponent<TextMeshPro>().fontSize = 750 + damage;
 
 
-        int r = UnityEngine.Random.Range(1, 6);
-        if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)//значит атакует врага
-        {
-            var player = GameObject.FindGameObjectWithTag("Player");
-            goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
-            if(playerAnimator == null)
+            int r = UnityEngine.Random.Range(1, 6);
+            if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)//значит атакует врага
             {
-                FindPlayerAndEnemyForBattle();
+                var player = GameObject.FindGameObjectWithTag("Player");
+                goAnimationAttack.GetComponent<Animator>().Play("itemAttackEnemy" + r.ToString());
+                if (playerAnimator == null)
+                {
+                    FindPlayerAndEnemyForBattle();
+                }
+                playerAnimator.Play("Attack1", -1, 0f);
             }
-            playerAnimator.Play("Attack1", -1, 0f);
-        }
-        else//атакуют персонажа
-        {
-            goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
-            if (enemyAnimator == null)
+            else//атакуют персонажа
             {
-                FindPlayerAndEnemyForBattle();
+                goAnimationAttack.GetComponent<Animator>().Play("itemAttackPlayer" + r.ToString());
+                if (enemyAnimator == null)
+                {
+                    FindPlayerAndEnemyForBattle();
+                }
+                if (enemyAnimator != null) enemyAnimator.Play("Attack1", -1, 0f);
             }
-            if(enemyAnimator != null) enemyAnimator.Play("Attack1", -1, 0f);
+            Invoke("StopAttackAnimation", 0.4f);
         }
-        Invoke("StopAttackAnimation", 0.4f);
+
     }
-
-}
 
 
     protected void Attack(int damage, bool anim)
