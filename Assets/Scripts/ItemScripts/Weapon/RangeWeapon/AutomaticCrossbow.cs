@@ -35,16 +35,6 @@ public class AutomaticCrossbow : Weapon
         }
         baseTimerCooldown = timer_cooldown;
 
-        //if (Player.isPlayer)
-        //{
-        //    CreateLogMessage(LogBleedStackCharacter, "Automatic Crossbow inflict " + bleedingStack.ToString());
-        //    CreateLogMessage(LogTimerStackCharacter, "Automatic Crossbow increased cooldown by " + Math.Round(speedUp, 2).ToString());
-        //}
-        //else
-        //{
-        //    CreateLogMessage(LogBleedStackEnemy, "Automatic Crossbow inflict " + bleedingStack.ToString());
-        //    CreateLogMessage(LogTimerStackEnemy, "Automatic Crossbow reduced cooldown by " + Math.Round(speedUp, 2).ToString());
-        //}
         logManager.CreateLogMessageInflict(originalName, "bleed", bleedingStack, Player.isPlayer);
         logManager.CreateLogMessageReduced(originalName, "timer", Math.Round(speedUp, 2), Player.isPlayer);
     }
