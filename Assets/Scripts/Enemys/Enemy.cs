@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class Enemy : EventParent
 {
-    public GameObject player;
+    [HideInInspector] public GameObject player;
     public bool isPlayerInTrigger = false;
 
     public TextMeshPro lvlText;
