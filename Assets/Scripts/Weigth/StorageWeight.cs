@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class StorageWeight : MonoBehaviour
@@ -7,7 +8,7 @@ public class StorageWeight : MonoBehaviour
 
     void GetStorageWeight()
     {
-        characterStats.storageWeight = gameObject.GetComponentsInChildren<Item>().ToList().Sum(e => e.weight);
+        characterStats.storageWeight = (float)Math.Round(gameObject.GetComponentsInChildren<Item>().ToList().Sum(e => e.weight), 2);
     }
 
     private void Update()
