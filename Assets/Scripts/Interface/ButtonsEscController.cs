@@ -35,6 +35,7 @@ public class ButtonsEscController : MonoBehaviour
         PlayerPrefs.DeleteKey("battlePrefabId");
         PlayerPrefs.DeleteKey("isEnemyDied");
         PlayerPrefs.DeleteKey("isEnemyAlive");
+        PlayerPrefs.DeleteKey("battlePrefabJSON");
         //SceneManager.LoadScene("GenerateMap");
         SceneLoader.Instance.LoadScene("GenerateMap");
     }
