@@ -118,8 +118,8 @@ public class ButtonsController : MonoBehaviour
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
-        PlayerPrefs.SetString("currentLocation", "GenerateMapInternumFortress1");
-        SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
+        //PlayerPrefs.SetString("currentLocation", "GenerateMapInternumFortress1");
+        SceneLoader.Instance.LoadScene("FirstCutScene");
         //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
     public void ChooseIce()
@@ -134,8 +134,8 @@ public class ButtonsController : MonoBehaviour
 
         mainCanvas.SetActive(false);
         chooseCharCanvas.SetActive(false);
-        PlayerPrefs.SetString("currentLocation", "GenerateMapInternumFortress1");
-        SceneLoader.Instance.LoadScene("GenerateMapInternumFortress1");
+        //PlayerPrefs.SetString("currentLocation", "GenerateMapInternumFortress1");
+        SceneLoader.Instance.LoadScene("FirstCutScene");
         //SceneManager.LoadScene("GenerateMapInternumFortress1");
     }
     void DeleteAllData()
