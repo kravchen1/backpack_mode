@@ -90,6 +90,7 @@ public class DoorEntrance : EventParent
             PlayerPrefs.DeleteKey("isEnemyDied");
             PlayerPrefs.DeleteKey("isEnemyAlive");
             PlayerPrefs.DeleteKey("isFountainFull");
+            PlayerPrefs.DeleteKey("battlePrefabJSON");
             SceneLoader.Instance.LoadScene(loadScene);
 
         }
