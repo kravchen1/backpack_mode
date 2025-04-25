@@ -8,6 +8,15 @@ using UnityEngine.UI;
 
 
 [System.Serializable]
+public class SubtitleText
+{
+    public string name;
+    public float startTime;
+    public float endTime;
+    public string text;
+}
+
+[System.Serializable]
 public class IconsEducation
 {
     public string name;
@@ -52,6 +61,7 @@ public class LocalizedData
     public List<ItemsText> items;
     public string weaponStat;
     public string weight;
+    public List<SubtitleText> cutsceneSubtitles;
 }
 
 [System.Serializable]
@@ -128,6 +138,35 @@ public class LocalizationManager : MonoBehaviour
         }
 
         return text;
+    }
+
+
+    public List<SubtitleText> GetTextSubtitles(string lang, string cutsceneName)
+    {
+        List<SubtitleText> listText = null;
+        if (_localizationData != null)
+        {
+            switch (lang)
+            {
+                case "en":
+                    listText = _localizationData.en.cutsceneSubtitles.Where(e => e.name == cutsceneName).ToList();
+                    break;
+                case "ru":
+                    listText = _localizationData.ru.cutsceneSubtitles.Where(e => e.name == cutsceneName).ToList();
+                    break;
+                case "zh":
+                    listText = _localizationData.zh.cutsceneSubtitles.Where(e => e.name == cutsceneName).ToList();
+                    break;
+                case "zh_tw":
+                    listText = _localizationData.zh_tw.cutsceneSubtitles.Where(e => e.name == cutsceneName).ToList();
+                    break;
+                default:
+                    listText = _localizationData.en.cutsceneSubtitles.Where(e => e.name == cutsceneName).ToList();
+                    break;
+            }
+        }
+
+        return listText;
     }
 
     public IconsEducation GetTextIconDescriptionEducation(string lang, string itemName)
