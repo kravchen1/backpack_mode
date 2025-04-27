@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: -7552582706839291426}
   - component: {fileID: 3684481163714305671}
+  - component: {fileID: 2555703089876357096}
   m_Layer: 0
   m_Name: Dark heart tree
   m_TagString: Untagged
@@ -389,6 +390,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2555703089876357096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -8653719598885068355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf332e4fd513cc479b52e4a500c98e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackScreamObject: {fileID: 0}
+  weaponAttackObject: {fileID: -4856929727433981899}
 --- !u!1 &-8566307690999336613
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,6 +2603,7 @@ GameObject:
   - component: {fileID: -9070186630323061343}
   - component: {fileID: 6266882146867800551}
   - component: {fileID: -4728349789355187034}
+  - component: {fileID: 7874421077797854505}
   m_Layer: 0
   m_Name: "\u0421\u043B\u043E\u0439 2"
   m_TagString: Untagged
@@ -2697,6 +2713,103 @@ MonoBehaviour:
     m_Extent: {x: 3.0461907, y: 5.3768, z: 0}
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
+--- !u!82 &7874421077797854505
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -4856929727433981899}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: fd310bcd32e37524cab8c6893ddc12b8, type: 3}
+  m_Resource: {fileID: 8300000, guid: fd310bcd32e37524cab8c6893ddc12b8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &-4756837877723800381
 GameObject:
   m_ObjectHideFlags: 0
