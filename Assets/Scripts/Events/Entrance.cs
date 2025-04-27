@@ -55,6 +55,7 @@ public class Entrance : EventParent
         if (loadScene != "-")
         {
             PlayerPrefs.SetInt("NeedSpawnEnemys", 1);
+            PlayerPrefs.SetString("currentLocation", loadScene);
             //SceneManager.LoadScene(loadScene);
             SceneLoader.Instance.LoadScene(loadScene);
         }

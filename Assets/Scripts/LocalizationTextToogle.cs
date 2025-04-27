@@ -183,6 +183,11 @@ public class LocalizationTextToogle : MonoBehaviour
                 text.text = itemText;
                 break;
 
+            case "ButtonStuck":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ButtonStuck");
+                text.text = itemText;
+                break;
+
         }
         
     }

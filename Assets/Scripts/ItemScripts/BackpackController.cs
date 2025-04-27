@@ -1,6 +1,7 @@
 using Assets.Scripts.ItemScripts;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BackpackController : MonoBehaviour
 {
@@ -134,9 +135,13 @@ public class BackpackController : MonoBehaviour
     private Cell cell7_8;
     private Cell cell7_9;
 
+
+
     private List<GameObject> cellsGO = new List<GameObject>();
     private List<Cell> cells = new List<Cell>();
 
+
+    public GameObject storage;
     private void Awake()
     {
         cell1_1 = cell1_1GO.GetComponent<Cell>();
@@ -386,6 +391,81 @@ public class BackpackController : MonoBehaviour
     }
 
 
+    public void ObjectsDynamic(string tag)
+    {
+        GameObject parentObject = GameObject.FindWithTag(tag);
+
+        for (int i = 0; i < parentObject.transform.childCount; i++)
+        {
+            var item = parentObject.transform.GetChild(i).GetComponent<Item>();
+            if (item != null)
+            {
+                item.needToDynamic = true;
+                item.timerStatic_locked_out = true;
+                item.timerStatic = item.timer_cooldownStatic;
+            }
+        }
+    }
+    public void DeleteNestedObject(string tag)
+    {
+        Cell[] cellList = GameObject.FindWithTag(tag).GetComponentsInChildren<Cell>();
+
+        foreach (var cell in cellList)
+        {
+            if (cell.nestedObject != null)
+            {
+                cell.nestedObject = null;
+            }
+        }
+    }
+
+    public void ButtonDropAll()
+    {
+        if (!DragManager.isReturnToOrgignalPos && !DragManager.isDragging)
+        {
+            ClearCells();
+            DeleteNestedObject("backpack");
+            ObjectsDynamic("Storage");
+            List<Item> items = new List<Item>();
+            Debug.Log(gameObject.transform.childCount);
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                
+                var childItem = gameObject.transform.GetChild(i).gameObject.GetComponent<Item>();
+                
+                if (childItem != null)
+                {
+                    items.Add(childItem);
+                    //Debug.Log(i + " " + childGO.gameObject.name);
+                    
+                }
+                else
+                {
+                    //Debug.Log(i + " " + gameObject.transform.GetChild(i).gameObject.name);
+                }
+            }
+
+            foreach (var item in items)
+            {
+                item.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
+                if (item.characterStats == null)
+                {
+                    item.characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                }
+                item.needToDynamic = true;
+                item.timerStatic_locked_out = true;
+                item.timerStatic = item.timer_cooldownStatic;
+
+                //Impulse = true;
+                //MoveObjectOnEndDrag();
+                item.IgnoreCollisionObject(false);
+                item.rb.excludeLayers = (1 << 10) | (1 << 11);
+                item.EffectPlaceNoCorrect();
+            }
+
+            ClearColorCells();
+        }
+    }
 
     private float countSwitchY = 0f, countSwitchX = 0f;
     private void Update()

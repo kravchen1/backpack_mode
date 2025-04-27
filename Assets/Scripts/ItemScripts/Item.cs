@@ -101,9 +101,9 @@ public abstract class Item : MonoBehaviour
     [HideInInspector] public bool isDragging = false;
     [HideInInspector] public Vector3 offset;
     [HideInInspector] private int countClickRotate = 0, maxCountClickRotate = 100;
-    protected float timer_cooldownStatic = 12.5f;
+    [HideInInspector] public float timer_cooldownStatic = 12.5f;
     [HideInInspector] public float timerStatic = 12.5f;
-    protected bool timerStatic_locked_out = true;
+    [HideInInspector] public bool timerStatic_locked_out = true;
 
     [HideInInspector] public OtherItemMusicEffects itemMusicEffects;
     public String originalName;
@@ -1461,7 +1461,6 @@ public abstract class Item : MonoBehaviour
                 timerStatic = timer_cooldownStatic;
             }
         }
-
     }
 
 

@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 public class ButtonsEscController : MonoBehaviour
 {
     public List<BattleSpawn> battleSpawns;
+
+
+    public Vector3 PointForStack;
     public void BackToMainMenuFromWorld()
     {
         SaveFromWorld();
@@ -162,5 +165,12 @@ public class ButtonsEscController : MonoBehaviour
         }
     }
 
+
+    public void ButtonStack()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        player.GetComponent<RectTransform>().anchoredPosition = PointForStack;
+    }
 
 }

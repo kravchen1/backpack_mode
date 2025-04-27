@@ -331,45 +331,45 @@ public class Bag : Item
         }
     }
 
-    private void swapBags()
-    {
-        foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
-        {
-            var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Bag>();
-            //nestedObjectItem.MoveObjectOnEndDrag();
-            nestedObjectItem.EffectPlaceNoCorrect();
-            //nestedObjectItem.ClearParentForChild();
-            nestedObjectItem.EndDragForChildObjects(false);
-            nestedObjectItem.DeleteNestedObject(nestedObjectItem.transform.parent.tag);
-            nestedObjectItem.needToDynamic = true;
-            timerStatic_locked_out = true;
-            timerStatic = timer_cooldownStatic;
-            //nestedObjectItem.Impulse = true;
-            //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
-            nestedObjectItem.rb.excludeLayers = 0;
-            nestedObjectItem.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
-            if (characterStats == null)
-            {
-                characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
-            }
-            nestedObjectItem.lastParentWasStorage = true;
-            decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
-            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-            //Debug.Log("case2");
-        }
-        //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
-        gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
-        CorrectPosition();
-        SetNestedObject();
-        rb.excludeLayers = (1 << 9) | (1 << 10);
-        EffectPlaceCorrect();
-        if (lastParentWasStorage)
-        {
-            decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
-            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-            lastParentWasStorage = false;
-        }
-    }
+    //private void swapBags()
+    //{
+    //    foreach (var Carehit in careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null))
+    //    {
+    //        var nestedObjectItem = Carehit.raycastHit.collider.GetComponent<Cell>().nestedObject.GetComponent<Bag>();
+    //        //nestedObjectItem.MoveObjectOnEndDrag();
+    //        nestedObjectItem.EffectPlaceNoCorrect();
+    //        //nestedObjectItem.ClearParentForChild();
+    //        nestedObjectItem.EndDragForChildObjects(false);
+    //        nestedObjectItem.DeleteNestedObject(nestedObjectItem.transform.parent.tag);
+    //        nestedObjectItem.needToDynamic = true;
+    //        timerStatic_locked_out = true;
+    //        timerStatic = timer_cooldownStatic;
+    //        //nestedObjectItem.Impulse = true;
+    //        //nestedObjectItem.rb.AddForce(new Vector2(0, -1f), ForceMode2D.Impulse);
+    //        nestedObjectItem.rb.excludeLayers = 0;
+    //        nestedObjectItem.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("Storage").transform);
+    //        if (characterStats == null)
+    //        {
+    //            characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+    //        }
+    //        nestedObjectItem.lastParentWasStorage = true;
+    //        decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
+    //        characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+    //        //Debug.Log("case2");
+    //    }
+    //    //gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("backpack").transform);
+    //    gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
+    //    CorrectPosition();
+    //    SetNestedObject();
+    //    rb.excludeLayers = (1 << 9) | (1 << 10);
+    //    EffectPlaceCorrect();
+    //    if (lastParentWasStorage)
+    //    {
+    //        decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)weight;
+    //        characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+    //        lastParentWasStorage = false;
+    //    }
+    //}
     public override int ExtendedCorrectEndPoint()
     {
         if (careHits.Count() == colliderCount && careHits.Where(e => e.raycastHit.collider.GetComponent<Cell>().nestedObject != null).Count() == 0)
@@ -454,29 +454,29 @@ public class Bag : Item
                             //nestedObjectItem.Impulse = true;
                             nestedObjectItem.rb.excludeLayers = 0;
                             nestedObjectItem.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                            if (nestedObjectItem.lastParentWasStorage)
-                            {
-                                if (characterStats == null)
-                                {
-                                    characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
-                                }
-                                decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
-                                characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-                                nestedObjectItem.lastParentWasStorage = false;
-                            }
+                            //if (nestedObjectItem.lastParentWasStorage)
+                            //{
+                            //    if (characterStats == null)
+                            //    {
+                            //        characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                            //    }
+                            //    //decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)nestedObjectItem.weight;
+                            //    //characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                            //    //nestedObjectItem.lastParentWasStorage = false;
+                            //}
                         }
                         //objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("backpack").transform);
                         objectInCell.gameObject.transform.SetParent(careHits[0].raycastHit.transform.parent.transform);
-                        if (objectInCell.gameObject.lastParentWasStorage)
-                        {
-                            if (characterStats == null)
-                            {
-                                characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
-                            }
-                            decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)objectInCell.gameObject.weight;
-                            characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
-                            objectInCell.gameObject.lastParentWasStorage = false;
-                        }
+                        //if (objectInCell.gameObject.lastParentWasStorage)
+                        //{
+                        //    if (characterStats == null)
+                        //    {
+                        //        characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                        //    }
+                        //    //decimal preciseWeight = (decimal)characterStats.storageWeight - (decimal)objectInCell.gameObject.weight;
+                        //    //characterStats.storageWeight = (float)Math.Round(preciseWeight, 2);
+                        //    //objectInCell.gameObject.lastParentWasStorage = false;
+                        //}
 
                         objectInCell.gameObject.rectTransform.localPosition += new Vector3(0f, 0f, -1f);
                         objectInCell.gameObject.SetNestedObject();
@@ -485,16 +485,16 @@ public class Bag : Item
                     case 3:
                         //Debug.Log("case3:");
                         objectInCell.gameObject.gameObject.transform.SetParent(GameObject.Find("Storage").transform);
-                        if (objectInCell.gameObject.lastParentWasStorage)
-                        {
-                            if (characterStats == null)
-                            {
-                                characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
-                            }
-                            decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)objectInCell.gameObject.weight;
-                            characterStats.storageWeight = (float)Math.Round(objectInCell.gameObject.weight, 2);
-                            objectInCell.gameObject.lastParentWasStorage = false;
-                        }
+                        //if (objectInCell.gameObject.lastParentWasStorage)
+                        //{
+                        //    if (characterStats == null)
+                        //    {
+                        //        characterStats = GameObject.FindObjectsByType<CharacterStats>(FindObjectsSortMode.None)[0];
+                        //    }
+                        //    decimal preciseWeight = (decimal)characterStats.storageWeight + (decimal)objectInCell.gameObject.weight;
+                        //    characterStats.storageWeight = (float)Math.Round(objectInCell.gameObject.weight, 2);
+                        //    objectInCell.gameObject.lastParentWasStorage = false;
+                        //}
                         objectInCell.gameObject.needToDynamic = true;
                         //objectInCell.gameObject.Impulse = true;
                         //objectInCell.gameObject.MoveObjectOnEndDrag();
@@ -841,6 +841,26 @@ public class Bag : Item
             if (SceneManager.GetActiveScene().name != "BackPack")
             {
                 sellPrice.SetActive(false);
+            }
+        }
+    }
+
+    public override void ShowDescription()
+    {
+        //yield return new WaitForSecondsRealtime(.1f);
+        if (!Exit)
+        {
+            FillStars();
+            ChangeShowStars(true);
+            if (canShowDescription)
+            {
+                DeleteAllDescriptions();
+                CanvasDescription = Instantiate(Description, placeForDescription.GetComponent<RectTransform>().transform);
+
+                var descr = CanvasDescription.GetComponent<DescriptionItemBag2x2>();
+                //descr.countStackResistance = countResistanceStack;
+                descr.weight = weight;
+                descr.SetTextBody();
             }
         }
     }
