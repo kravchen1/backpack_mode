@@ -14,6 +14,7 @@ public class Enemy : EventParent
 
     public TextMeshPro lvlText;
 
+    public bool seePlayer = true;
     public int lvlEnemy = 1;
     public int idSpawner = 0;
     public string enemyJSON = "";
@@ -208,7 +209,7 @@ public class Enemy : EventParent
         {
             ActivateEnemy();
         }
-        else if(isPlayerInTrigger)
+        else if(isPlayerInTrigger && seePlayer)
         {
             Vector3 theScale = transform.GetChild(0).localScale;
             //Debug.Log("Player: " + player.transform.position.x);
