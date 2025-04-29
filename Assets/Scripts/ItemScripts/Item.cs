@@ -471,6 +471,10 @@ public abstract class Item : MonoBehaviour
 
         transform.position = originalPosition; // Убедитесь, что позиция точно установлена
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -2);
+        if (transform.parent.tag == "Storage")
+        {
+            needToDynamic = true;
+        }
         DragManager.isReturnToOrgignalPos = false;
     }
     public void defaultItemUpdate()
