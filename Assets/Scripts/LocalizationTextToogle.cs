@@ -182,9 +182,51 @@ public class LocalizationTextToogle : MonoBehaviour
                 itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "PauseText");
                 text.text = itemText;
                 break;
-
             case "ButtonStuck":
                 itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ButtonStuck");
+                text.text = itemText;
+                break;
+
+
+
+            case "CommonFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "CommonFilter");
+                text.text = itemText;
+                break;
+            case "RareFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "RareFilter");
+                text.text = itemText;
+                break;
+            case "EpicFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "EpicFilter");
+                text.text = itemText;
+                break;
+            case "LegendaryFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "LegendaryFilter");
+                text.text = itemText;
+                break;
+            case "StoneFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "StoneFilter");
+                text.text = itemText;
+                break;
+            case "BagsFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "BagsFilter");
+                text.text = itemText;
+                break;
+            case "EatFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "EatFilter");
+                text.text = itemText;
+                break;
+            case "AllFilter":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "AllFilter");
+                text.text = itemText;
+                break;
+            case "ButtonSell":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ButtonSell");
+                text.text = itemText;
+                break;
+            case "ButtonDestroy":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ButtonDestroy");
                 text.text = itemText;
                 break;
 

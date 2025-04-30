@@ -16,6 +16,9 @@ public class EscController : MonoBehaviour
     public GameObject settings;
 
     public ButtonsEscController canvasPause;
+
+    public GameObject canvasFiltersSellItems;
+    public SellFiltersController sellFiltersController;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -59,7 +62,14 @@ public class EscController : MonoBehaviour
             {
                 if (CloseEducationOrNull())
                 {
-                    ExitBackpack();
+                    if (canvasFiltersSellItems != null && canvasFiltersSellItems.activeSelf)
+                    {
+                        sellFiltersController.ShowHideFilters();
+                    }
+                    else
+                    {
+                        ExitBackpack();
+                    }
                 }
                 else
                 {
