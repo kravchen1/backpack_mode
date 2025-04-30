@@ -29,4 +29,8 @@ public class ButtonShowItems : MonoBehaviour
 
         gameObject.GetComponentInChildren<TextMeshProUGUI>().text = itemText;
     }
+    public void ButtonShowAllItems()
+    {
+        SceneLoader.Instance.LoadScene("SceneShowItems");
+    }
 }
