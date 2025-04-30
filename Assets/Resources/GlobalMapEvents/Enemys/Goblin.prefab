@@ -3043,7 +3043,7 @@ CapsuleCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: -10
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3092,7 +3092,7 @@ CapsuleCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: -10
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -4223,6 +4223,7 @@ MonoBehaviour:
   player: {fileID: 0}
   isPlayerInTrigger: 0
   lvlText: {fileID: 188763429311558212}
+  seePlayer: 1
   lvlEnemy: 1
   idSpawner: 0
   enemyJSON: 
@@ -4480,7 +4481,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -12}
+  m_Offset: {x: 0, y: 1.99}
   m_Radius: 25
 --- !u!1 &9188027791200326423
 GameObject:
