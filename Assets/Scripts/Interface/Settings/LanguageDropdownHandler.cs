@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -100,5 +102,37 @@ public class LanguageDropdownHandler : MonoBehaviour
         }
 
         screenModeDropdownHandler.InitializeDropdown();
+
+
+        LocalizationQuest();
+    }
+
+
+
+
+
+
+    void LocalizationQuest()
+    {
+        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+        {
+            QuestData questData = new QuestData();
+            questData.questData = new QDataList();
+
+            string settingLanguage = "en";
+            settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+
+            questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+
+            List<int> questsIDs = new List<int>();
+            foreach (Quest quest in questData.questData.quests)
+            {
+                quest.questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, quest.id);
+                quest.description = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, quest.id);
+            }
+
+            questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+        }
     }
 }
