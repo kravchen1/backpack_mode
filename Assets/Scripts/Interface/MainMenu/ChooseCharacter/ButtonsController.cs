@@ -70,6 +70,16 @@ public class ButtonsController : MonoBehaviour
         mainCanvas.SetActive(!mainCanvas.activeSelf);
         chooseCharCanvas.SetActive(!chooseCharCanvas.activeSelf);
     }
+
+    public void ReturnToMain()
+    {
+        if (!mainCanvas.activeSelf)
+        {
+            mainCanvas.SetActive(true);
+            chooseCharCanvas.SetActive(false);
+        }
+    }
+
     public void Choose()
     {
         PlayerPrefs.SetString("savePath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Backpack Seeker's"));
@@ -217,5 +227,12 @@ public class ButtonsController : MonoBehaviour
     public void ButtonShowAllItems()
     {
         SceneLoader.Instance.LoadScene("SceneShowItems");
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ReturnToMain();
+        }
     }
 }

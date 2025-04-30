@@ -17,9 +17,6 @@ public class CutsceneManager : MonoBehaviour
     public TextMeshPro text;
     private Coroutine hideCoroutine;
     public float hideDelay = 3f;
-    private float holdTimer = 0f;
-    private bool isHolding = false;
-    public float requiredHoldTime = 3f;
     private void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
@@ -48,12 +45,6 @@ public class CutsceneManager : MonoBehaviour
         text.enabled = false;
     }
 
-    private void ResetProgress()
-    {
-        isHolding = false;
-        holdTimer = 0f;
-    }
-
     private void Update()
     {
         if (Input.anyKeyDown)
@@ -65,22 +56,9 @@ public class CutsceneManager : MonoBehaviour
             }
             hideCoroutine = StartCoroutine(HideTextAfterDelay());
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && text.enabled && videoPlayer.time > 5.0)
         {
-            isHolding = true;
-            holdTimer = 0f;
-        }
-        if (isHolding && Input.GetKey(KeyCode.Escape))
-        {
-            holdTimer += Time.deltaTime;
-            if (holdTimer >= requiredHoldTime)
-            {
-                SkipCutscene();
-            }
-            if (isHolding && Input.GetKeyUp(KeyCode.Escape))
-            {
-                ResetProgress();
-            }
+            SkipCutscene();
         }
         //if (Input.GetKeyDown(KeyCode.Escape))
         //{
