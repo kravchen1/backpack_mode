@@ -233,6 +233,10 @@ public class LocalizationTextToogle : MonoBehaviour
                 itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "PressEsc");
                 text.text = itemText;
                 break;
+            case "ChooseText":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ChooseText");
+                text.text = itemText;
+                break;
 
         }
         

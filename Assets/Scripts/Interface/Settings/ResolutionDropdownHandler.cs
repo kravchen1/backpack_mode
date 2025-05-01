@@ -1,7 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 public class ResolutionDropdownHandler : MonoBehaviour
 {
@@ -19,45 +18,35 @@ public class ResolutionDropdownHandler : MonoBehaviour
         // Очищаем текущие опции Dropdown
         resolutionDropdown.ClearOptions();
 
-        // Получаем все доступные разрешения
-        Resolution[] allResolutions = Screen.resolutions;
-
-        // Фильтруем уникальные разрешения (игнорируя частоту обновления)
-        var uniqueResolutions = allResolutions
-            .GroupBy(r => new { r.width, r.height }) // Группируем по ширине и высоте
-            .Select(g => g.First()) // Берем первое разрешение из каждой группы
-            .ToList();
-
-        // Фильтруем разрешения, оставляя только 16:9
+        // Создаем список с фиксированными разрешениями
         var filteredResolutions = new List<string>();
-        int currentResolutionIndex = 0;
+        int defaultResolutionIndex = 1; // 1440p (2K) по умолчанию
 
-        for (int i = 0; i < uniqueResolutions.Count; i++)
+        
+
+
+        // Добавляем три фиксированных разрешения
+        filteredResolutions.Add("1920 x 1080"); // Full HD
+        filteredResolutions.Add("2560 x 1440"); // 2K (QHD)
+        filteredResolutions.Add("3840 x 2160"); // 4K (UHD)
+
+
+        for (int i = 0; i < filteredResolutions.Count; i++)
         {
-            Resolution resolution = uniqueResolutions[i];
-
-            // Проверяем соотношение сторон
-            float aspectRatio = (float)resolution.width / resolution.height;
-            if (Mathf.Approximately(aspectRatio, 16f / 9f)) // Примерно 1.777
+            string resolution = filteredResolutions[i];
+            // Проверяем, является ли текущее разрешение активным
+            if (resolution == Screen.currentResolution.width + " x " + Screen.currentResolution.height)
             {
-                // Добавляем разрешение в список
-                string option = resolution.width + " x " + resolution.height;
-                filteredResolutions.Add(option);
-
-                // Проверяем, является ли текущее разрешение активным
-                if (resolution.width == Screen.currentResolution.width &&
-                    resolution.height == Screen.currentResolution.height)
-                {
-                    currentResolutionIndex = filteredResolutions.Count - 1;
-                }
+                defaultResolutionIndex = i;
+                break;
             }
         }
 
-        // Добавляем отфильтрованные опции в Dropdown
+        // Добавляем опции в Dropdown
         resolutionDropdown.AddOptions(filteredResolutions);
 
-        // Устанавливаем текущее разрешение как выбранное
-        resolutionDropdown.value = currentResolutionIndex;
+        // Устанавливаем 2K (1440p) как выбранное по умолчанию
+        resolutionDropdown.value = defaultResolutionIndex;
         resolutionDropdown.RefreshShownValue();
 
         // Добавляем обработчик события изменения выбора
@@ -67,33 +56,21 @@ public class ResolutionDropdownHandler : MonoBehaviour
     // Метод для изменения разрешения
     public void SetResolution(int resolutionIndex)
     {
-        // Получаем все доступные разрешения
-        Resolution[] allResolutions = Screen.resolutions;
-
-        // Фильтруем уникальные разрешения (игнорируя частоту обновления)
-        var uniqueResolutions = allResolutions
-            .GroupBy(r => new { r.width, r.height }) // Группируем по ширине и высоте
-            .Select(g => g.First()) // Берем первое разрешение из каждой группы
-            .ToList();
-
-        // Фильтруем разрешения, чтобы найти выбранное
-        int count = 0;
-        for (int i = 0; i < uniqueResolutions.Count; i++)
+        switch (resolutionIndex)
         {
-            Resolution resolution = uniqueResolutions[i];
-
-            // Проверяем соотношение сторон
-            float aspectRatio = (float)resolution.width / resolution.height;
-            if (Mathf.Approximately(aspectRatio, 16f / 9f)) // Примерно 1.777
-            {
-                if (count == resolutionIndex)
-                {
-                    // Устанавливаем выбранное разрешение
-                    Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-                    break;
-                }
-                count++;
-            }
+            case 0: // 1920x1080
+                Screen.SetResolution(1920, 1080, Screen.fullScreen);
+                break;
+            case 1: // 2560x1440
+                Screen.SetResolution(2560, 1440, Screen.fullScreen);
+                break;
+            case 2: // 3840x2160
+                Screen.SetResolution(3840, 2160, Screen.fullScreen);
+                break;
+            default:
+                // Если что-то пошло не так, устанавливаем 1440p
+                Screen.SetResolution(2560, 1440, Screen.fullScreen);
+                break;
         }
     }
 }
