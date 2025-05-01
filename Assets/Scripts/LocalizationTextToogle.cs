@@ -229,6 +229,10 @@ public class LocalizationTextToogle : MonoBehaviour
                 itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ButtonDestroy");
                 text.text = itemText;
                 break;
+            case "PressEsc":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "PressEsc");
+                text.text = itemText;
+                break;
 
         }
         

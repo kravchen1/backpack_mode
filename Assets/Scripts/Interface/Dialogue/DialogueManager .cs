@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
     public AudioSource dialogueSound;
     public AudioSource dialogueResponseSound;
 
+    public bool isDialogStarted = false;
 
     private BackPackAndStorageData backPackAndStorageData;
 
@@ -24,6 +25,7 @@ public class DialogueManager : MonoBehaviour
         currentDialogue = dialogue;
         currentNPC = npc.GetComponent<NPC>();
         DisplayDialogue();
+        isDialogStarted = true;
     }
     private void DisplayDialogue()
     {

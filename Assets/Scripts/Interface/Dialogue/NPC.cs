@@ -1,3 +1,4 @@
+using Steamworks;
 using TMPro;
 using UnityEngine;
 
@@ -51,7 +52,9 @@ public class NPC : EventParent
     {
         isPlayerInTrigger = false;
         SetActivePressE(false);
-        FindFirstObjectByType<DialogueManager>().EndDialogue();
+        var dialogueManager = FindFirstObjectByType<DialogueManager>();
+        if(dialogueManager.isDialogStarted)
+            FindFirstObjectByType<DialogueManager>().EndDialogue();
     }
 
     protected void Update()
