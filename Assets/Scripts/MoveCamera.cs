@@ -19,7 +19,6 @@ public class MoveCamera : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerRectTransform = player.GetComponent<RectTransform>();
-        Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("IgnoreMouse"));
         Camera.main.orthographicSize = PlayerPrefs.GetFloat("orthographicSize" + SceneManager.GetActiveScene().name, 100f);
     }
 

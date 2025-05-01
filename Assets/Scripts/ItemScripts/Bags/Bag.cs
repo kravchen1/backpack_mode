@@ -771,6 +771,7 @@ public class Bag : Item
         DragManager.isReturnToOrgignalPos = false;
         if (itemType == ItemType.Bag)
         {
+            SetOrderLayerPriority("Bag", "Weapon", 1);
             RaycastEvent();
             EndDragForChildObjects(true);
         }

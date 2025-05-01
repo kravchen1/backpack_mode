@@ -244,7 +244,7 @@ public abstract class Item : MonoBehaviour
 
     void FindPlaceForDescription()
     {
-        if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name)
+        if (gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("backpack").transform.name || gameObject.transform.parent.name == GameObject.FindGameObjectWithTag("Storage").transform.name)
             placeForDescription = GameObject.FindWithTag("DescriptionPlace");
         else
             placeForDescription = GameObject.FindWithTag("DescriptionPlaceEnemy");
