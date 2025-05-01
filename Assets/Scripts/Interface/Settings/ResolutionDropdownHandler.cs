@@ -1,76 +1,51 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;
 using System.Collections.Generic;
 
 public class ResolutionDropdownHandler : MonoBehaviour
 {
-    public TMP_Dropdown resolutionDropdown; // Ссылка на компонент Dropdown
+    public TMP_Dropdown resolutionDropdown;
 
-    void Start()
+    private void Start()
     {
-        // Инициализация Dropdown
         InitializeDropdown();
     }
 
-    // Инициализация Dropdown
     private void InitializeDropdown()
     {
-        // Очищаем текущие опции Dropdown
         resolutionDropdown.ClearOptions();
 
-        // Создаем список с фиксированными разрешениями
-        var filteredResolutions = new List<string>();
-        int defaultResolutionIndex = 1; // 1440p (2K) по умолчанию
+        // Доступные разрешения (можно добавить больше)
+        string[] resolutions = {
+            "1920 x 1080",   // 1080p
+            "2560 x 1440",   // 1440p (QHD)
+            "3840 x 2160"    // 4K
+        };
 
-        
+        resolutionDropdown.AddOptions(new List<string>(resolutions));
+        resolutionDropdown.onValueChanged.AddListener(SetResolution);
 
-
-        // Добавляем три фиксированных разрешения
-        filteredResolutions.Add("1920 x 1080"); // Full HD
-        filteredResolutions.Add("2560 x 1440"); // 2K (QHD)
-        filteredResolutions.Add("3840 x 2160"); // 4K (UHD)
-
-
-        for (int i = 0; i < filteredResolutions.Count; i++)
+        // Устанавливаем текущее разрешение по умолчанию
+        for (int i = 0; i < resolutions.Length; i++)
         {
-            string resolution = filteredResolutions[i];
-            // Проверяем, является ли текущее разрешение активным
-            if (resolution == Screen.currentResolution.width + " x " + Screen.currentResolution.height)
+            if (resolutions[i] == $"{Screen.width} x {Screen.height}")
             {
-                defaultResolutionIndex = i;
+                resolutionDropdown.value = i;
                 break;
             }
         }
-
-        // Добавляем опции в Dropdown
-        resolutionDropdown.AddOptions(filteredResolutions);
-
-        // Устанавливаем 2K (1440p) как выбранное по умолчанию
-        resolutionDropdown.value = defaultResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
-
-        // Добавляем обработчик события изменения выбора
-        resolutionDropdown.onValueChanged.AddListener(SetResolution);
     }
 
-    // Метод для изменения разрешения
-    public void SetResolution(int resolutionIndex)
+    public void SetResolution(int index)
     {
-        switch (resolutionIndex)
-        {
-            case 0: // 1920x1080
-                Screen.SetResolution(1920, 1080, Screen.fullScreen);
-                break;
-            case 1: // 2560x1440
-                Screen.SetResolution(2560, 1440, Screen.fullScreen);
-                break;
-            case 2: // 3840x2160
-                Screen.SetResolution(3840, 2160, Screen.fullScreen);
-                break;
-            default:
-                // Если что-то пошло не так, устанавливаем 1440p
-                Screen.SetResolution(2560, 1440, Screen.fullScreen);
-                break;
-        }
+        string[] res = resolutionDropdown.options[index].text.Split('x');
+        int width = int.Parse(res[0].Trim());
+        int height = int.Parse(res[1].Trim());
+
+        // Устанавливаем разрешение рендеринга
+        Screen.SetResolution(width, height, Screen.fullScreen);
+
+        // Принудительно обновляем фильтрацию текстур (если нужно)
+        QualitySettings.SetQualityLevel(QualitySettings.GetQualityLevel());
     }
 }
