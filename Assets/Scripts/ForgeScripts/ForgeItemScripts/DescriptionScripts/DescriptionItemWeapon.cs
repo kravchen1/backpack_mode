@@ -86,9 +86,9 @@ public class DescriptionItemWeapon : DescriptionItem
         string text = "<u>" + damageMin.ToString() + "</u>-<u>" + damageMax.ToString() + "</u> (" + Mathf.Round(((damageMin + damageMax) / 2 / cooldown)).ToString() + ")/sec"
             + "\r\n<u>" + chanceCrit.ToString() +
             "</u>%\r\n<u>" + critDamage.ToString() +
-            "</u>%\r\n<u>" + staminaCost.ToString() + " (" + Math.Round((staminaCost / cooldown), 2).ToString() + ") / sec" +
+            "</u>%\r\n<u>" + Math.Round(staminaCost, 2).ToString() + " (" + Math.Round((staminaCost / cooldown), 2).ToString() + ") / sec" +
             "</u>\r\n<u>" + accuracyPercent.ToString() +
-            "</u>%\r\n<u>" + cooldown.ToString() + "</u> sec";
+            "</u>%\r\n<u>" + Math.Round(cooldown, 2).ToString() + "</u> sec";
 
         Stats.text = text;
     }
