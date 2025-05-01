@@ -8,7 +8,7 @@ public class ResolutionDropdownHandler : MonoBehaviour
 
     private void Start()
     {
-        InitializeDropdown();
+        //InitializeDropdown();
     }
 
     private void InitializeDropdown()
