@@ -56,7 +56,7 @@ public class CutsceneManager : MonoBehaviour
             }
             hideCoroutine = StartCoroutine(HideTextAfterDelay());
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && text.enabled && videoPlayer.time > 5.0)
+        if (Input.GetKeyDown(KeyCode.Escape) && text.enabled && videoPlayer.time > 1.5)
         {
             SkipCutscene();
         }
