@@ -87,7 +87,7 @@ public class Bag : Item
         shopItem = GetComponent<ShopItem>();
         if(backpack == null)
             backpack = GameObject.Find("backpack");
-        if (SceneManager.GetActiveScene().name != "BackPackBattle" || SceneManager.GetActiveScene().name == "BackpackView")
+        if (SceneManager.GetActiveScene().name != "BackPackBattle" && SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
         {
             if (shopItem != null)
             {
@@ -717,30 +717,32 @@ public class Bag : Item
                 DisableBackpackCells();
             }
 
-        }
-        canShowDescription = true;
-        ChangeColorToDefault();
-        // Заканчиваем перетаскивание
-        isDragging = false;
+            canShowDescription = true;
+            ChangeColorToDefault();
+            // Заканчиваем перетаскивание
+            isDragging = false;
 
-        Vector2 mousePos = Input.mousePosition;
-        if (!(mousePos.x < 0 ||
-            mousePos.x > Screen.width ||
-            mousePos.y < 0 ||
-            mousePos.y > Screen.height)
-        )
-        {
-            if (!sellItem)
+            Vector2 mousePos = Input.mousePosition;
+            if (!(mousePos.x < 0 ||
+                mousePos.x > Screen.width ||
+                mousePos.y < 0 ||
+                mousePos.y > Screen.height)
+            )
             {
-                Exit = false;
-                ShowDescription();
+                if (!sellItem)
+                {
+                    Exit = false;
+                    ShowDescription();
+                }
             }
+            else
+            {
+                //Debug.Log("Курсор за пределами игрового экрана!");
+                ChangeShowStars(false);
+            }
+
         }
-        else
-        {
-            //Debug.Log("Курсор за пределами игрового экрана!");
-            ChangeShowStars(false);
-        }
+        
     }
 
     public virtual void CoolDownStart()

@@ -412,38 +412,42 @@ public abstract class Item : MonoBehaviour
                 sellItem = true;
                 SellItem();
             }
-        }
 
-        // Заканчиваем перетаскивание
-        isDragging = false;
-        //gameObject.layer = originalLayer;
-        ClearCareRaycast(false);
-        image.sortingOrder = 1;
-        //ChangeShowStars(true);
+            // Заканчиваем перетаскивание
+            isDragging = false;
+            //gameObject.layer = originalLayer;
+            ClearCareRaycast(false);
+            image.sortingOrder = 1;
+            //ChangeShowStars(true);
 
-        Vector2 mousePos = Input.mousePosition;
+            Vector2 mousePos = Input.mousePosition;
 
-        if (!(mousePos.x < 0 ||
-                mousePos.x > Screen.width ||
-                mousePos.y < 0 ||
-                mousePos.y > Screen.height)
-        )
-        {
-            if (!sellItem)
+            if (!(mousePos.x < 0 ||
+                    mousePos.x > Screen.width ||
+                    mousePos.y < 0 ||
+                    mousePos.y > Screen.height)
+            )
             {
-                Exit = false;
-                canShowDescription = true;
-                ShowDescription();
+                if (!sellItem)
+                {
+                    Exit = false;
+                    canShowDescription = true;
+                    ShowDescription();
+                }
             }
-        }
-        else
-        {
-            //Debug.Log("Курсор за пределами игрового экрана!");
-            ChangeShowStars(false);
-        }
+            else
+            {
+                //Debug.Log("Курсор за пределами игрового экрана!");
+                ChangeShowStars(false);
+            }
 
 
-        FindPlaceForDescription();
+            FindPlaceForDescription();
+
+
+        }
+
+        
     }
 
     public void CouratineMove(Vector3 destination)
