@@ -45,14 +45,14 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     
     private float timerCDFouting;
 
-    private GameObject placeForLogDescription;
+    public GameObject placeForLogDescription;
 
     public GameObject LogVampireStackCharacter, LogVampireStackEnemy;
     public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
     private void Start()
     {
         timerCDFouting = timerFatigueStart;
-        placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
+        //placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
         //LoadPrefabs("ICON");
         //AddBuff(10, "ICONBLEED");
     }

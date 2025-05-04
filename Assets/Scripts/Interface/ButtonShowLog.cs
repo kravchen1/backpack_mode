@@ -8,6 +8,12 @@ public class ButtonShowLog : MonoBehaviour
     public GameObject DescriptionEnemyPlace;
     public GameObject animationsPlace;
     public Image backgroundBlack;
+
+    public TimeSpeed timeSpeed;
+
+    private float lastTimeSpeed;
+
+    public GameObject content;
     public void ShowHideLog()
     {
         if (Log.transform.localScale.x == 1)
@@ -17,6 +23,8 @@ public class ButtonShowLog : MonoBehaviour
             DescriptionEnemyPlace.transform.localScale = new Vector3(1, 1, 1);
             animationsPlace.transform.localScale = new Vector3(1, 1, 1);
             backgroundBlack.enabled = false;
+            content.SetActive(false);
+            timeSpeed.timeSpeed.value = lastTimeSpeed;
         }
         else
         {
@@ -25,6 +33,9 @@ public class ButtonShowLog : MonoBehaviour
             DescriptionEnemyPlace.transform.localScale = new Vector3(0, 0, 0);
             animationsPlace.transform.localScale = new Vector3(0, 0, 0);
             backgroundBlack.enabled = true;
+            content.SetActive(true);
+            lastTimeSpeed = timeSpeed.timeSpeed.value;
+            timeSpeed.timeSpeed.value = 0;
         }
     }
 

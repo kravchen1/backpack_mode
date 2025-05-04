@@ -24,7 +24,7 @@ public class LogManager : MonoBehaviour
     public int maxLogsBeforeClear = 200;
     public int logsToKeepOnClear = 50;
 
-    private GameObject placeForLogDescription;
+    public GameObject placeForLogDescription;
     private TimeSpeed ts;
     private GridLayoutGroup gridLayoutGroup;
     private ContentSizeFitter contentSizeFitter;
@@ -36,7 +36,7 @@ public class LogManager : MonoBehaviour
 
     private void Start()
     {
-        placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
+        //placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
         gridLayoutGroup = placeForLogDescription.GetComponent<GridLayoutGroup>();
         contentSizeFitter = placeForLogDescription.GetComponent<ContentSizeFitter>();
         ts = GameObject.FindGameObjectWithTag("SliderTime").GetComponent<TimeSpeed>();

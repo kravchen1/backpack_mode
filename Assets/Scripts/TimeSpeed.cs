@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TimeSpeed : MonoBehaviour
 {
-    [SerializeField] private Slider timeSpeed;
+    public Slider timeSpeed;
     public TextMeshProUGUI TextSpeed;
     public TextMeshProUGUI TextTime;
     private float startTime;
