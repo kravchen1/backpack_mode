@@ -1,410 +1,336 @@
-
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LogManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class LogPrefab
+    {
+        public string tag;
+        public GameObject playerPrefab;
+        public GameObject enemyPrefab;
+    }
+
+    [Header("Settings")]
+    public List<LogPrefab> logPrefabs = new List<LogPrefab>();
+    public ScrollRect scrollRect;
+    public int initialPoolSize = 30;
+
+    [Header("Performance")]
+    public bool enablePooling = true;
+    public bool autoClearOldLogs = false;
+    public int maxLogsBeforeClear = 200;
+    public int logsToKeepOnClear = 50;
+
     private GameObject placeForLogDescription;
     private TimeSpeed ts;
-    public ScrollRect scrollRect;
-
-
-    public GameObject DescriptionLogCharacterAttack;//1
-    public GameObject DescriptionLogEnemyAttack;//1
-
-    public GameObject DescriptionLogCharacterArmor;
-    public GameObject DescriptionLogEnemyArmor;
-
-
-    public GameObject DescriptionLogCharacterBaseCrit;
-    public GameObject DescriptionLogEnemyBaseCrit;
-
-    public GameObject DescriptionLogCharacterBleed;
-    public GameObject DescriptionLogEnemyBleed;
-
-    public GameObject DescriptionLogCharacterBlind;
-    public GameObject DescriptionLogEnemyBlind;
-
-    public GameObject DescriptionLogCharacterChanceCrit;
-    public GameObject DescriptionLogEnemyChanceCrit;
-
-    public GameObject DescriptionLogCharacterEvasion;
-    public GameObject DescriptionLogEnemyEvasion;
-
-    public GameObject DescriptionLogCharacterFire;
-    public GameObject DescriptionLogEnemyFire;
-
-    public GameObject DescriptionLogCharacterFrost;
-    public GameObject DescriptionLogEnemyFrost;
-
-    public GameObject DescriptionLogCharacterMana;
-    public GameObject DescriptionLogEnemyMana;
-
-    public GameObject DescriptionLogCharacterPoison;
-    public GameObject DescriptionLogEnemyPoison;
-
-    public GameObject DescriptionLogCharacterPower;
-    public GameObject DescriptionLogEnemyPower;
-
-    public GameObject DescriptionLogCharacterRegenerate;
-    public GameObject DescriptionLogEnemyRegenerate;
-
-    public GameObject DescriptionLogCharacterResistance;
-    public GameObject DescriptionLogEnemyResistance;
-
-    public GameObject DescriptionLogCharacterStamina;
-    public GameObject DescriptionLogEnemyStamina;
-
-    public GameObject DescriptionLogCharacterTimer;
-    public GameObject DescriptionLogEnemyTimer;
-
-    public GameObject DescriptionLogCharacterVampire;
-    public GameObject DescriptionLogEnemyVampire;
-
-
-
-    private string settingLanguage = "en";
     private GridLayoutGroup gridLayoutGroup;
-    private Vector2 scrollPosition;
-    
+    private ContentSizeFitter contentSizeFitter;
+    private string settingLanguage = "en";
+
+    private Dictionary<string, Queue<GameObject>> playerPools = new Dictionary<string, Queue<GameObject>>();
+    private Dictionary<string, Queue<GameObject>> enemyPools = new Dictionary<string, Queue<GameObject>>();
+    private List<GameObject> activeLogs = new List<GameObject>();
+
     private void Start()
     {
         placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
         gridLayoutGroup = placeForLogDescription.GetComponent<GridLayoutGroup>();
+        contentSizeFitter = placeForLogDescription.GetComponent<ContentSizeFitter>();
         ts = GameObject.FindGameObjectWithTag("SliderTime").GetComponent<TimeSpeed>();
-        settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+        settingLanguage = PlayerPrefs.GetString("LanguageSettings", "en");
+
+        InitializeAllPools();
     }
 
-
-    private GameObject chooseLog(string tag, bool Player)
+    private void InitializeAllPools()
     {
-        switch(tag.ToLower())
+        foreach (var prefab in logPrefabs)
         {
-            case "attack":
-                return Player ? DescriptionLogCharacterAttack : DescriptionLogEnemyAttack;
-            case "armor":
-                return Player ? DescriptionLogCharacterArmor : DescriptionLogEnemyArmor;
-            case "basecrit":
-                return Player ? DescriptionLogCharacterBaseCrit : DescriptionLogEnemyBaseCrit;
-            case "bleed":
-                return Player ? DescriptionLogCharacterBleed : DescriptionLogEnemyBleed;
-            case "blind":
-                return Player ? DescriptionLogCharacterBlind : DescriptionLogEnemyBlind;
-            case "chancecrit":
-                return Player ? DescriptionLogCharacterChanceCrit : DescriptionLogEnemyChanceCrit;
-            case "evasion":
-                return Player ? DescriptionLogCharacterEvasion : DescriptionLogEnemyEvasion;
-            case "fire":
-                return Player ? DescriptionLogCharacterFire : DescriptionLogEnemyFire;
-            case "frost":
-                return Player ? DescriptionLogCharacterFrost : DescriptionLogEnemyFrost;
-            case "mana":
-                return Player ? DescriptionLogCharacterMana : DescriptionLogEnemyMana;
-            case "poison":
-                return Player ? DescriptionLogCharacterPoison : DescriptionLogEnemyPoison;
-            case "power":
-                return Player ? DescriptionLogCharacterPower : DescriptionLogEnemyPower;
-            case "regenerate":
-                return Player ? DescriptionLogCharacterRegenerate : DescriptionLogEnemyRegenerate;
-            case "stamina":
-                return Player ? DescriptionLogCharacterStamina : DescriptionLogCharacterStamina;
-            case "timer":
-                return Player ? DescriptionLogCharacterTimer : DescriptionLogEnemyTimer;
-            case "vampire":
-                return Player ? DescriptionLogCharacterVampire : DescriptionLogEnemyVampire;
-            case "resist":
-                return Player ? DescriptionLogCharacterResistance : DescriptionLogEnemyResistance;
-            default:
-                return Player ? DescriptionLogCharacterAttack : DescriptionLogEnemyAttack;
+            if (!playerPools.ContainsKey(prefab.tag))
+            {
+                playerPools[prefab.tag] = new Queue<GameObject>();
+                enemyPools[prefab.tag] = new Queue<GameObject>();
 
+                for (int i = 0; i < initialPoolSize; i++)
+                {
+                    CreatePooledObject(prefab.tag, true);
+                    CreatePooledObject(prefab.tag, false);
+                }
+            }
         }
     }
 
-    private void SaveScroll()
+    private GameObject CreatePooledObject(string tag, bool isPlayer)
     {
-        // 1. Сохраняем позицию скролла
-        scrollPosition = scrollRect.normalizedPosition;
+        var logPrefab = logPrefabs.Find(x => x.tag == tag) ?? logPrefabs[0];
+        GameObject prefab = isPlayer ? logPrefab.playerPrefab : logPrefab.enemyPrefab;
+        GameObject obj = Instantiate(prefab, placeForLogDescription.transform);
+        obj.SetActive(false);
 
-        // 2. Отключаем всё, что может влиять на расчёт
-        gridLayoutGroup.enabled = false;
-        if (TryGetComponent(out ContentSizeFitter fitter))
-            fitter.enabled = false;
+        var pool = isPlayer ? playerPools[tag] : enemyPools[tag];
+        pool.Enqueue(obj);
+
+        return obj;
     }
 
-    private void LoadScroll()
+    private GameObject GetLogFromPool(string tag, bool isPlayer)
     {
-        // 4. Включаем обратно и обновляем
-        gridLayoutGroup.enabled = true;
+        if (!enablePooling)
+        {
+            return InstantiateLog(tag, isPlayer);
+        }
 
-        if (TryGetComponent(out ContentSizeFitter fitter))
-            fitter.enabled = true;
+        var pool = isPlayer ? playerPools : enemyPools;
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(gridLayoutGroup.GetComponent<RectTransform>());
+        if (!pool.ContainsKey(tag))
+        {
+            Debug.LogWarning($"Log type {tag} not found in pools, using default");
+            tag = logPrefabs[0].tag;
+        }
 
-        // 5. Восстанавливаем скролл
+        if (pool[tag].Count == 0)
+        {
+            CreatePooledObject(tag, isPlayer);
+        }
+
+        GameObject logObj = pool[tag].Dequeue();
+        logObj.SetActive(true);
+        return logObj;
+    }
+
+    private void ReturnLogToPool(GameObject logObj, string tag, bool isPlayer)
+    {
+        if (!enablePooling)
+        {
+            Destroy(logObj);
+            return;
+        }
+
+        logObj.SetActive(false);
+        var pool = isPlayer ? playerPools : enemyPools;
+
+        if (pool.ContainsKey(tag))
+        {
+            pool[tag].Enqueue(logObj);
+        }
+        else
+        {
+            pool[logPrefabs[0].tag].Enqueue(logObj);
+        }
+    }
+
+    private GameObject InstantiateLog(string tag, bool isPlayer)
+    {
+        var logPrefab = logPrefabs.Find(x => x.tag == tag) ?? logPrefabs[0];
+        GameObject prefab = isPlayer ? logPrefab.playerPrefab : logPrefab.enemyPrefab;
+        return Instantiate(prefab, placeForLogDescription.transform);
+    }
+
+    private void ManageLogCount()
+    {
+        if (!autoClearOldLogs || activeLogs.Count < maxLogsBeforeClear)
+            return;
+
+        int logsToRemove = activeLogs.Count - logsToKeepOnClear;
+        for (int i = 0; i < logsToRemove; i++)
+        {
+            GameObject log = activeLogs[0];
+            activeLogs.RemoveAt(0);
+
+            bool found = false;
+            foreach (var prefab in logPrefabs)
+            {
+                if (log.name.StartsWith(prefab.playerPrefab.name))
+                {
+                    ReturnLogToPool(log, prefab.tag, true);
+                    found = true;
+                    break;
+                }
+                else if (log.name.StartsWith(prefab.enemyPrefab.name))
+                {
+                    ReturnLogToPool(log, prefab.tag, false);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) ReturnLogToPool(log, logPrefabs[0].tag, true);
+        }
+
         Canvas.ForceUpdateCanvases();
-        scrollRect.normalizedPosition = scrollPosition;
+        scrollRect.normalizedPosition = new Vector2(0, 0);
     }
+
+    //private void SaveScroll()
+    //{
+    //    if (scrollRect != null)
+    //    {
+    //        scrollPosition = scrollRect.normalizedPosition;
+    //    }
+    //    gridLayoutGroup.enabled = false;
+    //    if (contentSizeFitter != null)
+    //        contentSizeFitter.enabled = false;
+    //}
+
+    //private void LoadScroll()
+    //{
+    //    gridLayoutGroup.enabled = true;
+    //    if (contentSizeFitter != null)
+    //        contentSizeFitter.enabled = true;
+
+    //    LayoutRebuilder.ForceRebuildLayoutImmediate(gridLayoutGroup.GetComponent<RectTransform>());
+    //    Canvas.ForceUpdateCanvases();
+
+    //    if (scrollRect != null)
+    //    {
+    //        scrollRect.normalizedPosition = scrollPosition;
+    //    }
+    //}
+
+    private void CreateLogMessageInternal(string text, string tag, bool isPlayer)
+    {
+        if (autoClearOldLogs) ManageLogCount();
+
+        string textTime = ts.nowTime.ToString("0.0") + "s";
+
+        //SaveScroll();
+        GameObject logObj = GetLogFromPool(tag, isPlayer);
+        logObj.transform.SetAsLastSibling();
+        logObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
+        logObj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        activeLogs.Add(logObj);
+        //LoadScroll();
+    }
+
+    public void ClearAllLogs()
+    {
+        foreach (var log in activeLogs)
+        {
+            bool found = false;
+            foreach (var prefab in logPrefabs)
+            {
+                if (log.name.StartsWith(prefab.playerPrefab.name))
+                {
+                    ReturnLogToPool(log, prefab.tag, true);
+                    found = true;
+                    break;
+                }
+                else if (log.name.StartsWith(prefab.enemyPrefab.name))
+                {
+                    ReturnLogToPool(log, prefab.tag, false);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) ReturnLogToPool(log, logPrefabs[0].tag, true);
+        }
+
+        activeLogs.Clear();
+        //LoadScroll();
+    }
+
+    // ========== Оригинальные методы создания логов ==========
 
     public void CreateLogMessageAttackOnArmor(string nameItem, int damage, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-        SaveScroll();
-        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        LoadScroll();
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Destroy") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Armor") + ".";
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Destroy")} {damage} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Armor")}.";
+        CreateLogMessageInternal(text, "attack", Player);
     }
 
     public void CreateLogMessageAttackOnHalfArmor(string nameItem, int damage, int armor, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-        
-        SaveScroll();
-        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Destroy") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Armor") + ".";
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
-        LoadScroll();
+        string text1 = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Destroy")} {armor} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Armor")}.";
+        CreateLogMessageInternal(text1, "attack", Player);
 
-        SaveScroll();
-        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Deal") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Damage") + ".";
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
-        LoadScroll();
-
-
+        string text2 = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Deal")} {damage} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Damage")}.";
+        CreateLogMessageInternal(text2, "attack", Player);
     }
 
     public void CreateLogMessageAttackWithoutArmor(string nameItem, int damage, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Deal") + " " + damage.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Damage") + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Deal")} {damage} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Damage")}.";
+        CreateLogMessageInternal(text, "attack", Player);
     }
-
 
     public void CreateLogMessageMiss(string nameItem, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog("stamina", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Miss") + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Miss")}.";
+        CreateLogMessageInternal(text, "stamina", Player);
     }
 
     public void CreateLogMessageNoHaveStamina(string nameItem, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog("attack", Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "NoHaveStamina") + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "NoHaveStamina")}.";
+        CreateLogMessageInternal(text, "attack", Player);
     }
-
-
-
-
-
 
     public void CreateLogMessageGive(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Give") + " " + count.ToString() + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Give")} {count}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageGive(string nameItem, string tagIcon, float count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Give") + " " + count.ToString() + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Give")} {count:0.0}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageInflict(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Inflict") + " " + count.ToString() + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Inflict")} {count}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
-
-
 
     public void CreateLogMessageUse(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Used") + " " + count.ToString() + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Used")} {count}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageUseFromEnemy(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Used") + " " + count.ToString() + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "FromEnemy") + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Used")} {count} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "FromEnemy")}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageSteal(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Steal") + " " + count.ToString() + ".";
-        LoadScroll();
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Steal")} {count}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageBlock(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Block") + " " + count.ToString() + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Block")} {count}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageDecreaseStamina(string nameItem, string tagIcon, float count, string decreaseItem, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "DecreaseStamina") + " " + decreaseItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "On") + " " + count.ToString() + ".";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "DecreaseStamina")} {decreaseItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "On")} {count:0.0}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageRemove(string nameItem, string tagIcon, int count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Remove") + " " + count.ToString() + ".";
-        LoadScroll();
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "Remove")} {count}.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageReduced(string nameItem, string tagIcon, double count, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "CooldownReducded") + " " + count.ToString() + "%.";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "CooldownReducded")} {count:0.0}%.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
 
     public void CreateLogMessageReducedForItem(string nameItem, string tagIcon, double count, string reducedItem, bool Player)
     {
-        GameObject obj;
-        string text = "";
-        string textTime = ts.nowTime.ToString() + "s";
-
-        SaveScroll();
-        obj = Instantiate(chooseLog(tagIcon, Player), placeForLogDescription.GetComponent<RectTransform>().transform);
-        text = nameItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "CooldownReducdedFor") + " " + reducedItem + " " + LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "By") + " " + count.ToString() + "%.";
-        LoadScroll();
-
-        obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
-        obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textTime;
+        string text = $"{nameItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "CooldownReducdedFor")} {reducedItem} {LocalizationManager.Instance.GetTextBattleLog(settingLanguage, "By")} {count:0.0}%.";
+        CreateLogMessageInternal(text, tagIcon, Player);
     }
-
-
-
 }
