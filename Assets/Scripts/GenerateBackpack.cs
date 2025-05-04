@@ -17,7 +17,7 @@ public class GenerateBackpack : MonoBehaviour
     {
         if (prefabs == null)
         {
-            prefabs = Resources.LoadAll<GameObject>("Items/");
+            prefabs = PrefabsManager._cachedPrefabs;//Resources.LoadAll<GameObject>("Items/");
         }
         generateItems.AddRange(prefabs.Where(e => e.tag.ToUpper() == tagName).ToList());
     }

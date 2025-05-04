@@ -14,7 +14,7 @@ public class GenerateForgeItems: MonoBehaviour
     {
         if (prefabs == null)
         {
-            prefabs = Resources.LoadAll<GameObject>("");
+            prefabs = PrefabsManager._cachedPrefabs;//Resources.LoadAll<GameObject>("");
         }
         forgeItems.AddRange(prefabs.Where(e => e.tag == "ForgeItem").ToList());
 

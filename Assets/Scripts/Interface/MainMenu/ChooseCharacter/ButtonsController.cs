@@ -104,7 +104,7 @@ public class ButtonsController : MonoBehaviour
         , "EducationCaveIn", "LanguageSettings" };
 
         GameObject[] prefabs;
-        prefabs = Resources.LoadAll<GameObject>("Items/");
+        prefabs = PrefabsManager._cachedPrefabs; //Resources.LoadAll<GameObject>("Items/");
 
         foreach (GameObject pref in prefabs)
         {
