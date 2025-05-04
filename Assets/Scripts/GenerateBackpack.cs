@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GenerateBackpack : MonoBehaviour
 {
@@ -142,7 +143,7 @@ public class GenerateBackpack : MonoBehaviour
         }
         backpackData.LoadDataEnemy(enemyJSON);
     }
-    void Generation(GameObject generationObject, Vector3 place, Quaternion rotation)//уволен
+    Item Generation(GameObject generationObject, Vector3 place, Quaternion rotation)//уволен
     {
         GameObject generationObjectItem = Instantiate(generationObject, place, rotation, gameObject.transform);
         ItemsGenerated.Add(generationObjectItem);
@@ -213,10 +214,14 @@ public class GenerateBackpack : MonoBehaviour
             componentItem.rb.excludeLayers = (1 << 9) | (1 << 10);
         }
 
+        return componentItem;
         //componentItem.needToDynamic = false; todo
-        
+
 
     }
+
+    private List<Item> createdItems = new List<Item>();
+    private bool EndGeneration = false;
     public void GenerationBackpack()
     {
         if (backpackData.itemData.items.Count != 0)
@@ -227,13 +232,29 @@ public class GenerateBackpack : MonoBehaviour
                 {
                     if (generateItem.name == item.name)
                     {
-                        Generation(generateItem, item.position, item.rotation);
+                        createdItems.Add(Generation(generateItem, item.position, item.rotation));
                     }
-                }
-                
+                }  
+            }
+            if (SceneManager.GetActiveScene().name == "BackPackBattle")
+            {
+                EndGeneration = true;
             }
         }
     }
+
+    private void Update()
+    {
+        if(EndGeneration)
+        {
+            foreach(var item in createdItems)
+            {
+                item.UpdateForBattle();
+            }
+        }
+    }
+
+
 
     public bool ObjectInBag(Item item)
     {

@@ -483,26 +483,23 @@ public abstract class Item : MonoBehaviour
     }
     public void defaultItemUpdate()
     {
-        if (isDragging)
+        if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems" && SceneManager.GetActiveScene().name != "BackPackBattle")
         {
-            //Debug.Log(transform.localPosition);
-            // Перемещаем объект в позицию курсора с учетом смещения   
-            //if (SceneManager.GetActiveScene().name == "BackPackShop" || SceneManager.GetActiveScene().name == "BackpackView")
-            if (SceneManager.GetActiveScene().name != "BackPackBattle")
+            if (isDragging)
             {
                 transform.position = GetMouseWorldPosition() + offset;
                 RaycastEvent();
                 DeleteAllDescriptions();
                 SellChest();
                 FillStars();
+                canShowDescription = false;
             }
-            canShowDescription = false;
+            Rotate();
+            SwitchDynamicStatic();
+            //OnImpulse();
+            RotationToStartRotation();
+            CoolDownStatic();
         }
-        Rotate();
-        SwitchDynamicStatic();
-        //OnImpulse();
-        RotationToStartRotation();
-        CoolDownStatic();
 
     }
 
@@ -1667,5 +1664,9 @@ public abstract class Item : MonoBehaviour
     protected virtual void FillStars()
     {
         //FillnestedObjectStarsStars(256);
+    }
+
+    public virtual void UpdateForBattle()
+    {
     }
 }

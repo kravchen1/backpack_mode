@@ -214,35 +214,24 @@ public class Bag : Item
 
     public void BagDefauldUpdate()
     {
-        if(SceneManager.GetActiveScene().name != "BackPackBattle")
+        if (isDragging)
         {
-            if (isDragging)
-            {
 
-                transform.position = GetMouseWorldPosition() + offset;
-                RaycastEvent();
-                ChangeColorMyCells();
-                SellChest();
-                DeleteAllDescriptions();
+            transform.position = GetMouseWorldPosition() + offset;
+            RaycastEvent();
+            ChangeColorMyCells();
+            SellChest();
+            DeleteAllDescriptions();
 
-            }
-            Rotate();
-            SwitchDynamicStatic();
-            //OnImpulse();
-            RotationToStartRotation();
         }
-        else
-        {
-            CoolDownStart();
-        }
+        Rotate();
+        SwitchDynamicStatic();
+        //OnImpulse();
+        RotationToStartRotation();
     }
     public override void Update()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-        }
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
+        if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems" && SceneManager.GetActiveScene().name != "BackPackBattle")
         {
             try
             {
@@ -253,6 +242,11 @@ public class Bag : Item
                 MouseUp();
             }
         }
+    }
+
+    public override void UpdateForBattle()
+    {
+        CoolDownStart();
     }
 
 

@@ -27,18 +27,10 @@ public class Flask : Item
             }
         }
     }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            Activation();
-        }
 
-        //if (SceneManager.GetActiveScene().name == "BackPackShop")
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
-        {
-            defaultItemUpdate();
-        }
+    public override void UpdateForBattle()
+    {
+        CoolDownStart();
+        Activation();
     }
 }

@@ -53,18 +53,11 @@ public class Stuff : Item
     {
         FillnestedObjectStarsStars(256);
     }
-    public override void Update()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
 
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
-        {
-            defaultItemUpdate();
-        }
+    public override void UpdateForBattle()
+    {
+        CoolDownStart();
+        CoolDown();
+        Activation();
     }
 }

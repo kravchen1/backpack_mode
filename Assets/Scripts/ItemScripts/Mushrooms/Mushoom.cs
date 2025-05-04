@@ -61,17 +61,11 @@ public class Mushroom : Item
     {
         FillnestedObjectStarsStars(256, "Mushroom");
     }
-    public override void Update()
+
+    public override void UpdateForBattle()
     {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            CoolDownStart();
-            CoolDown();
-            Activation();
-        }
-        else if (SceneManager.GetActiveScene().name != "GenerateMap" && SceneManager.GetActiveScene().name != "Cave" && SceneManager.GetActiveScene().name != "SceneShowItems")
-        {
-            defaultItemUpdate();
-        }
+        CoolDownStart();
+        CoolDown();
+        Activation();
     }
 }
