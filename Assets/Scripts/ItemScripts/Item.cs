@@ -728,47 +728,42 @@ public abstract class Item : MonoBehaviour
     }
     public virtual void CorrectPosition()
     {
-        if (hits.Where(e => e.hits[0].collider == null).Count() == 0)
+        if (careHitsForBackpack.Count == 0 || careHitsForBackpack[0].raycastHit.collider == null)
+            return;
+
+        float maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
+        Vector3 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
+        float minX = float.MaxValue;
+
+        // Находим максимальный Y и минимальный X
+        for (int i = 0; i < careHitsForBackpack.Count; i++)
         {
-            try
+            var hit = careHitsForBackpack[i];
+            var pos = hit.raycastHit.collider.transform.localPosition;
+
+            if (pos.y > maxY)
             {
-                var maxY = careHitsForBackpack[0].raycastHit.collider.transform.localPosition.y;
-                Vector3 colliderPos = careHitsForBackpack[0].raycastHit.collider.transform.localPosition;
-
-                for (int i = 1; i < careHitsForBackpack.Count; i++)
-                {
-                    if (careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y >= maxY)
-                    {
-                        maxY = careHitsForBackpack[i].raycastHit.collider.transform.localPosition.y;
-                    }
-                }
-                var newListCareHits = careHitsForBackpack.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY).ToList();
-                var minX = newListCareHits[0].raycastHit.collider.transform.localPosition.x;
-                foreach (var careHit in newListCareHits)//.Where(e => e.raycastHit.collider.transform.localPosition.y == maxY))
-                {
-                    if (careHit.raycastHit.collider.transform.localPosition.y == maxY)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
-                    {
-                        if (careHit.raycastHit.collider.transform.localPosition.x <= minX)// && careHit.raycastHit.collider.transform.localPosition.x <= minX
-                        {
-                            minX = careHit.raycastHit.collider.transform.localPosition.x;
-                            colliderPos = careHit.raycastHit.collider.transform.localPosition;
-
-                        }
-                    }
-                }
-                var offset = calculateOffset(itemColliders);
-                rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
-                //Debug.Log(offset);
-                needToDynamic = false;
-                foreach (var careHit in careHitsForBackpack)
-                {
-                    careHit.raycastHit.collider.GetComponent<SpriteRenderer>().color = Color.black;
-                }
+                maxY = pos.y;
+                minX = pos.x;
+                colliderPos = pos;
             }
-            catch (Exception ex)
+            else if (pos.y == maxY && pos.x < minX)
             {
-
+                minX = pos.x;
+                colliderPos = pos;
             }
+        }
+
+        var offset = calculateOffset(itemColliders);
+        rectTransform.localPosition = offset + colliderPos + new Vector3(0f, 0f, -2f);
+        needToDynamic = false;
+
+        // Сброс цвета
+        for (int i = 0; i < careHitsForBackpack.Count; i++)
+        {
+            var renderer = careHitsForBackpack[i].raycastHit.collider.GetComponent<SpriteRenderer>();
+            if (renderer != null)
+                renderer.color = Color.black;
         }
     }
     public void ChangeColorToDefault()
@@ -1040,38 +1035,35 @@ public abstract class Item : MonoBehaviour
     }
 
 
+    private List<RaycastHit2D> _hitsCache = new List<RaycastHit2D>(4);
+    private Vector2[] _cornersCache = new Vector2[4];
+
     public List<HitsStructure> CreateRaycast(System.Int32 mask)
     {
-        List<HitsStructure> rayCasts = new List<HitsStructure>();
+        var rayCasts = new List<HitsStructure>(itemColliders.Count);
+
         foreach (var collider in itemColliders)
         {
-            try
+            _hitsCache.Clear();
+
+            var bounds = collider.bounds;
+            _cornersCache[0] = bounds.min;
+            _cornersCache[1] = new Vector2(bounds.min.x, bounds.max.y);
+            _cornersCache[2] = bounds.max;
+            _cornersCache[3] = new Vector2(bounds.max.x, bounds.min.y);
+
+            Vector2 center = bounds.center;
+            const float t = 0.2f; // 1/5f предвычислено
+
+            for (int i = 0; i < 4; i++)
             {
-                List<RaycastHit2D> hits = new List<RaycastHit2D>();
-                Vector2[] corners = new Vector2[4];
-                corners[0] = collider.bounds.min; // ������ ����� ����
-                corners[1] = new Vector2(collider.bounds.min.x, collider.bounds.max.y); // ������� ����� ����
-                corners[2] = collider.bounds.max; // ������� ������ ����
-                corners[3] = new Vector2(collider.bounds.max.x, collider.bounds.min.y); // ������ ������ ����
-
-                float t = 1f / 5f;
-                // 
-                Vector2 center = collider.bounds.center;
-
-                // 
-                for (int i = 0; i < corners.Length; i++)
-                {
-                    Vector2 midPoint = center + t * (corners[i] - center); // 
-                    hits.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask)); //
-                }
-
-                rayCasts.Add(new HitsStructure(hits));
+                Vector2 midPoint = center + t * (_cornersCache[i] - center);
+                _hitsCache.Add(Physics2D.Raycast(midPoint, Vector2.zero, 0, mask));
             }
-            catch
-            {
-                return null;
-            }
+
+            rayCasts.Add(new HitsStructure(new List<RaycastHit2D>(_hitsCache)));
         }
+
         return rayCasts;
     }
     public List<RaycastHit2D> CreateRaycastForSellChest(System.Int32 mask)

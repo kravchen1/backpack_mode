@@ -9,7 +9,7 @@ public class StartOfBattle : MonoBehaviour
     private float timerStart = 0.5f;
     private bool timer_locked_outStart = true;
 
-    private GameObject placeForLogDescription;
+    public GameObject placeForLogDescription;
 
     //debuffs
     public GameObject LogPoisonStackCharacter, LogPoisonStackEnemy;
@@ -38,7 +38,7 @@ public class StartOfBattle : MonoBehaviour
 
     private void Awake()
     {
-        placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
+        //placeForLogDescription = GameObject.FindGameObjectWithTag("BattleLogContent");
     }
     
     private void CreateLogMessage(GameObject log, string message)

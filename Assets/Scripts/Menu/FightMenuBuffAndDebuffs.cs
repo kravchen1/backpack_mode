@@ -148,7 +148,7 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     //            iconToRemove = icon;
     //        }
     //        Destroy(icon.sceneGameObjectIcon);
-            
+
     //    }
     //    if(iconToRemove != null)
     //        icons.Remove(iconToRemove);
@@ -191,45 +191,80 @@ public class FightMenuBuffAndDebuffs : MonoBehaviour
     //    }
     //}
 
-    
+
+
+    // Кэшированные данные
+    private GameObject _cachedBackpack;
+    private GameObject _cachedBackpackEnemy;
+    private List<Item> _cachedItems = new List<Item>();
+    private bool _hasBurnOrFrostIcons;
 
     public void CalculateFireFrostStats()
     {
-        List<Item> allItems = new List<Item>();
-        GameObject backpack;
-        if (gameObject.tag == "MenuFightPlayer")
-        {
-            backpack = GameObject.FindGameObjectWithTag("backpack");
-            allItems = backpack.GetComponentsInChildren<Item>().ToList();
-        }
-        else
-        {
-            backpack = GameObject.FindGameObjectWithTag("backpackEnemy");
-            allItems = backpack.GetComponentsInChildren<Item>().ToList();
-        }
+        // 1. Оптимизация поиска объектов
+        GameObject backpack = GetBackpack();
+        if (backpack == null) return;
 
-        if (icons.Any(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN") || e.sceneGameObjectIcon.name.ToUpper().Contains("ICONFROST")))
+        // 2. Оптимизация получения предметов
+        GetItems(backpack);
+
+        // 3. Быстрая проверка наличия нужных иконок
+        if (!_hasBurnOrFrostIcons) return;
+
+        // 4. Эффективный подсчет стеков
+        CountStacks(out int countBurn, out int countFrost);
+
+        // 5. Оптимизированное применение изменений
+        ApplyCooldownChanges(_cachedItems, countBurn, countFrost);
+    }
+
+    private GameObject GetBackpack()
+    {
+        if (gameObject.CompareTag("MenuFightPlayer"))
         {
-            int countBurn = 0, countFrost = 0;
-            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONBURN")))
+            return _cachedBackpack ??= GameObject.FindGameObjectWithTag("backpack");
+        }
+        return _cachedBackpackEnemy ??= GameObject.FindGameObjectWithTag("backpackEnemy");
+    }
+
+    private void GetItems(GameObject backpack)
+    {
+        _cachedItems.Clear();
+        backpack.GetComponentsInChildren(_cachedItems);
+        _hasBurnOrFrostIcons = icons.Any(icon =>
+            icon.sceneGameObjectIcon.name.Contains("ICONBURN", StringComparison.OrdinalIgnoreCase) ||
+            icon.sceneGameObjectIcon.name.Contains("ICONFROST", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private void CountStacks(out int countBurn, out int countFrost)
+    {
+        countBurn = 0;
+        countFrost = 0;
+
+        foreach (var icon in icons)
+        {
+            string iconName = icon.sceneGameObjectIcon.name;
+            if (iconName.Contains("ICONBURN", StringComparison.OrdinalIgnoreCase))
             {
                 countBurn = icon.countStack;
             }
-            foreach (var icon in icons.Where(e => e.sceneGameObjectIcon.name.ToUpper().Contains("ICONFROST")))
+            else if (iconName.Contains("ICONFROST", StringComparison.OrdinalIgnoreCase))
             {
                 countFrost = icon.countStack;
             }
+        }
+    }
 
-            foreach (var item in allItems)
+    private void ApplyCooldownChanges(List<Item> items, int countBurn, int countFrost)
+    {
+        float multiplier = countPercentFire * (countBurn - countFrost);
+
+        foreach (var item in items)
+        {
+            if (item.timer_cooldown > 0)
             {
-                if (item.timer_cooldown > 0)
-                {
-                    var changeCD = item.baseTimerCooldown * (countPercentFire * (countBurn - countFrost));
-                    if (item.baseTimerCooldown - changeCD > 0.1f)
-                        item.timer_cooldown = item.baseTimerCooldown - changeCD;
-                    else
-                        item.timer_cooldown = 0.1f;
-                }
+                float newCooldown = item.baseTimerCooldown - (item.baseTimerCooldown * multiplier);
+                item.timer_cooldown = Mathf.Max(0.1f, newCooldown);
             }
         }
     }
