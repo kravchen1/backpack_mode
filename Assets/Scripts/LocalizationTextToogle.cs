@@ -272,6 +272,40 @@ public class LocalizationTextToogle : MonoBehaviour
                 text.text = itemText;
                 break;
 
+
+            case "FirstPointRoadMapHeader":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "FirstPointRoadMapHeader");
+                text.text = itemText;
+                break;
+            case "SecondPointRoadMapHeader":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "SecondPointRoadMapHeader");
+                text.text = itemText;
+                break;
+            case "ThirdPointRoadMapHeader":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ThirdPointRoadMapHeader");
+                text.text = itemText;
+                break;
+            case "FourthPointRoadMapHeader":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "FourthPointRoadMapHeader");
+                text.text = itemText;
+                break;
+            case "FirstPointRoadMapBody":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "FirstPointRoadMapBody");
+                text.text = itemText;
+                break;
+            case "SecondPointRoadMapBody":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "SecondPointRoadMapBody");
+                text.text = itemText;
+                break;
+            case "ThirdPointRoadMapBody":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "ThirdPointRoadMapBody");
+                text.text = itemText;
+                break;
+            case "FourthPointRoadMapBody":
+                itemText = LocalizationManager.Instance.GetTextUI(settingLanguage, "FourthPointRoadMapBody");
+                text.text = itemText;
+                break;
+
         }
         
     }
