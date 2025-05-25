@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 
 
@@ -71,6 +72,24 @@ public class SellFiltersController : MonoBehaviour
             SellItem(item);
 
         }
+        
+        ObjectsDynamic();
+        ShowHideFilters();
     }
 
+
+    void ObjectsDynamic()
+    {
+
+        for (int i = 0; i < storage.transform.childCount; i++)
+        {
+
+            if (storage.transform.GetChild(i).GetComponent<Item>() != null)
+            {
+                var item = storage.transform.GetChild(i).GetComponent<Item>();
+                item.needToDynamic = true;
+                item.timerStatic_locked_out = true;
+            }
+        }
+    }
 }

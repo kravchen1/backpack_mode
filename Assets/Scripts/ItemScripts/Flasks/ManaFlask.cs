@@ -18,6 +18,7 @@ public class ManaFlask : Flask
             logManager.CreateLogMessageGive(originalName, "mana", giveStack, Player.isPlayer);
             CheckNestedObjectActivation("StartBag");
             CheckNestedObjectStarActivation(gameObject.GetComponent<Item>());
+            animator.Play(originalName + "Activation", 0, 0f);
         }
     }
 
