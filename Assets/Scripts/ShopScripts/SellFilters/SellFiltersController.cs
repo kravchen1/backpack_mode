@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.ItemScripts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,12 +25,15 @@ public class SellFiltersController : MonoBehaviour
 
     public void ShowHideFilters()
     {
-        ItemsForSale.items.Clear();
-        canvasFilters.SetActive(!canvasFilters.activeSelf);
-        storage.SetActive(!storage.activeSelf);
-        backpack.SetActive(!backpack.activeSelf);
-        if (shop != null)
-            shop.SetActive(!shop.activeSelf);
+        if (!DragManager.isReturnToOrgignalPos)
+        {
+            ItemsForSale.items.Clear();
+            canvasFilters.SetActive(!canvasFilters.activeSelf);
+            storage.SetActive(!storage.activeSelf);
+            backpack.SetActive(!backpack.activeSelf);
+            if (shop != null)
+                shop.SetActive(!shop.activeSelf);
+        }
     }
 
     private void SellItem(Item item)
