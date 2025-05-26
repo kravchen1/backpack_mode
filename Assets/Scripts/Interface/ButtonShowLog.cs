@@ -25,6 +25,7 @@ public class ButtonShowLog : MonoBehaviour
             backgroundBlack.enabled = false;
             content.SetActive(false);
             timeSpeed.timeSpeed.value = lastTimeSpeed;
+            timeSpeed.timeSpeed.interactable = true;
         }
         else
         {
@@ -35,7 +36,9 @@ public class ButtonShowLog : MonoBehaviour
             backgroundBlack.enabled = true;
             content.SetActive(true);
             lastTimeSpeed = timeSpeed.timeSpeed.value;
+            Time.timeScale = 0f;
             timeSpeed.timeSpeed.value = 0;
+            timeSpeed.timeSpeed.interactable = false;
         }
     }
 
