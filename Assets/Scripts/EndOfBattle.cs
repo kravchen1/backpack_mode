@@ -20,7 +20,7 @@ public class EndOfBattle : MonoBehaviour
     private PlayerBackpackBattle playerBackpackBattle;
     private PlayerBackpackBattle enemyBackpackBattle;
 
-
+    public bool isEndOfBattle = false;
 
     
     [SerializeField] private TextMeshProUGUI winLevelText;
@@ -273,6 +273,7 @@ public class EndOfBattle : MonoBehaviour
 
     void StopFight()
     {
+        isEndOfBattle = true;
         Time.timeScale = 0f;
         timeSpeed.value = 0f;
         timeSpeed.interactable = false;
