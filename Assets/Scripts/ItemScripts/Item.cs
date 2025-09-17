@@ -124,24 +124,11 @@ public abstract class Item : MonoBehaviour
     private float moveDistance = 0.5f;
 
 
-    public enum ItemRarity
-    {
-        Common,      // Обычный
-        Rare,        // Редкий
-        Epic,        // Эпический
-        Legendary  // Легендарный
-    }
+   
     public ItemRarity rarity;
 
 
-    public enum ItemType
-    {
-        Weapon,
-        Bag,
-        Pet,
-        Stone,
-        Food
-    }
+    
     public ItemType itemType;
 
     public float weight;
