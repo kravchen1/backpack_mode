@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ShopGenerator : MonoBehaviour
@@ -8,122 +7,224 @@ public class ShopGenerator : MonoBehaviour
     public GameObject shopCanvas;
     public List<Cell> shopCells = new List<Cell>();
 
-
     [Header("Item Generation")]
     public GameObject[] itemPrefabs;
     public int maxShopItems = 8;
 
     private List<ItemNew> spawnedItems = new List<ItemNew>();
-    private float generationTimer;
-    private RectTransform canvasRect;
-    private bool Generating = true;
-
-    void Start()
-    {
-        //GenerateItems();
-    }
+    private const int GridWidth = 10;
+    private const int GridHeight = 10;
 
     public void GenerateItems()
     {
-        for(int i = 0; i < shopCells.Count() && Generating; i++)
+        ClearItems();
+
+        int itemsGenerated = 0;
+        int currentIndex = 0; // Начинаем с нулевой ячейки
+
+        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
         {
-            if (shopCells[i].nestedObject == null)
+            // Пропускаем занятые ячейки
+            if (shopCells[currentIndex].nestedObject != null)
             {
-                int r = Random.Range(0, itemPrefabs.Count());
-                ItemNew spawnedItem = Instantiate(itemPrefabs[r], shopCanvas.transform).GetComponent<ItemNew>();
+                currentIndex++;
+                continue;
+            }
 
-                bool flag = true;
+            GameObject randomPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+            ItemNew itemComponent = randomPrefab.GetComponent<ItemNew>();
 
-                for (int j = 0; j < spawnedItem.HeightCell && flag; j++)
-                {
-                    for (int i2 = i; i2 < i + spawnedItem.WidthCell && flag; i2++)
-                    {
-                        int index = (j * 10) + i2;
-                        if (index < 100)
-                        {
-                            if (shopCells[index].nestedObject != null)
-                            {
-                                flag = false;
-                            }
-                        }
-                        else
-                        {
-                            flag = false;
-                            Generating = false;
-                        }
-                    }
-                }
-                if (flag)
-                {
-                    CorrectPosition(i, spawnedItem);
-                }
-                else
-                {
-                    Debug.Log("Попытка создать предмет на предмете");
-                    Destroy(spawnedItem.gameObject);
-                }
+            if (itemComponent == null)
+            {
+                currentIndex++;
+                continue;
+            }
+
+            if (CanPlaceItem(currentIndex, itemComponent.WidthCell, itemComponent.HeightCell))
+            {
+                ItemNew spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemNew>();
+                PlaceItem(currentIndex, spawnedItem);
+                spawnedItems.Add(spawnedItem);
+                itemsGenerated++;
+
+                // Переходим к следующей свободной позиции сразу после текущего предмета
+                currentIndex += itemComponent.WidthCell;
+            }
+            else
+            {
+                // Если не помещается, пробуем следующую ячейку
+                currentIndex++;
             }
         }
-        
     }
 
     public void ClearItems()
     {
-        Generating = true;
-        foreach (var cell in shopCells)
+        foreach (Cell cell in shopCells)
         {
-            cell.nestedObject = null;
-        }
-        for(int i = 0;i < spawnedItems.Count(); i++)
-        {
-            if (spawnedItems[i] != null)
+            if (cell != null)
             {
-                Destroy(spawnedItems[i].gameObject);
+                cell.nestedObject = null;
             }
         }
+
+        foreach (ItemNew item in spawnedItems)
+        {
+            if (item != null && item.gameObject != null)
+            {
+                Destroy(item.gameObject);
+            }
+        }
+        spawnedItems.Clear();
     }
 
-    public void CorrectPosition(int cellIndex, ItemNew spawnedItem)
+    private bool CanPlaceItem(int startIndex, int width, int height)
     {
-        Bounds cellsBounds = new Bounds(shopCells[cellIndex].transform.position, Vector3.zero);
-        List<Cell> cellsTemp = new List<Cell>();
-        for (int j = 0; j < spawnedItem.HeightCell; j++)
+        int startX = startIndex % GridWidth;
+        int startY = startIndex / GridWidth;
+
+        // Проверяем выход за границы сетки
+        if (startX + width > GridWidth || startY + height > GridHeight)
         {
-            for (int i = cellIndex; i < cellIndex + spawnedItem.WidthCell; i++)
+            return false;
+        }
+
+        // Проверяем занятость ячеек
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
             {
-                int index = (j * 10) + i;
-                if (index < 100)
+                int index = (startY + y) * GridWidth + (startX + x);
+
+                if (index >= shopCells.Count || shopCells[index] == null || shopCells[index].nestedObject != null)
                 {
-                    cellsBounds.Encapsulate(shopCells[index].transform.position);
-                    cellsTemp.Add(shopCells[index]);
-                }
-                else
-                {
-                    Debug.Log("Вышли за границу массива ячеек в магазине");
-                    Destroy(spawnedItem.gameObject);
-                    Generating = false;
-                    break;
+                    return false;
                 }
             }
         }
-        foreach (var cell in cellsTemp)
-        {
-            cell.nestedObject = spawnedItem.gameObject;
-        }
 
-
-        Bounds itemBounds = new Bounds(spawnedItem.itemColliders[0].bounds.center, Vector3.zero);
-        foreach (var collider in spawnedItem.itemColliders)
-        {
-            itemBounds.Encapsulate(collider.bounds);
-        }
-
-        Vector3 centerOffset = cellsBounds.center - itemBounds.center;
-        spawnedItem.transform.position += centerOffset;
-
-        spawnedItems.Add(spawnedItem);
+        return true;
     }
 
+    private void PlaceItem(int startIndex, ItemNew item)
+    {
+        int startX = startIndex % GridWidth;
+        int startY = startIndex / GridWidth;
 
+        // Занимаем ячейки
+        List<Cell> occupiedCells = new List<Cell>();
+        for (int y = 0; y < item.HeightCell; y++)
+        {
+            for (int x = 0; x < item.WidthCell; x++)
+            {
+                int index = (startY + y) * GridWidth + (startX + x);
+                if (index < shopCells.Count && shopCells[index] != null)
+                {
+                    shopCells[index].nestedObject = item.gameObject;
+                    occupiedCells.Add(shopCells[index]);
+                }
+            }
+        }
 
+        // Вычисляем центр занятых ячеек
+        Vector3 cellsCenter = CalculateCellsCenter(occupiedCells);
+
+        // Вычисляем центр предмета
+        Vector3 itemCenter = CalculateItemCenter(item);
+
+        // Позиционируем предмет
+        item.transform.position = cellsCenter - itemCenter + item.transform.position;
+    }
+
+    private Vector3 CalculateCellsCenter(List<Cell> cells)
+    {
+        if (cells.Count == 0) return Vector3.zero;
+
+        Vector3 center = Vector3.zero;
+        foreach (Cell cell in cells)
+        {
+            if (cell != null)
+            {
+                center += cell.transform.position;
+            }
+        }
+        return center / cells.Count;
+    }
+
+    private Vector3 CalculateItemCenter(ItemNew item)
+    {
+        if (item.itemColliders == null || item.itemColliders.Count == 0)
+            return item.transform.position;
+
+        Bounds bounds = new Bounds(item.itemColliders[0].bounds.center, Vector3.zero);
+        foreach (BoxCollider2D collider in item.itemColliders)
+        {
+            if (collider != null)
+            {
+                bounds.Encapsulate(collider.bounds);
+            }
+        }
+        return bounds.center;
+    }
+
+    // Альтернативная версия - плотная упаковка по строкам
+    public void GenerateItemsPacked()
+    {
+        ClearItems();
+
+        int itemsGenerated = 0;
+        int currentIndex = 0;
+
+        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
+        {
+            // Пропускаем занятые ячейки
+            if (shopCells[currentIndex].nestedObject != null)
+            {
+                currentIndex++;
+                continue;
+            }
+
+            GameObject randomPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+            ItemNew itemComponent = randomPrefab.GetComponent<ItemNew>();
+
+            if (itemComponent == null)
+            {
+                currentIndex++;
+                continue;
+            }
+
+            if (CanPlaceItem(currentIndex, itemComponent.WidthCell, itemComponent.HeightCell))
+            {
+                ItemNew spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemNew>();
+                PlaceItem(currentIndex, spawnedItem);
+                spawnedItems.Add(spawnedItem);
+                itemsGenerated++;
+
+                // Переходим к следующей ячейке в строке
+                currentIndex += itemComponent.WidthCell;
+
+                // Если достигли конца строки, переходим на новую
+                if (currentIndex % GridWidth == 0)
+                {
+                    currentIndex = (currentIndex / GridWidth + 1) * GridWidth;
+                }
+            }
+            else
+            {
+                currentIndex++;
+
+                // Если достигли конца строки, переходим на новую
+                if (currentIndex % GridWidth == 0)
+                {
+                    currentIndex = (currentIndex / GridWidth + 1) * GridWidth;
+
+                    // Пропускаем строки если они уже заняты
+                    while (currentIndex < shopCells.Count && shopCells[currentIndex].nestedObject != null)
+                    {
+                        currentIndex += GridWidth;
+                    }
+                }
+            }
+        }
+    }
 }

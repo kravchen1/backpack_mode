@@ -29,6 +29,7 @@ public class ItemNew : MonoBehaviour
     private Transform originalParent;
     private GameObject playerInventory;
     private bool needToRotate = true;
+    private List<Cell> originallyOccupiedCells = new List<Cell>();
 
     void Awake()
     {
@@ -40,8 +41,27 @@ public class ItemNew : MonoBehaviour
         mainCamera = Camera.main;
         playerInventory = GameObject.Find("Inventory") ?? new GameObject("Inventory");
         initializationItemColliders();
+        SaveOriginalPosition();
+        SaveOriginallyOccupiedCells();
+    }
+
+    void SaveOriginalPosition()
+    {
         originalPosition = transform.position;
         originalParent = transform.parent;
+    }
+
+    void SaveOriginallyOccupiedCells()
+    {
+        originallyOccupiedCells.Clear();
+        Cell[] allCells = FindObjectsOfType<Cell>();
+        foreach (Cell cell in allCells)
+        {
+            if (cell.nestedObject == gameObject)
+            {
+                originallyOccupiedCells.Add(cell);
+            }
+        }
     }
 
     private void initializationItemColliders()
@@ -68,7 +88,11 @@ public class ItemNew : MonoBehaviour
         SaveOriginalColors();
         ClearCurrentCells();
         canBePlaced = true;
-        ClearOldCellReferences();
+        SaveOriginalPosition();
+        SaveOriginallyOccupiedCells();
+
+        // Всегда очищаем ВСЕ ячейки при начале перетаскивания
+        ClearAllCellReferences();
     }
 
     public virtual void OnMouseUp()
@@ -76,24 +100,52 @@ public class ItemNew : MonoBehaviour
         if (!isDragging) return;
 
         isDragging = false;
-
-        // Сбрасываем цвета ВСЕХ ячеек сразу
         ResetAllColorsToDefault();
 
         if (canBePlaced && currentGreenCells.Count > 0 && currentRedCells.Count == 0)
         {
+            // Успешное размещение - занимаем новые ячейки
             FillCellNestedObjects();
             CorrectPosition();
             MoveToInventory();
+            SaveOriginallyOccupiedCells();
         }
         else
         {
-            ClearOldCellReferences();
+            // Неудачное размещение - восстанавливаем оригинальные ячейки
+            RestoreOriginallyOccupiedCells();
             ReturnToOriginalPosition();
         }
 
         previousHitColliders.Clear();
         ClearCurrentCells();
+    }
+
+    private void RestoreOriginallyOccupiedCells()
+    {
+        // Очищаем все текущие ссылки
+        ClearAllCellReferences();
+
+        // Восстанавливаем только оригинальные занятые ячейки
+        foreach (Cell cell in originallyOccupiedCells)
+        {
+            if (cell != null)
+            {
+                cell.nestedObject = gameObject;
+            }
+        }
+    }
+
+    private void ClearAllCellReferences()
+    {
+        Cell[] allCells = FindObjectsOfType<Cell>();
+        foreach (Cell cell in allCells)
+        {
+            if (cell.nestedObject == gameObject)
+            {
+                cell.nestedObject = null;
+            }
+        }
     }
 
     public virtual void Update()
@@ -114,11 +166,11 @@ public class ItemNew : MonoBehaviour
         {
             RotateItem(90);
         }
-        else if (scrollData > 0.01f) // Прокрутка вверх
+        else if (scrollData > 0.01f)
         {
             RotateItem(90);
         }
-        else if (scrollData < -0.01f) // Прокрутка вниз
+        else if (scrollData < -0.01f)
         {
             RotateItem(-90);
         }
@@ -126,13 +178,9 @@ public class ItemNew : MonoBehaviour
 
     private void RotateItem(float angle)
     {
-        // Сбрасываем цвета перед поворотом
         ResetAllColorsToDefault();
-
         transform.Rotate(0, 0, angle);
         Physics2D.SyncTransforms();
-
-        // Обновляем рейкасты после поворота
         UpdateRaycastImmediately();
     }
 
@@ -140,7 +188,6 @@ public class ItemNew : MonoBehaviour
     {
         LayerMask mask = 1 << 8;
         hits1 = CreateCareRaycast(mask);
-
         CheckPlacementValidity(hits1);
         UpdateColorsWithOccupationCheck(hits1);
         UpdatePreviousColliders(hits1);
@@ -157,7 +204,6 @@ public class ItemNew : MonoBehaviour
     {
         LayerMask mask = 1 << 8;
         hits1 = CreateCareRaycast(mask);
-
         CheckPlacementValidity(hits1);
         ResetColorsForMissedColliders(hits1);
         UpdateColorsWithOccupationCheck(hits1);
@@ -224,23 +270,12 @@ public class ItemNew : MonoBehaviour
 
     private void FillCellNestedObjects()
     {
+        // Занимаем новые ячейки
         foreach (Cell cell in currentGreenCells)
         {
             if (cell != null)
             {
                 cell.nestedObject = gameObject;
-            }
-        }
-    }
-
-    private void ClearOldCellReferences()
-    {
-        Cell[] allCells = FindObjectsOfType<Cell>();
-        foreach (Cell cell in allCells)
-        {
-            if (cell.nestedObject == gameObject)
-            {
-                cell.nestedObject = null;
             }
         }
     }
@@ -253,8 +288,8 @@ public class ItemNew : MonoBehaviour
 
     private void ReturnToOriginalPosition()
     {
-        transform.position = originalPosition;
         transform.SetParent(originalParent);
+        transform.position = originalPosition;
         transform.rotation = Quaternion.identity;
     }
 
@@ -262,20 +297,6 @@ public class ItemNew : MonoBehaviour
     {
         transform.SetParent(playerInventory.transform);
     }
-
-    //public virtual Vector3 calculateOffset(List<BoxCollider2D> itemColliders)
-    //{
-    //    if (itemColliders == null || itemColliders.Count == 0)
-    //        return Vector3.zero;
-
-    //    Bounds totalBounds = new Bounds(itemColliders[0].bounds.center, Vector3.zero);
-    //    foreach (var collider in itemColliders)
-    //    {
-    //        totalBounds.Encapsulate(collider.bounds);
-    //    }
-
-    //    return -totalBounds.center + transform.position;
-    //}
 
     public virtual void CorrectPosition()
     {
@@ -308,7 +329,6 @@ public class ItemNew : MonoBehaviour
             }
         }
 
-        // Сбрасываем цвета у всех предыдущих коллайдеров, которых нет в текущих
         foreach (var previousCollider in previousHitColliders.ToList())
         {
             if (previousCollider != null && !currentColliders.Contains(previousCollider))
@@ -321,7 +341,6 @@ public class ItemNew : MonoBehaviour
 
     private void UpdatePreviousColliders(RaycastHit2D[] currentHits)
     {
-        // Очищаем только те, которые больше не актуальны
         foreach (var previousCollider in previousHitColliders.ToList())
         {
             bool stillExists = false;
@@ -341,7 +360,6 @@ public class ItemNew : MonoBehaviour
             }
         }
 
-        // Добавляем новые коллайдеры
         foreach (var hit in currentHits)
         {
             if (hit.collider != null && !previousHitColliders.Contains(hit.collider))
@@ -373,7 +391,6 @@ public class ItemNew : MonoBehaviour
 
     private void ResetAllColorsToDefault()
     {
-        // Сбрасываем цвета ВСЕХ ячеек, которые были изменены
         foreach (var kvp in originalColors)
         {
             if (kvp.Key != null)
@@ -386,7 +403,6 @@ public class ItemNew : MonoBehaviour
             }
         }
 
-        // Также сбрасываем цвета у текущих коллайдеров на всякий случай
         foreach (var collider in previousHitColliders.ToList())
         {
             if (collider != null)
@@ -419,7 +435,7 @@ public class ItemNew : MonoBehaviour
 
     void OnDestroy()
     {
-        ClearOldCellReferences();
+        ClearAllCellReferences();
         ResetAllColorsToDefault();
     }
 }
