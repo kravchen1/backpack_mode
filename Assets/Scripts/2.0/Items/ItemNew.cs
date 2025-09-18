@@ -6,7 +6,8 @@ public class ItemNew : MonoBehaviour
 {
     public ItemType itemType;
     public ItemRarity rarity;
-    public float weight;
+    public int WidthCell;
+    public int HeightCell;
 
     protected RaycastHit2D[] hits1;
     protected RaycastHit2D[] hits2;
@@ -15,7 +16,7 @@ public class ItemNew : MonoBehaviour
     private bool isDragging = false;
     private Camera mainCamera;
     private Vector3 offset;
-    private List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
+    [HideInInspector] public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     private BoxCollider2D[] collidersArray;
     private int colliderCount;
 
@@ -262,19 +263,19 @@ public class ItemNew : MonoBehaviour
         transform.SetParent(playerInventory.transform);
     }
 
-    public virtual Vector3 calculateOffset(List<BoxCollider2D> itemColliders)
-    {
-        if (itemColliders == null || itemColliders.Count == 0)
-            return Vector3.zero;
+    //public virtual Vector3 calculateOffset(List<BoxCollider2D> itemColliders)
+    //{
+    //    if (itemColliders == null || itemColliders.Count == 0)
+    //        return Vector3.zero;
 
-        Bounds totalBounds = new Bounds(itemColliders[0].bounds.center, Vector3.zero);
-        foreach (var collider in itemColliders)
-        {
-            totalBounds.Encapsulate(collider.bounds);
-        }
+    //    Bounds totalBounds = new Bounds(itemColliders[0].bounds.center, Vector3.zero);
+    //    foreach (var collider in itemColliders)
+    //    {
+    //        totalBounds.Encapsulate(collider.bounds);
+    //    }
 
-        return -totalBounds.center + transform.position;
-    }
+    //    return -totalBounds.center + transform.position;
+    //}
 
     public virtual void CorrectPosition()
     {
