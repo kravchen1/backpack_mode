@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 333488672668180024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121,7 +121,7 @@ RectTransform:
   m_Father: {fileID: 2527305577641653305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -201,8 +201,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2527305577641653305}
-  - component: {fileID: 2897150129525229549}
   - component: {fileID: 6785740483909659780}
+  - component: {fileID: 1865825903293932221}
+  - component: {fileID: 573429902752839393}
   m_Layer: 7
   m_Name: Sword
   m_TagString: Untagged
@@ -218,7 +219,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4847621663301936981}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -232,23 +233,6 @@ RectTransform:
   m_AnchoredPosition: {x: 434.7, y: 134}
   m_SizeDelta: {x: 77, y: 154}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2897150129525229549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4847621663301936981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbcb1f3fdb1b72447998ee9038ac9830, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 1
-  rarity: 0
-  WidthCell: 1
-  HeightCell: 2
-  itemColliders: []
 --- !u!60 &6785740483909659780
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -295,16 +279,45 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -21.884943, y: 33.91361}
-      - {x: -34.417454, y: 12.141596}
-      - {x: -33.19823, y: -31.819546}
-      - {x: -27.274141, y: -58.18847}
-      - {x: -6.925562, y: -84.543106}
-      - {x: -4.0046616, y: 2.6810458}
-      - {x: -2.9177074, y: 59.429237}
-      - {x: -17.336498, y: 83.1489}
-      - {x: -24.602839, y: 79.38472}
+    - - {x: 13.282814, y: 70.8}
+      - {x: 7.593654, y: 81.01844}
+      - {x: -3.8166819, y: 83.390274}
+      - {x: -3.9282217, y: 39.834057}
+      - {x: -15.540724, y: 13.688744}
+      - {x: -10.745599, y: -46.648083}
+      - {x: 11.265911, y: -84.41059}
+      - {x: 11.89012, y: 23.229332}
   m_UseDelaunayMesh: 0
+--- !u!114 &1865825903293932221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847621663301936981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334df0d562a215f44b6cd05431d77a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalNamePrefab: Sword
+  itemColliders: []
+--- !u!114 &573429902752839393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847621663301936981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feef6b703c48e9e4fb35558f43bd1f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
+  rarity: 0
+  _size: {x: 1, y: 2}
+  _cells: 0101
 --- !u!1 &7307104716969870218
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +352,7 @@ RectTransform:
   m_Father: {fileID: 2527305577641653305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

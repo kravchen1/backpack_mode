@@ -55,8 +55,8 @@ public class ChestTrigger : EnvironmentTrigger
         canvasInventory.SetActive(true);
         canvasShop.SetActive(true);
 
-        shopGenerator.maxShopItems = countItemsInside;
-        shopGenerator.GenerateItems();
+        //shopGenerator.maxShopItems = countItemsInside;
+        //shopGenerator.GenerateItems();
 
         // Отключаем дальнейшие взаимодействия
         allowManualInteraction = false;

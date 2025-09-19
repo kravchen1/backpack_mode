@@ -27,10 +27,10 @@ public class TopDownCameraFollowController : MonoBehaviour
 
     [Header("Movement Boundaries")]
     [SerializeField]
-    private Vector2 minBoundary = new Vector2(155f, 58f);
+    public Vector2 minBoundary = new Vector2(155f, 58f);
 
     [SerializeField]
-    private Vector2 maxBoundary = new Vector2(1735f, 980f);
+    public Vector2 maxBoundary = new Vector2(1735f, 980f);
 
     [SerializeField]
     private bool clampCameraPosition = true;

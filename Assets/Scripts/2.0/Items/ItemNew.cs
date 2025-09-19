@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class ItemNew : MonoBehaviour
 {
-    public ItemType itemType;
-    public ItemRarity rarity;
-    public int WidthCell;
-    public int HeightCell;
+    public string originalNamePrefab;
 
     protected RaycastHit2D[] hits1;
     protected RaycastHit2D[] hits2;
@@ -17,7 +14,6 @@ public class ItemNew : MonoBehaviour
     private Camera mainCamera;
     private Vector3 offset;
     [HideInInspector] public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
-    private BoxCollider2D[] collidersArray;
     private int colliderCount;
 
     private List<Collider2D> previousHitColliders = new List<Collider2D>();
@@ -28,7 +24,6 @@ public class ItemNew : MonoBehaviour
     private bool canBePlaced = true;
     private Transform originalParent;
     private GameObject playerInventory;
-    private bool needToRotate = true;
     private List<Cell> originallyOccupiedCells = new List<Cell>();
 
     void Awake()
@@ -51,7 +46,7 @@ public class ItemNew : MonoBehaviour
         originalParent = transform.parent;
     }
 
-    void SaveOriginallyOccupiedCells()
+    public void SaveOriginallyOccupiedCells()
     {
         originallyOccupiedCells.Clear();
         Cell[] allCells = FindObjectsOfType<Cell>();
@@ -432,6 +427,11 @@ public class ItemNew : MonoBehaviour
             originalColors[collider] = sr.color;
         }
     }
+    public void ForceCorrectPosition()
+    {
+        CorrectPosition();
+    }
+
 
     void OnDestroy()
     {

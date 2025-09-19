@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 
 public class ShopGenerator : MonoBehaviour
@@ -10,8 +10,9 @@ public class ShopGenerator : MonoBehaviour
     [Header("Item Generation")]
     public GameObject[] itemPrefabs;
     public int maxShopItems = 8;
+    public bool useSmartPacking = true;
 
-    private List<ItemNew> spawnedItems = new List<ItemNew>();
+    private List<ItemStructure> spawnedItems = new List<ItemStructure>();
     private const int GridWidth = 10;
     private const int GridHeight = 10;
 
@@ -19,20 +20,31 @@ public class ShopGenerator : MonoBehaviour
     {
         ClearItems();
 
+        if (useSmartPacking)
+        {
+            GenerateItemsSmartPacking();
+        }
+        else
+        {
+            GenerateItemsSimple();
+        }
+    }
+
+    private void GenerateItemsSimple()
+    {
         int itemsGenerated = 0;
-        int currentIndex = 0; // Начинаем с нулевой ячейки
+        int currentIndex = 0;
 
         while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
         {
-            // Пропускаем занятые ячейки
-            if (shopCells[currentIndex].nestedObject != null)
+            if (IsCellOccupied(currentIndex))
             {
                 currentIndex++;
                 continue;
             }
 
-            GameObject randomPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
-            ItemNew itemComponent = randomPrefab.GetComponent<ItemNew>();
+            GameObject randomPrefab = GetRandomItemPrefab();
+            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
 
             if (itemComponent == null)
             {
@@ -40,26 +52,133 @@ public class ShopGenerator : MonoBehaviour
                 continue;
             }
 
-            if (CanPlaceItem(currentIndex, itemComponent.WidthCell, itemComponent.HeightCell))
+            if (CanPlaceItem(currentIndex, itemComponent))
             {
-                ItemNew spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemNew>();
+                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);
                 itemsGenerated++;
 
-                // Переходим к следующей свободной позиции сразу после текущего предмета
-                currentIndex += itemComponent.WidthCell;
+                // РџРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµР№ СЃРІРѕР±РѕРґРЅРѕР№ СЏС‡РµР№РєРµ
+                currentIndex = FindNextFreeCell(currentIndex + 1);
             }
             else
             {
-                // Если не помещается, пробуем следующую ячейку
                 currentIndex++;
             }
         }
     }
 
+    private void GenerateItemsSmartPacking()
+    {
+        int itemsGenerated = 0;
+        int currentIndex = 0;
+
+        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
+        {
+            // РџСЂРѕРїСѓСЃРєР°РµРј Р·Р°РЅСЏС‚С‹Рµ СЏС‡РµР№РєРё
+            if (IsCellOccupied(currentIndex))
+            {
+                currentIndex++;
+                continue;
+            }
+
+            // Р‘РµСЂРµРј СЃР»СѓС‡Р°Р№РЅС‹Р№ РїСЂРµС„Р°Р± (РјРѕРіСѓС‚ РїРѕРІС‚РѕСЂСЏС‚СЊСЃСЏ)
+            GameObject randomPrefab = GetRandomItemPrefab();
+            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
+
+            if (itemComponent == null)
+            {
+                currentIndex++;
+                continue;
+            }
+
+            if (CanPlaceItem(currentIndex, itemComponent))
+            {
+                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
+                PlaceItem(currentIndex, spawnedItem);
+                spawnedItems.Add(spawnedItem);
+                itemsGenerated++;
+
+                // РџРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµР№ СЃРІРѕР±РѕРґРЅРѕР№ СЏС‡РµР№РєРµ
+                currentIndex = FindNextFreeCell(currentIndex + 1);
+            }
+            else
+            {
+                currentIndex++;
+            }
+        }
+    }
+
+    private int FindNextFreeCell(int startFrom)
+    {
+        for (int i = startFrom; i < shopCells.Count; i++)
+        {
+            if (!IsCellOccupied(i))
+            {
+                return i;
+            }
+        }
+        return shopCells.Count;
+    }
+
+    private bool IsCellOccupied(int index)
+    {
+        if (index < 0 || index >= shopCells.Count)
+            return true;
+
+        return shopCells[index].nestedObject != null;
+    }
+
+    private Vector2Int GetItemActualSize(ItemStructure item)
+    {
+        int minX = item.Size.x, maxX = -1;
+        int minY = item.Size.y, maxY = -1;
+        bool hasOccupiedCells = false;
+
+        for (int y = 0; y < item.Size.y; y++)
+        {
+            for (int x = 0; x < item.Size.x; x++)
+            {
+                if (item.GetCell(x, y))
+                {
+                    hasOccupiedCells = true;
+                    if (x < minX) minX = x;
+                    if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+
+        if (!hasOccupiedCells)
+            return new Vector2Int(1, 1);
+
+        return new Vector2Int(maxX - minX + 1, maxY - minY + 1);
+    }
+
+    private Vector2Int GetItemOffset(ItemStructure item)
+    {
+        int minX = item.Size.x, minY = item.Size.y;
+
+        for (int y = 0; y < item.Size.y; y++)
+        {
+            for (int x = 0; x < item.Size.x; x++)
+            {
+                if (item.GetCell(x, y))
+                {
+                    if (x < minX) minX = x;
+                    if (y < minY) minY = y;
+                }
+            }
+        }
+
+        return new Vector2Int(minX, minY);
+    }
+
     public void ClearItems()
     {
+        // РћС‡РёС‰Р°РµРј РІСЃРµ СЏС‡РµР№РєРё
         foreach (Cell cell in shopCells)
         {
             if (cell != null)
@@ -68,37 +187,40 @@ public class ShopGenerator : MonoBehaviour
             }
         }
 
-        foreach (ItemNew item in spawnedItems)
+        // РЈРґР°Р»СЏРµРј РІСЃРµ СЃРѕР·РґР°РЅРЅС‹Рµ РїСЂРµРґРјРµС‚С‹
+        foreach (ItemStructure item in spawnedItems)
         {
             if (item != null && item.gameObject != null)
             {
-                Destroy(item.gameObject);
+                DestroyImmediate(item.gameObject);
             }
         }
         spawnedItems.Clear();
     }
 
-    private bool CanPlaceItem(int startIndex, int width, int height)
+    private bool CanPlaceItem(int startIndex, ItemStructure item)
     {
         int startX = startIndex % GridWidth;
         int startY = startIndex / GridWidth;
+        Vector2Int itemOffset = GetItemOffset(item);
 
-        // Проверяем выход за границы сетки
-        if (startX + width > GridWidth || startY + height > GridHeight)
+        // РџСЂРѕРІРµСЂСЏРµРј РєР°Р¶РґСѓСЋ СЏС‡РµР№РєСѓ РїСЂРµРґРјРµС‚Р°
+        for (int y = 0; y < item.Size.y; y++)
         {
-            return false;
-        }
-
-        // Проверяем занятость ячеек
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < item.Size.x; x++)
             {
-                int index = (startY + y) * GridWidth + (startX + x);
-
-                if (index >= shopCells.Count || shopCells[index] == null || shopCells[index].nestedObject != null)
+                if (item.GetCell(x, y))
                 {
-                    return false;
+                    int gridX = startX + x - itemOffset.x;
+                    int gridY = startY + y - itemOffset.y;
+                    int index = gridY * GridWidth + gridX;
+
+                    // РџСЂРѕРІРµСЂСЏРµРј РіСЂР°РЅРёС†С‹ Рё Р·Р°РЅСЏС‚РѕСЃС‚СЊ
+                    if (gridX < 0 || gridX >= GridWidth || gridY < 0 || gridY >= GridHeight)
+                        return false;
+
+                    if (index >= shopCells.Count || IsCellOccupied(index))
+                        return false;
                 }
             }
         }
@@ -106,34 +228,40 @@ public class ShopGenerator : MonoBehaviour
         return true;
     }
 
-    private void PlaceItem(int startIndex, ItemNew item)
+    private void PlaceItem(int startIndex, ItemStructure item)
     {
         int startX = startIndex % GridWidth;
         int startY = startIndex / GridWidth;
+        Vector2Int itemOffset = GetItemOffset(item);
 
-        // Занимаем ячейки
         List<Cell> occupiedCells = new List<Cell>();
-        for (int y = 0; y < item.HeightCell; y++)
+
+        // Р—Р°РЅРёРјР°РµРј СЏС‡РµР№РєРё СЃРѕРіР»Р°СЃРЅРѕ С„РѕСЂРјРµ РїСЂРµРґРјРµС‚Р°
+        for (int y = 0; y < item.Size.y; y++)
         {
-            for (int x = 0; x < item.WidthCell; x++)
+            for (int x = 0; x < item.Size.x; x++)
             {
-                int index = (startY + y) * GridWidth + (startX + x);
-                if (index < shopCells.Count && shopCells[index] != null)
+                if (item.GetCell(x, y))
                 {
-                    shopCells[index].nestedObject = item.gameObject;
-                    occupiedCells.Add(shopCells[index]);
+                    int gridX = startX + x - itemOffset.x;
+                    int gridY = startY + y - itemOffset.y;
+                    int index = gridY * GridWidth + gridX;
+
+                    if (index < shopCells.Count && shopCells[index] != null)
+                    {
+                        shopCells[index].nestedObject = item.gameObject;
+                        occupiedCells.Add(shopCells[index]);
+                    }
                 }
             }
         }
 
-        // Вычисляем центр занятых ячеек
-        Vector3 cellsCenter = CalculateCellsCenter(occupiedCells);
-
-        // Вычисляем центр предмета
-        Vector3 itemCenter = CalculateItemCenter(item);
-
-        // Позиционируем предмет
-        item.transform.position = cellsCenter - itemCenter + item.transform.position;
+        // РџРѕР·РёС†РёРѕРЅРёСЂСѓРµРј РїСЂРµРґРјРµС‚ РІ С†РµРЅС‚СЂ Р·Р°РЅСЏС‚С‹С… СЏС‡РµРµРє СЃ СЃРѕС…СЂР°РЅРµРЅРёРµРј Z
+        if (occupiedCells.Count > 0)
+        {
+            Vector3 centerPosition = CalculateCellsCenter(occupiedCells);
+            item.transform.position = new Vector3(centerPosition.x, centerPosition.y, item.transform.position.z);
+        }
     }
 
     private Vector3 CalculateCellsCenter(List<Cell> cells)
@@ -145,30 +273,23 @@ public class ShopGenerator : MonoBehaviour
         {
             if (cell != null)
             {
-                center += cell.transform.position;
+                // РСЃРїРѕР»СЊР·СѓРµРј С‚РѕР»СЊРєРѕ X Рё Y РєРѕРѕСЂРґРёРЅР°С‚С‹ СЏС‡РµР№РєРё, Z РѕСЃС‚Р°РµС‚СЃСЏ РЅРµРёР·РјРµРЅРЅС‹Рј
+                center.x += cell.transform.position.x;
+                center.y += cell.transform.position.y;
             }
         }
-        return center / cells.Count;
+
+        return new Vector3(center.x / cells.Count, center.y / cells.Count, 0f);
     }
 
-    private Vector3 CalculateItemCenter(ItemNew item)
+    private GameObject GetRandomItemPrefab()
     {
-        if (item.itemColliders == null || item.itemColliders.Count == 0)
-            return item.transform.position;
-
-        Bounds bounds = new Bounds(item.itemColliders[0].bounds.center, Vector3.zero);
-        foreach (BoxCollider2D collider in item.itemColliders)
-        {
-            if (collider != null)
-            {
-                bounds.Encapsulate(collider.bounds);
-            }
-        }
-        return bounds.center;
+        if (itemPrefabs.Length == 0) return null;
+        return itemPrefabs[Random.Range(0, itemPrefabs.Length)];
     }
 
-    // Альтернативная версия - плотная упаковка по строкам
-    public void GenerateItemsPacked()
+    // РњРµС‚РѕРґ РґР»СЏ РїР»РѕС‚РЅРѕР№ СѓРїР°РєРѕРІРєРё (РІСЃРµРіРґР° СЃ РЅР°С‡Р°Р»Р°)
+    public void GenerateItemsDensePacking()
     {
         ClearItems();
 
@@ -177,15 +298,15 @@ public class ShopGenerator : MonoBehaviour
 
         while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
         {
-            // Пропускаем занятые ячейки
-            if (shopCells[currentIndex].nestedObject != null)
+            if (IsCellOccupied(currentIndex))
             {
                 currentIndex++;
                 continue;
             }
 
-            GameObject randomPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
-            ItemNew itemComponent = randomPrefab.GetComponent<ItemNew>();
+            // Р‘РµСЂРµРј СЃР»СѓС‡Р°Р№РЅС‹Р№ РїСЂРµС„Р°Р± (РјРѕРіСѓС‚ РїРѕРІС‚РѕСЂСЏС‚СЊСЃСЏ)
+            GameObject randomPrefab = GetRandomItemPrefab();
+            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
 
             if (itemComponent == null)
             {
@@ -193,38 +314,102 @@ public class ShopGenerator : MonoBehaviour
                 continue;
             }
 
-            if (CanPlaceItem(currentIndex, itemComponent.WidthCell, itemComponent.HeightCell))
+            if (CanPlaceItem(currentIndex, itemComponent))
             {
-                ItemNew spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemNew>();
+                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);
                 itemsGenerated++;
 
-                // Переходим к следующей ячейке в строке
-                currentIndex += itemComponent.WidthCell;
-
-                // Если достигли конца строки, переходим на новую
-                if (currentIndex % GridWidth == 0)
-                {
-                    currentIndex = (currentIndex / GridWidth + 1) * GridWidth;
-                }
+                // РџРѕСЃР»Рµ СЂР°Р·РјРµС‰РµРЅРёСЏ РёС‰РµРј СЃР»РµРґСѓСЋС‰СѓСЋ СЃРІРѕР±РѕРґРЅСѓСЋ СЏС‡РµР№РєСѓ СЃ РЅР°С‡Р°Р»Р°
+                currentIndex = FindNextFreeCell(0);
             }
             else
             {
                 currentIndex++;
 
-                // Если достигли конца строки, переходим на новую
-                if (currentIndex % GridWidth == 0)
+                // Р•СЃР»Рё РґРѕС€Р»Рё РґРѕ РєРѕРЅС†Р°, РЅРѕ РµС‰Рµ РЅСѓР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РїСЂРµРґРјРµС‚С‹ - РЅР°С‡РёРЅР°РµРј СЃРЅР°С‡Р°Р»Р°
+                if (currentIndex >= shopCells.Count && itemsGenerated < maxShopItems)
                 {
-                    currentIndex = (currentIndex / GridWidth + 1) * GridWidth;
-
-                    // Пропускаем строки если они уже заняты
-                    while (currentIndex < shopCells.Count && shopCells[currentIndex].nestedObject != null)
-                    {
-                        currentIndex += GridWidth;
-                    }
+                    currentIndex = FindNextFreeCell(0);
+                    if (currentIndex >= shopCells.Count) break;
                 }
             }
         }
+    }
+
+    // Р’РёР·СѓР°Р»РёР·Р°С†РёСЏ Р·Р°РЅСЏС‚С‹С… СЏС‡РµРµРє РґР»СЏ РѕС‚Р»Р°РґРєРё
+    public void DebugOccupiedCells()
+    {
+        string grid = "Sostoyanie setki:\n";
+        for (int y = 0; y < GridHeight; y++)
+        {
+            for (int x = 0; x < GridWidth; x++)
+            {
+                int index = y * GridWidth + x;
+                if (index < shopCells.Count)
+                {
+                    grid += shopCells[index].nestedObject != null ? "[X] " : "[ ] ";
+                }
+            }
+            grid += "\n";
+        }
+        Debug.Log(grid);
+    }
+
+    // РќРѕРІС‹Р№ РјРµС‚РѕРґ: РїС‹С‚Р°РµС‚СЃСЏ СЃРѕР·РґР°С‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРµРґРјРµС‚РѕРІ
+    public void GenerateMaxItems()
+    {
+        ClearItems();
+
+        int itemsGenerated = 0;
+        int currentIndex = 0;
+        int attempts = 0;
+        const int maxAttempts = 1000; // Р—Р°С‰РёС‚Р° РѕС‚ Р±РµСЃРєРѕРЅРµС‡РЅРѕРіРѕ С†РёРєР»Р°
+
+        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count && attempts < maxAttempts)
+        {
+            attempts++;
+
+            if (IsCellOccupied(currentIndex))
+            {
+                currentIndex++;
+                continue;
+            }
+
+            // РЎР»СѓС‡Р°Р№РЅС‹Р№ РїСЂРµС„Р°Р± (РїРѕРІС‚РѕСЂРµРЅРёСЏ СЂР°Р·СЂРµС€РµРЅС‹)
+            GameObject randomPrefab = GetRandomItemPrefab();
+            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
+
+            if (itemComponent == null)
+            {
+                currentIndex++;
+                continue;
+            }
+
+            if (CanPlaceItem(currentIndex, itemComponent))
+            {
+                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
+                PlaceItem(currentIndex, spawnedItem);
+                spawnedItems.Add(spawnedItem);
+                itemsGenerated++;
+
+                // РС‰РµРј СЃР»РµРґСѓСЋС‰СѓСЋ СЃРІРѕР±РѕРґРЅСѓСЋ СЏС‡РµР№РєСѓ
+                currentIndex = FindNextFreeCell(0);
+            }
+            else
+            {
+                currentIndex++;
+
+                // Р•СЃР»Рё РґРѕС€Р»Рё РґРѕ РєРѕРЅС†Р° СЃРµС‚РєРё, РЅР°С‡РёРЅР°РµРј СЃРЅР°С‡Р°Р»Р°
+                if (currentIndex >= shopCells.Count)
+                {
+                    currentIndex = FindNextFreeCell(0);
+                    if (currentIndex >= shopCells.Count) break;
+                }
+            }
+        }
+
+        Debug.Log($"Sozdano {itemsGenerated} predmetov iz {maxShopItems}");
     }
 }

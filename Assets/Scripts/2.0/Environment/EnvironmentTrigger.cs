@@ -25,7 +25,7 @@ public class EnvironmentTrigger : MonoBehaviour
     protected GameObject MenuButtons, MenuContent;
     protected GameObject canvasInventory;
     protected GameObject canvasShop;
-    protected ShopGenerator shopGenerator;
+    //protected ShopGenerator shopGenerator;
 
     protected virtual void Start()
     {
@@ -53,7 +53,7 @@ public class EnvironmentTrigger : MonoBehaviour
         CanvasUI = GameObject.Find("CanvasUI");
         canvasInventory = GameObject.Find("CanvasInventory").transform.GetChild(0).gameObject;
         canvasShop = GameObject.Find("CanvasShop").transform.GetChild(0).gameObject;
-        shopGenerator = GameObject.Find("ShopGenerator").GetComponent<ShopGenerator>();
+        //shopGenerator = GameObject.Find("ShopGenerator").GetComponent<ShopGenerator>();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -159,7 +159,7 @@ public class EnvironmentTrigger : MonoBehaviour
         if (canvasShop.activeSelf)
         {
             canvasShop.SetActive(false);
-            shopGenerator.ClearItems();
+            //shopGenerator.ClearItems();
         }
     }
 
