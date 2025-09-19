@@ -3,7 +3,7 @@ using UnityEngine;
 public class TopDownCharacterController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
+    public float baseMoveSpeed = 15f;
 
     [Header("Animation References")]
     public Animator animator;
@@ -27,6 +27,7 @@ public class TopDownCharacterController : MonoBehaviour
     private Vector2 animationVelocity;
     private float currentFlipVelocity;
     private float targetScaleX = 1f;
+    [HideInInspector] public float moveSpeed = 15f;//change in DynamicCameraSize
 
     public enum FlipMode
     {
@@ -37,6 +38,7 @@ public class TopDownCharacterController : MonoBehaviour
 
     void Start()
     {
+        moveSpeed = baseMoveSpeed;
         InitializeComponents();
         InitializeGraphics();
     }

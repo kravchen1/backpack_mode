@@ -39,7 +39,7 @@ public class ItemNew : MonoBehaviour
     public void Initialization()
     {
         mainCamera = Camera.main;
-        playerInventory = GameObject.Find("Inventory") ?? new GameObject("Inventory");
+        playerInventory = GameObject.Find("InventoryData") ?? new GameObject("InventoryData");
         initializationItemColliders();
         SaveOriginalPosition();
         SaveOriginallyOccupiedCells();

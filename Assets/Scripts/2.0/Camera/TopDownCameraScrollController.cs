@@ -10,10 +10,10 @@ public class TopDownCameraScrollController : MonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField, Range(1f, 50f)]
-    private float minOrthographicSize = 8.5f;
+    public float minOrthographicSize = 8.4f;
 
     [SerializeField, Range(1f, 50f)]
-    private float maxOrthographicSize = 20f;
+    public float maxOrthographicSize = 25f;
 
     [SerializeField, Range(0.1f, 5f)]
     private float scrollSensitivity = 1f;
