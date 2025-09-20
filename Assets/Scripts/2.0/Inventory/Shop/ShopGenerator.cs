@@ -18,8 +18,6 @@ public class ShopGenerator : MonoBehaviour
 
     public void GenerateItems()
     {
-        ClearItems();
-
         if (useSmartPacking)
         {
             GenerateItemsSmartPacking();
@@ -130,37 +128,12 @@ public class ShopGenerator : MonoBehaviour
         return shopCells[index].nestedObject != null;
     }
 
-    private Vector2Int GetItemActualSize(ItemStructure item)
-    {
-        int minX = item.Size.x, maxX = -1;
-        int minY = item.Size.y, maxY = -1;
-        bool hasOccupiedCells = false;
-
-        for (int y = 0; y < item.Size.y; y++)
-        {
-            for (int x = 0; x < item.Size.x; x++)
-            {
-                if (item.GetCell(x, y))
-                {
-                    hasOccupiedCells = true;
-                    if (x < minX) minX = x;
-                    if (x > maxX) maxX = x;
-                    if (y < minY) minY = y;
-                    if (y > maxY) maxY = y;
-                }
-            }
-        }
-
-        if (!hasOccupiedCells)
-            return new Vector2Int(1, 1);
-
-        return new Vector2Int(maxX - minX + 1, maxY - minY + 1);
-    }
-
     private Vector2Int GetItemOffset(ItemStructure item)
     {
-        int minX = item.Size.x, minY = item.Size.y;
+        int minX = item.Size.x;
+        int minY = item.Size.y;
 
+        // Находим минимальные координаты занятых ячеек
         for (int y = 0; y < item.Size.y; y++)
         {
             for (int x = 0; x < item.Size.x; x++)
@@ -173,7 +146,8 @@ public class ShopGenerator : MonoBehaviour
             }
         }
 
-        return new Vector2Int(minX, minY);
+        // Если не нашли занятых ячеек, возвращаем (0,0)
+        return new Vector2Int(minX == item.Size.x ? 0 : minX, minY == item.Size.y ? 0 : minY);
     }
 
     public void ClearItems()
@@ -192,7 +166,7 @@ public class ShopGenerator : MonoBehaviour
         {
             if (item != null && item.gameObject != null)
             {
-                DestroyImmediate(item.gameObject);
+                Destroy(item.gameObject);
             }
         }
         spawnedItems.Clear();
@@ -251,16 +225,24 @@ public class ShopGenerator : MonoBehaviour
                     {
                         shopCells[index].nestedObject = item.gameObject;
                         occupiedCells.Add(shopCells[index]);
+
+                        // DEBUG: Показываем какие ячейки занимаются
+                        Debug.Log($"Occupying cell [{gridX}, {gridY}] at index {index}");
                     }
                 }
             }
         }
 
-        // Позиционируем предмет в центр занятых ячеек с сохранением Z
+        // Позиционируем предмет в центр занятых ячеек
         if (occupiedCells.Count > 0)
         {
             Vector3 centerPosition = CalculateCellsCenter(occupiedCells);
+            Debug.Log($"Placing item at start index: {startIndex} (cell [{startX}, {startY}])");
+            Debug.Log($"Item offset: {itemOffset}");
             item.transform.position = new Vector3(centerPosition.x, centerPosition.y, item.transform.position.z);
+
+            // DEBUG: Показываем конечную позицию
+            Debug.Log($"Item positioned at: {centerPosition}");
         }
     }
 
@@ -268,18 +250,18 @@ public class ShopGenerator : MonoBehaviour
     {
         if (cells.Count == 0) return Vector3.zero;
 
-        Vector3 center = Vector3.zero;
+        // Используем Bounds для точного вычисления центра с учетом всех ячеек
+        Bounds bounds = new Bounds(cells[0].transform.position, Vector3.zero);
+
         foreach (Cell cell in cells)
         {
             if (cell != null)
             {
-                // Используем только X и Y координаты ячейки, Z остается неизменным
-                center.x += cell.transform.position.x;
-                center.y += cell.transform.position.y;
+                bounds.Encapsulate(cell.transform.position);
             }
         }
 
-        return new Vector3(center.x / cells.Count, center.y / cells.Count, 0f);
+        return new Vector3(bounds.center.x, bounds.center.y, 0f);
     }
 
     private GameObject GetRandomItemPrefab()
@@ -411,5 +393,23 @@ public class ShopGenerator : MonoBehaviour
         }
 
         Debug.Log($"Sozdano {itemsGenerated} predmetov iz {maxShopItems}");
+    }
+
+    private void DebugItemOffset(ItemStructure item, string context = "")
+    {
+        Vector2Int offset = GetItemOffset(item);
+        Debug.Log($"{context} Item '{item.name}' offset: {offset}");
+
+        // Визуализация формы предмета
+        string shape = "Item shape:\n";
+        for (int y = 0; y < item.Size.y; y++)
+        {
+            for (int x = 0; x < item.Size.x; x++)
+            {
+                shape += item.GetCell(x, y) ? "[X] " : "[ ] ";
+            }
+            shape += "\n";
+        }
+        Debug.Log(shape);
     }
 }

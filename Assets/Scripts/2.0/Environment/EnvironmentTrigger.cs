@@ -25,7 +25,9 @@ public class EnvironmentTrigger : MonoBehaviour
     protected GameObject MenuButtons, MenuContent;
     protected GameObject canvasInventory;
     protected GameObject canvasShop;
-    //protected ShopGenerator shopGenerator;
+    protected ShopGenerator shopGenerator;
+    protected CellsData shopData;
+    protected ButtonsController buttonsController;
 
     protected virtual void Start()
     {
@@ -53,12 +55,19 @@ public class EnvironmentTrigger : MonoBehaviour
         CanvasUI = GameObject.Find("CanvasUI");
         canvasInventory = GameObject.Find("CanvasInventory").transform.GetChild(0).gameObject;
         canvasShop = GameObject.Find("CanvasShop").transform.GetChild(0).gameObject;
-        //shopGenerator = GameObject.Find("ShopGenerator").GetComponent<ShopGenerator>();
+        shopGenerator = GameObject.Find("ShopGenerator").GetComponent<ShopGenerator>();
+        shopData = canvasShop.transform.GetChild(0).GetComponent<CellsData>();
+        buttonsController = GameObject.Find("ButtonsController").GetComponent<ButtonsController>();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
+
+        // Проверяем, что это именно триггерный коллайдер
+        if (!other.isTrigger) return;
+        // Проверяем, что это сработал именно наш триггерный коллайдер
+        //if (!GetComponent<Collider2D>().isTrigger) return;
 
         playerInTrigger = true;
         Debug.Log($"Player entered: {name}");
@@ -76,6 +85,9 @@ public class EnvironmentTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        // Проверяем, что это именно триггерный коллайдер
+        if (!other.isTrigger) return;
+
         playerInTrigger = false;
         Debug.Log($"Player exited: {name}");
 
@@ -83,7 +95,7 @@ public class EnvironmentTrigger : MonoBehaviour
         PlayResetAnimation();
 
         CloseMenuButtons();
-        CloseAllUI();
+        OnExitChild();
     }
 
     protected virtual void PlayTriggerAnimation()
@@ -111,11 +123,10 @@ public class EnvironmentTrigger : MonoBehaviour
     
     public void PerformManualInteraction()
     {
-        OpenMenuButtons();
         PerformManualInteractionChild();
     }
 
-    public virtual void PerformManualInteractionChild()
+    protected virtual void PerformManualInteractionChild()
     {
         if (!allowManualInteraction || !playerInTrigger || !gameObject.activeInHierarchy)
         {
@@ -126,7 +137,12 @@ public class EnvironmentTrigger : MonoBehaviour
         Debug.Log($"Interaction performed: {name}");
     }
 
-    private void OpenMenuButtons()
+
+    protected virtual void OnExitChild()
+    {
+        CloseAllUI();
+    }
+    protected void OpenMenuButtons()
     {
         if (MenuButtons == null)
         {
@@ -153,13 +169,13 @@ public class EnvironmentTrigger : MonoBehaviour
     {
         if (canvasInventory.activeSelf)
         {
-            canvasInventory.SetActive(false);
+            buttonsController.CloseInventory();
+            //canvasInventory.SetActive(false);
         }
 
         if (canvasShop.activeSelf)
         {
             canvasShop.SetActive(false);
-            //shopGenerator.ClearItems();
         }
     }
 

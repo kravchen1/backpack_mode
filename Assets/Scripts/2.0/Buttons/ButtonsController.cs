@@ -53,14 +53,14 @@ public class ButtonsController : MonoBehaviour
     private void HandleInventoryInput()
     {
         // Проверяем есть ли активные взаимодействия перед открытием инвентаря
-        bool canOpenInventory = true;
+        //bool canOpenInventory = true;
 
-        if (interactionController != null)
-        {
-            canOpenInventory = !interactionController.HasAvailableInteractions();
-        }
+        //if (interactionController != null)
+        //{
+        //    canOpenInventory = !interactionController.HasAvailableInteractions();
+        //}
 
-        if (Input.GetKeyDown(inventoryKey) && canOpenInventory)
+        if (Input.GetKeyDown(inventoryKey) /*&& canOpenInventory*/)
         {
             ToggleInventory();
         }

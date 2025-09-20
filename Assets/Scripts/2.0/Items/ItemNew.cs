@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ItemNew : MonoBehaviour
 {
-    public string originalNamePrefab;
-
     protected RaycastHit2D[] hits1;
     protected RaycastHit2D[] hits2;
     protected RaycastHit2D[] hitCells;

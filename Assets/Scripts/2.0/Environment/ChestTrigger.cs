@@ -9,35 +9,43 @@ public class ChestTrigger : EnvironmentTrigger
     [SerializeField] private GameObject ChestClose;
     [SerializeField] private int countItemsInside = 5;
 
+    private string settingsKey;
+
     protected override void Start()
     {
         base.Start();
 
 
-        if(isOpened)
-        {
-            OpenChest();
-        }
+        settingsKey = "shopData" + gameObject.name;
     }
 
-    public override void PerformManualInteractionChild()
+    protected override void PerformManualInteractionChild()
     {
-        foreach (var ButtonsKeyText in ButtonsKeyTexts)
+        OpenMenuButtons();
+        foreach (var buttonsKeyText in ButtonsKeyTexts)
         {
             GameObject button = Instantiate(ButtonPrefab, MenuContent.transform);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = ButtonsKeyText;
+            button.GetComponentInChildren<TextMeshProUGUI>().text = buttonsKeyText;
 
-            if(ButtonsKeyText == "Open")
+            if (buttonsKeyText != null)
             {
-                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OpenChest());
+                button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+
+                switch (buttonsKeyText)
+                {
+                    case "Open":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OpenChest());
+                        break;
+                    case "Destroy":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(DestroyChest);
+                        break;
+                    default:
+                        //могут быть и другие ключи
+                        break;
+                }
             }
 
-            if (ButtonsKeyText == "Destroy")
-            {
-                button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => DestroyChest());
-            }
-
-            //могут быть и другие ключи
+            
         }
 
     }
@@ -52,16 +60,37 @@ public class ChestTrigger : EnvironmentTrigger
         ChestOpen.SetActive(true);
         ChestClose.SetActive(false);
 
-        canvasInventory.SetActive(true);
+        buttonsController.OpenInventory();
         canvasShop.SetActive(true);
 
-        //shopGenerator.maxShopItems = countItemsInside;
-        //shopGenerator.GenerateItems();
+        if (string.IsNullOrEmpty(PlayerPrefs.GetString(settingsKey, "")))
+        {
+            shopGenerator.maxShopItems = countItemsInside;
+            shopGenerator.GenerateItems();
+            shopData.settingsKey = settingsKey;
+            shopData.SaveData();
+        }
+        else
+        {
+            shopData.settingsKey = settingsKey;
+            shopData.LoadData();
+        }
+
 
         // Отключаем дальнейшие взаимодействия
-        allowManualInteraction = false;
+        //allowManualInteraction = false;
     }
 
+
+    protected override void OnExitChild()
+    {
+        if (isOpened)
+        {
+            isOpened = false;
+            shopData.SaveData();
+        }
+        CloseAllUI();
+    }
     private void DestroyChest()
     {
         CloseMenuButtons();
