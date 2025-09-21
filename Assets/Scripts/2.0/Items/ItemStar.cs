@@ -15,7 +15,7 @@ public class ItemStar : MonoBehaviour
     private BoxCollider2D _boxCollider;
     private Transform _playerInventory;
     private GameObject _currentItem;
-    private bool _isStarEnabled = true;
+    private bool _isStarEnabled = false;
 
     public GameObject CurrentItem => _currentItem;
 
@@ -92,10 +92,23 @@ public class ItemStar : MonoBehaviour
         var itemStructure = itemObject.GetComponent<ItemStructure>();
         if (itemStructure == null) return false;
 
-        bool typeValid = _allowedItemTypes.Count == 0 || _allowedItemTypes.Contains(itemStructure.itemType);
+        bool typeValid = _allowedItemTypes.Count == 0 || HasMatchingItemType(itemStructure.itemTypes);
         bool rarityValid = _allowedItemRarities.Count == 0 || _allowedItemRarities.Contains(itemStructure.itemRarity);
 
         return typeValid && rarityValid;
+    }
+
+    private bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
+    {
+        if (_allowedItemTypes.Count == 0) return true;
+
+        foreach (var itemType in itemTypesToCheck)
+        {
+            if (_allowedItemTypes.Contains(itemType))
+                return true;
+        }
+
+        return false;
     }
 
     private void UpdateStarVisuals()

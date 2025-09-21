@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 2853995239590263435}
   m_Layer: 9
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -653,7 +653,7 @@ GameObject:
   - component: {fileID: 5691356267100704647}
   m_Layer: 9
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -766,7 +766,7 @@ GameObject:
   - component: {fileID: 5700673581419344}
   m_Layer: 9
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1057,7 +1057,7 @@ GameObject:
   - component: {fileID: 1828845484094855284}
   m_Layer: 9
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1170,7 +1170,7 @@ GameObject:
   - component: {fileID: 4798670501510384249}
   m_Layer: 9
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1481,6 +1481,12 @@ MonoBehaviour:
   - {fileID: 6414529084789440903}
   - {fileID: 4840199753905114517}
   - {fileID: 8214549338403724101}
+  itemStars:
+  - {fileID: 5691356267100704647}
+  - {fileID: 4798670501510384249}
+  - {fileID: 5700673581419344}
+  - {fileID: 2853995239590263435}
+  - {fileID: 1828845484094855284}
 --- !u!114 &573429902752839393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1493,10 +1499,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feef6b703c48e9e4fb35558f43bd1f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemTypes: 00000000
   itemRarity: 0
   _size: {x: 2, y: 4}
   _cells: 0101010101000100
+  _descriptionTriples:
+  - _nameKey: 
+    _answerKey: 
+    _descriptionKey: 
+  _doubleClickTime: 0.3
 --- !u!1 &4938948647587152289
 GameObject:
   m_ObjectHideFlags: 0

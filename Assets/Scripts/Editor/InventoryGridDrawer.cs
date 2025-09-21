@@ -6,22 +6,19 @@ using UnityEngine;
 public class ItemStructureEditor : Editor
 {
     private const float CELL_SIZE = 25f;
-    private const float SPACING = 2f;
+    private bool _showDescriptionTriples = true;
 
     public override void OnInspectorGUI()
     {
         // Отрисовываем стандартные поля
         DrawDefaultInspector();
 
-        EditorGUILayout.Space(20f);
-        EditorGUILayout.LabelField("Forma Predmeta", EditorStyles.boldLabel);
-
         ItemStructure item = (ItemStructure)target;
 
-        // Рисуем сетку
+        EditorGUILayout.Space(20f);
+        EditorGUILayout.LabelField("Forma Predmeta", EditorStyles.boldLabel);
         DrawGrid(item);
 
-        // Кнопки управления
         EditorGUILayout.Space(10f);
         if (GUILayout.Button("Ochistit' vse"))
         {
@@ -32,6 +29,11 @@ public class ItemStructureEditor : Editor
         {
             FillGrid(item);
         }
+    }
+
+    private void DrawDescriptionTriplesSection(ItemStructure item)
+    {
+        EditorGUILayout.HelpBox("Description triples are configured above in the default inspector", MessageType.Info);
     }
 
     private void DrawGrid(ItemStructure item)

@@ -23,8 +23,8 @@ public class AdvancedButtonEvents : MonoBehaviour, ISelectHandler, IDeselectHand
     public bool enableHoverOnlyWhenNoSelection = true;
     public string ButtonKey;
     public string ButtonAnswerKey;
+    public string DescriptionKey;
 
-    private Button button;
     private bool isSelected;
     private bool isHovered;
 
@@ -32,23 +32,49 @@ public class AdvancedButtonEvents : MonoBehaviour, ISelectHandler, IDeselectHand
 
     void Start()
     {
-        button = GetComponent<Button>();
         isSelected = false;
         isHovered = false;
         DescriptionsStats = GameObject.Find("DescriptionsStats").GetComponent<TextMeshProUGUI>();
 
+        Initialized();
 
-
-
-        switch (ButtonKey)
-        {
-            default:
-                onSelected.AddListener(() => DescriptionsStats.text = "Play button selected" + gameObject.name);
-                onHover.AddListener(() => DescriptionsStats.text = "Hover over play button" + gameObject.name);
-                break;
-        }
 
     }
+
+    public void Initialized()
+    {
+        onSelected.AddListener(() => DescriptionsStats.text = DescriptionKey);
+        onHover.AddListener(() => DescriptionsStats.text = DescriptionKey);
+        textButtonLeft.text = ButtonKey;
+        textButtonRight.text = ButtonAnswerKey;
+    }
+    /*
+        1)Quality:
+        2)Description:
+        3)Weight:
+        4)Durability:
+        5)MinDamageMelee: 
+        6)MaxDamageMelee:
+        7)MinDamageRange: 
+        8)MaxDamageRange:
+        9)CritChanceMelee: 
+        10)CritChanceRange: 
+        11)CritDamageMelee:
+        12)CritDamageRange: 
+        13)Stamina:
+        14)Accuracy:
+        15)CoolDownMelee:
+        16)CoolDownRange:
+        17)Price:
+        18)Armor:
+        19)CountHeal:
+        20)ActivationConditions:
+        21)Modifiers:
+        22)Type
+        23)Rarity
+    */
+
+
 
     void Update()
     {
