@@ -1,36 +1,36 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+//using UnityEngine;
+//using UnityEngine.SceneManagement;
 
-public class Flask : Item
-{
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "BackPackBattle")
-        {
-            FillnestedObjectStarsStars(256);
-            animator.speed = 1f / 0.5f;
-            //animator.Play(originalName + "Activation");
-        }
-    }
+//public class Flask : Item
+//{
+//    private void Start()
+//    {
+//        if (SceneManager.GetActiveScene().name == "BackPackBattle")
+//        {
+//            FillnestedObjectStarsStars(256);
+//            animator.speed = 1f / 0.5f;
+//            //animator.Play(originalName + "Activation");
+//        }
+//    }
 
-    private void CoolDownStart()
-    {
-        if (timer_locked_outStart)
-        {
-            timerStart -= Time.deltaTime;
+//    private void CoolDownStart()
+//    {
+//        if (timer_locked_outStart)
+//        {
+//            timerStart -= Time.deltaTime;
 
-            if (timerStart <= 0)
-            {
-                timer_locked_outStart = false;
+//            if (timerStart <= 0)
+//            {
+//                timer_locked_outStart = false;
 
-                StartActivation();
-            }
-        }
-    }
+//                StartActivation();
+//            }
+//        }
+//    }
 
-    public override void UpdateForBattle()
-    {
-        CoolDownStart();
-        Activation();
-    }
-}
+//    public override void UpdateForBattle()
+//    {
+//        CoolDownStart();
+//        Activation();
+//    }
+//}

@@ -1,6 +1,6 @@
-using UnityEngine;
+//using UnityEngine;
 
-public class GoldenItemChest : Chest
-{
+//public class GoldenItemChest : Chest
+//{
     
-}
+//}

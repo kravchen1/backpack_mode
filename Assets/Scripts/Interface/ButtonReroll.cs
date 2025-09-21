@@ -1,58 +1,58 @@
-using TMPro;
-using UnityEngine;
+//using TMPro;
+//using UnityEngine;
 
-public class ButtonReroll : Button
-{
-    private int countRerollBeforePriceIncrease = 10;
-    private int countIncrease = 1;
-    public TextMeshProUGUI textPrice;
+//public class ButtonReroll : Button
+//{
+//    private int countRerollBeforePriceIncrease = 10;
+//    private int countIncrease = 1;
+//    public TextMeshProUGUI textPrice;
 
-    private CharacterStats stat;
-    private void Awake()
-    {
-        stat = GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>();
+//    private CharacterStats stat;
+//    private void Awake()
+//    {
+//        stat = GameObject.FindGameObjectWithTag("Stat").GetComponent<CharacterStats>();
 
-    }
+//    }
 
-    override public void OnMouseUpAsButton()
-    {
-        if (stat.playerCoins - PlayerPrefs.GetInt("priceReroll") >= 0)
-        {
-            var listShopData = GameObject.FindObjectsByType<GenerateShopItems>(FindObjectsSortMode.None);
-            //bool rerolling = false;
-            foreach (var data in listShopData)
-            {
-                if (!data.GetComponent<Price>().lockForItem.activeSelf)
-                {
-                    if (data.shopData.item != null)
-                    {
-                        Destroy(data.shopData.item.gameObject);
-                        data.GenerateRandomItem();
-                        //rerolling = true;
-                    }
-                    else
-                    {
-                        data.GenerateRandomItem();
-                        //rerolling = true;
-                    }
-                }
-            }
-            //if (rerolling)
-            //{
-            //    stat.playerCoins -= PlayerPrefs.GetInt("priceReroll");
-            //    PlayerPrefs.SetInt("countRerollBeforePriceIncrease", PlayerPrefs.GetInt("countRerollBeforePriceIncrease") + 1);
+//    override public void OnMouseUpAsButton()
+//    {
+//        if (stat.playerCoins - PlayerPrefs.GetInt("priceReroll") >= 0)
+//        {
+//            var listShopData = GameObject.FindObjectsByType<GenerateShopItems>(FindObjectsSortMode.None);
+//            //bool rerolling = false;
+//            foreach (var data in listShopData)
+//            {
+//                if (!data.GetComponent<Price>().lockForItem.activeSelf)
+//                {
+//                    if (data.shopData.item != null)
+//                    {
+//                        Destroy(data.shopData.item.gameObject);
+//                        data.GenerateRandomItem();
+//                        //rerolling = true;
+//                    }
+//                    else
+//                    {
+//                        data.GenerateRandomItem();
+//                        //rerolling = true;
+//                    }
+//                }
+//            }
+//            //if (rerolling)
+//            //{
+//            //    stat.playerCoins -= PlayerPrefs.GetInt("priceReroll");
+//            //    PlayerPrefs.SetInt("countRerollBeforePriceIncrease", PlayerPrefs.GetInt("countRerollBeforePriceIncrease") + 1);
 
-            //    if (PlayerPrefs.GetInt("countRerollBeforePriceIncrease") == countRerollBeforePriceIncrease)
-            //    {
-            //        PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
-            //        //PlayerPrefs.SetInt("priceReroll", PlayerPrefs.GetInt("priceReroll") + countIncrease);
-            //    }
-
-
-            //    textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
-            //}
+//            //    if (PlayerPrefs.GetInt("countRerollBeforePriceIncrease") == countRerollBeforePriceIncrease)
+//            //    {
+//            //        PlayerPrefs.SetInt("countRerollBeforePriceIncrease", 0);
+//            //        //PlayerPrefs.SetInt("priceReroll", PlayerPrefs.GetInt("priceReroll") + countIncrease);
+//            //    }
 
 
-        }
-    }
-}
+//            //    textPrice.text = PlayerPrefs.GetInt("priceReroll").ToString();
+//            //}
+
+
+//        }
+//    }
+//}

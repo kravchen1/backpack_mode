@@ -11,7 +11,7 @@ public class ItemNew : MonoBehaviour
     private bool isDragging = false;
     private Camera mainCamera;
     private Vector3 offset;
-    [HideInInspector] public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
+    public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     private int colliderCount;
 
     private List<Collider2D> previousHitColliders = new List<Collider2D>();
@@ -50,7 +50,7 @@ public class ItemNew : MonoBehaviour
         Cell[] allCells = FindObjectsOfType<Cell>();
         foreach (Cell cell in allCells)
         {
-            if (cell.nestedObject == gameObject)
+            if (cell.NestedObject == gameObject)
             {
                 originallyOccupiedCells.Add(cell);
             }
@@ -59,14 +59,10 @@ public class ItemNew : MonoBehaviour
 
     private void initializationItemColliders()
     {
-        itemColliders.Clear();
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            Transform child = transform.GetChild(i);
-            BoxCollider2D[] childColliders = child.GetComponentsInChildren<BoxCollider2D>();
-            itemColliders.AddRange(childColliders);
-        }
+        //itemColliders.Clear();
+        //Transform child = transform.GetChild(0);
+        //BoxCollider2D[] childColliders = child.GetComponentsInChildren<BoxCollider2D>();
+        //itemColliders.AddRange(childColliders);
 
         colliderCount = itemColliders.Count;
         hits1 = new RaycastHit2D[colliderCount];
@@ -124,7 +120,7 @@ public class ItemNew : MonoBehaviour
         {
             if (cell != null)
             {
-                cell.nestedObject = gameObject;
+                cell.NestedObject = gameObject;
             }
         }
     }
@@ -134,9 +130,9 @@ public class ItemNew : MonoBehaviour
         Cell[] allCells = FindObjectsOfType<Cell>();
         foreach (Cell cell in allCells)
         {
-            if (cell.nestedObject == gameObject)
+            if (cell.NestedObject == gameObject)
             {
-                cell.nestedObject = null;
+                cell.NestedObject = null;
             }
         }
     }
@@ -226,7 +222,7 @@ public class ItemNew : MonoBehaviour
             }
 
             Cell cell = hit.collider.GetComponent<Cell>();
-            if (cell != null && cell.nestedObject != null && cell.nestedObject != gameObject)
+            if (cell != null && cell.NestedObject != null && cell.NestedObject != gameObject)
             {
                 canBePlaced = false;
                 return;
@@ -248,7 +244,7 @@ public class ItemNew : MonoBehaviour
             SpriteRenderer sr = currentHits[i].collider.GetComponent<SpriteRenderer>();
             if (sr == null) continue;
 
-            if (cell.nestedObject != null && cell.nestedObject != gameObject)
+            if (cell.NestedObject != null && cell.NestedObject != gameObject)
             {
                 sr.color = Color.red;
                 currentRedCells.Add(cell);
@@ -268,7 +264,7 @@ public class ItemNew : MonoBehaviour
         {
             if (cell != null)
             {
-                cell.nestedObject = gameObject;
+                cell.NestedObject = gameObject;
             }
         }
     }

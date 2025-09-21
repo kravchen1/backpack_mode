@@ -125,7 +125,7 @@ public class ShopGenerator : MonoBehaviour
         if (index < 0 || index >= shopCells.Count)
             return true;
 
-        return shopCells[index].nestedObject != null;
+        return shopCells[index].NestedObject != null;
     }
 
     private Vector2Int GetItemOffset(ItemStructure item)
@@ -157,7 +157,7 @@ public class ShopGenerator : MonoBehaviour
         {
             if (cell != null)
             {
-                cell.nestedObject = null;
+                cell.NestedObject = null;
             }
         }
 
@@ -223,7 +223,7 @@ public class ShopGenerator : MonoBehaviour
 
                     if (index < shopCells.Count && shopCells[index] != null)
                     {
-                        shopCells[index].nestedObject = item.gameObject;
+                        shopCells[index].NestedObject = item.gameObject;
                         occupiedCells.Add(shopCells[index]);
 
                         // DEBUG: Показываем какие ячейки занимаются
@@ -331,7 +331,7 @@ public class ShopGenerator : MonoBehaviour
                 int index = y * GridWidth + x;
                 if (index < shopCells.Count)
                 {
-                    grid += shopCells[index].nestedObject != null ? "[X] " : "[ ] ";
+                    grid += shopCells[index].NestedObject != null ? "[X] " : "[ ] ";
                 }
             }
             grid += "\n";

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ItemStructure : MonoBehaviour
 {
     public ItemType itemType;
-    public ItemRarity rarity;
+    public ItemRarity itemRarity;
 
     [SerializeField] private Vector2Int _size = new Vector2Int(3, 3);
     [SerializeField] private bool[] _cells;

@@ -1,6 +1,13 @@
 using UnityEngine;
 
+[SelectionBase]
 public class Cell : MonoBehaviour
 {
-    public GameObject nestedObject = null;
+    [SerializeField] private GameObject _nestedObject;
+
+    public GameObject NestedObject
+    {
+        get => _nestedObject;
+        set => _nestedObject = value;
+    }
 }
