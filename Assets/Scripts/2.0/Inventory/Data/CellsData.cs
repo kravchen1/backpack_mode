@@ -23,12 +23,17 @@ public class CellsData : MonoBehaviour
     {
         if (settingsKey == "InventoryData")
         {
-            if (!skipNextSave)
-            {
-                LoadData();
-            }
-            skipNextSave = false;
+            StartCoroutine(LoadDataDelayed());
         }
+    }
+
+    private IEnumerator LoadDataDelayed()
+    {
+        // Ждем три кадра
+        yield return null; // Первый кадр
+        yield return null; // Второй кадр  
+        yield return null; // Третий кадр
+        LoadData();
     }
 
     private void OnDisable()
