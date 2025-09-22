@@ -49,29 +49,29 @@ public class AdvancedButtonEvents : MonoBehaviour, ISelectHandler, IDeselectHand
         textButtonRight.text = ButtonAnswerKey;
     }
     /*
-        1)Quality:
-        2)Description:
-        3)Weight:
-        4)Durability:
-        5)MinDamageMelee: 
-        6)MaxDamageMelee:
-        7)MinDamageRange: 
-        8)MaxDamageRange:
-        9)CritChanceMelee: 
-        10)CritChanceRange: 
-        11)CritDamageMelee:
-        12)CritDamageRange: 
-        13)Stamina:
-        14)Accuracy:
-        15)CoolDownMelee:
-        16)CoolDownRange:
-        17)Price:
-        18)Armor:
-        19)CountHeal:
-        20)ActivationConditions:
-        21)Modifiers:
-        22)Type
-        23)Rarity
+        1)Type
+        2)Rarity
+        3)Quality:
+        4)Description:
+        5)Weight:
+        6)Durability:
+        7)AvgDamageMelee: MinDamageMelee: - MaxDamageMelee:
+        8)AvgDamageRange: MinDamageRange: - MaxDamageRange:
+        9)CoolDownMelee:
+        10)CoolDownRange:
+        11)CritChanceMelee: 
+        12)CritChanceRange: 
+        13)CritDamageMelee:
+        14)CritDamageRange: 
+        15)BaseStaminaMelee:
+        16)BaseStaminaRange:
+        17)AccuracyMelee:
+        18)AccuracyRaange:
+        19)Price:
+        20)CountHeal:
+        21)ActivationConditions:
+        22)Modifiers:
+        
     */
 
 

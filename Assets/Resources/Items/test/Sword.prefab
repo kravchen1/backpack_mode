@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 6785740483909659780}
   - component: {fileID: 1865825903293932221}
   - component: {fileID: 573429902752839393}
+  - component: {fileID: 7311709552932657973}
   m_Layer: 7
   m_Name: Sword
   m_TagString: Untagged
@@ -289,6 +290,7 @@ MonoBehaviour:
   itemColliders:
   - {fileID: 5470981861799976697}
   - {fileID: 7172342336565754545}
+  itemStars: []
 --- !u!114 &573429902752839393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,10 +303,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feef6b703c48e9e4fb35558f43bd1f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemRarity: 0
   _size: {x: 1, y: 2}
   _cells: 0101
+--- !u!114 &7311709552932657973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847621663301936981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8005494c6c070940ba9a2cf302a7787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemNameKey: Sword
+  itemTypes: 00000000
+  itemRarity: 0
+  qualityKey: Good
+  weight: 1
+  durability: 100
+  maxDurability: 100
+  Price: 100
+  minAttackMelee: 1
+  maxAttackMelee: 5
+  coolDownMelee: 3
+  baseStaminaMelee: 2
+  accuracyMelee: 75
+  critChanceMelee: 10
+  critDamageMelee: 150
+  minAttackRange: 10
+  maxAttackRange: 100
+  coolDownRange: 0.5
+  baseStaminaRange: 0.2
+  accuracyRange: 2
+  critChanceRange: 25
+  critDamageRange: 220
+  _descriptionTriples: []
+  _doubleClickTime: 0.3
+  _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}
 --- !u!1 &7307104716969870218
 GameObject:
   m_ObjectHideFlags: 0

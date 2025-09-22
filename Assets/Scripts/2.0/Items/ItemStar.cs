@@ -14,7 +14,7 @@ public class ItemStar : MonoBehaviour
 
     private BoxCollider2D _boxCollider;
     private Transform _playerInventory;
-    private GameObject _currentItem;
+    [SerializeField] private GameObject _currentItem;
     private bool _isStarEnabled = false;
 
     public GameObject CurrentItem => _currentItem;
@@ -68,7 +68,7 @@ public class ItemStar : MonoBehaviour
         }
     }
 
-    private void PerformRaycastCheck()
+    public void PerformRaycastCheck()
     {
         var hit = Physics2D.Raycast(_boxCollider.bounds.center, Vector2.zero, 0f, _raycastMask);
 
@@ -82,14 +82,14 @@ public class ItemStar : MonoBehaviour
             }
         }
 
-        _currentItem = null;
+        //_currentItem = null;
     }
 
     private bool IsValidItem(GameObject itemObject)
     {
         if (itemObject == null) return false;
 
-        var itemStructure = itemObject.GetComponent<ItemStructure>();
+        var itemStructure = itemObject.GetComponent<ItemStats>();
         if (itemStructure == null) return false;
 
         bool typeValid = _allowedItemTypes.Count == 0 || HasMatchingItemType(itemStructure.itemTypes);
@@ -131,7 +131,7 @@ public class ItemStar : MonoBehaviour
 
         if (!_isStarEnabled)
         {
-            _currentItem = null;
+            //_currentItem = null;
             SetVisualsState(false);
         }
         else

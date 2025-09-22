@@ -1,18 +1,24 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ButtonsController : MonoBehaviour
 {
-    [Header("UI References")]
+    [Header("UI References Inventory")]
     [SerializeField] private GameObject canvasInventory;
     [SerializeField] private KeyCode inventoryKey = KeyCode.I;
     [SerializeField] private bool closeWithSameKey = true;
 
+    [Header("UI References MenuDescriptionItem")]
+    [SerializeField] private GameObject canvasMenuDescriptionItem;
+
     [Header("Settings")]
-    [SerializeField] private bool pauseGameWhenOpen = true;
+    [SerializeField] private bool pauseGameWhenOpenInventory = true;
+    [SerializeField] private bool pauseGameWhenOpenMenuDescriptionItem = true;
     [SerializeField] private bool preventInputWhenOpen = true;
 
     private bool isInventoryOpen = false;
+    private bool isMenuDescriptionItemOpen = false;
     private EventSystem eventSystem;
     private InteractionController interactionController;
 
@@ -96,12 +102,56 @@ public class ButtonsController : MonoBehaviour
         }
     }
 
+    public void OpenMenuDescriptionItem()
+    {
+        SetMenuDescriptionItemState(true);
+    }
+
+    public void CloseMenuDescriptionItem()
+    {
+        SetMenuDescriptionItemState(false);
+    }
+
+    public void SetMenuDescriptionItemState(bool isOpen, bool force = false)
+    {
+        if (canvasMenuDescriptionItem == null) return;
+        if (isMenuDescriptionItemOpen == isOpen && !force) return;
+
+        if (!isOpen)
+        {
+            Transform itemStats = canvasMenuDescriptionItem.transform.GetChild(4);
+            TextMeshProUGUI descriptionsStats = canvasMenuDescriptionItem.transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+            descriptionsStats.text = "";
+            for (int i = 0; i < itemStats.childCount; i++)
+            {
+                Destroy(itemStats.GetChild(i).gameObject);
+            }
+        }
+
+        isMenuDescriptionItemOpen = isOpen;
+        canvasMenuDescriptionItem.SetActive(isOpen);
+
+        
+
+        if (!force)
+        {
+            HandleGamePause();
+            HandleInputBlocking();
+        }
+    }
+
+
     private void HandleGamePause()
     {
-        if (pauseGameWhenOpen)
+        if (pauseGameWhenOpenInventory)
         {
             Time.timeScale = isInventoryOpen ? 0f : 1f;
         }
+        if (pauseGameWhenOpenInventory)
+        {
+            Time.timeScale = pauseGameWhenOpenMenuDescriptionItem ? 0f : 1f;
+        }
+        
     }
 
     private void HandleInputBlocking()
@@ -116,7 +166,7 @@ public class ButtonsController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Time.timeScale == 0f && pauseGameWhenOpen)
+        if (Time.timeScale == 0f && pauseGameWhenOpenInventory)
         {
             Time.timeScale = 1f;
         }
@@ -124,7 +174,7 @@ public class ButtonsController : MonoBehaviour
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (!hasFocus && isInventoryOpen && pauseGameWhenOpen)
+        if (!hasFocus && isInventoryOpen && pauseGameWhenOpenInventory)
         {
             Time.timeScale = 1f;
         }

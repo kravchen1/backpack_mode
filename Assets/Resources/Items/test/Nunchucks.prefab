@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 1722026785323980073}
   - component: {fileID: 3644700688107058418}
   - component: {fileID: 9055514725241491477}
+  - component: {fileID: 641699835328216063}
   m_Layer: 7
   m_Name: Nunchucks
   m_TagString: Untagged
@@ -572,6 +573,7 @@ MonoBehaviour:
   - {fileID: 3238701583662325017}
   - {fileID: 8842017238019157544}
   - {fileID: 7959529622899807596}
+  itemStars: []
 --- !u!114 &9055514725241491477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +586,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feef6b703c48e9e4fb35558f43bd1f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemRarity: 0
   _size: {x: 2, y: 3}
   _cells: 010001010001
+--- !u!114 &641699835328216063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8954643396469597131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8005494c6c070940ba9a2cf302a7787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemNameKey: Nunchucks
+  itemTypes: 00000000
+  itemRarity: 0
+  qualityKey: Good
+  weight: 1
+  durability: 100
+  maxDurability: 100
+  Price: 100
+  minAttackMelee: 1
+  maxAttackMelee: 5
+  coolDownMelee: 3
+  baseStaminaMelee: 2
+  accuracyMelee: 75
+  critChanceMelee: 10
+  critDamageMelee: 150
+  minAttackRange: 10
+  maxAttackRange: 100
+  coolDownRange: 0.5
+  baseStaminaRange: 0.2
+  accuracyRange: 2
+  critChanceRange: 25
+  critDamageRange: 220
+  _descriptionTriples: []
+  _doubleClickTime: 0.3
+  _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}
