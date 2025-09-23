@@ -167,15 +167,20 @@ public class EnvironmentTrigger : MonoBehaviour
 
     protected void CloseAllUI()
     {
-        if (canvasInventory.activeSelf)
+        if (canvasInventory != null)
         {
-            buttonsController.CloseInventory();
-            //canvasInventory.SetActive(false);
+            if (canvasInventory.activeSelf)
+            {
+                buttonsController.CloseInventory();
+                //canvasInventory.SetActive(false);
+            }
         }
-
-        if (canvasShop.activeSelf)
+        if (canvasShop != null)
         {
-            canvasShop.SetActive(false);
+            if (canvasShop.activeSelf)
+            {
+                canvasShop.SetActive(false);
+            }
         }
     }
 
