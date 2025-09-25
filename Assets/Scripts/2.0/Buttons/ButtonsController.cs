@@ -2,79 +2,96 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Controller for managing UI panel states (inventory, item description, character stats)
+/// with game pause and input blocking functionality
+/// </summary>
 public class ButtonsController : MonoBehaviour
 {
-    [Header("UI References Inventory")]
-    [SerializeField] private GameObject canvasInventory;
-    [SerializeField] private KeyCode inventoryKey = KeyCode.I;
-    [SerializeField] private bool closeWithSameKey = true;
+    [Header("UI References")]
+    [SerializeField] private GameObject _canvasInventory;
+    [SerializeField] private GameObject _canvasMenuDescriptionItem;
+    [SerializeField] private GameObject _canvasMenuCharacterStats;
 
-    [Header("UI References MenuDescriptionItem")]
-    [SerializeField] private GameObject canvasMenuDescriptionItem;
+    [Header("Input Settings")]
+    [SerializeField] private KeyCode _inventoryKey = KeyCode.I;
+    [SerializeField] private KeyCode _menuCharacterStatsKey = KeyCode.C;
 
-    [Header("Settings")]
-    [SerializeField] private bool pauseGameWhenOpenInventory = true;
-    [SerializeField] private bool pauseGameWhenOpenMenuDescriptionItem = true;
-    [SerializeField] private bool preventInputWhenOpen = true;
+    [Header("Behavior Settings")]
+    [SerializeField] private bool _pauseGameWhenOpenInventory = true;
+    [SerializeField] private bool _pauseGameWhenOpenMenuDescriptionItem = true;
+    [SerializeField] private bool _pauseGameWhenOpenMenuCharacterStats = true;
+    [SerializeField] private bool _preventInputWhenOpen = true;
 
-    private bool isInventoryOpen = false;
-    private bool isMenuDescriptionItemOpen = false;
-    private EventSystem eventSystem;
-    private InteractionController interactionController;
+    private bool _isInventoryOpen = false;
+    private bool _isMenuDescriptionItemOpen = false;
+    private bool _isMenuCharacterStatsOpen = false;
+
+    private EventSystem _eventSystem;
+    private InteractionController _interactionController;
+
+    // Public properties for external access
+    public bool IsInventoryOpen => _isInventoryOpen;
+    public bool IsMenuDescriptionItemOpen => _isMenuDescriptionItemOpen;
+    public bool IsMenuCharacterStatsOpen => _isMenuCharacterStatsOpen;
 
     private void Awake()
     {
         InitializeComponents();
         ValidateReferences();
+        InitializeUIStates();
+    }
+
+    private void Update()
+    {
+        HandleInput();
     }
 
     private void InitializeComponents()
     {
-        eventSystem = EventSystem.current;
-        interactionController = FindObjectOfType<InteractionController>(); // Находим контроллер
+        _eventSystem = EventSystem.current;
+        _interactionController = FindObjectOfType<InteractionController>();
 
-        if (eventSystem == null)
+        if (_eventSystem == null)
         {
-            Debug.LogWarning("No EventSystem found in scene.");
+            Debug.LogWarning($"{nameof(ButtonsController)}: No EventSystem found in scene.");
         }
     }
 
     private void ValidateReferences()
     {
-        if (canvasInventory == null)
+        if (_canvasInventory == null)
         {
-            Debug.LogError("Canvas Inventory reference is not assigned!");
+            Debug.LogError($"{nameof(ButtonsController)}: Canvas Inventory reference is not assigned!");
             enabled = false;
             return;
         }
+    }
 
+    private void InitializeUIStates()
+    {
         SetInventoryState(false, true);
+        SetMenuDescriptionItemState(false, true);
+        SetCharacterStatsState(false, true);
     }
 
-    private void Update()
+    private void HandleInput()
     {
-        HandleInventoryInput();
-    }
-
-    private void HandleInventoryInput()
-    {
-        // Проверяем есть ли активные взаимодействия перед открытием инвентаря
-        //bool canOpenInventory = true;
-
-        //if (interactionController != null)
-        //{
-        //    canOpenInventory = !interactionController.HasAvailableInteractions();
-        //}
-
-        if (Input.GetKeyDown(inventoryKey) /*&& canOpenInventory*/)
+        if (Input.GetKeyDown(_inventoryKey))
         {
             ToggleInventory();
         }
+
+        if (Input.GetKeyDown(_menuCharacterStatsKey))
+        {
+            ToggleCharacterStats();
+        }
     }
 
+    #region Inventory Methods
     public void ToggleInventory()
     {
-        SetInventoryState(!isInventoryOpen);
+        SetInventoryState(!_isInventoryOpen);
     }
 
     public void OpenInventory()
@@ -87,21 +104,22 @@ public class ButtonsController : MonoBehaviour
         SetInventoryState(false);
     }
 
-    public void SetInventoryState(bool isOpen, bool force = false)
+    private void SetInventoryState(bool isOpen, bool force = false)
     {
-        if (canvasInventory == null) return;
-        if (isInventoryOpen == isOpen && !force) return;
+        if (_canvasInventory == null) return;
+        if (_isInventoryOpen == isOpen && !force) return;
 
-        isInventoryOpen = isOpen;
-        canvasInventory.SetActive(isOpen);
+        _isInventoryOpen = isOpen;
+        _canvasInventory.SetActive(isOpen);
 
         if (!force)
         {
-            HandleGamePause();
-            HandleInputBlocking();
+            UpdateGameState();
         }
     }
+    #endregion
 
+    #region Menu Description Item Methods
     public void OpenMenuDescriptionItem()
     {
         SetMenuDescriptionItemState(true);
@@ -112,61 +130,104 @@ public class ButtonsController : MonoBehaviour
         SetMenuDescriptionItemState(false);
     }
 
-    public void SetMenuDescriptionItemState(bool isOpen, bool force = false)
+    private void SetMenuDescriptionItemState(bool isOpen, bool force = false)
     {
-        if (canvasMenuDescriptionItem == null) return;
-        if (isMenuDescriptionItemOpen == isOpen && !force) return;
+        if (_canvasMenuDescriptionItem == null) return;
+        if (_isMenuDescriptionItemOpen == isOpen && !force) return;
 
         if (!isOpen)
         {
-            Transform itemStats = canvasMenuDescriptionItem.transform.GetChild(4);
-            TextMeshProUGUI descriptionsStats = canvasMenuDescriptionItem.transform.GetChild(5).GetComponent<TextMeshProUGUI>();
-            descriptionsStats.text = "";
-            for (int i = 0; i < itemStats.childCount; i++)
-            {
-                Destroy(itemStats.GetChild(i).gameObject);
-            }
+            CleanupMenuDescriptionItem();
         }
 
-        isMenuDescriptionItemOpen = isOpen;
-        canvasMenuDescriptionItem.SetActive(isOpen);
-
-        
+        _isMenuDescriptionItemOpen = isOpen;
+        _canvasMenuDescriptionItem.SetActive(isOpen);
 
         if (!force)
         {
-            HandleGamePause();
-            HandleInputBlocking();
+            UpdateGameState();
         }
     }
 
-
-    private void HandleGamePause()
+    private void CleanupMenuDescriptionItem()
     {
-        if (pauseGameWhenOpenInventory)
-        {
-            Time.timeScale = isInventoryOpen ? 0f : 1f;
-        }
-        if (pauseGameWhenOpenInventory)
-        {
-            Time.timeScale = pauseGameWhenOpenMenuDescriptionItem ? 0f : 1f;
-        }
-        
-    }
+        if (_canvasMenuDescriptionItem == null) return;
 
-    private void HandleInputBlocking()
+        Transform itemStats = _canvasMenuDescriptionItem.transform.GetChild(4);
+        TextMeshProUGUI descriptionsStats = _canvasMenuDescriptionItem.transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+
+        if (descriptionsStats != null)
+        {
+            descriptionsStats.text = string.Empty;
+        }
+
+        // Destroy all child objects of itemStats
+        for (int i = itemStats.childCount - 1; i >= 0; i--)
+        {
+            Destroy(itemStats.GetChild(i).gameObject);
+        }
+    }
+    #endregion
+
+    #region Character Stats Methods
+    public void ToggleCharacterStats()
     {
-        if (preventInputWhenOpen && eventSystem != null)
-        {
-            eventSystem.sendNavigationEvents = !isInventoryOpen;
-        }
+        SetCharacterStatsState(!_isMenuCharacterStatsOpen);
     }
 
-    public bool IsInventoryOpen() => isInventoryOpen;
+    public void OpenCharacterStats()
+    {
+        SetCharacterStatsState(true);
+    }
+
+    public void CloseCharacterStats()
+    {
+        SetCharacterStatsState(false);
+    }
+
+    private void SetCharacterStatsState(bool isOpen, bool force = false)
+    {
+        if (_canvasMenuCharacterStats == null) return;
+        if (_isMenuCharacterStatsOpen == isOpen && !force) return;
+
+        _isMenuCharacterStatsOpen = isOpen;
+        _canvasMenuCharacterStats.SetActive(isOpen);
+
+        if (!force)
+        {
+            UpdateGameState();
+        }
+    }
+    #endregion
+
+    private void UpdateGameState()
+    {
+        UpdateTimeScale();
+        UpdateInputState();
+    }
+
+    private void UpdateTimeScale()
+    {
+        bool shouldPause = (_isInventoryOpen && _pauseGameWhenOpenInventory) ||
+                          (_isMenuDescriptionItemOpen && _pauseGameWhenOpenMenuDescriptionItem) ||
+                          (_isMenuCharacterStatsOpen && _pauseGameWhenOpenMenuCharacterStats);
+
+        Time.timeScale = shouldPause ? 0f : 1f;
+    }
+
+    private void UpdateInputState()
+    {
+        if (_preventInputWhenOpen && _eventSystem != null)
+        {
+            bool shouldBlockInput = _isInventoryOpen || _isMenuDescriptionItemOpen || _isMenuCharacterStatsOpen;
+            _eventSystem.sendNavigationEvents = !shouldBlockInput;
+        }
+    }
 
     private void OnDestroy()
     {
-        if (Time.timeScale == 0f && pauseGameWhenOpenInventory)
+        // Ensure time scale is reset when object is destroyed
+        if (Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
         }
@@ -174,7 +235,8 @@ public class ButtonsController : MonoBehaviour
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (!hasFocus && isInventoryOpen && pauseGameWhenOpenInventory)
+        // Resume game if focus is lost while UI is open
+        if (!hasFocus && Time.timeScale == 0f)
         {
             Time.timeScale = 1f;
         }
@@ -184,7 +246,17 @@ public class ButtonsController : MonoBehaviour
     [ContextMenu("Toggle Inventory")]
     private void EditorToggleInventory()
     {
-        ToggleInventory();
+        if (Application.isPlaying)
+        {
+            ToggleInventory();
+        }
+    }
+
+    // Editor validation
+    private void OnValidate()
+    {
+        _inventoryKey = _inventoryKey == KeyCode.None ? KeyCode.I : _inventoryKey;
+        _menuCharacterStatsKey = _menuCharacterStatsKey == KeyCode.None ? KeyCode.C : _menuCharacterStatsKey;
     }
 #endif
 }

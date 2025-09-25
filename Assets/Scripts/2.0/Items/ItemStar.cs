@@ -81,8 +81,7 @@ public class ItemStar : MonoBehaviour
                 return;
             }
         }
-
-        //_currentItem = null;
+        _currentItem = null;
     }
 
     private bool IsValidItem(GameObject itemObject)

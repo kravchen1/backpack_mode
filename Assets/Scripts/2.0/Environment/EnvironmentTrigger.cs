@@ -22,7 +22,7 @@ public class EnvironmentTrigger : MonoBehaviour
     private InteractionController interactionController;
     private GameObject CanvasUI;
 
-    protected GameObject MenuButtons, MenuContent;
+    protected GameObject menuButtons, menuContent;
     protected GameObject canvasInventory;
     protected GameObject canvasShop;
     protected ShopGenerator shopGenerator;
@@ -58,6 +58,11 @@ public class EnvironmentTrigger : MonoBehaviour
         shopGenerator = GameObject.Find("ShopGenerator").GetComponent<ShopGenerator>();
         shopData = canvasShop.transform.GetChild(0).GetComponent<CellsData>();
         buttonsController = GameObject.Find("ButtonsController").GetComponent<ButtonsController>();
+        if (menuButtons == null)
+        {
+            menuButtons = CanvasUI.transform.GetChild(0).gameObject;
+            menuContent = menuButtons.transform.GetChild(1).gameObject;
+        }
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -123,7 +128,10 @@ public class EnvironmentTrigger : MonoBehaviour
     
     public void PerformManualInteraction()
     {
-        PerformManualInteractionChild();
+        if (!menuButtons.activeSelf)
+        {
+            PerformManualInteractionChild();
+        }
     }
 
     protected virtual void PerformManualInteractionChild()
@@ -144,21 +152,16 @@ public class EnvironmentTrigger : MonoBehaviour
     }
     protected void OpenMenuButtons()
     {
-        if (MenuButtons == null)
-        {
-            MenuButtons = CanvasUI.transform.GetChild(0).gameObject;
-            MenuContent = MenuButtons.transform.GetChild(1).gameObject;
-        }
-        MenuButtons.SetActive(true);
+        menuButtons.SetActive(true);
     }
 
     protected void CloseMenuButtons()
     {
-        if(MenuButtons != null)
+        if(menuButtons != null)
         {
-            MenuButtons.SetActive(false);
+            menuButtons.SetActive(false);
 
-            foreach (Transform child in MenuContent.transform)
+            foreach (Transform child in menuContent.transform)
             {
                 Destroy(child.gameObject);
             }

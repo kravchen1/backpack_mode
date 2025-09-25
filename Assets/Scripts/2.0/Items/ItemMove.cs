@@ -1,188 +1,535 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class ItemMove : MonoBehaviour
 {
-    protected RaycastHit2D[] hits1;
-    protected RaycastHit2D[] hits2;
-    protected RaycastHit2D[] hitCells;
+    [Header("Stacking Settings")]
+    [SerializeField] private bool _isStackable = false;
+    [SerializeField] private int _stackCount = 1;
+    [SerializeField] private int _maxStackSize = 64;
 
-    private bool isDragging = false;
-    private Camera mainCamera;
-    private Vector3 offset;
+    [Header("References")]
+    [SerializeField] private TextMeshPro _textMeshProCountStack;
+
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     public List<ItemStar> itemStars = new List<ItemStar>();
-    private int colliderCount;
 
-    private List<Collider2D> previousHitColliders = new List<Collider2D>();
-    private Dictionary<Collider2D, Color> originalColors = new Dictionary<Collider2D, Color>();
-    private List<Cell> currentGreenCells = new List<Cell>();
-    private List<Cell> currentRedCells = new List<Cell>();
-    private Vector3 originalPosition;
-    private bool canBePlaced = true;
-    private Transform originalParent;
-    private GameObject playerInventory;
-    private List<Cell> originallyOccupiedCells = new List<Cell>();
+    // Cache variables
+    private Camera _mainCamera;
+    private Transform _originalParent;
+    private GameObject _playerInventory;
+    private Vector3 _originalPosition;
+    private bool _isDragging = false;
+    private Vector3 _offset;
+    private int _colliderCount;
+    private int _previousCountStack = 0;
+
+    // Split item management
+    private bool _isSplitItem = false;
+    private ItemMove _originalItem = null;
+    private ItemMove _splitItem = null; // Для отслеживания разделенного предмета
+
+    // Placement validation
+    private bool _canBePlaced = true;
+    private readonly List<Cell> _currentGreenCells = new List<Cell>();
+    private readonly List<Cell> _currentRedCells = new List<Cell>();
+    private readonly List<Cell> _originallyOccupiedCells = new List<Cell>();
+
+    // Color management
+    private readonly Dictionary<Collider2D, Color> _originalColors = new Dictionary<Collider2D, Color>();
+    private readonly List<Collider2D> _previousHitColliders = new List<Collider2D>();
+
+    // Raycast cache
+    private RaycastHit2D[] _raycastHitsCache;
+
+    // Properties
+    public bool IsStackable => _isStackable;
+    public int StackCount => _stackCount;
+    public int MaxStackSize => _maxStackSize;
+    public string ItemName => gameObject.name.Replace("(Clone)", "").Trim();
+
+    // Constants
+    private const int CELL_LAYER = 8;
+    private const float RAYCAST_DISTANCE = 0.1f;
+    private const float ROTATION_ANGLE = 90f;
 
     void Awake()
     {
-        Initialization();
+        Initialize();
     }
 
-    public void Initialization()
+    private void Initialize()
     {
-        mainCamera = Camera.main;
-        playerInventory = GameObject.Find("InventoryData") ?? new GameObject("InventoryData");
-        initializationItemColliders();
-        SaveOriginalPosition();
-        SaveOriginallyOccupiedCells();
+        _mainCamera = Camera.main;
+        _playerInventory = GameObject.Find("InventoryData") ?? new GameObject("InventoryData");
+        InitializeColliders();
+        SaveOriginalState();
     }
 
-    void SaveOriginalPosition()
+    private void InitializeColliders()
     {
-        originalPosition = transform.position;
-        originalParent = transform.parent;
+        _colliderCount = itemColliders.Count;
+        _raycastHitsCache = new RaycastHit2D[_colliderCount];
     }
 
-    public void SaveOriginallyOccupiedCells()
+    private void SaveOriginalState()
     {
-        originallyOccupiedCells.Clear();
-        Cell[] allCells = FindObjectsOfType<Cell>();
-        foreach (Cell cell in allCells)
+        _originalPosition = transform.position;
+        _originalParent = transform.parent;
+        CacheOriginallyOccupiedCells();
+    }
+
+    private void CacheOriginallyOccupiedCells()
+    {
+        _originallyOccupiedCells.Clear();
+
+        // Оптимизация: кэшируем результат FindObjectsOfType
+        var allCells = FindObjectsOfType<Cell>();
+        foreach (var cell in allCells)
         {
-            if (cell.NestedObject == gameObject)
+            if (cell.IsOccupiedBy(gameObject))
             {
-                originallyOccupiedCells.Add(cell);
+                _originallyOccupiedCells.Add(cell);
             }
         }
-    }
-
-    private void initializationItemColliders()
-    {
-        //itemColliders.Clear();
-        //Transform child = transform.GetChild(0);
-        //BoxCollider2D[] childColliders = child.GetComponentsInChildren<BoxCollider2D>();
-        //itemColliders.AddRange(childColliders);
-
-        colliderCount = itemColliders.Count;
-        hits1 = new RaycastHit2D[colliderCount];
-        hits2 = new RaycastHit2D[colliderCount];
-        hitCells = new RaycastHit2D[colliderCount];
     }
 
     public virtual void OnMouseDown()
     {
-        offset = transform.position - GetMouseWorldPosition();
-        isDragging = true;
-        SaveOriginalColors();
+        if (Input.GetKey(KeyCode.LeftShift) && _isStackable && _stackCount > 1)
+        {
+            SplitStack();
+            return;
+        }
+
+        StartDragging();
+    }
+
+
+    private void SplitStack()
+    {
+        int halfCount = Mathf.CeilToInt(_stackCount / 2f);
+        int remainingCount = _stackCount - halfCount;
+
+        if (halfCount <= 0) return;
+
+        // Если уже есть разделенный предмет, отменяем создание нового
+        if (_splitItem != null && _splitItem._isSplitItem)
+        {
+            // Возвращаем стаки существующему разделенному предмету
+            _splitItem.ReturnToOriginalAndDestroy();
+            _splitItem = null;
+        }
+
+        CacheOriginallyOccupiedCells();
+        _stackCount = remainingCount;
+        UpdateStackVisual();
+
+        GameObject newStack = Instantiate(gameObject, _originalPosition, Quaternion.identity, _originalParent);
+        ItemMove newItemMove = newStack.GetComponent<ItemMove>();
+
+        if (newItemMove != null)
+        {
+            newItemMove._stackCount = halfCount;
+            newItemMove._isDragging = true;
+            newItemMove._offset = transform.position - GetMouseWorldPosition();
+            newItemMove.CacheOriginalColors();
+            newItemMove.ClearCurrentCells();
+            newItemMove._canBePlaced = true;
+            newItemMove._originallyOccupiedCells.Clear();
+            newItemMove._isSplitItem = true;
+            newItemMove._originalItem = this;
+
+            // Сохраняем ссылку на разделенный предмет
+            _splitItem = newItemMove;
+
+            newItemMove.UpdateStackVisual();
+
+            // Запускаем корутину для обработки перетаскивания
+            StartCoroutine(HandleSplitDrag(newItemMove));
+        }
+
+        _isDragging = false;
+        RestoreOriginallyOccupiedCells();
+    }
+
+    // Новый метод для возврата и уничтожения разделенного предмета
+    private void ReturnToOriginalAndDestroy()
+    {
+        if (_originalItem != null)
+        {
+            _originalItem._stackCount += _stackCount;
+            _originalItem.UpdateStackVisual();
+            _originalItem._splitItem = null;
+        }
+        Destroy(gameObject);
+    }
+
+
+    private System.Collections.IEnumerator HandleSplitDrag(ItemMove draggedItem)
+    {
+        // Ждем до конца кадра, чтобы все инициализировалось
+        yield return null;
+
+        // Теперь обрабатываем перетаскивание в Update
+        while (draggedItem._isDragging)
+        {
+            // Если кнопка мыши отпущена, вызываем OnMouseUp
+            if (Input.GetMouseButtonUp(0))
+            {
+                draggedItem.OnMouseUp();
+                yield break;
+            }
+
+            // Обновляем позицию предмета
+            draggedItem.transform.position = draggedItem.GetMouseWorldPosition() + draggedItem._offset;
+            draggedItem.PerformRaycast();
+
+            yield return null;
+        }
+    }
+
+
+    private void StartDragging()
+    {
+        _offset = transform.position - GetMouseWorldPosition();
+        _isDragging = true;
+
+        CacheOriginalColors();
         ClearCurrentCells();
-        canBePlaced = true;
-        SaveOriginalPosition();
-        SaveOriginallyOccupiedCells();
-        //ToogleShowStars(true);
-
-
-        // Всегда очищаем ВСЕ ячейки при начале перетаскивания
+        _canBePlaced = true;
+        SaveOriginalState();
         ClearAllCellReferences();
+        Physics2D.SyncTransforms();
     }
 
     private void OnMouseEnter()
     {
-        ToogleShowStars(true);
+        SetStarsVisibility(true);
     }
 
     private void OnMouseExit()
     {
-        ToogleShowStars(false);
+        if (!_isDragging)
+        {
+            SetStarsVisibility(false);
+        }
+    }
+
+    private bool IsCursorOverItem()
+    {
+        Vector2 mousePosition = GetMouseWorldPosition();
+        PolygonCollider2D polygonCollider2DTemp = GetComponent<PolygonCollider2D>();
+        if (polygonCollider2DTemp != null)
+        {
+            return GetComponent<PolygonCollider2D>().OverlapPoint(mousePosition);
+        }
+        else
+            return false;
+
+        //itemColliders.Any(collider =>
+        //collider != null && collider.OverlapPoint(mousePosition));
     }
 
     public virtual void OnMouseUp()
     {
-        if (!isDragging) return;
+        if (!_isDragging) return;
 
-        isDragging = false;
-        ResetAllColorsToDefault();
-
-        if (canBePlaced && currentGreenCells.Count > 0 && currentRedCells.Count == 0)
+        _isDragging = false;
+        if (!IsCursorOverItem())
         {
-            // Успешное размещение - занимаем новые ячейки
-            FillCellNestedObjects();
-            CorrectPosition();
-            MoveToInventory();
-            SaveOriginallyOccupiedCells();
+            OnMouseExit();
+        }
+        ResetAllColorsToDefault();
+        Physics2D.SyncTransforms();
+
+        // Сначала пробуем объединить с другими стаками - это имеет приоритет над размещением
+        if (TryMergeWithStackedItem())
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (CanBePlaced())
+        {
+            CommitPlacement();
+
+            if (_isSplitItem && _originalItem != null)
+            {
+                _isSplitItem = false;
+                _originalItem._splitItem = null;
+                _originalItem = null;
+            }
         }
         else
         {
-            // Неудачное размещение - восстанавливаем оригинальные ячейки
-            RestoreOriginallyOccupiedCells();
-            ReturnToOriginalPosition();
+            if (_isSplitItem && _originalItem != null)
+            {
+                ReturnStackToOriginalItem();
+                Destroy(gameObject);
+            }
+            else
+            {
+                RevertPlacement();
+            }
         }
-        //ToogleShowStars(false);
-        previousHitColliders.Clear();
+
+        _previousHitColliders.Clear();
         ClearCurrentCells();
     }
 
-    private void ToogleShowStars(bool enable)
+    private void ReturnStackToOriginalItem()
     {
-        foreach(var itemStar in itemStars)
+        if (_originalItem != null)
         {
-            itemStar.SetStarEnabled(enable);
+            // Возвращаем стаки оригинальному предмету
+            _originalItem._stackCount += _stackCount;
+            _originalItem.UpdateStackVisual();
+            _originalItem._splitItem = null; // Очищаем ссылку
         }
     }
 
-    private void RestoreOriginallyOccupiedCells()
+    private ItemMove FindOriginalItemUnderMouse()
     {
-        // Очищаем все текущие ссылки
-        ClearAllCellReferences();
+        // Ищем предметы в оригинальной позиции или рядом
+        Vector2 originalPos = _originalPosition;
+        var hit = Physics2D.Raycast(originalPos, Vector2.zero);
 
-        // Восстанавливаем только оригинальные занятые ячейки
-        foreach (Cell cell in originallyOccupiedCells)
+        if (hit.collider != null)
         {
-            if (cell != null)
+            return hit.collider.GetComponentInParent<ItemMove>();
+        }
+
+        // Если не нашли рейкастом, ищем по близости
+        var allItems = FindObjectsOfType<ItemMove>();
+        foreach (var item in allItems)
+        {
+            if (item != this && item.ItemName == ItemName &&
+                Vector2.Distance(item.transform.position, originalPos) < 0.5f)
             {
-                cell.NestedObject = gameObject;
+                return item;
             }
         }
+
+        return null;
     }
 
-    private void ClearAllCellReferences()
+    private bool CanBePlaced()
     {
-        Cell[] allCells = FindObjectsOfType<Cell>();
-        foreach (Cell cell in allCells)
+        return _canBePlaced && _currentGreenCells.Count > 0 && _currentRedCells.Count == 0;
+    }
+
+    private void CommitPlacement()
+    {
+        FillCellNestedObjects();
+        CorrectPosition();
+        MoveToInventory();
+        CacheOriginallyOccupiedCells();
+    }
+
+    private void RevertPlacement()
+    {
+        RestoreOriginallyOccupiedCells();
+        ReturnToOriginalPosition();
+    }
+
+    private bool TryMergeWithStackedItem()
+    {
+        if (!_isStackable) return false;
+
+        ItemMove targetItem = FindStackableItemUnderMouse();
+
+        // Проверяем, что targetItem существует, не является этим же объектом, и имена совпадают
+        if (targetItem == null || targetItem == this || targetItem.ItemName != ItemName) return false;
+
+        // Разрешаем объединение разделенного предмета с оригиналом и наоборот
+        // Убираем блокировку объединения между связанными предметами
+
+        int availableSpace = targetItem._maxStackSize - targetItem._stackCount;
+        if (availableSpace <= 0) return false;
+
+        int amountToTransfer = Mathf.Min(_stackCount, availableSpace);
+        targetItem._stackCount += amountToTransfer;
+        targetItem.UpdateStackVisual();
+
+        _stackCount -= amountToTransfer;
+
+        // Если стаки полностью перенесены, уничтожаем этот предмет
+        if (_stackCount <= 0)
         {
-            if (cell.NestedObject == gameObject)
+            // Если это разделенный предмет, очищаем ссылку у оригинала
+            if (_isSplitItem && _originalItem != null)
             {
-                cell.NestedObject = null;
+                _originalItem._splitItem = null;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private ItemMove FindStackableItemUnderMouse()
+    {
+        Vector2 mousePos = GetMouseWorldPosition();
+
+        // Используем более точный поиск всех предметов под курсором
+        var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider != null)
+            {
+                ItemMove item = hit.collider.GetComponentInParent<ItemMove>();
+
+                // Игнорируем этот предмет и проверяем, что нашли другой стакуемый предмет
+                if (item != null && item != this && item.ItemName == ItemName && item.IsStackable)
+                {
+                    return item;
+                }
             }
         }
+
+        return null;
     }
 
     public virtual void Update()
     {
-        if (isDragging)
+        UpdateStackVisualization();
+
+        if (_isDragging)
         {
-            transform.position = GetMouseWorldPosition() + offset;
-            RaycastEvent();
+            UpdateDragPosition();
+            PerformRaycast();
             HandleRotation();
+        }
+    }
+
+    private void UpdateStackVisualization()
+    {
+        if (!_isStackable || _previousCountStack == _stackCount) return;
+
+        _previousCountStack = _stackCount;
+
+        if (_textMeshProCountStack != null)
+        {
+            _textMeshProCountStack.text = _stackCount > 1 ? _stackCount.ToString() : string.Empty;
+        }
+
+        // Оптимизация: обновляем прозрачность только если изменилось состояние стека
+        var renderer = GetComponent<SpriteRenderer>();
+        if (renderer != null)
+        {
+            Color color = renderer.color;
+            color.a = _stackCount > 1 ? 0.9f : 1.0f;
+            renderer.color = color;
+        }
+    }
+
+    private void UpdateDragPosition()
+    {
+        transform.position = GetMouseWorldPosition() + _offset;
+    }
+
+    private void PerformRaycast()
+    {
+        var hits = CreatePreciseRaycast();
+        ValidatePlacement(hits);
+        UpdateCellColors(hits);
+        UpdateColliderTracking(hits);
+    }
+
+    private RaycastHit2D[] CreatePreciseRaycast()
+    {
+        for (int i = 0; i < _colliderCount; i++)
+        {
+            if (itemColliders[i] == null) continue;
+
+            Vector2 rayOrigin = itemColliders[i].bounds.center;
+            _raycastHitsCache[i] = Physics2D.Raycast(rayOrigin, Vector2.down, RAYCAST_DISTANCE, 1 << CELL_LAYER);
+        }
+        return _raycastHitsCache;
+    }
+
+    private void ValidatePlacement(RaycastHit2D[] hits)
+    {
+        _canBePlaced = hits.All(hit => hit.collider != null) &&
+                      hits.All(hit =>
+                      {
+                          var cell = hit.collider.GetComponent<Cell>();
+                          return cell == null || !cell.IsOccupied || cell.IsOccupiedBy(gameObject);
+                      });
+    }
+
+    private void UpdateCellColors(RaycastHit2D[] hits)
+    {
+        ClearCurrentCells();
+
+        for (int i = 0; i < _colliderCount; i++)
+        {
+            if (hits[i].collider == null) continue;
+
+            var cell = hits[i].collider.GetComponent<Cell>();
+            var renderer = hits[i].collider.GetComponent<SpriteRenderer>();
+
+            if (cell == null || renderer == null) continue;
+
+            if (cell.IsOccupied && !cell.IsOccupiedBy(gameObject))
+            {
+                renderer.color = Color.red;
+                _currentRedCells.Add(cell);
+            }
+            else
+            {
+                renderer.color = Color.green;
+                _currentGreenCells.Add(cell);
+            }
+        }
+    }
+
+    private void UpdateColliderTracking(RaycastHit2D[] currentHits)
+    {
+        // Оптимизация: используем HashSet для быстрого поиска
+        var currentColliders = new HashSet<Collider2D>(
+            currentHits.Where(hit => hit.collider != null)
+                      .Select(hit => hit.collider)
+        );
+
+        // Удаляем старые коллайдеры
+        for (int i = _previousHitColliders.Count - 1; i >= 0; i--)
+        {
+            var collider = _previousHitColliders[i];
+            if (!currentColliders.Contains(collider))
+            {
+                ResetColliderColor(collider);
+                _previousHitColliders.RemoveAt(i);
+            }
+        }
+
+        // Добавляем новые коллайдеры
+        foreach (var collider in currentColliders)
+        {
+            if (!_previousHitColliders.Contains(collider))
+            {
+                _previousHitColliders.Add(collider);
+            }
         }
     }
 
     private void HandleRotation()
     {
-        float scrollData = Input.GetAxis("Mouse ScrollWheel");
-
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RotateItem(90);
+            RotateItem(ROTATION_ANGLE);
         }
-        else if (scrollData > 0.01f)
+        else
         {
-            RotateItem(90);
-        }
-        else if (scrollData < -0.01f)
-        {
-            RotateItem(-90);
+            float scrollData = Input.GetAxis("Mouse ScrollWheel");
+            if (Mathf.Abs(scrollData) > 0.01f)
+            {
+                RotateItem(Mathf.Sign(scrollData) * ROTATION_ANGLE);
+            }
         }
     }
 
@@ -191,97 +538,17 @@ public class ItemMove : MonoBehaviour
         ResetAllColorsToDefault();
         transform.Rotate(0, 0, angle);
         Physics2D.SyncTransforms();
-        UpdateRaycastImmediately();
-    }
 
-    private void UpdateRaycastImmediately()
-    {
-        LayerMask mask = 1 << 8;
-        hits1 = CreateCareRaycast(mask);
-        CheckPlacementValidity(hits1);
-        UpdateColorsWithOccupationCheck(hits1);
-        UpdatePreviousColliders(hits1);
-    }
-
-    private Vector3 GetMouseWorldPosition()
-    {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -mainCamera.transform.position.z;
-        return mainCamera.ScreenToWorldPoint(mousePosition);
-    }
-
-    public virtual void RaycastEvent()
-    {
-        LayerMask mask = 1 << 8;
-        hits1 = CreateCareRaycast(mask);
-        CheckPlacementValidity(hits1);
-        ResetColorsForMissedColliders(hits1);
-        UpdateColorsWithOccupationCheck(hits1);
-        UpdatePreviousColliders(hits1);
-    }
-
-    protected virtual RaycastHit2D[] CreateCareRaycast(int mask)
-    {
-        RaycastHit2D[] hitsTemp = new RaycastHit2D[colliderCount];
-        for (int i = 0; i < colliderCount; i++)
-        {
-            hitsTemp[i] = Physics2D.Raycast(itemColliders[i].bounds.center, Vector2.zero, 0, mask);
-        }
-        return hitsTemp;
-    }
-
-    private void CheckPlacementValidity(RaycastHit2D[] currentHits)
-    {
-        canBePlaced = true;
-
-        foreach (var hit in currentHits)
-        {
-            if (hit.collider == null)
-            {
-                canBePlaced = false;
-                return;
-            }
-
-            Cell cell = hit.collider.GetComponent<Cell>();
-            if (cell != null && cell.NestedObject != null && cell.NestedObject != gameObject)
-            {
-                canBePlaced = false;
-                return;
-            }
-        }
-    }
-
-    private void UpdateColorsWithOccupationCheck(RaycastHit2D[] currentHits)
-    {
-        ClearCurrentCells();
-
-        for (int i = 0; i < colliderCount; i++)
-        {
-            if (currentHits[i].collider == null) continue;
-
-            Cell cell = currentHits[i].collider.GetComponent<Cell>();
-            if (cell == null) continue;
-
-            SpriteRenderer sr = currentHits[i].collider.GetComponent<SpriteRenderer>();
-            if (sr == null) continue;
-
-            if (cell.NestedObject != null && cell.NestedObject != gameObject)
-            {
-                sr.color = Color.red;
-                currentRedCells.Add(cell);
-            }
-            else
-            {
-                sr.color = Color.green;
-                currentGreenCells.Add(cell);
-            }
-        }
+        // Немедленное обновление рейкаста после вращения
+        var hits = CreatePreciseRaycast();
+        ValidatePlacement(hits);
+        UpdateCellColors(hits);
+        UpdateColliderTracking(hits);
     }
 
     private void FillCellNestedObjects()
     {
-        // Занимаем новые ячейки
-        foreach (Cell cell in currentGreenCells)
+        foreach (var cell in _currentGreenCells)
         {
             if (cell != null)
             {
@@ -290,30 +557,12 @@ public class ItemMove : MonoBehaviour
         }
     }
 
-    private void ClearCurrentCells()
-    {
-        currentGreenCells.Clear();
-        currentRedCells.Clear();
-    }
-
-    private void ReturnToOriginalPosition()
-    {
-        transform.SetParent(originalParent);
-        transform.position = originalPosition;
-        transform.rotation = Quaternion.identity;
-    }
-
-    private void MoveToInventory()
-    {
-        transform.SetParent(playerInventory.transform);
-    }
-
     public virtual void CorrectPosition()
     {
-        if (currentGreenCells.Count == 0) return;
+        if (_currentGreenCells.Count == 0) return;
 
-        Bounds cellsBounds = new Bounds(currentGreenCells[0].transform.position, Vector3.zero);
-        foreach (Cell cell in currentGreenCells)
+        Bounds cellsBounds = new Bounds(_currentGreenCells[0].transform.position, Vector3.zero);
+        foreach (Cell cell in _currentGreenCells)
         {
             cellsBounds.Encapsulate(cell.transform.position);
         }
@@ -328,129 +577,184 @@ public class ItemMove : MonoBehaviour
         transform.position += centerOffset;
     }
 
-    private void ResetColorsForMissedColliders(RaycastHit2D[] currentHits)
+    private Bounds CalculateItemBounds()
     {
-        List<Collider2D> currentColliders = new List<Collider2D>();
-        foreach (var hit in currentHits)
+        var bounds = new Bounds();
+        bool hasBounds = false;
+
+        foreach (var collider in itemColliders.Where(c => c != null))
         {
-            if (hit.collider != null)
+            if (!hasBounds)
             {
-                currentColliders.Add(hit.collider);
+                bounds = new Bounds(collider.bounds.center, Vector3.zero);
+                hasBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(collider.bounds);
             }
         }
 
-        foreach (var previousCollider in previousHitColliders.ToList())
+        return bounds;
+    }
+
+    private void ReturnToOriginalPosition()
+    {
+        transform.SetParent(_originalParent);
+        transform.position = _originalPosition;
+        transform.rotation = Quaternion.identity;
+    }
+
+    private void MoveToInventory()
+    {
+        transform.SetParent(_playerInventory.transform);
+    }
+
+    private void SetStarsVisibility(bool visible)
+    {
+        foreach (var star in itemStars)
         {
-            if (previousCollider != null && !currentColliders.Contains(previousCollider))
+            if (star != null)
             {
-                ResetColliderColorToDefault(previousCollider);
-                previousHitColliders.Remove(previousCollider);
+                star.SetStarEnabled(visible);
             }
         }
     }
 
-    private void UpdatePreviousColliders(RaycastHit2D[] currentHits)
+    private void RestoreOriginallyOccupiedCells()
     {
-        foreach (var previousCollider in previousHitColliders.ToList())
-        {
-            bool stillExists = false;
-            foreach (var hit in currentHits)
-            {
-                if (hit.collider == previousCollider)
-                {
-                    stillExists = true;
-                    break;
-                }
-            }
+        ClearAllCellReferences();
 
-            if (!stillExists && previousCollider != null)
-            {
-                ResetColliderColorToDefault(previousCollider);
-                previousHitColliders.Remove(previousCollider);
-            }
+        foreach (var cell in _originallyOccupiedCells.Where(cell => cell != null))
+        {
+            cell.NestedObject = gameObject;
         }
+    }
 
-        foreach (var hit in currentHits)
+    private void ClearAllCellReferences()
+    {
+        // Оптимизация: работаем только с ячейками, которые действительно содержат этот объект
+        foreach (var cell in _originallyOccupiedCells.Where(cell => cell != null && cell.IsOccupiedBy(gameObject)))
         {
-            if (hit.collider != null && !previousHitColliders.Contains(hit.collider))
+            cell.NestedObject = null;
+        }
+    }
+
+    private void ClearCurrentCells()
+    {
+        _currentGreenCells.Clear();
+        _currentRedCells.Clear();
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = -_mainCamera.transform.position.z;
+        return _mainCamera.ScreenToWorldPoint(mousePosition);
+    }
+
+    private void CacheOriginalColors()
+    {
+        _originalColors.Clear();
+        var allColliders = FindObjectsOfType<Collider2D>().Where(c => c.gameObject.layer == CELL_LAYER);
+
+        foreach (var collider in allColliders)
+        {
+            var renderer = collider.GetComponent<SpriteRenderer>();
+            if (renderer != null)
             {
-                previousHitColliders.Add(hit.collider);
+                _originalColors[collider] = renderer.color;
             }
         }
     }
 
-    private void ResetColliderColorToDefault(Collider2D collider)
+    private void ResetColliderColor(Collider2D collider)
     {
         if (collider == null) return;
 
-        Cell cell = collider.GetComponent<Cell>();
-        if (cell == null) return;
+        var renderer = collider.GetComponent<SpriteRenderer>();
+        if (renderer == null) return;
 
-        SpriteRenderer sr = collider.GetComponent<SpriteRenderer>();
-        if (sr == null) return;
-
-        if (originalColors.TryGetValue(collider, out Color originalColor))
+        if (_originalColors.TryGetValue(collider, out Color originalColor))
         {
-            sr.color = originalColor;
+            renderer.color = originalColor;
         }
         else
         {
-            sr.color = Color.white;
+            renderer.color = Color.white;
         }
     }
 
     private void ResetAllColorsToDefault()
     {
-        foreach (var kvp in originalColors)
+        foreach (var kvp in _originalColors.Where(kvp => kvp.Key != null))
         {
-            if (kvp.Key != null)
+            var renderer = kvp.Key.GetComponent<SpriteRenderer>();
+            if (renderer != null)
             {
-                SpriteRenderer sr = kvp.Key.GetComponent<SpriteRenderer>();
-                if (sr != null)
-                {
-                    sr.color = kvp.Value;
-                }
+                renderer.color = kvp.Value;
             }
         }
 
-        foreach (var collider in previousHitColliders.ToList())
+        foreach (var collider in _previousHitColliders.Where(c => c != null))
         {
-            if (collider != null)
-            {
-                ResetColliderColorToDefault(collider);
-            }
+            ResetColliderColor(collider);
         }
 
-        previousHitColliders.Clear();
-        originalColors.Clear();
+        _previousHitColliders.Clear();
+        _originalColors.Clear();
     }
 
-    private void SaveOriginalColors()
+    public void UpdateStackVisual()
     {
-        originalColors.Clear();
-        LayerMask mask = 1 << 8;
-        Collider2D[] allColliders = Physics2D.OverlapAreaAll(new Vector2(-100, -100), new Vector2(100, 100), mask);
-
-        foreach (var collider in allColliders)
-        {
-            Cell cell = collider.GetComponent<Cell>();
-            if (cell == null) continue;
-
-            SpriteRenderer sr = collider.GetComponent<SpriteRenderer>();
-            if (sr == null) continue;
-
-            originalColors[collider] = sr.color;
-        }
+        UpdateStackVisualization();
     }
+
     public void ForceCorrectPosition()
     {
         CorrectPosition();
     }
 
+    public bool CanAddToStack(int amount)
+    {
+        return _isStackable && (_stackCount + amount) <= _maxStackSize;
+    }
+
+    public void AddToStack(int amount)
+    {
+        if (_isStackable)
+        {
+            _stackCount = Mathf.Min(_stackCount + amount, _maxStackSize);
+            UpdateStackVisual();
+        }
+    }
 
     void OnDestroy()
     {
+        // Если это разделенный предмет, очищаем ссылку у оригинала
+        if (_isSplitItem && _originalItem != null)
+        {
+            _originalItem._splitItem = null;
+        }
+
+        // Если это оригинальный предмет, уничтожаем разделенный
+        if (_splitItem != null)
+        {
+            Destroy(_splitItem.gameObject);
+        }
+
         ClearAllCellReferences();
         ResetAllColorsToDefault();
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        _stackCount = Mathf.Clamp(_stackCount, 1, _maxStackSize);
+        if (!_isStackable)
+        {
+            _stackCount = 1;
+        }
+    }
+#endif
 }

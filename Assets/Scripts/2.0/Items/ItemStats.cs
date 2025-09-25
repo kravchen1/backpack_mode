@@ -16,6 +16,12 @@ public class ItemStats : MonoBehaviour
     public float maxDurability = 100f;
     public int price = 100;
 
+    [Header("RequirementsStats")]
+    public int requirmentStr = 0;
+    public int requirmentDex = 0;
+    public int requirmentInt = 0;
+    public int requirmentChar = 0;
+
     [Header("NumericMeleeWeaponStats")]
     public float minDamageMelee = 1f;
     public float maxDamageMelee = 5f;
@@ -255,6 +261,33 @@ public class ItemStats : MonoBehaviour
                     break;
                 case "CountHeal":
                     tempAnswerKey = $"{countHeal}";
+                    tempDescriptionKey = "";
+                    break;
+                case "Requirements":
+                    tempAnswerKey = "";
+                    /*
+                        public int requirmentStr = 0;
+                        public int requirmentDex = 0;
+                        public int requirmentInt = 0;
+                        public int requirmentChar = 0;
+                     */
+                    tempDescriptionKey = "";
+                    if (requirmentStr > 0)
+                    {
+                        tempDescriptionKey += "Сила: " + $"{requirmentStr}/n";
+                    }
+                    if (requirmentDex > 0)
+                    {
+                        tempDescriptionKey += "Ловкость: " + $"{requirmentDex}/n";
+                    }
+                    if (requirmentInt > 0)
+                    {
+                        tempDescriptionKey += "Интеллект: " + $"{requirmentInt}/n";
+                    }
+                    if (requirmentChar > 0)
+                    {
+                        tempDescriptionKey += "Харизма: " + $"{requirmentChar}/n";
+                    }
                     tempDescriptionKey = "";
                     break;
                 //case "ActivationConditions":

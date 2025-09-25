@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 633409197
   m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 5206242471876845281, guid: 3562d072f62905749af8a6953a194b0f, type: 3}
   m_Color: {r: 0.69953716, g: 0.25722986, b: 0, a: 1}
   m_FlipX: 0
@@ -553,6 +553,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 334df0d562a215f44b6cd05431d77a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isStackable: 0
+  _stackCount: 1
+  _maxStackSize: 64
   itemColliders:
   - {fileID: 1109545286187112422}
   - {fileID: 1685194283720897824}
@@ -592,21 +595,26 @@ MonoBehaviour:
   weight: 1
   durability: 100
   maxDurability: 100
-  Price: 100
-  minAttackMelee: 1
-  maxAttackMelee: 5
+  price: 100
+  requirmentStr: 0
+  requirmentDex: 0
+  requirmentInt: 0
+  requirmentChar: 0
+  minDamageMelee: 1
+  maxDamageMelee: 5
   coolDownMelee: 3
   baseStaminaMelee: 2
   accuracyMelee: 75
   critChanceMelee: 10
   critDamageMelee: 150
-  minAttackRange: 10
-  maxAttackRange: 100
+  minDamageRange: 3
+  maxDamageRange: 10
   coolDownRange: 0.5
   baseStaminaRange: 0.2
   accuracyRange: 2
   critChanceRange: 25
   critDamageRange: 220
+  countHeal: 80
   _descriptionTriples: []
   _doubleClickTime: 0.3
   _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}

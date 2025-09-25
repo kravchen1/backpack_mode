@@ -24,7 +24,7 @@ public class ChestTrigger : EnvironmentTrigger
         OpenMenuButtons();
         foreach (var buttonsKeyText in ButtonsKeyTexts)
         {
-            GameObject button = Instantiate(ButtonPrefab, MenuContent.transform);
+            GameObject button = Instantiate(ButtonPrefab, menuContent.transform);
             button.GetComponentInChildren<TextMeshProUGUI>().text = buttonsKeyText;
 
             if (buttonsKeyText != null)
@@ -44,8 +44,6 @@ public class ChestTrigger : EnvironmentTrigger
                         break;
                 }
             }
-
-            
         }
 
     }
