@@ -13,7 +13,6 @@ public class DynamicCameraSize : MonoBehaviour
 
     [Header("Camera Settings")]
     public float maxSizeMultiplier = 2.5f;
-    public float playerSpeedMultiplier = 2f;
 
     [Header("Boundary Scaling Mode")]
     public bool scaleBoundariesWithResolution = true;
@@ -94,7 +93,7 @@ public class DynamicCameraSize : MonoBehaviour
         }
 
         // 5. Œ¡ÕŒ¬Àﬂ≈Ã — Œ–Œ—“‹ œ≈–—ŒÕ¿∆¿
-        _playerController.moveSpeed = newOrthoSize * playerSpeedMultiplier;
+        PlayerDataManager.Instance.Stats.BaseMoveSpeed *= newOrthoSize;
 
         // 6. Œ¡ÕŒ¬Àﬂ≈Ã √–¿Õ»÷€  ¿Ã≈–€
         UpdateCameraBoundaries(resolutionScale);
@@ -104,8 +103,7 @@ public class DynamicCameraSize : MonoBehaviour
         {
             Debug.Log($"New Resolution: {Screen.width}x{Screen.height} " +
                       $"(Scale: x{resolutionScale:F2}) | " +
-                      $"Camera Size: {newOrthoSize:F2} | " +
-                      $"Player Speed: {_playerController.moveSpeed:F2}");
+                      $"Camera Size: {newOrthoSize:F2} | ");
         }
     }
 
