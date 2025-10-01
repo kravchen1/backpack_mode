@@ -463,7 +463,6 @@ GameObject:
   - component: {fileID: 2504459068503169968}
   - component: {fileID: 5214925712282184665}
   - component: {fileID: 6601765261073712872}
-  - component: {fileID: -7844443646208801022}
   m_Layer: 7
   m_Name: BagStandart2x2
   m_TagString: Untagged
@@ -556,6 +555,7 @@ MonoBehaviour:
   _isStackable: 0
   _stackCount: 1
   _maxStackSize: 64
+  _textMeshProCountStack: {fileID: 0}
   itemColliders:
   - {fileID: 1109545286187112422}
   - {fileID: 1685194283720897824}
@@ -576,45 +576,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: {x: 2, y: 2}
   _cells: 01010101
---- !u!114 &-7844443646208801022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9110525335454473003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8005494c6c070940ba9a2cf302a7787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemNameKey: Bag
-  itemTypes: 00000000
-  itemRarity: 0
-  qualityKey: Good
-  weight: 1
-  durability: 100
-  maxDurability: 100
-  price: 100
-  requirmentStr: 0
-  requirmentDex: 0
-  requirmentInt: 0
-  requirmentChar: 0
-  minDamageMelee: 1
-  maxDamageMelee: 5
-  coolDownMelee: 3
-  baseStaminaMelee: 2
-  accuracyMelee: 75
-  critChanceMelee: 10
-  critDamageMelee: 150
-  minDamageRange: 3
-  maxDamageRange: 10
-  coolDownRange: 0.5
-  baseStaminaRange: 0.2
-  accuracyRange: 2
-  critChanceRange: 25
-  critDamageRange: 220
-  countHeal: 80
-  _descriptionTriples: []
-  _doubleClickTime: 0.3
-  _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}

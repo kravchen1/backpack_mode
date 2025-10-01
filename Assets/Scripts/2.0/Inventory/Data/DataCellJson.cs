@@ -9,6 +9,9 @@ public class DataCellJson
     public float rotationZ;
     public List<string> occupiedCells = new List<string>();
 
+    public string qualityKey;
+    public float durability;
+
     public DataCellJson(string cellName, string cellNestedObjectName, float rotationZ, List<string> occupiedCells)
     {
         this.cellName = cellName;
