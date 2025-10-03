@@ -92,11 +92,12 @@ public abstract class ItemStats : MonoBehaviour
 
         weight *= changeQualityStats1;
         maxDurability *= changeQualityStats2;
+        durability = Mathf.Min(durability, maxDurability);
         price *= changeQualityStats2;
     }
 
     // Абстрактный метод для инициализации специфичных троек описания
-    protected abstract void InitializeDescriptionTriples();
+    public abstract void InitializeDescriptionTriples();
 
     // Виртуальный метод для получения специфичных характеристик
     protected virtual string GetSpecificStatValue(string statKey)
@@ -192,7 +193,7 @@ public abstract class ItemStats : MonoBehaviour
             _buttonsController = GameObject.FindFirstObjectByType<ButtonsController>();
             menuDescriptionItem = GameObject.Find("MenuDescriptionItem");
         }
-
+        InitializeDescriptionTriples();
         _buttonsController.OpenMenuDescriptionItem();
         InitializedDescriptionMenu();
 

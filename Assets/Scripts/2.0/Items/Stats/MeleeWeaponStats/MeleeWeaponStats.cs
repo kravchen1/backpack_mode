@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class MeleeWeaponStats : ItemStats, IMeleeWeapon
 {
@@ -16,7 +16,7 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
 
     public enum MeleeType { Sword, Axe, Mace, Dagger, Polearm }
 
-    // Реализация IMeleeWeapon
+    // Р РµР°Р»РёР·Р°С†РёСЏ IMeleeWeapon
     public float MinDamageMelee => minDamage;
     public float MaxDamageMelee => maxDamage;
     public float CoolDownMelee => coolDown;
@@ -35,26 +35,46 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
 
         minDamage *= changeQualityStats2;
         maxDamage *= changeQualityStats2;
-        coolDown *= changeQualityStats2;
+        coolDown *= GetInverseQualityMultiplier();
         baseStamina *= GetInverseQualityMultiplier();
         accuracy = (int)(accuracy * changeQualityStats2);
         critChance = (int)(critChance * changeQualityStats2);
         critDamage = (int)(critDamage * changeQualityStats2);
     }
 
-    protected override void InitializeDescriptionTriples()
+    public override void InitializeDescriptionTriples()
     {
+        if (_descriptionTriples.Count > 0)
+        {
+            _descriptionTriples.Clear();
+        }
+        float qualityMultiplier = GetQualityMultiplier();
+        float inverseMultiplier = GetInverseQualityMultiplier();
+
         _descriptionTriples.AddRange(new[]
         {
             new DescriptionTriple("Type", "", ""),
             new DescriptionTriple("Rarity", "", ""),
             new DescriptionTriple("Quality", "", ""),
-            //new DescriptionTriple("Weapon Type", meleeType.ToString(), ""),
-            new DescriptionTriple("Damage", $"{((minDamage + maxDamage) / coolDown):0.0}", $"({minDamage:0.0} - {maxDamage:0.0}) / {coolDown:0.0}s"),
-            new DescriptionTriple("Crit Chance", $"{critChance}%", ""),
-            new DescriptionTriple("Crit Damage", $"{critDamage}%", ""),
-            new DescriptionTriple("Accuracy", $"{accuracy}", ""),
-            new DescriptionTriple("Stamina Cost", $"{baseStamina:0.0}", ""),
+            new DescriptionTriple("Damage",
+                $"{((minDamage + maxDamage) / coolDown):0.0}",
+                $"({minDamage/qualityMultiplier:0.0}Г—{qualityMultiplier:0.0}({minDamage:0.0}) + {maxDamage/qualityMultiplier:0.0}Г—{qualityMultiplier:0.0}({maxDamage:0.0})) / ({coolDown/inverseMultiplier:0.0}Г—{inverseMultiplier:0.0}({coolDown:0.0}s))"),
+
+            new DescriptionTriple("Crit Chance",
+                $"{critChance}%",
+                $"{critChance/qualityMultiplier:0}Г—{qualityMultiplier:0.0}({critChance}%)"),
+
+            new DescriptionTriple("Crit Damage",
+                $"{critDamage}%",
+                $"{critDamage/qualityMultiplier:0}Г—{qualityMultiplier:0.0}({critDamage}%)"),
+
+            new DescriptionTriple("Accuracy",
+                $"{accuracy}",
+                $"{accuracy/qualityMultiplier:0}Г—{qualityMultiplier:0.0}({accuracy})"),
+
+            new DescriptionTriple("Stamina",
+                $"{baseStamina/coolDown:0.0}",
+                $"{baseStamina/inverseMultiplier:0.0}Г—{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}Г—{inverseMultiplier:0.0}({coolDown:0.0}s)"),
             //new DescriptionTriple("Can Parry", canParry ? "Yes" : "No", ""),
             //new DescriptionTriple("Parry Window", $"{parryWindow:0.0}s", ""),
             new DescriptionTriple("Weight", "", ""),
@@ -89,11 +109,11 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
         }
     }
 
-    // Специфичные методы для ближнего боя
+    // РЎРїРµС†РёС„РёС‡РЅС‹Рµ РјРµС‚РѕРґС‹ РґР»СЏ Р±Р»РёР¶РЅРµРіРѕ Р±РѕСЏ
     //public virtual bool TryParry()
     //{
     //    if (!canParry) return false;
-    //    // Логика парирования
+    //    // Р›РѕРіРёРєР° РїР°СЂРёСЂРѕРІР°РЅРёСЏ
     //    Debug.Log($"Parry attempted with {itemNameKey}, window: {parryWindow}s");
     //    return true;
     //}

@@ -96,6 +96,10 @@ public class ButtonsController : MonoBehaviour
 
     public void OpenInventory()
     {
+        if(_isInventoryOpen)
+        {
+            CloseInventory();
+        }
         SetInventoryState(true);
     }
 

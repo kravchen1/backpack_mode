@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class RangeWeaponStats : ItemStats, IRangeWeapon
 {
@@ -12,16 +12,12 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     [SerializeField] private int critDamage = 220;
 
     [Header("Range Specific Stats")]
-    public int ammoCapacity = 30;
-    public float reloadTime = 2.0f;
     public bool requiresAmmo = true;
-    public RangeWeaponType rangeWeaponType = RangeWeaponType.Rifle;
-    public AmmoType compatibleAmmo = AmmoType.AssaultRifle;
 
     public enum RangeWeaponType { Pistol, Rifle, Shotgun, Sniper, Bow }
     public enum AmmoType { Pistol, AssaultRifle, Shotgun, Sniper, Arrows }
 
-    // Реализация IRangeWeapon
+    // Р РµР°Р»РёР·Р°С†РёСЏ IRangeWeapon
     public float MinDamageRange => minDamage;
     public float MaxDamageRange => maxDamage;
     public float CoolDownRange => coolDown;
@@ -29,8 +25,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     public int AccuracyRange => accuracy;
     public int CritChanceRange => critChance;
     public int CritDamageRange => critDamage;
-    public int AmmoCapacity => ammoCapacity;
-    public float ReloadTime => reloadTime;
     public bool RequiresAmmo => requiresAmmo;
 
     public override void InitializeQuality()
@@ -41,32 +35,50 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
 
         minDamage *= changeQualityStats2;
         maxDamage *= changeQualityStats2;
-        coolDown *= changeQualityStats2;
+        coolDown *= GetInverseQualityMultiplier();
         baseStamina *= GetInverseQualityMultiplier();
         accuracy = (int)(accuracy * changeQualityStats2);
         critChance = (int)(critChance * changeQualityStats2);
         critDamage = (int)(critDamage * changeQualityStats2);
 
-        // Качество влияет на перезарядку
-        reloadTime *= GetInverseQualityMultiplier();
     }
 
-    protected override void InitializeDescriptionTriples()
+    public override void InitializeDescriptionTriples()
     {
+        if (_descriptionTriples.Count > 0)
+        {
+            _descriptionTriples.Clear();
+        }
+
+        float qualityMultiplier = GetQualityMultiplier();
+        float inverseMultiplier = GetInverseQualityMultiplier();
+
         _descriptionTriples.AddRange(new[]
         {
             new DescriptionTriple("Type", "", ""),
             new DescriptionTriple("Rarity", "", ""),
             new DescriptionTriple("Quality", "", ""),
-            new DescriptionTriple("Weapon Type", rangeWeaponType.ToString(), ""),
-            new DescriptionTriple("Ammo Type", compatibleAmmo.ToString(), ""),
-            new DescriptionTriple("Damage", $"{((minDamage + maxDamage) / coolDown):0.0}", $"({minDamage:0.0} - {maxDamage:0.0}) / {coolDown:0.0}s"),
-            new DescriptionTriple("Crit Chance", $"{critChance}%", ""),
-            new DescriptionTriple("Crit Damage", $"{critDamage}%", ""),
-            new DescriptionTriple("Accuracy", $"{accuracy}", ""),
-            new DescriptionTriple("Stamina Cost", $"{baseStamina:0.0}", ""),
-            new DescriptionTriple("Ammo Capacity", $"{ammoCapacity}", ""),
-            new DescriptionTriple("Reload Time", $"{reloadTime:0.0}s", ""),
+
+            new DescriptionTriple("Damage",
+                $"{((minDamage + maxDamage) / coolDown):0.0}",
+                $"({minDamage/qualityMultiplier:0.0}Г—{qualityMultiplier:0.0}({minDamage:0.0}) + {maxDamage/qualityMultiplier:0.0}Г—{qualityMultiplier:0.0}({maxDamage:0.0})) / ({coolDown/inverseMultiplier:0.0}Г—{inverseMultiplier:0.0}({coolDown:0.0}s))"),
+
+            new DescriptionTriple("Crit Chance",
+                $"{critChance}%",
+                $"{critChance/qualityMultiplier:0}Г—{qualityMultiplier:0.0}({critChance}%)"),
+
+            new DescriptionTriple("Crit Damage",
+                $"{critDamage}%",
+                $"{critDamage/qualityMultiplier:0}Г—{qualityMultiplier:0.0}({critDamage}%)"),
+
+            new DescriptionTriple("Accuracy",
+                $"{accuracy}",
+                $"{accuracy/qualityMultiplier:0}Г—{qualityMultiplier:0.0}({accuracy})"),
+
+            new DescriptionTriple("Stamina",
+                $"{baseStamina/coolDown:0.0}",
+                $"{baseStamina/inverseMultiplier:0.0}Г—{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}Г—{inverseMultiplier:0.0}({coolDown:0.0}s)"),
+
             new DescriptionTriple("Requires Ammo", requiresAmmo ? "Yes" : "No", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
@@ -79,10 +91,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     {
         switch (statKey)
         {
-            case "Weapon Type":
-                return rangeWeaponType.ToString();
-            case "Ammo Type":
-                return compatibleAmmo.ToString();
             case "Damage":
                 return $"{((minDamage + maxDamage) / coolDown):0.0}";
             case "Crit Chance":
@@ -93,10 +101,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
                 return $"{accuracy}";
             case "Stamina Cost":
                 return $"{baseStamina:0.0}";
-            case "Ammo Capacity":
-                return $"{ammoCapacity}";
-            case "Reload Time":
-                return $"{reloadTime:0.0}s";
             case "Requires Ammo":
                 return requiresAmmo ? "Yes" : "No";
             default:
@@ -104,7 +108,7 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
         }
     }
 
-    // Специфичные методы для дальнего боя
+    // РЎРїРµС†РёС„РёС‡РЅС‹Рµ РјРµС‚РѕРґС‹ РґР»СЏ РґР°Р»СЊРЅРµРіРѕ Р±РѕСЏ
     public virtual bool CanShoot(int currentAmmo)
     {
         if (requiresAmmo && currentAmmo <= 0) return false;
@@ -116,13 +120,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
         return (minDamage + maxDamage) / 2f / coolDown;
     }
 
-    public virtual float CalculateSustainedDPS(int magazineSize)
-    {
-        float timeToEmptyMagazine = magazineSize * coolDown;
-        float totalTime = timeToEmptyMagazine + reloadTime;
-        float totalDamage = (minDamage + maxDamage) / 2f * magazineSize;
-        return totalDamage / totalTime;
-    }
 
     private float GetQualityMultiplier()
     {

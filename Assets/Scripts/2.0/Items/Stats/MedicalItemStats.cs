@@ -11,8 +11,12 @@ public class MedicalItemStats : ItemStats
 
     public enum MedicalType { Health, Stamina, Antidote, Bandage }
 
-    protected override void InitializeDescriptionTriples()
+    public override void InitializeDescriptionTriples()
     {
+        if (_descriptionTriples.Count > 0)
+        {
+            _descriptionTriples.Clear();
+        }
         _descriptionTriples.AddRange(new[]
         {
             new DescriptionTriple("Type", "", ""),

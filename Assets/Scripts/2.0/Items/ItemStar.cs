@@ -18,6 +18,7 @@ public class ItemStar : MonoBehaviour
     private bool _isStarEnabled = false;
 
     public GameObject CurrentItem => _currentItem;
+    public List<ItemType> AllowedItemTypes => _allowedItemTypes;
 
     private void Awake()
     {
@@ -74,12 +75,14 @@ public class ItemStar : MonoBehaviour
 
         if (hit.collider != null)
         {
-            var cell = hit.collider.GetComponent<Cell>();
-            if (cell != null && IsValidItem(cell.NestedObject))
+            //var cell = hit.collider.GetComponent<Cell>();
+            var itemStat = hit.collider.gameObject;
+            if (itemStat != null && IsValidItem(itemStat))
             {
-                _currentItem = cell.NestedObject;
+                _currentItem = itemStat.transform.parent.gameObject;
                 return;
             }
+
         }
         _currentItem = null;
     }
@@ -88,7 +91,7 @@ public class ItemStar : MonoBehaviour
     {
         if (itemObject == null) return false;
 
-        var itemStructure = itemObject.GetComponent<ItemStats>();
+        var itemStructure = itemObject.GetComponentInParent<ItemStats>();
         if (itemStructure == null) return false;
 
         bool typeValid = _allowedItemTypes.Count == 0 || HasMatchingItemType(itemStructure.itemTypes);

@@ -12,12 +12,16 @@ public class CellsData : MonoBehaviour
     public List<Cell> cells = new List<Cell>();
     public Transform itemsParent;
 
-    [Header("Prefabs")]
-    public List<ItemStructure> itemPrefabs = new List<ItemStructure>();
+    [HideInInspector] public List<GameObject> itemPrefabs = new List<GameObject>();
 
     private DataJsonCellList dataJsonList = new DataJsonCellList();
     private const int GridWidth = 10;
     private bool skipNextSave = false;
+
+    private void Awake()
+    {
+        itemPrefabs = GameObject.FindGameObjectWithTag("ItemsPrefabs").GetComponent<ItemPrefabs>().itemPrefabs;
+    }
 
     private void OnEnable()
     {
@@ -33,6 +37,18 @@ public class CellsData : MonoBehaviour
         yield return null;
         yield return null;
         LoadData();
+    }
+
+    private IEnumerator StarsPerformRaycastCheck(List<GameObject> loadedObjects)
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+        //проставл€ем звЄзды в предметах
+        foreach (var loadedObject in loadedObjects)
+        {
+            loadedObject.GetComponent<ItemMove>().StarsPerformRaycastCheck();
+        }
     }
 
     private void OnDisable()
@@ -63,20 +79,39 @@ public class CellsData : MonoBehaviour
         {
             if (cell.NestedObject != null && !savedItems.ContainsKey(cell.NestedObject))
             {
-                var item = cell.NestedObject.GetComponent<ItemStructure>();
-                if (item != null)
+                var itemStructure = cell.NestedObject.GetComponent<ItemStructure>();
+                var itemStats = cell.NestedObject.GetComponent<ItemStats>();
+                var itemMove = cell.NestedObject.GetComponent<ItemMove>();
+                if (itemStructure != null)
                 {
                     // Ќаходим все €чейки, зан€тые этим предметом
-                    List<string> occupiedCellNames = FindAllOccupiedCellsForItem(item);
+                    List<string> occupiedCellNames = FindAllOccupiedCellsForItem(itemStructure);
 
                     if (occupiedCellNames.Count > 0)
                     {
-                        dataJsonList.inventoryDataJsonList.Add(new DataCellJson(
-                            cell.gameObject.name, // главна€ €чейка
-                            item.gameObject.name.Replace("(Clone)", ""),
-                            item.transform.eulerAngles.z,
-                            occupiedCellNames
-                        ));
+                        if (itemMove.IsStackable)
+                        {
+                            dataJsonList.inventoryDataJsonList.Add(new DataCellJson(
+                                cell.gameObject.name, // главна€ €чейка
+                                itemStats.itemNameKey,
+                                itemStructure.transform.eulerAngles.z,
+                                occupiedCellNames,
+                                itemStats.itemQuality,
+                                itemStats.durability,
+                                itemMove.StackCount
+                            ));
+                        }
+                        else
+                        {
+                            dataJsonList.inventoryDataJsonList.Add(new DataCellJson(
+                                                            cell.gameObject.name, // главна€ €чейка
+                                                            itemStats.itemNameKey,
+                                                            itemStructure.transform.eulerAngles.z,
+                                                            occupiedCellNames,
+                                                            itemStats.itemQuality,
+                                                            itemStats.durability
+                                                        ));
+                        }
 
                         savedItems[cell.NestedObject] = true;
                     }
@@ -124,25 +159,42 @@ public class CellsData : MonoBehaviour
 
             Debug.Log($"Loading {dataJsonList.inventoryDataJsonList.Count} items...");
 
+            List<GameObject> loadedObjects = new List<GameObject>();
+
             foreach (DataCellJson cellData in dataJsonList.inventoryDataJsonList)
             {
-                ItemStructure itemPrefab = itemPrefabs.Find(p => p.gameObject.name == cellData.cellNestedObjectName);
+                GameObject itemPrefab = itemPrefabs.Find(p => p.gameObject.name == cellData.cellNestedObjectName);
                 if (itemPrefab == null)
                 {
                     Debug.LogWarning($"Prefab not found: {cellData.cellNestedObjectName}");
                     continue;
                 }
 
-                ItemStructure newItem = Instantiate(itemPrefab, itemsParent);
+                GameObject newItem = Instantiate(itemPrefab, itemsParent);
+
+
                 newItem.name = itemPrefab.gameObject.name;
                 newItem.transform.rotation = Quaternion.Euler(0, 0, cellData.rotationZ);
 
+
+                newItem.GetComponent<ItemStats>().durability = cellData.durability;
+                newItem.GetComponent<ItemStats>().itemQuality = cellData.qualityKey;
+                newItem.GetComponent<ItemStats>().InitializeQuality();
+
+                if (cellData.countStack > 0)
+                {
+                    newItem.GetComponent<ItemMove>().AddToStack(cellData.countStack-1);
+                }
+
                 // –азмещаем предмет в сохраненных €чейках
                 PlaceItemInOccupiedCells(newItem, cellData.occupiedCells, cellData.rotationZ);
+                loadedObjects.Add(newItem);
 
                 Debug.Log($"Loaded item {cellData.cellNestedObjectName} with rotation {cellData.rotationZ}∞ in {cellData.occupiedCells.Count} cells");
             }
 
+            StartCoroutine(
+                        StarsPerformRaycastCheck(loadedObjects));
             Debug.Log("Data loaded successfully!");
         }
         catch (Exception e)
@@ -151,7 +203,7 @@ public class CellsData : MonoBehaviour
         }
     }
 
-    private void PlaceItemInOccupiedCells(ItemStructure item, List<string> occupiedCellNames, float rotationZ)
+    private void PlaceItemInOccupiedCells(GameObject item, List<string> occupiedCellNames, float rotationZ)
     {
         // ќчищаем €чейки от старых ссылок
         foreach (Cell cell in cells)

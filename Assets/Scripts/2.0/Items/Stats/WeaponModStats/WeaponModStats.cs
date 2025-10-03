@@ -8,18 +8,18 @@ public class WeaponModStats : ItemStats
     public float accuracyModifier = 0f;
     public float critChanceModifier = 0f;
     public float reloadSpeedModifier = 0f;
-    public ModType modType = ModType.Sight;
 
-    public enum ModType { Sight, Magazine, Grip, Muzzle, Stock }
-
-    protected override void InitializeDescriptionTriples()
+    public override void InitializeDescriptionTriples()
     {
+        if (_descriptionTriples.Count > 0)
+        {
+            _descriptionTriples.Clear();
+        }
         _descriptionTriples.AddRange(new[]
         {
             new DescriptionTriple("Type", "", ""),
             new DescriptionTriple("Rarity", "", ""),
             new DescriptionTriple("Quality", "", ""),
-            new DescriptionTriple("Mod Type", modType.ToString(), ""),
             new DescriptionTriple("Damage Mod", $"{damageModifier:+#;-#;0}%", ""),
             new DescriptionTriple("Accuracy Mod", $"{accuracyModifier:+#;-#;0}", ""),
             new DescriptionTriple("Crit Chance Mod", $"{critChanceModifier:+#;-#;0}%", ""),
@@ -35,8 +35,6 @@ public class WeaponModStats : ItemStats
     {
         switch (statKey)
         {
-            case "Mod Type":
-                return modType.ToString();
             case "Damage Mod":
                 return $"{damageModifier:+#;-#;0}%";
             case "Accuracy Mod":

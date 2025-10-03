@@ -1,3 +1,4 @@
+using Steamworks;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -20,6 +21,11 @@ public class ItemMove : MonoBehaviour
     private Camera _mainCamera;
     private Transform _originalParent;
     private GameObject _playerInventory;
+    private GameObject _shopInventory;
+
+    private GameObject _backpackInventory;
+    private GameObject _backpackShop;
+
     private Vector3 _originalPosition;
     private bool _isDragging = false;
     private Vector3 _offset;
@@ -44,6 +50,9 @@ public class ItemMove : MonoBehaviour
     // Raycast cache
     private RaycastHit2D[] _raycastHitsCache;
 
+    //Item cache
+    private ItemStats _itemStats;
+
     // Properties
     public bool IsStackable => _isStackable;
     public int StackCount => _stackCount;
@@ -63,7 +72,11 @@ public class ItemMove : MonoBehaviour
     private void Initialize()
     {
         _mainCamera = Camera.main;
-        _playerInventory = GameObject.Find("InventoryData") ?? new GameObject("InventoryData");
+        _playerInventory = GameObject.Find("InventoryData");
+        _shopInventory = GameObject.Find("ShopData");
+        _backpackInventory = GameObject.Find("BackpackInventroy");
+        _backpackShop = GameObject.Find("BackpackShop");
+        _itemStats = GetComponent<ItemStats>();
         InitializeColliders();
         SaveOriginalState();
     }
@@ -76,8 +89,10 @@ public class ItemMove : MonoBehaviour
 
     private void SaveOriginalState()
     {
+        
         _originalPosition = transform.position;
         _originalParent = transform.parent;
+        Debug.Log(_originalParent);
         CacheOriginallyOccupiedCells();
     }
 
@@ -127,11 +142,12 @@ public class ItemMove : MonoBehaviour
         _stackCount = remainingCount;
         UpdateStackVisual();
 
-        GameObject newStack = Instantiate(gameObject, _originalPosition, Quaternion.identity, _originalParent);
+        GameObject newStack = Instantiate(gameObject, transform.position, Quaternion.identity, transform.parent);
         ItemMove newItemMove = newStack.GetComponent<ItemMove>();
 
         if (newItemMove != null)
         {
+            newItemMove.SaveOriginalState();
             newItemMove._stackCount = halfCount;
             newItemMove._isDragging = true;
             newItemMove._offset = transform.position - GetMouseWorldPosition();
@@ -141,6 +157,11 @@ public class ItemMove : MonoBehaviour
             newItemMove._originallyOccupiedCells.Clear();
             newItemMove._isSplitItem = true;
             newItemMove._originalItem = this;
+
+            newItemMove._playerInventory = GameObject.Find("InventoryData");
+            newItemMove._shopInventory = GameObject.Find("ShopData");
+            newItemMove._backpackInventory = GameObject.Find("BackpackInventroy");
+            newItemMove._backpackShop = GameObject.Find("BackpackShop");
 
             // Сохраняем ссылку на разделенный предмет
             _splitItem = newItemMove;
@@ -205,9 +226,41 @@ public class ItemMove : MonoBehaviour
         Physics2D.SyncTransforms();
     }
 
+    private List<ItemStar> otherItemStarsInInventory;
     private void OnMouseEnter()
     {
+        if(otherItemStarsInInventory == null)
+        {
+            FindOtherItemStarsInInventory();
+        }
+
         SetStarsVisibility(true);
+
+    }
+
+    private void FindOtherItemStarsInInventory()
+    {
+        var itemStars = GameObject.FindGameObjectsWithTag("Star").Where(e => HasMatchingItemType(e.GetComponent<ItemStar>().AllowedItemTypes));
+        if (itemStars.Any())
+        {
+            otherItemStarsInInventory = new List<ItemStar>();
+        }
+        foreach (var itemStar in itemStars)
+        {
+            otherItemStarsInInventory.Add(itemStar.GetComponent<ItemStar>());
+        }
+    }
+
+    private bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
+    {
+
+        foreach (var itemType in itemTypesToCheck)
+        {
+            if (_itemStats.itemTypes.Contains(itemType))
+                return true;
+        }
+
+        return false;
     }
 
     private void OnMouseExit()
@@ -353,6 +406,8 @@ public class ItemMove : MonoBehaviour
         int amountToTransfer = Mathf.Min(_stackCount, availableSpace);
         targetItem._stackCount += amountToTransfer;
         targetItem.UpdateStackVisual();
+
+        ChangeWeightStackable();
 
         _stackCount -= amountToTransfer;
 
@@ -607,7 +662,71 @@ public class ItemMove : MonoBehaviour
 
     private void MoveToInventory()
     {
-        transform.SetParent(_playerInventory.transform);
+        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
+        {
+            transform.SetParent(_playerInventory.transform);
+        }
+        else
+        {
+            transform.SetParent(_shopInventory.transform);
+        }
+        ChangeWeight();
+    }
+
+    private void ChangeWeight()
+    {
+        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
+        {
+            if (_originalParent != _playerInventory.transform)
+            {
+                AddWeightToPlayer();
+            }
+        }
+        else
+        {
+            if (_originalParent == _playerInventory.transform)
+            {
+                RemoveWeightFromPlayer();
+            }
+        }
+    }
+
+    private void ChangeWeightStackable()
+    {
+        if (_currentGreenCells.Count > 0)
+        {
+            if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
+            {
+                if (_originalParent != _playerInventory.transform)
+                {
+                    AddWeightToPlayer();
+                }
+            }
+            else
+            {
+                if (_originalParent == _playerInventory.transform)
+                {
+                    RemoveWeightFromPlayer();
+                }
+            }
+        }
+        else
+        {
+            if (_currentRedCells[0].transform.parent.gameObject == _backpackInventory)
+            {
+                if (_originalParent != _playerInventory.transform)
+                {
+                    AddWeightToPlayer();
+                }
+            }
+            else
+            {
+                if (_originalParent == _playerInventory.transform)
+                {
+                    RemoveWeightFromPlayer();
+                }
+            }
+        }
     }
 
     private void SetStarsVisibility(bool visible)
@@ -618,6 +737,24 @@ public class ItemMove : MonoBehaviour
             {
                 star.SetStarEnabled(visible);
             }
+        }
+        if (otherItemStarsInInventory != null)
+        {
+            foreach (var star in otherItemStarsInInventory)
+            {
+                if (star != null)
+                {
+                    star.SetStarEnabled(visible);
+                }
+            }
+        }
+    }
+
+    public void StarsPerformRaycastCheck()
+    {
+        foreach (var star in itemStars)
+        {
+            star.PerformRaycastCheck();
         }
     }
 
@@ -729,6 +866,99 @@ public class ItemMove : MonoBehaviour
         }
     }
 
+    // ==================== WEIGHT MANAGEMENT METHODS ====================
+
+    /// <summary>
+    /// Получить общий вес предмета с учетом стаков
+    /// </summary>
+    private float GetTotalWeight()
+    {
+        if (_itemStats == null) return 0f;
+
+        float singleItemWeight = _itemStats.weight;
+        return singleItemWeight * _stackCount;
+    }
+
+    private bool IsInInventoryArea()
+    {
+        // Проверяем родителя на наличие тега InventoryPlayer
+        if (transform.parent != null)
+        {
+            return transform.parent.CompareTag("InventoryPlayer");
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Проверить, находится ли предмет в инвентаре
+    /// </summary>
+    private bool IsPlacedInInventory()
+    {
+        return transform.parent == _playerInventory.transform || IsInInventoryArea();
+    }
+
+    /// <summary>
+    /// Добавить вес предмета к игроку
+    /// </summary>
+    private void AddWeightToPlayer(int specificStackCount = -1)
+    {
+        if (PlayerDataManager.Instance == null || PlayerDataManager.Instance.Stats == null) return;
+
+        float weightToAdd = GetTotalWeight();
+        if (specificStackCount > 0)
+        {
+            // Для частичного добавления веса (при объединении стаков)
+            float singleItemWeight = _itemStats != null ? _itemStats.weight : 0f;
+            weightToAdd = singleItemWeight * specificStackCount;
+        }
+
+        PlayerDataManager.Instance.Stats.CurrentWeight += weightToAdd;
+
+        Debug.Log($"Added weight: {weightToAdd}. Total weight: {PlayerDataManager.Instance.Stats.CurrentWeight}");
+    }
+
+    /// <summary>
+    /// Убрать вес предмета у игрока
+    /// </summary>
+    private void RemoveWeightFromPlayer(int specificStackCount = -1)
+    {
+        if (PlayerDataManager.Instance == null || PlayerDataManager.Instance.Stats == null) return;
+
+        float weightToRemove = GetTotalWeight();
+        if (specificStackCount > 0)
+        {
+            // Для частичного удаления веса (при объединении стаков)
+            float singleItemWeight = _itemStats != null ? _itemStats.weight : 0f;
+            weightToRemove = singleItemWeight * specificStackCount;
+        }
+
+        PlayerDataManager.Instance.Stats.CurrentWeight -= weightToRemove;
+
+        Debug.Log($"Removed weight: {weightToRemove}. Total weight: {PlayerDataManager.Instance.Stats.CurrentWeight}");
+    }
+
+    /// <summary>
+    /// Теоретический метод для удаления предмета со сцены с учетом веса
+    /// </summary>
+    public void RemoveItemFromScene()
+    {
+        // Убираем вес если предмет был в инвентаре
+        if (IsInInventoryArea())
+        {
+            RemoveWeightFromPlayer();
+        }
+
+        // Очищаем ссылки в ячейках
+        ClearAllCellReferences();
+
+        // Уничтожаем объект
+        Destroy(gameObject);
+    }
+
+
     void OnDestroy()
     {
         // Если это разделенный предмет, очищаем ссылку у оригинала
@@ -756,5 +986,7 @@ public class ItemMove : MonoBehaviour
             _stackCount = 1;
         }
     }
+
+
 #endif
 }

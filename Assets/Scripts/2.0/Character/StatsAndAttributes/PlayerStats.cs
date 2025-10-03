@@ -7,6 +7,12 @@ public class PlayerStats : MonoBehaviour
     // Ссылка на атрибуты
     public PlayerAttributes attributes;
 
+    // Уровень и опыт
+    [SerializeField] private int _level = 1;
+    [SerializeField] private int _currentExp;
+    [SerializeField] private int _expToNextLevel = 100;
+    [SerializeField] private int _unspentSkillPoints; // Нераспределенные очки улучшений
+
     // Здоровье
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _currentHealth;
@@ -44,6 +50,11 @@ public class PlayerStats : MonoBehaviour
     // Событие для изменения скорости
     public event System.Action<float> OnMoveSpeedChanged;
 
+    // События для уровня и опыта
+    public event System.Action<int> OnLevelUp; // newLevel
+    public event System.Action<int, int, int> OnExpChanged; // currentExp, expToNextLevel, addedExp
+    public event System.Action<int> OnSkillPointsChanged; // unspentSkillPoints
+
     // Настройки восстановления стамины
     [SerializeField] private float _staminaRegenDelay = 1f; // Задержка перед началом восстановления
     [SerializeField] private float _staminaRegenRate = 1f; // Скорость восстановления в секунду
@@ -52,6 +63,46 @@ public class PlayerStats : MonoBehaviour
     // Таймеры для восстановления
     private float _staminaRegenTimer;
     private bool _isInCombat = false;
+
+    // Константы для системы уровней
+    private const int MAX_LEVEL = 100;
+    private const int BASE_EXP_REQUIREMENT = 100;
+    private const float EXP_GROWTH_FACTOR = 1.5f;
+    private const int SKILL_POINTS_PER_LEVEL = 2;
+
+    public int Level
+    {
+        get => _level;
+        private set
+        {
+            if (_level != value)
+            {
+                _level = Mathf.Min(value, MAX_LEVEL);
+            }
+        }
+    }
+
+    public int CurrentExp
+    {
+        get => _currentExp;
+        set => _currentExp = value;
+    }
+
+    public int ExpToNextLevel
+    {
+        get => _expToNextLevel;
+        private set => _expToNextLevel = value;
+    }
+
+    public int UnspentSkillPoints
+    {
+        get => _unspentSkillPoints;
+        set
+        {
+            _unspentSkillPoints = value;
+            OnSkillPointsChanged?.Invoke(_unspentSkillPoints);
+        }
+    }
 
     public void SetCombatState(bool inCombat)
     {
@@ -117,11 +168,11 @@ public class PlayerStats : MonoBehaviour
 
     public int MaxHealth
     {
-        get => _maxHealth; // Можно добавить модификатор от силы: _maxHealth + attributes.Strength * 10;
+        get => _maxHealth;
         set
         {
             _maxHealth = value + attributes.Endurance * 10;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _maxHealth); // Корректируем текущее здоровье
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _maxHealth);
             OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
         }
     }
@@ -138,11 +189,11 @@ public class PlayerStats : MonoBehaviour
     }
     public float MaxStamina
     {
-        get => _maxStamina; // Можно добавить модификатор от Выносливости: _maxHealth + attributes.Strength * 10;
+        get => _maxStamina;
         set
         {
             _maxStamina = value + attributes.Endurance;
-            CurrentStamina = Mathf.Clamp(CurrentStamina, 0, _maxStamina); // Корректируем текущее здоровье
+            CurrentStamina = Mathf.Clamp(CurrentStamina, 0, _maxStamina);
             OnStaminaChanged?.Invoke(_currentStamina, _maxStamina);
         }
     }
@@ -169,7 +220,7 @@ public class PlayerStats : MonoBehaviour
 
     public float MaxWeight
     {
-        get => _maxWeight; // Можно сделать зависимым от силы
+        get => _maxWeight;
         set
         {
             _maxWeight = value + attributes.Strength * 2;
@@ -254,9 +305,108 @@ public class PlayerStats : MonoBehaviour
 
     private void RecalculateDerivedStats()
     {
-        MaxHealth = 100 + (attributes.Endurance * 10); // Пример формулы
+        // Теперь характеристики зависят только от атрибутов, без учета уровня
+        MaxHealth = 100 + (attributes.Endurance * 10);
         MaxStamina = 10 + (attributes.Endurance);
         MaxWeight = 50 + (attributes.Strength * 2);
+    }
+
+    // Методы для системы уровней и опыта
+    public void AddExp(int expAmount)
+    {
+        if (_level >= MAX_LEVEL) return;
+
+        int previousExp = _currentExp;
+        _currentExp += expAmount;
+
+        // Проверяем, достаточно ли опыта для повышения уровня
+        while (_currentExp >= _expToNextLevel && _level < MAX_LEVEL)
+        {
+            LevelUp();
+        }
+
+        // Вызываем событие изменения опыта
+        OnExpChanged?.Invoke(_currentExp, _expToNextLevel, expAmount);
+    }
+
+    private void LevelUp()
+    {
+        // Вычитаем опыт, необходимый для текущего уровня
+        _currentExp -= _expToNextLevel;
+
+        // Повышаем уровень
+        _level++;
+
+        // Добавляем очки улучшений
+        UnspentSkillPoints += SKILL_POINTS_PER_LEVEL;
+
+        // Рассчитываем опыт для следующего уровня
+        CalculateExpToNextLevel();
+
+        // Вызываем события
+        OnLevelUp?.Invoke(_level);
+
+        Debug.Log($"Level up! New level: {_level}. Exp to next level: {_expToNextLevel}. Skill points: {UnspentSkillPoints}");
+
+        // При повышении уровня можно восстановить здоровье и стамину
+        CurrentHealth = MaxHealth;
+        CurrentStamina = MaxStamina;
+    }
+
+    private void CalculateExpToNextLevel()
+    {
+        if (_level >= MAX_LEVEL)
+        {
+            _expToNextLevel = 0;
+            return;
+        }
+
+        // Формула для расчета необходимого опыта (можно настроить)
+        _expToNextLevel = Mathf.RoundToInt(BASE_EXP_REQUIREMENT * Mathf.Pow(EXP_GROWTH_FACTOR, _level - 1));
+    }
+
+    // Метод для траты очков улучшений на атрибуты
+    public bool SpendSkillPointOnAttribute(System.Func<bool> attributeUpgradeMethod)
+    {
+        if (UnspentSkillPoints <= 0) return false;
+
+        // Пытаемся повысить атрибут (метод должен возвращать true при успехе)
+        if (attributeUpgradeMethod())
+        {
+            UnspentSkillPoints--;
+            Debug.Log($"Skill point spent. Remaining: {UnspentSkillPoints}");
+            return true;
+        }
+
+        return false;
+    }
+
+    // Альтернативный метод для траты очков (более явный)
+    public bool TrySpendSkillPoint()
+    {
+        if (UnspentSkillPoints > 0)
+        {
+            UnspentSkillPoints--;
+            return true;
+        }
+        return false;
+    }
+
+    // Метод для установки уровня (для инициализации, дебага и т.д.)
+    public void SetLevel(int newLevel)
+    {
+        if (newLevel < 1 || newLevel > MAX_LEVEL) return;
+
+        _level = newLevel;
+        _currentExp = 0;
+        CalculateExpToNextLevel();
+        RecalculateDerivedStats();
+    }
+
+    // Метод для добавления очков улучшений (для тестирования)
+    public void AddSkillPoints(int points)
+    {
+        UnspentSkillPoints += points;
     }
 
     // Методы для временных модификаторов скорости (баффы/дебаффы)

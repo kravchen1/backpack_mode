@@ -64,7 +64,7 @@ public class ChestTrigger : EnvironmentTrigger
         if (string.IsNullOrEmpty(PlayerPrefs.GetString(settingsKey, "")))
         {
             shopGenerator.maxShopItems = countItemsInside;
-            shopGenerator.GenerateItems();
+            shopGenerator.GenerateItems(0f);
             shopData.settingsKey = settingsKey;
             shopData.SaveData();
         }

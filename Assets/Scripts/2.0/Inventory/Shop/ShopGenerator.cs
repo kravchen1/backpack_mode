@@ -8,7 +8,6 @@ public class ShopGenerator : MonoBehaviour
     public List<Cell> shopCells = new List<Cell>();
 
     [Header("Item Generation")]
-    public GameObject[] itemPrefabs;
     public int maxShopItems = 8;
     public bool useSmartPacking = true;
 
@@ -16,19 +15,26 @@ public class ShopGenerator : MonoBehaviour
     private const int GridWidth = 10;
     private const int GridHeight = 10;
 
-    public void GenerateItems()
+    [HideInInspector] public List<GameObject> itemPrefabs = new List<GameObject>();
+
+    private void Awake()
+    {
+        itemPrefabs = GameObject.FindGameObjectWithTag("ItemsPrefabs").GetComponent<ItemPrefabs>().itemPrefabs;
+    }
+
+    public void GenerateItems(float rarityBoost = 0f)
     {
         if (useSmartPacking)
         {
-            GenerateItemsSmartPacking();
+            GenerateItemsSmartPacking(rarityBoost);
         }
         else
         {
-            GenerateItemsSimple();
+            GenerateItemsSimple(rarityBoost);
         }
     }
 
-    private void GenerateItemsSimple()
+    private void GenerateItemsSimple(float rarityBoost = 0f)
     {
         int itemsGenerated = 0;
         int currentIndex = 0;
@@ -53,6 +59,9 @@ public class ShopGenerator : MonoBehaviour
             if (CanPlaceItem(currentIndex, itemComponent))
             {
                 ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
+                spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
+                spawnedItem.GetComponent<ItemStats>().InitializeQuality();
+
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);
                 itemsGenerated++;
@@ -67,7 +76,7 @@ public class ShopGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateItemsSmartPacking()
+    private void GenerateItemsSmartPacking(float rarityBoost = 0f)
     {
         int itemsGenerated = 0;
         int currentIndex = 0;
@@ -94,6 +103,9 @@ public class ShopGenerator : MonoBehaviour
             if (CanPlaceItem(currentIndex, itemComponent))
             {
                 ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
+                spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
+                spawnedItem.GetComponent<ItemStats>().InitializeQuality();
+
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);
                 itemsGenerated++;
@@ -161,13 +173,10 @@ public class ShopGenerator : MonoBehaviour
             }
         }
 
-        // Удаляем все созданные предметы
-        foreach (ItemStructure item in spawnedItems)
+        // Удаляем все дочерние предметы
+        for (int i = shopCanvas.transform.childCount - 1; i >= 0; i--)
         {
-            if (item != null && item.gameObject != null)
-            {
-                Destroy(item.gameObject);
-            }
+            DestroyImmediate(shopCanvas.transform.GetChild(i).gameObject);
         }
         spawnedItems.Clear();
     }
@@ -266,8 +275,8 @@ public class ShopGenerator : MonoBehaviour
 
     private GameObject GetRandomItemPrefab()
     {
-        if (itemPrefabs.Length == 0) return null;
-        return itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+        if (itemPrefabs.Count == 0) return null;
+        return itemPrefabs[Random.Range(0, itemPrefabs.Count)];
     }
 
     // Метод для плотной упаковки (всегда с начала)

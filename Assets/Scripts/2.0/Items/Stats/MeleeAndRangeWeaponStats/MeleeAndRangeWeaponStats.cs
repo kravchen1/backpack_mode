@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
 {
@@ -9,7 +9,7 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     [SerializeField] private float baseStaminaMelee = 2f;
     [SerializeField] private int accuracyMelee = 75;
     [SerializeField] private int critChanceMelee = 10;
-    [SerializeField] private int critDamageMelee = 150;
+    [SerializeField] private int critDamageMelee = 180;
     [SerializeField] private bool canParry = true;
     [SerializeField] private float parryWindow = 0.3f;
 
@@ -25,14 +25,9 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     [SerializeField] private float reloadTime = 2.0f;
     [SerializeField] private bool requiresAmmo = true;
 
-    [Header("Combined Weapon Settings")]
-    public bool canSwitchModes = true;
-    public float modeSwitchTime = 1.5f;
-    public WeaponMode currentMode = WeaponMode.Range;
-
     public enum WeaponMode { Melee, Range }
 
-    // Ðåàëèçàöèÿ IMeleeWeapon
+    // Ð ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ IMeleeWeapon
     public float MinDamageMelee => minDamageMelee;
     public float MaxDamageMelee => maxDamageMelee;
     public float CoolDownMelee => coolDownMelee;
@@ -43,7 +38,7 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     public bool CanParry => canParry;
     public float ParryWindow => parryWindow;
 
-    // Ðåàëèçàöèÿ IRangeWeapon
+    // Ð ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ IRangeWeapon
     public float MinDamageRange => minDamageRange;
     public float MaxDamageRange => maxDamageRange;
     public float CoolDownRange => coolDownRange;
@@ -62,67 +57,96 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         float qualityMultiplier = GetQualityMultiplier();
         float inverseMultiplier = GetInverseQualityMultiplier();
 
-        // Ïðèìåíÿåì êà÷åñòâî ê õàðàêòåðèñòèêàì áëèæíåãî áîÿ
+        // ÐŸÑ€Ð¸Ð¼ÐµÐ½ÑÐµÐ¼ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ðº Ñ…Ð°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð¸ÑÑ‚Ð¸ÐºÐ°Ð¼ Ð±Ð»Ð¸Ð¶Ð½ÐµÐ³Ð¾ Ð±Ð¾Ñ
         minDamageMelee *= qualityMultiplier;
         maxDamageMelee *= qualityMultiplier;
-        coolDownMelee *= qualityMultiplier;
+        coolDownMelee *= inverseMultiplier;
         baseStaminaMelee *= inverseMultiplier;
         accuracyMelee = (int)(accuracyMelee * qualityMultiplier);
         critChanceMelee = (int)(critChanceMelee * qualityMultiplier);
         critDamageMelee = (int)(critDamageMelee * qualityMultiplier);
 
-        // Ïðèìåíÿåì êà÷åñòâî ê õàðàêòåðèñòèêàì äàëüíåãî áîÿ
+        // ÐŸÑ€Ð¸Ð¼ÐµÐ½ÑÐµÐ¼ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ðº Ñ…Ð°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð¸ÑÑ‚Ð¸ÐºÐ°Ð¼ Ð´Ð°Ð»ÑŒÐ½ÐµÐ³Ð¾ Ð±Ð¾Ñ
         minDamageRange *= qualityMultiplier;
         maxDamageRange *= qualityMultiplier;
-        coolDownRange *= qualityMultiplier;
+        coolDownRange *= inverseMultiplier;
         baseStaminaRange *= inverseMultiplier;
         accuracyRange = (int)(accuracyRange * qualityMultiplier);
         critChanceRange = (int)(critChanceRange * qualityMultiplier);
         critDamageRange = (int)(critDamageRange * qualityMultiplier);
     }
 
-    protected override void InitializeDescriptionTriples()
+    public override void InitializeDescriptionTriples()
     {
+        if (_descriptionTriples.Count > 0)
+        {
+            _descriptionTriples.Clear();
+        }
+
+        float qualityMultiplier = GetQualityMultiplier();
+        float inverseMultiplier = GetInverseQualityMultiplier();
+
         _descriptionTriples.AddRange(new[]
         {
-            new DescriptionTriple("Type", "", ""),
-            new DescriptionTriple("Rarity", "", ""),
-            new DescriptionTriple("Quality", "", ""),
-            new DescriptionTriple("Current Mode", currentMode.ToString(), ""),
-            new DescriptionTriple("Mode Switch Time", $"{modeSwitchTime:0.0}s", ""),
-            
-            // Áëèæíèé áîé
-            new DescriptionTriple("Melee Damage", $"{((minDamageMelee + maxDamageMelee) / coolDownMelee):0.0}", $"({minDamageMelee:0.0} - {maxDamageMelee:0.0}) / {coolDownMelee:0.0}s"),
-            new DescriptionTriple("Melee Crit Chance", $"{critChanceMelee}%", ""),
-            new DescriptionTriple("Melee Crit Damage", $"{critDamageMelee}%", ""),
-            new DescriptionTriple("Melee Accuracy", $"{accuracyMelee}", ""),
-            new DescriptionTriple("Melee Stamina", $"{baseStaminaMelee:0.0}", ""),
-            
-            // Äàëüíèé áîé
-            new DescriptionTriple("Range Damage", $"{((minDamageRange + maxDamageRange) / coolDownRange):0.0}", $"({minDamageRange:0.0} - {maxDamageRange:0.0}) / {coolDownRange:0.0}s"),
-            new DescriptionTriple("Range Crit Chance", $"{critChanceRange}%", ""),
-            new DescriptionTriple("Range Crit Damage", $"{critDamageRange}%", ""),
-            new DescriptionTriple("Range Accuracy", $"{accuracyRange}", ""),
-            new DescriptionTriple("Range Stamina", $"{baseStaminaRange:0.0}", ""),
-            
-            // Îáùèå
-            new DescriptionTriple("Weight", "", ""),
-            new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
-            new DescriptionTriple("Price", "", "")
-        });
+        new DescriptionTriple("Type", "", ""),
+        new DescriptionTriple("Rarity", "", ""),
+        new DescriptionTriple("Quality", "", ""),
+        
+        // Ð‘Ð»Ð¸Ð¶Ð½Ð¸Ð¹ Ð±Ð¾Ð¹
+        new DescriptionTriple("Melee Damage",
+            $"{((minDamageMelee + maxDamageMelee) / coolDownMelee):0.0}",
+            $"({minDamageMelee/qualityMultiplier:0.0}Ã—{qualityMultiplier:0.0}({minDamageMelee:0.0}) + {maxDamageMelee/qualityMultiplier:0.0}Ã—{qualityMultiplier:0.0}({maxDamageMelee:0.0})) / ({coolDownMelee/inverseMultiplier:0.0}Ã—{inverseMultiplier:0.0}({coolDownMelee:0.0}s))"),
+
+        new DescriptionTriple("Melee Crit Chance",
+            $"{critChanceMelee}%",
+            $"{critChanceMelee/qualityMultiplier:0}Ã—{qualityMultiplier:0.0}({critChanceMelee}%)"),
+
+        new DescriptionTriple("Melee Crit Damage",
+            $"{critDamageMelee}%",
+            $"{critDamageMelee/qualityMultiplier:0}Ã—{qualityMultiplier:0.0}({critDamageMelee}%)"),
+
+        new DescriptionTriple("Melee Accuracy",
+            $"{accuracyMelee}",
+            $"{accuracyMelee/qualityMultiplier:0}Ã—{qualityMultiplier:0.0}({accuracyMelee})"),
+
+        new DescriptionTriple("Melee Stamina",
+            $"{baseStaminaMelee/coolDownMelee:0.0}",
+            $"{baseStaminaMelee/inverseMultiplier:0.0}Ã—{inverseMultiplier:0.0}({baseStaminaMelee:0.0}) / {coolDownMelee/inverseMultiplier:0.0}Ã—{inverseMultiplier:0.0}({coolDownMelee:0.0}s)"),
+        
+        // Ð”Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ð±Ð¾Ð¹
+        new DescriptionTriple("Range Damage",
+            $"{((minDamageRange + maxDamageRange) / coolDownRange):0.0}",
+            $"({minDamageRange/qualityMultiplier:0.0}Ã—{qualityMultiplier:0.0}({minDamageRange:0.0}) + {maxDamageRange/qualityMultiplier:0.0}Ã—{qualityMultiplier:0.0}({maxDamageRange:0.0})) / ({coolDownRange/inverseMultiplier:0.0}Ã—{inverseMultiplier:0.0}({coolDownRange:0.0}s))"),
+
+        new DescriptionTriple("Range Crit Chance",
+            $"{critChanceRange}%",
+            $"{critChanceRange/qualityMultiplier:0}Ã—{qualityMultiplier:0.0}({critChanceRange}%)"),
+
+        new DescriptionTriple("Range Crit Damage",
+            $"{critDamageRange}%",
+            $"{critDamageRange/qualityMultiplier:0}Ã—{qualityMultiplier:0.0}({critDamageRange}%)"),
+
+        new DescriptionTriple("Range Accuracy",
+            $"{accuracyRange}",
+            $"{accuracyRange/qualityMultiplier:0}Ã—{qualityMultiplier:0.0}({accuracyRange})"),
+
+        new DescriptionTriple("Range Stamina",
+            $"{baseStaminaRange/coolDownRange:0.0}",
+            $"{baseStaminaRange/inverseMultiplier:0.0}Ã—{inverseMultiplier:0.0}({baseStaminaRange:0.0}) / {coolDownRange/inverseMultiplier:0.0}Ã—{inverseMultiplier:0.0}({coolDownRange:0.0}s)"),
+        
+        // ÐžÐ±Ñ‰Ð¸Ðµ
+        new DescriptionTriple("Weight", "", ""),
+        new DescriptionTriple("Durability", "", ""),
+        new DescriptionTriple("Requirements", "", ""),
+        new DescriptionTriple("Price", "", "")
+    });
     }
 
     protected override string GetSpecificStatValue(string statKey)
     {
         switch (statKey)
         {
-            case "Current Mode":
-                return currentMode.ToString();
-            case "Mode Switch Time":
-                return $"{modeSwitchTime:0.0}s";
-
-            // Áëèæíèé áîé
+            // Ð‘Ð»Ð¸Ð¶Ð½Ð¸Ð¹ Ð±Ð¾Ð¹
             case "Melee Damage":
                 return $"{((minDamageMelee + maxDamageMelee) / coolDownMelee):0.0}";
             case "Melee Crit Chance":
@@ -134,7 +158,7 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
             case "Melee Stamina":
                 return $"{baseStaminaMelee:0.0}";
 
-            // Äàëüíèé áîé
+            // Ð”Ð°Ð»ÑŒÐ½Ð¸Ð¹ Ð±Ð¾Ð¹
             case "Range Damage":
                 return $"{((minDamageRange + maxDamageRange) / coolDownRange):0.0}";
             case "Range Crit Chance":
@@ -149,44 +173,6 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
             default:
                 return base.GetSpecificStatValue(statKey);
         }
-    }
-
-    // Ìåòîäû äëÿ ñìåíû ðåæèìà
-    public void SwitchToMeleeMode()
-    {
-        if (canSwitchModes)
-        {
-            currentMode = WeaponMode.Melee;
-            Debug.Log($"{itemNameKey} switched to Melee mode");
-        }
-    }
-
-    public void SwitchToRangeMode()
-    {
-        if (canSwitchModes)
-        {
-            currentMode = WeaponMode.Range;
-            Debug.Log($"{itemNameKey} switched to Range mode");
-        }
-    }
-
-    public void ToggleMode()
-    {
-        if (!canSwitchModes) return;
-
-        currentMode = currentMode == WeaponMode.Melee ? WeaponMode.Range : WeaponMode.Melee;
-        Debug.Log($"{itemNameKey} toggled to {currentMode} mode");
-    }
-
-    // Ìåòîä äëÿ ïîëó÷åíèÿ òåêóùèõ õàðàêòåðèñòèê
-    public (float minDmg, float maxDmg, float cd, float stamina, int acc, int critChance, int critDmg) GetCurrentModeStats()
-    {
-        return currentMode switch
-        {
-            WeaponMode.Melee => (minDamageMelee, maxDamageMelee, coolDownMelee, baseStaminaMelee, accuracyMelee, critChanceMelee, critDamageMelee),
-            WeaponMode.Range => (minDamageRange, maxDamageRange, coolDownRange, baseStaminaRange, accuracyRange, critChanceRange, critDamageRange),
-            _ => (minDamageRange, maxDamageRange, coolDownRange, baseStaminaRange, accuracyRange, critChanceRange, critDamageRange)
-        };
     }
 
     private float GetQualityMultiplier()
