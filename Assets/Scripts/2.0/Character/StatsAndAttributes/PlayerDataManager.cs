@@ -4,12 +4,17 @@ using System;
 
 public class PlayerDataManager : MonoBehaviour
 {
+    public string PlayerName = "playerTest1";
     public static PlayerDataManager Instance; // Синглтон для простого доступа
 
     public PlayerAttributes Attributes { get; private set; }
     public PlayerStats Stats { get; private set; }
 
     private string _saveKey = "PlayerStatsAndAttributes"; // Ключ для PlayerPrefs
+
+    public GameObject playerCharacter;
+
+    public bool IsAlive => Stats.CurrentHealth > 0;
 
     private void Awake()
     {
