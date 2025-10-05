@@ -16,6 +16,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public bool IsAlive => Stats.CurrentHealth > 0;
 
+    #region Initialize
     private void Awake()
     {
         // Простая реализация синглтона
@@ -30,7 +31,6 @@ public class PlayerDataManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     private void InitializeData()
     {
         // Создаем экземпляры классов
@@ -43,7 +43,9 @@ public class PlayerDataManager : MonoBehaviour
         // Загружаем данные
         LoadData();
     }
+    #endregion
 
+    #region SaveLoadMethods
     // Метод для быстрого сброса к дефолтным значениям (для тестирования)
     [ContextMenu("Reset Data")]
     public void ResetToDefault()
@@ -130,7 +132,9 @@ public class PlayerDataManager : MonoBehaviour
             SaveData();
         }
     }
+    #endregion
 
+    #region Expirience
     // Методы для работы с опытом и уровнем
     public void AddExperience(int expAmount)
     {
@@ -152,7 +156,9 @@ public class PlayerDataManager : MonoBehaviour
 
         SaveData();
     }
+    #endregion
 
+    #region Attributes
     // Метод для траты очков улучшений
     public bool SpendSkillPointOnAttribute(System.Func<bool> attributeUpgradeMethod)
     {
@@ -165,7 +171,6 @@ public class PlayerDataManager : MonoBehaviour
         }
         return success;
     }
-
     // Упрощенные методы для повышения конкретных атрибутов
     public bool UpgradeStrength()
     {
@@ -175,7 +180,6 @@ public class PlayerDataManager : MonoBehaviour
             return true;
         });
     }
-
     public bool UpgradeEndurance()
     {
         return SpendSkillPointOnAttribute(() =>
@@ -184,7 +188,6 @@ public class PlayerDataManager : MonoBehaviour
             return true;
         });
     }
-
     public bool UpgradeAgility()
     {
         return SpendSkillPointOnAttribute(() =>
@@ -193,7 +196,6 @@ public class PlayerDataManager : MonoBehaviour
             return true;
         });
     }
-
     public bool UpgradeIntellect()
     {
         return SpendSkillPointOnAttribute(() =>
@@ -202,7 +204,6 @@ public class PlayerDataManager : MonoBehaviour
             return true;
         });
     }
-
     public bool UpgradeCharisma()
     {
         return SpendSkillPointOnAttribute(() =>
@@ -211,7 +212,6 @@ public class PlayerDataManager : MonoBehaviour
             return true;
         });
     }
-
     public bool UpgradeLuck()
     {
         return SpendSkillPointOnAttribute(() =>
@@ -220,28 +220,9 @@ public class PlayerDataManager : MonoBehaviour
             return true;
         });
     }
+    #endregion
 
-    //для тестов
-    public void ApplyDamage(int damage)
-    {
-        if (Instance == null) return;
-
-        Stats.CurrentHealth -= damage;
-        Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
-
-        SaveData();
-    }
-
-    public void Heal(int countPoint)
-    {
-        if (Instance == null) return;
-
-        Stats.CurrentHealth += countPoint;
-        Debug.Log($"Вылечено: {countPoint}. Здоровье: {Stats.CurrentHealth}");
-
-        SaveData();
-    }
-
+    #region MoneyAPI
     // Методы для управления деньгами
     public void AddMoney(float amount)
     {
@@ -263,25 +244,32 @@ public class PlayerDataManager : MonoBehaviour
         SaveData();
         return true;
     }
+    #endregion
 
-    // Метод для тестирования - добавление очков улучшений
-    [ContextMenu("Add 5 Skill Points")]
-    public void AddTestSkillPoints()
+    #region BattleAPI
+    public void TakeDamage(int damage)
     {
         if (Instance == null) return;
 
-        Stats.AddSkillPoints(5);
-        Debug.Log($"Added 5 skill points. Total: {Stats.UnspentSkillPoints}");
+        Stats.CurrentHealth -= damage;
+        Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
 
         SaveData();
     }
-
-    [ContextMenu("Add 100 Experience")]
-    public void AddTestExperience()
+    public void Heal(int countPoint)
     {
-        AddExperience(100);
+        if (Instance == null) return;
+
+        Stats.CurrentHealth += countPoint;
+        Debug.Log($"Вылечено: {countPoint}. Здоровье: {Stats.CurrentHealth}");
+
+        SaveData();
     }
+    #endregion
 }
+
+
+
 
 // Вспомогательный класс, который будет сериализоваться в JSON
 [System.Serializable]

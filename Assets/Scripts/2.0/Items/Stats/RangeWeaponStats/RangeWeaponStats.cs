@@ -3,8 +3,8 @@
 public class RangeWeaponStats : ItemStats, IRangeWeapon
 {
     [Header("Range Weapon Stats")]
-    [SerializeField] private float minDamage = 3f;
-    [SerializeField] private float maxDamage = 10f;
+    [SerializeField] private int minDamage = 3;
+    [SerializeField] private int maxDamage = 10;
     [SerializeField] private float coolDown = 0.5f;
     [SerializeField] private float baseStamina = 0.2f;
     [SerializeField] private int accuracy = 65;
@@ -18,8 +18,8 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     public enum AmmoType { Pistol, AssaultRifle, Shotgun, Sniper, Arrows }
 
     // Реализация IRangeWeapon
-    public float MinDamageRange => minDamage;
-    public float MaxDamageRange => maxDamage;
+    public int MinDamageRange => minDamage;
+    public int MaxDamageRange => maxDamage;
     public float CoolDownRange => coolDown;
     public float BaseStaminaRange => baseStamina;
     public int AccuracyRange => accuracy;
@@ -33,8 +33,8 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
 
         float changeQualityStats2 = GetQualityMultiplier();
 
-        minDamage *= changeQualityStats2;
-        maxDamage *= changeQualityStats2;
+        minDamage = (int)(minDamage * changeQualityStats2);
+        maxDamage = (int)(maxDamage * changeQualityStats2);
         coolDown *= GetInverseQualityMultiplier();
         baseStamina *= GetInverseQualityMultiplier();
         accuracy = (int)(accuracy * changeQualityStats2);

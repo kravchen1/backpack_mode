@@ -3,8 +3,8 @@
 public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
 {
     [Header("Melee Weapon Stats")]
-    [SerializeField] private float minDamageMelee = 1f;
-    [SerializeField] private float maxDamageMelee = 5f;
+    [SerializeField] private int minDamageMelee = 1;
+    [SerializeField] private int maxDamageMelee = 5;
     [SerializeField] private float coolDownMelee = 3f;
     [SerializeField] private float baseStaminaMelee = 2f;
     [SerializeField] private int accuracyMelee = 75;
@@ -14,8 +14,8 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     [SerializeField] private float parryWindow = 0.3f;
 
     [Header("Range Weapon Stats")]
-    [SerializeField] private float minDamageRange = 3f;
-    [SerializeField] private float maxDamageRange = 10f;
+    [SerializeField] private int minDamageRange = 3;
+    [SerializeField] private int maxDamageRange = 10;
     [SerializeField] private float coolDownRange = 0.5f;
     [SerializeField] private float baseStaminaRange = 0.2f;
     [SerializeField] private int accuracyRange = 65;
@@ -28,8 +28,8 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     public enum WeaponMode { Melee, Range }
 
     // Реализация IMeleeWeapon
-    public float MinDamageMelee => minDamageMelee;
-    public float MaxDamageMelee => maxDamageMelee;
+    public int MinDamageMelee => minDamageMelee;
+    public int MaxDamageMelee => maxDamageMelee;
     public float CoolDownMelee => coolDownMelee;
     public float BaseStaminaMelee => baseStaminaMelee;
     public int AccuracyMelee => accuracyMelee;
@@ -39,8 +39,8 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     public float ParryWindow => parryWindow;
 
     // Реализация IRangeWeapon
-    public float MinDamageRange => minDamageRange;
-    public float MaxDamageRange => maxDamageRange;
+    public int MinDamageRange => minDamageRange;
+    public int MaxDamageRange => maxDamageRange;
     public float CoolDownRange => coolDownRange;
     public float BaseStaminaRange => baseStaminaRange;
     public int AccuracyRange => accuracyRange;
@@ -58,8 +58,8 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         float inverseMultiplier = GetInverseQualityMultiplier();
 
         // Применяем качество к характеристикам ближнего боя
-        minDamageMelee *= qualityMultiplier;
-        maxDamageMelee *= qualityMultiplier;
+        minDamageMelee = (int)(minDamageMelee *qualityMultiplier);
+        maxDamageMelee = (int)(maxDamageMelee *qualityMultiplier);
         coolDownMelee *= inverseMultiplier;
         baseStaminaMelee *= inverseMultiplier;
         accuracyMelee = (int)(accuracyMelee * qualityMultiplier);
@@ -67,8 +67,8 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         critDamageMelee = (int)(critDamageMelee * qualityMultiplier);
 
         // Применяем качество к характеристикам дальнего боя
-        minDamageRange *= qualityMultiplier;
-        maxDamageRange *= qualityMultiplier;
+        minDamageRange = (int)(minDamageRange * qualityMultiplier);
+        maxDamageRange = (int)(maxDamageRange * qualityMultiplier);
         coolDownRange *= inverseMultiplier;
         baseStaminaRange *= inverseMultiplier;
         accuracyRange = (int)(accuracyRange * qualityMultiplier);

@@ -3,8 +3,8 @@
 public class MeleeWeaponStats : ItemStats, IMeleeWeapon
 {
     [Header("Melee Weapon Stats")]
-    [SerializeField] private float minDamage = 1f;
-    [SerializeField] private float maxDamage = 5f;
+    [SerializeField] private int minDamage = 1;
+    [SerializeField] private int maxDamage = 5;
     [SerializeField] private float coolDown = 3f;
     [SerializeField] private float baseStamina = 2f;
     [SerializeField] private int accuracy = 75;
@@ -17,8 +17,8 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
     public enum MeleeType { Sword, Axe, Mace, Dagger, Polearm }
 
     // Реализация IMeleeWeapon
-    public float MinDamageMelee => minDamage;
-    public float MaxDamageMelee => maxDamage;
+    public int MinDamageMelee => minDamage;
+    public int MaxDamageMelee => maxDamage;
     public float CoolDownMelee => coolDown;
     public float BaseStaminaMelee => baseStamina;
     public int AccuracyMelee => accuracy;
@@ -33,8 +33,8 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
 
         float changeQualityStats2 = GetQualityMultiplier();
 
-        minDamage *= changeQualityStats2;
-        maxDamage *= changeQualityStats2;
+        minDamage = (int)(minDamage * changeQualityStats2);
+        maxDamage = (int)(maxDamage * changeQualityStats2);
         coolDown *= GetInverseQualityMultiplier();
         baseStamina *= GetInverseQualityMultiplier();
         accuracy = (int)(accuracy * changeQualityStats2);

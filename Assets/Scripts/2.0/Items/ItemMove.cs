@@ -55,7 +55,11 @@ public class ItemMove : MonoBehaviour
 
     // Properties
     public bool IsStackable => _isStackable;
-    public int StackCount => _stackCount;
+    public int StackCount
+    {
+        get => _stackCount;
+        set => _stackCount = value;
+    }
     public int MaxStackSize => _maxStackSize;
     public string ItemName => gameObject.name.Replace("(Clone)", "").Trim();
 

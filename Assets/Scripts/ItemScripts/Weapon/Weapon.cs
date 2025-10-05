@@ -3,72 +3,26 @@
 //using UnityEngine;
 //using UnityEngine.SceneManagement;
 
-//public class Weapon : Item
+//public class Item : MonoBehaviour
 //{
-//    public int attackMin;
-//    public int attackMax;
-//    public float stamina;
-//    public int accuracy;
-//    public int critDamage = 130;
-//    public int chanceCrit = 5;
-
-//    [HideInInspector] public float baseStamina;
+//    private ItemStats itemStats;
 
 //    //protected float timer = 0f;
 //    protected bool timer_locked_out = true;
 
-//    protected override void FillStars()
-//    {
-//        FillnestedObjectStarsStars(256);
-//    }
 
-//    private void Start()
-//    {
-//        FillStars();
-//        timer_cooldown = baseTimerCooldown;
-//        timer = timer_cooldown;
-//        baseStamina = stamina;
-//        if (SceneManager.GetActiveScene().name == "BackPackBattle" && ObjectInBag())
-//        {
-//            animator.speed = 1f / timer_cooldown;
-//            animator.enabled = true;
-//        }
-
-//    }
 //    protected bool HaveStamina()
 //    {
-//        if (Player.stamina - stamina >= 0)
-//        {
-//            Player.stamina -= stamina;
-//            return true;
-//        }
-//        else return false;
+//        //todo проверка стамины
+//        return true;
 //    }
 
-//    public int BlockDamage()
+//    public override void UpdateForBattle()
 //    {
-//        var blockItems = this.Enemy.backpack.GetComponentsInChildren<Item>().ToList().Where(e => e.tag.Contains("Block"));
-//        int resultBlock = 0;
-//        foreach (var item in blockItems)
-//        {
-//            resultBlock += item.BlockActivation();
-//        }
-
-//        return resultBlock;
+//        CoolDown();
+//        Activation();
 //    }
 
-//    public void VampireHP(int resultDamage)
-//    {
-//        int vampireHp = Player.menuFightIconData.CalculateVampire(resultDamage);
-//        if (Player.hp + vampireHp <= Player.maxHP)
-//        {
-//            Player.hp += vampireHp;
-//        }
-//        else
-//        {
-//            Player.hp = Player.maxHP;
-//        }
-//    }
 
 //    public void CoolDown()
 //    {
@@ -83,31 +37,6 @@
 //                animator.speed = 1f / timer_cooldown;
 //            }
 //        }
-//    }
-
-//    private void CoolDownStart()
-//    {
-//        if (timer_locked_outStart)
-//        {
-//            timerStart -= Time.deltaTime;
-
-//            if (timerStart <= 0)
-//            {
-//                StartActivation();
-//                timer_locked_outStart = false;
-//                animator.speed = 1f / timer_cooldown;
-//                animator.Play(originalName + "Activation");
-
-//            }
-//        }
-//    }
-
-
-//    public override void UpdateForBattle()
-//    {
-//        CoolDownStart();
-//        CoolDown();
-//        Activation();
 //    }
 
 

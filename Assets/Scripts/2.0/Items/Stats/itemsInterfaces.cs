@@ -3,8 +3,8 @@ using Unity.VisualScripting;
 
 public interface IMeleeWeapon
 {
-    float MinDamageMelee { get; }
-    float MaxDamageMelee { get; }
+    int MinDamageMelee { get; }
+    int MaxDamageMelee { get; }
     float CoolDownMelee { get; }
     float BaseStaminaMelee { get; }
     int AccuracyMelee { get; }
@@ -18,8 +18,8 @@ public interface IMeleeWeapon
 
 public interface IRangeWeapon
 {
-    float MinDamageRange { get; }
-    float MaxDamageRange { get; }
+    int MinDamageRange { get; }
+    int MaxDamageRange { get; }
     float CoolDownRange { get; }
     float BaseStaminaRange { get; }
     int AccuracyRange { get; }
