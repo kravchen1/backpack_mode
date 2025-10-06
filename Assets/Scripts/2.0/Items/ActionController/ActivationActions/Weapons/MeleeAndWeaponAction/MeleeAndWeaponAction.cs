@@ -1,10 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class MeleeAndWeaponActionController : WeaponActionController
 {
+    public string animationKeyAttackRange = "AttackRange";
+    public string animationKeyAttackMelee = "AttackMelee";
+    public string animationKeyAttackNoStamina = "AttackNoStamina";
+
+
     private MeleeAndRangeWeaponStats meleeAndRangeWeaponStats;
     private bool isInMeleeMode = true;
     private List<ItemStar> itemStarPatrons = new List<ItemStar>();
@@ -90,6 +96,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
             baseAccuracy = meleeAndRangeWeaponStats.AccuracyRange;
             baseCritChance = meleeAndRangeWeaponStats.CritChanceRange;
         }
+        currentCooldown = cooldownTime;
     }
     private void SpendPatron()
     {
@@ -100,11 +107,18 @@ public class MeleeAndWeaponActionController : WeaponActionController
 
     protected override void Attack(NPCDataManager attacker, NPCDataManager target)
     {
+        ResetTextDamage();
+        if (cooldownTime < timeAnimation)
+        {
+            animator.speed = timeAnimation / cooldownTime;
+            timeAnimation = cooldownTime;
+        }
         if (!HasStamina(attacker))
         {
+            text.text = "No Stamina";
+            animator.Play(animationKeyAttackNoStamina);
             return;
         }
-
         ConsumeStamina(attacker);
         if (!isInMeleeMode)
         {
@@ -133,25 +147,46 @@ public class MeleeAndWeaponActionController : WeaponActionController
                 damage = (int)(damage * critDamageMelee / 100f);
                 Crit();
             }
-
+            text.text = damage.ToString();
+            StartCoroutine(Attack(damage, timeAnimation, target));
             target.TakeDamage(damage);
         }
         else
         {
             Miss();
+        }
+        if (isInMeleeMode)
+        {
+            animator.Play(animationKeyAttackMelee);
+        }
+        else
+        {
+            animator.Play(animationKeyAttackRange);
         }
     }
     protected override void Attack(PlayerDataManager attacker, NPCDataManager target)
     {
+        ResetTextDamage();
+        if (cooldownTime < timeAnimation)
+        {
+            animator.speed = timeAnimation / cooldownTime;
+            timeAnimation = cooldownTime;
+        }
         if (!HasStamina(attacker))
         {
+            text.text = "No Stamina";
+            animator.Play(animationKeyAttackNoStamina);
             return;
         }
-
         ConsumeStamina(attacker);
         if (!isInMeleeMode)
         {
+            Debug.Log(gameObject.name + "стреляет");
             SpendPatron();
+        }
+        else
+        {
+            Debug.Log(gameObject.name + "бьёт в рукопашную");
         }
         if (CalculateAccuracy())
         {
@@ -171,25 +206,46 @@ public class MeleeAndWeaponActionController : WeaponActionController
                 damage = (int)(damage * critDamageMelee / 100f);
                 Crit();
             }
-
+            text.text = damage.ToString();
+            StartCoroutine(Attack(damage, timeAnimation, target));
             target.TakeDamage(damage);
         }
         else
         {
             Miss();
+        }
+        if (isInMeleeMode)
+        {
+            animator.Play(animationKeyAttackMelee);
+        }
+        else
+        {
+            animator.Play(animationKeyAttackRange);
         }
     }
     protected override void Attack(NPCDataManager attacker, PlayerDataManager target)
     {
+        ResetTextDamage();
+        if (cooldownTime < timeAnimation)
+        {
+            animator.speed = timeAnimation / cooldownTime;
+            timeAnimation = cooldownTime;
+        }
         if (!HasStamina(attacker))
         {
+            text.text = "No Stamina";
+            animator.Play(animationKeyAttackNoStamina, 0, 0f);
             return;
         }
-
         ConsumeStamina(attacker);
         if (!isInMeleeMode)
         {
+            Debug.Log(gameObject.name + "стреляет");
             SpendPatron();
+        }
+        else
+        {
+            Debug.Log(gameObject.name + "бьёт в рукопашную");
         }
         if (CalculateAccuracy())
         {
@@ -209,14 +265,41 @@ public class MeleeAndWeaponActionController : WeaponActionController
                 damage = (int)(damage * critDamageMelee / 100f);
                 Crit();
             }
-
+            text.text = damage.ToString();
+            StartCoroutine(Attack(damage, timeAnimation, target));
             target.TakeDamage(damage);
         }
         else
         {
             Miss();
         }
+        if (isInMeleeMode)
+        {
+            animator.Play(animationKeyAttackMelee, 0, 0f);
+        }
+        else
+        {
+            animator.Play(animationKeyAttackRange, 0, 0f);
+        }
     }
 
+
+    protected override void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
+    {
+        Attack(attacker, target);
+        StartCooldown();
+    }
+
+    protected override void ExecuteAction(PlayerDataManager attacker, NPCDataManager target)
+    {
+        Attack(attacker, target);
+        StartCooldown();
+    }
+
+    protected override void ExecuteAction(NPCDataManager attacker, PlayerDataManager target)
+    {
+        Attack(attacker, target);
+        StartCooldown();
+    }
 
 }

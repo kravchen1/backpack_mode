@@ -79,12 +79,18 @@ public class ButtonsController : MonoBehaviour
     {
         if (Input.GetKeyDown(_inventoryKey))
         {
-            ToggleInventory();
+            if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive)
+            {
+                ToggleInventory();
+            }
         }
 
         if (Input.GetKeyDown(_menuCharacterStatsKey))
         {
-            ToggleCharacterStats();
+            if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive)
+            {
+                ToggleCharacterStats();
+            }
         }
     }
 

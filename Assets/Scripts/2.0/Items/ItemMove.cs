@@ -117,13 +117,16 @@ public class ItemMove : MonoBehaviour
 
     public virtual void OnMouseDown()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && _isStackable && _stackCount > 1)
+        if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive)
         {
-            SplitStack();
-            return;
-        }
+            if (Input.GetKey(KeyCode.LeftShift) && _isStackable && _stackCount > 1)
+            {
+                SplitStack();
+                return;
+            }
 
-        StartDragging();
+            StartDragging();
+        }
     }
 
 

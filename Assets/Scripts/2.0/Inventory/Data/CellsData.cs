@@ -122,8 +122,9 @@ public class CellsData : MonoBehaviour
         string jsonCellsSave = JsonUtility.ToJson(dataJsonList);
         PlayerPrefs.SetString(settingsKey, jsonCellsSave);
         PlayerPrefs.Save();
-
+        
         Debug.Log($"Data saved. Unique items: {dataJsonList.inventoryDataJsonList.Count}");
+        Debug.Log(jsonCellsSave);
     }
 
     private List<string> FindAllOccupiedCellsForItem(ItemStructure item)

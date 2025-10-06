@@ -118,13 +118,21 @@ public class TopDownCharacterController : MonoBehaviour
 
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        movement = movement.normalized;
+        if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+            movement = movement.normalized;
 
-        HandleSprintInput();
-        HandleFlip();
-        UpdateAnimations();
+            HandleSprintInput();
+            HandleFlip();
+            UpdateAnimations();
+        }
+        else
+        {
+            Stop();
+            UpdateAnimations();
+        }
         UpdateStaminaRegen();
     }
 

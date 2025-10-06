@@ -3,14 +3,24 @@ using UnityEngine;
 public abstract class ActivationItemActionController : ItemActionController
 {
     [HideInInspector] protected float cooldownTime = 1f;
-    [HideInInspector] protected float currentCooldown;
+    [HideInInspector] protected float currentCooldown = 1f;
 
 
-    [HideInInspector] protected bool isOnCooldown;
+    [HideInInspector] protected bool isOnCooldown = true;
 
     // Properties
     [HideInInspector] public bool IsReady => !isOnCooldown;
     [HideInInspector] public float CooldownProgress => Mathf.Clamp01(currentCooldown / cooldownTime);
+
+    private Transform reloadSprite;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+
+        reloadSprite = transform.GetChild(1);
+    }
 
     public override void UpdateForBattle(NPCDataManager attacker, NPCDataManager target)
     {
@@ -35,6 +45,11 @@ public abstract class ActivationItemActionController : ItemActionController
         if (isOnCooldown)
         {
             currentCooldown -= Time.deltaTime;
+
+            Vector3 newScale = reloadSprite.localScale;
+            newScale.x = CooldownProgress; // Или newScale.y, если шкала вертикальная
+            reloadSprite.localScale = newScale;
+
             if (currentCooldown <= 0f)
             {
                 isOnCooldown = false;

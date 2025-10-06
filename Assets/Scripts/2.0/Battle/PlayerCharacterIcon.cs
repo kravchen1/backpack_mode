@@ -31,6 +31,15 @@ public class PlayerCharacterIcon : MonoBehaviour
     {
         Initialize();
     }
+
+    public void FixedUpdate()
+    {
+        if (gameObject.activeSelf)
+        {
+            UpdateBars();
+        }
+    }
+
     public void Initialize()
     {
         //SpriteRenderer spriteRenderer = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -67,7 +76,7 @@ public class PlayerCharacterIcon : MonoBehaviour
 
         float staminaPercent = (float)PlayerDataManager.Instance.Stats.CurrentStamina / PlayerDataManager.Instance.Stats.MaxStamina;
         staminaBar.fillAmount = staminaPercent;
-        staminaText.text = $"{PlayerDataManager.Instance.Stats.CurrentStamina}/{PlayerDataManager.Instance.Stats.MaxStamina}";
+        staminaText.text = $"{PlayerDataManager.Instance.Stats.CurrentStamina:0.0}/{PlayerDataManager.Instance.Stats.MaxStamina:0.0}";
 
         //staminaBar.color =
         //    healthPercent > 0.6f ? Color.green :

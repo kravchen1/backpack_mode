@@ -1,4 +1,5 @@
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public abstract class WeaponActionController : ActivationItemActionController
@@ -10,6 +11,18 @@ public abstract class WeaponActionController : ActivationItemActionController
     [HideInInspector] protected int baseAccuracy = 10;
     [HideInInspector] protected int baseCritChance = 10;
 
+    public TextMeshPro text;
+    public float textSize = 500f;
+    public Color textColor = Color.black;
+
+    protected float timeAnimation = 1.5f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        isOnCooldown = true;
+    }
     protected override void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
     {
         Attack(attacker, target);
@@ -29,7 +42,7 @@ public abstract class WeaponActionController : ActivationItemActionController
 
     protected virtual void Attack(NPCDataManager attacker, NPCDataManager target)
     {
-        if(!HasStamina(attacker))
+        if (!HasStamina(attacker))
         {
             return;
         }
@@ -145,11 +158,18 @@ public abstract class WeaponActionController : ActivationItemActionController
 
     protected void Miss()
     {
-        Debug.Log(gameObject.name + " промахнулся");
+        text.text = "miss";
     }
     protected void Crit()
     {
-        Debug.Log(gameObject.name + " кританул");
+        text.fontSize = textSize * 1.2f;
+        text.color = Color.red;
+    }
+
+    protected void ResetTextDamage()
+    {
+        text.fontSize = textSize;
+        text.color = textColor;
     }
 
 
@@ -179,10 +199,37 @@ public abstract class WeaponActionController : ActivationItemActionController
     }
     protected virtual void ConsumeStamina(NPCDataManager target)
     {
-        target.Stats.CurrentStamina -= staminaCost;
+        StartCoroutine(ConsumeStamia(staminaCost, 0.1f, target));
     }
     protected virtual void ConsumeStamina(PlayerDataManager target)
     {
+        StartCoroutine(ConsumeStamia(staminaCost, 0.1f, target));
+    }
+
+    protected System.Collections.IEnumerator ConsumeStamia(float staminaCost, float delay, NPCDataManager target)
+    {
+        yield return new WaitForSeconds(delay);
         target.Stats.CurrentStamina -= staminaCost;
+        yield break;
+    }
+    protected System.Collections.IEnumerator ConsumeStamia(float staminaCost, float delay, PlayerDataManager target)
+    {
+        yield return new WaitForSeconds(delay);
+        target.Stats.CurrentStamina -= staminaCost;
+        yield break;
+    }
+
+
+    protected System.Collections.IEnumerator Attack(int damage, float delay, NPCDataManager target)
+    {
+        yield return new WaitForSeconds(delay);
+        target.TakeDamage(damage);
+        yield break;
+    }
+    protected System.Collections.IEnumerator Attack(int damage, float delay, PlayerDataManager target)
+    {
+        yield return new WaitForSeconds(delay);
+        target.TakeDamage(damage);
+        yield break;
     }
 }

@@ -6,6 +6,7 @@ public class NPCDataManager : MonoBehaviour
 {
     [Header("Character Info")]
     public string CharacterName;
+    public string backpackKey;
     public bool IsPlayerTeam;
     public PlayerAttributes Attributes { get; private set; }
     public PlayerStats Stats { get; private set; }
@@ -247,7 +248,14 @@ public class NPCDataManager : MonoBehaviour
     }
     #endregion
 
-    
 
+    private void FixedUpdate()
+    {
+        UpdateStaminaRegen();
+    }
+    private void UpdateStaminaRegen()
+    {
+        Stats.UpdateStaminaRegen(Time.deltaTime);
+    }
 
 }

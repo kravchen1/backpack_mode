@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
@@ -27,6 +28,10 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> playerTeamIcons;
     public List<GameObject> enemyTeamIcons;
     public GameObject playerIcon;
+
+    public List<CellsData> playerTeamBackpacks;
+    public List<CellsData> enemyTeamBackpacks;
+    public CellsData playerBackpack;
     //public GameObject characterIconPrefab;
     public GameObject battleUICanvas;
 
@@ -36,7 +41,7 @@ public class BattleManager : MonoBehaviour
     private List<NPCDataManager> playerTeam = new List<NPCDataManager>();
     private List<NPCDataManager> enemyTeam = new List<NPCDataManager>();
     private NPCDataManager selectedTarget;
-    private bool isBattleActive = false;
+    public bool isBattleActive = false;
     private float currentEscapeTimer;
     private Coroutine escapeTimerCoroutine;
 
@@ -110,72 +115,48 @@ public class BattleManager : MonoBehaviour
         playerIcon.GetComponent<PlayerCharacterIcon>().Initialize();
         foreach (var character in playerTeam)
         {
-            CreateCharacterIcon(character, false);
+            CreateCharacterIconAndBackpacks(character, false);
         }
 
         foreach (var character in enemyTeam)
         {
-            CreateCharacterIcon(character, true);
+            CreateCharacterIconAndBackpacks(character, true);
         }
     }
 
 
-    private void CreateCharacterIcon(NPCDataManager character, bool isEnemy)
+    private void CreateCharacterIconAndBackpacks(NPCDataManager character, bool isEnemy)
     {
         if (isEnemy)
         {
-            foreach (var enemyTeamIcon in enemyTeamIcons)
+            for(int i = 0; i < enemyTeamIcons.Count; i++)
             {
-                if (!enemyTeamIcon.activeSelf)
+                if (!enemyTeamIcons[i].activeSelf)
                 {
-                    enemyTeamIcon.GetComponent<CharacterIcon>().Initialize(character, isEnemy);
+                    enemyTeamIcons[i].GetComponent<CharacterIcon>().Initialize(character, isEnemy);
 
-                    //var button = enemyTeamIcon.GetComponent<UnityEngine.UI.Button>();
-                    //if (button != null)
-                    //{
-                    //    button.onClick.AddListener(() => OnTargetSelected(character));
-                    //}
-
+                    enemyTeamBackpacks[i].settingsKey = character.backpackKey;
+                    enemyTeamBackpacks[i].LoadData();
                     return;
                 }
             }
         }
         else
         {
-            foreach (var playerTeamIcon in playerTeamIcons)
+            for (int i = 0; i < playerTeamIcons.Count; i++)
             {
-                if (!playerTeamIcon.activeSelf)
+                if (!playerTeamIcons[i].activeSelf)
                 {
-                    playerTeamIcon.GetComponent<CharacterIcon>().Initialize(character, isEnemy);
+                    playerTeamIcons[i].GetComponent<CharacterIcon>().Initialize(character, isEnemy);
 
-                    //var button = playerTeamIcon.GetComponent<UnityEngine.UI.Button>();
-                    //if (button != null)
-                    //{
-                    //    button.onClick.AddListener(() => OnFriendSelected(character));
-                    //}
+                    playerTeamBackpacks[i].settingsKey = character.backpackKey;
+                    playerTeamBackpacks[i].LoadData();
 
                     return;
                 }
             }
            
         }
-
-        //GameObject iconObj = Instantiate(characterIconPrefab, parent);
-        //
-
-        //if (icon != null)
-        //{
-        //    icon.Initialize(character, isEnemy);
-
-        //    if (isEnemy)
-        //    {
-        //        var button = iconObj.GetComponent<UnityEngine.UI.Button>();
-        //        if (button != null)
-        //        {
-        //            button.onClick.AddListener(() => OnTargetSelected(character));
-        //        }
-        //    }
-        //}
     }
 
     private void StartBattleLogic()
@@ -183,10 +164,17 @@ public class BattleManager : MonoBehaviour
         isBattleActive = true;
         selectedTarget = enemyTeam.FirstOrDefault();
 
-        StartCoroutine(AutoAttackRoutinePlayer(PlayerDataManager.Instance));
+        //StartCoroutine(AutoAttackRoutinePlayer(PlayerDataManager.Instance));
         // Запуск автоматических атак
-        foreach (var player in playerTeam)
-            StartCoroutine(AutoAttackRoutine(player));
+        for (int i = 0; i < playerTeam.Count; i++)
+        {
+            StartCoroutine(AutoAttackRoutine(playerTeam[i], i, false));
+        }
+
+        for (int i = 0; i < enemyTeam.Count; i++)
+        {
+            StartCoroutine(AutoAttackRoutine(enemyTeam[i], i, true));
+        }
 
         // Запуск систем
         StartEscapeTimer();
@@ -238,71 +226,83 @@ public class BattleManager : MonoBehaviour
     }
 
     // СИСТЕМА АТАК
-    private System.Collections.IEnumerator AutoAttackRoutine(NPCDataManager attacker)
+    private System.Collections.IEnumerator AutoAttackRoutine(NPCDataManager attacker, int indexAttacker, bool isEnemy)
     {
         while (isBattleActive && attacker.IsAlive)
         {
-            yield return new WaitForSeconds(0.1f);
-
-            if (selectedTarget != null && selectedTarget.IsAlive)
+            yield return null;
+            List<ItemActionController> itemActions = new List<ItemActionController>();
+            if(isEnemy)
             {
-                Attack(attacker, selectedTarget);
+                foreach (var itemAction in enemyTeamBackpacks[indexAttacker].GetComponentsInChildren<ActivationItemActionController>())
+                {
+                    int r = Random.Range(0, playerTeam.Count + 1);
+                    if (r != 0)
+                    {
+                        while (!playerTeam[r - 1].IsAlive)
+                        {
+                            r -= 1;
+                            if (r == 0) break;
+                        }
+                    }
+
+                    if (r == 0)
+                    {
+                        itemAction.UpdateForBattle(attacker, PlayerDataManager.Instance);
+                    }
+                    else
+                    {
+                        itemAction.UpdateForBattle(attacker, playerTeam[r - 1]);
+                    }
+                   
+                }
             }
             else
             {
-                selectedTarget = enemyTeam.FirstOrDefault(e => e.IsAlive);
-                if (selectedTarget == null)
+                foreach (var itemAction in playerTeamBackpacks[indexAttacker].GetComponentsInChildren<ActivationItemActionController>())
                 {
-                    EndBattle(true);
-                    yield break;
+                    if (selectedTarget != null && selectedTarget.IsAlive)
+                    {
+                        itemAction.UpdateForBattle(attacker, selectedTarget);
+                    }
+                    else
+                    {
+                        selectedTarget = enemyTeam.FirstOrDefault(e => e.IsAlive);
+                        if (selectedTarget == null)
+                        {
+                            EndBattle(true);
+                            yield break;
+                        }
+                    }
                 }
             }
             CheckBattleEnd();
         }
     }
 
-    private System.Collections.IEnumerator AutoAttackRoutinePlayer(PlayerDataManager attacker)
-    {
-        while (isBattleActive && attacker.IsAlive)
-        {
-            yield return new WaitForSeconds(0.1f);
+    //private System.Collections.IEnumerator AutoAttackRoutinePlayer(PlayerDataManager attacker)
+    //{
+    //    while (isBattleActive && attacker.IsAlive)
+    //    {
+    //        yield return new WaitForSeconds(0.1f);
 
-            if (selectedTarget != null && selectedTarget.IsAlive)
-            {
-                Attack(attacker, selectedTarget);
-            }
-            else
-            {
-                selectedTarget = enemyTeam.FirstOrDefault(e => e.IsAlive);
-                if (selectedTarget == null)
-                {
-                    EndBattle(true);
-                    yield break;
-                }
-            }
-            CheckBattleEnd();
-        }
-    }
+    //        if (selectedTarget != null && selectedTarget.IsAlive)
+    //        {
+    //            Attack(attacker, selectedTarget);
+    //        }
+    //        else
+    //        {
+    //            selectedTarget = enemyTeam.FirstOrDefault(e => e.IsAlive);
+    //            if (selectedTarget == null)
+    //            {
+    //                EndBattle(true);
+    //                yield break;
+    //            }
+    //        }
+    //        CheckBattleEnd();
+    //    }
+    //}
 
-    public void Attack(NPCDataManager attacker, NPCDataManager target)
-    {
-        if (!isBattleActive || !attacker.IsAlive || !target.IsAlive)
-            return;
-        Debug.Log(attacker + " атакует " + target);
-        //int damage = CalculateDamage(attacker, target);
-        //target.TakeDamage(damage);
-        UpdateCharacterUI(target);
-    }
-
-    public void Attack(PlayerDataManager attacker, NPCDataManager target)
-    {
-        if (!isBattleActive || !attacker.IsAlive || !target.IsAlive)
-            return;
-        Debug.Log(attacker + " атакует " + target);
-        //int damage = CalculateDamage(attacker, target);
-        //target.TakeDamage(damage);
-        UpdateCharacterUI(target);
-    }
 
     private int CalculateDamage(NPCDataManager attacker, NPCDataManager target)
     {
@@ -500,18 +500,18 @@ public class BattleManager : MonoBehaviour
     }
 
     // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
-    private void UpdateCharacterUI(NPCDataManager character)
-    {
-        playerIcon.GetComponent<PlayerCharacterIcon>().UpdateBars();
-        foreach (var playerTeamIcon in playerTeamIcons)
-        {
-            playerTeamIcon.GetComponent<CharacterIcon>().UpdateBars();
-        }
-        foreach (var enemyTeamIcon in enemyTeamIcons)
-        {
-            enemyTeamIcon.GetComponent<CharacterIcon>().UpdateBars();
-        }
-    }
+    //private void UpdateCharacterUI()
+    //{
+    //    playerIcon.GetComponent<PlayerCharacterIcon>().UpdateBars();
+    //    foreach (var playerTeamIcon in playerTeamIcons)
+    //    {
+    //        playerTeamIcon.GetComponent<CharacterIcon>().UpdateBars();
+    //    }
+    //    foreach (var enemyTeamIcon in enemyTeamIcons)
+    //    {
+    //        enemyTeamIcon.GetComponent<CharacterIcon>().UpdateBars();
+    //    }
+    //}
 
     // API МЕТОДЫ
     public void AddEnemyToBattle(NPCDataManager newEnemy)
@@ -535,21 +535,7 @@ public class BattleManager : MonoBehaviour
 
         playerTeam.Add(friend);
         //CreateCharacterIcon(friend, friendsPanel, false);
-        StartCoroutine(AutoAttackRoutine(friend));
-    }
-
-    public void ForceAttack(NPCDataManager attacker, NPCDataManager target)
-    {
-        Attack(attacker, target);
-    }
-
-    public void HealCharacter(NPCDataManager character, int healAmount)
-    {
-        if (character.IsAlive)
-        {
-            character.Heal(healAmount);
-            UpdateCharacterUI(character);
-        }
+        StartCoroutine(AutoAttackRoutine(friend, playerTeam.Count-1, true));
     }
 
     public List<NPCDataManager> GetPlayerTeam() => new List<NPCDataManager>(playerTeam);

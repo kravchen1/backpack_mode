@@ -26,6 +26,11 @@ public class CharacterIcon : MonoBehaviour
 
     public NPCDataManager NPCCharacter { get; private set; }
 
+    public void FixedUpdate()
+    {
+        UpdateBars();
+    }
+
     public void Initialize(NPCDataManager character, bool isEnemy)
     {
         gameObject.SetActive(true);
@@ -57,18 +62,10 @@ public class CharacterIcon : MonoBehaviour
         healthBar.fillAmount = healthPercent;
         healthText.text = $"{NPCCharacter.Stats.CurrentHealth}/{NPCCharacter.Stats.MaxHealth}";
 
-        //healthBar.color =
-        //    healthPercent > 0.6f ? Color.green :
-        //    healthPercent > 0.3f ? Color.yellow : Color.red;
-
 
         float staminaPercent = (float)NPCCharacter.Stats.CurrentStamina / NPCCharacter.Stats.MaxStamina;
         staminaBar.fillAmount = staminaPercent;
-        staminaText.text = $"{NPCCharacter.Stats.CurrentStamina}/{NPCCharacter.Stats.MaxStamina}";
-
-        //staminaBar.color =
-        //    healthPercent > 0.6f ? Color.green :
-        //    healthPercent > 0.3f ? Color.yellow : Color.red;
+        staminaText.text = $"{NPCCharacter.Stats.CurrentStamina:0.0}/{NPCCharacter.Stats.MaxStamina:0.0}";
     }
 
     public void SetSelected(bool selected)
