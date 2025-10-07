@@ -96,7 +96,7 @@ public class ItemMove : MonoBehaviour
         
         _originalPosition = transform.position;
         _originalParent = transform.parent;
-        Debug.Log(_originalParent);
+        //Debug.Log(_originalParent);
         CacheOriginallyOccupiedCells();
     }
 

@@ -19,24 +19,36 @@ public abstract class WeaponActionController : ActivationItemActionController
 
     protected override void Awake()
     {
-        base.Awake();
+        if (isFight)
+        {
+            base.Awake();
 
-        isOnCooldown = true;
+            isOnCooldown = true;
+        }
     }
     protected override void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
     {
-        Attack(attacker, target);
-        StartCooldown();
+        if (isFight)
+        {
+            Attack(attacker, target);
+            StartCooldown();
+        }
     }
     protected override void ExecuteAction(PlayerDataManager attacker, NPCDataManager target)
     {
-        Attack(attacker, target);
-        StartCooldown();
+        if (isFight)
+        {
+            Attack(attacker, target);
+            StartCooldown();
+        }
     }
     protected override void ExecuteAction(NPCDataManager attacker, PlayerDataManager target)
     {
-        Attack(attacker, target);
-        StartCooldown();
+        if (isFight)
+        {
+            Attack(attacker, target);
+            StartCooldown();
+        }
     }
 
 
@@ -209,13 +221,49 @@ public abstract class WeaponActionController : ActivationItemActionController
     protected System.Collections.IEnumerator ConsumeStamia(float staminaCost, float delay, NPCDataManager target)
     {
         yield return new WaitForSeconds(delay);
-        target.Stats.CurrentStamina -= staminaCost;
+
+        float finalStaminaCost = staminaCost;
+        var loadCategory = target.Stats.GetCurrentLoadCategory();
+        switch (loadCategory)
+        {
+            case LoadCategory.Medium:
+                finalStaminaCost *= 1.25f;
+                break;
+            case LoadCategory.Heavy:
+                finalStaminaCost *= 1.5f;
+                break;
+            case LoadCategory.Overloaded:
+                finalStaminaCost *= 2f;
+                break;
+            default:
+                break;
+        }
+
+        target.Stats.CurrentStamina -= finalStaminaCost;
         yield break;
     }
     protected System.Collections.IEnumerator ConsumeStamia(float staminaCost, float delay, PlayerDataManager target)
     {
         yield return new WaitForSeconds(delay);
-        target.Stats.CurrentStamina -= staminaCost;
+
+        float finalStaminaCost = staminaCost;
+        var loadCategory = target.Stats.GetCurrentLoadCategory();
+        switch (loadCategory)
+        {
+            case LoadCategory.Medium:
+                finalStaminaCost *= 1.25f;
+                break;
+            case LoadCategory.Heavy:
+                finalStaminaCost *= 1.5f;
+                break;
+            case LoadCategory.Overloaded:
+                finalStaminaCost *= 2f;
+                break;
+            default:
+                break;
+        }
+
+        target.Stats.CurrentStamina -= finalStaminaCost;
         yield break;
     }
 

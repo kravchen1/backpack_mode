@@ -90,7 +90,7 @@ public class MoneyUI : MonoBehaviour
     private void PlayMoneyChangeEffect(float change)
     {
         // Анимация основного текста
-        StartCoroutine(MoneyChangeAnimation(change));
+        //StartCoroutine(MoneyChangeAnimation(change));
 
         // Показ текста изменения (если есть)
         if (_moneyChangeText != null)

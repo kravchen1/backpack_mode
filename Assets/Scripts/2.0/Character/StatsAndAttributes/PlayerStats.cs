@@ -33,9 +33,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float _currentMoveSpeed;
 
     // Пороги веса (настраиваются в инспекторе)
-    public float lightLoadThreshold = 30f;
+    public float lightLoadThreshold = 40f;
     public float mediumLoadThreshold = 60f;
-    public float heavyLoadThreshold = 90f;
+    public float heavyLoadThreshold = 80f;
 
     // События для UI (например, полосок здоровья)
     public event System.Action<int, int> OnHealthChanged; // (current, max)
@@ -69,6 +69,8 @@ public class PlayerStats : MonoBehaviour
     private const int BASE_EXP_REQUIREMENT = 100;
     private const float EXP_GROWTH_FACTOR = 1.5f;
     private const int SKILL_POINTS_PER_LEVEL = 2;
+
+    public bool IsDead { get; private set; }
 
     public int Level
     {
@@ -143,13 +145,13 @@ public class PlayerStats : MonoBehaviour
         get => _currentHealth;
         set
         {
+            if (IsDead) return; // Игнорируем изменения здоровья если уже мертв
+
             int previousHealth = _currentHealth;
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
 
-            // Всегда вызываем изменение здоровья
             OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
 
-            // Если здоровье уменьшилось - вызываем событие урона
             if (_currentHealth < previousHealth)
             {
                 int damage = previousHealth - _currentHealth;
@@ -158,9 +160,9 @@ public class PlayerStats : MonoBehaviour
                 Debug.Log($"Damage taken: {damage}. Health: {_currentHealth}/{MaxHealth}");
 
                 // Проверяем смерть
-                if (_currentHealth <= 0)
+                if (_currentHealth <= 0 && !IsDead)
                 {
-                    OnDeath?.Invoke();
+                    Die();
                 }
             }
         }
@@ -425,6 +427,59 @@ public class PlayerStats : MonoBehaviour
 
         _baseMoveSpeed /= multiplier;
         RecalculateMoveSpeed();
+    }
+
+
+    // Метод смерти
+    private void Die()
+    {
+        IsDead = true;
+        Debug.Log("Character died!");
+
+        // Вызываем событие смерти
+        OnDeath?.Invoke();
+
+        // Дополнительные действия при смерти
+        // Например, останавливаем движение, отключаем коллайдеры и т.д.
+    }
+
+    // Метод для воскрешения (если понадобится)
+    public void Resurrect(int healthPercent = 100)
+    {
+        if (!IsDead) return;
+
+        IsDead = false;
+        CurrentHealth = Mathf.RoundToInt(MaxHealth * healthPercent / 100f);
+        Debug.Log("Character resurrected!");
+    }
+
+    public void InitializeCurrentWeight(string backpackKey)
+    {
+        string jsonData = PlayerPrefs.GetString(backpackKey, "");
+        if (string.IsNullOrEmpty(jsonData))
+        {
+            Debug.Log("No saved data found for calculate Weight");
+            return;
+        }
+        float weight = 0f;
+        DataJsonCellList dataJsonList = JsonUtility.FromJson<DataJsonCellList>(jsonData);
+        foreach (DataCellJson cellData in dataJsonList.inventoryDataJsonList)
+        {
+            if (cellData.countStack > 1)
+            {
+                weight += cellData.countStack * cellData.weight;
+            }
+            else
+            {
+                weight += cellData.weight;
+            }
+        }
+        CurrentWeight = weight;
+    }
+
+    public void InitializeCurrentWeight(float weight)
+    {
+        CurrentWeight = weight;
     }
 }
 

@@ -1,6 +1,7 @@
 // PlayerDataManager.cs
-using UnityEngine;
 using System;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class NPCDataManager : MonoBehaviour
 {
@@ -13,7 +14,17 @@ public class NPCDataManager : MonoBehaviour
     public bool IsAlive => Stats.CurrentHealth > 0;
 
 
-    private string _saveKey;// = "УтуьнStatsAndAttributes"; // Ключ для PlayerPrefs
+    [Header("Death Settings")]
+    public GameObject deathChestPrefab; // Префаб сундука, который появится после смерти
+    public int countDropChests = 1;
+    public float deathAnimationDuration = 2f; // Длительность анимации смерти перед удалением
+    public bool isMultiTilesDeathChestPrefab = false;
+    public Vector2Int multiTilesDeathChestPrefabVector2 = new Vector2Int(2,2);
+
+    private string _saveKey;
+
+    // Событие смерти
+    public event Action<GameObject> OnDeath; // Передаем GameObject умершего NPC
     #region Initialize
     private void Awake()
     {
@@ -29,6 +40,9 @@ public class NPCDataManager : MonoBehaviour
 
         // Инициализируем Stats, передавая ему Attributes
         Stats.Initialize(Attributes);
+
+        // Подписываемся на событие смерти из Stats
+        Stats.OnDeath += HandleDeath;
 
         // Загружаем данные
         LoadData();
@@ -55,7 +69,7 @@ public class NPCDataManager : MonoBehaviour
         Stats.CurrentStamina = Stats.MaxStamina;
         Stats.CurrentWeight = 0;
 
-        Debug.Log("Data reset to default.");
+        //Debug.Log("Data reset to default.");
     }
 
     [ContextMenu("Save Data")]
@@ -76,7 +90,7 @@ public class NPCDataManager : MonoBehaviour
         PlayerPrefs.SetString(_saveKey, jsonData);
         PlayerPrefs.Save(); // Важно вызывать Save()
 
-        Debug.Log("Game Saved: " + jsonData);
+        //Debug.Log("Game Saved: " + jsonData);
     }
 
     [ContextMenu("Load Data")]
@@ -100,11 +114,11 @@ public class NPCDataManager : MonoBehaviour
             Stats.Money = saveData.money;
             Stats.CurrentWeight = saveData.currentWeight;
 
-            Debug.Log("Game Loaded: " + jsonData);
+            //Debug.Log("Game Loaded: " + jsonData);
         }
         else
         {
-            Debug.Log("No save data found. Initializing with default values.");
+            //Debug.Log("No save data found. Initializing with default values.");
             ResetToDefault();
         }
     }
@@ -121,6 +135,152 @@ public class NPCDataManager : MonoBehaviour
         {
             SaveData();
         }
+    }
+    #endregion
+
+    #region Death Handling
+    private void HandleDeath()
+    {
+        Debug.Log($"{CharacterName} умер!");
+
+        // Вызываем событие смерти
+        OnDeath?.Invoke(gameObject);
+
+        // Запускаем процесс смерти
+        StartDeathSequence();
+    }
+
+    private void StartDeathSequence()
+    {
+        PlayerPrefs.SetInt(CharacterName + "Die", 1);
+        // 1. Отключаем компоненты, которые не нужны мертвому NPC
+        DisableNPCComponents();
+
+        // 2. Запускаем анимацию смерти
+        PlayDeathAnimation();
+
+        // 3. Создаем сундук через заданное время
+        Invoke(nameof(SpawnDeathChest), deathAnimationDuration);
+
+        // 4. Удаляем NPC через заданное время
+        Invoke(nameof(DestroyNPC), deathAnimationDuration + 0.1f);
+    }
+
+    private void DisableNPCComponents()
+    {
+        var npcNavigationAgent = GetComponent<NPCNavigationAgent>();
+        if (npcNavigationAgent != null)
+        {
+            npcNavigationAgent.StopAllMovement();
+            npcNavigationAgent.enabled = false;
+        }
+
+        // Отключаем NPCController если есть
+        var npcController = GetComponent<NPCController>();
+        if (npcController != null) npcController.enabled = false;
+
+        // Отключаем NavMeshAgent если есть
+        var navMeshAgent = GetComponent<NavMeshAgent>();
+        if (navMeshAgent != null) navMeshAgent.enabled = false;
+
+        // Отключаем коллайдеры
+        var colliders = GetComponents<Collider2D>();
+        foreach (var collider in colliders)
+        {
+            collider.enabled = false;
+        }
+    }
+
+    private void PlayDeathAnimation()
+    {
+        var animationController = GetComponent<NPCAnimationController>();
+        if (animationController != null && animationController.animator != null)
+        {
+            // Запускаем анимацию смерти
+            animationController.animator.SetBool("IsDead", true);
+
+            // Отключаем анимацию движения
+            animationController.enabled = false;
+        }
+        else
+        {
+            // Если аниматора нет, просто делаем NPC полупрозрачным
+            StartCoroutine(FadeOutCoroutine());
+        }
+    }
+
+    private System.Collections.IEnumerator FadeOutCoroutine()
+    {
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            float fadeTime = deathAnimationDuration;
+            float elapsedTime = 0f;
+            Color originalColor = spriteRenderer.color;
+
+            while (elapsedTime < fadeTime)
+            {
+                elapsedTime += Time.deltaTime;
+                float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeTime);
+                spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                yield return null;
+            }
+        }
+    }
+
+    private void SpawnDeathChest()
+    {
+        if (deathChestPrefab != null)
+        {
+            for (int i = 0; i < countDropChests; i++)
+            {
+                GameObject chest;
+                if (isMultiTilesDeathChestPrefab)
+                {
+                    chest = GridObjectManager.Instance.SpawnMultiCellObjectAfterDeath(
+                        deathChestPrefab,
+                        transform.position,
+                        multiTilesDeathChestPrefabVector2,
+                        backpackKey
+                    );
+                }
+                else
+                {
+                    chest = GridObjectManager.Instance.SpawnObjectAfterDeath(
+                        deathChestPrefab,
+                        transform.position,
+                        backpackKey
+                    );
+                }
+
+                if (chest != null)
+                {
+                    ConfigureDeathChest(chest);
+                }
+            }
+        }
+    }
+
+    private void ConfigureDeathChest(GameObject chest)
+    {
+        var chestTrigger = chest.GetComponent<ChestDeathTrigger>();
+        if (chestTrigger != null)
+        {
+            // Настраиваем количество предметов в сундуке в зависимости от уровня NPC
+            chestTrigger.settingsKey = backpackKey;
+
+            // Можно добавить другие настройки сундука
+            // Например, качество предметов в зависимости от уровня и т.д.
+        }
+    }
+
+    private void DestroyNPC()
+    {
+        // Сохраняем данные перед удалением (если нужно)
+        SaveData();
+
+        // Уничтожаем объект
+        Destroy(gameObject);
     }
     #endregion
 
@@ -232,14 +392,17 @@ public class NPCDataManager : MonoBehaviour
     #region BattleAPI
     public void TakeDamage(int damage)
     {
+        if (!IsAlive) return; // Не принимаем урон если уже мертв
 
         Stats.CurrentHealth -= damage;
         Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
 
         SaveData();
     }
+
     public void Heal(int countPoint)
     {
+        if (!IsAlive) return; // Не лечим мертвых
 
         Stats.CurrentHealth += countPoint;
         Debug.Log($"Вылечено: {countPoint}. Здоровье: {Stats.CurrentHealth}");
@@ -247,6 +410,15 @@ public class NPCDataManager : MonoBehaviour
         SaveData();
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        // Отписываемся от событий при уничтожении
+        if (Stats != null)
+        {
+            Stats.OnDeath -= HandleDeath;
+        }
+    }
 
 
     private void FixedUpdate()

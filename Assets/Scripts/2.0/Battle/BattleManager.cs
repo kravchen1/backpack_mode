@@ -70,21 +70,13 @@ public class BattleManager : MonoBehaviour
             Debug.LogWarning("Бой уже активен!");
             return;
         }
-        //if (buttonsController != null)
-        //{
-        //    buttonsController = GameObject.Find("ButtonsController").GetComponent<ButtonsController>();
-        //}
-        //if (canvasShop)
-        //{
-        //    canvasShop = GameObject.Find("CanvasShop").transform.GetChild(0).gameObject;
-        //}
+        isBattleActive = true;
 
-        
         buttonsController.CloseInventory();
         canvasShop.SetActive(false);
 
         playerTeam = players.Take(maxPlayerTeamSize).ToList();
-        enemyTeam = enemies.Take(maxEnemyTeamSize).ToList(); // Ограничиваем врагов
+        enemyTeam = enemies.Take(maxEnemyTeamSize).ToList(); 
 
         
 
@@ -135,8 +127,10 @@ public class BattleManager : MonoBehaviour
                 {
                     enemyTeamIcons[i].GetComponent<CharacterIcon>().Initialize(character, isEnemy);
 
+
                     enemyTeamBackpacks[i].settingsKey = character.backpackKey;
                     enemyTeamBackpacks[i].LoadData();
+                    character.Stats.InitializeCurrentWeight(character.backpackKey);
                     return;
                 }
             }
@@ -151,7 +145,7 @@ public class BattleManager : MonoBehaviour
 
                     playerTeamBackpacks[i].settingsKey = character.backpackKey;
                     playerTeamBackpacks[i].LoadData();
-
+                    character.Stats.InitializeCurrentWeight(character.backpackKey);
                     return;
                 }
             }
@@ -161,7 +155,6 @@ public class BattleManager : MonoBehaviour
 
     private void StartBattleLogic()
     {
-        isBattleActive = true;
         selectedTarget = enemyTeam.FirstOrDefault();
 
         //StartCoroutine(AutoAttackRoutinePlayer(PlayerDataManager.Instance));
@@ -175,6 +168,8 @@ public class BattleManager : MonoBehaviour
         {
             StartCoroutine(AutoAttackRoutine(enemyTeam[i], i, true));
         }
+
+        StartCoroutine(AutoAttackRoutinePlayer(PlayerDataManager.Instance));
 
         // Запуск систем
         StartEscapeTimer();
@@ -280,28 +275,31 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    //private System.Collections.IEnumerator AutoAttackRoutinePlayer(PlayerDataManager attacker)
-    //{
-    //    while (isBattleActive && attacker.IsAlive)
-    //    {
-    //        yield return new WaitForSeconds(0.1f);
-
-    //        if (selectedTarget != null && selectedTarget.IsAlive)
-    //        {
-    //            Attack(attacker, selectedTarget);
-    //        }
-    //        else
-    //        {
-    //            selectedTarget = enemyTeam.FirstOrDefault(e => e.IsAlive);
-    //            if (selectedTarget == null)
-    //            {
-    //                EndBattle(true);
-    //                yield break;
-    //            }
-    //        }
-    //        CheckBattleEnd();
-    //    }
-    //}
+    private System.Collections.IEnumerator AutoAttackRoutinePlayer(PlayerDataManager attacker)
+    {
+        while (isBattleActive && attacker.IsAlive)
+        {
+            yield return null;
+            List<ItemActionController> itemActions = new List<ItemActionController>();
+            foreach (var itemAction in playerBackpack.GetComponentsInChildren<ActivationItemActionController>())
+            {
+                if (selectedTarget != null && selectedTarget.IsAlive)
+                {
+                    itemAction.UpdateForBattle(attacker, selectedTarget);
+                }
+                else
+                {
+                    selectedTarget = enemyTeam.FirstOrDefault(e => e.IsAlive);
+                    if (selectedTarget == null)
+                    {
+                        EndBattle(true);
+                        yield break;
+                    }
+                }
+            }
+            CheckBattleEnd();
+        }
+    }
 
 
     private int CalculateDamage(NPCDataManager attacker, NPCDataManager target)
@@ -436,7 +434,7 @@ public class BattleManager : MonoBehaviour
         isBattleActive = false;
         canEscape = false;
         StopAllCoroutines();
-
+        SaveBackpacks();
         // Останавливаем систему друзей
         if (FriendSystem.Instance != null)
             FriendSystem.Instance.StopFriendSystem();
@@ -456,6 +454,7 @@ public class BattleManager : MonoBehaviour
         }
 
         OnBattleEnded?.Invoke(playerWon);
+        Time.timeScale = 1f;
     }
 
     private void EndBattleWithEscape(bool escaped)
@@ -463,7 +462,7 @@ public class BattleManager : MonoBehaviour
         isBattleActive = false;
         canEscape = false;
         StopAllCoroutines();
-
+        SaveBackpacks();
         if (FriendSystem.Instance != null)
             FriendSystem.Instance.StopFriendSystem();
 
@@ -472,6 +471,20 @@ public class BattleManager : MonoBehaviour
 
         OnBattleEnded?.Invoke(false);
         OnBattleEscaped?.Invoke(escaped);
+        Time.timeScale = 1f;
+    }
+
+    private void SaveBackpacks()
+    {
+        playerBackpack.SaveData();
+        foreach (var backPack in enemyTeamBackpacks)
+        {
+            backPack.SaveData();
+        }
+        foreach (var backPack in playerTeamBackpacks)
+        {
+            backPack.SaveData();
+        }
     }
 
     // НАГРАДЫ

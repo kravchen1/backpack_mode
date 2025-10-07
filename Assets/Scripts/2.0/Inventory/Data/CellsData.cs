@@ -20,7 +20,7 @@ public class CellsData : MonoBehaviour
 
     private void Awake()
     {
-        itemPrefabs = GameObject.FindGameObjectWithTag("ItemsPrefabs").GetComponent<ItemPrefabs>().itemPrefabs;
+        itemPrefabs = GameObject.FindGameObjectWithTag("ItemsPrefabs").GetComponent<Prefabs>().prefabs;
     }
 
     private void OnEnable()
@@ -37,6 +37,7 @@ public class CellsData : MonoBehaviour
         yield return null;
         yield return null;
         LoadData();
+        PlayerDataManager.Instance.Stats.InitializeCurrentWeight(settingsKey);
     }
 
     private IEnumerator StarsPerformRaycastCheck(List<GameObject> loadedObjects)
@@ -98,10 +99,12 @@ public class CellsData : MonoBehaviour
                                 occupiedCellNames,
                                 itemStats.itemQuality,
                                 itemStats.durability,
-                                itemMove.StackCount
+                                itemMove.StackCount,
+                                itemStats.weight
                             ));
                         }
                         else
+                        
                         {
                             dataJsonList.inventoryDataJsonList.Add(new DataCellJson(
                                                             cell.gameObject.name, // главная ячейка
@@ -109,7 +112,8 @@ public class CellsData : MonoBehaviour
                                                             itemStructure.transform.eulerAngles.z,
                                                             occupiedCellNames,
                                                             itemStats.itemQuality,
-                                                            itemStats.durability
+                                                            itemStats.durability,
+                                                            itemStats.weight
                                                         ));
                         }
 
@@ -123,7 +127,7 @@ public class CellsData : MonoBehaviour
         PlayerPrefs.SetString(settingsKey, jsonCellsSave);
         PlayerPrefs.Save();
         
-        Debug.Log($"Data saved. Unique items: {dataJsonList.inventoryDataJsonList.Count}");
+        //Debug.Log($"Data saved. Unique items: {dataJsonList.inventoryDataJsonList.Count}");
         Debug.Log(jsonCellsSave);
     }
 
@@ -139,7 +143,7 @@ public class CellsData : MonoBehaviour
             }
         }
 
-        Debug.Log($"Item {item.name} occupies cells: {string.Join(", ", occupiedCellNames)}");
+        //Debug.Log($"Item {item.name} occupies cells: {string.Join(", ", occupiedCellNames)}");
         return occupiedCellNames;
     }
 
@@ -156,7 +160,6 @@ public class CellsData : MonoBehaviour
         try
         {
             dataJsonList = JsonUtility.FromJson<DataJsonCellList>(jsonData);
-            ClearAllItems();
 
             Debug.Log($"Loading {dataJsonList.inventoryDataJsonList.Count} items...");
 
@@ -191,12 +194,12 @@ public class CellsData : MonoBehaviour
                 PlaceItemInOccupiedCells(newItem, cellData.occupiedCells, cellData.rotationZ);
                 loadedObjects.Add(newItem);
 
-                Debug.Log($"Loaded item {cellData.cellNestedObjectName} with rotation {cellData.rotationZ}° in {cellData.occupiedCells.Count} cells");
+                //Debug.Log($"Loaded item {cellData.cellNestedObjectName} with rotation {cellData.rotationZ}° in {cellData.occupiedCells.Count} cells");
             }
 
             StartCoroutine(
                         StarsPerformRaycastCheck(loadedObjects));
-            Debug.Log("Data loaded successfully!");
+            //Debug.Log("Data loaded successfully!");
         }
         catch (Exception e)
         {
@@ -291,10 +294,25 @@ public class CellsData : MonoBehaviour
             cell.NestedObject = null;
         }
 
-        // Удаляем все дочерние предметы
-        for (int i = itemsParent.childCount - 1; i >= 0; i--)
+        // Более надежное удаление всех дочерних объектов
+        List<GameObject> childrenToDestroy = new List<GameObject>();
+        foreach (Transform child in itemsParent)
         {
-            DestroyImmediate(itemsParent.GetChild(i).gameObject);
+            childrenToDestroy.Add(child.gameObject);
+        }
+
+        foreach (GameObject child in childrenToDestroy)
+        {
+            if (child != null)
+            {
+                Destroy(child);
+            }
+        }
+
+        // Дополнительная проверка
+        if (itemsParent.childCount > 0)
+        {
+            Debug.LogWarning($"After ClearAllItems, still {itemsParent.childCount} children remaining!");
         }
     }
 }

@@ -19,7 +19,7 @@ public class ShopGenerator : MonoBehaviour
 
     private void Awake()
     {
-        itemPrefabs = GameObject.FindGameObjectWithTag("ItemsPrefabs").GetComponent<ItemPrefabs>().itemPrefabs;
+        itemPrefabs = GameObject.FindGameObjectWithTag("ItemsPrefabs").GetComponent<Prefabs>().prefabs;
     }
 
     public void GenerateItems(float rarityBoost = 0f)

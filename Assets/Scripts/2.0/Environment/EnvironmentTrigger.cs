@@ -14,6 +14,7 @@ public class EnvironmentTrigger : MonoBehaviour
     [SerializeField] protected string[] ButtonsKeyTexts;
     [SerializeField] protected GameObject ButtonPrefab;
 
+    [HideInInspector] public string settingsKey;
 
     protected bool playerInTrigger = false;
     protected Animator animator;

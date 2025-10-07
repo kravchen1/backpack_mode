@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -18,19 +19,27 @@ public class MeleeAndWeaponActionController : WeaponActionController
 
     protected override void Awake()
     {
-        base.Awake();
+        if (isFight)
+        {
+            base.Awake();
 
-        
-        Initialize();
+            StartCoroutine(Initialize());
+        }
     }
-    
-    private void Initialize()
+
+    private IEnumerator Initialize()
     {
+        yield return null;
+        yield return null;
+        yield return null;
+        yield return null;
+        //проставляем звёзды в предметах
         itemStarPatrons = GetComponentsInChildren<ItemStar>().ToList().Where(e => HasMatchingItemType(e.AllowedItemTypes)).ToList();
         meleeAndRangeWeaponStats = GetComponent<MeleeAndRangeWeaponStats>();
         SwitchMode();
         InitializeBase();
     }
+
     private void SwitchMode()
     {
         if (CheckPatron())
@@ -97,10 +106,15 @@ public class MeleeAndWeaponActionController : WeaponActionController
             baseCritChance = meleeAndRangeWeaponStats.CritChanceRange;
         }
         currentCooldown = cooldownTime;
+        StartCooldown();
     }
     private void SpendPatron()
     {
         currentPatron.StackCount--;
+        if(currentPatron.StackCount==0)
+        {
+            Destroy(currentPatron.gameObject);
+        }
         SwitchMode();
         InitializeBase();
     }
@@ -116,7 +130,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
         if (!HasStamina(attacker))
         {
             text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina);
+            animator.Play(animationKeyAttackNoStamina, 0, 0f);
             return;
         }
         ConsumeStamina(attacker);
@@ -149,7 +163,6 @@ public class MeleeAndWeaponActionController : WeaponActionController
             }
             text.text = damage.ToString();
             StartCoroutine(Attack(damage, timeAnimation, target));
-            target.TakeDamage(damage);
         }
         else
         {
@@ -157,11 +170,11 @@ public class MeleeAndWeaponActionController : WeaponActionController
         }
         if (isInMeleeMode)
         {
-            animator.Play(animationKeyAttackMelee);
+            animator.Play(animationKeyAttackMelee, 0, 0f);
         }
         else
         {
-            animator.Play(animationKeyAttackRange);
+            animator.Play(animationKeyAttackRange, 0, 0f);
         }
     }
     protected override void Attack(PlayerDataManager attacker, NPCDataManager target)
@@ -175,7 +188,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
         if (!HasStamina(attacker))
         {
             text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina);
+            animator.Play(animationKeyAttackNoStamina, 0, 0f);
             return;
         }
         ConsumeStamina(attacker);
@@ -208,7 +221,6 @@ public class MeleeAndWeaponActionController : WeaponActionController
             }
             text.text = damage.ToString();
             StartCoroutine(Attack(damage, timeAnimation, target));
-            target.TakeDamage(damage);
         }
         else
         {
@@ -216,11 +228,11 @@ public class MeleeAndWeaponActionController : WeaponActionController
         }
         if (isInMeleeMode)
         {
-            animator.Play(animationKeyAttackMelee);
+            animator.Play(animationKeyAttackMelee, 0, 0f);
         }
         else
         {
-            animator.Play(animationKeyAttackRange);
+            animator.Play(animationKeyAttackRange, 0, 0f);
         }
     }
     protected override void Attack(NPCDataManager attacker, PlayerDataManager target)
@@ -267,7 +279,6 @@ public class MeleeAndWeaponActionController : WeaponActionController
             }
             text.text = damage.ToString();
             StartCoroutine(Attack(damage, timeAnimation, target));
-            target.TakeDamage(damage);
         }
         else
         {
@@ -281,25 +292,6 @@ public class MeleeAndWeaponActionController : WeaponActionController
         {
             animator.Play(animationKeyAttackRange, 0, 0f);
         }
-    }
-
-
-    protected override void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
-    {
-        Attack(attacker, target);
-        StartCooldown();
-    }
-
-    protected override void ExecuteAction(PlayerDataManager attacker, NPCDataManager target)
-    {
-        Attack(attacker, target);
-        StartCooldown();
-    }
-
-    protected override void ExecuteAction(NPCDataManager attacker, PlayerDataManager target)
-    {
-        Attack(attacker, target);
-        StartCooldown();
     }
 
 }

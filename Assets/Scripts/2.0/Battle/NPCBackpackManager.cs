@@ -13,7 +13,7 @@ public class NPCBackpackManager : MonoBehaviour
         {
             GenerateNPCBackpack();
             PlayerPrefs.SetInt("NPCBackpacksGenerate", 1);
-            return;
+            PlayerPrefs.Save();
         }
     }
 
@@ -34,15 +34,6 @@ public class NPCBackpackManager : MonoBehaviour
                                                             ""occupiedCells"": [""cell3 (2)"", ""cell4 (2)"", ""cell5 (2)""],
                                                             ""qualityKey"": 1,
                                                             ""durability"": 85.0,
-                                                            ""countStack"": 0
-                                                        },
-                                                        {
-                                                            ""cellName"": ""cell3 (3)"",
-                                                            ""cellNestedObjectName"": ""GunTest"",
-                                                            ""rotationZ"": 0.0,
-                                                            ""occupiedCells"": [""cell3 (3)"", ""cell4 (3)"", ""cell5 (3)""],
-                                                            ""qualityKey"": 0,
-                                                            ""durability"": 75.0,
                                                             ""countStack"": 0
                                                         }
                                                     ]

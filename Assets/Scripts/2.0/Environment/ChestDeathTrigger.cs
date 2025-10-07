@@ -1,22 +1,22 @@
 using TMPro;
 using UnityEngine;
 
-public class ChestTrigger : EnvironmentTrigger
+public class ChestDeathTrigger : EnvironmentTrigger
 {
     [Header("Chest Settings")]
-    [SerializeField] private bool isOpened = false;
+    [HideInInspector] public bool isOpened = false;
     [SerializeField] private GameObject ChestOpen;
     [SerializeField] private GameObject ChestClose;
-    public int countItemsInside = 5;
 
-    
+
+    private TimedDestroyer timedDestroyer;
 
     protected override void Start()
     {
         base.Start();
-
-
-        settingsKey = "shopData" + gameObject.name;
+        timedDestroyer = gameObject.AddComponent<TimedDestroyer>();
+        // Запускаем таймер при создании сундука
+        timedDestroyer.StartDestroyCountdown();
     }
 
     protected override void PerformManualInteractionChild()
@@ -45,9 +45,7 @@ public class ChestTrigger : EnvironmentTrigger
                 }
             }
         }
-
     }
-
 
     private void OpenChest()
     {
@@ -55,30 +53,18 @@ public class ChestTrigger : EnvironmentTrigger
         isOpened = true;
         Debug.Log($"Chest opened: {name}");
 
+        // Отменяем таймер удаления при открытии
+        timedDestroyer.CancelDestroy();
+
         ChestOpen.SetActive(true);
         ChestClose.SetActive(false);
 
         buttonsController.OpenInventory();
         canvasShop.SetActive(true);
 
-        if (string.IsNullOrEmpty(PlayerPrefs.GetString(settingsKey, "")))
-        {
-            shopGenerator.maxShopItems = countItemsInside;
-            shopGenerator.GenerateItems(0f);
-            shopData.settingsKey = settingsKey;
-            shopData.SaveData();
-        }
-        else
-        {
-            shopData.settingsKey = settingsKey;
-            shopData.LoadData();
-        }
-
-
-        // Отключаем дальнейшие взаимодействия
-        //allowManualInteraction = false;
+        shopData.settingsKey = settingsKey;
+        shopData.LoadData();
     }
-
 
     protected override void OnExitChild()
     {
@@ -86,9 +72,13 @@ public class ChestTrigger : EnvironmentTrigger
         {
             isOpened = false;
             shopData.SaveData();
+
+            // Перезапускаем таймер удаления при закрытии сундука
+            timedDestroyer.StartDestroyCountdown();
         }
         CloseAllUI();
     }
+
     private void DestroyChest()
     {
         CloseMenuButtons();

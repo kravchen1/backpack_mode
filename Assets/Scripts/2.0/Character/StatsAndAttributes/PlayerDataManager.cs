@@ -86,7 +86,7 @@ public class PlayerDataManager : MonoBehaviour
         PlayerPrefs.SetString(_saveKey, jsonData);
         PlayerPrefs.Save(); // Важно вызывать Save()
 
-        Debug.Log("Game Saved: " + jsonData);
+        //Debug.Log("Game Saved: " + jsonData);
     }
 
     [ContextMenu("Load Data")]

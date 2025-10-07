@@ -15,7 +15,16 @@ public class NPCNavigationAgent : MonoBehaviour
 
     public NavMeshAgent Agent => navMeshAgent;
     public bool IsPathValid => navMeshAgent.hasPath && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
-    public bool HasReachedDestination => navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
+    public bool HasReachedDestination
+    {
+        get
+        {
+            if (navMeshAgent == null || !navMeshAgent.isActiveAndEnabled || !navMeshAgent.isOnNavMesh)
+                return true;
+
+            return navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending;
+        }
+    }
 
     void Awake()
     {
@@ -68,6 +77,8 @@ public class NPCNavigationAgent : MonoBehaviour
 
     public void StopMovement()
     {
+        if (navMeshAgent == null || !navMeshAgent.isActiveAndEnabled || !navMeshAgent.isOnNavMesh)
+            return;
         navMeshAgent.isStopped = true;
         StopAllMovement();
     }
@@ -99,7 +110,10 @@ public class NPCNavigationAgent : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, target.position) > actualStoppingDistance)
             {
-                navMeshAgent.SetDestination(target.position);
+                if (navMeshAgent.enabled)
+                {
+                    navMeshAgent.SetDestination(target.position);
+                }
             }
             else
             {
@@ -121,6 +135,10 @@ public class NPCNavigationAgent : MonoBehaviour
 
         while (true)
         {
+            // Проверяем, активен ли агент перед каждым действием
+            if (navMeshAgent == null || !navMeshAgent.isActiveAndEnabled || !navMeshAgent.isOnNavMesh)
+                yield break;
+
             // Двигаемся к текущей точке
             navMeshAgent.SetDestination(patrolWaypoints[currentWaypointIndex]);
             navMeshAgent.isStopped = false;
@@ -140,7 +158,7 @@ public class NPCNavigationAgent : MonoBehaviour
 
     #endregion
 
-    private void StopAllMovement()
+    public void StopAllMovement()
     {
         if (currentMovementCoroutine != null)
         {
@@ -175,4 +193,11 @@ public class NPCNavigationAgent : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        // Останавливаем все корутины при уничтожении объекта
+        StopAllMovement();
+    }
 }
+

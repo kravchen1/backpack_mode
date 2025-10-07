@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemPrefabs : MonoBehaviour
+public class Prefabs : MonoBehaviour
 {
     [Header("Prefabs")]
-    public List<GameObject> itemPrefabs = new List<GameObject>();
+    public List<GameObject> prefabs = new List<GameObject>();
 }

@@ -9,7 +9,7 @@ public class EnemyEncounterTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("FightCollision");
+        //Debug.Log("FightCollision");
         if (other.CompareTag("Player"))
             StartBattleWithPlayer();
     }

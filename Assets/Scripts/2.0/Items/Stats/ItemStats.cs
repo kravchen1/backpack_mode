@@ -89,8 +89,6 @@ public abstract class ItemStats : MonoBehaviour
                 changeQualityStats2 = 1f;
                 break;
         }
-
-        weight *= changeQualityStats1;
         maxDurability *= changeQualityStats2;
         durability = Mathf.Min(durability, maxDurability);
         price *= changeQualityStats2;

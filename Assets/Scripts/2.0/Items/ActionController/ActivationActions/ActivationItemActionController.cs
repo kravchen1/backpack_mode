@@ -16,40 +16,52 @@ public abstract class ActivationItemActionController : ItemActionController
 
     protected override void Awake()
     {
-        base.Awake();
-
-
-        reloadSprite = transform.GetChild(1);
+        if (isFight)
+        {
+            base.Awake();
+            reloadSprite = transform.GetChild(1);
+        }
     }
 
     public override void UpdateForBattle(NPCDataManager attacker, NPCDataManager target)
     {
-        UpdateCooldown();
-        UpdateActivation(attacker, target);
+        if (isFight)
+        {
+            UpdateCooldown();
+            UpdateActivation(attacker, target);
+        }
     }
 
     public override void UpdateForBattle(PlayerDataManager attacker, NPCDataManager target)
     {
-        UpdateCooldown();
-        UpdateActivation(attacker, target);
+        if (isFight)
+        {
+            UpdateCooldown();
+            UpdateActivation(attacker, target);
+        }
     }
 
     public override void UpdateForBattle(NPCDataManager attacker, PlayerDataManager target)
     {
-        UpdateCooldown();
-        UpdateActivation(attacker, target);
+        if (isFight)
+        {
+            UpdateCooldown();
+            UpdateActivation(attacker, target);
+        }
     }
 
     protected virtual void UpdateCooldown()
     {
-        if (isOnCooldown)
+
+        if (isOnCooldown && isFight)
         {
             currentCooldown -= Time.deltaTime;
-
-            Vector3 newScale = reloadSprite.localScale;
-            newScale.x = CooldownProgress; // Или newScale.y, если шкала вертикальная
-            reloadSprite.localScale = newScale;
-
+            if (reloadSprite != null)
+            {
+                Vector3 newScale = reloadSprite.localScale;
+                newScale.x = CooldownProgress; // Или newScale.y, если шкала вертикальная
+                reloadSprite.localScale = newScale;
+            }
             if (currentCooldown <= 0f)
             {
                 isOnCooldown = false;
@@ -59,21 +71,21 @@ public abstract class ActivationItemActionController : ItemActionController
 
     protected override void UpdateActivation(NPCDataManager attacker, NPCDataManager target)
     {
-        if (IsReady)
+        if (IsReady && isFight)
         {
             ExecuteAction(attacker, target);
         }
     }
     protected override void UpdateActivation(PlayerDataManager attacker, NPCDataManager target)
     {
-        if (IsReady)
+        if (IsReady && isFight)
         {
             ExecuteAction(attacker, target);
         }
     }
     protected override void UpdateActivation(NPCDataManager attacker, PlayerDataManager target)
     {
-        if (IsReady)
+        if (IsReady && isFight)
         {
             ExecuteAction(attacker, target);
         }
@@ -83,20 +95,20 @@ public abstract class ActivationItemActionController : ItemActionController
 
     protected override void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
     {
-        Debug.Log(gameObject.name + " activated");
-        StartCooldown();
+        //Debug.Log(gameObject.name + " activated");
+        if (isFight) StartCooldown();
     }
 
     protected override void ExecuteAction(PlayerDataManager attacker, NPCDataManager target)
     {
-        Debug.Log(gameObject.name + " activated");
-        StartCooldown();
+        //Debug.Log(gameObject.name + " activated");
+        if (isFight) StartCooldown();
     }
 
     protected override void ExecuteAction(NPCDataManager attacker, PlayerDataManager target)
     {
-        Debug.Log(gameObject.name + " activated");
-        StartCooldown();
+        //Debug.Log(gameObject.name + " activated");
+        if (isFight) StartCooldown();
     }
 
 

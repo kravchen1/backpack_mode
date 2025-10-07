@@ -145,7 +145,7 @@ public class WeightUI : MonoBehaviour
 
     private void PlayWeightChangeEffect()
     {
-        StartCoroutine(WeightChangeAnimation());
+        //StartCoroutine(WeightChangeAnimation());
     }
 
     private System.Collections.IEnumerator WeightChangeAnimation()

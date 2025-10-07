@@ -12,8 +12,9 @@ public class DataCellJson
     public ItemQuality qualityKey;
     public float durability;
     public int countStack = 0;
+    public float weight = 0;
 
-    public DataCellJson(string cellName, string cellNestedObjectName, float rotationZ, List<string> occupiedCells, ItemQuality qualityKey, float durability, int countStack)
+    public DataCellJson(string cellName, string cellNestedObjectName, float rotationZ, List<string> occupiedCells, ItemQuality qualityKey, float durability, int countStack, float weight)
     {
         this.cellName = cellName;
         this.cellNestedObjectName = cellNestedObjectName;
@@ -22,10 +23,11 @@ public class DataCellJson
         this.qualityKey = qualityKey;
         this.durability = durability;
         this.countStack = countStack;
+        this.weight = weight;
     }
 
 
-    public DataCellJson(string cellName, string cellNestedObjectName, float rotationZ, List<string> occupiedCells, ItemQuality qualityKey, float durability)
+    public DataCellJson(string cellName, string cellNestedObjectName, float rotationZ, List<string> occupiedCells, ItemQuality qualityKey, float durability, float weight)
     {
         this.cellName = cellName;
         this.cellNestedObjectName = cellNestedObjectName;
@@ -33,5 +35,6 @@ public class DataCellJson
         this.occupiedCells = occupiedCells;
         this.qualityKey = qualityKey;
         this.durability = durability;
+        this.weight = weight;
     }
 }

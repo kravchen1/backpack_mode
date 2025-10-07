@@ -73,7 +73,7 @@ public class TopDownCharacterController : MonoBehaviour
         if (graphicsTransform == null && transform.childCount > 0)
         {
             graphicsTransform = transform.GetChild(0);
-            Debug.Log($"Auto-assigned graphics transform: {graphicsTransform.name}");
+            //Debug.Log($"Auto-assigned graphics transform: {graphicsTransform.name}");
         }
     }
 

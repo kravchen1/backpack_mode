@@ -169,7 +169,7 @@ public class NPCController : MonoBehaviour
         if (!other.isTrigger) return;
 
         var playerController = other.GetComponent<TopDownCharacterController>();
-        Debug.Log("Trigger Player in");
+        //Debug.Log("Trigger Player in");
         if (playerController != null)
         {
             player = playerController;
@@ -185,7 +185,7 @@ public class NPCController : MonoBehaviour
         if (!other.isTrigger) return;
 
         var playerController = other.GetComponent<TopDownCharacterController>();
-        Debug.Log("Trigger Player out");
+        //Debug.Log("Trigger Player out");
         if (playerController == player)
         {
             currentState?.OnPlayerLost(this);
@@ -233,6 +233,15 @@ public class NPCController : MonoBehaviour
     private void TestMakeNeutral()
     {
         MakeNeutral();
+    }
+
+    private void OnDestroy()
+    {
+        // Останавливаем все поведения
+        if (currentState != null)
+        {
+            currentState.ExitState(this);
+        }
     }
 
 }
