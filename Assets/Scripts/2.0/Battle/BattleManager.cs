@@ -468,7 +468,7 @@ public class BattleManager : MonoBehaviour
 
         if (battleUICanvas != null)
             battleUICanvas.SetActive(false);
-
+         
         OnBattleEnded?.Invoke(false);
         OnBattleEscaped?.Invoke(escaped);
         Time.timeScale = 1f;
