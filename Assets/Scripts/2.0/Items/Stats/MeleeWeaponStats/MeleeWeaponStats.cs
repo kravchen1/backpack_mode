@@ -11,21 +11,48 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
     [SerializeField] private int critChance = 10;
     [SerializeField] private int critDamage = 150;
 
-    //[Header("Melee Specific Stats")]
-    //public MeleeType meleeType = MeleeType.Sword;
+    // Реализация IMeleeWeapon с сеттерами
+    public int MinDamageMelee
+    {
+        get => minDamage;
+        set => minDamage = value;
+    }
 
-    public enum MeleeType { Sword, Axe, Mace, Dagger, Polearm }
+    public int MaxDamageMelee
+    {
+        get => maxDamage;
+        set => maxDamage = value;
+    }
 
-    // Реализация IMeleeWeapon
-    public int MinDamageMelee => minDamage;
-    public int MaxDamageMelee => maxDamage;
-    public float CoolDownMelee => coolDown;
-    public float BaseStaminaMelee => baseStamina;
-    public int AccuracyMelee => accuracy;
-    public int CritChanceMelee => critChance;
-    public int CritDamageMelee => critDamage;
-    //public bool CanParry => canParry;
-    //public float ParryWindow => parryWindow;
+    public float CoolDownMelee
+    {
+        get => coolDown;
+        set => coolDown = value;
+    }
+
+    public float BaseStaminaMelee
+    {
+        get => baseStamina;
+        set => baseStamina = value;
+    }
+
+    public int AccuracyMelee
+    {
+        get => accuracy;
+        set => accuracy = value;
+    }
+
+    public int CritChanceMelee
+    {
+        get => critChance;
+        set => critChance = value;
+    }
+
+    public int CritDamageMelee
+    {
+        get => critDamage;
+        set => critDamage = value;
+    }
 
     public override void InitializeQuality()
     {
@@ -75,8 +102,6 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
             new DescriptionTriple("Stamina",
                 $"{baseStamina/coolDown:0.0}",
                 $"{baseStamina/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s)"),
-            //new DescriptionTriple("Can Parry", canParry ? "Yes" : "No", ""),
-            //new DescriptionTriple("Parry Window", $"{parryWindow:0.0}s", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
             new DescriptionTriple("Requirements", "", ""),
@@ -100,23 +125,10 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
                 return $"{accuracy}";
             case "Stamina Cost":
                 return $"{baseStamina:0.0}";
-            //case "Can Parry":
-            //    return canParry ? "Yes" : "No";
-            //case "Parry Window":
-            //    return $"{parryWindow:0.0}s";
             default:
                 return base.GetSpecificStatValue(statKey);
         }
     }
-
-    // Специфичные методы для ближнего боя
-    //public virtual bool TryParry()
-    //{
-    //    if (!canParry) return false;
-    //    // Логика парирования
-    //    Debug.Log($"Parry attempted with {itemNameKey}, window: {parryWindow}s");
-    //    return true;
-    //}
 
     public virtual float CalculateDPS()
     {

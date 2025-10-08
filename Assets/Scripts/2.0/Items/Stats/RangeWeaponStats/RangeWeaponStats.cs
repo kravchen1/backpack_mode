@@ -11,21 +11,48 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     [SerializeField] private int critChance = 25;
     [SerializeField] private int critDamage = 220;
 
-    [Header("Range Specific Stats")]
-    public bool requiresAmmo = true;
+    // Реализация IRangeWeapon с сеттерами
+    public int MinDamageRange
+    {
+        get => minDamage;
+        set => minDamage = value;
+    }
 
-    public enum RangeWeaponType { Pistol, Rifle, Shotgun, Sniper, Bow }
-    public enum AmmoType { Pistol, AssaultRifle, Shotgun, Sniper, Arrows }
+    public int MaxDamageRange
+    {
+        get => maxDamage;
+        set => maxDamage = value;
+    }
 
-    // Реализация IRangeWeapon
-    public int MinDamageRange => minDamage;
-    public int MaxDamageRange => maxDamage;
-    public float CoolDownRange => coolDown;
-    public float BaseStaminaRange => baseStamina;
-    public int AccuracyRange => accuracy;
-    public int CritChanceRange => critChance;
-    public int CritDamageRange => critDamage;
-    public bool RequiresAmmo => requiresAmmo;
+    public float CoolDownRange
+    {
+        get => coolDown;
+        set => coolDown = value;
+    }
+
+    public float BaseStaminaRange
+    {
+        get => baseStamina;
+        set => baseStamina = value;
+    }
+
+    public int AccuracyRange
+    {
+        get => accuracy;
+        set => accuracy = value;
+    }
+
+    public int CritChanceRange
+    {
+        get => critChance;
+        set => critChance = value;
+    }
+
+    public int CritDamageRange
+    {
+        get => critDamage;
+        set => critDamage = value;
+    }
 
     public override void InitializeQuality()
     {
@@ -78,8 +105,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
             new DescriptionTriple("Stamina",
                 $"{baseStamina/coolDown:0.0}",
                 $"{baseStamina/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s)"),
-
-            new DescriptionTriple("Requires Ammo", requiresAmmo ? "Yes" : "No", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
             new DescriptionTriple("Requirements", "", ""),
@@ -101,23 +126,9 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
                 return $"{accuracy}";
             case "Stamina Cost":
                 return $"{baseStamina:0.0}";
-            case "Requires Ammo":
-                return requiresAmmo ? "Yes" : "No";
             default:
                 return base.GetSpecificStatValue(statKey);
         }
-    }
-
-    // Специфичные методы для дальнего боя
-    public virtual bool CanShoot(int currentAmmo)
-    {
-        if (requiresAmmo && currentAmmo <= 0) return false;
-        return true;
-    }
-
-    public virtual float CalculateDPS()
-    {
-        return (minDamage + maxDamage) / 2f / coolDown;
     }
 
 

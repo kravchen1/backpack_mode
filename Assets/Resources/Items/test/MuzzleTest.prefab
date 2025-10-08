@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 2850118828689978233}
   - component: {fileID: 9142181980695427188}
   - component: {fileID: 4407681569580854255}
+  - component: {fileID: -6041907290931884437}
   m_Layer: 7
   m_Name: MuzzleTest
   m_TagString: Untagged
@@ -332,8 +333,43 @@ MonoBehaviour:
   _descriptionTriples: []
   _doubleClickTime: 0.3
   _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}
-  damageModifier: 10
-  accuracyModifier: 0
-  critChanceModifier: 2
-  reloadSpeedModifier: 0
-  modType: 3
+  damageRangeModifierPercentage: 0
+  accuracyRangeModifierPercentage: 0
+  critChanceRangeModifierPercentage: 0
+  critDamageRangeModifierPercentage: 0
+  coolDownRangeModifierPercentage: 0
+  staminaRangeModifierPercentage: 0
+  damageRangeModifierValue: 5
+  accuracyRangeModifierValue: 0
+  critChanceRangeModifierValue: 0
+  coolDownRangeModifierValue: 0
+  staminaRangeModifierValue: 0
+  critDamageRangeModifierValue: 0
+  damageMeleeModifierPercentage: 0
+  accuracyMeleeModifierPercentage: 0
+  critChanceMeleeModifierPercentage: 0
+  critDamageMeleeModifierPercentage: 0
+  coolDownMeleeModifierPercentage: 0
+  staminaMeleeModifierPercentage: 0
+  damageMeleeModifierValue: 0
+  accuracyMeleeModifierValue: 0
+  critChanceMeleeModifierValue: 0
+  coolDownMeleeModifierValue: 0
+  staminaMeleeModifierValue: 0
+  critDamageMeleeModifierValue: 0
+--- !u!114 &-6041907290931884437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8774461907272767147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb2f8088c130a948b1fe5c3212c9b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  weaponModStats: {fileID: 0}
+  isMelee: 1
+  isRange: 1

@@ -10,8 +10,6 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     [SerializeField] private int accuracyMelee = 75;
     [SerializeField] private int critChanceMelee = 10;
     [SerializeField] private int critDamageMelee = 180;
-    [SerializeField] private bool canParry = true;
-    [SerializeField] private float parryWindow = 0.3f;
 
     [Header("Range Weapon Stats")]
     [SerializeField] private int minDamageRange = 3;
@@ -21,34 +19,92 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
     [SerializeField] private int accuracyRange = 65;
     [SerializeField] private int critChanceRange = 25;
     [SerializeField] private int critDamageRange = 220;
-    [SerializeField] private int ammoCapacity = 30;
-    [SerializeField] private float reloadTime = 2.0f;
-    [SerializeField] private bool requiresAmmo = true;
 
-    public enum WeaponMode { Melee, Range }
+    // Реализация IMeleeWeapon с сеттерами
+    public int MinDamageMelee
+    {
+        get => minDamageMelee;
+        set => minDamageMelee = value;
+    }
 
-    // Реализация IMeleeWeapon
-    public int MinDamageMelee => minDamageMelee;
-    public int MaxDamageMelee => maxDamageMelee;
-    public float CoolDownMelee => coolDownMelee;
-    public float BaseStaminaMelee => baseStaminaMelee;
-    public int AccuracyMelee => accuracyMelee;
-    public int CritChanceMelee => critChanceMelee;
-    public int CritDamageMelee => critDamageMelee;
-    public bool CanParry => canParry;
-    public float ParryWindow => parryWindow;
+    public int MaxDamageMelee
+    {
+        get => maxDamageMelee;
+        set => maxDamageMelee = value;
+    }
 
-    // Реализация IRangeWeapon
-    public int MinDamageRange => minDamageRange;
-    public int MaxDamageRange => maxDamageRange;
-    public float CoolDownRange => coolDownRange;
-    public float BaseStaminaRange => baseStaminaRange;
-    public int AccuracyRange => accuracyRange;
-    public int CritChanceRange => critChanceRange;
-    public int CritDamageRange => critDamageRange;
-    public int AmmoCapacity => ammoCapacity;
-    public float ReloadTime => reloadTime;
-    public bool RequiresAmmo => requiresAmmo;
+    public float CoolDownMelee
+    {
+        get => coolDownMelee;
+        set => coolDownMelee = value;
+    }
+
+    public float BaseStaminaMelee
+    {
+        get => baseStaminaMelee;
+        set => baseStaminaMelee = value;
+    }
+
+    public int AccuracyMelee
+    {
+        get => accuracyMelee;
+        set => accuracyMelee = value;
+    }
+
+    public int CritChanceMelee
+    {
+        get => critChanceMelee;
+        set => critChanceMelee = value;
+    }
+
+    public int CritDamageMelee
+    {
+        get => critDamageMelee;
+        set => critDamageMelee = value;
+    }
+
+    // Реализация IRangeWeapon с сеттерами
+    public int MinDamageRange
+    {
+        get => minDamageRange;
+        set => minDamageRange = value;
+    }
+
+    public int MaxDamageRange
+    {
+        get => maxDamageRange;
+        set => maxDamageRange = value;
+    }
+
+    public float CoolDownRange
+    {
+        get => coolDownRange;
+        set => coolDownRange = value;
+    }
+
+    public float BaseStaminaRange
+    {
+        get => baseStaminaRange;
+        set => baseStaminaRange = value;
+    }
+
+    public int AccuracyRange
+    {
+        get => accuracyRange;
+        set => accuracyRange = value;
+    }
+
+    public int CritChanceRange
+    {
+        get => critChanceRange;
+        set => critChanceRange = value;
+    }
+
+    public int CritDamageRange
+    {
+        get => critDamageRange;
+        set => critDamageRange = value;
+    }
 
     public override void InitializeQuality()
     {

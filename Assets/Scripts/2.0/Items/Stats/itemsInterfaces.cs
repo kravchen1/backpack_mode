@@ -3,13 +3,13 @@ using Unity.VisualScripting;
 
 public interface IMeleeWeapon
 {
-    int MinDamageMelee { get; }
-    int MaxDamageMelee { get; }
-    float CoolDownMelee { get; }
-    float BaseStaminaMelee { get; }
-    int AccuracyMelee { get; }
-    int CritChanceMelee { get; }
-    int CritDamageMelee { get; }
+    int MinDamageMelee { get; set; }
+    int MaxDamageMelee { get; set; }
+    float CoolDownMelee { get; set; }
+    float BaseStaminaMelee { get; set; }
+    int AccuracyMelee { get; set; }
+    int CritChanceMelee { get; set; }
+    int CritDamageMelee { get; set; }
 
     // ƒополнительные методы дл€ механики ближнего бо€
     public float CalculateDPS() => (MinDamageMelee + MaxDamageMelee) / 2f / CoolDownMelee;
@@ -18,13 +18,13 @@ public interface IMeleeWeapon
 
 public interface IRangeWeapon
 {
-    int MinDamageRange { get; }
-    int MaxDamageRange { get; }
-    float CoolDownRange { get; }
-    float BaseStaminaRange { get; }
-    int AccuracyRange { get; }
-    int CritChanceRange { get; }
-    int CritDamageRange { get; }
+    int MinDamageRange { get; set; }
+    int MaxDamageRange { get; set; }
+    float CoolDownRange { get; set; }
+    float BaseStaminaRange { get; set; }
+    int AccuracyRange { get; set; }
+    int CritChanceRange { get; set; }
+    int CritDamageRange { get; set; }
 
     // ƒополнительные методы дл€ механики дальнего бо€
     public float CalculateDPS() => (MinDamageRange + MaxDamageRange) / 2f / CoolDownRange;

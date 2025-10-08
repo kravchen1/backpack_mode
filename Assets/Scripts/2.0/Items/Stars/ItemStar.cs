@@ -17,6 +17,9 @@ public class ItemStar : MonoBehaviour
     [SerializeField] protected GameObject _currentItem;
     protected bool _isStarEnabled = false;
 
+    // Флаг для отслеживания текущего состояния применения модификаций
+    protected bool _isModificationApplied = false;
+
     public GameObject CurrentItem => _currentItem;
     public List<ItemType> AllowedItemTypes => _allowedItemTypes;
 
@@ -75,18 +78,39 @@ public class ItemStar : MonoBehaviour
 
         if (hit.collider != null)
         {
-            //var cell = hit.collider.GetComponent<Cell>();
             var itemStat = hit.collider.gameObject;
             if (itemStat != null && IsValidItem(itemStat))
             {
-                _currentItem = itemStat.transform.parent.gameObject;
-                StarActionEnable(gameObject, _currentItem);
+                GameObject newItem = itemStat.transform.parent.gameObject;
+
+                // Если предмет изменился или модификация еще не применялась
+                if (_currentItem != newItem || !_isModificationApplied)
+                {
+                    // Если был предыдущий предмет - отменяем его модификации
+                    if (_currentItem != null && _currentItem != newItem)
+                    {
+                        _currentItem.GetComponent<ItemActionModifyController>().ModifyDisableItem(gameObject.transform.parent.parent.gameObject);
+                    }
+
+                    // Применяем модификации к новому предмету
+                    _currentItem = newItem;
+                    if (_currentItem.GetComponent<ItemActionModifyController>() != null)
+                    {
+                        _currentItem.GetComponent<ItemActionModifyController>().ModifyEnableItem(gameObject.transform.parent.parent.gameObject);
+                        _isModificationApplied = true;
+                    }
+                }
                 return;
             }
-
         }
-        StarActionDisable(gameObject, _currentItem);
-        _currentItem = null;
+
+        // Если предмета нет, но модификация была применена - отменяем
+        if (_currentItem != null && _isModificationApplied)
+        {
+            _currentItem.GetComponent<ItemActionModifyController>().ModifyDisableItem(gameObject.transform.parent.parent.gameObject);
+            _currentItem = null;
+            _isModificationApplied = false;
+        }
     }
 
     protected virtual void StarActionEnable(GameObject itemStar, GameObject itemInStar)
@@ -145,7 +169,12 @@ public class ItemStar : MonoBehaviour
 
         if (!_isStarEnabled)
         {
-            //_currentItem = null;
+            //// Отменяем модификации при выключении звезды
+            //if (_currentItem != null && _isModificationApplied)
+            //{
+            //    _currentItem.GetComponent<ItemActionModifyController>().ModifyDisableItem(gameObject.transform.parent.parent.gameObject);
+            //    _isModificationApplied = false;
+            //}
             SetVisualsState(false);
         }
         else
