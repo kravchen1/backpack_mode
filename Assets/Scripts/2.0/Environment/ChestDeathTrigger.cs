@@ -9,14 +9,19 @@ public class ChestDeathTrigger : EnvironmentTrigger
     [SerializeField] private GameObject ChestClose;
 
 
-    private TimedDestroyer timedDestroyer;
+    //private TimedDestroyer timedDestroyer;
 
     protected override void Start()
     {
         base.Start();
-        timedDestroyer = gameObject.AddComponent<TimedDestroyer>();
+        //timedDestroyer = gameObject.AddComponent<TimedDestroyer>();
         // Запускаем таймер при создании сундука
-        timedDestroyer.StartDestroyCountdown();
+        //timedDestroyer.StartDestroyCountdown();
+        if (isWasActive)
+        {
+            ChestOpen.SetActive(true);
+            ChestClose.SetActive(false);
+        }
     }
 
     protected override void PerformManualInteractionChild()
@@ -50,11 +55,12 @@ public class ChestDeathTrigger : EnvironmentTrigger
     private void OpenChest()
     {
         CloseMenuButtons();
+        isWasActive = true;
         isOpened = true;
         Debug.Log($"Chest opened: {name}");
 
         // Отменяем таймер удаления при открытии
-        timedDestroyer.CancelDestroy();
+        //timedDestroyer.CancelDestroy();
 
         ChestOpen.SetActive(true);
         ChestClose.SetActive(false);
@@ -74,7 +80,7 @@ public class ChestDeathTrigger : EnvironmentTrigger
             shopData.SaveData();
 
             // Перезапускаем таймер удаления при закрытии сундука
-            timedDestroyer.StartDestroyCountdown();
+           // timedDestroyer.StartDestroyCountdown();
         }
         CloseAllUI();
     }

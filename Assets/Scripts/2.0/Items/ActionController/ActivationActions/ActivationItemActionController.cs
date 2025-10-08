@@ -23,7 +23,7 @@ public abstract class ActivationItemActionController : ItemActionController
         }
     }
 
-    public override void UpdateForBattle(NPCDataManager attacker, NPCDataManager target)
+    public virtual void UpdateForBattle(NPCDataManager attacker, NPCDataManager target)
     {
         if (isFight)
         {
@@ -32,7 +32,7 @@ public abstract class ActivationItemActionController : ItemActionController
         }
     }
 
-    public override void UpdateForBattle(PlayerDataManager attacker, NPCDataManager target)
+    public virtual void UpdateForBattle(PlayerDataManager attacker, NPCDataManager target)
     {
         if (isFight)
         {
@@ -41,7 +41,7 @@ public abstract class ActivationItemActionController : ItemActionController
         }
     }
 
-    public override void UpdateForBattle(NPCDataManager attacker, PlayerDataManager target)
+    public virtual void UpdateForBattle(NPCDataManager attacker, PlayerDataManager target)
     {
         if (isFight)
         {
@@ -69,21 +69,21 @@ public abstract class ActivationItemActionController : ItemActionController
         }
     }
 
-    protected override void UpdateActivation(NPCDataManager attacker, NPCDataManager target)
+    protected virtual void UpdateActivation(NPCDataManager attacker, NPCDataManager target)
     {
         if (IsReady && isFight)
         {
             ExecuteAction(attacker, target);
         }
     }
-    protected override void UpdateActivation(PlayerDataManager attacker, NPCDataManager target)
+    protected virtual void UpdateActivation(PlayerDataManager attacker, NPCDataManager target)
     {
         if (IsReady && isFight)
         {
             ExecuteAction(attacker, target);
         }
     }
-    protected override void UpdateActivation(NPCDataManager attacker, PlayerDataManager target)
+    protected virtual void UpdateActivation(NPCDataManager attacker, PlayerDataManager target)
     {
         if (IsReady && isFight)
         {
@@ -93,19 +93,19 @@ public abstract class ActivationItemActionController : ItemActionController
 
 
 
-    protected override void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
+    protected virtual void ExecuteAction(NPCDataManager attacker, NPCDataManager target)
     {
         //Debug.Log(gameObject.name + " activated");
         if (isFight) StartCooldown();
     }
 
-    protected override void ExecuteAction(PlayerDataManager attacker, NPCDataManager target)
+    protected virtual void ExecuteAction(PlayerDataManager attacker, NPCDataManager target)
     {
         //Debug.Log(gameObject.name + " activated");
         if (isFight) StartCooldown();
     }
 
-    protected override void ExecuteAction(NPCDataManager attacker, PlayerDataManager target)
+    protected virtual void ExecuteAction(NPCDataManager attacker, PlayerDataManager target)
     {
         //Debug.Log(gameObject.name + " activated");
         if (isFight) StartCooldown();

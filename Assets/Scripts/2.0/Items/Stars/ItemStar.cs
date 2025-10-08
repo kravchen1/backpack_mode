@@ -4,28 +4,28 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class ItemStar : MonoBehaviour
 {
-    [SerializeField] private LayerMask _raycastMask = 1 << 8;
-    [SerializeField] private List<ItemType> _allowedItemTypes = new List<ItemType>();
-    [SerializeField] private List<ItemRarity> _allowedItemRarities = new List<ItemRarity>();
+    [SerializeField] protected LayerMask _raycastMask = 1 << 8;
+    [SerializeField] protected List<ItemType> _allowedItemTypes = new List<ItemType>();
+    [SerializeField] protected List<ItemRarity> _allowedItemRarities = new List<ItemRarity>();
 
     [Header("References")]
-    [SerializeField] private GameObject _starEmpty;
-    [SerializeField] private GameObject _starFill;
+    [SerializeField] protected GameObject _starEmpty;
+    [SerializeField] protected GameObject _starFill;
 
-    private BoxCollider2D _boxCollider;
-    private Transform _playerInventory;
-    [SerializeField] private GameObject _currentItem;
-    private bool _isStarEnabled = false;
+    protected BoxCollider2D _boxCollider;
+    protected Transform _playerInventory;
+    [SerializeField] protected GameObject _currentItem;
+    protected bool _isStarEnabled = false;
 
     public GameObject CurrentItem => _currentItem;
     public List<ItemType> AllowedItemTypes => _allowedItemTypes;
 
-    private void Awake()
+    protected void Awake()
     {
         Initialize();
     }
 
-    private void Initialize()
+    protected void Initialize()
     {
         _boxCollider = GetComponent<BoxCollider2D>();
 
@@ -38,7 +38,7 @@ public class ItemStar : MonoBehaviour
         SetVisualsState(false);
     }
 
-    private void CacheStarReferences()
+    protected void CacheStarReferences()
     {
         if (transform.childCount >= 2)
         {
@@ -51,7 +51,7 @@ public class ItemStar : MonoBehaviour
         }
     }
 
-    private void FindPlayerInventory()
+    protected void FindPlayerInventory()
     {
         _playerInventory = GameObject.Find("InventoryData")?.transform;
         if (_playerInventory == null)
@@ -60,7 +60,7 @@ public class ItemStar : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (_isStarEnabled)
         {
@@ -80,14 +80,26 @@ public class ItemStar : MonoBehaviour
             if (itemStat != null && IsValidItem(itemStat))
             {
                 _currentItem = itemStat.transform.parent.gameObject;
+                StarActionEnable(gameObject, _currentItem);
                 return;
             }
 
         }
+        StarActionDisable(gameObject, _currentItem);
         _currentItem = null;
     }
 
-    private bool IsValidItem(GameObject itemObject)
+    protected virtual void StarActionEnable(GameObject itemStar, GameObject itemInStar)
+    {
+
+    }
+
+    protected virtual void StarActionDisable(GameObject itemStar, GameObject itemInStar)
+    {
+
+    }
+
+    protected bool IsValidItem(GameObject itemObject)
     {
         if (itemObject == null) return false;
 
@@ -100,7 +112,7 @@ public class ItemStar : MonoBehaviour
         return typeValid && rarityValid;
     }
 
-    private bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
+    protected bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
     {
         if (_allowedItemTypes.Count == 0) return true;
 
@@ -113,7 +125,7 @@ public class ItemStar : MonoBehaviour
         return false;
     }
 
-    private void UpdateStarVisuals()
+    protected void UpdateStarVisuals()
     {
         bool hasValidItem = _currentItem != null;
 
@@ -144,7 +156,7 @@ public class ItemStar : MonoBehaviour
 
     // Editor validation
 #if UNITY_EDITOR
-    private void OnValidate()
+    protected void OnValidate()
     {
         if (_starEmpty == null || _starFill == null)
         {

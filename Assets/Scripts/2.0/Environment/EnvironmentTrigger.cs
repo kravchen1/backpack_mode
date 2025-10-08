@@ -15,6 +15,7 @@ public class EnvironmentTrigger : MonoBehaviour
     [SerializeField] protected GameObject ButtonPrefab;
 
     [HideInInspector] public string settingsKey;
+    public bool isWasActive;
 
     protected bool playerInTrigger = false;
     protected Animator animator;
@@ -29,6 +30,8 @@ public class EnvironmentTrigger : MonoBehaviour
     protected ShopGenerator shopGenerator;
     protected CellsData shopData;
     protected ButtonsController buttonsController;
+
+
 
     protected virtual void Start()
     {

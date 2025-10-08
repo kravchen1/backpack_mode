@@ -145,6 +145,9 @@ public class GridObjectManager : MonoBehaviour
             SetSettingsKey(newObject, data.settingsKey);
         }
 
+        // Восстанавливаем кастомную переменную isWasActive
+        SetIsWasActiveToObject(newObject, data.isWasActive);
+
         // Устанавливаем родителя только если объект создан на сцене
         if (spawnedObjectsParent != null && !IsPrefabAsset(newObject))
         {
@@ -242,6 +245,9 @@ public class GridObjectManager : MonoBehaviour
         {
             SetSettingsKey(newObject, data.settingsKey);
         }
+
+        // Восстанавливаем кастомную переменную isWasActive
+        SetIsWasActiveToObject(newObject, data.isWasActive);
 
         // Устанавливаем родителя только если объект создан на сцене
         if (spawnedObjectsParent != null && !IsPrefabAsset(newObject))
@@ -555,7 +561,9 @@ public class GridObjectManager : MonoBehaviour
             {
                 if (cell.Value != null)
                 {
-                    var cellData = new OccupiedCellData(cell.Key, cell.Value);
+                    // Получаем значение isWasActive из объекта
+                    bool isWasActive = GetIsWasActiveFromObject(cell.Value);
+                    var cellData = new OccupiedCellData(cell.Key, cell.Value, isWasActive);
                     cellData.settingsKey = GetSettingsKey(cell.Value); // Добавляем ключ
                     saveData.occupiedCells.Add(cellData);
                 }
@@ -566,12 +574,15 @@ public class GridObjectManager : MonoBehaviour
             {
                 if (multiCellObj.gameObject != null)
                 {
+                    // Получаем значение isWasActive из объекта
+                    bool isWasActive = GetIsWasActiveFromObject(multiCellObj.gameObject);
                     var multiCellData = new MultiCellObjectData(
                         multiCellObj.objectId,
                         multiCellObj.gameObject,
                         multiCellObj.mainCell,
                         multiCellObj.size,
-                        multiCellObj.occupiedCells
+                        multiCellObj.occupiedCells,
+                        isWasActive
                     );
                     multiCellData.settingsKey = GetSettingsKey(multiCellObj.gameObject); // Добавляем ключ
                     saveData.multiCellObjects.Add(multiCellData);
@@ -679,6 +690,31 @@ public class GridObjectManager : MonoBehaviour
 
     #region Basic Grid Methods
 
+    private bool GetIsWasActiveFromObject(GameObject obj)
+    {
+        // Проверяем различные компоненты, где может быть isWasActive
+        var interactiveObject = obj.GetComponent<EnvironmentTrigger>();
+        if (interactiveObject != null) return interactiveObject.isWasActive;
+
+        
+        // Добавьте другие компоненты по необходимости
+        Debug.LogWarning($"No component with isWasActive found for {obj.name}");
+        return false;
+    }
+
+    private void SetIsWasActiveToObject(GameObject obj, bool isWasActive)
+    {
+        // Устанавливаем значение в первый найденный подходящий компонент
+        var interactiveObject = obj.GetComponent<EnvironmentTrigger>();
+        if (interactiveObject != null)
+        {
+            interactiveObject.isWasActive = isWasActive;
+            return;
+        }
+        // Если компонент не найден, логируем предупреждение
+        Debug.LogWarning($"No component found to set isWasActive for {obj.name}");
+    }
+
     public Vector3Int WorldToCellPosition(Vector3 worldPosition)
     {
         return tilemapGrid?.WorldToCell(worldPosition) ?? Vector3Int.FloorToInt(worldPosition);
@@ -746,13 +782,13 @@ public class GridObjectManager : MonoBehaviour
 
 
     // Основной метод для создания объекта после смерти монстра
-    public GameObject SpawnObjectAfterDeath(GameObject objectPrefab, Vector3 deathPosition, string settingsItemsShopKey = null, string objectId = null)
+    public GameObject SpawnObjectAfterDeath(GameObject objectPrefab, Vector3 deathPosition, string settingsKey = null, string objectId = null, bool isWasActive = false)
     {
         Vector3Int deathCell = WorldToCellPosition(deathPosition);
 
         if (AreCellsFreeForObject(deathCell, new Vector2Int(1, 1)))
         {
-            return CreateObjectAtCell(objectPrefab, deathCell, objectId, settingsItemsShopKey);
+            return CreateObjectAtCell(objectPrefab, deathCell, objectId, settingsKey, isWasActive);
         }
         else
         {
@@ -760,7 +796,7 @@ public class GridObjectManager : MonoBehaviour
             if (freeCell.HasValue)
             {
                 Debug.Log($"Position occupied at {deathCell}, spawning at nearby free cell {freeCell.Value}");
-                return CreateObjectAtCell(objectPrefab, freeCell.Value, objectId, settingsItemsShopKey);
+                return CreateObjectAtCell(objectPrefab, freeCell.Value, objectId, settingsKey, isWasActive);
             }
             else
             {
@@ -771,17 +807,19 @@ public class GridObjectManager : MonoBehaviour
     }
 
     // Вспомогательный метод для создания объекта в конкретной ячейке
-    private GameObject CreateObjectAtCell(GameObject prefab, Vector3Int cellPosition, string objectId = null, string settingsItemsShopKey = null)
+    private GameObject CreateObjectAtCell(GameObject prefab, Vector3Int cellPosition, string objectId = null, string settingsKey = null, bool isWasActive = false)
     {
         Vector3 worldPosition = CellToWorldPosition(cellPosition);
         GameObject newObject = Instantiate(prefab, worldPosition, Quaternion.identity, spawnedObjectsParent);
         newObject.name = prefab.name;
 
         // Устанавливаем settingsItemsShopKey если передан
-        if (!string.IsNullOrEmpty(settingsItemsShopKey))
+        if (!string.IsNullOrEmpty(settingsKey))
         {
-            SetSettingsKey(newObject, settingsItemsShopKey);
+            SetSettingsKey(newObject, settingsKey);
         }
+        // Устанавливаем кастомную переменную isWasActive
+        SetIsWasActiveToObject(newObject, isWasActive);
 
         // Регистрируем объект
         if (RegisterObjectAtCellPosition(cellPosition, newObject))
@@ -798,14 +836,14 @@ public class GridObjectManager : MonoBehaviour
     }
 
     // Для многоклеточных объектов (если нужно создать объект размером больше 1x1)
-    public GameObject SpawnMultiCellObjectAfterDeath(GameObject objectPrefab, Vector3 deathPosition, Vector2Int size, string settingsItemsShopKey = null, string objectId = null)
+    public GameObject SpawnMultiCellObjectAfterDeath(GameObject objectPrefab, Vector3 deathPosition, Vector2Int size, string settingsKey = null, string objectId = null, bool isWasActive = false)
     {
         Vector3Int deathCell = WorldToCellPosition(deathPosition);
 
         // Пытаемся создать объект на позиции смерти
         if (AreCellsFreeForObject(deathCell, size))
         {
-            return CreateMultiCellObjectAtCell(objectPrefab, deathCell, size, objectId, settingsItemsShopKey);
+            return CreateMultiCellObjectAtCell(objectPrefab, deathCell, size, objectId, settingsKey, isWasActive);
         }
         else
         {
@@ -814,7 +852,7 @@ public class GridObjectManager : MonoBehaviour
             if (freeSpace.HasValue)
             {
                 Debug.Log($"Position occupied at {deathCell}, spawning at nearby free space {freeSpace.Value}");
-                return CreateMultiCellObjectAtCell(objectPrefab, freeSpace.Value, size, objectId, settingsItemsShopKey);
+                return CreateMultiCellObjectAtCell(objectPrefab, freeSpace.Value, size, objectId, settingsKey, isWasActive);
             }
             else
             {
@@ -825,17 +863,20 @@ public class GridObjectManager : MonoBehaviour
     }
 
     // Вспомогательный метод для создания многоклеточного объекта
-    private GameObject CreateMultiCellObjectAtCell(GameObject prefab, Vector3Int mainCell, Vector2Int size, string objectId = null, string settingsItemsShopKey = null)
+    private GameObject CreateMultiCellObjectAtCell(GameObject prefab, Vector3Int mainCell, Vector2Int size, string objectId = null, string settingsKey = null, bool isWasActive = false)
     {
         Vector3 worldPosition = CalculateObjectCenter(mainCell, size);
         GameObject newObject = Instantiate(prefab, worldPosition, Quaternion.identity, spawnedObjectsParent);
         newObject.name = prefab.name;
 
         // Устанавливаем settingsItemsShopKey если передан
-        if (!string.IsNullOrEmpty(settingsItemsShopKey))
+        if (!string.IsNullOrEmpty(settingsKey))
         {
-            SetSettingsKey(newObject, settingsItemsShopKey);
+            SetSettingsKey(newObject, settingsKey);
         }
+
+        // Устанавливаем кастомную переменную isWasActive
+        SetIsWasActiveToObject(newObject, isWasActive);
 
         // Регистрируем многоклеточный объект
         if (RegisterMultiCellObject(newObject, mainCell, size, objectId))
@@ -862,4 +903,9 @@ public class GridObjectManager : MonoBehaviour
     }
 
     #endregion
+
+    private void OnApplicationQuit()
+    {
+        SaveWorldData();
+    }
 }

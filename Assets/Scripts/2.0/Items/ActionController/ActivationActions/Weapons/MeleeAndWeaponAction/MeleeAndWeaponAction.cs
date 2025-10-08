@@ -122,11 +122,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
     protected override void Attack(NPCDataManager attacker, NPCDataManager target)
     {
         ResetTextDamage();
-        if (cooldownTime < timeAnimation)
-        {
-            animator.speed = timeAnimation / cooldownTime;
-            timeAnimation = cooldownTime;
-        }
+        CalculateAnimationTime();
         if (!HasStamina(attacker))
         {
             text.text = "No Stamina";
@@ -180,11 +176,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
     protected override void Attack(PlayerDataManager attacker, NPCDataManager target)
     {
         ResetTextDamage();
-        if (cooldownTime < timeAnimation)
-        {
-            animator.speed = timeAnimation / cooldownTime;
-            timeAnimation = cooldownTime;
-        }
+        CalculateAnimationTime();
         if (!HasStamina(attacker))
         {
             text.text = "No Stamina";
@@ -238,11 +230,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
     protected override void Attack(NPCDataManager attacker, PlayerDataManager target)
     {
         ResetTextDamage();
-        if (cooldownTime < timeAnimation)
-        {
-            animator.speed = timeAnimation / cooldownTime;
-            timeAnimation = cooldownTime;
-        }
+        CalculateAnimationTime();
         if (!HasStamina(attacker))
         {
             text.text = "No Stamina";
@@ -294,4 +282,17 @@ public class MeleeAndWeaponActionController : WeaponActionController
         }
     }
 
+    private void CalculateAnimationTime()
+    {
+        if (cooldownTime < timeAnimation)
+        {
+            animator.speed = timeAnimation / cooldownTime;
+            timeAnimation = cooldownTime;
+        }
+        else
+        {
+            timeAnimation = 1.5f;
+            animator.speed = timeAnimation;
+        }
+    }
 }

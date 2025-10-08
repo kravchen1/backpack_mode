@@ -18,11 +18,12 @@ public class MultiCellObjectData
     public List<Vector3IntData> occupiedCells;
     public Vector3Data worldPosition;
     public Vector2IntData size;
-    public string settingsKey; // Добавляем сохранение ключа
+    public string settingsKey;
+    public bool isWasActive; // Сохраняем кастомную переменную
 
     public MultiCellObjectData() { }
 
-    public MultiCellObjectData(string id, GameObject obj, Vector3Int mainCellPos, Vector2Int objectSize, List<Vector3Int> cells)
+    public MultiCellObjectData(string id, GameObject obj, Vector3Int mainCellPos, Vector2Int objectSize, List<Vector3Int> cells, bool WasActive = false)
     {
         objectId = id;
         objectName = obj.name;
@@ -31,11 +32,14 @@ public class MultiCellObjectData
         worldPosition = new Vector3Data(obj.transform.position);
 
         // Сохраняем settingsItemsShopKey если есть компонент
-        var shopComponent = obj.GetComponent<EnvironmentTrigger>(); // или другой компонент, где хранится settingsItemsShopKey
+        var shopComponent = obj.GetComponent<EnvironmentTrigger>();
         if (shopComponent != null)
         {
             settingsKey = shopComponent.settingsKey;
         }
+
+        // Сохраняем isWasActive из различных компонентов
+        isWasActive = WasActive;
 
         occupiedCells = new List<Vector3IntData>();
         foreach (var cell in cells)
@@ -45,6 +49,36 @@ public class MultiCellObjectData
     }
 }
 
+[System.Serializable]
+public class OccupiedCellData
+{
+    public Vector3IntData cellPosition;
+    public string objectName;
+    public Vector3Data worldPosition;
+    public string settingsKey;
+    public bool isWasActive; // Сохраняем кастомную переменную
+
+    public OccupiedCellData() { }
+
+    public OccupiedCellData(Vector3Int cellPos, GameObject obj, bool WasActive = false)
+    {
+        cellPosition = new Vector3IntData(cellPos);
+        objectName = obj.name;
+        worldPosition = new Vector3Data(obj.transform.position);
+
+        // Сохраняем settingsItemsShopKey если есть
+        var shopComponent = obj.GetComponent<EnvironmentTrigger>();
+        if (shopComponent != null)
+        {
+            settingsKey = shopComponent.settingsKey;
+        }
+
+        // Сохраняем isWasActive из различных компонентов
+        isWasActive = WasActive;
+    }
+}
+
+#region noChange
 [System.Serializable]
 public class Vector2IntData
 {
@@ -62,30 +96,6 @@ public class Vector2IntData
     public Vector2Int ToVector2Int()
     {
         return new Vector2Int(x, y);
-    }
-}
-[System.Serializable]
-public class OccupiedCellData
-{
-    public Vector3IntData cellPosition;
-    public string objectName;
-    public Vector3Data worldPosition;
-    public string settingsKey; // Добавляем для одиночных объектов
-
-    public OccupiedCellData() { }
-
-    public OccupiedCellData(Vector3Int cellPos, GameObject obj)
-    {
-        cellPosition = new Vector3IntData(cellPos);
-        objectName = obj.name;
-        worldPosition = new Vector3Data(obj.transform.position);
-
-        // Сохраняем settingsItemsShopKey если есть
-        var shopComponent = obj.GetComponent<EnvironmentTrigger>(); // или другой компонент
-        if (shopComponent != null)
-        {
-            settingsKey = shopComponent.settingsKey;
-        }
     }
 }
 
@@ -133,16 +143,10 @@ public class Vector3Data
     }
 }
 
-[System.Serializable]
-public class PreOccupiedCell
-{
-    public Vector3Int cellPosition;
-    public GameObject gameObject;
-}
 
 
 [System.Serializable]
-    public class MultiCellObject
+public class MultiCellObject
     {
         public string objectId;
         public GameObject gameObject;
@@ -174,3 +178,4 @@ public class PreOccupiedCell
             return cells;
         }
     }
+#endregion

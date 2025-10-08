@@ -4,7 +4,7 @@ using UnityEngine;
 public class ChestTrigger : EnvironmentTrigger
 {
     [Header("Chest Settings")]
-    [SerializeField] private bool isOpened = false;
+    private bool isOpened = false;
     [SerializeField] private GameObject ChestOpen;
     [SerializeField] private GameObject ChestClose;
     public int countItemsInside = 5;
@@ -17,6 +17,11 @@ public class ChestTrigger : EnvironmentTrigger
 
 
         settingsKey = "shopData" + gameObject.name;
+        if(isWasActive)
+        {
+            ChestOpen.SetActive(true);
+            ChestClose.SetActive(false);
+        }
     }
 
     protected override void PerformManualInteractionChild()
@@ -52,6 +57,7 @@ public class ChestTrigger : EnvironmentTrigger
     private void OpenChest()
     {
         CloseMenuButtons();
+        isWasActive = true;
         isOpened = true;
         Debug.Log($"Chest opened: {name}");
 
