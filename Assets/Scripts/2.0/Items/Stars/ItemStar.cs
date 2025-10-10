@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class ItemStar : MonoBehaviour
 {
-    [SerializeField] protected LayerMask _raycastMask = 1 << 8;
+    [SerializeField] protected LayerMask _raycastMask = 1 << 9;
     [SerializeField] protected List<ItemType> _allowedItemTypes = new List<ItemType>();
     [SerializeField] protected List<ItemRarity> _allowedItemRarities = new List<ItemRarity>();
 
@@ -13,7 +13,7 @@ public class ItemStar : MonoBehaviour
     [SerializeField] protected GameObject _starFill;
 
     protected BoxCollider2D _boxCollider;
-    protected Transform _playerInventory;
+    //protected Transform _playerInventory;
     [SerializeField] protected GameObject _currentItem;
     protected bool _isStarEnabled = false;
 
@@ -37,7 +37,7 @@ public class ItemStar : MonoBehaviour
             CacheStarReferences();
         }
 
-        FindPlayerInventory();
+        //FindPlayerInventory();
         SetVisualsState(false);
     }
 
@@ -54,14 +54,14 @@ public class ItemStar : MonoBehaviour
         }
     }
 
-    protected void FindPlayerInventory()
-    {
-        _playerInventory = GameObject.Find("InventoryData")?.transform;
-        if (_playerInventory == null)
-        {
-            Debug.LogWarning("InventoryData not found in scene", this);
-        }
-    }
+    //protected void FindPlayerInventory()
+    //{
+    //    _playerInventory = GameObject.Find("InventoryData")?.transform;
+    //    if (_playerInventory == null)
+    //    {
+    //        Debug.LogWarning("InventoryData not found in scene", this);
+    //    }
+    //}
 
     protected void FixedUpdate()
     {
@@ -89,14 +89,15 @@ public class ItemStar : MonoBehaviour
                     // Если был предыдущий предмет - отменяем его модификации
                     if (_currentItem != null && _currentItem != newItem)
                     {
-                        _currentItem.GetComponent<ItemActionModifyController>().ModifyDisableItem(gameObject.transform.parent.parent.gameObject);
+                        StarActionDisable();
+                        
                     }
 
                     // Применяем модификации к новому предмету
                     _currentItem = newItem;
-                    if (_currentItem.GetComponent<ItemActionModifyController>() != null)
+                    if (_currentItem.GetComponent<ItemArmorController>() != null)
                     {
-                        _currentItem.GetComponent<ItemActionModifyController>().ModifyEnableItem(gameObject.transform.parent.parent.gameObject);
+                        StarActionEnable();
                         _isModificationApplied = true;
                     }
                 }
@@ -107,18 +108,18 @@ public class ItemStar : MonoBehaviour
         // Если предмета нет, но модификация была применена - отменяем
         if (_currentItem != null && _isModificationApplied)
         {
-            _currentItem.GetComponent<ItemActionModifyController>().ModifyDisableItem(gameObject.transform.parent.parent.gameObject);
+            StarActionDisable();
             _currentItem = null;
             _isModificationApplied = false;
         }
     }
 
-    protected virtual void StarActionEnable(GameObject itemStar, GameObject itemInStar)
+    protected virtual void StarActionEnable()
     {
 
     }
 
-    protected virtual void StarActionDisable(GameObject itemStar, GameObject itemInStar)
+    protected virtual void StarActionDisable()
     {
 
     }

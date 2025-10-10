@@ -131,6 +131,7 @@ public class BattleManager : MonoBehaviour
                     enemyTeamBackpacks[i].settingsKey = character.backpackKey;
                     enemyTeamBackpacks[i].LoadData();
                     character.Stats.InitializeCurrentWeight(character.backpackKey);
+                    character.cellsFight = enemyTeamBackpacks[i];
                     return;
                 }
             }
@@ -146,6 +147,7 @@ public class BattleManager : MonoBehaviour
                     playerTeamBackpacks[i].settingsKey = character.backpackKey;
                     playerTeamBackpacks[i].LoadData();
                     character.Stats.InitializeCurrentWeight(character.backpackKey);
+                    character.cellsFight = playerTeamBackpacks[i];
                     return;
                 }
             }

@@ -129,6 +129,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
             animator.Play(animationKeyAttackNoStamina, 0, 0f);
             return;
         }
+        itemStats.durability--;
         ConsumeStamina(attacker);
         if (!isInMeleeMode)
         {
@@ -183,6 +184,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
             animator.Play(animationKeyAttackNoStamina, 0, 0f);
             return;
         }
+        itemStats.durability--;
         ConsumeStamina(attacker);
         if (!isInMeleeMode)
         {
@@ -237,6 +239,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
             animator.Play(animationKeyAttackNoStamina, 0, 0f);
             return;
         }
+        itemStats.durability--;
         ConsumeStamina(attacker);
         if (!isInMeleeMode)
         {

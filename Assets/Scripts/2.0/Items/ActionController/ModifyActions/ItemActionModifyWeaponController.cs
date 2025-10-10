@@ -19,33 +19,41 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
     #region Public Modification Methods
     public override void ModifyEnableItem(GameObject item)
     {
-        if (isMelee && isRange)
+        if (itemStats.durability > 0)
         {
-            var stat = item.GetComponent<MeleeAndRangeWeaponStats>();
-            if (stat != null)
+            itemStats.durability--;
+            if (isMelee && isRange)
             {
-                ModifyMeleeAndRangeWeapon(stat);
+                var stat = item.GetComponent<MeleeAndRangeWeaponStats>();
+                if (stat != null)
+                {
+                    ModifyMeleeAndRangeWeapon(stat);
+                }
+                return;
             }
-        }
-        else if (isMelee)
-        {
-            var stat = item.GetComponent<MeleeWeaponStats>();
-            if (stat != null)
+            if (isMelee)
             {
-                ModifyMeleeWeapon(stat);
+                var stat = item.GetComponent<MeleeWeaponStats>();
+                if (stat != null)
+                {
+                    ModifyMeleeWeapon(stat);
+                }
+                return;
             }
-        }
-        else if (isRange)
-        {
-            var stat = item.GetComponent<RangeWeaponStats>();
-            if (stat != null)
+            if (isRange)
             {
-                ModifyRangeWeapon(stat);
+                var stat = item.GetComponent<RangeWeaponStats>();
+                if (stat != null)
+                {
+                    ModifyRangeWeapon(stat);
+                }
+                return;
             }
-        }
-        else
-        {
-            Debug.Log("у модификатора не выбран тип влияния на оружие");
+
+            else
+            {
+                Debug.Log("у модификатора не выбран тип влияния на оружие");
+            }
         }
     }
 

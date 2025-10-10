@@ -31,6 +31,7 @@ public class ItemMove : MonoBehaviour
     private Vector3 _offset;
     private int _colliderCount;
     private int _previousCountStack = 0;
+    private SpriteRenderer _SpriteRenderer;
 
     // Split item management
     private bool _isSplitItem = false;
@@ -67,6 +68,8 @@ public class ItemMove : MonoBehaviour
     private const int CELL_LAYER = 8;
     private const float RAYCAST_DISTANCE = 0.1f;
     private const float ROTATION_ANGLE = 90f;
+    private const int draggingSortingOrder = 10;
+    private const int defaultSortingOrder = 2;
 
     void Awake()
     {
@@ -81,6 +84,7 @@ public class ItemMove : MonoBehaviour
         _backpackInventory = GameObject.Find("BackpackInventroy");
         _backpackShop = GameObject.Find("BackpackShop");
         _itemStats = GetComponent<ItemStats>();
+        _SpriteRenderer = transform.Find("MainSprite")?.GetComponent<SpriteRenderer>();
         InitializeColliders();
         SaveOriginalState();
     }
@@ -224,7 +228,7 @@ public class ItemMove : MonoBehaviour
     {
         _offset = transform.position - GetMouseWorldPosition();
         _isDragging = true;
-
+        _SpriteRenderer.sortingOrder = draggingSortingOrder;
         CacheOriginalColors();
         ClearCurrentCells();
         _canBePlaced = true;
@@ -296,7 +300,7 @@ public class ItemMove : MonoBehaviour
     public virtual void OnMouseUp()
     {
         if (!_isDragging) return;
-
+        _SpriteRenderer.sortingOrder = defaultSortingOrder;
         _isDragging = false;
         if (!IsCursorOverItem())
         {

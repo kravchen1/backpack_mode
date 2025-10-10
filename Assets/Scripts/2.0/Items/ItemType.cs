@@ -9,6 +9,7 @@ public enum ItemType
     Muzzle, 
     Stock,
 
+    Armor,
 
 
     Patron9x19,

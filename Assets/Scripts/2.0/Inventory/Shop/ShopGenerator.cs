@@ -60,7 +60,7 @@ public class ShopGenerator : MonoBehaviour
             {
                 ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
                 spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
-                spawnedItem.GetComponent<ItemStats>().InitializeQuality();
+                spawnedItem.GetComponent<ItemStats>().Initialized();
 
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);
@@ -104,7 +104,7 @@ public class ShopGenerator : MonoBehaviour
             {
                 ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
                 spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
-                spawnedItem.GetComponent<ItemStats>().InitializeQuality();
+                spawnedItem.GetComponent<ItemStats>().Initialized();
 
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);

@@ -60,6 +60,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float _staminaRegenRate = 1f; // Скорость восстановления в секунду
     [SerializeField] private float _staminaRegenRateInCombat = 1f; // Медленное восстановление в бою
 
+
     // Таймеры для восстановления
     private float _staminaRegenTimer;
     private bool _isInCombat = false;

@@ -1,6 +1,9 @@
 // PlayerDataManager.cs
 using UnityEngine;
 using System;
+using System.Linq;
+using UnityEngine.Experimental.GlobalIllumination;
+using System.Collections;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -14,7 +17,63 @@ public class PlayerDataManager : MonoBehaviour
 
     public GameObject playerCharacter;
 
+
+    public CellsData cellsInventory;
+    public CellsData cellsFight;
     public bool IsAlive => Stats.CurrentHealth > 0;
+
+    #region flashLight
+    private float _flashLightRadius = 0f;
+    public Light _flashLight; // Используем стандартный Light компонент
+    private Coroutine _radiusChangeCoroutine;
+
+    public float flashLightRadius
+    {
+        get => _flashLightRadius;
+        set
+        {
+            float oldValue = _flashLightRadius;
+            _flashLightRadius = value;
+
+            // Останавливаем предыдущую анимацию если она есть
+            if (_radiusChangeCoroutine != null)
+                StopCoroutine(_radiusChangeCoroutine);
+
+            // Запускаем новую анимацию
+            _radiusChangeCoroutine = StartCoroutine(SmoothRadiusChange(oldValue, value));
+        }
+    }
+
+    private IEnumerator SmoothRadiusChange(float from, float to, float duration = 0.3f)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            // Плавное изменение радиуса прожектора
+            _flashLight.spotAngle = Mathf.Lerp(from, to, t);
+
+            yield return null;
+        }
+
+        // Гарантируем, что достигли конечного значения
+        _flashLight.spotAngle = to;
+        _radiusChangeCoroutine = null;
+    }
+
+    // Метод для вызова извне с определенной длительностью
+    public void SetFlashlightRadiusSmooth(float newRadius, float changeDuration = 0.3f)
+    {
+        flashLightRadius = newRadius;
+        if (_radiusChangeCoroutine != null)
+            StopCoroutine(_radiusChangeCoroutine);
+        _radiusChangeCoroutine = StartCoroutine(SmoothRadiusChange(_flashLight.spotAngle, newRadius, changeDuration));
+    }
+    #endregion
+
 
     #region Initialize
     private void Awake()
@@ -81,6 +140,7 @@ public class PlayerDataManager : MonoBehaviour
         saveData.level = Stats.Level;
         saveData.currentExp = Stats.CurrentExp;
         saveData.unspentSkillPoints = Stats.UnspentSkillPoints;
+        saveData.flashLightRadius = _flashLightRadius;
 
         string jsonData = JsonUtility.ToJson(saveData, true); // true для красивого форматирования в отладке
         PlayerPrefs.SetString(_saveKey, jsonData);
@@ -109,6 +169,7 @@ public class PlayerDataManager : MonoBehaviour
             Stats.CurrentStamina = saveData.currentStamina;
             Stats.Money = saveData.money;
             Stats.CurrentWeight = saveData.currentWeight;
+            _flashLightRadius = saveData.flashLightRadius;
 
             Debug.Log("Game Loaded: " + jsonData);
         }
@@ -251,10 +312,36 @@ public class PlayerDataManager : MonoBehaviour
     {
         if (Instance == null) return;
 
-        Stats.CurrentHealth -= damage;
-        Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
+        if(UnityEngine.Random.Range(0,100) < 10)//обходим броню
+        {
+            Stats.CurrentHealth -= damage;
+            Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
+        }
+        else//ищем броню, которая впитает урон
+        {
+            Stats.CurrentHealth -= DestroyRandomArmorInFight(damage);
+        }
 
         SaveData();
+    }
+
+    private int DestroyRandomArmorInFight(int damage)
+    {
+        //ItemArmorController foundArmor = new ItemArmorController();
+        int remaining = damage;
+        if (BattleManager.Instance.isBattleActive)
+        {
+            var Armors = cellsFight.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
+            int random = UnityEngine.Random.Range(0, Armors.Count);
+            remaining = Armors[random].TakeDamage(damage);
+        }
+        else if (cellsInventory.gameObject.activeSelf)
+        {
+            var Armors = cellsInventory.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
+            int random = UnityEngine.Random.Range(0, Armors.Count);
+            remaining = Armors[random].TakeDamage(damage);
+        }
+        return remaining;
     }
     public void Heal(int countPoint)
     {
@@ -283,4 +370,5 @@ public class PlayerSaveData
     public int level;
     public int currentExp;
     public int unspentSkillPoints;
+    public float flashLightRadius;
 }

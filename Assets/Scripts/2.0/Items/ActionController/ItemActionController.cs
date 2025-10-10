@@ -10,13 +10,10 @@ public abstract class ItemActionController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        if (isFight)
-        {
-            itemStats = GetComponent<ItemStats>();
+        itemStats = GetComponent<ItemStats>();
 
-            if (animator == null)
-                animator = GetComponent<Animator>();
-        }
+        if (animator == null)
+            animator = GetComponent<Animator>();
     }
 
 }

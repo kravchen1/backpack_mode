@@ -1,5 +1,6 @@
 // PlayerDataManager.cs
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,6 +23,8 @@ public class NPCDataManager : MonoBehaviour
     public Vector2Int multiTilesDeathChestPrefabVector2 = new Vector2Int(2,2);
 
     private string _saveKey;
+
+    public CellsData cellsFight;
 
     // Событие смерти
     public event Action<GameObject> OnDeath; // Передаем GameObject умершего NPC
@@ -394,10 +397,36 @@ public class NPCDataManager : MonoBehaviour
     {
         if (!IsAlive) return; // Не принимаем урон если уже мертв
 
-        Stats.CurrentHealth -= damage;
-        Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
+        if (UnityEngine.Random.Range(0, 100) < 10)//обходим броню
+        {
+            Stats.CurrentHealth -= damage;
+            Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
+        }
+        else//ищем броню, которая впитает урон
+        {
+            Stats.CurrentHealth -= DestroyRandomArmorInFight(damage);
+        }
 
         SaveData();
+    }
+
+    private int DestroyRandomArmorInFight(int damage)
+    {
+        //ItemArmorController foundArmor = new ItemArmorController();
+        int remaining = damage;
+        if (BattleManager.Instance.isBattleActive)
+        {
+            var Armors = cellsFight.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
+            int random = UnityEngine.Random.Range(0, Armors.Count);
+            remaining = Armors[random].TakeDamage(damage);
+        }
+        //else if (cellsInventory.gameObject.activeSelf)
+        //{
+        //    var Armors = cellsInventory.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
+        //    int random = UnityEngine.Random.Range(0, Armors.Count);
+        //    remaining = Armors[random].TakeDamage(damage);
+        //}
+        return remaining;
     }
 
     public void Heal(int countPoint)

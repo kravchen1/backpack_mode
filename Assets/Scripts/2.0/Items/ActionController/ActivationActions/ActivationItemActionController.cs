@@ -25,7 +25,7 @@ public abstract class ActivationItemActionController : ItemActionController
 
     public virtual void UpdateForBattle(NPCDataManager attacker, NPCDataManager target)
     {
-        if (isFight)
+        if (isFight && itemStats.isUseFight && itemStats.durability > 0)
         {
             UpdateCooldown();
             UpdateActivation(attacker, target);
@@ -34,7 +34,7 @@ public abstract class ActivationItemActionController : ItemActionController
 
     public virtual void UpdateForBattle(PlayerDataManager attacker, NPCDataManager target)
     {
-        if (isFight)
+        if (isFight && itemStats.isUseFight && itemStats.durability > 0)
         {
             UpdateCooldown();
             UpdateActivation(attacker, target);
@@ -43,7 +43,7 @@ public abstract class ActivationItemActionController : ItemActionController
 
     public virtual void UpdateForBattle(NPCDataManager attacker, PlayerDataManager target)
     {
-        if (isFight)
+        if (isFight && itemStats.isUseFight && itemStats.durability > 0)
         {
             UpdateCooldown();
             UpdateActivation(attacker, target);

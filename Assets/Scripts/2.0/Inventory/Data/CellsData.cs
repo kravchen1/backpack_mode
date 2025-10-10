@@ -100,7 +100,8 @@ public class CellsData : MonoBehaviour
                                 itemStats.itemQuality,
                                 itemStats.durability,
                                 itemMove.StackCount,
-                                itemStats.weight
+                                itemStats.weight,
+                                itemStats.isUseFight
                             ));
                         }
                         else
@@ -113,7 +114,8 @@ public class CellsData : MonoBehaviour
                                                             occupiedCellNames,
                                                             itemStats.itemQuality,
                                                             itemStats.durability,
-                                                            itemStats.weight
+                                                            itemStats.weight,
+                                                            itemStats.isUseFight
                                                         ));
                         }
 
@@ -183,7 +185,8 @@ public class CellsData : MonoBehaviour
 
                 newItem.GetComponent<ItemStats>().durability = cellData.durability;
                 newItem.GetComponent<ItemStats>().itemQuality = cellData.qualityKey;
-                newItem.GetComponent<ItemStats>().InitializeQuality();
+                newItem.GetComponent<ItemStats>().isUseFight = cellData.isUseFight;
+                newItem.GetComponent<ItemStats>().Initialized();
 
                 if (cellData.countStack > 0)
                 {
