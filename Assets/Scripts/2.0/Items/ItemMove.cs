@@ -68,7 +68,7 @@ public class ItemMove : MonoBehaviour
     private const int CELL_LAYER = 8;
     private const float RAYCAST_DISTANCE = 0.1f;
     private const float ROTATION_ANGLE = 90f;
-    private const int draggingSortingOrder = 10;
+    private const int draggingSortingOrder = 5;
     private const int defaultSortingOrder = 2;
 
     void Awake()
@@ -676,12 +676,30 @@ public class ItemMove : MonoBehaviour
         if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
         {
             transform.SetParent(_playerInventory.transform);
+            ActivateItemAction();
         }
         else
         {
             transform.SetParent(_shopInventory.transform);
+            DeActivateItemAction();
         }
         ChangeWeight();
+    }
+
+    private void ActivateItemAction()
+    {
+        if (GetComponent<ItemActionInfluenceWorldController>() != null)
+        {
+            GetComponent<ItemActionInfluenceWorldController>().InfluenceOnThePlayer();
+        }
+    }
+
+    private void DeActivateItemAction()
+    {
+        if (GetComponent<ItemActionInfluenceWorldController>() != null)
+        {
+            GetComponent<ItemActionInfluenceWorldController>().ReverseInfluenceOnThePlayer();
+        }
     }
 
     private void ChangeWeight()

@@ -95,7 +95,7 @@ public class ItemStar : MonoBehaviour
 
                     // Применяем модификации к новому предмету
                     _currentItem = newItem;
-                    if (_currentItem.GetComponent<ItemArmorController>() != null)
+                    if (_currentItem.GetComponent<ItemActionModifyController>() != null)
                     {
                         StarActionEnable();
                         _isModificationApplied = true;
@@ -106,12 +106,12 @@ public class ItemStar : MonoBehaviour
         }
 
         // Если предмета нет, но модификация была применена - отменяем
-        if (_currentItem != null && _isModificationApplied)
+        if (_isModificationApplied)
         {
             StarActionDisable();
-            _currentItem = null;
             _isModificationApplied = false;
         }
+        _currentItem = null;
     }
 
     protected virtual void StarActionEnable()

@@ -99,7 +99,9 @@ GameObject:
   - component: {fileID: 3877052783744792926}
   - component: {fileID: 8269381697426622798}
   - component: {fileID: 9099243120486158647}
-  - component: {fileID: 7362738641786873659}
+  - component: {fileID: 2032205165395157496}
+  - component: {fileID: 3474733348033414744}
+  - component: {fileID: 8121013414838719779}
   m_Layer: 7
   m_Name: flashLightSmallTest
   m_TagString: Untagged
@@ -219,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: {x: 1, y: 1}
   _cells: 01
---- !u!114 &7362738641786873659
+--- !u!114 &2032205165395157496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,18 +230,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8561094603123394776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23eac332b4466f544aa6b21aa2a1f157, type: 3}
+  m_Script: {fileID: 11500000, guid: 576743d161290544c95283c63dce5cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemNameKey: MuzzleTest
-  itemTypes: 06000000
+  itemNameKey: flashLightSmallTest
+  itemTypes: 0f000000
   itemRarity: 0
   itemQuality: 2
   usableFight: 0
   usableNotFight: 0
   weight: 1
-  maxDurability: 90
-  price: 0.002
+  maxDurability: 100
+  price: 1
   isUseFightIcon: {fileID: 0}
   isNotUseFightIcon: {fileID: 0}
   _durabilityText: {fileID: 0}
@@ -247,8 +249,8 @@ MonoBehaviour:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0, a: 1}
     key1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    key2: {r: 0, g: 1, b: 0, a: 0}
-    key3: {r: 0, g: 1, b: 0, a: 0}
+    key2: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
@@ -276,30 +278,43 @@ MonoBehaviour:
   _descriptionTriples: []
   _doubleClickTime: 0.3
   _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}
-  damageRangeModifierPercentage: 0
-  accuracyRangeModifierPercentage: 0
-  critChanceRangeModifierPercentage: 0
-  critDamageRangeModifierPercentage: 0
-  coolDownRangeModifierPercentage: 0
-  staminaRangeModifierPercentage: 0
-  damageRangeModifierValue: 5
-  accuracyRangeModifierValue: 0
-  critChanceRangeModifierValue: 0
-  coolDownRangeModifierValue: 0
-  staminaRangeModifierValue: 0
-  critDamageRangeModifierValue: 0
-  damageMeleeModifierPercentage: 0
-  accuracyMeleeModifierPercentage: 0
-  critChanceMeleeModifierPercentage: 0
-  critDamageMeleeModifierPercentage: 0
-  coolDownMeleeModifierPercentage: 0
-  staminaMeleeModifierPercentage: 0
-  damageMeleeModifierValue: 0
-  accuracyMeleeModifierValue: 0
-  critChanceMeleeModifierValue: 0
-  coolDownMeleeModifierValue: 0
-  staminaMeleeModifierValue: 0
-  critDamageMeleeModifierValue: 0
+  _flashLightRadius: 7
+  _flashLightIntensity: 0.1
+--- !u!114 &3474733348033414744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8561094603123394776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1a96e23eb88bf4eb66ba7c88b1e934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8121013414838719779}
+--- !u!95 &8121013414838719779
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8561094603123394776}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3865de01bd76f5e47b1b50437d2043c8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8915552367589918286
 GameObject:
   m_ObjectHideFlags: 0

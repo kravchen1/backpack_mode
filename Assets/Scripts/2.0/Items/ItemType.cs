@@ -17,6 +17,8 @@ public enum ItemType
     Patron5x45,
     Patron7x62,
     Patron12x70,
-    Patron_44Magnum
+    Patron_44Magnum,
+
+    flashLight
 
 }

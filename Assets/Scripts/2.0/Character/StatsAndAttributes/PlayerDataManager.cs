@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine.Experimental.GlobalIllumination;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -24,8 +25,11 @@ public class PlayerDataManager : MonoBehaviour
 
     #region flashLight
     private float _flashLightRadius = 0f;
-    public Light _flashLight; // Используем стандартный Light компонент
+    private float _flashLightIntensity = 0f;
+
+    public Light2D _flashLight; // Используем стандартный Light компонент
     private Coroutine _radiusChangeCoroutine;
+    private Coroutine _intensityChangeCoroutine;
 
     public float flashLightRadius
     {
@@ -44,7 +48,24 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SmoothRadiusChange(float from, float to, float duration = 0.3f)
+    public float flashLightIntensity
+    {
+        get => _flashLightIntensity;
+        set
+        {
+            float oldValue = _flashLightIntensity;
+            _flashLightIntensity = value;
+
+            // Останавливаем предыдущую анимацию если она есть
+            if (_intensityChangeCoroutine != null)
+                StopCoroutine(_intensityChangeCoroutine);
+
+            // Запускаем новую анимацию
+            _intensityChangeCoroutine = StartCoroutine(SmoothIntensityChange(oldValue, value));
+        }
+    }
+
+    private IEnumerator SmoothRadiusChange(float from, float to, float duration = 1f)
     {
         float elapsed = 0f;
 
@@ -54,23 +75,52 @@ public class PlayerDataManager : MonoBehaviour
             float t = elapsed / duration;
 
             // Плавное изменение радиуса прожектора
-            _flashLight.spotAngle = Mathf.Lerp(from, to, t);
+            _flashLight.pointLightOuterRadius = Mathf.Lerp(from, to, t);
 
             yield return null;
         }
 
         // Гарантируем, что достигли конечного значения
-        _flashLight.spotAngle = to;
+        _flashLight.pointLightOuterRadius = to;
         _radiusChangeCoroutine = null;
     }
 
     // Метод для вызова извне с определенной длительностью
-    public void SetFlashlightRadiusSmooth(float newRadius, float changeDuration = 0.3f)
+    public void SetFlashlightRadiusSmooth(float newRadius, float changeDuration = 1f)
     {
         flashLightRadius = newRadius;
         if (_radiusChangeCoroutine != null)
             StopCoroutine(_radiusChangeCoroutine);
-        _radiusChangeCoroutine = StartCoroutine(SmoothRadiusChange(_flashLight.spotAngle, newRadius, changeDuration));
+        _radiusChangeCoroutine = StartCoroutine(SmoothRadiusChange(_flashLight.pointLightOuterRadius, newRadius, changeDuration));
+    }
+
+    private IEnumerator SmoothIntensityChange(float from, float to, float duration = 1f)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            // Плавное изменение радиуса прожектора
+            _flashLight.intensity = Mathf.Lerp(from, to, t);
+
+            yield return null;
+        }
+
+        // Гарантируем, что достигли конечного значения
+        _flashLight.intensity = to;
+        _intensityChangeCoroutine = null;
+    }
+
+    // Метод для вызова извне с определенной длительностью
+    public void SetFlashlightIntensitySmooth(float newIntensity, float changeDuration = 1f)
+    {
+        flashLightIntensity = newIntensity;
+        if (_intensityChangeCoroutine != null)
+            StopCoroutine(_intensityChangeCoroutine);
+        _intensityChangeCoroutine = StartCoroutine(SmoothIntensityChange(_flashLight.intensity, newIntensity, changeDuration));
     }
     #endregion
 
@@ -84,6 +134,9 @@ public class PlayerDataManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             InitializeData();
+
+            SetFlashlightRadiusSmooth(_flashLightRadius, 1f);
+            SetFlashlightIntensitySmooth(_flashLightIntensity, 1f);
         }
         else
         {
@@ -123,6 +176,8 @@ public class PlayerDataManager : MonoBehaviour
         Stats.CurrentHealth = Stats.MaxHealth; // Полное здоровье
         Stats.CurrentStamina = Stats.MaxStamina;
         Stats.CurrentWeight = 0;
+        _flashLightRadius = 0f;
+        _flashLightIntensity = 0f;
 
         Debug.Log("Data reset to default.");
     }
@@ -141,6 +196,7 @@ public class PlayerDataManager : MonoBehaviour
         saveData.currentExp = Stats.CurrentExp;
         saveData.unspentSkillPoints = Stats.UnspentSkillPoints;
         saveData.flashLightRadius = _flashLightRadius;
+        saveData.flashLightIntensity = _flashLightIntensity;
 
         string jsonData = JsonUtility.ToJson(saveData, true); // true для красивого форматирования в отладке
         PlayerPrefs.SetString(_saveKey, jsonData);
@@ -170,6 +226,7 @@ public class PlayerDataManager : MonoBehaviour
             Stats.Money = saveData.money;
             Stats.CurrentWeight = saveData.currentWeight;
             _flashLightRadius = saveData.flashLightRadius;
+            _flashLightIntensity = saveData.flashLightIntensity;
 
             Debug.Log("Game Loaded: " + jsonData);
         }
@@ -371,4 +428,5 @@ public class PlayerSaveData
     public int currentExp;
     public int unspentSkillPoints;
     public float flashLightRadius;
+    public float flashLightIntensity;
 }

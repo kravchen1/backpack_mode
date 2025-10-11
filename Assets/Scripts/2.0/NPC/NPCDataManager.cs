@@ -240,7 +240,7 @@ public class NPCDataManager : MonoBehaviour
                 GameObject chest;
                 if (isMultiTilesDeathChestPrefab)
                 {
-                    chest = GridObjectManager.Instance.SpawnMultiCellObjectAfterDeath(
+                    chest = GridObjectManager.Instance.SpawnMultiCellObject(
                         deathChestPrefab,
                         transform.position,
                         multiTilesDeathChestPrefabVector2,
@@ -249,7 +249,7 @@ public class NPCDataManager : MonoBehaviour
                 }
                 else
                 {
-                    chest = GridObjectManager.Instance.SpawnObjectAfterDeath(
+                    chest = GridObjectManager.Instance.SpawnObject(
                         deathChestPrefab,
                         transform.position,
                         backpackKey

@@ -3,24 +3,50 @@ using System.Collections;
 
 public class ItemActionFlashLightController : ItemActionInfluenceWorldController
 {
-    
-    //protected ArmorStats itemArmorStats;
-    //public string animationKeyTakeDamage = "TakeDamage";
-
+    private FlashLightStats flashLightStats;
     protected override void Awake()
     {
         base.Awake();
-        //itemArmorStats = GetComponent<ArmorStats>();
+        flashLightStats = GetComponent<FlashLightStats>();
     }
 
-    /// <summary>
-    /// Применяет урон к предмету, уменьшая его прочность.
-    /// Возвращает остаточный урон, превышающий прочность предмета.
-    /// </summary>
-    /// <param name="damage">Входящий урон</param>
-    /// <returns>Остаток урона, не поглощенный прочностью предмета</returns>
-    public override void InfluenceOnTheWorld()
+
+    public override void InfluenceOnThePlayer()
     {
+        if (PlayerDataManager.Instance != null)
+        {
+            //if (PlayerDataManager.Instance.flashLightRadius < flashLightStats._flashLightRadius)
+            //{
+            //    PlayerDataManager.Instance.flashLightRadius = flashLightStats._flashLightRadius;
+            //}
+            if (flashLightStats._flashLightRadius > 0)
+            {
+                PlayerDataManager.Instance.flashLightRadius += flashLightStats._flashLightRadius;
+            }
+            if(flashLightStats._flashLightIntensity > 0)
+            {
+                PlayerDataManager.Instance.flashLightIntensity += flashLightStats._flashLightIntensity;
+            }
+        }
+    }
+
+    public override void ReverseInfluenceOnThePlayer()
+    {
+        if (PlayerDataManager.Instance != null)
+        {
+            //if (PlayerDataManager.Instance.flashLightRadius == flashLightStats._flashLightRadius)
+            //{
+            //    PlayerDataManager.Instance.flashLightRadius = 0;
+            //}
+            if (flashLightStats._flashLightRadius > 0)
+            {
+                PlayerDataManager.Instance.flashLightRadius -= flashLightStats._flashLightRadius;
+            }
+            if (flashLightStats._flashLightIntensity > 0)
+            {
+                PlayerDataManager.Instance.flashLightIntensity -= flashLightStats._flashLightIntensity;
+            }
+        }
     }
 
 }

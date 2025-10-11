@@ -782,7 +782,7 @@ public class GridObjectManager : MonoBehaviour
 
 
     // Основной метод для создания объекта после смерти монстра
-    public GameObject SpawnObjectAfterDeath(GameObject objectPrefab, Vector3 deathPosition, string settingsKey = null, string objectId = null, bool isWasActive = false)
+    public GameObject SpawnObject(GameObject objectPrefab, Vector3 deathPosition, string settingsKey = null, string objectId = null, bool isWasActive = false)
     {
         Vector3Int deathCell = WorldToCellPosition(deathPosition);
 
@@ -836,7 +836,7 @@ public class GridObjectManager : MonoBehaviour
     }
 
     // Для многоклеточных объектов (если нужно создать объект размером больше 1x1)
-    public GameObject SpawnMultiCellObjectAfterDeath(GameObject objectPrefab, Vector3 deathPosition, Vector2Int size, string settingsKey = null, string objectId = null, bool isWasActive = false)
+    public GameObject SpawnMultiCellObject(GameObject objectPrefab, Vector3 deathPosition, Vector2Int size, string settingsKey = null, string objectId = null, bool isWasActive = false)
     {
         Vector3Int deathCell = WorldToCellPosition(deathPosition);
 

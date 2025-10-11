@@ -11,12 +11,12 @@ public class CellsData : MonoBehaviour
     [Header("References")]
     public List<Cell> cells = new List<Cell>();
     public Transform itemsParent;
+    public GameObject stashPrefab; // Префаб сундука, который появится при создании схрона
 
     [HideInInspector] public List<GameObject> itemPrefabs = new List<GameObject>();
 
     private DataJsonCellList dataJsonList = new DataJsonCellList();
-    private const int GridWidth = 10;
-    private bool skipNextSave = false;
+
 
     private void Awake()
     {
@@ -58,7 +58,6 @@ public class CellsData : MonoBehaviour
         {
             if (!gameObject.scene.isLoaded) return;
             SaveData();
-            skipNextSave = true;
         }
     }
 
@@ -316,6 +315,31 @@ public class CellsData : MonoBehaviour
         if (itemsParent.childCount > 0)
         {
             Debug.LogWarning($"After ClearAllItems, still {itemsParent.childCount} children remaining!");
+        }
+    }
+
+    public void CreateStash()
+    {
+        //
+
+        if (stashPrefab != null)
+        {
+
+            GameObject chest;
+            string _settingsKey = settingsKey;
+
+            _settingsKey += PlayerPrefs.GetFloat("stashID", 1.0f).ToString();
+            PlayerPrefs.SetFloat("stashID", PlayerPrefs.GetFloat("stashID", 1.0f) + 1f);
+
+            chest = GridObjectManager.Instance.SpawnObject(
+                stashPrefab,
+                transform.position,
+                _settingsKey
+            );
+
+            var chestTrigger = chest.GetComponent<ChestDeathTrigger>();//todo
+            chestTrigger.settingsKey = _settingsKey;
+
         }
     }
 }

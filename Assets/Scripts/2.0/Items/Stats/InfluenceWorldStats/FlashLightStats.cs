@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class ArmorStats : ItemStats
+public class FlashLightStats : ItemStats
 {
-    [Header("Armor Stats")]
-    public int damageConsumptionPerDurability = 1;
+    [Header("FlashLight Stats")]
+    public float _flashLightRadius = 7f;
+    public float _flashLightIntensity = 0.5f;
 
     public override void InitializeDescriptionTriples()
     {
@@ -14,8 +15,9 @@ public class ArmorStats : ItemStats
 
         _descriptionTriples.AddRange(new[]
         {
-            
-            new DescriptionTriple("Damage consumption per durability", $"{damageConsumptionPerDurability:0}", ""),
+
+            new DescriptionTriple("Flash Light Radius", "", ""),
+            new DescriptionTriple("Flash Light Intensity", "", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
             new DescriptionTriple("Requirements", "", ""),
@@ -27,8 +29,10 @@ public class ArmorStats : ItemStats
     {
         switch (statKey)
         {
-            case "Damage consumption per durability":
-                return $"{damageConsumptionPerDurability:0}";
+            case "Flash Light Radius":
+                return $"{_flashLightRadius:+#;-#;0.0}%";
+            case "Flash Light Intensity":
+                return $"{_flashLightIntensity:+#;-#;0.0}%";
             default:
                 return base.GetSpecificStatValue(statKey);
         }
