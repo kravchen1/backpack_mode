@@ -19,6 +19,7 @@ public enum ItemType
     Patron12x70,
     Patron_44Magnum,
 
-    flashLight
+    flashLight,
+    clock
 
 }
