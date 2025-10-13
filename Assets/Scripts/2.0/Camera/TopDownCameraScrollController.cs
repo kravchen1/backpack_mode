@@ -52,7 +52,7 @@ public class TopDownCameraScrollController : MonoBehaviour
 
     private void InitializeSettings()
     {
-        settingsKey = ORTHO_SIZE_KEY + SceneManager.GetActiveScene().name;
+        settingsKey = ORTHO_SIZE_KEY;
 
         // Устанавливаем начальный размер камеры
         if (saveSettingsBetweenSessions && PlayerPrefs.HasKey(settingsKey))

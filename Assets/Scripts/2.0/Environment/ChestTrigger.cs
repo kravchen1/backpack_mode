@@ -16,7 +16,7 @@ public class ChestTrigger : EnvironmentTrigger
         base.Start();
 
 
-        settingsKey = "shopData" + gameObject.name;
+        settingsKey = "shopData" + gameObject.name;//todo запись каждого объекте в Saver
         if(isWasActive)
         {
             ChestOpen.SetActive(true);
