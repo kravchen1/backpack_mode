@@ -176,7 +176,10 @@ public class CellsData : MonoBehaviour
                 }
 
                 GameObject newItem = Instantiate(itemPrefab, itemsParent);
-
+                if(gameObject.name == "InventoryTradeData")
+                {
+                    newItem.AddComponent<ItemTrade>();
+                }
 
                 newItem.name = itemPrefab.gameObject.name;
                 newItem.transform.rotation = Quaternion.Euler(0, 0, cellData.rotationZ);

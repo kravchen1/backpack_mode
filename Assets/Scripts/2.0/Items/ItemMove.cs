@@ -79,7 +79,14 @@ public class ItemMove : MonoBehaviour
     private void Initialize()
     {
         _mainCamera = Camera.main;
-        _playerInventory = GameObject.Find("InventoryData");
+        if (GameObject.Find("InventoryData"))
+        {
+            _playerInventory = GameObject.Find("InventoryData");
+        }
+        else
+        {
+            _playerInventory = GameObject.Find("InventoryTradeData");
+        }
         _shopInventory = GameObject.Find("ShopData");
         _backpackInventory = GameObject.Find("BackpackInventroy");
         _backpackShop = GameObject.Find("BackpackShop");
@@ -316,7 +323,7 @@ public class ItemMove : MonoBehaviour
             return;
         }
 
-        if (CanBePlaced())
+        if (CanBePlaced() && TradeItem())
         {
             CommitPlacement();
 
@@ -701,6 +708,69 @@ public class ItemMove : MonoBehaviour
             GetComponent<ItemActionInfluenceWorldController>().ReverseInfluenceOnThePlayer();
         }
     }
+
+    private bool TradeItem()
+    {
+        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
+        {
+            if (PurchaseItem())
+            {
+                // УДАЛЯЕМ ВСЕ СВЯЗАННЫЕ КОПИИ ПРЕДМЕТА
+                RemoveAllLinkedCopies();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            SaleItem();
+            return true;
+        }
+    }    
+
+    private bool PurchaseItem()
+    {
+        if(GetComponent<ItemTrade>() != null)
+        {
+            var price = GetComponent<ItemStats>().price;
+            if (PlayerDataManager.Instance.Stats.Money >= price)
+            {
+                PlayerDataManager.Instance.Stats.Money -= price;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void SaleItem()
+    {
+        if (GetComponent<ItemTrade>() != null)
+        {
+            var price = GetComponent<ItemStats>().price;
+            PlayerDataManager.Instance.Stats.Money += price;
+        }
+    }
+
+    /// <summary>
+    /// Удаляет все копии предмета через систему ссылок
+    /// </summary>
+    private void RemoveAllLinkedCopies()
+    {
+        // Находим TradeGenerator для использования его методов
+        TradeGenerator tradeGenerator = FindObjectOfType<TradeGenerator>();
+        if (tradeGenerator != null)
+        {
+            tradeGenerator.RemoveAllLinkedCopies(gameObject);
+        }
+    }
+
 
     private void ChangeWeight()
     {

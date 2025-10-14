@@ -26,6 +26,7 @@ public abstract class ItemStats : MonoBehaviour
     [SerializeField] private Sprite isNotUseFightIcon;
     [SerializeField] private TextMeshPro _durabilityText;
     [SerializeField] private Gradient _durabilityColorGradient = CreateDefaultGradient();
+    public bool isShowDurability = false;
 
     //[Header("Requirements Stats")]
     //public int requirementStr = 0;
@@ -121,7 +122,7 @@ public abstract class ItemStats : MonoBehaviour
     // Метод для обновления цвета прочности
     private void UpdateDurabilityDisplay()
     {
-        if (_durabilityText == null) return;
+        if (_durabilityText == null || !isShowDurability) return;
 
         _durabilityText.text = $"{durability:0}/{maxDurability:0}";
 
