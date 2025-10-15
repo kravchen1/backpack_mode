@@ -12,15 +12,7 @@ public class TimeSpeed : MonoBehaviour
     [HideInInspector] public double nowTime;
     private void Start()
     {
-        if (PlayerPrefs.HasKey("NattleSpeedSlider"))
-        {
-            timeSpeed.value = PlayerPrefs.GetFloat("NattleSpeedSlider");
-        }
-        else
-        {
-            timeSpeed.value = 1;
-        }
-        //startTime = Time.time;
+        timeSpeed.value = 1;
     }
     void Update()
     {
@@ -28,10 +20,7 @@ public class TimeSpeed : MonoBehaviour
         {
             Time.timeScale = timeSpeed.value;
             TextSpeed.text = "x " + Math.Round(timeSpeed.value, 2).ToString();
-            PlayerPrefs.SetFloat("NattleSpeedSlider", timeSpeed.value);
         }
-        //nowTime = Math.Round(Time.time - startTime, 1);
-       // TextTime.text = nowTime.ToString();
     }
 
     public void PauseSpeed()

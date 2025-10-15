@@ -12,10 +12,11 @@ public class NPCController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private CircleCollider2D detectionCollider;
     [SerializeField] private NPCAnimationController animationController;
+    public bool inFightNow = false;
 
     // State Management
     private Dictionary<NPCStateType, INPCState> states;
-    private INPCState currentState;
+    public INPCState currentState;
 
     // Components
     private Rigidbody2D rb;
@@ -25,6 +26,7 @@ public class NPCController : MonoBehaviour
     public NPCConfig Config => config;
     public TopDownCharacterController Player => player;
     public NPCAnimationController AnimationController => animationController;
+    
     public bool HasDetectedPlayer => player != null;
 
     void Awake()
@@ -164,9 +166,9 @@ public class NPCController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
         // Проверяем, что это именно триггерный коллайдер
         if (!other.isTrigger) return;
+        CheckCharisma();
 
         var playerController = other.GetComponent<TopDownCharacterController>();
         //Debug.Log("Trigger Player in");
@@ -190,6 +192,23 @@ public class NPCController : MonoBehaviour
         {
             currentState?.OnPlayerLost(this);
             player = null;
+        }
+    }
+
+    public void CheckCharisma()
+    {
+        int charisma = PlayerDataManager.Instance.Stats.attributes.Charisma;
+        if (charisma >= config.CharismaForFriendly)
+        {
+            MakeFriendly();
+        }
+        else if (charisma <= config.CharismaForHostile)
+        {
+            MakeHostile();
+        }
+        else
+        {
+            MakeNeutral();
         }
     }
 

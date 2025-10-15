@@ -45,6 +45,7 @@ public class PlayerDataManager : MonoBehaviour
 
             // Запускаем новую анимацию
             _radiusChangeCoroutine = StartCoroutine(SmoothRadiusChange(oldValue, value));
+            SaveData();
         }
     }
 
@@ -62,6 +63,7 @@ public class PlayerDataManager : MonoBehaviour
 
             // Запускаем новую анимацию
             _intensityChangeCoroutine = StartCoroutine(SmoothIntensityChange(oldValue, value));
+            SaveData();
         }
     }
 
@@ -199,6 +201,7 @@ public class PlayerDataManager : MonoBehaviour
         saveData.flashLightIntensity = _flashLightIntensity;
 
         string jsonData = JsonUtility.ToJson(saveData, true); // true для красивого форматирования в отладке
+        PlayerPrefsMigrationManager.Instance.RegisterStringPref(_saveKey);
         PlayerPrefs.SetString(_saveKey, jsonData);
         PlayerPrefs.Save(); // Важно вызывать Save()
 
@@ -389,14 +392,20 @@ public class PlayerDataManager : MonoBehaviour
         if (BattleManager.Instance.isBattleActive)
         {
             var Armors = cellsFight.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
-            int random = UnityEngine.Random.Range(0, Armors.Count);
-            remaining = Armors[random].TakeDamage(damage);
+            if (Armors.Count > 0)
+            {
+                int random = UnityEngine.Random.Range(0, Armors.Count);
+                remaining = Armors[random].TakeDamage(damage);
+            }
         }
         else if (cellsInventory.gameObject.activeSelf)
         {
             var Armors = cellsInventory.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
-            int random = UnityEngine.Random.Range(0, Armors.Count);
-            remaining = Armors[random].TakeDamage(damage);
+            if (Armors.Count > 0)
+            {
+                int random = UnityEngine.Random.Range(0, Armors.Count);
+                remaining = Armors[random].TakeDamage(damage);
+            }
         }
         return remaining;
     }

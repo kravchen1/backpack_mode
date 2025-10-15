@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class BattleManager : MonoBehaviour
 {
@@ -35,8 +36,6 @@ public class BattleManager : MonoBehaviour
     //public GameObject characterIconPrefab;
     public GameObject battleUICanvas;
 
-    [Header("Friend System")]
-    public bool enableFriendSystem = true;
 
     private List<NPCDataManager> playerTeam = new List<NPCDataManager>();
     private List<NPCDataManager> enemyTeam = new List<NPCDataManager>();
@@ -175,7 +174,7 @@ public class BattleManager : MonoBehaviour
 
         // Запуск систем
         StartEscapeTimer();
-        StartFriendSystem();
+        //StartFriendSystem();
 
         Debug.Log($"Battle started! {playerTeam.Count} vs {enemyTeam.Count}");
     }
@@ -187,40 +186,8 @@ public class BattleManager : MonoBehaviour
             return;
 
         selectedTarget = target;
-        UpdateTargetVisuals();
     }
 
-    public void PlayerTarget()
-    {
-        if (!isBattleActive)
-            return;
-        Debug.Log("Player target self");
-        //selectedTarget = target;
-        UpdateTargetVisuals();
-    }
-
-    // СИСТЕМА ВЫБОРА Союзника
-    public void OnFriendSelected(NPCDataManager target)
-    {
-        if (!isBattleActive || target == null || !playerTeam.Contains(target))
-            return;
-
-        //selectedTarget = target;
-        UpdateTargetVisuals();
-        Debug.Log("To do обновление инвентаря");
-    }
-
-    private void UpdateTargetVisuals()
-    {
-        //foreach (Transform iconTransform in enemyTeamPanel)
-        //{
-        //    var icon = iconTransform.GetComponent<CharacterIcon>();
-        //    if (icon != null)
-        //    {
-        //        icon.SetSelected(icon.BattleCharacter == selectedTarget);
-        //    }
-        //}
-    }
 
     // СИСТЕМА АТАК
     private System.Collections.IEnumerator AutoAttackRoutine(NPCDataManager attacker, int indexAttacker, bool isEnemy)
@@ -304,20 +271,6 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    private int CalculateDamage(NPCDataManager attacker, NPCDataManager target)
-    {
-        //int baseDamage = 10;
-
-        //// ИСПРАВЛЕНО: правильный доступ к атрибутам через PlayerDataManager
-        //int strengthBonus = 0;
-        //if (attacker.PlayerDataManager != null && attacker.PlayerDataManager.Attributes != null)
-        //{
-        //    strengthBonus = Mathf.FloorToInt(attacker.PlayerDataManager.Attributes.strength.GetValue() * 2);
-        //}
-
-        //return Mathf.Max(1, baseDamage + strengthBonus);
-        return 10;
-    }
 
     // СИСТЕМА ПОБЕГА
     private void StartEscapeTimer()
@@ -363,63 +316,12 @@ public class BattleManager : MonoBehaviour
             escapeButton.SetActive(canEscape);
     }
 
-    public void AttemptEscape()
-    {
-        if (!canEscape || !isBattleActive) return;
 
-        float escapeChance = CalculateEscapeChance();
-        bool escapeSuccessful = Random.Range(0f, 1f) <= escapeChance;
 
-        if (escapeSuccessful) EscapeSuccess();
-        else EscapeFailed();
-    }
-
-    private float CalculateEscapeChance()
-    {
-        //float baseChance = 0.7f;
-
-        //// ИСПРАВЛЕНО: правильный доступ к атрибутам
-        //if (playerTeam.Count > 0 && playerTeam[0].PlayerDataManager != null && playerTeam[0].PlayerDataManager.Attributes != null)
-        //{
-        //    var attributes = playerTeam[0].PlayerDataManager.Attributes;
-        //    baseChance += attributes.agility.GetValue() * 0.02f;
-        //    baseChance += attributes.luck.GetValue() * 0.03f;
-        //}
-
-        //float enemyRatioPenalty = (enemyTeam.Count - playerTeam.Count) * 0.1f;
-        //return Mathf.Clamp(baseChance - enemyRatioPenalty, 0.1f, 0.95f);
-        return 1f;
-    }
-
-    private void EscapeSuccess()
+    public void Escape()
     {
         Debug.Log("Escape successful!");
         EndBattleWithEscape(true);
-        DistributeEscapeRewards();
-    }
-
-    private void EscapeFailed()
-    {
-        Debug.Log("Escape failed! Enemies get a free attack.");
-
-        foreach (var enemy in enemyTeam.Where(e => e.IsAlive))
-        {
-            var randomPlayer = playerTeam.Where(p => p.IsAlive).OrderBy(x => Random.value).FirstOrDefault();
-            if (randomPlayer != null)
-            {
-                int damage = CalculateDamage(enemy, randomPlayer) / 2;
-                randomPlayer.TakeDamage(damage);
-            }
-        }
-        StartEscapeTimer();
-        CheckBattleEnd();
-    }
-
-    // СИСТЕМА ДРУЗЕЙ
-    private void StartFriendSystem()
-    {
-        if (enableFriendSystem && FriendSystem.Instance != null)
-            FriendSystem.Instance.StartFriendJoinProcess();
     }
 
     // ЗАВЕРШЕНИЕ БОЯ
@@ -437,9 +339,6 @@ public class BattleManager : MonoBehaviour
         canEscape = false;
         StopAllCoroutines();
         SaveBackpacks();
-        // Останавливаем систему друзей
-        if (FriendSystem.Instance != null)
-            FriendSystem.Instance.StopFriendSystem();
 
         // Скрываем UI
         if (battleUICanvas != null)
@@ -465,15 +364,26 @@ public class BattleManager : MonoBehaviour
         canEscape = false;
         StopAllCoroutines();
         SaveBackpacks();
-        if (FriendSystem.Instance != null)
-            FriendSystem.Instance.StopFriendSystem();
 
         if (battleUICanvas != null)
             battleUICanvas.SetActive(false);
          
         OnBattleEnded?.Invoke(false);
         OnBattleEscaped?.Invoke(escaped);
+
+
         Time.timeScale = 1f;
+        foreach (var enemy in enemyTeam)
+        {
+            StartCoroutine(EndFight(10f, enemy));
+        }
+    }
+
+    protected System.Collections.IEnumerator EndFight(float delay, NPCDataManager target)
+    {
+        yield return new WaitForSeconds(delay);
+        target.GetComponent<NPCController>().inFightNow = false;
+        yield break;
     }
 
     private void SaveBackpacks()
@@ -502,31 +412,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void DistributeEscapeRewards()
-    {
-        int expReward = Mathf.RoundToInt(enemyTeam.Count * 10);
-        float moneyReward = Mathf.RoundToInt(enemyTeam.Count * 5);
 
-        if (PlayerDataManager.Instance != null)
-        {
-            PlayerDataManager.Instance.AddExperience(expReward);
-            PlayerDataManager.Instance.AddMoney(moneyReward);
-        }
-    }
-
-    // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
-    //private void UpdateCharacterUI()
-    //{
-    //    playerIcon.GetComponent<PlayerCharacterIcon>().UpdateBars();
-    //    foreach (var playerTeamIcon in playerTeamIcons)
-    //    {
-    //        playerTeamIcon.GetComponent<CharacterIcon>().UpdateBars();
-    //    }
-    //    foreach (var enemyTeamIcon in enemyTeamIcons)
-    //    {
-    //        enemyTeamIcon.GetComponent<CharacterIcon>().UpdateBars();
-    //    }
-    //}
 
     // API МЕТОДЫ
     public void AddEnemyToBattle(NPCDataManager newEnemy)
@@ -536,12 +422,8 @@ public class BattleManager : MonoBehaviour
         enemyTeam.Add(newEnemy);
         //CreateCharacterIcon(newEnemy, enemyTeamPanel, true);
         //newEnemy.InitializeCharacter();
-
-        if (selectedTarget == null || !selectedTarget.IsAlive)
-        {
-            selectedTarget = newEnemy;
-            UpdateTargetVisuals();
-        }
+        CreateCharacterIconAndBackpacks(newEnemy, true);
+        StartCoroutine(AutoAttackRoutine(newEnemy, enemyTeam.Count-1, true));
     }
 
     public void AddFriendToBattle(NPCDataManager friend)

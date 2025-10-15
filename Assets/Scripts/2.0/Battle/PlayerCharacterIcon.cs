@@ -18,6 +18,7 @@ public class PlayerCharacterIcon : MonoBehaviour
 
     public List<GameObject> backpacks;
     public GameObject backpackCanvasForThisIcon;
+    public List<CharacterIcon> anotherIcons;
 
     [Header("Colors")]
     public Color playerColor = Color.blue;
@@ -92,16 +93,19 @@ public class PlayerCharacterIcon : MonoBehaviour
     public void OnIconClick()
     {
         chooseBackpack();
-        if (BattleManager.Instance != null && PlayerDataManager.Instance != null)
-            BattleManager.Instance.PlayerTarget();
+        foreach(var anotherIcon in anotherIcons)
+        {
+            anotherIcon.SetSelected(false);
+        }
+        SetSelected(true);
     }
 
     void chooseBackpack()
     {
         foreach(var backpack in backpacks)
         {
-            backpack.transform.localScale = Vector3.zero;
+            backpack.GetComponent<RectTransform>().position = new Vector3(4000f, 0f, 0f);
         }
-        backpackCanvasForThisIcon.transform.localScale = Vector3.one;
+        backpackCanvasForThisIcon.GetComponent<RectTransform>().position = new Vector3(0f, 0f, 0f);
     }
 }

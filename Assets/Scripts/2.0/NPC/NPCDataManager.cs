@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.Rendering.STP;
 
 public class NPCDataManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class NPCDataManager : MonoBehaviour
     public PlayerAttributes Attributes { get; private set; }
     public PlayerStats Stats { get; private set; }
     public bool IsAlive => Stats.CurrentHealth > 0;
+    private NPCConfig config;
 
 
     [Header("Death Settings")]
@@ -40,7 +42,7 @@ public class NPCDataManager : MonoBehaviour
         // Создаем экземпляры классов
         Attributes = new PlayerAttributes();
         Stats = GetComponent<PlayerStats>() ?? gameObject.AddComponent<PlayerStats>();
-
+        config = GetComponent<NPCController>().Config;
         // Инициализируем Stats, передавая ему Attributes
         Stats.Initialize(Attributes);
 
@@ -90,7 +92,9 @@ public class NPCDataManager : MonoBehaviour
         saveData.unspentSkillPoints = Stats.UnspentSkillPoints;
 
         string jsonData = JsonUtility.ToJson(saveData, true); // true для красивого форматирования в отладке
+        PlayerPrefsMigrationManager.Instance.RegisterStringPref(_saveKey);
         PlayerPrefs.SetString(_saveKey, jsonData);
+        
         PlayerPrefs.Save(); // Важно вызывать Save()
 
         //Debug.Log("Game Saved: " + jsonData);
@@ -155,7 +159,9 @@ public class NPCDataManager : MonoBehaviour
 
     private void StartDeathSequence()
     {
-        PlayerPrefs.SetInt(CharacterName + "Die", 1);
+        PlayerPrefsMigrationManager.Instance.RegisterIntPref(config.name + "Die");
+        PlayerPrefs.SetInt(config.name + "Die", 1);
+        
         // 1. Отключаем компоненты, которые не нужны мертвому NPC
         DisableNPCComponents();
 
@@ -244,7 +250,7 @@ public class NPCDataManager : MonoBehaviour
                         deathChestPrefab,
                         transform.position,
                         multiTilesDeathChestPrefabVector2,
-                        backpackKey
+                        config.backpackKey
                     );
                 }
                 else
@@ -252,7 +258,7 @@ public class NPCDataManager : MonoBehaviour
                     chest = GridObjectManager.Instance.SpawnObject(
                         deathChestPrefab,
                         transform.position,
-                        backpackKey
+                        config.backpackKey
                     );
                 }
 
@@ -270,7 +276,7 @@ public class NPCDataManager : MonoBehaviour
         if (chestTrigger != null)
         {
             // Настраиваем количество предметов в сундуке в зависимости от уровня NPC
-            chestTrigger.settingsKey = backpackKey;
+            chestTrigger.settingsKey = config.backpackKey;
 
             // Можно добавить другие настройки сундука
             // Например, качество предметов в зависимости от уровня и т.д.
@@ -417,8 +423,12 @@ public class NPCDataManager : MonoBehaviour
         if (BattleManager.Instance.isBattleActive)
         {
             var Armors = cellsFight.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
-            int random = UnityEngine.Random.Range(0, Armors.Count);
-            remaining = Armors[random].TakeDamage(damage);
+            if (Armors.Count > 0)
+            {
+                int random = UnityEngine.Random.Range(0, Armors.Count);
+                remaining = Armors[random].TakeDamage(damage);
+            }
+            else return remaining;
         }
         //else if (cellsInventory.gameObject.activeSelf)
         //{

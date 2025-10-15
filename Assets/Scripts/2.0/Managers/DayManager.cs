@@ -200,6 +200,12 @@ public class DayManager : MonoBehaviour
     {
         try
         {
+            PlayerPrefsMigrationManager.Instance.RegisterFloatPref(SAVE_TIME_KEY);
+            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_YEAR_KEY);
+            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_MONTH_KEY);
+            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_DAY_KEY);
+            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_TIMEFORMAT_KEY);
+
             PlayerPrefs.SetFloat(SAVE_TIME_KEY, currentTimeOfDay);
             PlayerPrefs.SetInt(SAVE_YEAR_KEY, currentDate.Year);
             PlayerPrefs.SetInt(SAVE_MONTH_KEY, currentDate.Month);

@@ -18,6 +18,8 @@ public class CharacterIcon : MonoBehaviour
 
     public List<GameObject> backpacks;
     public GameObject backpackCanvasForThisIcon;
+    public List<CharacterIcon> anotherIcons;
+    public PlayerCharacterIcon playerIcon;
 
     [Header("Colors")]
     public Color playerColor = Color.blue;
@@ -29,6 +31,7 @@ public class CharacterIcon : MonoBehaviour
     public void FixedUpdate()
     {
         UpdateBars();
+        CheckAlive();
     }
 
     public void Initialize(NPCDataManager character, bool isEnemy)
@@ -78,21 +81,40 @@ public class CharacterIcon : MonoBehaviour
         chooseBackpack();
         if (BattleManager.Instance != null && NPCCharacter != null)
             BattleManager.Instance.OnTargetSelected(NPCCharacter);
+
+        foreach (var anotherIcon in anotherIcons)
+        {
+            anotherIcon.SetSelected(false);
+        }
+        SetSelected(true);
     }
 
     public void OnIconClickPlayerTeam()
     {
         chooseBackpack();
-        if (BattleManager.Instance != null && NPCCharacter != null)
-            BattleManager.Instance.OnTargetSelected(NPCCharacter);
+
+        foreach (var anotherIcon in anotherIcons)
+        {
+            anotherIcon.SetSelected(false);
+        }
+        playerIcon.SetSelected(false);
+        SetSelected(true);
+    }
+
+    void CheckAlive()
+    {
+        if(!NPCCharacter.IsAlive)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     void chooseBackpack()
     {
-        foreach(var backpack in backpacks)
+        foreach (var backpack in backpacks)
         {
-            backpack.transform.localScale = Vector3.zero;
+            backpack.GetComponent<RectTransform>().position = new Vector3(4000f, 0f, 0f);
         }
-        backpackCanvasForThisIcon.transform.localScale = Vector3.one;
+        backpackCanvasForThisIcon.GetComponent<RectTransform>().position = new Vector3(0f, 0f, 0f);
     }
 }

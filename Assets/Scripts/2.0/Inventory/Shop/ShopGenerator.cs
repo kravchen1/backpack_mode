@@ -9,7 +9,6 @@ public class ShopGenerator : MonoBehaviour
 
     [Header("Item Generation")]
     public int maxShopItems = 8;
-    public bool useSmartPacking = true;
 
     private List<ItemStructure> spawnedItems = new List<ItemStructure>();
     private const int GridWidth = 10;
@@ -24,56 +23,7 @@ public class ShopGenerator : MonoBehaviour
 
     public void GenerateItems(float rarityBoost = 0f)
     {
-        if (useSmartPacking)
-        {
-            GenerateItemsSmartPacking(rarityBoost);
-        }
-        else
-        {
-            GenerateItemsSimple(rarityBoost);
-        }
-    }
-
-    private void GenerateItemsSimple(float rarityBoost = 0f)
-    {
-        int itemsGenerated = 0;
-        int currentIndex = 0;
-
-        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
-        {
-            if (IsCellOccupied(currentIndex))
-            {
-                currentIndex++;
-                continue;
-            }
-
-            GameObject randomPrefab = GetRandomItemPrefab();
-            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
-
-            if (itemComponent == null)
-            {
-                currentIndex++;
-                continue;
-            }
-
-            if (CanPlaceItem(currentIndex, itemComponent))
-            {
-                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
-                spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
-                spawnedItem.GetComponent<ItemStats>().Initialized();
-
-                PlaceItem(currentIndex, spawnedItem);
-                spawnedItems.Add(spawnedItem);
-                itemsGenerated++;
-
-                // Переходим к следующей свободной ячейке
-                currentIndex = FindNextFreeCell(currentIndex + 1);
-            }
-            else
-            {
-                currentIndex++;
-            }
-        }
+        GenerateItemsSmartPacking(rarityBoost);
     }
 
     private void GenerateItemsSmartPacking(float rarityBoost = 0f)
@@ -105,6 +55,13 @@ public class ShopGenerator : MonoBehaviour
                 ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
                 spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
                 spawnedItem.GetComponent<ItemStats>().Initialized();
+
+                var itemMove = spawnedItem.GetComponent<ItemMove>();
+
+                if (itemMove.IsStackable)
+                {
+                    spawnedItem.GetComponent<ItemMove>().StackCount = Random.Range(10, itemMove.MaxStackSize);
+                }
 
                 PlaceItem(currentIndex, spawnedItem);
                 spawnedItems.Add(spawnedItem);
@@ -279,56 +236,6 @@ public class ShopGenerator : MonoBehaviour
         return itemPrefabs[Random.Range(0, itemPrefabs.Count)];
     }
 
-    // Метод для плотной упаковки (всегда с начала)
-    public void GenerateItemsDensePacking()
-    {
-        ClearItems();
-
-        int itemsGenerated = 0;
-        int currentIndex = 0;
-
-        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count)
-        {
-            if (IsCellOccupied(currentIndex))
-            {
-                currentIndex++;
-                continue;
-            }
-
-            // Берем случайный префаб (могут повторяться)
-            GameObject randomPrefab = GetRandomItemPrefab();
-            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
-
-            if (itemComponent == null)
-            {
-                currentIndex++;
-                continue;
-            }
-
-            if (CanPlaceItem(currentIndex, itemComponent))
-            {
-                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
-                PlaceItem(currentIndex, spawnedItem);
-                spawnedItems.Add(spawnedItem);
-                itemsGenerated++;
-
-                // После размещения ищем следующую свободную ячейку с начала
-                currentIndex = FindNextFreeCell(0);
-            }
-            else
-            {
-                currentIndex++;
-
-                // Если дошли до конца, но еще нужно создать предметы - начинаем сначала
-                if (currentIndex >= shopCells.Count && itemsGenerated < maxShopItems)
-                {
-                    currentIndex = FindNextFreeCell(0);
-                    if (currentIndex >= shopCells.Count) break;
-                }
-            }
-        }
-    }
-
     // Визуализация занятых ячеек для отладки
     public void DebugOccupiedCells()
     {
@@ -348,77 +255,4 @@ public class ShopGenerator : MonoBehaviour
         Debug.Log(grid);
     }
 
-    // Новый метод: пытается создать максимальное количество предметов
-    public void GenerateMaxItems()
-    {
-        ClearItems();
-
-        int itemsGenerated = 0;
-        int currentIndex = 0;
-        int attempts = 0;
-        const int maxAttempts = 1000; // Защита от бесконечного цикла
-
-        while (itemsGenerated < maxShopItems && currentIndex < shopCells.Count && attempts < maxAttempts)
-        {
-            attempts++;
-
-            if (IsCellOccupied(currentIndex))
-            {
-                currentIndex++;
-                continue;
-            }
-
-            // Случайный префаб (повторения разрешены)
-            GameObject randomPrefab = GetRandomItemPrefab();
-            ItemStructure itemComponent = randomPrefab.GetComponent<ItemStructure>();
-
-            if (itemComponent == null)
-            {
-                currentIndex++;
-                continue;
-            }
-
-            if (CanPlaceItem(currentIndex, itemComponent))
-            {
-                ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
-                PlaceItem(currentIndex, spawnedItem);
-                spawnedItems.Add(spawnedItem);
-                itemsGenerated++;
-
-                // Ищем следующую свободную ячейку
-                currentIndex = FindNextFreeCell(0);
-            }
-            else
-            {
-                currentIndex++;
-
-                // Если дошли до конца сетки, начинаем сначала
-                if (currentIndex >= shopCells.Count)
-                {
-                    currentIndex = FindNextFreeCell(0);
-                    if (currentIndex >= shopCells.Count) break;
-                }
-            }
-        }
-
-        Debug.Log($"Sozdano {itemsGenerated} predmetov iz {maxShopItems}");
-    }
-
-    private void DebugItemOffset(ItemStructure item, string context = "")
-    {
-        Vector2Int offset = GetItemOffset(item);
-        Debug.Log($"{context} Item '{item.name}' offset: {offset}");
-
-        // Визуализация формы предмета
-        string shape = "Item shape:\n";
-        for (int y = 0; y < item.Size.y; y++)
-        {
-            for (int x = 0; x < item.Size.x; x++)
-            {
-                shape += item.GetCell(x, y) ? "[X] " : "[ ] ";
-            }
-            shape += "\n";
-        }
-        Debug.Log(shape);
-    }
 }

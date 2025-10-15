@@ -5,11 +5,13 @@ public abstract class BaseNPCState : INPCState
 
     protected NPCNavigationAgent navigationAgent;
     protected NPCController npcController;
+    protected NPCDataManager npcDataManager;
 
     public virtual void EnterState(NPCController npc)
     {
         npcController = npc;
         navigationAgent = npc.GetComponent<NPCNavigationAgent>();
+        npcDataManager = npc.GetComponent<NPCDataManager>();
         Debug.Log($"{npc.name} перешел в состояние: {Type}");
     }
 

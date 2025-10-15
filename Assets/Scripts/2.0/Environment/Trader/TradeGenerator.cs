@@ -133,6 +133,15 @@ public class TradeGenerator : MonoBehaviour
                 ItemStructure spawnedItem = Instantiate(randomPrefab, tradeCanvasAll.transform).GetComponent<ItemStructure>();
                 spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
                 spawnedItem.GetComponent<ItemStats>().Initialized();
+
+                var itemMove = spawnedItem.GetComponent<ItemMove>();
+
+                if (itemMove.IsStackable)
+                {
+                    spawnedItem.GetComponent<ItemMove>().StackCount = Random.Range(10, itemMove.MaxStackSize);
+                }
+
+
                 spawnedItem.AddComponent<ItemTrade>();
 
                 PlaceItem(currentIndex, spawnedItem);

@@ -8,6 +8,7 @@ public class NPCConfig : ScriptableObject
     public float acceleration = 8f;
     public float angularSpeed = 360f;
     public float stoppingDistance = 0.1f;
+    public string backpackKey = "NPCTest";
     public bool autoBraking = true;
 
     [Header("Detection Settings")]
@@ -16,9 +17,11 @@ public class NPCConfig : ScriptableObject
 
     [Header("State Settings")]
     public NPCStateType initialState = NPCStateType.Neutral;
+    public int CharismaForHostile = 0;
+    public int CharismaForFriendly = 10;
+    public float attackRange = 5f;
 
     [Header("Hostile Settings")]
-    public float attackRange = 3f;
     public float chaseSpeed = 7f;
     public float chaseStoppingDistance = 1.5f;
 

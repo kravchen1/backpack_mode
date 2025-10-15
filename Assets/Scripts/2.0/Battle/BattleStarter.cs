@@ -11,30 +11,30 @@ public class BattleStarter : MonoBehaviour
     [Header("Enemy Team")]
     public List<NPCDataManager> enemyTeamCharacters;
 
-    [Header("Test Settings")]
-    public KeyCode startBattleKey = KeyCode.B;
-    public KeyCode escapeKey = KeyCode.F;
-    public KeyCode addEnemyKey = KeyCode.E;
-    public KeyCode addFriendKey = KeyCode.G;
+    //[Header("Test Settings")]
+    //public KeyCode startBattleKey = KeyCode.B;
+    //public KeyCode escapeKey = KeyCode.F;
+    //public KeyCode addEnemyKey = KeyCode.E;
+    //public KeyCode addFriendKey = KeyCode.G;
 
     private void Update()
     {
-        if (Input.GetKeyDown(startBattleKey))
-            StartTestBattle();
+        //if (Input.GetKeyDown(startBattleKey))
+        //    StartTestBattle();
 
-        if (Input.GetKeyDown(escapeKey) && BattleManager.Instance != null && BattleManager.Instance.CanEscape())
-            BattleManager.Instance.AttemptEscape();
+        ////if (Input.GetKeyDown(escapeKey) && BattleManager.Instance != null && BattleManager.Instance.CanEscape())
+        ////    BattleManager.Instance.AttemptEscape();
 
-        if (Input.GetKeyDown(addEnemyKey) && BattleManager.Instance != null && enemyTeamCharacters.Count > 0)
-        {
-            var newEnemy = Instantiate(enemyTeamCharacters[0]);
-            newEnemy.CharacterName = "Новый враг";
-            BattleManager.Instance.AddEnemyToBattle(newEnemy);
-        }
+        //if (Input.GetKeyDown(addEnemyKey) && BattleManager.Instance != null && enemyTeamCharacters.Count > 0)
+        //{
+        //    var newEnemy = Instantiate(enemyTeamCharacters[0]);
+        //    newEnemy.CharacterName = "Новый враг";
+        //    BattleManager.Instance.AddEnemyToBattle(newEnemy);
+        //}
 
-        // ИСПРАВЛЕНО: теперь метод TryJoinFriend public и доступен
-        if (Input.GetKeyDown(addFriendKey) && FriendSystem.Instance != null)
-            FriendSystem.Instance.TryJoinFriend();
+        //// ИСПРАВЛЕНО: теперь метод TryJoinFriend public и доступен
+        //if (Input.GetKeyDown(addFriendKey) && FriendSystem.Instance != null)
+        //    FriendSystem.Instance.TryJoinFriend();
     }
 
     [ContextMenu("Start Test Battle")]

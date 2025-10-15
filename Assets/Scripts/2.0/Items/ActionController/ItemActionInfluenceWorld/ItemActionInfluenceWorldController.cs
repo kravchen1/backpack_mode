@@ -3,6 +3,7 @@ using System.Collections;
 
 public abstract class ItemActionInfluenceWorldController : ItemActionController
 {
+    public bool isActive = false;
     protected override void Awake()
     {
         base.Awake();

@@ -48,9 +48,9 @@ public class AdvancedButtonEventStats : MonoBehaviour, ISelectHandler, IDeselect
     {
         onSelected.AddListener(() => textDescriptionsCharacterStats.text = DescriptionKey);
         onHover.AddListener(() => textDescriptionsCharacterStats.text = DescriptionKey);
-        textCountStat.text = $"{countStat}";
-        textAddStat.text = $"{addStat}";
-        textTotalStat.text = $"{countStat + addStat}";
+        //textCountStat.text = $"{countStat}";
+        //textAddStat.text = $"{addStat}";
+        //textTotalStat.text = $"{countStat + addStat}";
     }
     /*
         1)Type

@@ -16,7 +16,7 @@ public class NPCManager : MonoBehaviour
     {
         for (int i = 0; i < _NPCPrefabs.Count; i++)
         {
-            if (!PlayerPrefs.HasKey(_NPCPrefabs[i].GetComponent<NPCDataManager>().CharacterName + "Die"))//todo
+            if (!PlayerPrefs.HasKey(_NPCPrefabs[i].GetComponent<NPCController>().Config.name + "Die"))//todo
             {
                 Instantiate(_NPCPrefabs[i], _transformSpawnMobs);
             }

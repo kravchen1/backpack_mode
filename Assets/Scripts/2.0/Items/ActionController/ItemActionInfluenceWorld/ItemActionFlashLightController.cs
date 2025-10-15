@@ -19,13 +19,17 @@ public class ItemActionFlashLightController : ItemActionInfluenceWorldController
             //{
             //    PlayerDataManager.Instance.flashLightRadius = flashLightStats._flashLightRadius;
             //}
-            if (flashLightStats._flashLightRadius > 0)
+            if (!isActive)
             {
-                PlayerDataManager.Instance.flashLightRadius += flashLightStats._flashLightRadius;
-            }
-            if(flashLightStats._flashLightIntensity > 0)
-            {
-                PlayerDataManager.Instance.flashLightIntensity += flashLightStats._flashLightIntensity;
+                if (flashLightStats._flashLightRadius > 0)
+                {
+                    PlayerDataManager.Instance.flashLightRadius += flashLightStats._flashLightRadius;
+                }
+                if (flashLightStats._flashLightIntensity > 0)
+                {
+                    PlayerDataManager.Instance.flashLightIntensity += flashLightStats._flashLightIntensity;
+                }
+                isActive = true;
             }
         }
     }
@@ -38,13 +42,17 @@ public class ItemActionFlashLightController : ItemActionInfluenceWorldController
             //{
             //    PlayerDataManager.Instance.flashLightRadius = 0;
             //}
-            if (flashLightStats._flashLightRadius > 0)
+            if (isActive)
             {
-                PlayerDataManager.Instance.flashLightRadius -= flashLightStats._flashLightRadius;
-            }
-            if (flashLightStats._flashLightIntensity > 0)
-            {
-                PlayerDataManager.Instance.flashLightIntensity -= flashLightStats._flashLightIntensity;
+                if (flashLightStats._flashLightRadius > 0)
+                {
+                    PlayerDataManager.Instance.flashLightRadius -= flashLightStats._flashLightRadius;
+                }
+                if (flashLightStats._flashLightIntensity > 0)
+                {
+                    PlayerDataManager.Instance.flashLightIntensity -= flashLightStats._flashLightIntensity;
+                }
+                isActive = false;
             }
         }
     }

@@ -21,7 +21,7 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<PlayerPrefsMigrationManager>();
+                _instance = FindFirstObjectByType<PlayerPrefsMigrationManager>();
                 if (_instance == null)
                 {
                     GameObject go = new GameObject("PlayerPrefsMigrationManager");
@@ -41,6 +41,11 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
             return;
         }
 
+        if (!string.IsNullOrEmpty(_savePath))
+        {
+            _savePath = Path.Combine(Application.persistentDataPath, _savePath + ".json");
+        }
+
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -48,6 +53,81 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         Debug.Log("PlayerPrefsMigrationManager инициализирован");
     }
 
+    // Новые методы для автоматической регистрации PlayerPrefs
+    public void RegisterIntPref(string key, int defaultValue = 0)
+    {
+        if (!intKeys.Contains(key))
+        {
+            intKeys.Add(key);
+            Debug.Log($"Зарегистрирован Int PlayerPref: {key}");
+        }
+
+        // Автоматически устанавливаем значение по умолчанию, если ключ не существует
+        if (!PlayerPrefs.HasKey(key))
+        {
+            PlayerPrefs.SetInt(key, defaultValue);
+        }
+    }
+
+    public void RegisterFloatPref(string key, float defaultValue = 0f)
+    {
+        if (!floatKeys.Contains(key))
+        {
+            floatKeys.Add(key);
+            Debug.Log($"Зарегистрирован Float PlayerPref: {key}");
+        }
+
+        if (!PlayerPrefs.HasKey(key))
+        {
+            PlayerPrefs.SetFloat(key, defaultValue);
+        }
+    }
+
+    public void RegisterStringPref(string key, string defaultValue = "")
+    {
+        if (!stringKeys.Contains(key))
+        {
+            stringKeys.Add(key);
+            Debug.Log($"Зарегистрирован String PlayerPref: {key}");
+        }
+
+        if (!PlayerPrefs.HasKey(key))
+        {
+            PlayerPrefs.SetString(key, defaultValue);
+        }
+    }
+
+    // Удобный метод для массовой регистрации
+    public void RegisterMultiplePrefs(Dictionary<string, int> intPrefs = null,
+                                     Dictionary<string, float> floatPrefs = null,
+                                     Dictionary<string, string> stringPrefs = null)
+    {
+        if (intPrefs != null)
+        {
+            foreach (var pref in intPrefs)
+            {
+                RegisterIntPref(pref.Key, pref.Value);
+            }
+        }
+
+        if (floatPrefs != null)
+        {
+            foreach (var pref in floatPrefs)
+            {
+                RegisterFloatPref(pref.Key, pref.Value);
+            }
+        }
+
+        if (stringPrefs != null)
+        {
+            foreach (var pref in stringPrefs)
+            {
+                RegisterStringPref(pref.Key, pref.Value);
+            }
+        }
+    }
+
+    [ContextMenu("Import From JSON")]
     [ContextMenu("Import From JSON")]
     public void ImportFromJson()
     {
@@ -62,6 +142,10 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
             {
                 string json = File.ReadAllText(_savePath);
                 _prefsData = JsonUtility.FromJson<PlayerPrefsData>(json);
+
+                // Автоматически регистрируем ключи из импортированных данных
+                RegisterImportedKeys();
+
                 ApplyToPlayerPrefs();
                 Debug.Log($"Данные импортированы из: {_savePath}");
             }
@@ -73,6 +157,40 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"Ошибка импорта: {e.Message}");
+        }
+    }
+
+    // Новый метод для регистрации ключей из импортированных данных
+    private void RegisterImportedKeys()
+    {
+        // Регистрируем int ключи
+        foreach (var pref in _prefsData.intPrefs)
+        {
+            if (!intKeys.Contains(pref.key))
+            {
+                intKeys.Add(pref.key);
+                Debug.Log($"Автоматически зарегистрирован Int PlayerPref из JSON: {pref.key}");
+            }
+        }
+
+        // Регистрируем float ключи
+        foreach (var pref in _prefsData.floatPrefs)
+        {
+            if (!floatKeys.Contains(pref.key))
+            {
+                floatKeys.Add(pref.key);
+                Debug.Log($"Автоматически зарегистрирован Float PlayerPref из JSON: {pref.key}");
+            }
+        }
+
+        // Регистрируем string ключи
+        foreach (var pref in _prefsData.stringPrefs)
+        {
+            if (!stringKeys.Contains(pref.key))
+            {
+                stringKeys.Add(pref.key);
+                Debug.Log($"Автоматически зарегистрирован String PlayerPref из JSON: {pref.key}");
+            }
         }
     }
 
@@ -153,5 +271,13 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         {
             Debug.LogError($"Ошибка экспорта: {e.Message}");
         }
+    }
+
+
+    private void OnApplicationQuit()
+    {
+        //var dayManager = FindFirstObjectByType<DayManager>();
+        //dayManager.SaveGameData();
+        ExportToJson();
     }
 }

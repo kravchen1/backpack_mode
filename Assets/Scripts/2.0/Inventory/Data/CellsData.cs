@@ -125,6 +125,7 @@ public class CellsData : MonoBehaviour
         }
 
         string jsonCellsSave = JsonUtility.ToJson(dataJsonList);
+        PlayerPrefsMigrationManager.Instance.RegisterStringPref(settingsKey);
         PlayerPrefs.SetString(settingsKey, jsonCellsSave);
         PlayerPrefs.Save();
         
@@ -332,8 +333,8 @@ public class CellsData : MonoBehaviour
             string _settingsKey = settingsKey;
 
             _settingsKey += PlayerPrefs.GetFloat("stashID", 1.0f).ToString();
+            PlayerPrefsMigrationManager.Instance.RegisterFloatPref("stashID");
             PlayerPrefs.SetFloat("stashID", PlayerPrefs.GetFloat("stashID", 1.0f) + 1f);
-
             chest = GridObjectManager.Instance.SpawnObject(
                 stashPrefab,
                 transform.position,

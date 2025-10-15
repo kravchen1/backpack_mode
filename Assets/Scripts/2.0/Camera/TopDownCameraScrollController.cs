@@ -116,6 +116,7 @@ public class TopDownCameraScrollController : MonoBehaviour
     {
         if (saveSettingsBetweenSessions)
         {
+            PlayerPrefsMigrationManager.Instance.RegisterFloatPref(settingsKey);
             PlayerPrefs.SetFloat(settingsKey, targetOrthographicSize);
         }
     }

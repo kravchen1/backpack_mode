@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HostileNPCState : BaseNPCState
@@ -54,10 +55,35 @@ public class HostileNPCState : BaseNPCState
             {
                 // Атакуем игрока (останавливаемся на расстоянии атаки)
                 navigationAgent.StopMovement();
-                // npcController.AttackPlayer(player);
+                if (!npcController.inFightNow)
+                {
+                    if (!BattleManager.Instance.isBattleActive)
+                    {
+                        StartBattleWithPlayer();
+                    }
+                    else
+                    {
+                        AddBattleWithPlayer();
+                    }
+                    npcController.inFightNow = true;
+                }
             }
 
             yield return new WaitForSeconds(0.2f); // Оптимизация частоты обновления
         }
+    }
+
+    private void StartBattleWithPlayer()
+    {
+        BattleStarter battleStarter = GameObject.FindAnyObjectByType<BattleStarter>();
+        List<NPCDataManager> enemiesInThisEncounter = new List<NPCDataManager>();
+        enemiesInThisEncounter.Add(npcDataManager);
+        if (battleStarter != null)
+            battleStarter.StartBattleOnCollision(enemiesInThisEncounter);
+    }
+
+    private void AddBattleWithPlayer()
+    {
+        BattleManager.Instance.AddEnemyToBattle(npcDataManager);
     }
 }

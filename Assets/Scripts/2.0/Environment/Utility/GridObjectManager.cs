@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GridObjectManager : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class GridObjectManager : MonoBehaviour
 
     [Header("Pre-Occupied Cells")]
     [SerializeField] private List<MultiCellObject> preOccupiedCells = new List<MultiCellObject>();
+
+    [Header("Wall Settings")]
+    [SerializeField] private bool autoScanWalls = true;
+    [SerializeField] private List<Tilemap> wallTilemaps = new List<Tilemap>(); // Список Tilemap со стенами
+    [SerializeField] private TileBase[] wallTiles; // Какие тайлы считать стенами
 
     [Header("Save Settings")]
     [SerializeField] private string saveKey = "GridWorldData";
@@ -43,6 +49,12 @@ public class GridObjectManager : MonoBehaviour
             tilemapGrid = FindObjectOfType<Grid>();
         }
 
+        // Автоматическое сканирование стен (можно включить/выключить через инспектор)
+        if (autoScanWalls)
+        {
+            ScanAndRegisterWalls();
+        }
+
         if (environmentPrefabs.Count == 0)
         {
             var prefabsContainer = GameObject.FindGameObjectWithTag("EnvironmentPrefabs");
@@ -53,30 +65,8 @@ public class GridObjectManager : MonoBehaviour
         }
 
         LoadWorldData();
-
-        // Регистрация предзанятых клеток
         RegisterPreOccupiedCells();
-
         CreateObjectsFromData();
-    }
-
-    // Исправленный метод для регистрации предзанятых клеток
-    private void RegisterPreOccupiedCells()
-    {
-        foreach (var preOccupied in preOccupiedCells)
-        {
-            if (preOccupied.gameObject != null && !IsPrefabAsset(preOccupied.gameObject))
-            {
-                Vector3Int mainCell = WorldToCellPosition(preOccupied.gameObject.transform.position);
-                RegisterMultiCellObject(preOccupied.gameObject, mainCell, preOccupied.size, preOccupied.objectId);
-            }
-        }
-    }
-
-    // Проверка, является ли GameObject префабом в assets
-    private bool IsPrefabAsset(GameObject obj)
-    {
-        return obj.scene.rootCount == 0 || obj.scene.name == null;
     }
 
     #region Object Creation Methods
@@ -590,6 +580,7 @@ public class GridObjectManager : MonoBehaviour
             }
 
             string jsonData = JsonUtility.ToJson(saveData, true);
+            PlayerPrefsMigrationManager.Instance.RegisterStringPref(saveKey);
             PlayerPrefs.SetString(saveKey, jsonData);
             PlayerPrefs.Save();
 
@@ -904,6 +895,163 @@ public class GridObjectManager : MonoBehaviour
 
     #endregion
 
+
+    #region preOccupied
+    // Исправленный метод для регистрации предзанятых клеток
+    private void RegisterPreOccupiedCells()
+    {
+        foreach (var preOccupied in preOccupiedCells)
+        {
+            if (preOccupied.gameObject != null && !IsPrefabAsset(preOccupied.gameObject))
+            {
+                Vector3Int mainCell = WorldToCellPosition(preOccupied.gameObject.transform.position);
+                RegisterMultiCellObject(preOccupied.gameObject, mainCell, preOccupied.size, preOccupied.objectId);
+            }
+        }
+    }
+
+    // Проверка, является ли GameObject префабом в assets
+    private bool IsPrefabAsset(GameObject obj)
+    {
+        return obj.scene.rootCount == 0 || obj.scene.name == null;
+    }
+
+    // Метод для автоматического сканирования стен из всех Tilemap
+    [ContextMenu("Scan Walls Automatically")]
+    public void ScanAndRegisterWalls()
+    {
+        // Если список пуст, попробуем найти все Tilemap в сцене
+        if (wallTilemaps.Count == 0)
+        {
+            Debug.LogWarning("No wall tilemaps assigned, searching for all tilemaps in scene...");
+            Tilemap[] allTilemaps = FindObjectsOfType<Tilemap>();
+            wallTilemaps.AddRange(allTilemaps);
+        }
+
+        int totalWallCount = 0;
+        int processedTilemaps = 0;
+
+        // Проходим по всем Tilemap в списке
+        foreach (Tilemap wallTilemap in wallTilemaps)
+        {
+            if (wallTilemap == null)
+            {
+                Debug.LogWarning("Found null reference in wallTilemaps list, skipping...");
+                continue;
+            }
+
+            int wallCount = 0;
+
+            // Проходим по всем ячейкам в пределах текущего Tilemap
+            BoundsInt bounds = wallTilemap.cellBounds;
+            foreach (Vector3Int cellPosition in bounds.allPositionsWithin)
+            {
+                if (wallTilemap.HasTile(cellPosition))
+                {
+                    TileBase tile = wallTilemap.GetTile(cellPosition);
+
+                    // Если указаны конкретные тайлы стен, проверяем соответствие
+                    if (wallTiles != null && wallTiles.Length > 0)
+                    {
+                        if (!wallTiles.Contains(tile)) continue;
+                    }
+
+                    // Регистрируем ячейку стены
+                    RegisterWallCell(cellPosition, wallTilemap.name);
+                    wallCount++;
+                    totalWallCount++;
+                }
+            }
+
+            processedTilemaps++;
+            Debug.Log($"Tilemap '{wallTilemap.name}': registered {wallCount} wall cells");
+        }
+
+        Debug.Log($"Completed: processed {processedTilemaps} tilemaps, registered {totalWallCount} total wall cells");
+    }
+
+    // Метод для регистрации ячейки стены с указанием имени Tilemap
+    private void RegisterWallCell(Vector3Int cellPosition, string tilemapName = "Unknown")
+    {
+        // Проверяем, не занята ли уже эта ячейка
+        if (IsCellOccupied(cellPosition))
+        {
+            // Если ячейка уже занята, пропускаем (можно закомментировать для дебага)
+            // Debug.Log($"Cell {cellPosition} already occupied, skipping wall registration");
+            return;
+        }
+
+        // Создаем виртуальный GameObject для стены
+        GameObject wallObject = new GameObject($"Wall_{tilemapName}_{cellPosition.x}_{cellPosition.y}");
+        wallObject.transform.position = CellToWorldPosition(cellPosition);
+        wallObject.hideFlags = HideFlags.HideInHierarchy; // Скрываем в иерархии чтобы не засорять
+
+        // Создаем запись MultiCellObject для стены (1x1)
+        MultiCellObject wallMultiCell = new MultiCellObject(
+            $"wall_{tilemapName}_{cellPosition.x}_{cellPosition.y}",
+            wallObject,
+            cellPosition,
+            new Vector2Int(1, 1)
+        );
+
+        // Добавляем в preOccupiedCells
+        preOccupiedCells.Add(wallMultiCell);
+
+        // Регистрируем в occupiedCells
+        foreach (var cell in wallMultiCell.occupiedCells)
+        {
+            occupiedCells[cell] = wallObject;
+        }
+    }
+
+    // Метод для очистки ранее зарегистрированных стен
+    [ContextMenu("Clear Registered Walls")]
+    public void ClearRegisteredWalls()
+    {
+        int removedCount = 0;
+
+        // Удаляем все стены из preOccupiedCells
+        for (int i = preOccupiedCells.Count - 1; i >= 0; i--)
+        {
+            if (preOccupiedCells[i].gameObject != null &&
+                preOccupiedCells[i].gameObject.name.StartsWith("Wall_"))
+            {
+                // Удаляем из occupiedCells
+                foreach (var cell in preOccupiedCells[i].occupiedCells)
+                {
+                    occupiedCells.Remove(cell);
+                }
+
+                // Уничтожаем виртуальный GameObject
+                DestroyImmediate(preOccupiedCells[i].gameObject);
+                preOccupiedCells.RemoveAt(i);
+                removedCount++;
+            }
+        }
+
+        Debug.Log($"Removed {removedCount} registered walls");
+    }
+
+    // Метод для добавления Tilemap в список
+    public void AddWallTilemap(Tilemap tilemap)
+    {
+        if (tilemap != null && !wallTilemaps.Contains(tilemap))
+        {
+            wallTilemaps.Add(tilemap);
+            Debug.Log($"Added tilemap '{tilemap.name}' to wall tilemaps list");
+        }
+    }
+
+    // Метод для удаления Tilemap из списка
+    public void RemoveWallTilemap(Tilemap tilemap)
+    {
+        if (wallTilemaps.Contains(tilemap))
+        {
+            wallTilemaps.Remove(tilemap);
+            Debug.Log($"Removed tilemap '{tilemap.name}' from wall tilemaps list");
+        }
+    }
+    #endregion
     private void OnApplicationQuit()
     {
         SaveWorldData();
