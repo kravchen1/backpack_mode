@@ -29,7 +29,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float _maxWeight;
 
     // Скорость движения
-    [SerializeField] private float _baseMoveSpeed = 2f;
+    [SerializeField] private float _baseMoveSpeed = 1f;
     [SerializeField] private float _currentMoveSpeed;
 
     // Пороги веса (настраиваются в инспекторе)
