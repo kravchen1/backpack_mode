@@ -12,30 +12,30 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
 
     public string _savePath;
 
-    private static PlayerPrefsMigrationManager _instance;
+    public static PlayerPrefsMigrationManager Instance;
     private PlayerPrefsData _prefsData;
 
-    public static PlayerPrefsMigrationManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindFirstObjectByType<PlayerPrefsMigrationManager>();
-                if (_instance == null)
-                {
-                    GameObject go = new GameObject("PlayerPrefsMigrationManager");
-                    _instance = go.AddComponent<PlayerPrefsMigrationManager>();
-                    DontDestroyOnLoad(go);
-                }
-            }
-            return _instance;
-        }
-    }
+    //public static PlayerPrefsMigrationManager Instance
+    //{
+    //    get
+    //    {
+    //        if (_instance == null)
+    //        {
+    //            _instance = FindFirstObjectByType<PlayerPrefsMigrationManager>();
+    //            if (_instance == null)
+    //            {
+    //                GameObject go = new GameObject("PlayerPrefsMigrationManager");
+    //                _instance = go.AddComponent<PlayerPrefsMigrationManager>();
+    //                DontDestroyOnLoad(go);
+    //            }
+    //        }
+    //        return _instance;
+    //    }
+    //}
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
@@ -46,7 +46,7 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
             _savePath = Path.Combine(Application.persistentDataPath, _savePath + ".json");
         }
 
-        _instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         _prefsData = new PlayerPrefsData();

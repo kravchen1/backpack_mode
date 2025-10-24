@@ -382,7 +382,7 @@ public class BattleManager : MonoBehaviour
     protected System.Collections.IEnumerator EndFight(float delay, NPCDataManager target)
     {
         yield return new WaitForSeconds(delay);
-        target.GetComponent<NPCController>().inFightNow = false;
+        target.GetComponent<NPC>().InFightNow = false;
         yield break;
     }
 

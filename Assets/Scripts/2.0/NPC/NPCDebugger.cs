@@ -8,13 +8,11 @@ public class NPCDebugger : MonoBehaviour
     public bool showCurrentState = true;
     public bool showPath = true;
 
-    private NPCController npcController;
-    private NPCNavigationAgent navigationAgent;
+    private NPC npcController;
 
     void Start()
     {
-        npcController = GetComponent<NPCController>();
-        navigationAgent = GetComponent<NPCNavigationAgent>();
+        npcController = GetComponent<NPC>();
     }
 
     private void OnDrawGizmos()
@@ -38,7 +36,7 @@ public class NPCDebugger : MonoBehaviour
 #if UNITY_EDITOR
             UnityEditor.Handles.Label(transform.position + Vector3.up * 2f,
                 //$"State: {npcController.CurrentState}\n" +
-                $"Speed: {navigationAgent.Agent.speed:F1}");
+                $"Speed: {npcController.navMeshAgent.speed:F1}");
 #endif
         }
     }

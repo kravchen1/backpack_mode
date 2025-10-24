@@ -201,7 +201,10 @@ public class PlayerDataManager : MonoBehaviour
         saveData.flashLightIntensity = _flashLightIntensity;
 
         string jsonData = JsonUtility.ToJson(saveData, true); // true для красивого форматирования в отладке
-        PlayerPrefsMigrationManager.Instance.RegisterStringPref(_saveKey);
+        if (PlayerPrefsMigrationManager.Instance != null)
+        {
+            PlayerPrefsMigrationManager.Instance.RegisterStringPref(_saveKey);
+        }
         PlayerPrefs.SetString(_saveKey, jsonData);
         PlayerPrefs.Save(); // Важно вызывать Save()
 

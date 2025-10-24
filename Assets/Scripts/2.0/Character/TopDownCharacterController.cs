@@ -175,6 +175,7 @@ public class TopDownCharacterController : MonoBehaviour
 
         // Цвета - сохраняем как отдельные компоненты RGB
         bodyColor = LoadColor("PlayerBodyColor", Color.white);
+        headColor = LoadColor("PlayerHeadColor", Color.white);
         hairColor = LoadColor("PlayerHairColor", Color.white);
         eyeColor = LoadColor("PlayerEyeColor", Color.white);
     }
@@ -565,7 +566,7 @@ public class TopDownCharacterController : MonoBehaviour
         UpdateAppearanceSprites(_currentMovementDirection);
 
         // Обновляем цвета
-        if (head != null) head.color = bodyColor;
+        if (head != null) head.color = headColor;
         if (body != null) body.color = bodyColor;
         if (hair != null) hair.color = hairColor;
         if (eye != null) eye.color = eyeColor;

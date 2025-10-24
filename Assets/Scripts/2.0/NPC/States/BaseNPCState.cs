@@ -3,26 +3,24 @@ public abstract class BaseNPCState : INPCState
 {
     public abstract NPCStateType Type { get; }
 
-    protected NPCNavigationAgent navigationAgent;
-    protected NPCController npcController;
+    protected NPC npcController;
     protected NPCDataManager npcDataManager;
 
-    public virtual void EnterState(NPCController npc)
+    public virtual void EnterState(NPC npc)
     {
         npcController = npc;
-        navigationAgent = npc.GetComponent<NPCNavigationAgent>();
         npcDataManager = npc.GetComponent<NPCDataManager>();
         Debug.Log($"{npc.name} перешел в состояние: {Type}");
     }
 
-    public virtual void UpdateState(NPCController npc) { }
+    public virtual void UpdateState(NPC npc) { }
 
-    public virtual void ExitState(NPCController npc)
+    public virtual void ExitState(NPC npc)
     {
-        navigationAgent?.StopMovement();
+        npcController.StopMovement();
     }
 
-    public virtual void OnPlayerDetected(NPCController npc, TopDownCharacterController player) { }
+    public virtual void OnPlayerDetected(NPC npc, TopDownCharacterController player) { }
 
-    public virtual void OnPlayerLost(NPCController npc) { }
+    public virtual void OnPlayerLost(NPC npc) { }
 }

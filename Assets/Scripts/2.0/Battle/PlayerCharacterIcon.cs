@@ -6,7 +6,12 @@ using System.Collections.Generic;
 public class PlayerCharacterIcon : MonoBehaviour
 {
     [Header("UI Elements")]
-    public Image characterImage;
+    public Image characterImageHead;
+    public Image characterImageHair;
+    public Image characterImageEyes;
+    public Image characterImageBody;
+    public Image characterImageArmor;
+    public Image characterImageWeapon;
     public TextMeshProUGUI nameText;
     public Image selectionBorder;
     public Image backgroundImage;
@@ -47,7 +52,7 @@ public class PlayerCharacterIcon : MonoBehaviour
         //playerIcon.GetComponent<Image>().sprite = spriteRenderer.sprite;
         gameObject.SetActive(true);
 
-        characterImage.sprite = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+        characterImageHead.sprite = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite;
 
         nameText.text = PlayerDataManager.Instance.PlayerName;
         backgroundImage.color = playerColor;

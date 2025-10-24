@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -16,6 +17,7 @@ public class GridObjectManager : MonoBehaviour
     [SerializeField] private bool autoScanWalls = true;
     [SerializeField] private List<Tilemap> wallTilemaps = new List<Tilemap>(); // Список Tilemap со стенами
     [SerializeField] private TileBase[] wallTiles; // Какие тайлы считать стенами
+    [SerializeField] private GameObject invisibleNotWalkableTile;
 
     [Header("Save Settings")]
     [SerializeField] private string saveKey = "GridWorldData";
@@ -65,7 +67,7 @@ public class GridObjectManager : MonoBehaviour
         }
 
         LoadWorldData();
-        RegisterPreOccupiedCells();
+        //RegisterPreOccupiedCells();
         CreateObjectsFromData();
     }
 
@@ -942,13 +944,16 @@ public class GridObjectManager : MonoBehaviour
 
             int wallCount = 0;
 
+            // Получаем мировую позицию Tilemap для корректного преобразования координат
+            Vector3 tilemapWorldOffset = wallTilemap.transform.position;
+
             // Проходим по всем ячейкам в пределах текущего Tilemap
             BoundsInt bounds = wallTilemap.cellBounds;
-            foreach (Vector3Int cellPosition in bounds.allPositionsWithin)
+            foreach (Vector3Int localCellPosition in bounds.allPositionsWithin)
             {
-                if (wallTilemap.HasTile(cellPosition))
+                if (wallTilemap.HasTile(localCellPosition))
                 {
-                    TileBase tile = wallTilemap.GetTile(cellPosition);
+                    TileBase tile = wallTilemap.GetTile(localCellPosition);
 
                     // Если указаны конкретные тайлы стен, проверяем соответствие
                     if (wallTiles != null && wallTiles.Length > 0)
@@ -956,15 +961,19 @@ public class GridObjectManager : MonoBehaviour
                         if (!wallTiles.Contains(tile)) continue;
                     }
 
-                    // Регистрируем ячейку стены
-                    RegisterWallCell(cellPosition, wallTilemap.name);
+                    // Преобразуем локальную позицию ячейки в глобальную позицию Grid
+                    Vector3 worldPos = wallTilemap.CellToWorld(localCellPosition);
+                    Vector3Int globalCellPosition = WorldToCellPosition(worldPos);
+
+                    // Регистрируем ячейку стены с глобальными координатами
+                    RegisterWallCell(globalCellPosition, wallTilemap.name);
                     wallCount++;
                     totalWallCount++;
                 }
             }
 
             processedTilemaps++;
-            Debug.Log($"Tilemap '{wallTilemap.name}': registered {wallCount} wall cells");
+            Debug.Log($"Tilemap '{wallTilemap.name}': registered {wallCount} wall cells (world pos: {wallTilemap.transform.position})");
         }
 
         Debug.Log($"Completed: processed {processedTilemaps} tilemaps, registered {totalWallCount} total wall cells");
@@ -982,8 +991,10 @@ public class GridObjectManager : MonoBehaviour
         }
 
         // Создаем виртуальный GameObject для стены
-        GameObject wallObject = new GameObject($"Wall_{tilemapName}_{cellPosition.x}_{cellPosition.y}");
-        wallObject.transform.position = CellToWorldPosition(cellPosition);
+        //GameObject wallObject = new GameObject($"Wall_{tilemapName}_{cellPosition.x}_{cellPosition.y}");
+        Vector3 worldPosition = CellToWorldPosition(cellPosition);
+        GameObject wallObject = Instantiate(invisibleNotWalkableTile, worldPosition, Quaternion.identity, spawnedObjectsParent);
+        //wallObject.transform.position = CellToWorldPosition(cellPosition);
         wallObject.hideFlags = HideFlags.HideInHierarchy; // Скрываем в иерархии чтобы не засорять
 
         // Создаем запись MultiCellObject для стены (1x1)

@@ -8,7 +8,7 @@ public class NPCConfig : ScriptableObject
     public float acceleration = 8f;
     public float angularSpeed = 360f;
     public float stoppingDistance = 0.1f;
-    public string backpackKey = "NPCTest";
+    public string settingKey = "NPCTest";
     public bool autoBraking = true;
 
     [Header("Detection Settings")]

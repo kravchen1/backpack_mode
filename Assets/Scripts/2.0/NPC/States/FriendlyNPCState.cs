@@ -4,7 +4,7 @@ public class FriendlyNPCState : BaseNPCState
 {
     public override NPCStateType Type => NPCStateType.Friendly;
 
-    public override void EnterState(NPCController npc)
+    public override void EnterState(NPC npc)
     {
         base.EnterState(npc);
         npc.ChangeColor(npc.Config.friendlyColor);
@@ -13,13 +13,13 @@ public class FriendlyNPCState : BaseNPCState
         StartWandering(npc);
     }
 
-    public override void OnPlayerDetected(NPCController npc, TopDownCharacterController player)
+    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
     {
         // Подходим к игроку для взаимодействия
-        navigationAgent.MoveToPosition(player.transform.position, npc.Config.interactionRadius);
+        npcController.MoveToPosition(player.transform.position, npc.Config.interactionRadius);
     }
 
-    private void StartWandering(NPCController npc)
+    private void StartWandering(NPC npc)
     {
         npc.StartCoroutine(WanderCoroutine());
     }
@@ -30,7 +30,7 @@ public class FriendlyNPCState : BaseNPCState
         {
             // Случайная точка в радиусе 5 метров
             Vector2 randomPoint = (Vector2)npcController.transform.position + Random.insideUnitCircle * 5f;
-            navigationAgent.MoveToPosition(randomPoint);
+            npcController.MoveToPosition(randomPoint);
 
             // Ждем достижения точки или случайное время
             yield return new WaitForSeconds(Random.Range(3f, 8f));

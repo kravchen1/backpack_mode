@@ -36,9 +36,9 @@ public class MainMenuManager : MonoBehaviour
         // Подписываемся на события кнопок
         newGameButton.onClick.AddListener(OnNewGameClicked);
         loadGameButton.onClick.AddListener(OnLoadGameClicked);
-        educationButton.onClick.AddListener(OnEducationClicked);
-        settingsButton.onClick.AddListener(OnSettingsClicked);
-        creatorsButton.onClick.AddListener(OnCreatorsClicked);
+        //educationButton.onClick.AddListener(OnEducationClicked);
+        //settingsButton.onClick.AddListener(OnSettingsClicked);
+        //creatorsButton.onClick.AddListener(OnCreatorsClicked);
         exitGameButton.onClick.AddListener(OnExitGameClicked);
     }
 
@@ -55,6 +55,7 @@ public class MainMenuManager : MonoBehaviour
     {
         HideAllCanvases();
         ShowCanvas(loadGameCanvas);
+        loadGameCanvas.GetComponent<LoadFileManager>().RefreshSaveFilesList();
         Debug.Log("Load Game button clicked");
 
         // Здесь можно добавить логику загрузки игры

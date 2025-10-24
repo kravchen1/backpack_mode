@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NPCBackpackManager : MonoBehaviour
 {
-    public List<NPCController> _NPCControllers;
+    public List<NPC> _NPCControllers;
 
 
     public void Start()
@@ -22,11 +22,11 @@ public class NPCBackpackManager : MonoBehaviour
     {
         for(int i = 0 ; i < _NPCControllers.Count ; i++)
         {
-            switch (_NPCControllers[i].GetComponent<NPCController>().Config.backpackKey)
+            switch (_NPCControllers[i].GetComponent<NPC>().Config.settingKey)
             {
                 case "NPCTest":
-                    PlayerPrefsMigrationManager.Instance.RegisterStringPref(_NPCControllers[i].GetComponent<NPCController>().Config.backpackKey);
-                    PlayerPrefs.SetString(_NPCControllers[i].GetComponent<NPCController>().Config.backpackKey,
+                    PlayerPrefsMigrationManager.Instance.RegisterStringPref(_NPCControllers[i].GetComponent<NPC>().Config.settingKey);
+                    PlayerPrefs.SetString(_NPCControllers[i].GetComponent<NPC>().Config.settingKey,
                                                                         @"{
                                                     ""inventoryDataJsonList"": [
                                                         {

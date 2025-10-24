@@ -111,11 +111,6 @@ public class InteractionController : MonoBehaviour
 
         try
         {
-            if (interactionPromptText != null)
-            {
-                interactionPromptText.text = interaction.GetInteractionPrompt();
-            }
-
             if (interactionPromptPanel != null)
             {
                 interactionPromptPanel.SetActive(true);

@@ -5,22 +5,20 @@ using UnityEngine;
 public class NeutralNPCState : BaseNPCState
 {
     public override NPCStateType Type => NPCStateType.Neutral;
-    private WaypointContainer waypointContainer;
     private Coroutine lookCoroutine;
 
-    public override void EnterState(NPCController npc)
+    public override void EnterState(NPC npc)
     {
         base.EnterState(npc);
         npc.ChangeColor(npc.Config.neutralColor);
-
-        waypointContainer = npc.GetComponentInChildren<WaypointContainer>();
+        npcController.SetSpeed(npc.Config.moveSpeed);
         StartPatrolBehavior(npc);
     }
 
-    public override void OnPlayerDetected(NPCController npc, TopDownCharacterController player)
+    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
     {
-        navigationAgent.StopMovement();
-
+        npcController.StopMovement();
+        Debug.Log(" neutral OnPlayerDetected");
         // Отменяем предыдущую корутину если есть
         if (lookCoroutine != null)
         {
@@ -30,7 +28,7 @@ public class NeutralNPCState : BaseNPCState
         lookCoroutine = npc.StartCoroutine(LookAtPlayerRoutine(npc, player));
     }
 
-    private IEnumerator LookAtPlayerRoutine(NPCController npc, TopDownCharacterController player)
+    private IEnumerator LookAtPlayerRoutine(NPC npc, TopDownCharacterController player)
     {
         // Смотрим на игрока пока он в зоне detection
         while (player != null && npc.HasDetectedPlayer)
@@ -46,7 +44,7 @@ public class NeutralNPCState : BaseNPCState
         StartPatrolBehavior(npc);
     }
 
-    public override void OnPlayerLost(NPCController npc)
+    public override void OnPlayerLost(NPC npc)
     {
         if (lookCoroutine != null)
         {
@@ -58,7 +56,7 @@ public class NeutralNPCState : BaseNPCState
         StartPatrolBehavior(npc);
     }
 
-    public override void ExitState(NPCController npc)
+    public override void ExitState(NPC npc)
     {
         if (lookCoroutine != null)
         {
@@ -67,20 +65,20 @@ public class NeutralNPCState : BaseNPCState
         }
 
         npc.AnimationController?.CancelForcedLook();
-        navigationAgent?.StopMovement();
+        npcController?.StopMovement();
     }
 
-    private void StartPatrolBehavior(NPCController npc)
+    private void StartPatrolBehavior(NPC npc)
     {
-        if (waypointContainer != null && waypointContainer.GetWaypoints().Length > 0)
+        if (npcController.WaypointContainer != null && npcController.WaypointContainer.GetWaypoints().Length > 0)
         {
-            Vector3[] patrolPoints = waypointContainer.GetWaypoints();
-            navigationAgent.StartPatrol(patrolPoints);
+            Vector3[] patrolPoints = npcController.WaypointContainer.GetWaypoints();
+            npcController.StartPatrol(patrolPoints);
         }
         else
         {
-            Vector3[] patrolPoints = GeneratePatrolPoints(npc.transform.position, 3f, 4);
-            navigationAgent.StartPatrol(patrolPoints);
+            Vector3[] patrolPoints = GeneratePatrolPoints(npc.transform.position, 300f, 24);
+            npcController.StartPatrol(patrolPoints);
         }
     }
 

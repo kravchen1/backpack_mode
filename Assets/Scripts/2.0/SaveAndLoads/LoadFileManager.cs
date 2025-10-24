@@ -16,7 +16,7 @@ public class LoadFileManager : MonoBehaviour
 
     void Start()
     {
-        RefreshSaveFilesList();
+        //RefreshSaveFilesList();
     }
 
     public void RefreshSaveFilesList()
@@ -87,19 +87,10 @@ public class LoadFileManager : MonoBehaviour
 
             Debug.Log($"Загрузка игры из: {filePath}");
 
-            // Пробуем обычный менеджер
-            //if (LoadingSceneManager.Instance != null)
-            //{
-            //    LoadingSceneManager.Instance.LoadGameWithSaveFile(filePath, "MainGame");
-            //}
-            //else
-            
-            //Debug.LogError("LoadingSceneManager не найден! Пробуем ультра-простой...");
 
-            // Пробуем ультра-простой менеджер
-            if (UltraSimpleLoadingManager.Instance != null)
+            if (SceneLoader.Instance != null)
             {
-                UltraSimpleLoadingManager.Instance.LoadGameWithSave(filePath);
+                SceneLoader.Instance.LoadScene("MainGame", filePath);
             }
             else
             {

@@ -7,37 +7,37 @@ public class HostileNPCState : BaseNPCState
     public override NPCStateType Type => NPCStateType.Hostile;
     private Coroutine chaseCoroutine;
 
-    public override void EnterState(NPCController npc)
+    public override void EnterState(NPC npc)
     {
         base.EnterState(npc);
         npc.ChangeColor(npc.Config.hostileColor);
-        navigationAgent.SetSpeed(npc.Config.chaseSpeed);
+        npcController.SetSpeed(npc.Config.chaseSpeed);
     }
 
-    public override void OnPlayerDetected(NPCController npc, TopDownCharacterController player)
+    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
     {
         chaseCoroutine = npc.StartCoroutine(ChasePlayerCoroutine(player));
     }
 
-    public override void OnPlayerLost(NPCController npc)
+    public override void OnPlayerLost(NPC npc)
     {
         if (chaseCoroutine != null)
         {
             npc.StopCoroutine(chaseCoroutine);
             chaseCoroutine = null;
         }
-        navigationAgent.StopMovement();
+        npcController.StopMovement();
         // ћожно добавить поиск игрока или возврат на пост
     }
 
-    public override void ExitState(NPCController npc)
+    public override void ExitState(NPC npc)
     {
         base.ExitState(npc);
         if (chaseCoroutine != null)
         {
             npc.StopCoroutine(chaseCoroutine);
         }
-        navigationAgent.ResetSpeed();
+        npcController.ResetSpeed();
     }
 
     private IEnumerator ChasePlayerCoroutine(TopDownCharacterController player)
@@ -49,13 +49,13 @@ public class HostileNPCState : BaseNPCState
             if (distanceToPlayer > npcController.Config.attackRange)
             {
                 // ѕреследуем игрока
-                navigationAgent.MoveToPosition(player.transform.position, npcController.Config.chaseStoppingDistance);
+                npcController.MoveToPosition(player.transform.position, npcController.Config.chaseStoppingDistance);
             }
             else
             {
                 // јтакуем игрока (останавливаемс€ на рассто€нии атаки)
-                navigationAgent.StopMovement();
-                if (!npcController.inFightNow)
+                npcController.StopMovement();
+                if (!npcController.InFightNow)
                 {
                     if (!BattleManager.Instance.isBattleActive)
                     {
@@ -65,7 +65,7 @@ public class HostileNPCState : BaseNPCState
                     {
                         AddBattleWithPlayer();
                     }
-                    npcController.inFightNow = true;
+                    npcController.InFightNow = true;
                 }
             }
 

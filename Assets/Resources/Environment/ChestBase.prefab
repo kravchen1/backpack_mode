@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103535157439668935}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 7.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -81,7 +81,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!95 &4965095826817428821
 Animator:
@@ -114,23 +114,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1103535157439668935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5625b32fd43a48f4a9afdeba67512235, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ffbaaa5f510c7141aac37b087baf3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   triggerAnimationName: TriggerColor
-  resetAnimationName: Empty
+  resetAnimationName: Idle
   allowManualInteraction: 1
   interactionKey: 101
   interactionPrompt: Press E to interact
   ButtonsKeyTexts:
   - Open
-  - Destroy
   ButtonPrefab: {fileID: 3855828693000798086, guid: 1acb83878afdb724eb666358e3e88ed7, type: 3}
-  isOpened: 0
+  settingsKey: 
+  isWasActive: 0
   ChestOpen: {fileID: 2575191962012293122}
   ChestClose: {fileID: 6352199737880495846}
-  countItemsInside: 10
-  settingsItemsShopKey: 
+  countItemsInside: 5
 --- !u!1 &2575191962012293122
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +226,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4670602576659235561}
-  - component: {fileID: 5838777831118535994}
   m_Layer: 3
   m_Name: BlockCollider
   m_TagString: Untagged
@@ -250,52 +248,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4144264603734949125}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &5838777831118535994
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5383754290346994822}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &6352199737880495846
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,9 +10,9 @@ public enum NPCStateType
 public interface INPCState
 {
     NPCStateType Type { get; }
-    void EnterState(NPCController npc);
-    void UpdateState(NPCController npc);
-    void ExitState(NPCController npc);
-    void OnPlayerDetected(NPCController npc, TopDownCharacterController player);
-    void OnPlayerLost(NPCController npc);
+    void EnterState(NPC npc);
+    void UpdateState(NPC npc);
+    void ExitState(NPC npc);
+    void OnPlayerDetected(NPC npc, TopDownCharacterController player);
+    void OnPlayerLost(NPC npc);
 }

@@ -42,7 +42,7 @@ public class NPCDataManager : MonoBehaviour
         // Создаем экземпляры классов
         Attributes = new PlayerAttributes();
         Stats = GetComponent<PlayerStats>() ?? gameObject.AddComponent<PlayerStats>();
-        config = GetComponent<NPCController>().Config;
+        config = GetComponent<NPC>().Config;
         // Инициализируем Stats, передавая ему Attributes
         Stats.Initialize(Attributes);
 
@@ -177,15 +177,8 @@ public class NPCDataManager : MonoBehaviour
 
     private void DisableNPCComponents()
     {
-        var npcNavigationAgent = GetComponent<NPCNavigationAgent>();
-        if (npcNavigationAgent != null)
-        {
-            npcNavigationAgent.StopAllMovement();
-            npcNavigationAgent.enabled = false;
-        }
-
         // Отключаем NPCController если есть
-        var npcController = GetComponent<NPCController>();
+        var npcController = GetComponent<NPC>();
         if (npcController != null) npcController.enabled = false;
 
         // Отключаем NavMeshAgent если есть
@@ -250,7 +243,7 @@ public class NPCDataManager : MonoBehaviour
                         deathChestPrefab,
                         transform.position,
                         multiTilesDeathChestPrefabVector2,
-                        config.backpackKey
+                        config.settingKey
                     );
                 }
                 else
@@ -258,7 +251,7 @@ public class NPCDataManager : MonoBehaviour
                     chest = GridObjectManager.Instance.SpawnObject(
                         deathChestPrefab,
                         transform.position,
-                        config.backpackKey
+                        config.settingKey
                     );
                 }
 
@@ -276,7 +269,7 @@ public class NPCDataManager : MonoBehaviour
         if (chestTrigger != null)
         {
             // Настраиваем количество предметов в сундуке в зависимости от уровня NPC
-            chestTrigger.settingsKey = config.backpackKey;
+            chestTrigger.settingsKey = config.settingKey;
 
             // Можно добавить другие настройки сундука
             // Например, качество предметов в зависимости от уровня и т.д.
