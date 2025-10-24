@@ -91,6 +91,8 @@ public class NPC : MonoBehaviour
         navMeshAgent.autoBraking = config.autoBraking;
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
+
+        navMeshAgent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     private void InitializeStates()
