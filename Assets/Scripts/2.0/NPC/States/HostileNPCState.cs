@@ -49,14 +49,18 @@ public class HostileNPCState : BaseNPCState
             if (distanceToPlayer > npcController.Config.attackRange)
             {
                 // Преследуем игрока
-                npcController.MoveToPosition(player.transform.position, npcController.Config.chaseStoppingDistance);
+                Vector3 chasePosition = npcController.GetMovementCorrectedPosition(player.transform.position);
+                npcController.MoveToPosition(chasePosition);
+                //Debug.Log("1 " + distanceToPlayer + "_" + npcController.Config.attackRange);
             }
             else
             {
+                //Debug.Log("2 " + distanceToPlayer + "_" + npcController.Config.attackRange);
                 // Атакуем игрока (останавливаемся на расстоянии атаки)
                 npcController.StopMovement();
                 if (!npcController.InFightNow)
                 {
+                    //Debug.Log("3 " + distanceToPlayer + "_" + npcController.Config.attackRange);
                     if (!BattleManager.Instance.isBattleActive)
                     {
                         StartBattleWithPlayer();
@@ -66,6 +70,7 @@ public class HostileNPCState : BaseNPCState
                         AddBattleWithPlayer();
                     }
                     npcController.InFightNow = true;
+                    yield break;
                 }
             }
 

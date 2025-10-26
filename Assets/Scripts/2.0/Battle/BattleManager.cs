@@ -49,6 +49,8 @@ public class BattleManager : MonoBehaviour
 
     const int maxPlayerTeamSize = 4;
     const int maxEnemyTeamSize = 5;
+
+    public System.Action OnBattleStart;
     private void Awake()
     {
         if (Instance == null)
@@ -81,6 +83,8 @@ public class BattleManager : MonoBehaviour
 
         CreateBattleUI();
         StartBattleLogic();
+
+        OnBattleStart?.Invoke();
     }
 
     private void CreateBattleUI()
@@ -127,9 +131,9 @@ public class BattleManager : MonoBehaviour
                     enemyTeamIcons[i].GetComponent<CharacterIcon>().Initialize(character, isEnemy);
 
 
-                    enemyTeamBackpacks[i].settingsKey = character.backpackKey;
+                    enemyTeamBackpacks[i].settingsKey = character.GetComponent<NPC>().Config.settingKey;
                     enemyTeamBackpacks[i].LoadData();
-                    character.Stats.InitializeCurrentWeight(character.backpackKey);
+                    character.Stats.InitializeCurrentWeight(enemyTeamBackpacks[i].settingsKey);
                     character.cellsFight = enemyTeamBackpacks[i];
                     return;
                 }
@@ -143,9 +147,9 @@ public class BattleManager : MonoBehaviour
                 {
                     playerTeamIcons[i].GetComponent<CharacterIcon>().Initialize(character, isEnemy);
 
-                    playerTeamBackpacks[i].settingsKey = character.backpackKey;
+                    playerTeamBackpacks[i].settingsKey = character.GetComponent<NPC>().Config.settingKey;
                     playerTeamBackpacks[i].LoadData();
-                    character.Stats.InitializeCurrentWeight(character.backpackKey);
+                    character.Stats.InitializeCurrentWeight(playerTeamBackpacks[i].settingsKey);
                     character.cellsFight = playerTeamBackpacks[i];
                     return;
                 }
@@ -342,7 +346,10 @@ public class BattleManager : MonoBehaviour
 
         // Скрываем UI
         if (battleUICanvas != null)
+        {
+            escapeButton.SetActive(false);
             battleUICanvas.SetActive(false);
+        }
 
         if (playerWon)
         {
@@ -376,6 +383,10 @@ public class BattleManager : MonoBehaviour
         foreach (var enemy in enemyTeam)
         {
             StartCoroutine(EndFight(10f, enemy));
+        }
+        foreach (var friend in playerTeam)
+        {
+            StartCoroutine(EndFight(0.5f, friend));
         }
     }
 
@@ -431,7 +442,7 @@ public class BattleManager : MonoBehaviour
         if (!isBattleActive) return;
 
         playerTeam.Add(friend);
-        //CreateCharacterIcon(friend, friendsPanel, false);
+        CreateCharacterIconAndBackpacks(friend, false);
         StartCoroutine(AutoAttackRoutine(friend, playerTeam.Count-1, true));
     }
 

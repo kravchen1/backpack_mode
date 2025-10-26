@@ -9,12 +9,14 @@ public class NPC : MonoBehaviour
 {
     [Header("NPC Configuration")]
     [SerializeField] private NPCConfig config;
+    [SerializeField] public List<NPC> npcGroups;
 
     [Header("References")]
     [SerializeField] private TextMeshPro nameTextMeshPro;
     [SerializeField] private CircleCollider2D detectionCollider;
     [SerializeField] private NPCAnimationController animationController;
     [SerializeField] private WaypointContainer waypointContainer;
+    [SerializeField] private AreaMovementContainer areaMovementContainer;
 
     // State Management
     private Dictionary<NPCStateType, INPCState> states;
@@ -28,7 +30,8 @@ public class NPC : MonoBehaviour
     public NPCDataManager DataManager => dataManager;
     public NPCAnimationController AnimationController => animationController;
     public WaypointContainer WaypointContainer => waypointContainer;
-    public TopDownCharacterController DetectedPlayer { get; private set; }
+    public TopDownCharacterController DetectedPlayer { get; set; }
+    public AreaMovementContainer AreaMovementContainer => areaMovementContainer; // НОВОЕ: Свойство доступа
     public bool HasDetectedPlayer => DetectedPlayer != null;
     public bool InFightNow { get; set; }
 
@@ -80,6 +83,11 @@ public class NPC : MonoBehaviour
 
         if (nameTextMeshPro == null)
             nameTextMeshPro = GetComponentInChildren<TextMeshPro>();
+
+        GetComponent<NPCDataManager>().CharacterName = Config.NPCName;
+        nameTextMeshPro.text = Config.NPCName;
+
+        InFightNow = false;
     }
 
     private void SetupNavMeshAgent()
@@ -144,8 +152,6 @@ public class NPC : MonoBehaviour
     {
         if (navMeshAgent == null || !navMeshAgent.isActiveAndEnabled) return;
 
-        StopAllCoroutines();
-
         if (customStoppingDistance >= 0)
             navMeshAgent.stoppingDistance = customStoppingDistance;
 
@@ -202,6 +208,25 @@ public class NPC : MonoBehaviour
             return navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending;
         }
     }
+
+    // НОВОЕ: Метод для проверки и коррекции позиции относительно области движения
+    public Vector3 GetMovementCorrectedPosition(Vector3 targetPosition)
+    {
+        if (areaMovementContainer == null)
+            return targetPosition;
+
+        return areaMovementContainer.GetClosestPointInArea(targetPosition);
+    }
+
+    // НОВОЕ: Проверка находится ли точка в разрешенной области
+    public bool IsPositionInMovementArea(Vector3 position)
+    {
+        if (areaMovementContainer == null)
+            return true;
+
+        return areaMovementContainer.IsPointInArea(position);
+    }
+
     #endregion
 
     #region Visual & Animation
@@ -329,8 +354,15 @@ public class NPC : MonoBehaviour
         var playerController = other.GetComponent<TopDownCharacterController>();
         if (playerController == DetectedPlayer)
         {
-            currentState?.OnPlayerLost(this);
-            DetectedPlayer = null;
+            // Для дружественных NPC не теряем игрока сразу при выходе из триггера
+            // Они будут сами проверять зону движения в своем состоянии
+            if (currentState?.Type != NPCStateType.Friendly)
+            {
+                currentState?.OnPlayerLost(this);
+                DetectedPlayer = null;
+            }
+            // Для дружественных NPC оставляем DetectedPlayer != null
+            // Они сами сбросят его когда игрок выйдет за зону движения
         }
     }
     #endregion

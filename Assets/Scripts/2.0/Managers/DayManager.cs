@@ -259,7 +259,7 @@ public class DayManager : MonoBehaviour
             int savedTimeFormat = PlayerPrefs.GetInt(SAVE_TIMEFORMAT_KEY, (int)timeFormat);
             timeFormat = (TimeFormat)savedTimeFormat;
 
-            Debug.Log("Game data loaded successfully");
+            //Debug.Log("Game data loaded successfully");
             return true;
         }
         catch (System.Exception e)

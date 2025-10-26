@@ -130,7 +130,7 @@ public class CellsData : MonoBehaviour
         PlayerPrefs.Save();
         
         //Debug.Log($"Data saved. Unique items: {dataJsonList.inventoryDataJsonList.Count}");
-        Debug.Log(jsonCellsSave);
+        //Debug.Log(jsonCellsSave);
     }
 
     private List<string> FindAllOccupiedCellsForItem(ItemStructure item)

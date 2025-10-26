@@ -18,7 +18,7 @@ public class NeutralNPCState : BaseNPCState
     public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
     {
         npcController.StopMovement();
-        Debug.Log(" neutral OnPlayerDetected");
+        //Debug.Log(" neutral OnPlayerDetected");
         // Отменяем предыдущую корутину если есть
         if (lookCoroutine != null)
         {

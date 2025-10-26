@@ -4,6 +4,7 @@ using UnityEngine;
 public class NPCConfig : ScriptableObject
 {
     [Header("Base Settings")]
+    public string NPCName = "Denis";
     public float moveSpeed = 5f;
     public float acceleration = 8f;
     public float angularSpeed = 360f;

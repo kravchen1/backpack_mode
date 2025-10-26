@@ -634,7 +634,7 @@ public class TopDownCharacterController : MonoBehaviour
         Vector3 savedPosition = new Vector3(posX, posY, posZ);
         transform.position = savedPosition;
 
-        Debug.Log($"Position loaded: {savedPosition}");
+        //Debug.Log($"Position loaded: {savedPosition}");
     }
 
     public void ForceSavePosition()

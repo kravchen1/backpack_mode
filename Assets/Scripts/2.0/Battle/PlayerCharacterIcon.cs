@@ -109,8 +109,8 @@ public class PlayerCharacterIcon : MonoBehaviour
     {
         foreach(var backpack in backpacks)
         {
-            backpack.GetComponent<RectTransform>().position = new Vector3(4000f, 0f, 0f);
+            backpack.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
         }
-        backpackCanvasForThisIcon.GetComponent<RectTransform>().position = new Vector3(0f, 0f, 0f);
+        backpackCanvasForThisIcon.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
     }
 }

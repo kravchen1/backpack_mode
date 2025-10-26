@@ -53,7 +53,7 @@ public class EnvironmentTrigger : MonoBehaviour
         //if (!GetComponent<Collider2D>().isTrigger) return;
 
         playerInTrigger = true;
-        Debug.Log($"Player entered: {name}");
+        //Debug.Log($"Player entered: {name}");
 
         if (interactionController != null && allowManualInteraction)
         {

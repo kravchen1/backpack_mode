@@ -162,7 +162,7 @@ public class InteractionController : MonoBehaviour
         if (interaction != null)
         {
             availableInteractions.Add(interaction);
-            Debug.Log($"Registered interaction: {interaction.name}");
+            //Debug.Log($"Registered interaction: {interaction.name}");
         }
     }
 
@@ -171,7 +171,7 @@ public class InteractionController : MonoBehaviour
         if (interaction != null)
         {
             availableInteractions.Remove(interaction);
-            Debug.Log($"Unregistered interaction: {interaction.name}");
+            //Debug.Log($"Unregistered interaction: {interaction.name}");
 
             if (closestInteraction == interaction)
             {

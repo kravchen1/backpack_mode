@@ -97,7 +97,7 @@ public class GridObjectManager : MonoBehaviour
                 CreateMultiCellObjectFromData(multiCellData);
             }
 
-            Debug.Log($"Created {saveData.multiCellObjects.Count} multi-cell objects from data");
+            //Debug.Log($"Created {saveData.multiCellObjects.Count} multi-cell objects from data");
         }
         catch (System.Exception e)
         {
@@ -200,7 +200,7 @@ public class GridObjectManager : MonoBehaviour
                 }
             }
 
-            Debug.Log($"Created {createdCount} single-cell objects from data");
+            //Debug.Log($"Created {createdCount} single-cell objects from data");
         }
         catch (System.Exception e)
         {
@@ -347,7 +347,7 @@ public class GridObjectManager : MonoBehaviour
             occupiedCells.Remove(cell);
         }
 
-        Debug.Log($"Cleared {objectsToRemove.Count} created objects");
+        //Debug.Log($"Cleared {objectsToRemove.Count} created objects");
     }
 
     // Проверка, был ли объект создан системой (не preOccupied)
@@ -671,7 +671,7 @@ public class GridObjectManager : MonoBehaviour
                 obj.transform.position = CalculateObjectCenter(multiCellData.mainCell.ToVector3Int(), multiCellData.size.ToVector2Int());
             }
 
-            Debug.Log($"World data loaded: {saveData.multiCellObjects.Count} multi-cell objects");
+            //Debug.Log($"World data loaded: {saveData.multiCellObjects.Count} multi-cell objects");
         }
         catch (System.Exception e)
         {
@@ -718,7 +718,7 @@ public class GridObjectManager : MonoBehaviour
         if (tilemapGrid != null)
         {
             Vector3 worldPos = tilemapGrid.GetCellCenterWorld(cellPosition);
-            Debug.Log($"CellToWorldPosition: {cellPosition} -> {worldPos}, grid pos: {tilemapGrid.transform.position}");
+            //Debug.Log($"CellToWorldPosition: {cellPosition} -> {worldPos}, grid pos: {tilemapGrid.transform.position}");
             return worldPos;
         }
         else
@@ -973,10 +973,10 @@ public class GridObjectManager : MonoBehaviour
             }
 
             processedTilemaps++;
-            Debug.Log($"Tilemap '{wallTilemap.name}': registered {wallCount} wall cells (world pos: {wallTilemap.transform.position})");
+            //Debug.Log($"Tilemap '{wallTilemap.name}': registered {wallCount} wall cells (world pos: {wallTilemap.transform.position})");
         }
 
-        Debug.Log($"Completed: processed {processedTilemaps} tilemaps, registered {totalWallCount} total wall cells");
+        //Debug.Log($"Completed: processed {processedTilemaps} tilemaps, registered {totalWallCount} total wall cells");
     }
 
     // Метод для регистрации ячейки стены с указанием имени Tilemap

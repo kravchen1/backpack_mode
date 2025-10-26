@@ -11,7 +11,7 @@ public class NPCBaseTrigger : EnvironmentTrigger
     protected override void Start()
     {
         base.Start();
-
+        NPCController = transform.parent.GetComponent<NPC>();
         settingsKey = "NPCBaseTrigget" + NPCController.Config.settingKey;//todo запись каждого объекте в Saver
     }
 
@@ -45,8 +45,20 @@ public class NPCBaseTrigger : EnvironmentTrigger
     private void Attack()
     {
         ExitTrigger();
-        NPCController.SetState(NPCStateType.Hostile);
-        NPCController.currentState.OnPlayerDetected(NPCController, PlayerDataManager.Instance.playerCharacter.GetComponent<TopDownCharacterController>());
+
+        if (NPCController.npcGroups != null && NPCController.npcGroups.Count > 0)
+        {
+            foreach (NPC npc in NPCController.npcGroups)
+            {
+                npc.SetState(NPCStateType.Hostile);
+                npc.currentState.OnPlayerDetected(NPCController, PlayerDataManager.Instance.playerCharacter.GetComponent<TopDownCharacterController>());
+            }
+        }
+        else
+        {
+            NPCController.SetState(NPCStateType.Hostile);
+            NPCController.currentState.OnPlayerDetected(NPCController, PlayerDataManager.Instance.playerCharacter.GetComponent<TopDownCharacterController>());
+        }
     }
 
 

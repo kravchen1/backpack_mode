@@ -99,12 +99,12 @@ public class DynamicCameraSize : MonoBehaviour
         UpdateCameraBoundaries(resolutionScale);
 
         // 7. Логирование
-        if (logChanges || forceUpdate)
-        {
-            Debug.Log($"New Resolution: {Screen.width}x{Screen.height} " +
-                      $"(Scale: x{resolutionScale:F2}) | " +
-                      $"Camera Size: {newOrthoSize:F2} | ");
-        }
+        //if (logChanges || forceUpdate)
+        //{
+        //    Debug.Log($"New Resolution: {Screen.width}x{Screen.height} " +
+        //              $"(Scale: x{resolutionScale:F2}) | " +
+        //              $"Camera Size: {newOrthoSize:F2} | ");
+        //}
     }
 
     void UpdateCameraBoundaries(float resolutionScale)

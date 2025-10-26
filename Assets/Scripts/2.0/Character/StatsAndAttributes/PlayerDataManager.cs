@@ -234,7 +234,7 @@ public class PlayerDataManager : MonoBehaviour
             _flashLightRadius = saveData.flashLightRadius;
             _flashLightIntensity = saveData.flashLightIntensity;
 
-            Debug.Log("Game Loaded: " + jsonData);
+            //Debug.Log("Game Loaded: " + jsonData);
         }
         else
         {

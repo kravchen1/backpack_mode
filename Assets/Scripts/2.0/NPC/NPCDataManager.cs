@@ -9,7 +9,7 @@ public class NPCDataManager : MonoBehaviour
 {
     [Header("Character Info")]
     public string CharacterName;
-    public string backpackKey;
+    //public string backpackKey;
     public bool IsPlayerTeam;
     public PlayerAttributes Attributes { get; private set; }
     public PlayerStats Stats { get; private set; }
