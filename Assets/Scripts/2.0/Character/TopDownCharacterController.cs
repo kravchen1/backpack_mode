@@ -587,6 +587,8 @@ public class TopDownCharacterController : MonoBehaviour
         eyeColor = newEyeColor;
         RefreshAppearance();
     }
+
+    public MovementDirection GetCurrentMovementDirection() => _currentMovementDirection;
     #endregion
 
     #region Save/Load Position
