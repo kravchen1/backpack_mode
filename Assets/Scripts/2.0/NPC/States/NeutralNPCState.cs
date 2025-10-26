@@ -77,7 +77,7 @@ public class NeutralNPCState : BaseNPCState
         }
         else
         {
-            Vector3[] patrolPoints = GeneratePatrolPoints(npc.transform.position, 300f, 24);
+            Vector3[] patrolPoints = GeneratePatrolPoints(npc.transform.position, 10f, 4);
             npcController.StartPatrol(patrolPoints);
         }
     }
