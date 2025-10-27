@@ -128,7 +128,7 @@ public class ItemMove : MonoBehaviour
 
     public virtual void OnMouseDown()
     {
-        if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive)
+        if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive )
         {
             if (Input.GetKey(KeyCode.LeftShift) && _isStackable && _stackCount > 1)
             {

@@ -3,11 +3,16 @@ using UnityEngine;
 
 public class FriendlyNPCState : BaseNPCState
 {
+    #region Properties and Fields
     public override NPCStateType Type => NPCStateType.Friendly;
+
     private Coroutine followCoroutine;
     private Coroutine wanderCoroutine;
+    private Coroutine groupFollowCoroutine;
     private bool isFollowingPlayer = false;
+    #endregion
 
+    #region State Lifecycle Methods
     public override void EnterState(NPC npc)
     {
         base.EnterState(npc);
@@ -16,34 +21,22 @@ public class FriendlyNPCState : BaseNPCState
         // Подписываемся на событие начала боя
         BattleManager.Instance.OnBattleStart += OnBattleStart;
 
-        // Начинаем с патрулирования или блуждания
-        StartDefaultBehavior(npc);
-    }
-
-    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
-    {
-        // Останавливаем текущее поведение
-        StopDefaultBehavior();
-
-        // Начинаем следовать за игроком
-        StartFollowingPlayer(player);
-    }
-
-    public override void OnPlayerLost(NPC npc)
-    {
-        // Игрок вышел из зоны обнаружения - прекращаем следование
-        StopFollowingPlayer();
-
-        // Возвращаемся к стандартному поведению
-        StartDefaultBehavior(npc);
+        // Начинаем поведение с учетом группы
+        StartGroupAwareBehavior(npc);
     }
 
     public override void UpdateState(NPC npc)
     {
-        // Постоянно проверяем, находится ли игрок в зоне движения
-        if (isFollowingPlayer && npcController.HasDetectedPlayer)
+        // Для лидеров группы - проверяем игрока
+        if ((!npc.IsMoveGroup || npc.IsLeader) && isFollowingPlayer && npcController.HasDetectedPlayer)
         {
             CheckPlayerInMovementArea();
+        }
+
+        // Для всех - проверяем групповое поведение
+        if (npc.ShouldFollowGroup() && groupFollowCoroutine == null)
+        {
+            StartGroupFollowing(npc);
         }
     }
 
@@ -58,8 +51,64 @@ public class FriendlyNPCState : BaseNPCState
         }
 
         // Останавливаем все корутины
+        StopCurrentBehavior();
+        StopDefaultBehavior();
+    }
+    #endregion
+
+    #region Player Interaction Methods
+    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
+    {
+        // Если в группе - лидер решает, следовать ли за игроком
+        if (npc.IsMoveGroup && !npc.IsLeader)
+        {
+            // Не-лидеры в группе следуют только за лидером, а не за игроком
+            return;
+        }
+
+        // Останавливаем текущее поведение
+        StopCurrentBehavior();
+
+        // Начинаем следовать за игроком
+        StartFollowingPlayer(player);
+    }
+
+    public override void OnPlayerLost(NPC npc)
+    {
+        // Для не-лидеров в группе игнорируем потерю игрока
+        if (npc.IsMoveGroup && !npc.IsLeader)
+        {
+            return;
+        }
+
+        // Игрок вышел из зоны обнаружения - прекращаем следование
+        StopFollowingPlayer();
+
+        // Возвращаемся к поведению с учетом группы
+        StartGroupAwareBehavior(npc);
+    }
+    #endregion
+
+    #region Behavior Management Methods
+    private void StopCurrentBehavior()
+    {
         StopFollowingPlayer();
         StopDefaultBehavior();
+        StopGroupFollowing();
+    }
+
+    private void StartGroupAwareBehavior(NPC npc)
+    {
+        // Если в группе и не лидер - следуем за лидером
+        if (npc.ShouldFollowGroup())
+        {
+            StartGroupFollowing(npc);
+        }
+        else
+        {
+            // Иначе стандартное поведение
+            StartDefaultBehavior(npc);
+        }
     }
 
     private void StartDefaultBehavior(NPC npc)
@@ -76,6 +125,53 @@ public class FriendlyNPCState : BaseNPCState
         }
     }
 
+    private void StopDefaultBehavior()
+    {
+        if (wanderCoroutine != null)
+        {
+            npcController.StopCoroutine(wanderCoroutine);
+            wanderCoroutine = null;
+        }
+        npcController.StopMovement();
+    }
+    #endregion
+
+    #region Group Behavior Methods
+    private void StartGroupFollowing(NPC npc)
+    {
+        StopGroupFollowing();
+        groupFollowCoroutine = npc.StartCoroutine(GroupFollowCoroutine(npc));
+    }
+
+    private void StopGroupFollowing()
+    {
+        if (groupFollowCoroutine != null)
+        {
+            npcController.StopCoroutine(groupFollowCoroutine);
+            groupFollowCoroutine = null;
+        }
+    }
+
+    private IEnumerator GroupFollowCoroutine(NPC npc)
+    {
+        while (npc.ShouldFollowGroup())
+        {
+            Vector3 groupPosition = npc.GetGroupFormationPosition();
+            Vector3 correctedPosition = npc.GetMovementCorrectedPosition(groupPosition);
+
+            npc.MoveToPosition(correctedPosition, 1.5f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Если вышли из группового поведения - возвращаемся к стандартному
+        if (!npc.ShouldFollowGroup())
+        {
+            StartDefaultBehavior(npc);
+        }
+    }
+    #endregion
+
+    #region Patrol and Wander Methods
     private void StartPatrolBehavior(NPC npc)
     {
         Vector3[] patrolPoints = npcController.WaypointContainer.GetWaypoints();
@@ -87,16 +183,47 @@ public class FriendlyNPCState : BaseNPCState
         wanderCoroutine = npc.StartCoroutine(WanderCoroutine());
     }
 
-    private void StopDefaultBehavior()
+    private IEnumerator WanderCoroutine()
     {
-        if (wanderCoroutine != null)
+        while (true)
         {
-            npcController.StopCoroutine(wanderCoroutine);
-            wanderCoroutine = null;
+            // Генерируем случайную точку в пределах области движения
+            Vector2 randomPoint = GetRandomPointInMovementArea();
+            npcController.MoveToPosition(randomPoint);
+
+            // Ждем достижения точки или случайное время
+            yield return new WaitForSeconds(Random.Range(3f, 8f));
         }
-        npcController.StopMovement();
     }
 
+    private Vector2 GetRandomPointInMovementArea()
+    {
+        if (npcController.AreaMovementContainer != null)
+        {
+            Vector3[] bounds = npcController.AreaMovementContainer.GetAreaBounds();
+            if (bounds.Length > 0)
+            {
+                // Простая реализация - случайная точка внутри bounding box
+                Bounds areaBounds = new Bounds(bounds[0], Vector3.zero);
+                foreach (Vector3 point in bounds) areaBounds.Encapsulate(point);
+
+                Vector3 randomPoint = new Vector3(
+                    Random.Range(areaBounds.min.x, areaBounds.max.x),
+                    Random.Range(areaBounds.min.y, areaBounds.max.y),
+                    0
+                );
+
+                // Уточняем точку чтобы она была точно внутри полигона
+                return npcController.AreaMovementContainer.GetClosestPointInArea(randomPoint);
+            }
+        }
+
+        // Fallback: случайная точка в радиусе 5 метров
+        return (Vector2)npcController.transform.position + Random.insideUnitCircle * 5f;
+    }
+    #endregion
+
+    #region Player Following Methods
     private void StartFollowingPlayer(TopDownCharacterController player)
     {
         isFollowingPlayer = true;
@@ -114,19 +241,6 @@ public class FriendlyNPCState : BaseNPCState
         {
             npcController.StopCoroutine(followCoroutine);
             followCoroutine = null;
-        }
-    }
-
-    private IEnumerator WanderCoroutine()
-    {
-        while (true)
-        {
-            // Генерируем случайную точку в пределах области движения
-            Vector2 randomPoint = GetRandomPointInMovementArea();
-            npcController.MoveToPosition(randomPoint);
-
-            // Ждем достижения точки или случайное время
-            yield return new WaitForSeconds(Random.Range(3f, 8f));
         }
     }
 
@@ -177,32 +291,19 @@ public class FriendlyNPCState : BaseNPCState
         }
     }
 
-    private Vector2 GetRandomPointInMovementArea()
+    public void ForceLosePlayer()
     {
-        if (npcController.AreaMovementContainer != null)
+        if (npcController != null)
         {
-            Vector3[] bounds = npcController.AreaMovementContainer.GetAreaBounds();
-            if (bounds.Length > 0)
-            {
-                // Простая реализация - случайная точка внутри bounding box
-                Bounds areaBounds = new Bounds(bounds[0], Vector3.zero);
-                foreach (Vector3 point in bounds) areaBounds.Encapsulate(point);
-
-                Vector3 randomPoint = new Vector3(
-                    Random.Range(areaBounds.min.x, areaBounds.max.x),
-                    Random.Range(areaBounds.min.y, areaBounds.max.y),
-                    0
-                );
-
-                // Уточняем точку чтобы она была точно внутри полигона
-                return npcController.AreaMovementContainer.GetClosestPointInArea(randomPoint);
-            }
+            StopFollowingPlayer();
+            StartDefaultBehavior(npcController);
+            // Сбрасываем обнаружение игрока
+            npcController.DetectedPlayer = null;
         }
-
-        // Fallback: случайная точка в радиусе 5 метров
-        return (Vector2)npcController.transform.position + Random.insideUnitCircle * 5f;
     }
+    #endregion
 
+    #region Battle Support Methods
     // Обработчик начала боя
     private void OnBattleStart()
     {
@@ -279,15 +380,5 @@ public class FriendlyNPCState : BaseNPCState
         // Корректируем позицию чтобы оставаться в области движения
         return npcController.GetMovementCorrectedPosition(supportPosition);
     }
-
-    public void ForceLosePlayer()
-    {
-        if (npcController != null)
-        {
-            StopFollowingPlayer();
-            StartDefaultBehavior(npcController);
-            // Сбрасываем обнаружение игрока
-            npcController.DetectedPlayer = null;
-        }
-    }
+    #endregion
 }

@@ -4,56 +4,30 @@ using UnityEngine;
 
 public class NeutralNPCState : BaseNPCState
 {
+    #region Properties and Fields
     public override NPCStateType Type => NPCStateType.Neutral;
-    private Coroutine lookCoroutine;
 
+    private Coroutine lookCoroutine;
+    private Coroutine groupFollowCoroutine;
+    #endregion
+
+    #region State Lifecycle Methods
     public override void EnterState(NPC npc)
     {
         base.EnterState(npc);
         npc.ChangeColor(npc.Config.neutralColor);
         npcController.SetSpeed(npc.Config.moveSpeed);
-        StartPatrolBehavior(npc);
+
+        StartGroupAwareBehavior(npc);
     }
 
-    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
+    public override void UpdateState(NPC npc)
     {
-        npcController.StopMovement();
-        //Debug.Log(" neutral OnPlayerDetected");
-        // Отменяем предыдущую корутину если есть
-        if (lookCoroutine != null)
+        // Поддерживаем групповое поведение если нужно
+        if (npc.ShouldFollowGroup() && groupFollowCoroutine == null && lookCoroutine == null)
         {
-            npc.StopCoroutine(lookCoroutine);
+            StartGroupFollowing(npc);
         }
-
-        lookCoroutine = npc.StartCoroutine(LookAtPlayerRoutine(npc, player));
-    }
-
-    private IEnumerator LookAtPlayerRoutine(NPC npc, TopDownCharacterController player)
-    {
-        // Смотрим на игрока пока он в зоне detection
-        while (player != null && npc.HasDetectedPlayer)
-        {
-            Vector2 direction = (player.transform.position - npc.transform.position).normalized;
-            npc.ForceLookAt(direction, 0.5f); // Короткий duration, будет обновляться каждый кадр
-
-            yield return new WaitForSeconds(0.1f); // Обновляем направление каждые 0.1 сек
-        }
-
-        // Игрок ушел, возвращаемся к патрулированию
-        npc.AnimationController?.CancelForcedLook();
-        StartPatrolBehavior(npc);
-    }
-
-    public override void OnPlayerLost(NPC npc)
-    {
-        if (lookCoroutine != null)
-        {
-            npc.StopCoroutine(lookCoroutine);
-            lookCoroutine = null;
-        }
-
-        npc.AnimationController?.CancelForcedLook();
-        StartPatrolBehavior(npc);
     }
 
     public override void ExitState(NPC npc)
@@ -64,10 +38,95 @@ public class NeutralNPCState : BaseNPCState
             lookCoroutine = null;
         }
 
+        StopGroupFollowing();
         npc.AnimationController?.CancelForcedLook();
         npcController?.StopMovement();
     }
+    #endregion
 
+    #region Player Interaction Methods
+    public override void OnPlayerDetected(NPC npc, TopDownCharacterController player)
+    {
+        // Для не-лидеров в группе - продолжаем следовать за лидером
+        if (npc.IsMoveGroup && !npc.IsLeader)
+        {
+            return;
+        }
+
+        // Останавливаем групповое поведение на время наблюдения
+        StopGroupFollowing();
+
+        npcController.StopMovement();
+
+        if (lookCoroutine != null)
+        {
+            npc.StopCoroutine(lookCoroutine);
+        }
+
+        lookCoroutine = npc.StartCoroutine(LookAtPlayerRoutine(npc, player));
+    }
+
+    public override void OnPlayerLost(NPC npc)
+    {
+        // Для не-лидеров в группе игнорируем потерю игрока
+        if (npc.IsMoveGroup && !npc.IsLeader)
+        {
+            return;
+        }
+
+        if (lookCoroutine != null)
+        {
+            npc.StopCoroutine(lookCoroutine);
+            lookCoroutine = null;
+        }
+
+        npc.AnimationController?.CancelForcedLook();
+        StartGroupAwareBehavior(npc);
+    }
+    #endregion
+
+    #region Group Behavior Methods
+    private void StartGroupAwareBehavior(NPC npc)
+    {
+        if (npc.ShouldFollowGroup())
+        {
+            StartGroupFollowing(npc);
+        }
+        else
+        {
+            StartPatrolBehavior(npc);
+        }
+    }
+
+    private void StartGroupFollowing(NPC npc)
+    {
+        StopGroupFollowing();
+        groupFollowCoroutine = npc.StartCoroutine(GroupFollowCoroutine(npc));
+    }
+
+    private void StopGroupFollowing()
+    {
+        if (groupFollowCoroutine != null)
+        {
+            npcController.StopCoroutine(groupFollowCoroutine);
+            groupFollowCoroutine = null;
+        }
+    }
+
+    private IEnumerator GroupFollowCoroutine(NPC npc)
+    {
+        while (npc.ShouldFollowGroup())
+        {
+            Vector3 groupPosition = npc.GetGroupFormationPosition();
+            Vector3 correctedPosition = npc.GetMovementCorrectedPosition(groupPosition);
+
+            npc.MoveToPosition(correctedPosition, 2f);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    #endregion
+
+    #region Patrol Behavior Methods
     private void StartPatrolBehavior(NPC npc)
     {
         if (npcController.WaypointContainer != null && npcController.WaypointContainer.GetWaypoints().Length > 0)
@@ -93,4 +152,20 @@ public class NeutralNPCState : BaseNPCState
         }
         return points;
     }
+    #endregion
+
+    #region Coroutines
+    private IEnumerator LookAtPlayerRoutine(NPC npc, TopDownCharacterController player)
+    {
+        while (player != null && npc.HasDetectedPlayer)
+        {
+            Vector2 direction = (player.transform.position - npc.transform.position).normalized;
+            npc.ForceLookAt(direction, 0.5f);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        npc.AnimationController?.CancelForcedLook();
+        StartGroupAwareBehavior(npc);
+    }
+    #endregion
 }
