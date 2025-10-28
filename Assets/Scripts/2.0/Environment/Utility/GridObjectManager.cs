@@ -1063,8 +1063,8 @@ public class GridObjectManager : MonoBehaviour
         }
     }
     #endregion
-    private void OnApplicationQuit()
-    {
-        SaveWorldData();
-    }
+    //private void OnApplicationQuit()
+    //{
+    //    SaveWorldData();
+    //}
 }

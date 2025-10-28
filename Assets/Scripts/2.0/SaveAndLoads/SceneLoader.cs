@@ -32,8 +32,6 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName, string _saveFilePath = "")
     {
-        loadingScreen.SetActive(true);
-        int r = Random.Range(0, randomImages.Count);
         if (!string.IsNullOrEmpty(_saveFilePath))
         {
             if (PlayerPrefsMigrationManager.Instance != null)
@@ -42,17 +40,26 @@ public class SceneLoader : MonoBehaviour
                 PlayerPrefsMigrationManager.Instance.ImportFromJson();
             }
         }
-        loadingScreen.GetComponent<Image>().sprite = randomImages[r];
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    private System.Collections.IEnumerator LoadSceneAsync(string sceneName)
+    public void LoadSceneNewGame(string sceneName)
     {
+        StartCoroutine(LoadSceneAsync(sceneName));
+    }
+
+    public void OpenLoadingCanvas()
+    {
+        int r = Random.Range(0, randomImages.Count);
+        loadingScreen.GetComponent<Image>().sprite = randomImages[r];
         if (loadingScreen != null)
             loadingScreen.SetActive(true);
         else
             Debug.LogError("Loading Screen не назначен в инспекторе!");
+    }
 
+    private System.Collections.IEnumerator LoadSceneAsync(string sceneName)
+    {
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
         asyncOperation.allowSceneActivation = false;
 

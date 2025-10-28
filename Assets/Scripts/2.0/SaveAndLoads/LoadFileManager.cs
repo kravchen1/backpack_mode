@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using TMPro;
@@ -90,7 +91,8 @@ public class LoadFileManager : MonoBehaviour
 
             if (SceneLoader.Instance != null)
             {
-                SceneLoader.Instance.LoadScene("MainGame", filePath);
+                SceneLoader.Instance.OpenLoadingCanvas();
+                StartCoroutine(LoadSceneDelayed(filePath));
             }
             else
             {
@@ -104,6 +106,14 @@ public class LoadFileManager : MonoBehaviour
         {
             Debug.LogError($"Ошибка при загрузке файла {filePath}: {e.Message}");
         }
+    }
+
+    private IEnumerator LoadSceneDelayed(string filePath)
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+        SceneLoader.Instance.LoadScene("MainGame", filePath);
     }
 
     private void DeleteSaveFile(string filePath, GameObject fileEntry)

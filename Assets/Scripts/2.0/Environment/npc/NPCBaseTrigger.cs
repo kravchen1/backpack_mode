@@ -32,8 +32,19 @@ public class NPCBaseTrigger : EnvironmentTrigger
                     case "Attack":
                         button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => Attack());
                         break;
+                    case "ViewInventory":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => ViewInventory());
+                        break;
+                    case "View":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => View());
+                        break;
+                    case "Rob":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => Rob());
+                        break;
+                    case "Trade":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => Trade());
+                        break;
                     default:
-                        //могут быть и другие ключи
                         break;
                 }
             }
@@ -42,7 +53,7 @@ public class NPCBaseTrigger : EnvironmentTrigger
     }
 
 
-    private void Attack()
+    public void Attack()
     {
         ExitTrigger();
 
@@ -59,6 +70,37 @@ public class NPCBaseTrigger : EnvironmentTrigger
             NPCController.SetState(NPCStateType.Hostile);
             NPCController.currentState.OnPlayerDetected(NPCController, PlayerDataManager.Instance.playerCharacter.GetComponent<TopDownCharacterController>());
         }
+    }
+
+    private void ViewInventory()
+    {
+        CloseMenuButtons();
+        DragManager.Instance.isDragActive = false;
+        buttonsController.OpenInventory();
+        canvasShop.SetActive(true);
+        shopData.settingsKey = NPCController.Config.settingKey;
+        shopData.LoadData();
+    }
+
+    private void View()
+    {
+
+    }
+
+    private void Rob()
+    {
+        CloseMenuButtons();
+        //buttonsController.OpenInventory();
+        //canvasShop.SetActive(true);
+        //shopData.settingsKey = NPCController.Config.settingKey;
+        //shopData.LoadData();
+        RobManager.Instance.trigger = this;
+        RobManager.Instance.StartRob(NPCController.Config.settingKey);
+    }
+
+    private void Trade()
+    {
+
     }
 
 

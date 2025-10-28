@@ -1,138 +1,138 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿//using System.Collections.Generic;
+//using System.IO;
+//using System.Linq;
+//using TMPro;
+//using UnityEngine;
+//using UnityEngine.UI;
 
-public class LanguageDropdownHandler : MonoBehaviour
-{
-    public TMP_Dropdown languageDropdown; // Ссылка на компонент Dropdown
+//public class LanguageDropdownHandler : MonoBehaviour
+//{
+//    public TMP_Dropdown languageDropdown; // Ссылка на компонент Dropdown
 
-    public ButtonNewGame newGame_button;
-    public ButtonLoadGame loadGame_button;
-    public ButtonSettings settings_button;
-    public ButtonExit exit_button;
-    public ButtonAwards awards_button;
-    public ButtonShowItems showItems_button;
+//    public ButtonNewGame newGame_button;
+//    public ButtonLoadGame loadGame_button;
+//    public ButtonSettings settings_button;
+//    public ButtonExit exit_button;
+//    public ButtonAwards awards_button;
+//    public ButtonShowItems showItems_button;
 
-    public List<LocalizationTextToogle> lttObjects;
+//    public List<LocalizationTextToogle> lttObjects;
 
-    public ScreenModeDropdownHandler screenModeDropdownHandler;
+//    public ScreenModeDropdownHandler screenModeDropdownHandler;
 
-    void Start()
-    {
+//    void Start()
+//    {
         
-        // Инициализация Dropdown
-        InitializeDropdown();
+//        // Инициализация Dropdown
+//        InitializeDropdown();
 
-        // Добавляем обработчик события изменения выбора
-        languageDropdown.onValueChanged.AddListener(SetLanguage);
-    }
+//        // Добавляем обработчик события изменения выбора
+//        languageDropdown.onValueChanged.AddListener(SetLanguage);
+//    }
 
-    // Инициализация Dropdown
-    private void InitializeDropdown()
-    {
-        // Добавляем опции в Dropdown
-        languageDropdown.ClearOptions();
-        languageDropdown.AddOptions(new System.Collections.Generic.List<string> { "English", "Русский", "繁體中文", "簡體中文" });
+//    // Инициализация Dropdown
+//    private void InitializeDropdown()
+//    {
+//        // Добавляем опции в Dropdown
+//        languageDropdown.ClearOptions();
+//        languageDropdown.AddOptions(new System.Collections.Generic.List<string> { "English", "Русский", "繁體中文", "簡體中文" });
 
-        if (!PlayerPrefs.HasKey("LanguageSettings"))
-        {
-            PlayerPrefs.SetString("LanguageSettings", "en");
-        }
+//        if (!PlayerPrefs.HasKey("LanguageSettings"))
+//        {
+//            PlayerPrefs.SetString("LanguageSettings", "en");
+//        }
 
-        // Загружаем сохранен
-        string savedMode = PlayerPrefs.GetString("LanguageSettings"); 
+//        // Загружаем сохранен
+//        string savedMode = PlayerPrefs.GetString("LanguageSettings"); 
 
-        switch (savedMode)
-        {
-            case "en":
-                languageDropdown.value = 0;
-                break;
-            case "ru":
-                languageDropdown.value = 1;
-                break;
-            case "zh":
-                languageDropdown.value = 2;
-                break;
-            case "zh_tw":
-                languageDropdown.value = 3;
-                break;
-        }
+//        switch (savedMode)
+//        {
+//            case "en":
+//                languageDropdown.value = 0;
+//                break;
+//            case "ru":
+//                languageDropdown.value = 1;
+//                break;
+//            case "zh":
+//                languageDropdown.value = 2;
+//                break;
+//            case "zh_tw":
+//                languageDropdown.value = 3;
+//                break;
+//        }
 
-    }
-
-
-
-
-    // Метод для изменения режима экрана
-    //0 - English
-    //1 - Russian
-    //2 - 繁體中文 kitayskiy tradic
-    //3 - 簡體中文 kitayskuy uproshenn
-    public void SetLanguage(int modeIndex)
-    {
-        switch(modeIndex)
-        {
-            case 0:
-                PlayerPrefs.SetString("LanguageSettings", "en");
-                break;
-            case 1:
-                PlayerPrefs.SetString("LanguageSettings", "ru");
-                break;
-            case 2:
-                PlayerPrefs.SetString("LanguageSettings", "zh");
-                break;
-            case 3:
-                PlayerPrefs.SetString("LanguageSettings", "zh_tw");
-                break;
-        }
-
-        showItems_button.updateText();
-        newGame_button.updateText();
-        loadGame_button.updateText();
-        settings_button.updateText();
-        exit_button.updateText();
-        awards_button.updateText();
-
-        foreach (var obj in lttObjects)
-        {
-            obj.updateText();
-        }
-
-        screenModeDropdownHandler.InitializeDropdown();
-
-
-        LocalizationQuest();
-    }
+//    }
 
 
 
 
+//    // Метод для изменения режима экрана
+//    //0 - English
+//    //1 - Russian
+//    //2 - 繁體中文 kitayskiy tradic
+//    //3 - 簡體中文 kitayskuy uproshenn
+//    public void SetLanguage(int modeIndex)
+//    {
+//        switch(modeIndex)
+//        {
+//            case 0:
+//                PlayerPrefs.SetString("LanguageSettings", "en");
+//                break;
+//            case 1:
+//                PlayerPrefs.SetString("LanguageSettings", "ru");
+//                break;
+//            case 2:
+//                PlayerPrefs.SetString("LanguageSettings", "zh");
+//                break;
+//            case 3:
+//                PlayerPrefs.SetString("LanguageSettings", "zh_tw");
+//                break;
+//        }
+
+//        showItems_button.updateText();
+//        newGame_button.updateText();
+//        loadGame_button.updateText();
+//        settings_button.updateText();
+//        exit_button.updateText();
+//        awards_button.updateText();
+
+//        foreach (var obj in lttObjects)
+//        {
+//            obj.updateText();
+//        }
+
+//        screenModeDropdownHandler.InitializeDropdown();
 
 
-    void LocalizationQuest()
-    {
-        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
-        {
-            QuestData questData = new QuestData();
-            questData.questData = new QDataList();
-
-            string settingLanguage = "en";
-            settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+//        LocalizationQuest();
+//    }
 
 
-            questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
 
-            List<int> questsIDs = new List<int>();
-            foreach (Quest quest in questData.questData.quests)
-            {
-                quest.questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, quest.id);
-                quest.description = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, quest.id);
-            }
 
-            questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
-        }
-    }
-}
+
+
+//    void LocalizationQuest()
+//    {
+//        if (File.Exists(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json")))
+//        {
+//            QuestData questData = new QuestData();
+//            questData.questData = new QDataList();
+
+//            string settingLanguage = "en";
+//            settingLanguage = PlayerPrefs.GetString("LanguageSettings");
+
+
+//            questData.LoadData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+
+//            List<int> questsIDs = new List<int>();
+//            foreach (Quest quest in questData.questData.quests)
+//            {
+//                quest.questName = QuestManagerJSON.Instance.GetNameQuest(settingLanguage, quest.id);
+//                quest.description = QuestManagerJSON.Instance.GetTextQuest(settingLanguage, quest.id);
+//            }
+
+//            questData.SaveData(Path.Combine(PlayerPrefs.GetString("savePath"), "questData.json"));
+//        }
+//    }
+//}

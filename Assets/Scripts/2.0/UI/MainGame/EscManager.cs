@@ -40,21 +40,6 @@ public class EscManager : MonoBehaviour
 
     private void InitializeButtons()
     {
-        // Назначаем методы на кнопки
-        if (saveButton != null)
-            saveButton.onClick.AddListener(OnSaveGame);
-
-        if (loadButton != null)
-            loadButton.onClick.AddListener(OnLoadGame);
-
-        if (settingsButton != null)
-            settingsButton.onClick.AddListener(OnSettings);
-
-        if (mainMenuButton != null)
-            mainMenuButton.onClick.AddListener(OnMainMenu);
-
-        if (quitButton != null)
-            quitButton.onClick.AddListener(OnQuitGame);
     }
 
     public void ToggleEscMenu()
@@ -98,7 +83,7 @@ public class EscManager : MonoBehaviour
         // SaveSystem.LoadGame();
 
         // После загрузки выходим из меню
-        CloseMenu();
+        //CloseMenu();
     }
 
     public void OnSettings()

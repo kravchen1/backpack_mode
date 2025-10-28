@@ -25,7 +25,7 @@ public class HostileNPCState : BaseNPCState
     public override void UpdateState(NPC npc)
     {
         // ѕоддерживаем нейтральное поведение, если не преследуем игрока
-        if (chaseCoroutine == null && groupFollowCoroutine == null && patrolCoroutine == null)
+        if (chaseCoroutine == null && groupFollowCoroutine == null && patrolCoroutine == null &&  !npcController.InFightNow)
         {
             StartNeutralBehavior(npc);
         }
@@ -77,7 +77,10 @@ public class HostileNPCState : BaseNPCState
         }
 
         // ¬озвращаемс€ к нейтральному поведению
-        StartNeutralBehavior(npc);
+        if (!npcController.InFightNow)
+        {
+            StartNeutralBehavior(npc);
+        }
     }
     #endregion
 
@@ -205,9 +208,6 @@ public class HostileNPCState : BaseNPCState
     #region Chase Behavior Methods
     private IEnumerator ChasePlayerCoroutine(TopDownCharacterController player)
     {
-        // ќстанавливаем нейтральное поведение на врем€ преследовани€
-        StopNeutralBehavior(npcController.GetComponent<NPC>());
-
         while (player != null && npcController.HasDetectedPlayer)
         {
             float distanceToPlayer = Vector2.Distance(npcController.transform.position, player.transform.position);
@@ -239,7 +239,7 @@ public class HostileNPCState : BaseNPCState
         }
 
         // ѕосле преследовани€ возвращаемс€ к нейтральному поведению
-        StartNeutralBehavior(npcController.GetComponent<NPC>());
+        //StartNeutralBehavior(npcController.GetComponent<NPC>());
     }
     #endregion
 

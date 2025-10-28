@@ -15,24 +15,6 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
     public static PlayerPrefsMigrationManager Instance;
     private PlayerPrefsData _prefsData;
 
-    //public static PlayerPrefsMigrationManager Instance
-    //{
-    //    get
-    //    {
-    //        if (_instance == null)
-    //        {
-    //            _instance = FindFirstObjectByType<PlayerPrefsMigrationManager>();
-    //            if (_instance == null)
-    //            {
-    //                GameObject go = new GameObject("PlayerPrefsMigrationManager");
-    //                _instance = go.AddComponent<PlayerPrefsMigrationManager>();
-    //                DontDestroyOnLoad(go);
-    //            }
-    //        }
-    //        return _instance;
-    //    }
-    //}
-
     private void Awake()
     {
         if (Instance != null)
@@ -127,7 +109,6 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         }
     }
 
-    [ContextMenu("Import From JSON")]
     [ContextMenu("Import From JSON")]
     public void ImportFromJson()
     {
@@ -273,11 +254,23 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         }
     }
 
-
-    private void OnApplicationQuit()
+    [ContextMenu("Clear All PlayerPrefs and Keys")]
+    public void ClearAllPlayerPrefsAndKeys()
     {
-        //var dayManager = FindFirstObjectByType<DayManager>();
-        //dayManager.SaveGameData();
-        ExportToJson();
+        // Очищаем все PlayerPrefs
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
+        // Очищаем списки ключей
+        intKeys.Clear();
+        floatKeys.Clear();
+        stringKeys.Clear();
+
+        // Очищаем внутренние данные
+        _prefsData.intPrefs.Clear();
+        _prefsData.floatPrefs.Clear();
+        _prefsData.stringPrefs.Clear();
+
+        Debug.Log("Все PlayerPrefs и ключи очищены");
     }
 }

@@ -340,7 +340,6 @@ public class NPC : MonoBehaviour
     {
         if (navMeshAgent == null) return;
 
-        StopAllCoroutines();
         StartCoroutine(FollowTransformCoroutine(targetTransform, customStoppingDistance));
     }
 
@@ -348,7 +347,6 @@ public class NPC : MonoBehaviour
     {
         if (navMeshAgent == null) return;
 
-        StopAllCoroutines();
         StartCoroutine(PatrolCoroutine(waypoints));
     }
 

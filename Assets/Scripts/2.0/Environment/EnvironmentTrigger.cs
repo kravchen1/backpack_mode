@@ -141,6 +141,8 @@ public class EnvironmentTrigger : MonoBehaviour
                 canvasShop.SetActive(false);
             }
         }
+        DragManager.Instance.isDragActive = true;
+        RobManager.Instance.EndRob();
     }
 
     public bool IsPlayerInTrigger() => playerInTrigger && gameObject.activeInHierarchy;

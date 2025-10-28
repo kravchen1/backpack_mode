@@ -72,13 +72,21 @@ public class TopDownCharacterController : MonoBehaviour
 
 
     #region Unity Lifecycle
+    //private void Awake()
+    //{
+    //    LoadPlayerPosition(); // ← Загружаем позицию при старте
+    //    InitializeGraphics();
+    //    InitializeAppearance();
+    //    InitializeSpeedSystem();
+    //}
     void Start()
     {
         InitializeComponents();
-        InitializeAppearance();
-        InitializeGraphics();
-        InitializeSpeedSystem();
         LoadPlayerPosition(); // ← Загружаем позицию при старте
+        InitializeGraphics();
+        InitializeAppearance();
+        InitializeSpeedSystem();
+
     }
 
     void Update()
@@ -107,21 +115,21 @@ public class TopDownCharacterController : MonoBehaviour
         }
     }
 
-    void OnApplicationQuit()
-    {
-        SavePlayerPosition(); // ← Сохраняем при выходе
-    }
+    //void OnApplicationQuit()
+    //{
+    //    SavePlayerPosition(); // ← Сохраняем при выходе
+    //}
 
-    void OnDestroy()
-    {
-        SavePlayerPosition(); // ← Сохраняем при уничтожении объекта
+    //void OnDestroy()
+    //{
+    //    SavePlayerPosition(); // ← Сохраняем при уничтожении объекта
 
-        if (PlayerDataManager.Instance != null)
-        {
-            PlayerDataManager.Instance.Stats.OnMoveSpeedChanged -= OnMoveSpeedChanged;
-            PlayerDataManager.Instance.Stats.OnStaminaChanged -= OnStaminaChanged;
-        }
-    }
+    //    if (PlayerDataManager.Instance != null)
+    //    {
+    //        PlayerDataManager.Instance.Stats.OnMoveSpeedChanged -= OnMoveSpeedChanged;
+    //        PlayerDataManager.Instance.Stats.OnStaminaChanged -= OnStaminaChanged;
+    //    }
+    //}
     #endregion
 
     #region Initialization
@@ -634,7 +642,7 @@ public class TopDownCharacterController : MonoBehaviour
         Vector3 savedPosition = new Vector3(posX, posY, posZ);
         transform.position = savedPosition;
 
-        //Debug.Log($"Position loaded: {savedPosition}");
+        Debug.Log($"Position loaded: {savedPosition}");
     }
 
     public void ForceSavePosition()

@@ -129,9 +129,9 @@ public class MainMenuManager : MonoBehaviour
         // Отписываемся от событий при уничтожении объекта
         newGameButton.onClick.RemoveListener(OnNewGameClicked);
         loadGameButton.onClick.RemoveListener(OnLoadGameClicked);
-        educationButton.onClick.RemoveListener(OnEducationClicked);
-        settingsButton.onClick.RemoveListener(OnSettingsClicked);
-        creatorsButton.onClick.RemoveListener(OnCreatorsClicked);
+        //educationButton.onClick.RemoveListener(OnEducationClicked);
+        //settingsButton.onClick.RemoveListener(OnSettingsClicked);
+        //creatorsButton.onClick.RemoveListener(OnCreatorsClicked);
         exitGameButton.onClick.RemoveListener(OnExitGameClicked);
     }
 }

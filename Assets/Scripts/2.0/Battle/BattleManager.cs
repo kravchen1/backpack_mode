@@ -72,6 +72,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
         isBattleActive = true;
+        DragManager.Instance.isDragActive = false;
 
         buttonsController.CloseInventory();
         canvasShop.SetActive(false);
@@ -340,6 +341,7 @@ public class BattleManager : MonoBehaviour
     private void EndBattle(bool playerWon)
     {
         isBattleActive = false;
+        DragManager.Instance.isDragActive = true;
         canEscape = false;
         StopAllCoroutines();
         SaveBackpacks();
@@ -368,6 +370,7 @@ public class BattleManager : MonoBehaviour
     private void EndBattleWithEscape(bool escaped)
     {
         isBattleActive = false;
+        DragManager.Instance.isDragActive = true;
         canEscape = false;
         StopAllCoroutines();
         SaveBackpacks();
@@ -431,8 +434,6 @@ public class BattleManager : MonoBehaviour
         if (!isBattleActive || enemyTeam.Count >= maxEnemyTeamSize) return;
 
         enemyTeam.Add(newEnemy);
-        //CreateCharacterIcon(newEnemy, enemyTeamPanel, true);
-        //newEnemy.InitializeCharacter();
         CreateCharacterIconAndBackpacks(newEnemy, true);
         StartCoroutine(AutoAttackRoutine(newEnemy, enemyTeam.Count-1, true));
     }

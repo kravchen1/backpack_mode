@@ -244,10 +244,10 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     // Вызывайте этот метод при выходе из игры или в контрольных точках
-    private void OnApplicationQuit()
-    {
-        SaveData();
-    }
+    //private void OnApplicationQuit()
+    //{
+    //    SaveData();
+    //}
 
     private void OnApplicationPause(bool pauseStatus)
     {

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,11 @@ public class StartNewGame : MonoBehaviour
     public RotateCustomizationCharacter rotateCustomizationCharacter;
     public void StartGameWithoutSave()
     {
+        if (PlayerPrefsMigrationManager.Instance != null)
+        {
+            PlayerPrefsMigrationManager.Instance.ClearAllPlayerPrefsAndKeys();
+        }
+
         PlayerPrefs.SetInt("PlayerBodyIndex", rotateCustomizationCharacter.bodyIndex);
         PlayerPrefs.SetInt("PlayerHairIndex", rotateCustomizationCharacter.hairIndex);
         PlayerPrefs.SetInt("PlayerEyeIndex", rotateCustomizationCharacter.eyeIndex);
@@ -40,8 +46,17 @@ public class StartNewGame : MonoBehaviour
 
         if (SceneLoader.Instance != null)
         {
-            SceneLoader.Instance.LoadScene("MainGame");
+            SceneLoader.Instance.OpenLoadingCanvas();
+            StartCoroutine(LoadSceneDelayed());
+
         }
-        //SceneManager.LoadScene("MainGame");
+    }
+
+    private IEnumerator LoadSceneDelayed()
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+        SceneLoader.Instance.LoadSceneNewGame("MainGame");
     }
 }
