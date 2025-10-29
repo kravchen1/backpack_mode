@@ -772,4 +772,9 @@ public class TradeController : MonoBehaviour
         }
     }
     #endregion
+
+    public bool IsTrading()
+    {
+        return tradeCanvas != null && tradeCanvas.activeInHierarchy;
+    }
 }

@@ -8,12 +8,42 @@ public class NPCBigTraderTrigger : EnvironmentTrigger
     public TradeController tradeController;
     public float boostTradeStuff = 0f;
 
+    private DayManager dayManager;
+
 
     protected override void Start()
     {
         base.Start();
         NPCController = transform.parent.GetComponent<NPC>();
         settingsKey = "NPCTradeTrigger" + NPCController.Config.settingKey;//todo запись каждого объекте в Saver
+
+        // Находим DayManager и подписываемся
+        dayManager = FindObjectOfType<DayManager>();
+        if (dayManager != null)
+        {
+            dayManager.OnDayChanged += OnDayChanged;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Отписываемся при уничтожении
+        if (dayManager != null)
+        {
+            dayManager.OnDayChanged -= OnDayChanged;
+        }
+    }
+
+    private void OnDayChanged()
+    {
+        // Очищаем сохраненные данные этого торговца
+        string traderKey = "NPCTradeTrigger" + NPCController.Config.settingKey;
+        if (PlayerPrefs.HasKey(traderKey))
+        {
+            PlayerPrefs.DeleteKey(traderKey);
+            PlayerPrefs.Save();
+            Debug.Log($"Ассортимент торговца {NPCController.Config.settingKey} обновлен due to new day");
+        }
     }
 
     protected override void PerformManualInteractionChild()
