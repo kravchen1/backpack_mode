@@ -17,7 +17,7 @@ public abstract class ItemActionInfluenceWorldController : ItemActionController
         {
             _playerInventory = GameObject.Find("InventoryTradeData");
         }
-        if (transform.parent == _playerInventory)
+        if (transform.parent.gameObject == _playerInventory)
         {
             isActive = true;
         }

@@ -764,7 +764,7 @@ public class ItemMove : MonoBehaviour
     private void RemoveAllLinkedCopies()
     {
         // Ќаходим TradeGenerator дл€ использовани€ его методов
-        TradeGenerator tradeGenerator = FindObjectOfType<TradeGenerator>();
+        TradeController tradeGenerator = FindObjectOfType<TradeController>();
         if (tradeGenerator != null)
         {
             tradeGenerator.RemoveAllLinkedCopies(gameObject);

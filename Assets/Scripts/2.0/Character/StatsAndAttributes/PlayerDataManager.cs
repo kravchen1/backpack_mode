@@ -1,10 +1,14 @@
 // PlayerDataManager.cs
-using UnityEngine;
 using System;
-using System.Linq;
-using UnityEngine.Experimental.GlobalIllumination;
 using System.Collections;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.STP;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -126,6 +130,11 @@ public class PlayerDataManager : MonoBehaviour
     }
     #endregion
 
+    [Header("Death Settings")]
+    [SerializeField] private Image deathImage;
+    [SerializeField] private TextMeshProUGUI deathText;
+    [SerializeField] private float fadeInDuration = 2f;
+    [SerializeField] private float maxAlpha = 1f;
 
     #region Initialize
     private void Awake()
@@ -153,7 +162,8 @@ public class PlayerDataManager : MonoBehaviour
 
         // Инициализируем Stats, передавая ему Attributes
         Stats.Initialize(Attributes);
-
+        // Подписываемся на событие смерти из Stats
+        Stats.OnDeath += HandleDeath;
         // Загружаем данные
         LoadData();
     }
@@ -174,7 +184,7 @@ public class PlayerDataManager : MonoBehaviour
 
         Stats.SetLevel(1);
         Stats.CurrentExp = 0;
-        Stats.Money = 0.001f;
+        Stats.Money = 20f;
         Stats.CurrentHealth = Stats.MaxHealth; // Полное здоровье
         Stats.CurrentStamina = Stats.MaxStamina;
         Stats.CurrentWeight = 0;
@@ -421,6 +431,99 @@ public class PlayerDataManager : MonoBehaviour
 
         SaveData();
     }
+    #endregion
+
+    #region Death Handling
+    private void HandleDeath()
+    {
+        Time.timeScale = 0f;
+
+        // Запускаем процесс смерти
+        StartDeathSequence();
+    }
+
+    private void StartDeathSequence()
+    {
+        //Запускаем анимацию смерти
+        PlayDeathAnimation();
+    }
+
+    private void PlayDeathAnimation()
+    {
+        var animationController = GetComponent<NPCAnimationController>();
+        var playerController = GetComponent<TopDownCharacterController>();
+        // Запускаем анимацию смерти
+        animationController.animator.SetBool("IsDead", true);
+        // Отключаем анимацию движения
+        animationController.enabled = false;
+        playerController.enabled = false;
+
+        //корутина для появления UI элементов
+        StartCoroutine(FadeInUICoroutine());
+    }
+
+    private System.Collections.IEnumerator FadeInUICoroutine()
+    {
+        // Проверяем наличие UI элементов
+        if (deathImage == null && deathText == null)
+        {
+            yield break;
+        }
+
+        // Инициализируем прозрачность в 0
+        if (deathImage != null)
+        {
+            Color imageColor = deathImage.color;
+            deathImage.color = new Color(imageColor.r, imageColor.g, imageColor.b, 0f);
+            deathImage.gameObject.SetActive(true);
+        }
+
+        if (deathText != null)
+        {
+            Color textColor = deathText.color;
+            deathText.color = new Color(textColor.r, textColor.g, textColor.b, 0f);
+            deathText.gameObject.SetActive(true);
+        }
+
+        // Плавное увеличение прозрачности
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeInDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float currentAlpha = Mathf.Lerp(0f, maxAlpha, elapsedTime / fadeInDuration);
+
+            // Применяем альфу к Image
+            if (deathImage != null)
+            {
+                Color imageColor = deathImage.color;
+                deathImage.color = new Color(imageColor.r, imageColor.g, imageColor.b, currentAlpha);
+            }
+
+            // Применяем альфу к TextMeshPro
+            if (deathText != null)
+            {
+                Color textColor = deathText.color;
+                deathText.color = new Color(textColor.r, textColor.g, textColor.b, currentAlpha);
+            }
+
+            yield return null;
+        }
+
+        // Убеждаемся, что в конце альфа равна максимальному значению
+        if (deathImage != null)
+        {
+            Color imageColor = deathImage.color;
+            deathImage.color = new Color(imageColor.r, imageColor.g, imageColor.b, maxAlpha);
+        }
+
+        if (deathText != null)
+        {
+            Color textColor = deathText.color;
+            deathText.color = new Color(textColor.r, textColor.g, textColor.b, maxAlpha);
+        }
+    }
+
     #endregion
 }
 

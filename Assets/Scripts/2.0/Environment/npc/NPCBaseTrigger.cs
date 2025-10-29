@@ -100,7 +100,6 @@ public class NPCBaseTrigger : EnvironmentTrigger
 
     private void Trade()
     {
-
     }
 
 

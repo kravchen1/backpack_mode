@@ -69,7 +69,7 @@ public class NPCDataManager : MonoBehaviour
 
         Stats.SetLevel(1);
         Stats.CurrentExp = 0;
-        Stats.Money = 0.001f;
+        Stats.Money = 10f;
         Stats.CurrentHealth = Stats.MaxHealth; // Полное здоровье
         Stats.CurrentStamina = Stats.MaxStamina;
         Stats.CurrentWeight = 0;

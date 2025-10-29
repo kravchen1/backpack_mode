@@ -17,6 +17,10 @@ public class CellsData : MonoBehaviour
 
     private DataJsonCellList dataJsonList = new DataJsonCellList();
 
+    #region Public Properties
+    public bool HasSavedData => PlayerPrefs.HasKey(settingsKey) && !string.IsNullOrEmpty(PlayerPrefs.GetString(settingsKey, ""));
+    public List<GameObject> LoadedItems { get; private set; } = new List<GameObject>();
+    #endregion
 
     private void Awake()
     {
@@ -61,13 +65,13 @@ public class CellsData : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        if (settingsKey == "InventoryData")
-        {
-            SaveData();
-        }
-    }
+    //private void OnApplicationQuit()
+    //{
+    //    if (settingsKey == "InventoryData")
+    //    {
+    //        SaveData();
+    //    }
+    //}
 
     public void SaveData()
     {
@@ -152,6 +156,7 @@ public class CellsData : MonoBehaviour
     public void LoadData()
     {
         ClearAllItems();
+        LoadedItems.Clear();
         string jsonData = PlayerPrefs.GetString(settingsKey, "");
         if (string.IsNullOrEmpty(jsonData))
         {
@@ -165,8 +170,6 @@ public class CellsData : MonoBehaviour
 
             Debug.Log($"Loading {dataJsonList.inventoryDataJsonList.Count} items...");
 
-            List<GameObject> loadedObjects = new List<GameObject>();
-
             foreach (DataCellJson cellData in dataJsonList.inventoryDataJsonList)
             {
                 GameObject itemPrefab = itemPrefabs.Find(p => p.gameObject.name == cellData.cellNestedObjectName);
@@ -177,7 +180,7 @@ public class CellsData : MonoBehaviour
                 }
 
                 GameObject newItem = Instantiate(itemPrefab, itemsParent);
-                if(gameObject.name == "InventoryTradeData")
+                if(gameObject.name == "InventoryTradeData" || gameObject.name == "TradeDataAll")
                 {
                     newItem.AddComponent<ItemTrade>();
                 }
@@ -198,13 +201,13 @@ public class CellsData : MonoBehaviour
 
                 // Размещаем предмет в сохраненных ячейках
                 PlaceItemInOccupiedCells(newItem, cellData.occupiedCells, cellData.rotationZ);
-                loadedObjects.Add(newItem);
+                LoadedItems.Add(newItem);
 
                 //Debug.Log($"Loaded item {cellData.cellNestedObjectName} with rotation {cellData.rotationZ}° in {cellData.occupiedCells.Count} cells");
             }
 
             StartCoroutine(
-                        StarsPerformRaycastCheck(loadedObjects));
+                        StarsPerformRaycastCheck(LoadedItems));
             //Debug.Log("Data loaded successfully!");
         }
         catch (Exception e)

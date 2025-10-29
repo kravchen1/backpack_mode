@@ -4,7 +4,7 @@ using System.Linq;
 
 public class TradeButton : MonoBehaviour
 {
-    public TradeGenerator tradeGenerator;
+    public TradeController tradeGenerator;
 
     public List<GameObject> backpacks;
     public GameObject backpackCanvasForThisButton;
@@ -13,9 +13,9 @@ public class TradeButton : MonoBehaviour
     {
         foreach (var backpack in backpacks)
         {
-            backpack.transform.localScale = Vector3.zero;
+            backpack.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
         }
-        backpackCanvasForThisButton.transform.localScale = Vector3.one;
+        backpackCanvasForThisButton.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
     }
 
     public void ClearAllItems()

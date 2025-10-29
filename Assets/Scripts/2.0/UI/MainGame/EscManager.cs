@@ -15,6 +15,7 @@ public class EscManager : MonoBehaviour
     [SerializeField] private Button quitButton;
 
     private bool isPaused = false;
+    private bool isPlayerDead = false; // Флаг смерти игрока
 
     void Start()
     {
@@ -27,6 +28,39 @@ public class EscManager : MonoBehaviour
 
         if (escPanel != null)
             escPanel.SetActive(false);
+
+        // Подписка на событие смерти игрока
+        if (PlayerDataManager.Instance != null)
+        {
+            PlayerDataManager.Instance.Stats.OnDeath += OnPlayerDeath;
+        }
+    }
+
+    private void OnPlayerDeath()
+    {
+        isPlayerDead = true;
+        Debug.Log("Player died - ESC menu locked in paused state");
+
+        // Автоматически включаем паузу и меню при смерти
+        ForceOpenMenu();
+    }
+
+    // Принудительное открытие меню (используется при смерти)
+    private void ForceOpenMenu()
+    {
+        isPaused = true;
+        saveButton.gameObject.SetActive(false);
+        if (escCanvas != null)
+            escCanvas.enabled = true;
+
+        if (escPanel != null)
+            escPanel.SetActive(true);
+
+        Time.timeScale = 0f;
+
+        // Дополнительно можно заблокировать курсор
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
     }
 
     void Update()
@@ -44,6 +78,13 @@ public class EscManager : MonoBehaviour
 
     public void ToggleEscMenu()
     {
+        if (isPlayerDead)
+        {
+            // Можно добавить звуковой эффект или визуальную обратную связь
+            Debug.Log("Cannot close menu while player is dead");
+            return;
+        }
+
         isPaused = !isPaused;
 
         if (escCanvas != null)
@@ -56,14 +97,10 @@ public class EscManager : MonoBehaviour
         if (isPaused)
         {
             Time.timeScale = 0f;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
         else
         {
             Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
     }
 
@@ -127,20 +164,5 @@ public class EscManager : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
-
-    // Для очистки событий при уничтожении объекта
-    private void OnDestroy()
-    {
-        if (saveButton != null)
-            saveButton.onClick.RemoveAllListeners();
-        if (loadButton != null)
-            loadButton.onClick.RemoveAllListeners();
-        if (settingsButton != null)
-            settingsButton.onClick.RemoveAllListeners();
-        if (mainMenuButton != null)
-            mainMenuButton.onClick.RemoveAllListeners();
-        if (quitButton != null)
-            quitButton.onClick.RemoveAllListeners();
     }
 }

@@ -14,7 +14,7 @@ public class MoneyUI : MonoBehaviour
     [SerializeField] private float _changeDisplayDuration = 2f;
 
     [Header("Format Settings")]
-    [SerializeField] private string _moneyFormat = "F0";
+    [SerializeField] private string _moneyFormat = "F1";
     [SerializeField] private string _currencySymbol = "B";
     [SerializeField] private bool _symbolBefore = false;
     [SerializeField] private string _positivePrefix = "";
