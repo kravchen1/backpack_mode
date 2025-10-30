@@ -82,6 +82,7 @@ public class SaveFileManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player")?.GetComponent<TopDownCharacterController>().ForceSavePosition();
         GridObjectManager.Instance.SaveWorldData();
         GameObject.Find("CanvasInventory")?.transform.GetChild(0).GetComponent<CellsData>().SaveData();
+        TreeManager.Instance.SaveAllTreesState();
 
         PlayerPrefsMigrationManager.Instance._savePath = Path.Combine(Application.persistentDataPath, inputField.text + ".json");
         PlayerPrefsMigrationManager.Instance.ExportToJson();

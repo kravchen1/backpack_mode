@@ -25,14 +25,14 @@ public class NPCBigTraderTrigger : EnvironmentTrigger
         }
     }
 
-    private void OnDestroy()
-    {
-        // Отписываемся при уничтожении
-        if (dayManager != null)
-        {
-            dayManager.OnDayChanged -= OnDayChanged;
-        }
-    }
+    //private override void OnDestroy()
+    //{
+    //    // Отписываемся при уничтожении
+    //    if (dayManager != null)
+    //    {
+    //        dayManager.OnDayChanged -= OnDayChanged;
+    //    }
+    //}
 
     private void OnDayChanged()
     {
