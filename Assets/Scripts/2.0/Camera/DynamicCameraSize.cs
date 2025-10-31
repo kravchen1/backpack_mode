@@ -93,7 +93,7 @@ public class DynamicCameraSize : MonoBehaviour
         }
 
         // 5. намнбкъел яйнпнярэ оепянмюфю
-        PlayerDataManager.Instance.Stats.BaseMoveSpeed = 10f;
+        PlayerDataManager.Instance.Stats.BaseMoveSpeed = 20f;
 
         // 6. намнбкъел цпюмхжш йюлепш
         UpdateCameraBoundaries(resolutionScale);

@@ -9,34 +9,27 @@ public class NPCBigTraderTrigger : EnvironmentTrigger
     public float boostTradeStuff = 0f;
 
     private DayManager dayManager;
-
+    private QuestGiverManager questGiverManager;
+    private QuestManager questManager;
 
     protected override void Start()
     {
         base.Start();
         NPCController = transform.parent.GetComponent<NPC>();
-        settingsKey = "NPCTradeTrigger" + NPCController.Config.settingKey;//todo запись каждого объекте в Saver
+        settingsKey = "NPCTradeTrigger" + NPCController.Config.settingKey;
 
-        // Находим DayManager и подписываемся
+        // Находим менеджеры
         dayManager = FindObjectOfType<DayManager>();
+        questGiverManager = FindObjectOfType<QuestGiverManager>();
+        questManager = FindObjectOfType<QuestManager>();
         if (dayManager != null)
         {
             dayManager.OnDayChanged += OnDayChanged;
         }
     }
 
-    //private override void OnDestroy()
-    //{
-    //    // Отписываемся при уничтожении
-    //    if (dayManager != null)
-    //    {
-    //        dayManager.OnDayChanged -= OnDayChanged;
-    //    }
-    //}
-
     private void OnDayChanged()
     {
-        // Очищаем сохраненные данные этого торговца
         string traderKey = "NPCTradeTrigger" + NPCController.Config.settingKey;
         if (PlayerPrefs.HasKey(traderKey))
         {
@@ -63,12 +56,14 @@ public class NPCBigTraderTrigger : EnvironmentTrigger
                     case "Trade":
                         button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => Trade());
                         break;
+                    case "Quests":
+                        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => Quests());
+                        break;
                     default:
                         break;
                 }
             }
         }
-
     }
 
     private void Trade()
@@ -77,10 +72,42 @@ public class NPCBigTraderTrigger : EnvironmentTrigger
         tradeController.StartTrade(boostTradeStuff, settingsKey);
     }
 
+    private void Quests()
+    {
+        CloseMenuButtons();
+
+        if (questGiverManager != null)
+        {
+            // Получаем текущую репутацию с этим NPC
+            int currentReputation = questManager?.GetReputation(NPCController.Config.settingKey) ?? 0;
+
+            questGiverManager.OpenQuestGiver("Merchant John", "merchant_john_01");
+        }
+        else
+        {
+            Debug.LogError("QuestGiverManager not found!");
+        }
+    }
+
+    private void OnReputationIncreased(string npcId, int amount)
+    {
+        // Обработка увеличения репутации
+        if (questManager != null)
+        {
+            questManager.IncreaseReputation(npcId, amount);
+            Debug.Log($"Reputation with {npcId} increased by {amount}");
+        }
+    }
 
     protected override void OnExitChild()
     {
         CloseAllUI();
         tradeController.EndTrade();
+
+        // Закрываем меню квестов если открыто
+        if (questGiverManager != null)
+        {
+            //questGiverManager.CloseQuestMenu();
+        }
     }
 }
