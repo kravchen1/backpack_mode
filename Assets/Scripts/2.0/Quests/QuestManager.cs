@@ -5,21 +5,16 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    #region Fields
-    [Header("UI References")]
-    [SerializeField] private GameObject questUIPrefab;
-    [SerializeField] private Transform questsContainer;
 
-    [Header("Quest Settings")]
-    [SerializeField] private List<Quest> availableQuests = new List<Quest>();
 
+    //[Header("Quest Settings")]
     private const string QUEST_DATA_KEY = "PlayerQuests";
     private const string REPUTATION_DATA_KEY = "NPCReputations";
+    private List<Quest> availableQuests = new List<Quest>();
     private List<Quest> activeQuests = new List<Quest>();
     private QuestData questData = new QuestData();
     private Dictionary<string, int> npcReputations = new Dictionary<string, int>();
 
-    #endregion
 
     #region Unity Methods
     private void Start()

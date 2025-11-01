@@ -378,24 +378,24 @@ public class QuestGiverManager : MonoBehaviour
 
     private string GetQuestConditionsText(Quest quest)
     {
-        string conditions = "Conditions:\n";
+        string conditions = "Conditions:";
 
         switch (quest.questType)
         {
             case QuestType.Kill:
-                conditions += $"• Defeat {quest.necessaryProgress} {quest.targetEnemy}s";
-                conditions += $"\n• Progress: {quest.currentProgress}/{quest.necessaryProgress}";
+                conditions += $" • Defeat {quest.necessaryProgress} {quest.targetEnemy}s";
+                conditions += $" • Progress: {quest.currentProgress}/{quest.necessaryProgress}";
                 break;
             case QuestType.Collect:
-                conditions += $"• Collect {quest.necessaryProgress} {quest.targetItem}s";
-                conditions += $"\n• Progress: {quest.currentProgress}/{quest.necessaryProgress}";
+                conditions += $" • Collect {quest.necessaryProgress} {quest.targetItem}s";
+                conditions += $" • Progress: {quest.currentProgress}/{quest.necessaryProgress}";
                 break;
             case QuestType.Explore:
-                conditions += $"• Explore specific locations";
+                conditions += $" • Explore specific locations";
                 break;
             case QuestType.Bring:
-                conditions += $"• Deliver {quest.necessaryProgress} {quest.targetItem}s";
-                conditions += $"\n• Progress: {quest.currentProgress}/{quest.necessaryProgress}";
+                conditions += $" • Deliver {quest.necessaryProgress} {quest.targetItem}s";
+                conditions += $" • Progress: {quest.currentProgress}/{quest.necessaryProgress}";
                 break;
         }
 
@@ -404,14 +404,14 @@ public class QuestGiverManager : MonoBehaviour
 
     private string GetQuestRewardsText(Quest quest)
     {
-        string rewards = "Rewards:\n";
+        string rewards = "Rewards:";
 
         if (quest.rewardGold > 0)
-            rewards += $"• Gold: {quest.rewardGold}\n";
+            rewards += $" • Gold: {quest.rewardGold}";
         if (quest.rewardExp > 0)
-            rewards += $"• Experience: {quest.rewardExp}\n";
+            rewards += $" • Experience: {quest.rewardExp}";
         if (quest.reputationReward > 0)
-            rewards += $"• Reputation: +{quest.reputationReward}";
+            rewards += $" • Reputation: +{quest.reputationReward}";
 
         return rewards;
     }
