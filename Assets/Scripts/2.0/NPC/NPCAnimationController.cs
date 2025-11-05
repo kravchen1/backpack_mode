@@ -6,16 +6,18 @@ public class NPCAnimationController : MonoBehaviour
     #region Settings
     [Header("Appearance")]
     public int bodyIndex = 2;
-    public Color bodyColor = Color.white;
-    public Color headColor = Color.white;
     public int hairIndex = 0;
-    public Color hairColor = Color.white;
     public int eyeIndex = 1;
-    public Color eyeColor = Color.white;
+    
     public SpriteRenderer head;
     public SpriteRenderer body;
     public SpriteRenderer hair;
     public SpriteRenderer eye;
+
+    private Color bodyColor = Color.white;
+    private Color headColor = Color.white;
+    private Color hairColor = Color.white;
+    private Color eyeColor = Color.white;
 
     [Header("Animation References")]
     public Animator animator;
@@ -102,56 +104,50 @@ public class NPCAnimationController : MonoBehaviour
 
     private void InitializeAppearance()
     {
-        // Загружаем внешность из PlayerPrefs или используем значения по умолчанию
-        bodyIndex = PlayerPrefs.GetInt("NPC_BodyIndex", 2);
-        hairIndex = PlayerPrefs.GetInt("NPC_HairIndex", 1);
-        eyeIndex = PlayerPrefs.GetInt("NPC_EyeIndex", 1);
-
-        // Цвета - сохраняем как отдельные компоненты RGB
-        bodyColor = LoadColor("NPC_BodyColor", Color.white);
-        headColor = LoadColor("NPC_HeadColor", Color.white);
-        hairColor = LoadColor("NPC_HairColor", Color.white);
-        eyeColor = LoadColor("NPC_EyeColor", Color.white);
+        bodyColor = body.color;
+        headColor = head.color;
+        hairColor = hair.color;
+        eyeColor  = eye.color;
     }
     #endregion
 
     #region Appearance System
-    private Color LoadColor(string key, Color defaultColor)
-    {
-        // Если ключ не существует, возвращаем цвет по умолчанию
-        if (!PlayerPrefs.HasKey(key + "_r"))
-            return defaultColor;
+    //private Color LoadColor(string key, Color defaultColor)
+    //{
+    //    // Если ключ не существует, возвращаем цвет по умолчанию
+    //    if (!PlayerPrefs.HasKey(key + "_r"))
+    //        return defaultColor;
 
-        float r = PlayerPrefs.GetFloat(key + "_r", defaultColor.r);
-        float g = PlayerPrefs.GetFloat(key + "_g", defaultColor.g);
-        float b = PlayerPrefs.GetFloat(key + "_b", defaultColor.b);
-        float a = PlayerPrefs.GetFloat(key + "_a", defaultColor.a);
+    //    float r = PlayerPrefs.GetFloat(key + "_r", defaultColor.r);
+    //    float g = PlayerPrefs.GetFloat(key + "_g", defaultColor.g);
+    //    float b = PlayerPrefs.GetFloat(key + "_b", defaultColor.b);
+    //    float a = PlayerPrefs.GetFloat(key + "_a", defaultColor.a);
 
-        return new Color(r, g, b, a);
-    }
+    //    return new Color(r, g, b, a);
+    //}
 
-    public void SaveAppearance()
-    {
-        // Сохраняем индексы
-        PlayerPrefs.SetInt("NPC_BodyIndex", bodyIndex);
-        PlayerPrefs.SetInt("NPC_HairIndex", hairIndex);
-        PlayerPrefs.SetInt("NPC_EyeIndex", eyeIndex);
+    //public void SaveAppearance()
+    //{
+    //    // Сохраняем индексы
+    //    PlayerPrefs.SetInt("NPC_BodyIndex", bodyIndex);
+    //    PlayerPrefs.SetInt("NPC_HairIndex", hairIndex);
+    //    PlayerPrefs.SetInt("NPC_EyeIndex", eyeIndex);
 
-        // Сохраняем цвета
-        SaveColor("NPC_BodyColor", bodyColor);
-        SaveColor("NPC_HairColor", hairColor);
-        SaveColor("NPC_EyeColor", eyeColor);
+    //    // Сохраняем цвета
+    //    SaveColor("NPC_BodyColor", bodyColor);
+    //    SaveColor("NPC_HairColor", hairColor);
+    //    SaveColor("NPC_EyeColor", eyeColor);
 
-        PlayerPrefs.Save();
-    }
+    //    PlayerPrefs.Save();
+    //}
 
-    private void SaveColor(string key, Color color)
-    {
-        PlayerPrefs.SetFloat(key + "_r", color.r);
-        PlayerPrefs.SetFloat(key + "_g", color.g);
-        PlayerPrefs.SetFloat(key + "_b", color.b);
-        PlayerPrefs.SetFloat(key + "_a", color.a);
-    }
+    //private void SaveColor(string key, Color color)
+    //{
+    //    PlayerPrefs.SetFloat(key + "_r", color.r);
+    //    PlayerPrefs.SetFloat(key + "_g", color.g);
+    //    PlayerPrefs.SetFloat(key + "_b", color.b);
+    //    PlayerPrefs.SetFloat(key + "_a", color.a);
+    //}
 
     public void RefreshAppearance()
     {

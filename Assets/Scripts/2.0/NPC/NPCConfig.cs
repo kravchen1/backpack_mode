@@ -10,6 +10,7 @@ public class NPCConfig : ScriptableObject
     public float angularSpeed = 360f;
     public float stoppingDistance = 0.1f;
     public string settingKey = "NPCTest";
+    public NPCType type;
     public bool autoBraking = true;
 
     [Header("Detection Settings")]
@@ -35,4 +36,34 @@ public class NPCConfig : ScriptableObject
     public Color hostileColor = Color.red;
     public Color neutralColor = Color.yellow;
     public Color friendlyColor = Color.green;
+}
+
+public enum NPCType
+{
+    BanditPowerClan_shooter,
+    BanditPowerClan_warrior,
+    BanditPowerClan_healer,
+    BanditWhiteClan_shooter,
+    BanditWhiteClan_warrior,
+    BanditWhiteClan_healer,
+    NeutralWarrior,
+    NeutralShooter,
+    NeutralHealer,
+    Farmer,
+    Seeker,
+    Courier,
+    Fisherman,
+    Lumberjack,
+    Miner,
+    Trader,
+
+    Wolf,
+    Bear,
+    Cow,
+    Dog,
+    Pig,
+    Deer,
+    Scorpion,
+    Slug,
+    Crab
 }

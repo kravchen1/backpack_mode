@@ -14,7 +14,7 @@ public class RotateCustomizationEyes : MonoBehaviour
         int maxEyesIndex = CharacterAppearanceManager.Instance.GetEyeVariantCount;
 
         if (eyesIndex < 1)
-            eyesIndex = maxEyesIndex-1;
+            eyesIndex = maxEyesIndex;
 
         UpdateEyesText();
         characterCustomization.UpdateEyeIndex(eyesIndex);
@@ -25,7 +25,7 @@ public class RotateCustomizationEyes : MonoBehaviour
         eyesIndex++;
         int maxEyesIndex = CharacterAppearanceManager.Instance.GetEyeVariantCount;
 
-        if (eyesIndex > maxEyesIndex-1)
+        if (eyesIndex > maxEyesIndex)
             eyesIndex = 1;
 
         UpdateEyesText();
@@ -63,7 +63,7 @@ public class RotateCustomizationEyes : MonoBehaviour
 
     public void RandomEyes()
     {
-        eyesIndex = Random.Range(1, CharacterAppearanceManager.Instance.GetEyeVariantCount);
+        eyesIndex = Random.Range(1, CharacterAppearanceManager.Instance.GetEyeVariantCount+1);
         UpdateEyesText();
         characterCustomization.UpdateEyeIndex(eyesIndex);
     }
