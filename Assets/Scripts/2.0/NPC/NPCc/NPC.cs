@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(NPCDataManager))]
 public class NPC : MonoBehaviour
@@ -52,6 +53,22 @@ public class NPC : MonoBehaviour
     {
         InitializeComponents();
         InitializeStates();
+
+        var animScript = GetComponent<NPCAnimationController>();
+        var animatior = GetComponent<Animator>();
+        var sprites = transform.GetChild(0).gameObject;
+        var light2d = transform.GetChild(1).gameObject;
+        var trigger = transform.GetChild(2).gameObject;
+        var nameText = transform.GetChild(3).gameObject;
+        var behindForward = transform.GetChild(4).gameObject;
+
+        animScript.enabled = false;
+        animatior.enabled = false;
+        sprites.SetActive(false);
+        light2d.SetActive(false);
+        trigger.SetActive(false);
+        nameText.SetActive(false);
+        behindForward.SetActive(false);
     }
 
     protected virtual void Start()
