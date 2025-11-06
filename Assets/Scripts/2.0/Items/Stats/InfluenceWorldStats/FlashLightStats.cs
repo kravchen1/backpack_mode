@@ -15,7 +15,7 @@ public class FlashLightStats : ItemStats
 
         _descriptionTriples.AddRange(new[]
         {
-
+            new DescriptionTriple("Description", "", ""),
             new DescriptionTriple("Flash Light Radius", "", ""),
             new DescriptionTriple("Flash Light Intensity", "", ""),
             new DescriptionTriple("Weight", "", ""),

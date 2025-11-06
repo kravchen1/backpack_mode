@@ -14,7 +14,7 @@ public class ArmorStats : ItemStats
 
         _descriptionTriples.AddRange(new[]
         {
-            
+            new DescriptionTriple("Description", "", ""),
             new DescriptionTriple("Dmg / 1 Durability", $"{damageConsumptionPerDurability:0}", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),

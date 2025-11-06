@@ -82,6 +82,7 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
 
         _descriptionTriples.AddRange(new[]
         {
+            new DescriptionTriple("Description", "", ""),
             new DescriptionTriple("Type", "", ""),
             new DescriptionTriple("Rarity", "", ""),
             new DescriptionTriple("Quality", "", ""),

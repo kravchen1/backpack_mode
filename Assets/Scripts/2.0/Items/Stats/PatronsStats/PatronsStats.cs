@@ -18,6 +18,7 @@ public class PatronsStats : ItemStats
 
         _descriptionTriples.AddRange(new[]
         {
+            new DescriptionTriple("Description", "", ""),
             new DescriptionTriple("Type", "", ""),
             new DescriptionTriple("Damage Mod", $"{damageModifier:+#;-#;0}%", ""),
             new DescriptionTriple("Accuracy Mod", $"{accuracyModifier:+#;-#;0}", ""),

@@ -80,6 +80,7 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
 
         _descriptionTriples.AddRange(new[]
         {
+            new DescriptionTriple("Description", "", ""),
             new DescriptionTriple("Type", "", ""),
             new DescriptionTriple("Rarity", "", ""),
             new DescriptionTriple("Quality", "", ""),

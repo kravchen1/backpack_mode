@@ -641,7 +641,6 @@ MonoBehaviour:
   weight: 10
   maxDurability: 125
   basePrice: 210
-  price: 250
   isUseFightIcon: {fileID: 6428106967758789852, guid: 21af577eed402c2438de7bd147ad7ee2, type: 3}
   isNotUseFightIcon: {fileID: 2643436714208373779, guid: a11e4e1c72ff0ff47a137f82364f481d, type: 3}
   _durabilityText: {fileID: 5916500485652281383}
@@ -676,9 +675,13 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   isShowDurability: 1
-  _descriptionTriples: []
+  _descriptionTriples:
+  - _nameKey: Description
+    _answerKey: 
+    _descriptionKey: ArmorTestDescription
   _doubleClickTime: 0.3
   _containerDescriptionPrefab: {fileID: 6888613742732360828, guid: b08a6e5f98ec1594280debb07bc57000, type: 3}
+  price: 250
   damageConsumptionPerDurability: 1
 --- !u!114 &3773534872336898810
 MonoBehaviour:

@@ -144,57 +144,58 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
 
         _descriptionTriples.AddRange(new[]
         {
-        new DescriptionTriple("Type", "", ""),
-        new DescriptionTriple("Rarity", "", ""),
-        new DescriptionTriple("Quality", "", ""),
+            new DescriptionTriple("Description", "", ""),
+            new DescriptionTriple("Type", "", ""),
+            new DescriptionTriple("Rarity", "", ""),
+            new DescriptionTriple("Quality", "", ""),
         
-        // Ближний бой
-        new DescriptionTriple("Melee Damage",
-            $"{((minDamageMelee + maxDamageMelee) / coolDownMelee):0.0}",
-            $"({minDamageMelee/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({minDamageMelee:0.0}) + {maxDamageMelee/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({maxDamageMelee:0.0})) / ({coolDownMelee/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownMelee:0.0}s))"),
+            // Ближний бой
+            new DescriptionTriple("Melee Damage",
+                $"{((minDamageMelee + maxDamageMelee) / coolDownMelee):0.0}",
+                $"({minDamageMelee/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({minDamageMelee:0.0}) + {maxDamageMelee/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({maxDamageMelee:0.0})) / ({coolDownMelee/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownMelee:0.0}s))"),
 
-        new DescriptionTriple("Melee Crit Chance",
-            $"{critChanceMelee}%",
-            $"{critChanceMelee/qualityMultiplier:0}×{qualityMultiplier:0.0}({critChanceMelee}%)"),
+            new DescriptionTriple("Melee Crit Chance",
+                $"{critChanceMelee}%",
+                $"{critChanceMelee/qualityMultiplier:0}×{qualityMultiplier:0.0}({critChanceMelee}%)"),
 
-        new DescriptionTriple("Melee Crit Damage",
-            $"{critDamageMelee}%",
-            $"{critDamageMelee/qualityMultiplier:0}×{qualityMultiplier:0.0}({critDamageMelee}%)"),
+            new DescriptionTriple("Melee Crit Damage",
+                $"{critDamageMelee}%",
+                $"{critDamageMelee/qualityMultiplier:0}×{qualityMultiplier:0.0}({critDamageMelee}%)"),
 
-        new DescriptionTriple("Melee Accuracy",
-            $"{accuracyMelee}",
-            $"{accuracyMelee/qualityMultiplier:0}×{qualityMultiplier:0.0}({accuracyMelee})"),
+            new DescriptionTriple("Melee Accuracy",
+                $"{accuracyMelee}",
+                $"{accuracyMelee/qualityMultiplier:0}×{qualityMultiplier:0.0}({accuracyMelee})"),
 
-        new DescriptionTriple("Melee Stamina",
-            $"{baseStaminaMelee/coolDownMelee:0.0}",
-            $"{baseStaminaMelee/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStaminaMelee:0.0}) / {coolDownMelee/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownMelee:0.0}s)"),
+            new DescriptionTriple("Melee Stamina",
+                $"{baseStaminaMelee/coolDownMelee:0.0}",
+                $"{baseStaminaMelee/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStaminaMelee:0.0}) / {coolDownMelee/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownMelee:0.0}s)"),
         
-        // Дальний бой
-        new DescriptionTriple("Range Damage",
-            $"{((minDamageRange + maxDamageRange) / coolDownRange):0.0}",
-            $"({minDamageRange/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({minDamageRange:0.0}) + {maxDamageRange/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({maxDamageRange:0.0})) / ({coolDownRange/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownRange:0.0}s))"),
+            // Дальний бой
+            new DescriptionTriple("Range Damage",
+                $"{((minDamageRange + maxDamageRange) / coolDownRange):0.0}",
+                $"({minDamageRange/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({minDamageRange:0.0}) + {maxDamageRange/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({maxDamageRange:0.0})) / ({coolDownRange/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownRange:0.0}s))"),
 
-        new DescriptionTriple("Range Crit Chance",
-            $"{critChanceRange}%",
-            $"{critChanceRange/qualityMultiplier:0}×{qualityMultiplier:0.0}({critChanceRange}%)"),
+            new DescriptionTriple("Range Crit Chance",
+                $"{critChanceRange}%",
+                $"{critChanceRange/qualityMultiplier:0}×{qualityMultiplier:0.0}({critChanceRange}%)"),
 
-        new DescriptionTriple("Range Crit Damage",
-            $"{critDamageRange}%",
-            $"{critDamageRange/qualityMultiplier:0}×{qualityMultiplier:0.0}({critDamageRange}%)"),
+            new DescriptionTriple("Range Crit Damage",
+                $"{critDamageRange}%",
+                $"{critDamageRange/qualityMultiplier:0}×{qualityMultiplier:0.0}({critDamageRange}%)"),
 
-        new DescriptionTriple("Range Accuracy",
-            $"{accuracyRange}",
-            $"{accuracyRange/qualityMultiplier:0}×{qualityMultiplier:0.0}({accuracyRange})"),
+            new DescriptionTriple("Range Accuracy",
+                $"{accuracyRange}",
+                $"{accuracyRange/qualityMultiplier:0}×{qualityMultiplier:0.0}({accuracyRange})"),
 
-        new DescriptionTriple("Range Stamina",
-            $"{baseStaminaRange/coolDownRange:0.0}",
-            $"{baseStaminaRange/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStaminaRange:0.0}) / {coolDownRange/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownRange:0.0}s)"),
+            new DescriptionTriple("Range Stamina",
+                $"{baseStaminaRange/coolDownRange:0.0}",
+                $"{baseStaminaRange/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStaminaRange:0.0}) / {coolDownRange/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDownRange:0.0}s)"),
         
-        // Общие
-        new DescriptionTriple("Weight", "", ""),
-        new DescriptionTriple("Durability", "", ""),
-        new DescriptionTriple("Requirements", "", ""),
-        new DescriptionTriple("Price", "", "")
+            // Общие
+            new DescriptionTriple("Weight", "", ""),
+            new DescriptionTriple("Durability", "", ""),
+            new DescriptionTriple("Requirements", "", ""),
+            new DescriptionTriple("Price", "", "")
     });
     }
 

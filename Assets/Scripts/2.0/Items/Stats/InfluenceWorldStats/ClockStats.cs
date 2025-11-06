@@ -15,6 +15,7 @@ public class ClockStats : ItemStats
 
         _descriptionTriples.AddRange(new[]
         {
+            new DescriptionTriple("Description", "", ""),
             new DescriptionTriple("Flash Light Intensity", "", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
