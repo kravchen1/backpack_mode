@@ -180,10 +180,6 @@ public class CellsData : MonoBehaviour
                 }
 
                 GameObject newItem = Instantiate(itemPrefab, itemsParent);
-                if(gameObject.name == "InventoryTradeData" || gameObject.name == "TradeDataAll")
-                {
-                    newItem.AddComponent<ItemTrade>();
-                }
 
                 newItem.name = itemPrefab.gameObject.name;
                 newItem.transform.rotation = Quaternion.Euler(0, 0, cellData.rotationZ);
@@ -197,6 +193,11 @@ public class CellsData : MonoBehaviour
                 if (cellData.countStack > 0)
                 {
                     newItem.GetComponent<ItemMove>().AddToStack(cellData.countStack-1);
+                }
+
+                if (gameObject.name == "InventoryTradeData" || gameObject.name == "TradeDataAll")
+                {
+                    newItem.AddComponent<ItemTrade>();
                 }
 
                 // Размещаем предмет в сохраненных ячейках

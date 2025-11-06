@@ -184,7 +184,7 @@ public class PlayerDataManager : MonoBehaviour
 
         Stats.SetLevel(1);
         Stats.CurrentExp = 0;
-        Stats.Money = 20f;
+        Stats.Money = 2000f;
         Stats.CurrentHealth = Stats.MaxHealth; // Полное здоровье
         Stats.CurrentStamina = Stats.MaxStamina;
         Stats.CurrentWeight = 0;

@@ -16,11 +16,19 @@ public class ItemTrade : MonoBehaviour
     {
         itemStats = GetComponent<ItemStats>();
         itemStats.isShowDurability = false;
-        priceText = transform.Find("Durability")?.GetComponent<TextMeshPro>();
+        priceText = transform.Find("InfoText")?.GetComponent<TextMeshPro>();
 
         if( priceText != null )
         {
             priceText.color = _PriceColor;
+            priceText.text = $"{itemStats.price:0}";
+        }
+    }
+
+    public void RefreshPrice()
+    {
+        if (priceText != null)
+        {
             priceText.text = $"{itemStats.price:0}";
         }
     }

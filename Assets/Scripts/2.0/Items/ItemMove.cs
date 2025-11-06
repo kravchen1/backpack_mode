@@ -59,7 +59,15 @@ public class ItemMove : MonoBehaviour
     public int StackCount
     {
         get => _stackCount;
-        set => _stackCount = value;
+        set
+        {
+            _stackCount = value;
+            _itemStats.price = _itemStats.basePrice * _stackCount;
+            if(GetComponent<ItemTrade>() != null)
+            {
+                GetComponent<ItemTrade>().RefreshPrice();
+            }
+        }
     }
     public int MaxStackSize => _maxStackSize;
     public string ItemName => gameObject.name.Replace("(Clone)", "").Trim();
@@ -130,7 +138,9 @@ public class ItemMove : MonoBehaviour
     {
         if (DragManager.Instance != null && DragManager.Instance.isDragActive)
         {
-            if (Input.GetKey(KeyCode.LeftShift) && _isStackable && _stackCount > 1)
+            // Обрабатываем разделение стака с учетом разных комбинаций клавиш
+            if ((Input.GetKey(KeyCode.LeftShift) || (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl)))
+                && _isStackable && StackCount > 1)
             {
                 SplitStack();
                 return;
@@ -143,10 +153,8 @@ public class ItemMove : MonoBehaviour
 
     private void SplitStack()
     {
-        int halfCount = Mathf.CeilToInt(_stackCount / 2f);
-        int remainingCount = _stackCount - halfCount;
-
-        if (halfCount <= 0) return;
+        int splitCount = CalculateSplitCount();
+        if (splitCount <= 0) return;
 
         // Если уже есть разделенный предмет, отменяем создание нового
         if (_splitItem != null && _splitItem._isSplitItem)
@@ -157,7 +165,7 @@ public class ItemMove : MonoBehaviour
         }
 
         CacheOriginallyOccupiedCells();
-        _stackCount = remainingCount;
+        StackCount -= splitCount;
         UpdateStackVisual();
 
         GameObject newStack = Instantiate(gameObject, transform.position, Quaternion.identity, transform.parent);
@@ -166,7 +174,7 @@ public class ItemMove : MonoBehaviour
         if (newItemMove != null)
         {
             newItemMove.SaveOriginalState();
-            newItemMove._stackCount = halfCount;
+            newItemMove.StackCount = splitCount;
             newItemMove._isDragging = true;
             newItemMove._offset = transform.position - GetMouseWorldPosition();
             newItemMove.CacheOriginalColors();
@@ -176,7 +184,14 @@ public class ItemMove : MonoBehaviour
             newItemMove._isSplitItem = true;
             newItemMove._originalItem = this;
 
-            newItemMove._playerInventory = GameObject.Find("InventoryData");
+            if (GameObject.Find("InventoryData"))
+            {
+                newItemMove._playerInventory = GameObject.Find("InventoryData");
+            }
+            else
+            {
+                newItemMove._playerInventory = GameObject.Find("InventoryTradeData");
+            }
             newItemMove._shopInventory = GameObject.Find("ShopData");
             newItemMove._backpackInventory = GameObject.Find("BackpackInventroy");
             newItemMove._backpackShop = GameObject.Find("BackpackShop");
@@ -194,12 +209,31 @@ public class ItemMove : MonoBehaviour
         RestoreOriginallyOccupiedCells();
     }
 
+    /// <summary>
+    /// Рассчитывает количество предметов для разделения в зависимости от комбинации клавиш
+    /// </summary>
+    private int CalculateSplitCount()
+    {
+        // LShift + LCtrl = 1 предмет
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl))
+        {
+            return 1;
+        }
+        // Только LShift = половина стака
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
+            return Mathf.CeilToInt(StackCount / 2f);
+        }
+
+        return 0;
+    }
+
     // Новый метод для возврата и уничтожения разделенного предмета
     private void ReturnToOriginalAndDestroy()
     {
         if (_originalItem != null)
         {
-            _originalItem._stackCount += _stackCount;
+            _originalItem.StackCount += StackCount;
             _originalItem.UpdateStackVisual();
             _originalItem._splitItem = null;
         }
@@ -236,6 +270,10 @@ public class ItemMove : MonoBehaviour
         _offset = transform.position - GetMouseWorldPosition();
         _isDragging = true;
         _SpriteRenderer.sortingOrder = draggingSortingOrder;
+        if(_textMeshProCountStack != null)
+        {
+            _textMeshProCountStack.sortingOrder = draggingSortingOrder + 1;
+        }
         CacheOriginalColors();
         ClearCurrentCells();
         _canBePlaced = true;
@@ -308,6 +346,10 @@ public class ItemMove : MonoBehaviour
     {
         if (!_isDragging) return;
         _SpriteRenderer.sortingOrder = defaultSortingOrder;
+        if (_textMeshProCountStack != null)
+        {
+            _textMeshProCountStack.sortingOrder = defaultSortingOrder + 1;
+        }
         _isDragging = false;
         if (!IsCursorOverItem())
         {
@@ -356,7 +398,7 @@ public class ItemMove : MonoBehaviour
         if (_originalItem != null)
         {
             // Возвращаем стаки оригинальному предмету
-            _originalItem._stackCount += _stackCount;
+            _originalItem.StackCount += StackCount;
             _originalItem.UpdateStackVisual();
             _originalItem._splitItem = null; // Очищаем ссылку
         }
@@ -418,19 +460,19 @@ public class ItemMove : MonoBehaviour
         // Разрешаем объединение разделенного предмета с оригиналом и наоборот
         // Убираем блокировку объединения между связанными предметами
 
-        int availableSpace = targetItem._maxStackSize - targetItem._stackCount;
+        int availableSpace = targetItem._maxStackSize - targetItem.StackCount;
         if (availableSpace <= 0) return false;
 
-        int amountToTransfer = Mathf.Min(_stackCount, availableSpace);
-        targetItem._stackCount += amountToTransfer;
+        int amountToTransfer = Mathf.Min(StackCount, availableSpace);
+        targetItem.StackCount += amountToTransfer;
         targetItem.UpdateStackVisual();
 
         ChangeWeightStackable();
 
-        _stackCount -= amountToTransfer;
+        StackCount -= amountToTransfer;
 
         // Если стаки полностью перенесены, уничтожаем этот предмет
-        if (_stackCount <= 0)
+        if (StackCount <= 0)
         {
             // Если это разделенный предмет, очищаем ссылку у оригинала
             if (_isSplitItem && _originalItem != null)
@@ -440,6 +482,7 @@ public class ItemMove : MonoBehaviour
             return true;
         }
 
+        UpdateStackVisual();
         return false;
     }
 
@@ -481,13 +524,13 @@ public class ItemMove : MonoBehaviour
 
     private void UpdateStackVisualization()
     {
-        if (!_isStackable || _previousCountStack == _stackCount) return;
+        if (!_isStackable || _previousCountStack == StackCount) return;
 
-        _previousCountStack = _stackCount;
+        _previousCountStack = StackCount;
 
         if (_textMeshProCountStack != null)
         {
-            _textMeshProCountStack.text = _stackCount > 1 ? _stackCount.ToString() : string.Empty;
+            _textMeshProCountStack.text = StackCount > 1 ? StackCount.ToString() : string.Empty;
         }
 
         // Оптимизация: обновляем прозрачность только если изменилось состояние стека
@@ -495,7 +538,7 @@ public class ItemMove : MonoBehaviour
         if (renderer != null)
         {
             Color color = renderer.color;
-            color.a = _stackCount > 1 ? 0.9f : 1.0f;
+            color.a = StackCount > 1 ? 0.9f : 1.0f;
             renderer.color = color;
         }
     }
@@ -711,7 +754,7 @@ public class ItemMove : MonoBehaviour
 
     private bool TradeItem()
     {
-        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
+        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory && _originalParent.gameObject != _playerInventory)
         {
             if (PurchaseItem())
             {
@@ -724,11 +767,14 @@ public class ItemMove : MonoBehaviour
                 return false;
             }
         }
-        else
+
+        if(_currentGreenCells[0].transform.parent.gameObject != _backpackInventory && _originalParent.gameObject == _playerInventory)
         {
             SaleItem();
             return true;
         }
+
+        return true;
     }    
 
     private bool PurchaseItem()
@@ -953,14 +999,14 @@ public class ItemMove : MonoBehaviour
 
     public bool CanAddToStack(int amount)
     {
-        return _isStackable && (_stackCount + amount) <= _maxStackSize;
+        return _isStackable && (StackCount + amount) <= _maxStackSize;
     }
 
     public void AddToStack(int amount)
     {
         if (_isStackable)
         {
-            _stackCount = Mathf.Min(_stackCount + amount, _maxStackSize);
+            StackCount = Mathf.Min(StackCount + amount, _maxStackSize);
             UpdateStackVisual();
         }
     }
@@ -975,7 +1021,7 @@ public class ItemMove : MonoBehaviour
         if (_itemStats == null) return 0f;
 
         float singleItemWeight = _itemStats.weight;
-        return singleItemWeight * _stackCount;
+        return singleItemWeight * StackCount;
     }
 
     private bool IsInInventoryArea()
@@ -1079,10 +1125,10 @@ public class ItemMove : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        _stackCount = Mathf.Clamp(_stackCount, 1, _maxStackSize);
+        StackCount = Mathf.Clamp(StackCount, 1, _maxStackSize);
         if (!_isStackable)
         {
-            _stackCount = 1;
+            StackCount = 1;
         }
     }
 

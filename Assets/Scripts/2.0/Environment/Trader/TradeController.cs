@@ -16,6 +16,8 @@ public class TradeController : MonoBehaviour
     public GameObject tradeCanvasWeaponMods;
     public GameObject tradeCanvasOther;
 
+    public GameObject tradeCanvasPurchase;
+
     [Header("Item Generation")]
     public int maxShopItems = 30;
 
@@ -106,6 +108,7 @@ public class TradeController : MonoBehaviour
         tradeCanvasPatrons.transform.parent.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
         tradeCanvasWeaponMods.transform.parent.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
         tradeCanvasOther.transform.parent.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
+        tradeCanvasPurchase.transform.parent.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
     }
 
     public void RemoveItemCopies(ItemTrade itemToRemove)

@@ -18,7 +18,8 @@ public abstract class ItemStats : MonoBehaviour
     public float weight = 1f;
     private float _durability = 100f;
     public float maxDurability = 100f;
-    public float price = 100;
+    public float basePrice = 100;
+    [HideInInspector] public float price = 100;
 
     [Header("Icons And Durability Display")]
     private SpriteRenderer _isUseFightIcon;
@@ -94,12 +95,21 @@ public abstract class ItemStats : MonoBehaviour
         // Инициализируем отображение прочности при старте
         if (_durabilityText == null)
         {
-            _durabilityText = transform.Find("Durability")?.GetComponent<TextMeshPro>();
+            _durabilityText = transform.Find("InfoText")?.GetComponent<TextMeshPro>();
         }
         if (_isUseFightIcon == null)
         {
             _isUseFightIcon = transform.Find("IsUseFight")?.GetComponent<SpriteRenderer>();
         }
+        if (GetComponent<ItemMove>().StackCount > 1)
+        {
+            price = basePrice * GetComponent<ItemMove>().StackCount;
+        }
+        else
+        {
+            price = basePrice;
+        }
+
 
         UpdateDurabilityDisplay();
     }

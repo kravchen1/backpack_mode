@@ -1481,7 +1481,7 @@ GameObject:
   - component: {fileID: 4387411071383622027}
   - component: {fileID: 5327677531896627893}
   m_Layer: 9
-  m_Name: Durability
+  m_Name: InfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1549,7 +1549,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 633409197
   m_SortingLayer: 6
-  m_SortingOrder: 3
+  m_SortingOrder: 6
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5327677531896627893
 MonoBehaviour:
@@ -2343,9 +2343,10 @@ MonoBehaviour:
   itemQuality: 2
   usableFight: 1
   usableNotFight: 0
-  weight: 5
-  maxDurability: 125
-  price: 0.2
+  weight: 7.5
+  maxDurability: 250
+  basePrice: 275
+  price: 200
   isUseFightIcon: {fileID: 6428106967758789852, guid: 21af577eed402c2438de7bd147ad7ee2, type: 3}
   isNotUseFightIcon: {fileID: 2643436714208373779, guid: a11e4e1c72ff0ff47a137f82364f481d, type: 3}
   _durabilityText: {fileID: 5327677531896627893}

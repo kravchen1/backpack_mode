@@ -156,7 +156,7 @@ public class GroundTileReplacer : EditorWindow
                tileName.Contains("ground") ||
                tileName == "земля" || // точное совпадение (без учета регистра)
                tileName == "earth" ||
-               tileName == "ground";
+               tileName == "Gameground";
     }
 
     // Альтернативная версия метода с более строгой проверкой
