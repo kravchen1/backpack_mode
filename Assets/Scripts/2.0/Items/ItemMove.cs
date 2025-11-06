@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ItemMove : MonoBehaviour
 {
+    #region Serialized Fields
     [Header("Stacking Settings")]
     [SerializeField] private bool _isStackable = false;
     [SerializeField] private int _stackCount = 1;
@@ -16,16 +17,16 @@ public class ItemMove : MonoBehaviour
 
     public List<BoxCollider2D> itemColliders = new List<BoxCollider2D>();
     public List<ItemStar> itemStars = new List<ItemStar>();
+    #endregion
 
+    #region Private Fields
     // Cache variables
     private Camera _mainCamera;
     private Transform _originalParent;
     private GameObject _playerInventory;
     private GameObject _shopInventory;
-
     private GameObject _backpackInventory;
     private GameObject _backpackShop;
-
     private Vector3 _originalPosition;
     private bool _isDragging = false;
     private Vector3 _offset;
@@ -54,7 +55,19 @@ public class ItemMove : MonoBehaviour
     //Item cache
     private ItemStats _itemStats;
 
-    // Properties
+    // Other items cache
+    private List<ItemStar> otherItemStarsInInventory;
+    #endregion
+
+    #region Constants
+    private const int CELL_LAYER = 8;
+    private const float RAYCAST_DISTANCE = 0.1f;
+    private const float ROTATION_ANGLE = 90f;
+    private const int draggingSortingOrder = 5;
+    private const int defaultSortingOrder = 2;
+    #endregion
+
+    #region Properties
     public bool IsStackable => _isStackable;
     public int StackCount
     {
@@ -62,8 +75,11 @@ public class ItemMove : MonoBehaviour
         set
         {
             _stackCount = value;
-            _itemStats.price = _itemStats.basePrice * _stackCount;
-            if(GetComponent<ItemTrade>() != null)
+            if (_itemStats != null)
+            {
+                _itemStats.price = _itemStats.basePrice * _stackCount;
+            }
+            if (GetComponent<ItemTrade>() != null)
             {
                 GetComponent<ItemTrade>().RefreshPrice();
             }
@@ -71,19 +87,144 @@ public class ItemMove : MonoBehaviour
     }
     public int MaxStackSize => _maxStackSize;
     public string ItemName => gameObject.name.Replace("(Clone)", "").Trim();
+    #endregion
 
-    // Constants
-    private const int CELL_LAYER = 8;
-    private const float RAYCAST_DISTANCE = 0.1f;
-    private const float ROTATION_ANGLE = 90f;
-    private const int draggingSortingOrder = 5;
-    private const int defaultSortingOrder = 2;
-
+    #region Unity Lifecycle
     void Awake()
     {
         Initialize();
     }
 
+    public virtual void Update()
+    {
+        UpdateStackVisualization();
+
+        if (_isDragging)
+        {
+            UpdateDragPosition();
+            PerformRaycast();
+            HandleRotation();
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Если это разделенный предмет, очищаем ссылку у оригинала
+        if (_isSplitItem && _originalItem != null)
+        {
+            _originalItem._splitItem = null;
+        }
+
+        // Если это оригинальный предмет, уничтожаем разделенный
+        if (_splitItem != null)
+        {
+            Destroy(_splitItem.gameObject);
+        }
+
+        ClearAllCellReferences();
+        ResetAllColorsToDefault();
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        StackCount = Mathf.Clamp(StackCount, 1, _maxStackSize);
+        if (!_isStackable)
+        {
+            StackCount = 1;
+        }
+    }
+#endif
+    #endregion
+
+    #region Input Handlers
+    public virtual void OnMouseDown()
+    {
+        if (DragManager.Instance != null && DragManager.Instance.isDragActive)
+        {
+            // Обрабатываем разделение стака с учетом разных комбинаций клавиш
+            if ((Input.GetKey(KeyCode.LeftShift) || (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl)))
+                && _isStackable && StackCount > 1)
+            {
+                SplitStack();
+                return;
+            }
+
+            StartDragging();
+        }
+    }
+
+    public virtual void OnMouseUp()
+    {
+        if (!_isDragging) return;
+        _SpriteRenderer.sortingOrder = defaultSortingOrder;
+        if (_textMeshProCountStack != null)
+        {
+            _textMeshProCountStack.sortingOrder = defaultSortingOrder + 1;
+        }
+        _isDragging = false;
+        if (!IsCursorOverItem())
+        {
+            OnMouseExit();
+        }
+        ResetAllColorsToDefault();
+        Physics2D.SyncTransforms();
+
+        // Сначала пробуем объединить с другими стаками - это имеет приоритет над размещением
+        if (TryMergeWithStackedItem())
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (CanBePlaced() && TradeItem())
+        {
+            CommitPlacement();
+
+            if (_isSplitItem && _originalItem != null)
+            {
+                _isSplitItem = false;
+                _originalItem._splitItem = null;
+                _originalItem = null;
+            }
+        }
+        else
+        {
+            if (_isSplitItem && _originalItem != null)
+            {
+                ReturnStackToOriginalItem();
+                Destroy(gameObject);
+            }
+            else
+            {
+                RevertPlacement();
+            }
+        }
+
+        _previousHitColliders.Clear();
+        ClearCurrentCells();
+    }
+
+    private void OnMouseEnter()
+    {
+        if (otherItemStarsInInventory == null)
+        {
+            FindOtherItemStarsInInventory();
+        }
+
+        SetStarsVisibility(true);
+    }
+
+    private void OnMouseExit()
+    {
+        if (!_isDragging)
+        {
+            SetStarsVisibility(false);
+        }
+    }
+    #endregion
+
+    #region Initialization
     private void Initialize()
     {
         _mainCamera = Camera.main;
@@ -112,10 +253,8 @@ public class ItemMove : MonoBehaviour
 
     private void SaveOriginalState()
     {
-        
         _originalPosition = transform.position;
         _originalParent = transform.parent;
-        //Debug.Log(_originalParent);
         CacheOriginallyOccupiedCells();
     }
 
@@ -133,24 +272,40 @@ public class ItemMove : MonoBehaviour
             }
         }
     }
+    #endregion
 
-    public virtual void OnMouseDown()
+    #region Dragging Logic
+    private void StartDragging()
     {
-        if (DragManager.Instance != null && DragManager.Instance.isDragActive)
+        _offset = transform.position - GetMouseWorldPosition();
+        _isDragging = true;
+        _SpriteRenderer.sortingOrder = draggingSortingOrder;
+        if (_textMeshProCountStack != null)
         {
-            // Обрабатываем разделение стака с учетом разных комбинаций клавиш
-            if ((Input.GetKey(KeyCode.LeftShift) || (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl)))
-                && _isStackable && StackCount > 1)
-            {
-                SplitStack();
-                return;
-            }
-
-            StartDragging();
+            _textMeshProCountStack.sortingOrder = draggingSortingOrder + 1;
         }
+        CacheOriginalColors();
+        ClearCurrentCells();
+        _canBePlaced = true;
+        SaveOriginalState();
+        ClearAllCellReferences();
+        Physics2D.SyncTransforms();
     }
 
+    private void UpdateDragPosition()
+    {
+        transform.position = GetMouseWorldPosition() + _offset;
+    }
 
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = -_mainCamera.transform.position.z;
+        return _mainCamera.ScreenToWorldPoint(mousePosition);
+    }
+    #endregion
+
+    #region Stack Management
     private void SplitStack()
     {
         int splitCount = CalculateSplitCount();
@@ -240,7 +395,6 @@ public class ItemMove : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     private System.Collections.IEnumerator HandleSplitDrag(ItemMove draggedItem)
     {
         // Ждем до конца кадра, чтобы все инициализировалось
@@ -264,226 +418,95 @@ public class ItemMove : MonoBehaviour
         }
     }
 
-
-    private void StartDragging()
-    {
-        _offset = transform.position - GetMouseWorldPosition();
-        _isDragging = true;
-        _SpriteRenderer.sortingOrder = draggingSortingOrder;
-        if(_textMeshProCountStack != null)
-        {
-            _textMeshProCountStack.sortingOrder = draggingSortingOrder + 1;
-        }
-        CacheOriginalColors();
-        ClearCurrentCells();
-        _canBePlaced = true;
-        SaveOriginalState();
-        ClearAllCellReferences();
-        Physics2D.SyncTransforms();
-    }
-
-    private List<ItemStar> otherItemStarsInInventory;
-    private void OnMouseEnter()
-    {
-        if(otherItemStarsInInventory == null)
-        {
-            FindOtherItemStarsInInventory();
-        }
-
-        SetStarsVisibility(true);
-
-    }
-
-    private void FindOtherItemStarsInInventory()
-    {
-        var itemStars = GameObject.FindGameObjectsWithTag("Star").Where(e => HasMatchingItemType(e.GetComponent<ItemStar>().AllowedItemTypes));
-        if (itemStars.Any())
-        {
-            otherItemStarsInInventory = new List<ItemStar>();
-        }
-        foreach (var itemStar in itemStars)
-        {
-            otherItemStarsInInventory.Add(itemStar.GetComponent<ItemStar>());
-        }
-    }
-
-    private bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
-    {
-
-        foreach (var itemType in itemTypesToCheck)
-        {
-            if (_itemStats.itemTypes.Contains(itemType))
-                return true;
-        }
-
-        return false;
-    }
-
-    private void OnMouseExit()
-    {
-        if (!_isDragging)
-        {
-            SetStarsVisibility(false);
-        }
-    }
-
-    private bool IsCursorOverItem()
-    {
-        Vector2 mousePosition = GetMouseWorldPosition();
-        PolygonCollider2D polygonCollider2DTemp = GetComponent<PolygonCollider2D>();
-        if (polygonCollider2DTemp != null)
-        {
-            return GetComponent<PolygonCollider2D>().OverlapPoint(mousePosition);
-        }
-        else
-            return false;
-
-        //itemColliders.Any(collider =>
-        //collider != null && collider.OverlapPoint(mousePosition));
-    }
-
-    public virtual void OnMouseUp()
-    {
-        if (!_isDragging) return;
-        _SpriteRenderer.sortingOrder = defaultSortingOrder;
-        if (_textMeshProCountStack != null)
-        {
-            _textMeshProCountStack.sortingOrder = defaultSortingOrder + 1;
-        }
-        _isDragging = false;
-        if (!IsCursorOverItem())
-        {
-            OnMouseExit();
-        }
-        ResetAllColorsToDefault();
-        Physics2D.SyncTransforms();
-
-        // Сначала пробуем объединить с другими стаками - это имеет приоритет над размещением
-        if (TryMergeWithStackedItem())
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        if (CanBePlaced() && TradeItem())
-        {
-            CommitPlacement();
-
-            if (_isSplitItem && _originalItem != null)
-            {
-                _isSplitItem = false;
-                _originalItem._splitItem = null;
-                _originalItem = null;
-            }
-        }
-        else
-        {
-            if (_isSplitItem && _originalItem != null)
-            {
-                ReturnStackToOriginalItem();
-                Destroy(gameObject);
-            }
-            else
-            {
-                RevertPlacement();
-            }
-        }
-
-        _previousHitColliders.Clear();
-        ClearCurrentCells();
-    }
-
-    private void ReturnStackToOriginalItem()
-    {
-        if (_originalItem != null)
-        {
-            // Возвращаем стаки оригинальному предмету
-            _originalItem.StackCount += StackCount;
-            _originalItem.UpdateStackVisual();
-            _originalItem._splitItem = null; // Очищаем ссылку
-        }
-    }
-
-    private ItemMove FindOriginalItemUnderMouse()
-    {
-        // Ищем предметы в оригинальной позиции или рядом
-        Vector2 originalPos = _originalPosition;
-        var hit = Physics2D.Raycast(originalPos, Vector2.zero);
-
-        if (hit.collider != null)
-        {
-            return hit.collider.GetComponentInParent<ItemMove>();
-        }
-
-        // Если не нашли рейкастом, ищем по близости
-        var allItems = FindObjectsOfType<ItemMove>();
-        foreach (var item in allItems)
-        {
-            if (item != this && item.ItemName == ItemName &&
-                Vector2.Distance(item.transform.position, originalPos) < 0.5f)
-            {
-                return item;
-            }
-        }
-
-        return null;
-    }
-
-    private bool CanBePlaced()
-    {
-        return _canBePlaced && _currentGreenCells.Count > 0 && _currentRedCells.Count == 0;
-    }
-
-    private void CommitPlacement()
-    {
-        FillCellNestedObjects();
-        CorrectPosition();
-        MoveToInventory();
-        CacheOriginallyOccupiedCells();
-    }
-
-    private void RevertPlacement()
-    {
-        RestoreOriginallyOccupiedCells();
-        ReturnToOriginalPosition();
-    }
-
     private bool TryMergeWithStackedItem()
     {
         if (!_isStackable) return false;
 
         ItemMove targetItem = FindStackableItemUnderMouse();
-
-        // Проверяем, что targetItem существует, не является этим же объектом, и имена совпадают
         if (targetItem == null || targetItem == this || targetItem.ItemName != ItemName) return false;
-
-        // Разрешаем объединение разделенного предмета с оригиналом и наоборот
-        // Убираем блокировку объединения между связанными предметами
 
         int availableSpace = targetItem._maxStackSize - targetItem.StackCount;
         if (availableSpace <= 0) return false;
 
         int amountToTransfer = Mathf.Min(StackCount, availableSpace);
+
+        // СОХРАНЯЕМ ИНФОРМАЦИЮ О ПЕРЕНОСЕ ДЛЯ ТОРГОВЛИ И ВЕСА
+        bool wasInPlayerInventory = IsInPlayerInventory();
+        bool targetInPlayerInventory = targetItem.IsInPlayerInventory();
+
         targetItem.StackCount += amountToTransfer;
         targetItem.UpdateStackVisual();
 
-        ChangeWeightStackable();
+        // ПРАВИЛЬНОЕ ОБНОВЛЕНИЕ ВЕСА И ДЕНЕГ
+        HandleStackMergeTradeAndWeight(amountToTransfer, wasInPlayerInventory, targetInPlayerInventory, targetItem);
 
         StackCount -= amountToTransfer;
 
-        // Если стаки полностью перенесены, уничтожаем этот предмет
         if (StackCount <= 0)
         {
-            // Если это разделенный предмет, очищаем ссылку у оригинала
             if (_isSplitItem && _originalItem != null)
             {
                 _originalItem._splitItem = null;
             }
+
+            // ЕСЛИ ПРЕДМЕТ ПОЛНОСТЬЮ ПЕРЕМЕЩЕН, ВЫЗЫВАЕМ ДОПОЛНИТЕЛЬНУЮ ЛОГИКУ
+            if (wasInPlayerInventory != targetInPlayerInventory)
+            {
+                HandleCompleteStackTransfer(wasInPlayerInventory, targetInPlayerInventory);
+            }
+
             return true;
         }
 
         UpdateStackVisual();
         return false;
+    }
+
+    /// <summary>
+    /// Обрабатывает логику торговли и веса при объединении стаков
+    /// </summary>
+    private void HandleStackMergeTradeAndWeight(int transferredAmount, bool wasInPlayerInventory,
+        bool targetInPlayerInventory, ItemMove targetItem)
+    {
+        // Если предмет перемещается ИЗ инвентаря игрока В магазин
+        if (wasInPlayerInventory && !targetInPlayerInventory)
+        {
+            // Продажа части стака
+            float salePrice = CalculatePartialPrice(transferredAmount);
+            PlayerDataManager.Instance.Stats.Money += salePrice;
+            Debug.Log($"Sold {transferredAmount} items for {salePrice}");
+
+            // Уменьшаем вес у игрока
+            RemoveWeightFromPlayer(transferredAmount);
+        }
+        // Если предмет перемещается ИЗ магазина В инвентарь игрока
+        else if (!wasInPlayerInventory && targetInPlayerInventory)
+        {
+            // Покупка части стака
+            float purchasePrice = CalculatePartialPrice(transferredAmount);
+            if (PlayerDataManager.Instance.Stats.Money >= purchasePrice)
+            {
+                PlayerDataManager.Instance.Stats.Money -= purchasePrice;
+
+                // Добавляем вес игроку
+                AddWeightToPlayer(transferredAmount);
+                Debug.Log($"Purchased {transferredAmount} items for {purchasePrice}");
+            }
+            else
+            {
+                // Откатываем транзакцию если недостаточно денег
+                targetItem.StackCount -= transferredAmount;
+                StackCount += transferredAmount;
+                targetItem.UpdateStackVisual();
+                UpdateStackVisual();
+            }
+        }
+        // Если оба предмета в одной зоне (только обновляем вес если нужно)
+        else if (wasInPlayerInventory && targetInPlayerInventory)
+        {
+            // Вес автоматически корректируется через AddWeightToPlayer/RemoveWeightFromPlayer
+            // так как targetItem уже в инвентаре игрока
+        }
     }
 
     private ItemMove FindStackableItemUnderMouse()
@@ -510,15 +533,14 @@ public class ItemMove : MonoBehaviour
         return null;
     }
 
-    public virtual void Update()
+    private void ReturnStackToOriginalItem()
     {
-        UpdateStackVisualization();
-
-        if (_isDragging)
+        if (_originalItem != null)
         {
-            UpdateDragPosition();
-            PerformRaycast();
-            HandleRotation();
+            // Возвращаем стаки оригинальному предмету
+            _originalItem.StackCount += StackCount;
+            _originalItem.UpdateStackVisual();
+            _originalItem._splitItem = null; // Очищаем ссылку
         }
     }
 
@@ -543,11 +565,27 @@ public class ItemMove : MonoBehaviour
         }
     }
 
-    private void UpdateDragPosition()
+    public void UpdateStackVisual()
     {
-        transform.position = GetMouseWorldPosition() + _offset;
+        UpdateStackVisualization();
     }
 
+    public bool CanAddToStack(int amount)
+    {
+        return _isStackable && (StackCount + amount) <= _maxStackSize;
+    }
+
+    public void AddToStack(int amount)
+    {
+        if (_isStackable)
+        {
+            StackCount = Mathf.Min(StackCount + amount, _maxStackSize);
+            UpdateStackVisual();
+        }
+    }
+    #endregion
+
+    #region Placement & Collision Detection
     private void PerformRaycast()
     {
         var hits = CreatePreciseRaycast();
@@ -633,33 +671,23 @@ public class ItemMove : MonoBehaviour
         }
     }
 
-    private void HandleRotation()
+    private bool CanBePlaced()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RotateItem(ROTATION_ANGLE);
-        }
-        else
-        {
-            float scrollData = Input.GetAxis("Mouse ScrollWheel");
-            if (Mathf.Abs(scrollData) > 0.01f)
-            {
-                RotateItem(Mathf.Sign(scrollData) * ROTATION_ANGLE);
-            }
-        }
+        return _canBePlaced && _currentGreenCells.Count > 0 && _currentRedCells.Count == 0;
     }
 
-    private void RotateItem(float angle)
+    private void CommitPlacement()
     {
-        ResetAllColorsToDefault();
-        transform.Rotate(0, 0, angle);
-        Physics2D.SyncTransforms();
+        FillCellNestedObjects();
+        CorrectPosition();
+        MoveToInventory();
+        CacheOriginallyOccupiedCells();
+    }
 
-        // Немедленное обновление рейкаста после вращения
-        var hits = CreatePreciseRaycast();
-        ValidatePlacement(hits);
-        UpdateCellColors(hits);
-        UpdateColliderTracking(hits);
+    private void RevertPlacement()
+    {
+        RestoreOriginallyOccupiedCells();
+        ReturnToOriginalPosition();
     }
 
     private void FillCellNestedObjects()
@@ -693,25 +721,9 @@ public class ItemMove : MonoBehaviour
         transform.position += centerOffset;
     }
 
-    private Bounds CalculateItemBounds()
+    public void ForceCorrectPosition()
     {
-        var bounds = new Bounds();
-        bool hasBounds = false;
-
-        foreach (var collider in itemColliders.Where(c => c != null))
-        {
-            if (!hasBounds)
-            {
-                bounds = new Bounds(collider.bounds.center, Vector3.zero);
-                hasBounds = true;
-            }
-            else
-            {
-                bounds.Encapsulate(collider.bounds);
-            }
-        }
-
-        return bounds;
+        CorrectPosition();
     }
 
     private void ReturnToOriginalPosition()
@@ -734,173 +746,6 @@ public class ItemMove : MonoBehaviour
             DeActivateItemAction();
         }
         ChangeWeight();
-    }
-
-    private void ActivateItemAction()
-    {
-        if (GetComponent<ItemActionInfluenceWorldController>() != null)
-        {
-            GetComponent<ItemActionInfluenceWorldController>().InfluenceOnThePlayer();
-        }
-    }
-
-    private void DeActivateItemAction()
-    {
-        if (GetComponent<ItemActionInfluenceWorldController>() != null)
-        {
-            GetComponent<ItemActionInfluenceWorldController>().ReverseInfluenceOnThePlayer();
-        }
-    }
-
-    private bool TradeItem()
-    {
-        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory && _originalParent.gameObject != _playerInventory)
-        {
-            if (PurchaseItem())
-            {
-                // УДАЛЯЕМ ВСЕ СВЯЗАННЫЕ КОПИИ ПРЕДМЕТА
-                RemoveAllLinkedCopies();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        if(_currentGreenCells[0].transform.parent.gameObject != _backpackInventory && _originalParent.gameObject == _playerInventory)
-        {
-            SaleItem();
-            return true;
-        }
-
-        return true;
-    }    
-
-    private bool PurchaseItem()
-    {
-        if(GetComponent<ItemTrade>() != null)
-        {
-            var price = GetComponent<ItemStats>().price;
-            if (PlayerDataManager.Instance.Stats.Money >= price)
-            {
-                PlayerDataManager.Instance.Stats.Money -= price;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void SaleItem()
-    {
-        if (GetComponent<ItemTrade>() != null)
-        {
-            var price = GetComponent<ItemStats>().price;
-            PlayerDataManager.Instance.Stats.Money += price;
-        }
-    }
-
-    /// <summary>
-    /// Удаляет все копии предмета через систему ссылок
-    /// </summary>
-    private void RemoveAllLinkedCopies()
-    {
-        // Находим TradeGenerator для использования его методов
-        TradeController tradeGenerator = FindObjectOfType<TradeController>();
-        if (tradeGenerator != null)
-        {
-            tradeGenerator.RemoveAllLinkedCopies(gameObject);
-        }
-    }
-
-
-    private void ChangeWeight()
-    {
-        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
-        {
-            if (_originalParent != _playerInventory.transform)
-            {
-                AddWeightToPlayer();
-            }
-        }
-        else
-        {
-            if (_originalParent == _playerInventory.transform)
-            {
-                RemoveWeightFromPlayer();
-            }
-        }
-    }
-
-    private void ChangeWeightStackable()
-    {
-        if (_currentGreenCells.Count > 0)
-        {
-            if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
-            {
-                if (_originalParent != _playerInventory.transform)
-                {
-                    AddWeightToPlayer();
-                }
-            }
-            else
-            {
-                if (_originalParent == _playerInventory.transform)
-                {
-                    RemoveWeightFromPlayer();
-                }
-            }
-        }
-        else
-        {
-            if (_currentRedCells[0].transform.parent.gameObject == _backpackInventory)
-            {
-                if (_originalParent != _playerInventory.transform)
-                {
-                    AddWeightToPlayer();
-                }
-            }
-            else
-            {
-                if (_originalParent == _playerInventory.transform)
-                {
-                    RemoveWeightFromPlayer();
-                }
-            }
-        }
-    }
-
-    private void SetStarsVisibility(bool visible)
-    {
-        foreach (var star in itemStars)
-        {
-            if (star != null)
-            {
-                star.SetStarEnabled(visible);
-            }
-        }
-        if (otherItemStarsInInventory != null)
-        {
-            foreach (var star in otherItemStarsInInventory)
-            {
-                if (star != null)
-                {
-                    star.SetStarEnabled(visible);
-                }
-            }
-        }
-    }
-
-    public void StarsPerformRaycastCheck()
-    {
-        foreach (var star in itemStars)
-        {
-            star.PerformRaycastCheck();
-        }
     }
 
     private void RestoreOriginallyOccupiedCells()
@@ -927,14 +772,40 @@ public class ItemMove : MonoBehaviour
         _currentGreenCells.Clear();
         _currentRedCells.Clear();
     }
+    #endregion
 
-    private Vector3 GetMouseWorldPosition()
+    #region Rotation
+    private void HandleRotation()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -_mainCamera.transform.position.z;
-        return _mainCamera.ScreenToWorldPoint(mousePosition);
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RotateItem(ROTATION_ANGLE);
+        }
+        else
+        {
+            float scrollData = Input.GetAxis("Mouse ScrollWheel");
+            if (Mathf.Abs(scrollData) > 0.01f)
+            {
+                RotateItem(Mathf.Sign(scrollData) * ROTATION_ANGLE);
+            }
+        }
     }
 
+    private void RotateItem(float angle)
+    {
+        ResetAllColorsToDefault();
+        transform.Rotate(0, 0, angle);
+        Physics2D.SyncTransforms();
+
+        // Немедленное обновление рейкаста после вращения
+        var hits = CreatePreciseRaycast();
+        ValidatePlacement(hits);
+        UpdateCellColors(hits);
+        UpdateColliderTracking(hits);
+    }
+    #endregion
+
+    #region Color Management
     private void CacheOriginalColors()
     {
         _originalColors.Clear();
@@ -986,33 +857,123 @@ public class ItemMove : MonoBehaviour
         _previousHitColliders.Clear();
         _originalColors.Clear();
     }
+    #endregion
 
-    public void UpdateStackVisual()
+    #region Trade & Economy
+    private bool TradeItem()
     {
-        UpdateStackVisualization();
-    }
-
-    public void ForceCorrectPosition()
-    {
-        CorrectPosition();
-    }
-
-    public bool CanAddToStack(int amount)
-    {
-        return _isStackable && (StackCount + amount) <= _maxStackSize;
-    }
-
-    public void AddToStack(int amount)
-    {
-        if (_isStackable)
+        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory && _originalParent.gameObject != _playerInventory)
         {
-            StackCount = Mathf.Min(StackCount + amount, _maxStackSize);
-            UpdateStackVisual();
+            if (PurchaseItem())
+            {
+                // УДАЛЯЕМ ВСЕ СВЯЗАННЫЕ КОПИИ ПРЕДМЕТА
+                RemoveAllLinkedCopies();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        if (_currentGreenCells[0].transform.parent.gameObject != _backpackInventory && _originalParent.gameObject == _playerInventory)
+        {
+            SaleItem();
+            return true;
+        }
+
+        return true;
+    }
+
+    private bool PurchaseItem()
+    {
+        if (GetComponent<ItemTrade>() != null)
+        {
+            var price = GetComponent<ItemStats>().price;
+            if (PlayerDataManager.Instance.Stats.Money >= price)
+            {
+                PlayerDataManager.Instance.Stats.Money -= price;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void SaleItem()
+    {
+        if (GetComponent<ItemTrade>() != null)
+        {
+            var price = GetComponent<ItemStats>().price;
+            PlayerDataManager.Instance.Stats.Money += price;
         }
     }
 
-    // ==================== WEIGHT MANAGEMENT METHODS ====================
+    /// <summary>
+    /// Рассчитывает цену для части стака
+    /// </summary>
+    private float CalculatePartialPrice(int amount)
+    {
+        if (_itemStats == null) return 0;
 
+        float pricePerItem = _itemStats.basePrice;
+        return pricePerItem * amount;
+    }
+
+    /// <summary>
+    /// Обрабатывает полное перемещение стака между инвентарями
+    /// </summary>
+    private void HandleCompleteStackTransfer(bool wasInPlayerInventory, bool targetInPlayerInventory)
+    {
+        if (wasInPlayerInventory && !targetInPlayerInventory)
+        {
+            // Полная продажа предмета
+            DeActivateItemAction();
+            RemoveAllLinkedCopies();
+        }
+        else if (!wasInPlayerInventory && targetInPlayerInventory)
+        {
+            // Полная покупка предмета
+            ActivateItemAction();
+        }
+    }
+    #endregion
+
+    #region Item Actions & Effects
+    private void ActivateItemAction()
+    {
+        if (GetComponent<ItemActionInfluenceWorldController>() != null)
+        {
+            GetComponent<ItemActionInfluenceWorldController>().InfluenceOnThePlayer();
+        }
+    }
+
+    private void DeActivateItemAction()
+    {
+        if (GetComponent<ItemActionInfluenceWorldController>() != null)
+        {
+            GetComponent<ItemActionInfluenceWorldController>().ReverseInfluenceOnThePlayer();
+        }
+    }
+
+    /// <summary>
+    /// Удаляет все копии предмета через систему ссылок
+    /// </summary>
+    private void RemoveAllLinkedCopies()
+    {
+        // Находим TradeGenerator для использования его методов
+        TradeController tradeGenerator = FindObjectOfType<TradeController>();
+        if (tradeGenerator != null)
+        {
+            tradeGenerator.RemoveAllLinkedCopies(gameObject);
+        }
+    }
+    #endregion
+
+    #region Weight Management
     /// <summary>
     /// Получить общий вес предмета с учетом стаков
     /// </summary>
@@ -1022,6 +983,14 @@ public class ItemMove : MonoBehaviour
 
         float singleItemWeight = _itemStats.weight;
         return singleItemWeight * StackCount;
+    }
+
+    /// <summary>
+    /// Проверить, находится ли предмет в инвентаре
+    /// </summary>
+    private bool IsPlacedInInventory()
+    {
+        return transform.parent == _playerInventory.transform || IsInInventoryArea();
     }
 
     private bool IsInInventoryArea()
@@ -1035,14 +1004,6 @@ public class ItemMove : MonoBehaviour
         {
             return false;
         }
-    }
-
-    /// <summary>
-    /// Проверить, находится ли предмет в инвентаре
-    /// </summary>
-    private bool IsPlacedInInventory()
-    {
-        return transform.parent == _playerInventory.transform || IsInInventoryArea();
     }
 
     /// <summary>
@@ -1085,6 +1046,24 @@ public class ItemMove : MonoBehaviour
         Debug.Log($"Removed weight: {weightToRemove}. Total weight: {PlayerDataManager.Instance.Stats.CurrentWeight}");
     }
 
+    private void ChangeWeight()
+    {
+        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
+        {
+            if (_originalParent != _playerInventory.transform)
+            {
+                AddWeightToPlayer();
+            }
+        }
+        else
+        {
+            if (_originalParent == _playerInventory.transform)
+            {
+                RemoveWeightFromPlayer();
+            }
+        }
+    }
+
     /// <summary>
     /// Теоретический метод для удаления предмета со сцены с учетом веса
     /// </summary>
@@ -1102,36 +1081,129 @@ public class ItemMove : MonoBehaviour
         // Уничтожаем объект
         Destroy(gameObject);
     }
+    #endregion
 
-
-    void OnDestroy()
+    #region Star System
+    private void FindOtherItemStarsInInventory()
     {
-        // Если это разделенный предмет, очищаем ссылку у оригинала
-        if (_isSplitItem && _originalItem != null)
+        var itemStars = GameObject.FindGameObjectsWithTag("Star").Where(e => HasMatchingItemType(e.GetComponent<ItemStar>().AllowedItemTypes));
+        if (itemStars.Any())
         {
-            _originalItem._splitItem = null;
+            otherItemStarsInInventory = new List<ItemStar>();
         }
-
-        // Если это оригинальный предмет, уничтожаем разделенный
-        if (_splitItem != null)
+        foreach (var itemStar in itemStars)
         {
-            Destroy(_splitItem.gameObject);
-        }
-
-        ClearAllCellReferences();
-        ResetAllColorsToDefault();
-    }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        StackCount = Mathf.Clamp(StackCount, 1, _maxStackSize);
-        if (!_isStackable)
-        {
-            StackCount = 1;
+            otherItemStarsInInventory.Add(itemStar.GetComponent<ItemStar>());
         }
     }
 
+    private bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
+    {
+        foreach (var itemType in itemTypesToCheck)
+        {
+            if (_itemStats.itemTypes.Contains(itemType))
+                return true;
+        }
 
-#endif
+        return false;
+    }
+
+    private void SetStarsVisibility(bool visible)
+    {
+        foreach (var star in itemStars)
+        {
+            if (star != null)
+            {
+                star.SetStarEnabled(visible);
+            }
+        }
+        if (otherItemStarsInInventory != null)
+        {
+            foreach (var star in otherItemStarsInInventory)
+            {
+                if (star != null)
+                {
+                    star.SetStarEnabled(visible);
+                }
+            }
+        }
+    }
+
+    public void StarsPerformRaycastCheck()
+    {
+        foreach (var star in itemStars)
+        {
+            star.PerformRaycastCheck();
+        }
+    }
+
+    private bool IsCursorOverItem()
+    {
+        Vector2 mousePosition = GetMouseWorldPosition();
+        PolygonCollider2D polygonCollider2DTemp = GetComponent<PolygonCollider2D>();
+        if (polygonCollider2DTemp != null)
+        {
+            return GetComponent<PolygonCollider2D>().OverlapPoint(mousePosition);
+        }
+        else
+            return false;
+    }
+
+    /// <summary>
+    /// Проверяет, находится ли предмет в инвентаре игрока
+    /// </summary>
+    private bool IsInPlayerInventory()
+    {
+        return transform.parent == _playerInventory.transform ||
+               (_currentGreenCells.Count > 0 && _currentGreenCells[0].transform.parent.gameObject == _backpackInventory);
+    }
+    #endregion
+
+    #region Utility Methods
+    private Bounds CalculateItemBounds()
+    {
+        var bounds = new Bounds();
+        bool hasBounds = false;
+
+        foreach (var collider in itemColliders.Where(c => c != null))
+        {
+            if (!hasBounds)
+            {
+                bounds = new Bounds(collider.bounds.center, Vector3.zero);
+                hasBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(collider.bounds);
+            }
+        }
+
+        return bounds;
+    }
+
+    private ItemMove FindOriginalItemUnderMouse()
+    {
+        // Ищем предметы в оригинальной позиции или рядом
+        Vector2 originalPos = _originalPosition;
+        var hit = Physics2D.Raycast(originalPos, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            return hit.collider.GetComponentInParent<ItemMove>();
+        }
+
+        // Если не нашли рейкастом, ищем по близости
+        var allItems = FindObjectsOfType<ItemMove>();
+        foreach (var item in allItems)
+        {
+            if (item != this && item.ItemName == ItemName &&
+                Vector2.Distance(item.transform.position, originalPos) < 0.5f)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+    #endregion
 }

@@ -6,7 +6,15 @@ public abstract class ItemActionController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] protected Animator animator;
     protected ItemStats itemStats;
-    protected bool isFight => BattleManager.Instance.isBattleActive;
+    protected bool isFight
+    {
+        get
+        {
+            if (BattleManager.Instance != null)
+                return BattleManager.Instance.isBattleActive;
+            return false;
+        }
+    }
 
     protected virtual void Awake()
     {

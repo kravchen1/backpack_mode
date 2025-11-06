@@ -176,6 +176,9 @@ public class ButtonsController : MonoBehaviour
         {
             Destroy(itemStats.GetChild(i).gameObject);
         }
+
+        _canvasMenuDescriptionItem.transform.GetChild(8).gameObject.SetActive(false);
+        _canvasMenuDescriptionItem.transform.GetChild(9).gameObject.SetActive(false);
     }
     #endregion
 
