@@ -2,25 +2,29 @@
 
 public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
 {
+    #region Serialized Fields - Melee Weapon Stats
     [Header("Melee Weapon Stats")]
-    [SerializeField] private int minDamageMelee = 1;
-    [SerializeField] private int maxDamageMelee = 5;
-    [SerializeField] private float coolDownMelee = 3f;
-    [SerializeField] private float baseStaminaMelee = 2f;
-    [SerializeField] private int accuracyMelee = 75;
-    [SerializeField] private int critChanceMelee = 10;
-    [SerializeField] private int critDamageMelee = 180;
+    [HideInInspector][SerializeField] private int minDamageMelee = 1;
+    [HideInInspector][SerializeField] private int maxDamageMelee = 5;
+    [HideInInspector][SerializeField] private float coolDownMelee = 3f;
+    [HideInInspector][SerializeField] private float baseStaminaMelee = 2f;
+    [HideInInspector][SerializeField] private int accuracyMelee = 75;
+    [HideInInspector][SerializeField] private int critChanceMelee = 10;
+    [HideInInspector][SerializeField] private int critDamageMelee = 180;
+    #endregion
 
+    #region Serialized Fields - Range Weapon Stats
     [Header("Range Weapon Stats")]
-    [SerializeField] private int minDamageRange = 3;
-    [SerializeField] private int maxDamageRange = 10;
-    [SerializeField] private float coolDownRange = 0.5f;
-    [SerializeField] private float baseStaminaRange = 0.2f;
-    [SerializeField] private int accuracyRange = 65;
-    [SerializeField] private int critChanceRange = 25;
-    [SerializeField] private int critDamageRange = 220;
+    [HideInInspector][SerializeField] private int minDamageRange = 3;
+    [HideInInspector][SerializeField] private int maxDamageRange = 10;
+    [HideInInspector][SerializeField] private float coolDownRange = 0.5f;
+    [HideInInspector][SerializeField] private float baseStaminaRange = 0.2f;
+    [HideInInspector][SerializeField] private int accuracyRange = 65;
+    [HideInInspector][SerializeField] private int critChanceRange = 25;
+    [HideInInspector][SerializeField] private int critDamageRange = 220;
+    #endregion
 
-    // Реализация IMeleeWeapon с сеттерами
+    #region IMeleeWeapon Implementation
     public int MinDamageMelee
     {
         get => minDamageMelee;
@@ -62,8 +66,9 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         get => critDamageMelee;
         set => critDamageMelee = value;
     }
+    #endregion
 
-    // Реализация IRangeWeapon с сеттерами
+    #region IRangeWeapon Implementation
     public int MinDamageRange
     {
         get => minDamageRange;
@@ -105,7 +110,35 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         get => critDamageRange;
         set => critDamageRange = value;
     }
+    #endregion
 
+    #region Quality Methods
+    private float GetQualityMultiplier()
+    {
+        return itemQuality switch
+        {
+            ItemQuality.VeryBad => 0.6f,
+            ItemQuality.Bad => 0.8f,
+            ItemQuality.Good => 1.2f,
+            ItemQuality.Excellent => 1.4f,
+            _ => 1f
+        };
+    }
+
+    private float GetInverseQualityMultiplier()
+    {
+        return itemQuality switch
+        {
+            ItemQuality.VeryBad => 1.4f,
+            ItemQuality.Bad => 1.2f,
+            ItemQuality.Good => 0.8f,
+            ItemQuality.Excellent => 0.6f,
+            _ => 1f
+        };
+    }
+    #endregion
+
+    #region Override Methods
     public override void InitializeQuality()
     {
         base.InitializeQuality();
@@ -114,8 +147,8 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         float inverseMultiplier = GetInverseQualityMultiplier();
 
         // Применяем качество к характеристикам ближнего боя
-        minDamageMelee = (int)(minDamageMelee *qualityMultiplier);
-        maxDamageMelee = (int)(maxDamageMelee *qualityMultiplier);
+        minDamageMelee = (int)(minDamageMelee * qualityMultiplier);
+        maxDamageMelee = (int)(maxDamageMelee * qualityMultiplier);
         coolDownMelee *= inverseMultiplier;
         baseStaminaMelee *= inverseMultiplier;
         accuracyMelee = (int)(accuracyMelee * qualityMultiplier);
@@ -194,9 +227,9 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
             // Общие
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
+            //new DescriptionTriple("Requirements", "", ""),
             new DescriptionTriple("Price", "", "")
-    });
+        });
     }
 
     protected override string GetSpecificStatValue(string statKey)
@@ -232,27 +265,31 @@ public class MeleeAndRangeWeaponStats : ItemStats, IMeleeWeapon, IRangeWeapon
         }
     }
 
-    private float GetQualityMultiplier()
+    protected override void LoadFromDataManager()
     {
-        return itemQuality switch
-        {
-            ItemQuality.VeryBad => 0.6f,
-            ItemQuality.Bad => 0.8f,
-            ItemQuality.Good => 1.2f,
-            ItemQuality.Excellent => 1.4f,
-            _ => 1f
-        };
-    }
+        base.LoadFromDataManager();
 
-    private float GetInverseQualityMultiplier()
-    {
-        return itemQuality switch
-        {
-            ItemQuality.VeryBad => 1.4f,
-            ItemQuality.Bad => 1.2f,
-            ItemQuality.Good => 0.8f,
-            ItemQuality.Excellent => 0.6f,
-            _ => 1f
-        };
+        if (string.IsNullOrEmpty(itemKey)) return;
+        var dataManager = ItemDataManager.Instance;
+        if (dataManager == null) return;
+
+        // Загрузка параметров ближнего боя
+        minDamageMelee = dataManager.GetItemData(itemKey, "minDamageMelee", minDamageMelee);
+        maxDamageMelee = dataManager.GetItemData(itemKey, "maxDamageMelee", maxDamageMelee);
+        coolDownMelee = dataManager.GetItemData(itemKey, "coolDownMelee", coolDownMelee);
+        baseStaminaMelee = dataManager.GetItemData(itemKey, "baseStaminaMelee", baseStaminaMelee);
+        accuracyMelee = dataManager.GetItemData(itemKey, "accuracyMelee", accuracyMelee);
+        critChanceMelee = dataManager.GetItemData(itemKey, "critChanceMelee", critChanceMelee);
+        critDamageMelee = dataManager.GetItemData(itemKey, "critDamageMelee", critDamageMelee);
+
+        // Загрузка параметров дальнего боя
+        minDamageRange = dataManager.GetItemData(itemKey, "minDamageRange", minDamageRange);
+        maxDamageRange = dataManager.GetItemData(itemKey, "maxDamageRange", maxDamageRange);
+        coolDownRange = dataManager.GetItemData(itemKey, "coolDownRange", coolDownRange);
+        baseStaminaRange = dataManager.GetItemData(itemKey, "baseStaminaRange", baseStaminaRange);
+        accuracyRange = dataManager.GetItemData(itemKey, "accuracyRange", accuracyRange);
+        critChanceRange = dataManager.GetItemData(itemKey, "critChanceRange", critChanceRange);
+        critDamageRange = dataManager.GetItemData(itemKey, "critDamageRange", critDamageRange);
     }
+    #endregion
 }

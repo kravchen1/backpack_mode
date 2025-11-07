@@ -213,7 +213,7 @@ public class DayManager : MonoBehaviour
             PlayerPrefs.SetInt(SAVE_TIMEFORMAT_KEY, (int)timeFormat);
 
             PlayerPrefs.Save();
-            Debug.Log("Game data saved successfully");
+            //Debug.Log("Game data saved successfully");
         }
         catch (System.Exception e)
         {

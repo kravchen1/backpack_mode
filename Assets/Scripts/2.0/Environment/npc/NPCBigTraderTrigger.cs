@@ -19,9 +19,9 @@ public class NPCBigTraderTrigger : EnvironmentTrigger
         settingsKey = "NPCTradeTrigger" + NPCController.Config.settingKey;
 
         // Находим менеджеры
-        dayManager = FindObjectOfType<DayManager>();
-        questGiverManager = FindObjectOfType<QuestGiverManager>();
-        questManager = FindObjectOfType<QuestManager>();
+        dayManager = FindFirstObjectByType<DayManager>();
+        questGiverManager = FindFirstObjectByType<QuestGiverManager>();
+        questManager = FindFirstObjectByType<QuestManager>();
         if (dayManager != null)
         {
             dayManager.OnDayChanged += OnDayChanged;

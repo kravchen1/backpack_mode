@@ -105,7 +105,7 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
                 $"{baseStamina/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s)"),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
+            //new DescriptionTriple("Requirements", "", ""),
             new DescriptionTriple("Price", "", "")
         });
     }

@@ -28,7 +28,7 @@ public class EnvironmentTrigger : MonoBehaviour
 
     protected virtual void Start()
     {
-        interactionController = FindObjectOfType<InteractionController>();
+        interactionController = FindFirstObjectByType<InteractionController>();
 
         CanvasUI = GameObject.Find("CanvasUI");
         canvasInventory = GameObject.Find("CanvasInventory").transform.GetChild(0).gameObject;

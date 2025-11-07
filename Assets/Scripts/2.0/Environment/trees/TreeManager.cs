@@ -48,7 +48,7 @@ public class TreeManager : MonoBehaviour
         Tree[] treesInScene = FindObjectsByType<Tree>(FindObjectsSortMode.None);
         _allTrees.AddRange(treesInScene);
 
-        Debug.Log($"Found {_allTrees.Count} trees in scene");
+        //Debug.Log($"Found {_allTrees.Count} trees in scene");
     }
 
     /// <summary>

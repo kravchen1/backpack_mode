@@ -49,7 +49,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
                 }
                 return;
             }
-
             else
             {
                 Debug.Log("у модификатора не выбран тип влияния на оружие");
@@ -87,7 +86,7 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
     #endregion
 
     #region Percentage Modification Methods
-    private int ApplyPercentageModifier(int currentValue, float percentageModifier)
+    private int ApplyPercentageModifier(int currentValue, int percentageModifier)
     {
         if (percentageModifier != 0)
         {
@@ -97,7 +96,7 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float ApplyPercentageModifier(float currentValue, float percentageModifier)
+    private float ApplyPercentageModifier(float currentValue, int percentageModifier)
     {
         if (percentageModifier != 0)
         {
@@ -107,17 +106,7 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float ApplyNegativePercentageModifier(float currentValue, float percentageModifier)
-    {
-        if (percentageModifier != 0)
-        {
-            float newValue = currentValue * (1 - percentageModifier / 100.0f);
-            return Mathf.Max(0.1f, newValue);
-        }
-        return currentValue;
-    }
-
-    private int RevertPercentageModifier(int currentValue, float percentageModifier)
+    private int RevertPercentageModifier(int currentValue, int percentageModifier)
     {
         if (percentageModifier != 0)
         {
@@ -127,21 +116,11 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float RevertPercentageModifier(float currentValue, float percentageModifier)
+    private float RevertPercentageModifier(float currentValue, int percentageModifier)
     {
         if (percentageModifier != 0)
         {
             float originalValue = currentValue / (1 + percentageModifier / 100.0f);
-            return Mathf.Max(0.1f, originalValue);
-        }
-        return currentValue;
-    }
-
-    private float RevertNegativePercentageModifier(float currentValue, float percentageModifier)
-    {
-        if (percentageModifier != 0)
-        {
-            float originalValue = currentValue / (1 - percentageModifier / 100.0f);
             return Mathf.Max(0.1f, originalValue);
         }
         return currentValue;
@@ -158,7 +137,7 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float ApplyValueModifier(float currentValue, int valueModifier)
+    private float ApplyValueModifier(float currentValue, float valueModifier)
     {
         if (valueModifier != 0)
         {
@@ -167,11 +146,11 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float ApplyNegativeValueModifier(float currentValue, int valueModifier)
+    private float ApplyValueModifier(float currentValue, int valueModifier)
     {
         if (valueModifier != 0)
         {
-            return Mathf.Max(0.1f, currentValue - valueModifier);
+            return Mathf.Max(0.1f, currentValue + valueModifier);
         }
         return currentValue;
     }
@@ -185,7 +164,7 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float RevertValueModifier(float currentValue, int valueModifier)
+    private float RevertValueModifier(float currentValue, float valueModifier)
     {
         if (valueModifier != 0)
         {
@@ -194,11 +173,11 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         return currentValue;
     }
 
-    private float RevertNegativeValueModifier(float currentValue, int valueModifier)
+    private float RevertValueModifier(float currentValue, int valueModifier)
     {
         if (valueModifier != 0)
         {
-            return Mathf.Max(0.1f, currentValue + valueModifier);
+            return Mathf.Max(0.1f, currentValue - valueModifier);
         }
         return currentValue;
     }
@@ -231,12 +210,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierPercentage != 0)
         {
-            stat.CoolDownRange = ApplyNegativePercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
+            stat.CoolDownRange = ApplyPercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
         }
 
         if (weaponModStats.staminaRangeModifierPercentage != 0)
         {
-            stat.BaseStaminaRange = ApplyNegativePercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
+            stat.BaseStaminaRange = ApplyPercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
         }
 
         // Range Value modifiers
@@ -263,12 +242,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierValue != 0)
         {
-            stat.CoolDownRange = ApplyNegativeValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
+            stat.CoolDownRange = ApplyValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
         }
 
         if (weaponModStats.staminaRangeModifierValue != 0)
         {
-            stat.BaseStaminaRange = ApplyNegativeValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
+            stat.BaseStaminaRange = ApplyValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
         }
 
         // Melee Percentage modifiers
@@ -295,12 +274,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierPercentage != 0)
         {
-            stat.CoolDownMelee = ApplyNegativePercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
+            stat.CoolDownMelee = ApplyPercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
         }
 
         if (weaponModStats.staminaMeleeModifierPercentage != 0)
         {
-            stat.BaseStaminaMelee = ApplyNegativePercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
+            stat.BaseStaminaMelee = ApplyPercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
         }
 
         // Melee Value modifiers
@@ -327,12 +306,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierValue != 0)
         {
-            stat.CoolDownMelee = ApplyNegativeValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
+            stat.CoolDownMelee = ApplyValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
         }
 
         if (weaponModStats.staminaMeleeModifierValue != 0)
         {
-            stat.BaseStaminaMelee = ApplyNegativeValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
+            stat.BaseStaminaMelee = ApplyValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
         }
     }
 
@@ -362,12 +341,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierPercentage != 0)
         {
-            stat.CoolDownRange = RevertNegativePercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
+            stat.CoolDownRange = RevertPercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
         }
 
         if (weaponModStats.staminaRangeModifierPercentage != 0)
         {
-            stat.BaseStaminaRange = RevertNegativePercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
+            stat.BaseStaminaRange = RevertPercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
         }
 
         // Range Value modifiers
@@ -394,12 +373,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierValue != 0)
         {
-            stat.CoolDownRange = RevertNegativeValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
+            stat.CoolDownRange = RevertValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
         }
 
         if (weaponModStats.staminaRangeModifierValue != 0)
         {
-            stat.BaseStaminaRange = RevertNegativeValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
+            stat.BaseStaminaRange = RevertValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
         }
 
         // Melee Percentage modifiers
@@ -426,12 +405,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierPercentage != 0)
         {
-            stat.CoolDownMelee = RevertNegativePercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
+            stat.CoolDownMelee = RevertPercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
         }
 
         if (weaponModStats.staminaMeleeModifierPercentage != 0)
         {
-            stat.BaseStaminaMelee = RevertNegativePercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
+            stat.BaseStaminaMelee = RevertPercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
         }
 
         // Melee Value modifiers
@@ -458,12 +437,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierValue != 0)
         {
-            stat.CoolDownMelee = RevertNegativeValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
+            stat.CoolDownMelee = RevertValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
         }
 
         if (weaponModStats.staminaMeleeModifierValue != 0)
         {
-            stat.BaseStaminaMelee = RevertNegativeValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
+            stat.BaseStaminaMelee = RevertValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
         }
     }
     #endregion
@@ -495,12 +474,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierPercentage != 0)
         {
-            stat.CoolDownMelee = ApplyNegativePercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
+            stat.CoolDownMelee = ApplyPercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
         }
 
         if (weaponModStats.staminaMeleeModifierPercentage != 0)
         {
-            stat.BaseStaminaMelee = ApplyNegativePercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
+            stat.BaseStaminaMelee = ApplyPercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
         }
 
         // Melee Value modifiers
@@ -527,12 +506,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierValue != 0)
         {
-            stat.CoolDownMelee = ApplyNegativeValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
+            stat.CoolDownMelee = ApplyValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
         }
 
         if (weaponModStats.staminaMeleeModifierValue != 0)
         {
-            stat.BaseStaminaMelee = ApplyNegativeValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
+            stat.BaseStaminaMelee = ApplyValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
         }
     }
 
@@ -562,12 +541,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierPercentage != 0)
         {
-            stat.CoolDownMelee = RevertNegativePercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
+            stat.CoolDownMelee = RevertPercentageModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierPercentage);
         }
 
         if (weaponModStats.staminaMeleeModifierPercentage != 0)
         {
-            stat.BaseStaminaMelee = RevertNegativePercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
+            stat.BaseStaminaMelee = RevertPercentageModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierPercentage);
         }
 
         // Melee Value modifiers
@@ -594,12 +573,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownMeleeModifierValue != 0)
         {
-            stat.CoolDownMelee = RevertNegativeValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
+            stat.CoolDownMelee = RevertValueModifier(stat.CoolDownMelee, weaponModStats.coolDownMeleeModifierValue);
         }
 
         if (weaponModStats.staminaMeleeModifierValue != 0)
         {
-            stat.BaseStaminaMelee = RevertNegativeValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
+            stat.BaseStaminaMelee = RevertValueModifier(stat.BaseStaminaMelee, weaponModStats.staminaMeleeModifierValue);
         }
     }
     #endregion
@@ -631,12 +610,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierPercentage != 0)
         {
-            stat.CoolDownRange = ApplyNegativePercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
+            stat.CoolDownRange = ApplyPercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
         }
 
         if (weaponModStats.staminaRangeModifierPercentage != 0)
         {
-            stat.BaseStaminaRange = ApplyNegativePercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
+            stat.BaseStaminaRange = ApplyPercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
         }
 
         // Range Value modifiers
@@ -663,12 +642,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierValue != 0)
         {
-            stat.CoolDownRange = ApplyNegativeValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
+            stat.CoolDownRange = ApplyValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
         }
 
         if (weaponModStats.staminaRangeModifierValue != 0)
         {
-            stat.BaseStaminaRange = ApplyNegativeValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
+            stat.BaseStaminaRange = ApplyValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
         }
     }
 
@@ -698,12 +677,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierPercentage != 0)
         {
-            stat.CoolDownRange = RevertNegativePercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
+            stat.CoolDownRange = RevertPercentageModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierPercentage);
         }
 
         if (weaponModStats.staminaRangeModifierPercentage != 0)
         {
-            stat.BaseStaminaRange = RevertNegativePercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
+            stat.BaseStaminaRange = RevertPercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
         }
 
         // Range Value modifiers
@@ -730,12 +709,12 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
 
         if (weaponModStats.coolDownRangeModifierValue != 0)
         {
-            stat.CoolDownRange = RevertNegativeValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
+            stat.CoolDownRange = RevertValueModifier(stat.CoolDownRange, weaponModStats.coolDownRangeModifierValue);
         }
 
         if (weaponModStats.staminaRangeModifierValue != 0)
         {
-            stat.BaseStaminaRange = RevertNegativeValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
+            stat.BaseStaminaRange = RevertValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
         }
     }
     #endregion

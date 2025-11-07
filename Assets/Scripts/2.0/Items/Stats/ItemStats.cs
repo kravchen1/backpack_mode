@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,10 +8,12 @@ public abstract class ItemStats : MonoBehaviour
 {
     #region Serialized Fields
     [Header("Base Stats")]
-    public string itemNameKey;
-    public List<ItemType> itemTypes;
-    public ItemRarity itemRarity;
-    public ItemQuality itemQuality = ItemQuality.Normal;
+    [SerializeField] private SpriteRenderer mainImage;
+    [SerializeField] private List<SpriteRenderer> cellImages;
+    public string itemKey;
+    [HideInInspector] public List<ItemType> itemTypes;
+    [HideInInspector] public ItemRarity itemRarity;
+    [HideInInspector] public ItemQuality itemQuality = ItemQuality.Normal;
     public bool usableFight = false;
     public bool usableNotFight = false;
 
@@ -27,7 +30,7 @@ public abstract class ItemStats : MonoBehaviour
     public bool isShowDurability = false;
 
     [Header("Description Settings")]
-    [HideInInspector] [SerializeField] protected List<DescriptionTriple> _descriptionTriples = new List<DescriptionTriple>();
+    [HideInInspector][SerializeField] protected List<DescriptionTriple> _descriptionTriples = new List<DescriptionTriple>();
     [SerializeField] private float _doubleClickTime = 0.3f;
     [SerializeField] private GameObject _containerDescriptionPrefab;
     #endregion
@@ -50,6 +53,44 @@ public abstract class ItemStats : MonoBehaviour
     private GameObject buttonIsUseFight;
     private GameObject buttonUse;
     private Image buttonIsUseFightIcon;
+    #endregion
+
+    #region Rarity and Quality Colors
+    private static readonly Dictionary<ItemRarity, Color> _rarityColors = new Dictionary<ItemRarity, Color>
+    {
+        // Common: Не просто серый, а тёплый, с налётом пыли.
+        { ItemRarity.Common, new Color(0.55f, 0.55f, 0.55f, 0.5f) },
+    
+        // Rare: Приглушённый синий, как утреннее небо, а не неон.
+        { ItemRarity.Rare, new Color(0.4f, 0.6f, 0.8f, 0.5f) },
+    
+        // Epic: Глубокий, но мягкий фиолетовый, как увядшие фиалки.
+        { ItemRarity.Epic, new Color(0.6f, 0.4f, 0.75f, 0.5f) },
+    
+        // Legendary: Насыщенный, но не ядовитый золотой. Цвет мёда.
+        { ItemRarity.Legendary, new Color(0.9f, 0.75f, 0.2f, 0.5f) },
+    
+        // Unique: Я изменил его на сложный аквамариновый/изумрудный. Он уникален и отличается от других, не вписываясь в стандартную радугу.
+        { ItemRarity.Unique, new Color(0.3f, 0.7f, 0.6f, 0.5f) }
+    };
+
+    private static readonly Dictionary<ItemQuality, Color> _qualityColors = new Dictionary<ItemQuality, Color>
+    {
+        // VeryBad: Осветлённый ржаво-коричневый
+        { ItemQuality.VeryBad, new Color(0.8f, 0.65f, 0.575f, 1f) },
+
+        // Bad: Осветлённая ржавчина с красным оттенком
+        { ItemQuality.Bad, new Color(0.875f, 0.7f, 0.65f, 1f) },
+
+        // Normal: Белый остался без изменений (и так максимально светлый)
+        { ItemQuality.Normal, new Color(1f, 1f, 1f, 1f) },
+
+        // Good: Осветлённый состаренный золотистый
+        { ItemQuality.Good, new Color(0.975f, 0.925f, 0.75f, 1f) },
+
+        // Excellent: Осветлённый полированный золотой
+        { ItemQuality.Excellent, new Color(0.975f, 0.9f, 0.65f, 1f) }
+    };
     #endregion
 
     #region Properties
@@ -84,11 +125,13 @@ public abstract class ItemStats : MonoBehaviour
     #region Unity Lifecycle
     protected virtual void Awake()
     {
+        LoadFromDataManager();
         CheckCollider();
         InitializeDescriptionTriples();
         InitializeUIComponents();
         InitializePrice();
         UpdateDurabilityDisplay();
+        ApplyRarityColors();
     }
 
     protected virtual void Update()
@@ -112,29 +155,30 @@ public abstract class ItemStats : MonoBehaviour
 
     public virtual void InitializeQuality()
     {
-        float changeQualityStats1;
+        ApplyQualityColor();
+        //float changeQualityStats1;
         float changeQualityStats2;
 
         switch (itemQuality)
         {
             case ItemQuality.VeryBad:
-                changeQualityStats1 = 1.4f;
+                //changeQualityStats1 = 1.4f;
                 changeQualityStats2 = 0.6f;
                 break;
             case ItemQuality.Bad:
-                changeQualityStats1 = 1.2f;
+                //changeQualityStats1 = 1.2f;
                 changeQualityStats2 = 0.8f;
                 break;
             case ItemQuality.Good:
-                changeQualityStats1 = 0.8f;
+                //changeQualityStats1 = 0.8f;
                 changeQualityStats2 = 1.2f;
                 break;
             case ItemQuality.Excellent:
-                changeQualityStats1 = 0.6f;
+                //changeQualityStats1 = 0.6f;
                 changeQualityStats2 = 1.4f;
                 break;
             default:
-                changeQualityStats1 = 1f;
+                //changeQualityStats1 = 1f;
                 changeQualityStats2 = 1f;
                 break;
         }
@@ -188,6 +232,32 @@ public abstract class ItemStats : MonoBehaviour
 
         _isUseFightIcon.sprite = isUseFight ? isUseFightIcon : isNotUseFightIcon;
     }
+
+    private void ApplyRarityColors()
+    {
+        if (cellImages == null || cellImages.Count == 0) return;
+
+        if (_rarityColors.TryGetValue(itemRarity, out Color rarityColor))
+        {
+            foreach (var cellImage in cellImages)
+            {
+                if (cellImage != null)
+                {
+                    cellImage.color = rarityColor;
+                }
+            }
+        }
+    }
+
+    private void ApplyQualityColor()
+    {
+        if (mainImage == null) return;
+
+        if (_qualityColors.TryGetValue(itemQuality, out Color qualityColor))
+        {
+            mainImage.color = qualityColor;
+        }
+    }
     #endregion
 
     #region Input Handling
@@ -231,7 +301,7 @@ public abstract class ItemStats : MonoBehaviour
 
     private void HandleRightClick()
     {
-        Debug.Log($"Right click on: {gameObject.name}");
+        //Debug.Log($"Right click on: {gameObject.name}");
         OnRightClick();
     }
 
@@ -266,7 +336,7 @@ public abstract class ItemStats : MonoBehaviour
     private void SetupContextMenuUI()
     {
         itemImage.GetComponent<SpriteRenderer>().sprite = gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
-        itemName.GetComponent<TextMeshProUGUI>().text = itemNameKey;
+        itemName.GetComponent<TextMeshProUGUI>().text = itemKey;
     }
 
     private void PopulateDescriptionTriples()
@@ -279,6 +349,13 @@ public abstract class ItemStats : MonoBehaviour
 
             string tempAnswerKey = GetStatValue(descriptionTriple.NameKey);
             string tempDescriptionKey = descriptionTriple.DescriptionKey;
+
+            // Новый функционал: для Description берем описание из DataManager
+            if (descriptionTriple.NameKey == "Description")
+            {
+                tempDescriptionKey = GetDescriptionFromDataManager();
+                tempAnswerKey = ""; // Оставляем пустым для Description
+            }
 
             advancedButtonEvents.ButtonAnswerKey = tempAnswerKey;
             advancedButtonEvents.DescriptionKey = tempDescriptionKey;
@@ -360,10 +437,10 @@ public abstract class ItemStats : MonoBehaviour
         Gradient gradient = new Gradient();
         gradient.colorKeys = new GradientColorKey[]
         {
-            new GradientColorKey(Color.red, 0f),
-            new GradientColorKey(Color.yellow, 0.3f),
-            new GradientColorKey(Color.gray, 0.7f),
-            new GradientColorKey(Color.black, 1f)
+                new GradientColorKey(Color.red, 0f),
+                new GradientColorKey(Color.yellow, 0.3f),
+                new GradientColorKey(Color.gray, 0.7f),
+                new GradientColorKey(Color.black, 1f)
         };
         return gradient;
     }
@@ -373,7 +450,7 @@ public abstract class ItemStats : MonoBehaviour
         switch (statKey)
         {
             case "Description":
-                return $"{itemNameKey}";
+                return $"{itemKey}";
             case "Weight":
                 return $"{weight:0.0}";
             case "Durability":
@@ -405,6 +482,16 @@ public abstract class ItemStats : MonoBehaviour
             default:
                 return "";
         }
+    }
+
+    private string GetDescriptionFromDataManager()
+    {
+        if (string.IsNullOrEmpty(itemKey)) return "";
+
+        var dataManager = ItemDataManager.Instance;
+        if (dataManager == null) return "";
+
+        return dataManager.GetItemData(itemKey, "description", "");
     }
     #endregion
 
@@ -476,5 +563,62 @@ public abstract class ItemStats : MonoBehaviour
     {
         durability = newDurability;
     }
+
+    // Новые методы для изменения цветов во время выполнения
+    public void UpdateRarityColor(ItemRarity newRarity)
+    {
+        itemRarity = newRarity;
+        ApplyRarityColors();
+    }
+
+    public void UpdateQualityColor(ItemQuality newQuality)
+    {
+        itemQuality = newQuality;
+        ApplyQualityColor();
+    }
+    #endregion
+
+    #region jsonData
+    protected virtual void LoadFromDataManager()
+    {
+        if (string.IsNullOrEmpty(itemKey)) return;
+
+        var dataManager = ItemDataManager.Instance;
+        if (dataManager == null) return;
+
+        // Загрузка базовых параметров
+        weight = dataManager.GetItemData(itemKey, "weight", weight);
+        maxDurability = dataManager.GetItemData(itemKey, "maxDurability", maxDurability);
+        basePrice = dataManager.GetItemData(itemKey, "basePrice", basePrice);
+
+        // Загрузка enum значений
+        string rarityStr = dataManager.GetItemData<string>(itemKey, "itemRarity", "");
+        if (Enum.TryParse<ItemRarity>(rarityStr, out var rarity))
+            itemRarity = rarity;
+
+        // Загрузка списка типов
+        string typesStr = dataManager.GetItemData<string>(itemKey, "itemTypes", "");
+        itemTypes = ParseItemTypes(typesStr);
+    }
+
+    private List<ItemType> ParseItemTypes(string typesStr)
+    {
+        var types = new List<ItemType>();
+        if (string.IsNullOrEmpty(typesStr)) return types;
+
+        foreach (var typeStr in typesStr.Split(','))
+        {
+            if (Enum.TryParse<ItemType>(typeStr.Trim(), out var type))
+                types.Add(type);
+        }
+        return types;
+    }
+
+    // Добавь свойство для локализованного имени
+    public string LocalizedName =>
+        ItemDataManager.Instance?.GetLocalizedString(itemKey, "name") ?? itemKey;
+
+    public string LocalizedDescription =>
+        ItemDataManager.Instance?.GetLocalizedString(itemKey, "description") ?? "";
     #endregion
 }

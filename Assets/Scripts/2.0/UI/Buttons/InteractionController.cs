@@ -142,18 +142,18 @@ public class InteractionController : MonoBehaviour
     {
         if (closestInteraction == null || !closestInteraction.IsPlayerInTrigger())
         {
-            Debug.Log("No valid interaction available");
+            //Debug.Log("No valid interaction available");
             return;
         }
 
         try
         {
             closestInteraction.PerformManualInteraction();
-            Debug.Log($"Successfully interacted with: {closestInteraction.name}");
+            //Debug.Log($"Successfully interacted with: {closestInteraction.name}");
         }
         catch (System.Exception ex)
         {
-            Debug.LogWarning($"Interaction failed: {ex.Message}");
+            //Debug.LogWarning($"Interaction failed: {ex.Message}");
         }
     }
 

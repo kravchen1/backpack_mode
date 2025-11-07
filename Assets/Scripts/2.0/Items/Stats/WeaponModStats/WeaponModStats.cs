@@ -3,35 +3,35 @@ using UnityEngine;
 
 public class WeaponModStats : ItemStats
 {
-    [Header("Range Weapon Mod Stats Percentage")]
-    public int damageRangeModifierPercentage = 0;
-    public int accuracyRangeModifierPercentage = 0;
-    public int critChanceRangeModifierPercentage = 0;
-    public int critDamageRangeModifierPercentage = 0;
-    public int coolDownRangeModifierPercentage = 0;
-    public int staminaRangeModifierPercentage = 0;
-    [Header("Range Weapon Mod Stats Value")]
-    public int damageRangeModifierValue = 0;
-    public int accuracyRangeModifierValue = 0;
-    public int critChanceRangeModifierValue = 0;
-    public int coolDownRangeModifierValue = 0;
-    public int staminaRangeModifierValue = 0;
-    public int critDamageRangeModifierValue = 0;
+    //[Header("Range Weapon Mod Stats Percentage")]
+    [HideInInspector] public int damageRangeModifierPercentage = 0;
+    [HideInInspector] public int accuracyRangeModifierPercentage = 0;
+    [HideInInspector] public int critChanceRangeModifierPercentage = 0;
+    [HideInInspector] public int critDamageRangeModifierPercentage = 0;
+    [HideInInspector] public int coolDownRangeModifierPercentage = 0;
+    [HideInInspector] public int staminaRangeModifierPercentage = 0;
+    //[Header("Range Weapon Mod Stats Value")]
+    [HideInInspector] public int damageRangeModifierValue = 0;
+    [HideInInspector] public int accuracyRangeModifierValue = 0;
+    [HideInInspector] public int critChanceRangeModifierValue = 0;
+    [HideInInspector] public float coolDownRangeModifierValue = 0.0f;
+    [HideInInspector] public float staminaRangeModifierValue = 0.0f;
+    [HideInInspector] public int critDamageRangeModifierValue = 0;
 
-    [Header("Melee Weapon Mod Stats Percentage")]
-    public int damageMeleeModifierPercentage = 0;
-    public int accuracyMeleeModifierPercentage = 0;
-    public int critChanceMeleeModifierPercentage = 0;
-    public int critDamageMeleeModifierPercentage = 0;
-    public int coolDownMeleeModifierPercentage = 0;
-    public int staminaMeleeModifierPercentage = 0;
-    [Header("Melee Weapon Mod Stats Value")]
-    public int damageMeleeModifierValue = 0;
-    public int accuracyMeleeModifierValue = 0;
-    public int critChanceMeleeModifierValue = 0;
-    public int coolDownMeleeModifierValue = 0;
-    public int staminaMeleeModifierValue = 0;
-    public int critDamageMeleeModifierValue = 0;
+    //[Header("Melee Weapon Mod Stats Percentage")]
+    [HideInInspector] public int damageMeleeModifierPercentage = 0;
+    [HideInInspector] public int accuracyMeleeModifierPercentage = 0;
+    [HideInInspector] public int critChanceMeleeModifierPercentage = 0;
+    [HideInInspector] public int critDamageMeleeModifierPercentage = 0;
+    [HideInInspector] public int coolDownMeleeModifierPercentage = 0;
+    [HideInInspector] public int staminaMeleeModifierPercentage = 0;
+    //[Header("Melee Weapon Mod Stats Value")]
+    [HideInInspector] public int damageMeleeModifierValue = 0;
+    [HideInInspector] public int accuracyMeleeModifierValue = 0;
+    [HideInInspector] public int critChanceMeleeModifierValue = 0;
+    [HideInInspector] public float coolDownMeleeModifierValue = 0.0f;
+    [HideInInspector] public float staminaMeleeModifierValue = 0.0f;
+    [HideInInspector] public int critDamageMeleeModifierValue = 0;
 
     public override void InitializeDescriptionTriples()
     {
@@ -47,8 +47,6 @@ public class WeaponModStats : ItemStats
             new DescriptionTriple("Quality", "", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
-            new DescriptionTriple("Price", "", "")
         });
 
         // Range Percentage modifiers
@@ -96,11 +94,11 @@ public class WeaponModStats : ItemStats
         }
         if (coolDownRangeModifierValue != 0)
         {
-            _descriptionTriples.Add(new DescriptionTriple("Range CoolDown Value", $"{coolDownRangeModifierValue:+#;-#;0}", ""));
+            _descriptionTriples.Add(new DescriptionTriple("Range CoolDown Value", $"{coolDownRangeModifierValue:+#;-#;0.00}", ""));
         }
         if (staminaRangeModifierValue != 0)
         {
-            _descriptionTriples.Add(new DescriptionTriple("Range Stamina Value", $"{staminaRangeModifierValue:+#;-#;0}", ""));
+            _descriptionTriples.Add(new DescriptionTriple("Range Stamina Value", $"{staminaRangeModifierValue:+#;-#;0.00}", ""));
         }
 
         // Melee Percentage modifiers
@@ -148,12 +146,14 @@ public class WeaponModStats : ItemStats
         }
         if (coolDownMeleeModifierValue != 0)
         {
-            _descriptionTriples.Add(new DescriptionTriple("Melee CoolDown Value", $"{coolDownMeleeModifierValue:+#;-#;0}", ""));
+            _descriptionTriples.Add(new DescriptionTriple("Melee CoolDown Value", $"{coolDownMeleeModifierValue:+#;-#;0.00}", ""));
         }
         if (staminaMeleeModifierValue != 0)
         {
-            _descriptionTriples.Add(new DescriptionTriple("Melee Stamina Value", $"{staminaMeleeModifierValue:+#;-#;0}", ""));
+            _descriptionTriples.Add(new DescriptionTriple("Melee Stamina Value", $"{staminaMeleeModifierValue:+#;-#;0.00}", ""));
         }
+
+        _descriptionTriples.Add(new DescriptionTriple("Price", "", ""));
     }
 
     protected override string GetSpecificStatValue(string statKey)
@@ -184,9 +184,9 @@ public class WeaponModStats : ItemStats
             case "Range Crit Damage Value":
                 return $"{critDamageRangeModifierValue:+#;-#;0}";
             case "Range CoolDown Value":
-                return $"{coolDownRangeModifierValue:+#;-#;0}";
+                return $"{coolDownRangeModifierValue:+0.##;-0.##}";
             case "Range Stamina Value":
-                return $"{staminaRangeModifierValue:+#;-#;0}";
+                return $"{staminaRangeModifierValue:+0.##;-0.##}";
 
             // Melee Percentage
             case "Melee Damage Percentage":
@@ -212,12 +212,49 @@ public class WeaponModStats : ItemStats
             case "Melee Crit Damage Value":
                 return $"{critDamageMeleeModifierValue:+#;-#;0}";
             case "Melee CoolDown Value":
-                return $"{coolDownMeleeModifierValue:+#;-#;0}";
+                return $"{coolDownMeleeModifierValue:+0.##;-0.##}";
             case "Melee Stamina Value":
-                return $"{staminaMeleeModifierValue:+#;-#;0}";
+                return $"{staminaMeleeModifierValue:+0.##;-0.##}";
 
             default:
                 return base.GetSpecificStatValue(statKey);
         }
+    }
+
+    protected override void LoadFromDataManager()
+    {
+        base.LoadFromDataManager();
+
+        if (string.IsNullOrEmpty(itemKey)) return;
+        var dataManager = ItemDataManager.Instance;
+        if (dataManager == null) return;
+
+        damageRangeModifierPercentage = dataManager.GetItemData(itemKey, "damageRangeModifierPercentage", damageRangeModifierPercentage);
+        accuracyRangeModifierPercentage = dataManager.GetItemData(itemKey, "accuracyRangeModifierPercentage", accuracyRangeModifierPercentage);
+        critChanceRangeModifierPercentage = dataManager.GetItemData(itemKey, "critChanceRangeModifierPercentage", critChanceRangeModifierPercentage);
+        critDamageRangeModifierPercentage = dataManager.GetItemData(itemKey, "critDamageRangeModifierPercentage", critDamageRangeModifierPercentage);
+        coolDownRangeModifierPercentage = dataManager.GetItemData(itemKey, "coolDownRangeModifierPercentage", coolDownRangeModifierPercentage);
+        staminaRangeModifierPercentage = dataManager.GetItemData(itemKey, "staminaRangeModifierPercentage", staminaRangeModifierPercentage);
+
+        damageRangeModifierValue = dataManager.GetItemData(itemKey, "damageRangeModifierValue", damageRangeModifierValue);
+        accuracyRangeModifierValue = dataManager.GetItemData(itemKey, "accuracyRangeModifierValue", accuracyRangeModifierValue);
+        critChanceRangeModifierValue = dataManager.GetItemData(itemKey, "critChanceRangeModifierValue", critChanceRangeModifierValue);
+        critDamageRangeModifierValue = dataManager.GetItemData(itemKey, "critDamageRangeModifierValue", critDamageRangeModifierValue);
+        coolDownRangeModifierValue = dataManager.GetItemData(itemKey, "coolDownRangeModifierValue", 0.0f);
+        staminaRangeModifierValue = dataManager.GetItemData(itemKey, "staminaRangeModifierValue", 0.0f);
+
+        damageMeleeModifierPercentage = dataManager.GetItemData(itemKey, "damageMeleeModifierPercentage", damageMeleeModifierPercentage);
+        accuracyMeleeModifierPercentage = dataManager.GetItemData(itemKey, "accuracyMeleeModifierPercentage", accuracyMeleeModifierPercentage);
+        critChanceMeleeModifierPercentage = dataManager.GetItemData(itemKey, "critChanceMeleeModifierPercentage", critChanceMeleeModifierPercentage);
+        critDamageMeleeModifierPercentage = dataManager.GetItemData(itemKey, "critDamageMeleeModifierPercentage", critDamageMeleeModifierPercentage);
+        coolDownMeleeModifierPercentage = dataManager.GetItemData(itemKey, "coolDownMeleeModifierPercentage", coolDownMeleeModifierPercentage);
+        staminaMeleeModifierPercentage = dataManager.GetItemData(itemKey, "staminaMeleeModifierPercentage", staminaMeleeModifierPercentage);
+
+        damageMeleeModifierValue = dataManager.GetItemData(itemKey, "damageMeleeModifierValue", damageMeleeModifierValue);
+        accuracyMeleeModifierValue = dataManager.GetItemData(itemKey, "accuracyMeleeModifierValue", accuracyMeleeModifierValue);
+        critChanceMeleeModifierValue = dataManager.GetItemData(itemKey, "critChanceMeleeModifierValue", critChanceMeleeModifierValue);
+        critDamageMeleeModifierValue = dataManager.GetItemData(itemKey, "critDamageMeleeModifierValue", critDamageMeleeModifierValue);
+        coolDownMeleeModifierValue = dataManager.GetItemData(itemKey, "coolDownMeleeModifierValue", 0.0f);
+        staminaMeleeModifierValue = dataManager.GetItemData(itemKey, "staminaMeleeModifierValue", 0.0f);
     }
 }

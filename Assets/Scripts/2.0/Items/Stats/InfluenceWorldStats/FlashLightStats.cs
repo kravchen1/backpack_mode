@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class FlashLightStats : ItemStats
 {
-    [Header("FlashLight Stats")]
-    public float _flashLightRadius = 7f;
-    public float _flashLightIntensity = 0.5f;
+    //[Header("FlashLight Stats")]
+    [HideInInspector] public float _flashLightRadius = 7f;
+    [HideInInspector] public float _flashLightIntensity = 0.5f;
 
     public override void InitializeDescriptionTriples()
     {
@@ -16,11 +16,13 @@ public class FlashLightStats : ItemStats
         _descriptionTriples.AddRange(new[]
         {
             new DescriptionTriple("Description", "", ""),
-            new DescriptionTriple("Flash Light Radius", "", ""),
-            new DescriptionTriple("Flash Light Intensity", "", ""),
+            new DescriptionTriple("Type", "", ""),
+            new DescriptionTriple("Rarity", "", ""),
+            new DescriptionTriple("Quality", "", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
+            new DescriptionTriple("Flash Light Radius", "", ""),
+            new DescriptionTriple("Flash Light Intensity", "", ""),
             new DescriptionTriple("Price", "", "")
         });
     }
@@ -36,5 +38,18 @@ public class FlashLightStats : ItemStats
             default:
                 return base.GetSpecificStatValue(statKey);
         }
+    }
+
+    protected override void LoadFromDataManager()
+    {
+        base.LoadFromDataManager();
+
+        if (string.IsNullOrEmpty(itemKey)) return;
+        var dataManager = ItemDataManager.Instance;
+        if (dataManager == null) return;
+
+        // Загрузка параметров ближнего боя
+        _flashLightRadius = dataManager.GetItemData(itemKey, "_flashLightRadius", _flashLightRadius);
+        _flashLightIntensity = dataManager.GetItemData(itemKey, "_flashLightIntensity", _flashLightIntensity);
     }
 }

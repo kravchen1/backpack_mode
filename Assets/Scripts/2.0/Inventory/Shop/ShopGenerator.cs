@@ -193,7 +193,7 @@ public class ShopGenerator : MonoBehaviour
                         occupiedCells.Add(shopCells[index]);
 
                         // DEBUG: Показываем какие ячейки занимаются
-                        Debug.Log($"Occupying cell [{gridX}, {gridY}] at index {index}");
+                        //Debug.Log($"Occupying cell [{gridX}, {gridY}] at index {index}");
                     }
                 }
             }
@@ -203,12 +203,12 @@ public class ShopGenerator : MonoBehaviour
         if (occupiedCells.Count > 0)
         {
             Vector3 centerPosition = CalculateCellsCenter(occupiedCells);
-            Debug.Log($"Placing item at start index: {startIndex} (cell [{startX}, {startY}])");
-            Debug.Log($"Item offset: {itemOffset}");
+            //Debug.Log($"Placing item at start index: {startIndex} (cell [{startX}, {startY}])");
+            //Debug.Log($"Item offset: {itemOffset}");
             item.transform.position = new Vector3(centerPosition.x, centerPosition.y, item.transform.position.z);
 
             // DEBUG: Показываем конечную позицию
-            Debug.Log($"Item positioned at: {centerPosition}");
+           // Debug.Log($"Item positioned at: {centerPosition}");
         }
     }
 

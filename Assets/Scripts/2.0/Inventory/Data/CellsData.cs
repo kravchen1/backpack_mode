@@ -97,7 +97,7 @@ public class CellsData : MonoBehaviour
                         {
                             dataJsonList.inventoryDataJsonList.Add(new DataCellJson(
                                 cell.gameObject.name, // главна€ €чейка
-                                itemStats.itemNameKey,
+                                itemStats.itemKey,
                                 itemStructure.transform.eulerAngles.z,
                                 occupiedCellNames,
                                 itemStats.itemQuality,
@@ -112,7 +112,7 @@ public class CellsData : MonoBehaviour
                         {
                             dataJsonList.inventoryDataJsonList.Add(new DataCellJson(
                                                             cell.gameObject.name, // главна€ €чейка
-                                                            itemStats.itemNameKey,
+                                                            itemStats.itemKey,
                                                             itemStructure.transform.eulerAngles.z,
                                                             occupiedCellNames,
                                                             itemStats.itemQuality,
@@ -160,7 +160,7 @@ public class CellsData : MonoBehaviour
         string jsonData = PlayerPrefs.GetString(settingsKey, "");
         if (string.IsNullOrEmpty(jsonData))
         {
-            Debug.Log("No saved data found");
+            //Debug.Log("No saved data found");
             return;
         }
 
@@ -168,7 +168,7 @@ public class CellsData : MonoBehaviour
         {
             dataJsonList = JsonUtility.FromJson<DataJsonCellList>(jsonData);
 
-            Debug.Log($"Loading {dataJsonList.inventoryDataJsonList.Count} items...");
+            //Debug.Log($"Loading {dataJsonList.inventoryDataJsonList.Count} items...");
 
             foreach (DataCellJson cellData in dataJsonList.inventoryDataJsonList)
             {

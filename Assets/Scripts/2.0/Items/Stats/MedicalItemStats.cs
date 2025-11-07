@@ -28,7 +28,7 @@ public class MedicalItemStats : ItemStats
             new DescriptionTriple("Consumable", isConsumable ? "Yes" : "No", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
+            //new DescriptionTriple("Requirements", "", ""),
             new DescriptionTriple("Price", "", "")
         });
     }

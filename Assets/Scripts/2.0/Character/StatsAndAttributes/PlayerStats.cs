@@ -459,7 +459,7 @@ public class PlayerStats : MonoBehaviour
         string jsonData = PlayerPrefs.GetString(backpackKey, "");
         if (string.IsNullOrEmpty(jsonData))
         {
-            Debug.Log("No saved data found for calculate Weight");
+            //Debug.Log("No saved data found for calculate Weight");
             return;
         }
         float weight = 0f;

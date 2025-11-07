@@ -10,7 +10,7 @@ public abstract class BaseNPCState : INPCState
     {
         npcController = npc;
         npcDataManager = npc.GetComponent<NPCDataManager>();
-        Debug.Log($"{npc.name} перешел в состояние: {Type}");
+        //Debug.Log($"{npc.name} перешел в состояние: {Type}");
     }
 
     public virtual void UpdateState(NPC npc) { }

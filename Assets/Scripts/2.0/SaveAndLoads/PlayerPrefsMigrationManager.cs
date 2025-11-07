@@ -70,7 +70,7 @@ public class PlayerPrefsMigrationManager : MonoBehaviour
         if (!stringKeys.Contains(key))
         {
             stringKeys.Add(key);
-            Debug.Log($"Зарегистрирован String PlayerPref: {key}");
+            //Debug.Log($"Зарегистрирован String PlayerPref: {key}");
         }
 
         if (!PlayerPrefs.HasKey(key))

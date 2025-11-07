@@ -26,7 +26,7 @@ public class PatronsStats : ItemStats
             new DescriptionTriple("Crit Damage Mod", $"{critDamageModifire:+#;-#;0}%", ""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            new DescriptionTriple("Requirements", "", ""),
+            //new DescriptionTriple("Requirements", "", ""),
             new DescriptionTriple("Price", "", "")
         });
     }
