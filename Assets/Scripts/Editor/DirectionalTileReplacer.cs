@@ -20,6 +20,7 @@ public class DirectionalTileReplacer : EditorWindow
         public int checkRadius = 1;
         public bool includeDiagonals = true;
         public bool includeCardinalDirections = true;
+        public bool requireUniqueCondition = true;
     }
 
     public List<TileReplacement> tileReplacements = new List<TileReplacement>();
@@ -71,6 +72,13 @@ public class DirectionalTileReplacer : EditorWindow
             tileReplacements[i].includeCardinalDirections = EditorGUILayout.Toggle("Cardinal Directions (↑↓←→)", tileReplacements[i].includeCardinalDirections);
             tileReplacements[i].includeDiagonals = EditorGUILayout.Toggle("Diagonal Directions (↖↗↙↘)", tileReplacements[i].includeDiagonals);
 
+            // Новая опция - требовать уникальность condition tile
+            tileReplacements[i].requireUniqueCondition = EditorGUILayout.Toggle("Require Unique Condition", tileReplacements[i].requireUniqueCondition);
+            if (tileReplacements[i].requireUniqueCondition)
+            {
+                EditorGUILayout.HelpBox("Will only replace if exactly ONE condition tile is found nearby", MessageType.Info);
+            }
+
             // Валидация - хотя бы одно направление должно быть включено
             if (!tileReplacements[i].includeCardinalDirections && !tileReplacements[i].includeDiagonals)
             {
@@ -101,7 +109,8 @@ public class DirectionalTileReplacer : EditorWindow
             {
                 checkRadius = 1,
                 includeCardinalDirections = true,
-                includeDiagonals = true
+                includeDiagonals = true,
+                requireUniqueCondition = true
             });
         }
 
@@ -216,12 +225,15 @@ public class DirectionalTileReplacer : EditorWindow
                     {
                         if (AreTilesEqual(currentTile, replacement.sourceTile))
                         {
-                            // Находим позицию condition tile и определяем угол поворота
-                            Vector3Int? conditionPos = FindConditionTilePosition(tilemap, cellPos, replacement);
+                            // Находим все позиции condition tiles
+                            List<Vector3Int> conditionPositions = FindAllConditionTilePositions(tilemap, cellPos, replacement);
 
-                            if (conditionPos.HasValue)
+                            // Проверяем условие уникальности
+                            if (conditionPositions.Count > 0 && ShouldReplaceBasedOnUniqueness(conditionPositions.Count, replacement))
                             {
-                                float rotation = CalculateRotation(cellPos, conditionPos.Value);
+                                // Берем первую найденную позицию для определения поворота
+                                Vector3Int conditionPos = conditionPositions[0];
+                                float rotation = CalculateRotation(cellPos, conditionPos);
                                 SetTileWithRotation(tilemap, cellPos, replacement.targetTile, rotation);
                                 tilemapReplaced++;
                                 break; // Прерываем после первой найденной замены
@@ -250,8 +262,9 @@ public class DirectionalTileReplacer : EditorWindow
         return true;
     }
 
-    private Vector3Int? FindConditionTilePosition(Tilemap tilemap, Vector3Int centerPos, TileReplacement replacement)
+    private List<Vector3Int> FindAllConditionTilePositions(Tilemap tilemap, Vector3Int centerPos, TileReplacement replacement)
     {
+        List<Vector3Int> positions = new List<Vector3Int>();
         int radius = replacement.checkRadius;
 
         // Проверяем все ячейки в указанном радиусе
@@ -273,13 +286,27 @@ public class DirectionalTileReplacer : EditorWindow
                     TileBase neighborTile = tilemap.GetTile(checkPos);
                     if (AreTilesEqual(neighborTile, replacement.conditionTile))
                     {
-                        return checkPos; // Возвращаем позицию condition tile
+                        positions.Add(checkPos);
                     }
                 }
             }
         }
 
-        return null; // ConditionTile не найден в радиусе
+        return positions;
+    }
+
+    private bool ShouldReplaceBasedOnUniqueness(int conditionTileCount, TileReplacement replacement)
+    {
+        if (replacement.requireUniqueCondition)
+        {
+            // Заменяем только если найден ровно один condition tile
+            return conditionTileCount == 1;
+        }
+        else
+        {
+            // Заменяем если найден хотя бы один condition tile
+            return conditionTileCount >= 1;
+        }
     }
 
     private float CalculateRotation(Vector3Int sourcePos, Vector3Int conditionPos)
@@ -289,13 +316,13 @@ public class DirectionalTileReplacer : EditorWindow
 
         // Определяем направление и возвращаем соответствующий угол
         if (dx > 0 && dy == 0) // Справа
-            return 90f;
-        else if (dx < 0 && dy == 0) // Слева
             return 270f;
+        else if (dx < 0 && dy == 0) // Слева
+            return 90f;
         else if (dx == 0 && dy > 0) // Сверху
-            return 180f;
-        else if (dx == 0 && dy < 0) // Снизу
             return 0f;
+        else if (dx == 0 && dy < 0) // Снизу
+            return 180f;
         else if (dx > 0 && dy > 0) // Справа-вверху
             return 90f;
         else if (dx < 0 && dy > 0) // Слева-вверху
