@@ -143,22 +143,6 @@ public class GroundTileReplacer : EditorWindow
         return true;
     }
 
-    private bool IsEarthTile(TileBase tile)
-    {
-        if (tile == null) return false;
-
-        string tileName = tile.name.ToLower();
-
-        // Проверяем различные варианты написания "земля"
-        return tileName.Contains("земля") ||
-               tileName.Contains("земл") ||
-               tileName.Contains("earth") ||
-               tileName.Contains("ground") ||
-               tileName == "земля" || // точное совпадение (без учета регистра)
-               tileName == "earth" ||
-               tileName == "Gameground";
-    }
-
     // Альтернативная версия метода с более строгой проверкой
     private bool IsEarthTileStrict(TileBase tile)
     {
@@ -167,9 +151,6 @@ public class GroundTileReplacer : EditorWindow
         string tileName = tile.name.ToLower();
 
         // Только точные совпадения и варианты с "земля"
-        return tileName == "земля" ||
-               tileName.StartsWith("земля") ||
-               tileName == "earth" ||
-               tileName == "ground";
+        return tileName == "земля";
     }
 }
