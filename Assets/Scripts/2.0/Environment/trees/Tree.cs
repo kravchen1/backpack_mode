@@ -12,6 +12,7 @@ public class Tree : MonoBehaviour
     #region Private Variables
     private DayManager _dayManager;
     private string _treeId;
+    private bool _isVisible = false;
     #endregion
 
     #region Constants
@@ -32,15 +33,114 @@ public class Tree : MonoBehaviour
 
         if (_currentState == DEFAULT_STATE)
         {
-            _currentState = Random.Range(0, 3);
+            _currentState = Random.Range(1, 3);
         }
 
-        UpdateTreeVisuals();
+        // Инициализируем визуалы в выключенном состоянии
+        SetAllTreesInactive();
     }
 
     private void OnDestroy()
     {
         UnsubscribeFromDayManager();
+    }
+    #endregion
+
+    #region Visual Components Management
+    /// <summary>
+    /// Включает или выключает все визуальные компоненты дерева
+    /// </summary>
+    public void SetVisualComponentsState(bool isEnabled)
+    {
+        _isVisible = isEnabled;
+
+        if (isEnabled)
+        {
+            // Включаем только нужный визуал в зависимости от состояния
+            SetAllTreesInactive();
+
+            switch (_currentState)
+            {
+                case SPROUT_STATE:
+                    if (treeSprout != null) treeSprout.SetActive(true);
+                    break;
+                case MIDDLE_STATE:
+                    if (treeMiddle != null) treeMiddle.SetActive(true);
+                    break;
+                case ADULT_STATE:
+                    if (treeAdult != null) treeAdult.SetActive(true);
+                    break;
+                case CUT_DOWN_STATE:
+                    // Все деревья остаются выключенными
+                    break;
+            }
+        }
+        else
+        {
+            // Просто выключаем все визуалы
+            SetAllTreesInactive();
+        }
+
+        // Логируем только в редакторе для отладки
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+        {
+            Debug.Log($"{name}: Tree visual components {(isEnabled ? "enabled" : "disabled")} (State: {_currentState})");
+        }
+#endif
+    }
+
+    /// <summary>
+    /// Включает визуальные компоненты дерева
+    /// </summary>
+    public void EnableVisualComponents()
+    {
+        SetVisualComponentsState(true);
+    }
+
+    /// <summary>
+    /// Выключает визуальные компоненты дерева
+    /// </summary>
+    public void DisableVisualComponents()
+    {
+        SetVisualComponentsState(false);
+    }
+
+    /// <summary>
+    /// Проверяет, включены ли визуальные компоненты дерева
+    /// </summary>
+    public bool AreVisualComponentsEnabled()
+    {
+        return _isVisible;
+    }
+
+    /// <summary>
+    /// Обновляет визуальное представление без изменения видимости
+    /// </summary>
+    private void UpdateTreeVisuals()
+    {
+        if (_isVisible)
+        {
+            // Если дерево видимо, обновляем визуалы
+            SetAllTreesInactive();
+
+            switch (_currentState)
+            {
+                case SPROUT_STATE:
+                    if (treeSprout != null) treeSprout.SetActive(true);
+                    break;
+                case MIDDLE_STATE:
+                    if (treeMiddle != null) treeMiddle.SetActive(true);
+                    break;
+                case ADULT_STATE:
+                    if (treeAdult != null) treeAdult.SetActive(true);
+                    break;
+                case CUT_DOWN_STATE:
+                    // Все деревья остаются выключенными
+                    break;
+            }
+        }
+        // Если дерево не видимо, ничего не делаем - визуалы остаются выключенными
     }
     #endregion
 
@@ -51,7 +151,8 @@ public class Tree : MonoBehaviour
     public void CutDownTree()
     {
         _currentState = CUT_DOWN_STATE;
-        UpdateTreeVisuals();
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        UpdateTreeVisuals(); // Обновляем визуалы только если дерево видимо
         SaveTreeState();
     }
 
@@ -87,7 +188,15 @@ public class Tree : MonoBehaviour
     public void SetTreeState(int state)
     {
         _currentState = Mathf.Clamp(state, DEFAULT_STATE, CUT_DOWN_STATE);
-        UpdateTreeVisuals();
+        if(_currentState == CUT_DOWN_STATE)
+        {
+            GetComponent<CapsuleCollider2D>().enabled = false;
+        }
+        else
+        {
+            GetComponent<CapsuleCollider2D>().enabled = true;
+        }
+        UpdateTreeVisuals(); // Обновляем визуалы только если дерево видимо
     }
     #endregion
 
@@ -117,7 +226,7 @@ public class Tree : MonoBehaviour
     private void OnDayChanged()
     {
         UpdateTreeState();
-        UpdateTreeVisuals();
+        UpdateTreeVisuals(); // Только обновляем визуалы, не включаем их
         SaveTreeState();
     }
 
@@ -130,38 +239,15 @@ public class Tree : MonoBehaviour
         else if (_currentState == CUT_DOWN_STATE)
         {
             _currentState = SPROUT_STATE;
-        }
-    }
-
-    private void UpdateTreeVisuals()
-    {
-        SetAllTreesInactive();
-
-        switch (_currentState)
-        {
-            case SPROUT_STATE:
-                treeSprout.SetActive(true);
-                break;
-            case MIDDLE_STATE:
-                treeMiddle.SetActive(true);
-                break;
-            case ADULT_STATE:
-                treeAdult.SetActive(true);
-                break;
-            case CUT_DOWN_STATE:
-                // All trees remain inactive
-                break;
-            default:
-                Debug.LogWarning($"Unknown tree state: {_currentState}");
-                break;
+            GetComponent<CapsuleCollider2D>().enabled = true;
         }
     }
 
     private void SetAllTreesInactive()
     {
-        treeSprout.SetActive(false);
-        treeMiddle.SetActive(false);
-        treeAdult.SetActive(false);
+        if (treeSprout != null) treeSprout.SetActive(false);
+        if (treeMiddle != null) treeMiddle.SetActive(false);
+        if (treeAdult != null) treeAdult.SetActive(false);
     }
 
     private void GenerateTreeId()

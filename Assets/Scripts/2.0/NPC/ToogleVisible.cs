@@ -4,23 +4,66 @@ using UnityEngine;
 public class VisibilityController : MonoBehaviour
 {
     [SerializeField] private LayerMask _npcLayerMask = 1 << 11;
-
-    // Компоненты, которые будут включаться/выключаться
-    private const int VISUAL_COMPONENTS_START_INDEX = 0;
-    private const int VISUAL_COMPONENTS_COUNT = 5;
+    [SerializeField] private LayerMask _treeLayerMask = 1 << 25;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!IsNPCObject(other)) return;
-
-        EnableNPCComponents(other.gameObject);
+        HandleObjectEnter(other);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!IsNPCObject(other)) return;
+        HandleObjectExit(other);
+    }
 
-        DisableNPCComponents(other.gameObject);
+    private void HandleObjectEnter(Collider2D other)
+    {
+        // Обрабатываем NPC
+        if (IsNPCObject(other))
+        {
+            NPC npc = other.GetComponent<NPC>();
+            if (npc != null)
+            {
+                npc.EnableVisualComponents();
+                return;
+            }
+        }
+
+        // Обрабатываем деревья
+        if (IsTreeObject(other))
+        {
+            Tree tree = other.GetComponent<Tree>();
+            if (tree != null)
+            {
+                tree.EnableVisualComponents();
+                return;
+            }
+        }
+    }
+
+    private void HandleObjectExit(Collider2D other)
+    {
+        // Обрабатываем NPC
+        if (IsNPCObject(other))
+        {
+            NPC npc = other.GetComponent<NPC>();
+            if (npc != null)
+            {
+                npc.DisableVisualComponents();
+                return;
+            }
+        }
+
+        // Обрабатываем деревья
+        if (IsTreeObject(other))
+        {
+            Tree tree = other.GetComponent<Tree>();
+            if (tree != null)
+            {
+                tree.DisableVisualComponents();
+                return;
+            }
+        }
     }
 
     private bool IsNPCObject(Collider2D collider)
@@ -28,52 +71,8 @@ public class VisibilityController : MonoBehaviour
         return ((1 << collider.gameObject.layer) & _npcLayerMask) != 0;
     }
 
-    private void EnableNPCComponents(GameObject npcObject)
+    private bool IsTreeObject(Collider2D collider)
     {
-        SetNPCComponentsState(npcObject, true);
-    }
-
-    private void DisableNPCComponents(GameObject npcObject)
-    {
-        SetNPCComponentsState(npcObject, false);
-    }
-
-    private void SetNPCComponentsState(GameObject npcObject, bool isEnabled)
-    {
-        // Включаем/выключаем компоненты
-        SetComponentState<NPCAnimationController>(npcObject, isEnabled);
-        SetComponentState<Animator>(npcObject, isEnabled);
-
-        // Включаем/выключаем дочерние объекты
-        SetChildObjectsState(npcObject.transform, isEnabled);
-    }
-
-    private void SetComponentState<T>(GameObject targetObject, bool isEnabled) where T : Behaviour
-    {
-        var component = targetObject.GetComponent<T>();
-        if (component != null)
-        {
-            component.enabled = isEnabled;
-        }
-        else
-        {
-            Debug.LogWarning($"Component {typeof(T).Name} not found on {targetObject.name}", targetObject);
-        }
-    }
-
-    private void SetChildObjectsState(Transform parent, bool isEnabled)
-    {
-        for (int i = VISUAL_COMPONENTS_START_INDEX; i < VISUAL_COMPONENTS_START_INDEX + VISUAL_COMPONENTS_COUNT; i++)
-        {
-            if (i < parent.childCount)
-            {
-                parent.GetChild(i).gameObject.SetActive(isEnabled);
-            }
-            else
-            {
-                Debug.LogWarning($"Child index {i} is out of range for {parent.name}", parent.gameObject);
-                break;
-            }
-        }
+        return ((1 << collider.gameObject.layer) & _treeLayerMask) != 0;
     }
 }

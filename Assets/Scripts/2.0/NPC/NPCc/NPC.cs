@@ -35,13 +35,21 @@ public class NPC : MonoBehaviour
     public bool IsLeader => isLeader;
     public NPC GroupLeader { get; private set; }
 
+    // Visual Components
+    private GameObject sprites;
+    private GameObject light2d;
+    private GameObject trigger;
+    private GameObject nameText;
+    private GameObject behindForward;
+    private Animator animator;
+
     // Properties
     public NPCConfig Config => config;
     public NPCDataManager DataManager => dataManager;
     public NPCAnimationController AnimationController => animationController;
     public WaypointContainer WaypointContainer => waypointContainer;
     public TopDownCharacterController DetectedPlayer { get; set; }
-    public AreaMovementContainer AreaMovementContainer => areaMovementContainer; // НОВОЕ: Свойство доступа
+    public AreaMovementContainer AreaMovementContainer => areaMovementContainer;
     public bool HasDetectedPlayer => DetectedPlayer != null;
     public bool InFightNow { get; set; }
 
@@ -53,29 +61,15 @@ public class NPC : MonoBehaviour
     {
         InitializeComponents();
         InitializeStates();
-
-        var animScript = GetComponent<NPCAnimationController>();
-        var animatior = GetComponent<Animator>();
-        var sprites = transform.GetChild(0).gameObject;
-        var light2d = transform.GetChild(1).gameObject;
-        var trigger = transform.GetChild(2).gameObject;
-        var nameText = transform.GetChild(3).gameObject;
-        var behindForward = transform.GetChild(4).gameObject;
-
-        animScript.enabled = false;
-        animatior.enabled = false;
-        sprites.SetActive(false);
-        light2d.SetActive(false);
-        trigger.SetActive(false);
-        nameText.SetActive(false);
-        behindForward.SetActive(false);
+        InitializeVisualComponents();
+        SetVisualComponentsState(false); // Выключаем визуальные компоненты по умолчанию
     }
 
     protected virtual void Start()
     {
         SetState(config.initialState);
         SetupDetectionCollider();
-        InitializeGroupBehavior(); // Инициализация группы
+        InitializeGroupBehavior();
     }
 
     private void Update()
@@ -124,6 +118,27 @@ public class NPC : MonoBehaviour
         InFightNow = false;
     }
 
+    private void InitializeVisualComponents()
+    {
+        // Получаем ссылки на визуальные компоненты
+        animator = GetComponent<Animator>();
+        animationController = GetComponent<NPCAnimationController>();
+
+        // Получаем ссылки на дочерние объекты
+        if (transform.childCount >= 5)
+        {
+            sprites = transform.GetChild(0).gameObject;
+            light2d = transform.GetChild(1).gameObject;
+            trigger = transform.GetChild(2).gameObject;
+            nameText = transform.GetChild(3).gameObject;
+            behindForward = transform.GetChild(4).gameObject;
+        }
+        else
+        {
+            Debug.LogWarning($"{name}: Not enough child objects for visual components", this);
+        }
+    }
+
     private void SetupNavMeshAgent()
     {
         navMeshAgent.speed = config.moveSpeed;
@@ -153,6 +168,70 @@ public class NPC : MonoBehaviour
         {
             detectionCollider.radius = config.detectionRadius;
         }
+    }
+    #endregion
+
+    #region Visual Components Management
+    /// <summary>
+    /// Включает или выключает все визуальные компоненты NPC
+    /// </summary>
+    public void SetVisualComponentsState(bool isEnabled)
+    {
+        // Управляем компонентами
+        if (animationController != null)
+            animationController.enabled = isEnabled;
+
+        if (animator != null)
+            animator.enabled = isEnabled;
+
+        // Управляем дочерними объектами
+        if (sprites != null)
+            sprites.SetActive(isEnabled);
+
+        if (light2d != null)
+            light2d.SetActive(isEnabled);
+
+        if (trigger != null)
+            trigger.SetActive(isEnabled);
+
+        if (nameText != null)
+            nameText.SetActive(isEnabled);
+
+        if (behindForward != null)
+            behindForward.SetActive(isEnabled);
+
+        // Логируем только в редакторе для отладки
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+        {
+            //Debug.Log($"{name}: Visual components {(isEnabled ? "enabled" : "disabled")}");
+        }
+#endif
+    }
+
+    /// <summary>
+    /// Включает визуальные компоненты NPC
+    /// </summary>
+    public void EnableVisualComponents()
+    {
+        SetVisualComponentsState(true);
+    }
+
+    /// <summary>
+    /// Выключает визуальные компоненты NPC
+    /// </summary>
+    public void DisableVisualComponents()
+    {
+        SetVisualComponentsState(false);
+    }
+
+    /// <summary>
+    /// Проверяет, включены ли визуальные компоненты
+    /// </summary>
+    public bool AreVisualComponentsEnabled()
+    {
+        return sprites != null && sprites.activeInHierarchy &&
+               animationController != null && animationController.enabled;
     }
     #endregion
 
@@ -351,8 +430,6 @@ public class NPC : MonoBehaviour
         navMeshAgent.SetDestination(targetPosition);
     }
 
-
-
     public void MoveToTransform(Transform targetTransform, float customStoppingDistance = -1f)
     {
         if (navMeshAgent == null) return;
@@ -399,7 +476,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    // НОВОЕ: Метод для проверки и коррекции позиции относительно области движения
+    // Метод для проверки и коррекции позиции относительно области движения
     public Vector3 GetMovementCorrectedPosition(Vector3 targetPosition)
     {
         if (areaMovementContainer == null)
@@ -408,7 +485,7 @@ public class NPC : MonoBehaviour
         return areaMovementContainer.GetClosestPointInArea(targetPosition);
     }
 
-    // НОВОЕ: Проверка находится ли точка в разрешенной области
+    // Проверка находится ли точка в разрешенной области
     public bool IsPositionInMovementArea(Vector3 position)
     {
         if (areaMovementContainer == null)
@@ -416,7 +493,6 @@ public class NPC : MonoBehaviour
 
         return areaMovementContainer.IsPointInArea(position);
     }
-
     #endregion
 
     #region Visual & Animation

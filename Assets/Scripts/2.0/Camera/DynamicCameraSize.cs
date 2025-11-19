@@ -84,7 +84,7 @@ public class DynamicCameraSize : MonoBehaviour
         float newOrthoSize = baseOrthoSize * resolutionScale;
 
         // 4. Œ¡ÕŒ¬Àﬂ≈Ã Õ¿—“–Œ… »  ¿Ã≈–€
-        _camera.orthographicSize = newOrthoSize;
+        //_camera.orthographicSize = newOrthoSize;
 
         if (_cameraScrollController != null)
         {
