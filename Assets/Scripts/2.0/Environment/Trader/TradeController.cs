@@ -163,17 +163,17 @@ public class TradeController : MonoBehaviour
         {
             { ItemType.MeleeWeapon, tradeCanvasWeapon },
             { ItemType.RangeWeapon, tradeCanvasWeapon },
-            { ItemType.Armor, tradeCanvasArmor },
+            { ItemType.HeavyArmor, tradeCanvasArmor },
             { ItemType.Patron9x19, tradeCanvasPatrons },
             { ItemType.Patron_45ACP, tradeCanvasPatrons },
-            { ItemType.Patron5x45, tradeCanvasPatrons },
-            { ItemType.Patron7x62, tradeCanvasPatrons },
+            { ItemType.Patron556x45, tradeCanvasPatrons },
+            { ItemType.Patron762x39, tradeCanvasPatrons },
             { ItemType.Patron12x70, tradeCanvasPatrons },
-            { ItemType.Patron_44Magnum, tradeCanvasPatrons },
-            { ItemType.Sight, tradeCanvasWeaponMods },
+            { ItemType.Patron_357Magnum, tradeCanvasPatrons },
+            { ItemType.RifleSight, tradeCanvasWeaponMods },
             { ItemType.Magazine, tradeCanvasWeaponMods },
             { ItemType.Grip, tradeCanvasWeaponMods },
-            { ItemType.Muzzle, tradeCanvasWeaponMods },
+            { ItemType.RifleMuzzle, tradeCanvasWeaponMods },
             { ItemType.Stock, tradeCanvasWeaponMods }
         };
 
@@ -181,17 +181,17 @@ public class TradeController : MonoBehaviour
         {
             { ItemType.MeleeWeapon, tradeCanvasWeaponCells },
             { ItemType.RangeWeapon, tradeCanvasWeaponCells },
-            { ItemType.Armor, tradeCanvasArmorCells },
+            { ItemType.HeavyArmor, tradeCanvasArmorCells },
             { ItemType.Patron9x19, tradeCanvasPatronsCells },
             { ItemType.Patron_45ACP, tradeCanvasPatronsCells },
-            { ItemType.Patron5x45, tradeCanvasPatronsCells },
-            { ItemType.Patron7x62, tradeCanvasPatronsCells },
+            { ItemType.Patron556x45, tradeCanvasPatronsCells },
+            { ItemType.Patron762x39, tradeCanvasPatronsCells },
             { ItemType.Patron12x70, tradeCanvasPatronsCells },
-            { ItemType.Patron_44Magnum, tradeCanvasPatronsCells },
-            { ItemType.Sight, tradeCanvasWeaponModsCells },
+            { ItemType.Patron_357Magnum, tradeCanvasPatronsCells },
+            { ItemType.RifleSight, tradeCanvasWeaponModsCells },
             { ItemType.Magazine, tradeCanvasWeaponModsCells },
             { ItemType.Grip, tradeCanvasWeaponModsCells },
-            { ItemType.Muzzle, tradeCanvasWeaponModsCells },
+            { ItemType.RifleMuzzle, tradeCanvasWeaponModsCells },
             { ItemType.Stock, tradeCanvasWeaponModsCells }
         };
     }

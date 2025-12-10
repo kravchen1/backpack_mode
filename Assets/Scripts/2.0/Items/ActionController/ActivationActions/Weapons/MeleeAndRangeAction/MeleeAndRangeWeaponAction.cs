@@ -5,7 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MeleeAndWeaponActionController : WeaponActionController
+public class MeleeAndRangeWeaponAction : WeaponActionController
 {
     public string animationKeyAttackRange = "AttackRange";
     public string animationKeyAttackMelee = "AttackMelee";
@@ -79,7 +79,7 @@ public class MeleeAndWeaponActionController : WeaponActionController
     protected virtual List<ItemType> getPatronsType()
     {
         List<ItemType> patrons = new List<ItemType>();
-        patrons.Add(ItemType.Patron5x45);
+        patrons.Add(ItemType.Patron556x45);
 
         return patrons;
     }

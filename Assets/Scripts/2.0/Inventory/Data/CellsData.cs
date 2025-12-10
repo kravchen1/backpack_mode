@@ -158,6 +158,7 @@ public class CellsData : MonoBehaviour
         ClearAllItems();
         LoadedItems.Clear();
         string jsonData = PlayerPrefs.GetString(settingsKey, "");
+        Debug.Log("json с предметами   " + jsonData);
         if (string.IsNullOrEmpty(jsonData))
         {
             //Debug.Log("No saved data found");

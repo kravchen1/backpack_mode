@@ -2,22 +2,33 @@ public enum ItemType
 {
     MeleeWeapon,
     RangeWeapon,
-    Medical,
-    Sight,
-    Magazine, 
-    Grip, 
-    Muzzle, 
-    Stock,
 
-    Armor,
+    Medical,
+    Food,
+    
+    Magazine, 
+    Grip,
+    Stock,
+    LTD,
+
+    RifleSight,
+    RifleMuzzle,
+
+    PistolSight,
+    PistolMuzzle,
+
+    HeavyArmor,
+    MediumArmor,
+    LightArmor,
+
 
 
     Patron9x19,
     Patron_45ACP,
-    Patron5x45,
-    Patron7x62,
+    Patron556x45,
+    Patron762x39,
     Patron12x70,
-    Patron_44Magnum,
+    Patron_357Magnum,
 
     flashLight,
     clock
