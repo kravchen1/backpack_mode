@@ -17,10 +17,10 @@ public abstract class ItemStats : MonoBehaviour
     public bool usableFight = false;
     public bool usableNotFight = false;
 
-    [Header("Numeric Base Stats")]
-    public float weight = 1f;
-    public float maxDurability = 100f;
-    public float basePrice = 100;
+    //[Header("Numeric Base Stats")]
+    [HideInInspector] public float weight = 1f;
+    [HideInInspector] public float maxDurability = 100f;
+    [HideInInspector] public float basePrice = 100;
 
     [Header("Icons And Durability Display")]
     [SerializeField] private Sprite isUseFightIcon;

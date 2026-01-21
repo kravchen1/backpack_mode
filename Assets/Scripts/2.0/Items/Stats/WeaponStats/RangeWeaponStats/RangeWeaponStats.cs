@@ -1,0 +1,159 @@
+﻿using UnityEngine;
+
+public class RangeWeaponStats : ItemStats, IRangeWeapon
+{
+    [Header("Range Weapon Stats")]
+    [HideInInspector][SerializeField] private int minDamage = 3;
+    [HideInInspector][SerializeField] private int maxDamage = 10;
+    [HideInInspector][SerializeField] private float coolDown = 0.5f;
+    [HideInInspector][SerializeField] private float baseStamina = 0.2f;
+    [HideInInspector][SerializeField] private int accuracy = 65;
+    [HideInInspector][SerializeField] private int critChance = 25;
+    [HideInInspector][SerializeField] private int critDamage = 220;
+
+    // Реализация IRangeWeapon с сеттерами
+    public int MinDamageRange
+    {
+        get => minDamage;
+        set => minDamage = value;
+    }
+
+    public int MaxDamageRange
+    {
+        get => maxDamage;
+        set => maxDamage = value;
+    }
+
+    public float CoolDownRange
+    {
+        get => coolDown;
+        set => coolDown = value;
+    }
+
+    public float BaseStaminaRange
+    {
+        get => baseStamina;
+        set => baseStamina = value;
+    }
+
+    public int AccuracyRange
+    {
+        get => accuracy;
+        set => accuracy = value;
+    }
+
+    public int CritChanceRange
+    {
+        get => critChance;
+        set => critChance = value;
+    }
+
+    public int CritDamageRange
+    {
+        get => critDamage;
+        set => critDamage = value;
+    }
+
+    public override void InitializeQuality()
+    {
+        base.InitializeQuality();
+
+        float changeQualityStats2 = GetQualityMultiplier();
+
+        minDamage = (int)(minDamage * changeQualityStats2);
+        maxDamage = (int)(maxDamage * changeQualityStats2);
+        coolDown *= GetInverseQualityMultiplier();
+        baseStamina *= GetInverseQualityMultiplier();
+        accuracy = (int)(accuracy * changeQualityStats2);
+        critChance = (int)(critChance * changeQualityStats2);
+        critDamage = (int)(critDamage * changeQualityStats2);
+
+    }
+
+    public override void InitializeDescriptionTriples()
+    {
+        if (_descriptionTriples.Count > 0)
+        {
+            _descriptionTriples.Clear();
+        }
+
+        float qualityMultiplier = GetQualityMultiplier();
+        float inverseMultiplier = GetInverseQualityMultiplier();
+
+        _descriptionTriples.AddRange(new[]
+        {
+            new DescriptionTriple("Description", "", ""),
+            new DescriptionTriple("Type", "", ""),
+            new DescriptionTriple("Rarity", "", ""),
+            new DescriptionTriple("Quality", "", ""),
+
+            new DescriptionTriple("Damage",
+                $"{((minDamage + maxDamage) / coolDown):0.0}",
+                $"({minDamage/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({minDamage:0.0}) + {maxDamage/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({maxDamage:0.0})) / ({coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s))"),
+
+            new DescriptionTriple("Crit Chance",
+                $"{critChance}%",
+                $"{critChance/qualityMultiplier:0}×{qualityMultiplier:0.0}({critChance}%)"),
+
+            new DescriptionTriple("Crit Damage",
+                $"{critDamage}%",
+                $"{critDamage/qualityMultiplier:0}×{qualityMultiplier:0.0}({critDamage}%)"),
+
+            new DescriptionTriple("Accuracy",
+                $"{accuracy}",
+                $"{accuracy/qualityMultiplier:0}×{qualityMultiplier:0.0}({accuracy})"),
+
+            new DescriptionTriple("Stamina",
+                $"{baseStamina/coolDown:0.0}",
+                $"{baseStamina/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s)"),
+            new DescriptionTriple("Weight", "", ""),
+            new DescriptionTriple("Durability", "", ""),
+            //new DescriptionTriple("Requirements", "", ""),
+            new DescriptionTriple("Price", "", "")
+        });
+    }
+
+    protected override string GetSpecificStatValue(string statKey)
+    {
+        switch (statKey)
+        {
+            case "Damage":
+                return $"{((minDamage + maxDamage) / coolDown):0.0}";
+            case "Crit Chance":
+                return $"{critChance}%";
+            case "Crit Damage":
+                return $"{critDamage}%";
+            case "Accuracy":
+                return $"{accuracy}";
+            case "Stamina Cost":
+                return $"{baseStamina:0.0}";
+            default:
+                return base.GetSpecificStatValue(statKey);
+        }
+    }
+
+
+    private float GetQualityMultiplier()
+    {
+        return itemQuality switch
+        {
+            ItemQuality.VeryBad => 0.6f,
+            ItemQuality.Bad => 0.8f,
+            ItemQuality.Good => 1.2f,
+            ItemQuality.Excellent => 1.4f,
+            _ => 1f
+        };
+    }
+
+    private float GetInverseQualityMultiplier()
+    {
+        return itemQuality switch
+        {
+            ItemQuality.VeryBad => 1.4f,
+            ItemQuality.Bad => 1.2f,
+            ItemQuality.Good => 0.8f,
+            ItemQuality.Excellent => 0.6f,
+            _ => 1f
+        };
+    }
+}
