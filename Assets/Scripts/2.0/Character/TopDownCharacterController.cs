@@ -91,18 +91,11 @@ public class TopDownCharacterController : MonoBehaviour
 
     void Update()
     {
-        if (BattleManager.Instance != null && !BattleManager.Instance.isBattleActive)
-        {
-            HandleInput();
-            HandleSprintInput();
-            HandleFlip();
-            UpdateAnimations();
-        }
-        else
-        {
-            Stop();
-            UpdateAnimations();
-        }
+        HandleInput();
+        HandleSprintInput();
+        HandleFlip();
+        UpdateAnimations();
+
         UpdateStaminaRegen();
     }
 
@@ -111,7 +104,7 @@ public class TopDownCharacterController : MonoBehaviour
         if (rb != null)
         {
             float currentSpeed = _isSprinting ? _sprintSpeed : _currentMoveSpeed;
-            rb.velocity = movement * currentSpeed;
+            rb.linearVelocity = movement * currentSpeed;
         }
     }
 
@@ -560,7 +553,7 @@ public class TopDownCharacterController : MonoBehaviour
     public void Stop()
     {
         movement = Vector2.zero;
-        if (rb != null) rb.velocity = Vector2.zero;
+        if (rb != null) rb.linearVelocity = Vector2.zero;
     }
     public Vector2 GetMovementDirection() => movement;
     public Vector2 GetFacingDirection() => lastNonZeroDirection;

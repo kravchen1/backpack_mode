@@ -267,7 +267,6 @@ public class TradeController : MonoBehaviour
             if (CanPlaceItem(currentIndex, itemComponent))
             {
                 ItemStructure spawnedItem = Instantiate(randomPrefab, tradeCanvasAll.transform).GetComponent<ItemStructure>();
-                spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
                 spawnedItem.GetComponent<ItemStats>().Initialized();
 
                 var itemMove = spawnedItem.GetComponent<ItemMove>();
@@ -753,7 +752,6 @@ public class TradeController : MonoBehaviour
                     ItemStats originalStats = originalItem.GetComponent<ItemStats>();
 
                     if (childStats != null && originalStats != null &&
-                        childStats.itemQuality == originalStats.itemQuality &&
                         childStats.price == originalStats.price)
                     {
                         var cells = canvas.GetComponent<CellsData>()?.cells;

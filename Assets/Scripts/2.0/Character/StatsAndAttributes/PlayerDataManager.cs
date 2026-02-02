@@ -385,43 +385,12 @@ public class PlayerDataManager : MonoBehaviour
     {
         if (Instance == null) return;
 
-        if(UnityEngine.Random.Range(0,100) < 10)//обходим броню
-        {
-            Stats.CurrentHealth -= damage;
-            Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
-        }
-        else//ищем броню, которая впитает урон
-        {
-            Stats.CurrentHealth -= DestroyRandomArmorInFight(damage);
-        }
+        Stats.CurrentHealth -= damage;
+        Debug.Log($"Нанесено урона: {damage}. Здоровье: {Stats.CurrentHealth}");
 
         SaveData();
     }
 
-    private int DestroyRandomArmorInFight(int damage)
-    {
-        //ItemArmorController foundArmor = new ItemArmorController();
-        int remaining = damage;
-        if (BattleManager.Instance.isBattleActive)
-        {
-            var Armors = cellsFight.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
-            if (Armors.Count > 0)
-            {
-                int random = UnityEngine.Random.Range(0, Armors.Count);
-                remaining = Armors[random].TakeDamage(damage);
-            }
-        }
-        else if (cellsInventory.gameObject.activeSelf)
-        {
-            var Armors = cellsInventory.GetComponentsInChildren<ItemArmorController>().Where(e => e.gameObject.GetComponent<ItemStats>().durability > 0 && e.gameObject.GetComponent<ItemStats>().isUseFight).ToList();
-            if (Armors.Count > 0)
-            {
-                int random = UnityEngine.Random.Range(0, Armors.Count);
-                remaining = Armors[random].TakeDamage(damage);
-            }
-        }
-        return remaining;
-    }
     public void Heal(int countPoint)
     {
         if (Instance == null) return;

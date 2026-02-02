@@ -8,23 +8,14 @@ public abstract class ItemStats : MonoBehaviour
 {
     #region Serialized Fields
     [Header("Base Stats")]
-    [SerializeField] private SpriteRenderer mainImage;
-    [SerializeField] private List<SpriteRenderer> cellImages;
     public string itemKey;
     [HideInInspector] public List<ItemType> itemTypes;
     [HideInInspector] public ItemRarity itemRarity;
-    [HideInInspector] public ItemQuality itemQuality = ItemQuality.Normal;
-    public bool usableFight = false;
-    public bool usableNotFight = false;
 
-    //[Header("Numeric Base Stats")]
-    [HideInInspector] public float weight = 1f;
     [HideInInspector] public float maxDurability = 100f;
     [HideInInspector] public float basePrice = 100;
 
     [Header("Icons And Durability Display")]
-    [SerializeField] private Sprite isUseFightIcon;
-    [SerializeField] private Sprite isNotUseFightIcon;
     [SerializeField] private TextMeshPro _durabilityText;
     [SerializeField] private Gradient _durabilityColorGradient = CreateDefaultGradient();
     public bool isShowDurability = false;
@@ -50,9 +41,7 @@ public abstract class ItemStats : MonoBehaviour
     private GameObject itemName;
     private GameObject itemStats;
     private GameObject descriptionsStats;
-    private GameObject buttonIsUseFight;
     private GameObject buttonUse;
-    private Image buttonIsUseFightIcon;
     #endregion
 
     #region Rarity and Quality Colors
@@ -109,16 +98,6 @@ public abstract class ItemStats : MonoBehaviour
         }
     }
 
-    public bool isUseFight
-    {
-        get => _isUseFight;
-        set
-        {
-            _isUseFight = value;
-            UpdateIsUseFightIcon();
-        }
-    }
-
     public IReadOnlyList<DescriptionTriple> DescriptionTriples => _descriptionTriples;
     #endregion
 
@@ -131,7 +110,6 @@ public abstract class ItemStats : MonoBehaviour
         InitializeUIComponents();
         InitializePrice();
         UpdateDurabilityDisplay();
-        ApplyRarityColors();
     }
 
     protected virtual void Update()
@@ -144,48 +122,12 @@ public abstract class ItemStats : MonoBehaviour
     #region Initialization Methods
     public void Initialized()
     {
-        InitializeQuality();
         InitializeIsUseFightAndDurability();
     }
 
     public void InitializeIsUseFightAndDurability()
     {
         UpdateDurabilityDisplay();
-    }
-
-    public virtual void InitializeQuality()
-    {
-        ApplyQualityColor();
-        //float changeQualityStats1;
-        float changeQualityStats2;
-
-        switch (itemQuality)
-        {
-            case ItemQuality.VeryBad:
-                //changeQualityStats1 = 1.4f;
-                changeQualityStats2 = 0.6f;
-                break;
-            case ItemQuality.Bad:
-                //changeQualityStats1 = 1.2f;
-                changeQualityStats2 = 0.8f;
-                break;
-            case ItemQuality.Good:
-                //changeQualityStats1 = 0.8f;
-                changeQualityStats2 = 1.2f;
-                break;
-            case ItemQuality.Excellent:
-                //changeQualityStats1 = 0.6f;
-                changeQualityStats2 = 1.4f;
-                break;
-            default:
-                //changeQualityStats1 = 1f;
-                changeQualityStats2 = 1f;
-                break;
-        }
-
-        maxDurability *= changeQualityStats2;
-        durability = Mathf.Min(durability, maxDurability);
-        price *= changeQualityStats2;
     }
 
     public abstract void InitializeDescriptionTriples();
@@ -224,39 +166,6 @@ public abstract class ItemStats : MonoBehaviour
         float durabilityRatio = _durability / maxDurability;
         Color newColor = _durabilityColorGradient.Evaluate(durabilityRatio);
         _durabilityText.color = newColor;
-    }
-
-    private void UpdateIsUseFightIcon()
-    {
-        if (_isUseFightIcon == null || isUseFightIcon == null || isNotUseFightIcon == null) return;
-
-        _isUseFightIcon.sprite = isUseFight ? isUseFightIcon : isNotUseFightIcon;
-    }
-
-    private void ApplyRarityColors()
-    {
-        if (cellImages == null || cellImages.Count == 0) return;
-
-        if (_rarityColors.TryGetValue(itemRarity, out Color rarityColor))
-        {
-            foreach (var cellImage in cellImages)
-            {
-                if (cellImage != null)
-                {
-                    cellImage.color = rarityColor;
-                }
-            }
-        }
-    }
-
-    private void ApplyQualityColor()
-    {
-        if (mainImage == null) return;
-
-        if (_qualityColors.TryGetValue(itemQuality, out Color qualityColor))
-        {
-            mainImage.color = qualityColor;
-        }
     }
     #endregion
 
@@ -365,27 +274,12 @@ public abstract class ItemStats : MonoBehaviour
 
     private void SetupContextMenuButtons()
     {
-        if (usableFight)
+        buttonUse.SetActive(true);
+        var buttonComponent = buttonUse?.GetComponent<UnityEngine.UI.Button>();
+        if (buttonComponent != null)
         {
-            buttonIsUseFight.SetActive(true);
-            var buttonComponent = buttonIsUseFight.transform.GetChild(0)?.GetComponent<UnityEngine.UI.Button>();
-            if (buttonComponent != null)
-            {
-                buttonIsUseFightIcon.sprite = isUseFight ? isUseFightIcon : isNotUseFightIcon;
-                buttonComponent.onClick.RemoveAllListeners();
-                buttonComponent.onClick.AddListener(() => ToogleIsUseFight());
-            }
-        }
-
-        if (usableNotFight)
-        {
-            buttonUse.SetActive(true);
-            var buttonComponent = buttonUse?.GetComponent<UnityEngine.UI.Button>();
-            if (buttonComponent != null)
-            {
-                buttonComponent.onClick.RemoveAllListeners();
-                buttonComponent.onClick.AddListener(() => UseNotFight());
-            }
+            buttonComponent.onClick.RemoveAllListeners();
+            buttonComponent.onClick.AddListener(() => UseNotFight());
         }
     }
 
@@ -407,17 +301,9 @@ public abstract class ItemStats : MonoBehaviour
         {
             itemStats = menuDescriptionItem.transform.GetChild(4).gameObject;
         }
-        if (buttonIsUseFight == null)
-        {
-            buttonIsUseFight = menuDescriptionItem.transform.GetChild(8).gameObject;
-        }
         if (buttonUse == null)
         {
             buttonUse = menuDescriptionItem.transform.GetChild(9).gameObject;
-        }
-        if (buttonIsUseFightIcon == null)
-        {
-            buttonIsUseFightIcon = menuDescriptionItem.transform.GetChild(8).gameObject.transform.GetChild(1).GetComponent<Image>();
         }
     }
     #endregion
@@ -451,8 +337,6 @@ public abstract class ItemStats : MonoBehaviour
         {
             case "Description":
                 return $"{itemKey}";
-            case "Weight":
-                return $"{weight:0.0}";
             case "Durability":
                 return $"{durability:0.0}/{maxDurability:0.0}";
             case "Price":
@@ -477,8 +361,6 @@ public abstract class ItemStats : MonoBehaviour
                 return string.Join(", ", itemTypes);
             case "Rarity":
                 return itemRarity.ToString();
-            case "Quality":
-                return itemQuality.ToString();
             default:
                 return "";
         }
@@ -496,13 +378,6 @@ public abstract class ItemStats : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void ToogleIsUseFight()
-    {
-        isUseFight = !isUseFight;
-        buttonIsUseFightIcon.sprite = isUseFight ? isUseFightIcon : isNotUseFightIcon;
-        UpdateIsUseFightIcon();
-    }
-
     public void UseNotFight()
     {
         // Implement use in non-fight context
@@ -563,19 +438,6 @@ public abstract class ItemStats : MonoBehaviour
     {
         durability = newDurability;
     }
-
-    // Новые методы для изменения цветов во время выполнения
-    public void UpdateRarityColor(ItemRarity newRarity)
-    {
-        itemRarity = newRarity;
-        ApplyRarityColors();
-    }
-
-    public void UpdateQualityColor(ItemQuality newQuality)
-    {
-        itemQuality = newQuality;
-        ApplyQualityColor();
-    }
     #endregion
 
     #region jsonData
@@ -587,7 +449,6 @@ public abstract class ItemStats : MonoBehaviour
         if (dataManager == null) return;
 
         // Загрузка базовых параметров
-        weight = dataManager.GetItemData(itemKey, "weight", weight);
         maxDurability = dataManager.GetItemData(itemKey, "maxDurability", maxDurability);
         basePrice = dataManager.GetItemData(itemKey, "basePrice", basePrice);
 

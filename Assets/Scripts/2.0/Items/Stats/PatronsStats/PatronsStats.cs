@@ -24,9 +24,7 @@ public class PatronsStats : ItemStats
             new DescriptionTriple("Accuracy Mod", $"{accuracyModifier:+#;-#;0}", ""),
             new DescriptionTriple("Crit Chance Mod", $"{critChanceModifier:+#;-#;0}%", ""),
             new DescriptionTriple("Crit Damage Mod", $"{critDamageModifire:+#;-#;0}%", ""),
-            new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            //new DescriptionTriple("Requirements", "", ""),
             new DescriptionTriple("Price", "", "")
         });
     }
@@ -46,10 +44,5 @@ public class PatronsStats : ItemStats
             default:
                 return base.GetSpecificStatValue(statKey);
         }
-    }
-
-    public override void InitializeQuality()
-    {
-        return;
     }
 }

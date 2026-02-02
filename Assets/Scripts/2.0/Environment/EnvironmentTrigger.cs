@@ -142,7 +142,6 @@ public class EnvironmentTrigger : MonoBehaviour
             }
         }
         DragManager.Instance.isDragActive = true;
-        RobManager.Instance.EndRob();
     }
 
     public bool IsPlayerInTrigger() => playerInTrigger && gameObject.activeInHierarchy;

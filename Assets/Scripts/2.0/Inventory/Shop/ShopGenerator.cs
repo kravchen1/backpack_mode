@@ -53,7 +53,6 @@ public class ShopGenerator : MonoBehaviour
             if (CanPlaceItem(currentIndex, itemComponent))
             {
                 ItemStructure spawnedItem = Instantiate(randomPrefab, shopCanvas.transform).GetComponent<ItemStructure>();
-                spawnedItem.GetComponent<ItemStats>().itemQuality = ItemQualityGenerator.GetRandomQuality(rarityBoost);
                 spawnedItem.GetComponent<ItemStats>().Initialized();
 
                 var itemMove = spawnedItem.GetComponent<ItemMove>();

@@ -151,6 +151,6 @@ public class GroundTileReplacer : EditorWindow
         string tileName = tile.name.ToLower();
 
         // Только точные совпадения и варианты с "земля"
-        return tileName == "земля";
+        return tileName == "земля_0";
     }
 }

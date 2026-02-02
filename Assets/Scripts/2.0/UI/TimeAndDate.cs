@@ -28,7 +28,7 @@ public class TimeAndDate : MonoBehaviour
     public void TimeOn()
     {
         timeText.gameObject.SetActive(true);
-        PlayerPrefsMigrationManager.Instance.RegisterIntPref("timeOn");
+        //PlayerPrefsMigrationManager.Instance.RegisterIntPref("timeOn");
         PlayerPrefs.SetInt("timeOn", 1);
         
     }
@@ -36,7 +36,7 @@ public class TimeAndDate : MonoBehaviour
     public void dateOn()
     {
         dateText.gameObject.SetActive(true);
-        PlayerPrefsMigrationManager.Instance.RegisterIntPref("dateOn");
+       // PlayerPrefsMigrationManager.Instance.RegisterIntPref("dateOn");
         PlayerPrefs.SetInt("dateOn", 1);
     }
 

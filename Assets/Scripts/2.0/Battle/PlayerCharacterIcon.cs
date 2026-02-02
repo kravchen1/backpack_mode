@@ -1,116 +1,116 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
+//using UnityEngine;
+//using UnityEngine.UI;
+//using TMPro;
+//using System.Collections.Generic;
 
-public class PlayerCharacterIcon : MonoBehaviour
-{
-    [Header("UI Elements")]
-    public Image characterImageHead;
-    public Image characterImageHair;
-    public Image characterImageEyes;
-    public Image characterImageBody;
-    public Image characterImageArmor;
-    public Image characterImageWeapon;
-    public TextMeshProUGUI nameText;
-    public Image selectionBorder;
-    public Image backgroundImage;
-    public Image healthBar;
-    public TextMeshProUGUI healthText;
-    public Image staminaBar;
-    public TextMeshProUGUI staminaText;
-
-
-    public List<GameObject> backpacks;
-    public GameObject backpackCanvasForThisIcon;
-    public List<CharacterIcon> anotherIcons;
-
-    [Header("Colors")]
-    public Color playerColor = Color.blue;
-    public Color enemyColor = Color.red;
-    public Color selectedColor = Color.yellow;
-
-    //public PlayerDataManager Character { get; private set; }
+//public class PlayerCharacterIcon : MonoBehaviour
+//{
+//    [Header("UI Elements")]
+//    public Image characterImageHead;
+//    public Image characterImageHair;
+//    public Image characterImageEyes;
+//    public Image characterImageBody;
+//    public Image characterImageArmor;
+//    public Image characterImageWeapon;
+//    public TextMeshProUGUI nameText;
+//    public Image selectionBorder;
+//    public Image backgroundImage;
+//    public Image healthBar;
+//    public TextMeshProUGUI healthText;
+//    public Image staminaBar;
+//    public TextMeshProUGUI staminaText;
 
 
-    private void Awake()
-    {
-        Initialize();
-    }
+//    public List<GameObject> backpacks;
+//    public GameObject backpackCanvasForThisIcon;
+//    public List<CharacterIcon> anotherIcons;
 
-    public void FixedUpdate()
-    {
-        if (gameObject.activeSelf)
-        {
-            UpdateBars();
-        }
-    }
+//    [Header("Colors")]
+//    public Color playerColor = Color.blue;
+//    public Color enemyColor = Color.red;
+//    public Color selectedColor = Color.yellow;
 
-    public void Initialize()
-    {
-        //SpriteRenderer spriteRenderer = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetComponent<SpriteRenderer>();
-        //playerIcon.GetComponent<Image>().sprite = spriteRenderer.sprite;
-        gameObject.SetActive(true);
-
-        characterImageHead.sprite = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite;
-
-        nameText.text = PlayerDataManager.Instance.PlayerName;
-        backgroundImage.color = playerColor;
-        selectionBorder.color = selectedColor;
-        selectionBorder.gameObject.SetActive(false);
-
-        UpdateBars();
-
-        var button = GetComponent<Button>();
-        if (button != null)
-            button.onClick.AddListener(OnIconClick);
-
-    }
-
-    public void UpdateBars()
-    {
-        if (PlayerDataManager.Instance == null) return;
-
-        float healthPercent = (float)PlayerDataManager.Instance.Stats.CurrentHealth / PlayerDataManager.Instance.Stats.MaxHealth;
-        healthBar.fillAmount = healthPercent;
-        healthText.text = $"{PlayerDataManager.Instance.Stats.CurrentHealth}/{PlayerDataManager.Instance.Stats.MaxHealth}";
-
-        //healthBar.color =
-        //    healthPercent > 0.6f ? Color.green :
-        //    healthPercent > 0.3f ? Color.yellow : Color.red;
+//    //public PlayerDataManager Character { get; private set; }
 
 
-        float staminaPercent = (float)PlayerDataManager.Instance.Stats.CurrentStamina / PlayerDataManager.Instance.Stats.MaxStamina;
-        staminaBar.fillAmount = staminaPercent;
-        staminaText.text = $"{PlayerDataManager.Instance.Stats.CurrentStamina:0.0}/{PlayerDataManager.Instance.Stats.MaxStamina:0.0}";
+//    private void Awake()
+//    {
+//        Initialize();
+//    }
 
-        //staminaBar.color =
-        //    healthPercent > 0.6f ? Color.green :
-        //    healthPercent > 0.3f ? Color.yellow : Color.red;
-    }
+//    public void FixedUpdate()
+//    {
+//        if (gameObject.activeSelf)
+//        {
+//            UpdateBars();
+//        }
+//    }
 
-    public void SetSelected(bool selected)
-    {
-        selectionBorder.gameObject.SetActive(selected);
-    }
+//    public void Initialize()
+//    {
+//        //SpriteRenderer spriteRenderer = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetComponent<SpriteRenderer>();
+//        //playerIcon.GetComponent<Image>().sprite = spriteRenderer.sprite;
+//        gameObject.SetActive(true);
+
+//        characterImageHead.sprite = PlayerDataManager.Instance.playerCharacter.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite;
+
+//        nameText.text = PlayerDataManager.Instance.PlayerName;
+//        backgroundImage.color = playerColor;
+//        selectionBorder.color = selectedColor;
+//        selectionBorder.gameObject.SetActive(false);
+
+//        UpdateBars();
+
+//        var button = GetComponent<Button>();
+//        if (button != null)
+//            button.onClick.AddListener(OnIconClick);
+
+//    }
+
+//    public void UpdateBars()
+//    {
+//        if (PlayerDataManager.Instance == null) return;
+
+//        float healthPercent = (float)PlayerDataManager.Instance.Stats.CurrentHealth / PlayerDataManager.Instance.Stats.MaxHealth;
+//        healthBar.fillAmount = healthPercent;
+//        healthText.text = $"{PlayerDataManager.Instance.Stats.CurrentHealth}/{PlayerDataManager.Instance.Stats.MaxHealth}";
+
+//        //healthBar.color =
+//        //    healthPercent > 0.6f ? Color.green :
+//        //    healthPercent > 0.3f ? Color.yellow : Color.red;
 
 
-    public void OnIconClick()
-    {
-        chooseBackpack();
-        foreach(var anotherIcon in anotherIcons)
-        {
-            anotherIcon.SetSelected(false);
-        }
-        SetSelected(true);
-    }
+//        float staminaPercent = (float)PlayerDataManager.Instance.Stats.CurrentStamina / PlayerDataManager.Instance.Stats.MaxStamina;
+//        staminaBar.fillAmount = staminaPercent;
+//        staminaText.text = $"{PlayerDataManager.Instance.Stats.CurrentStamina:0.0}/{PlayerDataManager.Instance.Stats.MaxStamina:0.0}";
 
-    void chooseBackpack()
-    {
-        foreach(var backpack in backpacks)
-        {
-            backpack.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
-        }
-        backpackCanvasForThisIcon.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
-    }
-}
+//        //staminaBar.color =
+//        //    healthPercent > 0.6f ? Color.green :
+//        //    healthPercent > 0.3f ? Color.yellow : Color.red;
+//    }
+
+//    public void SetSelected(bool selected)
+//    {
+//        selectionBorder.gameObject.SetActive(selected);
+//    }
+
+
+//    public void OnIconClick()
+//    {
+//        chooseBackpack();
+//        foreach(var anotherIcon in anotherIcons)
+//        {
+//            anotherIcon.SetSelected(false);
+//        }
+//        SetSelected(true);
+//    }
+
+//    void chooseBackpack()
+//    {
+//        foreach(var backpack in backpacks)
+//        {
+//            backpack.GetComponent<RectTransform>().localPosition = new Vector3(4000f, 0f, 0f);
+//        }
+//        backpackCanvasForThisIcon.GetComponent<RectTransform>().localPosition = new Vector3(0f, 0f, 0f);
+//    }
+//}

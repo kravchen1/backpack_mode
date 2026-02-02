@@ -15,23 +15,22 @@ public class MeleeWeaponAction : WeaponActionController
 
     protected override void Awake()
     {
-        if (isFight)
-        {
-            base.Awake();
+        base.Awake();
 
-            StartCoroutine(Initialize());
-        }
+
+        //StartCoroutine(Initialize());
+        
     }
 
-    private IEnumerator Initialize()
-    {
-        yield return null;
-        yield return null;
-        yield return null;
-        yield return null;
+    //private IEnumerator Initialize()
+    //{
+    //    yield return null;
+    //    yield return null;
+    //    yield return null;
+    //    yield return null;
 
-        InitializeBase();
-    }
+    //    InitializeBase();
+    //}
 
 
 
@@ -50,123 +49,9 @@ public class MeleeWeaponAction : WeaponActionController
         StartCooldown();
     }
 
-    protected override void Attack(NPCDataManager attacker, NPCDataManager target)
+    protected override void Attack()
     {
-        ResetTextDamage();
-        CalculateAnimationTime();
-        if (!HasStamina(attacker))
-        {
-            text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina, 0, 0f);
-            return;
-        }
-        itemStats.durability--;
-        ConsumeStamina(attacker);
-
-        if (CalculateAccuracy())
-        {
-            int damage = 0;
-            damage = CalculateDamageMelee(attacker);
-
-
-            bool isCritical = CalculateCriticalHit();
-            if (isCritical)
-            {
-                damage = (int)(damage * critDamageMelee / 100f);
-                Crit();
-            }
-            text.text = damage.ToString();
-            StartCoroutine(Attack(damage, timeAnimation, target));
-        }
-        else
-        {
-            Miss();
-        }
-
-        animator.Play(animationKeyAttackMelee, 0, 0f);
+        
     }
-    protected override void Attack(PlayerDataManager attacker, NPCDataManager target)
-    {
-        ResetTextDamage();
-        CalculateAnimationTime();
-        if (!HasStamina(attacker))
-        {
-            text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina, 0, 0f);
-            return;
-        }
-        itemStats.durability--;
-        ConsumeStamina(attacker);
-
-        if (CalculateAccuracy())
-        {
-            int damage = 0;
-            damage = CalculateDamageMelee(attacker);
-
-
-            bool isCritical = CalculateCriticalHit();
-            if (isCritical)
-            {
-                damage = (int)(damage * critDamageMelee / 100f);
-                Crit();
-            }
-            text.text = damage.ToString();
-            StartCoroutine(Attack(damage, timeAnimation, target));
-        }
-        else
-        {
-            Miss();
-        }
-
-        animator.Play(animationKeyAttackMelee, 0, 0f);
-    }
-    protected override void Attack(NPCDataManager attacker, PlayerDataManager target)
-    {
-        ResetTextDamage();
-        CalculateAnimationTime();
-        if (!HasStamina(attacker))
-        {
-            text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina, 0, 0f);
-            return;
-        }
-        itemStats.durability--;
-        ConsumeStamina(attacker);
-
-        if (CalculateAccuracy())
-        {
-            int damage = 0;
-            damage = CalculateDamageMelee(attacker);
-
-
-            bool isCritical = CalculateCriticalHit();
-            if (isCritical)
-            {
-                damage = (int)(damage * critDamageMelee / 100f);
-                Crit();
-            }
-            text.text = damage.ToString();
-            StartCoroutine(Attack(damage, timeAnimation, target));
-        }
-        else
-        {
-            Miss();
-        }
-
-        animator.Play(animationKeyAttackMelee, 0, 0f);
-    }
-
-    private void CalculateAnimationTime()
-    {
-        if (cooldownTime < timeAnimation)
-        {
-            animator.speed = timeAnimation / cooldownTime;
-            timeAnimation = cooldownTime;
-        }
-        else
-        {
-            timeAnimation = 1.5f;
-            animator.speed = timeAnimation;
-        }
-    }
+    
 }

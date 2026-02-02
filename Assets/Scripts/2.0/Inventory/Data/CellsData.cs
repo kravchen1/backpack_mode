@@ -41,7 +41,6 @@ public class CellsData : MonoBehaviour
         yield return null;
         yield return null;
         LoadData();
-        PlayerDataManager.Instance.Stats.InitializeCurrentWeight(settingsKey);
     }
 
     private IEnumerator StarsPerformRaycastCheck(List<GameObject> loadedObjects)
@@ -100,11 +99,8 @@ public class CellsData : MonoBehaviour
                                 itemStats.itemKey,
                                 itemStructure.transform.eulerAngles.z,
                                 occupiedCellNames,
-                                itemStats.itemQuality,
                                 itemStats.durability,
-                                itemMove.StackCount,
-                                itemStats.weight,
-                                itemStats.isUseFight
+                                itemMove.StackCount
                             ));
                         }
                         else
@@ -115,10 +111,7 @@ public class CellsData : MonoBehaviour
                                                             itemStats.itemKey,
                                                             itemStructure.transform.eulerAngles.z,
                                                             occupiedCellNames,
-                                                            itemStats.itemQuality,
-                                                            itemStats.durability,
-                                                            itemStats.weight,
-                                                            itemStats.isUseFight
+                                                            itemStats.durability
                                                         ));
                         }
 
@@ -187,8 +180,6 @@ public class CellsData : MonoBehaviour
 
 
                 newItem.GetComponent<ItemStats>().durability = cellData.durability;
-                newItem.GetComponent<ItemStats>().itemQuality = cellData.qualityKey;
-                newItem.GetComponent<ItemStats>().isUseFight = cellData.isUseFight;
                 newItem.GetComponent<ItemStats>().Initialized();
 
                 if (cellData.countStack > 0)

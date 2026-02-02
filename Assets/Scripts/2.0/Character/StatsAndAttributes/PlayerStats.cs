@@ -453,35 +453,6 @@ public class PlayerStats : MonoBehaviour
         CurrentHealth = Mathf.RoundToInt(MaxHealth * healthPercent / 100f);
         Debug.Log("Character resurrected!");
     }
-
-    public void InitializeCurrentWeight(string backpackKey)
-    {
-        string jsonData = PlayerPrefs.GetString(backpackKey, "");
-        if (string.IsNullOrEmpty(jsonData))
-        {
-            //Debug.Log("No saved data found for calculate Weight");
-            return;
-        }
-        float weight = 0f;
-        DataJsonCellList dataJsonList = JsonUtility.FromJson<DataJsonCellList>(jsonData);
-        foreach (DataCellJson cellData in dataJsonList.inventoryDataJsonList)
-        {
-            if (cellData.countStack > 1)
-            {
-                weight += cellData.countStack * cellData.weight;
-            }
-            else
-            {
-                weight += cellData.weight;
-            }
-        }
-        CurrentWeight = weight;
-    }
-
-    public void InitializeCurrentWeight(float weight)
-    {
-        CurrentWeight = weight;
-    }
 }
 
 public enum LoadCategory

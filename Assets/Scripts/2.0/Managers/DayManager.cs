@@ -198,27 +198,27 @@ public class DayManager : MonoBehaviour
     /// </summary>
     public void SaveGameData()
     {
-        try
-        {
-            PlayerPrefsMigrationManager.Instance.RegisterFloatPref(SAVE_TIME_KEY);
-            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_YEAR_KEY);
-            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_MONTH_KEY);
-            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_DAY_KEY);
-            PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_TIMEFORMAT_KEY);
+        //try
+        //{
+        //    PlayerPrefsMigrationManager.Instance.RegisterFloatPref(SAVE_TIME_KEY);
+        //    PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_YEAR_KEY);
+        //    PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_MONTH_KEY);
+        //    PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_DAY_KEY);
+        //    PlayerPrefsMigrationManager.Instance.RegisterIntPref(SAVE_TIMEFORMAT_KEY);
 
-            PlayerPrefs.SetFloat(SAVE_TIME_KEY, currentTimeOfDay);
-            PlayerPrefs.SetInt(SAVE_YEAR_KEY, currentDate.Year);
-            PlayerPrefs.SetInt(SAVE_MONTH_KEY, currentDate.Month);
-            PlayerPrefs.SetInt(SAVE_DAY_KEY, currentDate.Day);
-            PlayerPrefs.SetInt(SAVE_TIMEFORMAT_KEY, (int)timeFormat);
+        //    PlayerPrefs.SetFloat(SAVE_TIME_KEY, currentTimeOfDay);
+        //    PlayerPrefs.SetInt(SAVE_YEAR_KEY, currentDate.Year);
+        //    PlayerPrefs.SetInt(SAVE_MONTH_KEY, currentDate.Month);
+        //    PlayerPrefs.SetInt(SAVE_DAY_KEY, currentDate.Day);
+        //    PlayerPrefs.SetInt(SAVE_TIMEFORMAT_KEY, (int)timeFormat);
 
-            PlayerPrefs.Save();
-            //Debug.Log("Game data saved successfully");
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Failed to save game data: {e.Message}");
-        }
+        //    PlayerPrefs.Save();
+        //    //Debug.Log("Game data saved successfully");
+        //}
+        //catch (System.Exception e)
+        //{
+        //    Debug.LogError($"Failed to save game data: {e.Message}");
+        //}
     }
 
     /// <summary>

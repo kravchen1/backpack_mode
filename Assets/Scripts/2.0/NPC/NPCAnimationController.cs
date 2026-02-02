@@ -307,15 +307,6 @@ public class NPCAnimationController : MonoBehaviour
         {
             // Ќормализуем скорость относительно максимальной скорости агента
             speedValue = Mathf.Clamp01(navMeshAgent.velocity.magnitude / navMeshAgent.speed);
-
-            // ƒополнительные модификаторы скорости анимации (как в TopDownCharacterController)
-            if (TryGetComponent<NPC>(out var npcController))
-            {
-                if (npcController.IsHostile())
-                {
-                    speedValue *= 1.2f; // ”скоренна€ анимаци€ при преследовании
-                }
-            }
         }
 
         // ≈сли в аниматоре есть параметр Speed

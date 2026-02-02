@@ -475,9 +475,6 @@ public class ItemMove : MonoBehaviour
             float salePrice = CalculatePartialPrice(transferredAmount);
             PlayerDataManager.Instance.Stats.Money += salePrice;
             Debug.Log($"Sold {transferredAmount} items for {salePrice}");
-
-            // Уменьшаем вес у игрока
-            RemoveWeightFromPlayer(transferredAmount);
         }
         // Если предмет перемещается ИЗ магазина В инвентарь игрока
         else if (!wasInPlayerInventory && targetInPlayerInventory)
@@ -488,8 +485,6 @@ public class ItemMove : MonoBehaviour
             {
                 PlayerDataManager.Instance.Stats.Money -= purchasePrice;
 
-                // Добавляем вес игроку
-                AddWeightToPlayer(transferredAmount);
                 Debug.Log($"Purchased {transferredAmount} items for {purchasePrice}");
             }
             else
@@ -745,7 +740,6 @@ public class ItemMove : MonoBehaviour
             transform.SetParent(_shopInventory.transform);
             DeActivateItemAction();
         }
-        ChangeWeight();
     }
 
     private void RestoreOriginallyOccupiedCells()
@@ -975,17 +969,6 @@ public class ItemMove : MonoBehaviour
 
     #region Weight Management
     /// <summary>
-    /// Получить общий вес предмета с учетом стаков
-    /// </summary>
-    private float GetTotalWeight()
-    {
-        if (_itemStats == null) return 0f;
-
-        float singleItemWeight = _itemStats.weight;
-        return singleItemWeight * StackCount;
-    }
-
-    /// <summary>
     /// Проверить, находится ли предмет в инвентаре
     /// </summary>
     private bool IsPlacedInInventory()
@@ -1006,75 +989,12 @@ public class ItemMove : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Добавить вес предмета к игроку
-    /// </summary>
-    private void AddWeightToPlayer(int specificStackCount = -1)
-    {
-        if (PlayerDataManager.Instance == null || PlayerDataManager.Instance.Stats == null) return;
-
-        float weightToAdd = GetTotalWeight();
-        if (specificStackCount > 0)
-        {
-            // Для частичного добавления веса (при объединении стаков)
-            float singleItemWeight = _itemStats != null ? _itemStats.weight : 0f;
-            weightToAdd = singleItemWeight * specificStackCount;
-        }
-
-        PlayerDataManager.Instance.Stats.CurrentWeight += weightToAdd;
-
-        Debug.Log($"Added weight: {weightToAdd}. Total weight: {PlayerDataManager.Instance.Stats.CurrentWeight}");
-    }
-
-    /// <summary>
-    /// Убрать вес предмета у игрока
-    /// </summary>
-    private void RemoveWeightFromPlayer(int specificStackCount = -1)
-    {
-        if (PlayerDataManager.Instance == null || PlayerDataManager.Instance.Stats == null) return;
-
-        float weightToRemove = GetTotalWeight();
-        if (specificStackCount > 0)
-        {
-            // Для частичного удаления веса (при объединении стаков)
-            float singleItemWeight = _itemStats != null ? _itemStats.weight : 0f;
-            weightToRemove = singleItemWeight * specificStackCount;
-        }
-
-        PlayerDataManager.Instance.Stats.CurrentWeight -= weightToRemove;
-
-        Debug.Log($"Removed weight: {weightToRemove}. Total weight: {PlayerDataManager.Instance.Stats.CurrentWeight}");
-    }
-
-    private void ChangeWeight()
-    {
-        if (_currentGreenCells[0].transform.parent.gameObject == _backpackInventory)
-        {
-            if (_originalParent != _playerInventory.transform)
-            {
-                AddWeightToPlayer();
-            }
-        }
-        else
-        {
-            if (_originalParent == _playerInventory.transform)
-            {
-                RemoveWeightFromPlayer();
-            }
-        }
-    }
 
     /// <summary>
     /// Теоретический метод для удаления предмета со сцены с учетом веса
     /// </summary>
     public void RemoveItemFromScene()
     {
-        // Убираем вес если предмет был в инвентаре
-        if (IsInInventoryArea())
-        {
-            RemoveWeightFromPlayer();
-        }
-
         // Очищаем ссылки в ячейках
         ClearAllCellReferences();
 

@@ -85,7 +85,7 @@ public class Tree : MonoBehaviour
 #if UNITY_EDITOR
         if (Application.isPlaying)
         {
-            Debug.Log($"{name}: Tree visual components {(isEnabled ? "enabled" : "disabled")} (State: {_currentState})");
+            //Debug.Log($"{name}: Tree visual components {(isEnabled ? "enabled" : "disabled")} (State: {_currentState})");
         }
 #endif
     }

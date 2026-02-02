@@ -7,37 +7,28 @@ using UnityEngine;
 
 public class RangeWeaponAction : WeaponActionController
 {
-    public string animationKeyAttackRange = "AttackRange";
-    public string animationKeyNoPatron = "AttackNoPatron";
-    public string animationKeyAttackNoStamina = "AttackNoStamina";
 
 
     private RangeWeaponStats rangeWeaponStats;
-    private bool isInMeleeMode = true;
     private List<ItemStar> itemStarPatrons = new List<ItemStar>();
     private ItemMove currentPatron;
 
     protected override void Awake()
     {
-        if (isFight)
-        {
-            base.Awake();
-
-            StartCoroutine(Initialize());
-        }
+        base.Awake();
     }
 
-    private IEnumerator Initialize()
-    {
-        yield return null;
-        yield return null;
-        yield return null;
-        yield return null;
-        //проставляем звёзды в предметах
-        itemStarPatrons = GetComponentsInChildren<ItemStar>().ToList().Where(e => HasMatchingItemType(e.AllowedItemTypes)).ToList();
-        rangeWeaponStats = GetComponent<RangeWeaponStats>();
-        InitializeBase();
-    }
+    //private IEnumerator Initialize()
+    //{
+    //    yield return null;
+    //    yield return null;
+    //    yield return null;
+    //    yield return null;
+    //    //проставляем звёзды в предметах
+    //    itemStarPatrons = GetComponentsInChildren<ItemStar>().ToList().Where(e => HasMatchingItemType(e.AllowedItemTypes)).ToList();
+    //    rangeWeaponStats = GetComponent<RangeWeaponStats>();
+    //    InitializeBase();
+    //}
 
     private bool CheckPatron()
     {
@@ -95,166 +86,12 @@ public class RangeWeaponAction : WeaponActionController
         InitializeBase();
     }
 
-    protected override void Attack(NPCDataManager attacker, NPCDataManager target)
+
+    protected override void Attack()
     {
-        ResetTextDamage();
-        CalculateAnimationTime();
-        if (!HasStamina(attacker))
-        {
-            text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina, 0, 0f);
-            return;
-        }
-        itemStats.durability--;
-        ConsumeStamina(attacker);
-        if (CheckPatron())
-        {
-            Debug.Log(gameObject.name + "стреляет");
-            SpendPatron();
-
-            if (CalculateAccuracy())
-            {
-                int damage = 0;
-                if (isInMeleeMode)
-                {
-                    damage = CalculateDamageMelee(attacker);
-                }
-                else
-                {
-                    damage = CalculateDamageRange(attacker);
-                }
-
-                bool isCritical = CalculateCriticalHit();
-                if (isCritical)
-                {
-                    damage = (int)(damage * critDamageMelee / 100f);
-                    Crit();
-                }
-                text.text = damage.ToString();
-                StartCoroutine(Attack(damage, timeAnimation, target));
-            }
-            else
-            {
-                Miss();
-            }
-            animator.Play(animationKeyAttackRange, 0, 0f);
-        }
-        else
-        {
-            animator.Play(animationKeyNoPatron, 0, 0f);
-        }
-    }
-    protected override void Attack(PlayerDataManager attacker, NPCDataManager target)
-    {
-        ResetTextDamage();
-        CalculateAnimationTime();
-        if (!HasStamina(attacker))
-        {
-            text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina, 0, 0f);
-            return;
-        }
-        itemStats.durability--;
-        ConsumeStamina(attacker);
-        if (CheckPatron())
-        {
-            Debug.Log(gameObject.name + "стреляет");
-            SpendPatron();
-
-            if (CalculateAccuracy())
-            {
-                int damage = 0;
-                if (isInMeleeMode)
-                {
-                    damage = CalculateDamageMelee(attacker);
-                }
-                else
-                {
-                    damage = CalculateDamageRange(attacker);
-                }
-
-                bool isCritical = CalculateCriticalHit();
-                if (isCritical)
-                {
-                    damage = (int)(damage * critDamageMelee / 100f);
-                    Crit();
-                }
-                text.text = damage.ToString();
-                StartCoroutine(Attack(damage, timeAnimation, target));
-            }
-            else
-            {
-                Miss();
-            }
-            animator.Play(animationKeyAttackRange, 0, 0f);
-        }
-        else
-        {
-            animator.Play(animationKeyNoPatron, 0, 0f);
-        }
+       
+      
     }
 
-    protected override void Attack(NPCDataManager attacker, PlayerDataManager target)
-    {
-        ResetTextDamage();
-        CalculateAnimationTime();
-        if (!HasStamina(attacker))
-        {
-            text.text = "No Stamina";
-            animator.Play(animationKeyAttackNoStamina, 0, 0f);
-            return;
-        }
-        itemStats.durability--;
-        ConsumeStamina(attacker);
-        if (CheckPatron())
-        {
-            Debug.Log(gameObject.name + "стреляет");
-            SpendPatron();
 
-            if (CalculateAccuracy())
-            {
-                int damage = 0;
-                if (isInMeleeMode)
-                {
-                    damage = CalculateDamageMelee(attacker);
-                }
-                else
-                {
-                    damage = CalculateDamageRange(attacker);
-                }
-
-                bool isCritical = CalculateCriticalHit();
-                if (isCritical)
-                {
-                    damage = (int)(damage * critDamageMelee / 100f);
-                    Crit();
-                }
-                text.text = damage.ToString();
-                StartCoroutine(Attack(damage, timeAnimation, target));
-            }
-            else
-            {
-                Miss();
-            }
-            animator.Play(animationKeyAttackRange, 0, 0f);
-        }
-        else
-        {
-            animator.Play(animationKeyNoPatron, 0, 0f);
-        }
-    }
-
-    private void CalculateAnimationTime()
-    {
-        if (cooldownTime < timeAnimation)
-        {
-            animator.speed = timeAnimation / cooldownTime;
-            timeAnimation = cooldownTime;
-        }
-        else
-        {
-            timeAnimation = 1.5f;
-            animator.speed = timeAnimation;
-        }
-    }
 }

@@ -11,7 +11,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     [HideInInspector][SerializeField] private int critChance = 25;
     [HideInInspector][SerializeField] private int critDamage = 220;
 
-    // Реализация IRangeWeapon с сеттерами
     public int MinDamageRange
     {
         get => minDamage;
@@ -54,31 +53,12 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
         set => critDamage = value;
     }
 
-    public override void InitializeQuality()
-    {
-        base.InitializeQuality();
-
-        float changeQualityStats2 = GetQualityMultiplier();
-
-        minDamage = (int)(minDamage * changeQualityStats2);
-        maxDamage = (int)(maxDamage * changeQualityStats2);
-        coolDown *= GetInverseQualityMultiplier();
-        baseStamina *= GetInverseQualityMultiplier();
-        accuracy = (int)(accuracy * changeQualityStats2);
-        critChance = (int)(critChance * changeQualityStats2);
-        critDamage = (int)(critDamage * changeQualityStats2);
-
-    }
-
     public override void InitializeDescriptionTriples()
     {
         if (_descriptionTriples.Count > 0)
         {
             _descriptionTriples.Clear();
         }
-
-        float qualityMultiplier = GetQualityMultiplier();
-        float inverseMultiplier = GetInverseQualityMultiplier();
 
         _descriptionTriples.AddRange(new[]
         {
@@ -89,23 +69,23 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
 
             new DescriptionTriple("Damage",
                 $"{((minDamage + maxDamage) / coolDown):0.0}",
-                $"({minDamage/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({minDamage:0.0}) + {maxDamage/qualityMultiplier:0.0}×{qualityMultiplier:0.0}({maxDamage:0.0})) / ({coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s))"),
+                $""),
 
             new DescriptionTriple("Crit Chance",
                 $"{critChance}%",
-                $"{critChance/qualityMultiplier:0}×{qualityMultiplier:0.0}({critChance}%)"),
+                $""),
 
             new DescriptionTriple("Crit Damage",
                 $"{critDamage}%",
-                $"{critDamage/qualityMultiplier:0}×{qualityMultiplier:0.0}({critDamage}%)"),
+                $""),
 
             new DescriptionTriple("Accuracy",
                 $"{accuracy}",
-                $"{accuracy/qualityMultiplier:0}×{qualityMultiplier:0.0}({accuracy})"),
+                $""),
 
             new DescriptionTriple("Stamina",
                 $"{baseStamina/coolDown:0.0}",
-                $"{baseStamina/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({baseStamina:0.0}) / {coolDown/inverseMultiplier:0.0}×{inverseMultiplier:0.0}({coolDown:0.0}s)"),
+                $""),
             new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
             //new DescriptionTriple("Requirements", "", ""),
@@ -130,30 +110,5 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
             default:
                 return base.GetSpecificStatValue(statKey);
         }
-    }
-
-
-    private float GetQualityMultiplier()
-    {
-        return itemQuality switch
-        {
-            ItemQuality.VeryBad => 0.6f,
-            ItemQuality.Bad => 0.8f,
-            ItemQuality.Good => 1.2f,
-            ItemQuality.Excellent => 1.4f,
-            _ => 1f
-        };
-    }
-
-    private float GetInverseQualityMultiplier()
-    {
-        return itemQuality switch
-        {
-            ItemQuality.VeryBad => 1.4f,
-            ItemQuality.Bad => 1.2f,
-            ItemQuality.Good => 0.8f,
-            ItemQuality.Excellent => 0.6f,
-            _ => 1f
-        };
     }
 }

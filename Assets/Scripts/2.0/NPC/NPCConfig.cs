@@ -18,7 +18,6 @@ public class NPCConfig : ScriptableObject
     public float interactionRadius = 2f;
 
     [Header("State Settings")]
-    public NPCStateType initialState = NPCStateType.Neutral;
     public int CharismaForHostile = 0;
     public int CharismaForFriendly = 10;
     public float attackRange = 5f;
@@ -31,39 +30,9 @@ public class NPCConfig : ScriptableObject
     public float patrolSpeed = 3f;
     public float waypointWaitTime = 2f;
     public float waypointReachedDistance = 0.5f;
-
-    [Header("Visual Settings")]
-    public Color hostileColor = Color.red;
-    public Color neutralColor = Color.yellow;
-    public Color friendlyColor = Color.green;
 }
 
 public enum NPCType
 {
-    BanditPowerClan_shooter,
-    BanditPowerClan_warrior,
-    BanditPowerClan_healer,
-    BanditWhiteClan_shooter,
-    BanditWhiteClan_warrior,
-    BanditWhiteClan_healer,
-    NeutralWarrior,
-    NeutralShooter,
-    NeutralHealer,
-    Farmer,
-    Seeker,
-    Courier,
-    Fisherman,
-    Lumberjack,
-    Miner,
-    Trader,
-
-    Wolf,
-    Bear,
-    Cow,
-    Dog,
-    Pig,
-    Deer,
-    Scorpion,
-    Slug,
-    Crab
+    enemy
 }

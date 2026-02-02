@@ -33,7 +33,7 @@ public class ItemArmorController : ItemActionController
 
     private bool CanTakeDamage()
     {
-        return itemStats.isUseFight && itemStats.durability > 0;
+        return itemStats.durability > 0;
     }
 
     private int CalculateDurabilityDamage(int damage)
