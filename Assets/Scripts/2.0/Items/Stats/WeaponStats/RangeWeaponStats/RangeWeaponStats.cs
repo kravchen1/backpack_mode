@@ -1,58 +1,86 @@
 ﻿using UnityEngine;
 
-public class RangeWeaponStats : ItemStats, IRangeWeapon
+public class RangeWeaponStats : ItemStats
 {
+    #region Parametres
     [Header("Range Weapon Stats")]
     [HideInInspector][SerializeField] private int minDamage = 3;
     [HideInInspector][SerializeField] private int maxDamage = 10;
     [HideInInspector][SerializeField] private float coolDown = 0.5f;
     [HideInInspector][SerializeField] private float baseStamina = 0.2f;
-    [HideInInspector][SerializeField] private int accuracy = 65;
     [HideInInspector][SerializeField] private int critChance = 25;
     [HideInInspector][SerializeField] private int critDamage = 220;
+
+    [HideInInspector][SerializeField] private int distanceRadius = 220;
+    [HideInInspector][SerializeField] private float projectileSpeed = 20f;
+    [HideInInspector][SerializeField] private float projectileSize = 1f;
+    [HideInInspector][SerializeField] private int projectileCount = 1;
+    [HideInInspector][SerializeField] private float spreadAngle = 0f;
+    [SerializeField] private GameObject projectilePrefab;
 
     public int MinDamageRange
     {
         get => minDamage;
         set => minDamage = value;
     }
-
     public int MaxDamageRange
     {
         get => maxDamage;
         set => maxDamage = value;
     }
-
     public float CoolDownRange
     {
         get => coolDown;
         set => coolDown = value;
     }
-
     public float BaseStaminaRange
     {
         get => baseStamina;
         set => baseStamina = value;
     }
-
-    public int AccuracyRange
-    {
-        get => accuracy;
-        set => accuracy = value;
-    }
-
     public int CritChanceRange
     {
         get => critChance;
         set => critChance = value;
     }
-
     public int CritDamageRange
     {
         get => critDamage;
         set => critDamage = value;
     }
+    public int DistanceRadius
+    {
+        get => distanceRadius;
+        set => distanceRadius = value;
+    }
+    public float ProjectileSpeed
+    {
+        get => projectileSpeed;
+        set => projectileSpeed = value;
+    }
+    public float ProjectileSize
+    {
+        get => projectileSize;
+        set => projectileSize = value;
+    }
+    public int ProjectileCount
+    {
+        get => projectileCount;
+        set => projectileCount = value;
+    }
+    public float SpreadAngle
+    {
+        get => spreadAngle;
+        set => spreadAngle = value;
+    }
+    public GameObject ProjectilePrefab
+    {
+        get => projectilePrefab;
+        set => projectilePrefab = value;
+    }
+    #endregion
 
+    // Обновляем описание
     public override void InitializeDescriptionTriples()
     {
         if (_descriptionTriples.Count > 0)
@@ -68,27 +96,29 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
             new DescriptionTriple("Quality", "", ""),
 
             new DescriptionTriple("Damage",
-                $"{((minDamage + maxDamage) / coolDown):0.0}",
+                $"{((MinDamageRange + MaxDamageRange) / CoolDownRange):0.0}",
                 $""),
 
+            new DescriptionTriple("Projectile Count",
+                $"{projectileCount}",
+                $"Снарядов за выстрел"),
+
+            new DescriptionTriple("Spread",
+                $"{spreadAngle:0.0}°",
+                $"Разброс выстрела"),
+
             new DescriptionTriple("Crit Chance",
-                $"{critChance}%",
+                $"{CritChanceRange}%",
                 $""),
 
             new DescriptionTriple("Crit Damage",
-                $"{critDamage}%",
-                $""),
-
-            new DescriptionTriple("Accuracy",
-                $"{accuracy}",
+                $"{CritDamageRange}%",
                 $""),
 
             new DescriptionTriple("Stamina",
-                $"{baseStamina/coolDown:0.0}",
+                $"{BaseStaminaRange/CoolDownRange:0.0}",
                 $""),
-            new DescriptionTriple("Weight", "", ""),
             new DescriptionTriple("Durability", "", ""),
-            //new DescriptionTriple("Requirements", "", ""),
             new DescriptionTriple("Price", "", "")
         });
     }
@@ -97,16 +127,6 @@ public class RangeWeaponStats : ItemStats, IRangeWeapon
     {
         switch (statKey)
         {
-            case "Damage":
-                return $"{((minDamage + maxDamage) / coolDown):0.0}";
-            case "Crit Chance":
-                return $"{critChance}%";
-            case "Crit Damage":
-                return $"{critDamage}%";
-            case "Accuracy":
-                return $"{accuracy}";
-            case "Stamina Cost":
-                return $"{baseStamina:0.0}";
             default:
                 return base.GetSpecificStatValue(statKey);
         }

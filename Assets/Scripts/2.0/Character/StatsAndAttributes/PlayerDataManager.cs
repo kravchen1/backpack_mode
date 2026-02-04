@@ -419,12 +419,12 @@ public class PlayerDataManager : MonoBehaviour
 
     private void PlayDeathAnimation()
     {
-        var animationController = GetComponent<NPCAnimationController>();
+        //var animationController = GetComponent<NPCAnimationController>();
         var playerController = GetComponent<TopDownCharacterController>();
         // Запускаем анимацию смерти
-        animationController.animator.SetBool("IsDead", true);
+        //animationController.animator.SetBool("IsDead", true);
         // Отключаем анимацию движения
-        animationController.enabled = false;
+        //animationController.enabled = false;
         playerController.enabled = false;
 
         //корутина для появления UI элементов

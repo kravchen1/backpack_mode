@@ -62,24 +62,6 @@ public abstract class ItemStats : MonoBehaviour
         // Unique: Я изменил его на сложный аквамариновый/изумрудный. Он уникален и отличается от других, не вписываясь в стандартную радугу.
         { ItemRarity.Unique, new Color(0.3f, 0.7f, 0.6f, 0.5f) }
     };
-
-    private static readonly Dictionary<ItemQuality, Color> _qualityColors = new Dictionary<ItemQuality, Color>
-    {
-        // VeryBad: Осветлённый ржаво-коричневый
-        { ItemQuality.VeryBad, new Color(0.8f, 0.65f, 0.575f, 1f) },
-
-        // Bad: Осветлённая ржавчина с красным оттенком
-        { ItemQuality.Bad, new Color(0.875f, 0.7f, 0.65f, 1f) },
-
-        // Normal: Белый остался без изменений (и так максимально светлый)
-        { ItemQuality.Normal, new Color(1f, 1f, 1f, 1f) },
-
-        // Good: Осветлённый состаренный золотистый
-        { ItemQuality.Good, new Color(0.975f, 0.925f, 0.75f, 1f) },
-
-        // Excellent: Осветлённый полированный золотой
-        { ItemQuality.Excellent, new Color(0.975f, 0.9f, 0.65f, 1f) }
-    };
     #endregion
 
     #region Properties

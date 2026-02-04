@@ -7,15 +7,54 @@ using UnityEngine;
 
 public class RangeWeaponAction : WeaponActionController
 {
-
-
     private RangeWeaponStats rangeWeaponStats;
     private List<ItemStar> itemStarPatrons = new List<ItemStar>();
     private ItemMove currentPatron;
+    private TargetFinder targetFinder;
+    private float attackTimer = 0f;
+    private GameObject player;
+
+    [SerializeField] private List<ItemType> AmmoTypes = new List<ItemType>();
 
     protected override void Awake()
     {
         base.Awake();
+
+        // Ищем TargetFinder на игроке
+        player = PlayerDataManager.Instance?.playerCharacter;
+        if (player != null)
+        {
+            targetFinder = player.GetComponent<TargetFinder>();
+            if (targetFinder == null)
+            {
+                targetFinder = player.AddComponent<TargetFinder>();
+            }
+        }
+
+        // Ищем слоты для патронов
+        rangeWeaponStats = GetComponent<RangeWeaponStats>();
+        FindAmmoStars();
+    }
+
+    public override void Equip()
+    {
+        // Ищем TargetFinder на игроке
+        player = PlayerDataManager.Instance?.playerCharacter;
+        if (player != null)
+        {
+            targetFinder = player.GetComponent<TargetFinder>();
+            if (targetFinder == null)
+            {
+                targetFinder = player.AddComponent<TargetFinder>();
+            }
+        }
+
+        // Ищем слоты для патронов
+        rangeWeaponStats = GetComponent<RangeWeaponStats>();
+        FindAmmoStars();
+
+        isEquipped = true;
+        Debug.Log($"Auto weapon equipped: {gameObject.name}");
     }
 
     //private IEnumerator Initialize()
@@ -29,38 +68,26 @@ public class RangeWeaponAction : WeaponActionController
     //    rangeWeaponStats = GetComponent<RangeWeaponStats>();
     //    InitializeBase();
     //}
-
-    private bool CheckPatron()
+    private bool HasMatchingAmmoType(List<ItemType> starTypes)
     {
-        foreach(var item in itemStarPatrons)
+        foreach (var type in starTypes)
         {
-            if(item.CurrentItem != null && item.CurrentItem.GetComponent<ItemMove>() != null && item.CurrentItem.GetComponent<ItemMove>().StackCount>=1)
-            {
-                currentPatron = item.CurrentItem.GetComponent<ItemMove>();
+            if (AmmoTypes.Contains(type))
                 return true;
+        }
+        return false;
+    }
+    private void FindAmmoStars()
+    {
+        // Ищем ItemStar с подходящими типами патронов
+        var allStars = GetComponentsInChildren<ItemStar>();
+        foreach (var star in allStars)
+        {
+            if (HasMatchingAmmoType(star.AllowedItemTypes))
+            {
+                itemStarPatrons.Add(star);
             }
         }
-        currentPatron = null;
-        return false;
-    }
-    private bool HasMatchingItemType(List<ItemType> itemTypesToCheck)
-    {
-        List<ItemType> patrons = new List<ItemType>();
-        patrons.AddRange(getPatronsType());
-
-        foreach (var itemType in itemTypesToCheck)
-        {
-            if (patrons.Contains(itemType))
-                return true;
-        }
-        return false;
-    }
-    protected virtual List<ItemType> getPatronsType()
-    {
-        List<ItemType> patrons = new List<ItemType>();
-        patrons.Add(ItemType.Patron556x45);
-
-        return patrons;
     }
     private void InitializeBase()
     {
@@ -70,27 +97,153 @@ public class RangeWeaponAction : WeaponActionController
         damageMin = rangeWeaponStats.MinDamageRange;
         damageMax = rangeWeaponStats.MaxDamageRange;
         critDamageMelee = rangeWeaponStats.CritDamageRange;
-        baseAccuracy = rangeWeaponStats.AccuracyRange;
         baseCritChance = rangeWeaponStats.CritChanceRange;
 
         currentCooldown = cooldownTime;
         StartCooldown();
     }
-    private void SpendPatron()
+
+    // Обновляем логику для боя
+    public override void UpdateForBattle()
     {
-        currentPatron.StackCount--;
-        if(currentPatron.StackCount==0)
-        {
-            Destroy(currentPatron.gameObject);
-        }
-        InitializeBase();
+        if (!isEquipped || !CheckPatron()) return;
+
+        base.UpdateForBattle();
     }
 
-
-    protected override void Attack()
+    protected override void ExecuteAction()
     {
-       
-      
+        if (targetFinder == null || !targetFinder.HasTarget) return;
+
+        Transform target = targetFinder.CurrentTarget;
+        if (target != null && IsTargetInRange(target))
+        {
+            Attack(target.position);
+            StartCooldown();
+            SpendPatron();
+        }
+    }
+
+    private bool IsTargetInRange(Transform target)
+    {
+        if (rangeWeaponStats == null) return false;
+
+        float distance = Vector2.Distance(transform.position, target.position);
+        return distance <= rangeWeaponStats.DistanceRadius;
+    }
+
+    private void Attack(Vector3 targetPosition)
+    {
+        if (rangeWeaponStats == null || player.transform == null) return;
+
+        if (rangeWeaponStats.ProjectilePrefab == null)
+        {
+            Debug.LogError($"No projectile prefab assigned to {gameObject.name}");
+            return;
+        }
+
+        // Создаем снаряды
+        for (int i = 0; i < rangeWeaponStats.ProjectileCount; i++)
+        {
+            CreateProjectile(targetPosition);
+        }
+
+        // Применяем износ прочности
+        ApplyWeaponDurabilityDamage();
+    }
+
+    private void CreateProjectile(Vector3 targetPos)
+    {
+        // Рассчитываем направление
+        Vector2 direction = (targetPos - player.transform.position).normalized;
+
+        // todo выстрелить примерно в том направлении в зависимости от разброса
+
+        // Создаем снаряд
+        GameObject projectileObj = Instantiate(
+            rangeWeaponStats.ProjectilePrefab,
+            player.transform.position,
+            Quaternion.identity
+        );
+
+        // Масштабируем
+        projectileObj.transform.localScale = Vector3.one * rangeWeaponStats.ProjectileSize;
+
+        // Инициализируем снаряд
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        if (projectile != null)
+        {
+            float damage = CalculateDamage();
+            projectile.Initialize(damage, rangeWeaponStats.ProjectileSpeed, transform);
+        }
+
+        // Задаем движение
+        Rigidbody2D rb = projectileObj.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = direction * rangeWeaponStats.ProjectileSpeed;
+        }
+
+        // Поворачиваем в направлении движения
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        projectileObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    private float CalculateDamage()
+    {
+        var weaponStats = GetComponent<RangeWeaponStats>();
+        if (weaponStats == null) return 10f;
+
+        float baseDamage = Random.Range(weaponStats.MinDamageRange, weaponStats.MaxDamageRange);
+
+        // Критический урон
+        if (Random.Range(0, 100) < weaponStats.CritChanceRange)
+        {
+            baseDamage *= (float)weaponStats.CritDamageRange / 100f;
+        }
+
+        return baseDamage;
+    }
+
+    private void ApplyWeaponDurabilityDamage()
+    {
+        var itemStats = GetComponent<ItemStats>();
+        if (itemStats != null)
+        {
+            itemStats.ApplyDamageDurability(1f); // 1 единица износа за выстрел
+        }
+    }
+
+    // Переопределяем проверку патронов для автоматического оружия
+    protected bool CheckPatron()
+    {
+        foreach (var star in itemStarPatrons)
+        {
+            if (star.CurrentItem != null)
+            {
+                var itemMove = star.CurrentItem.GetComponent<ItemMove>();
+                if (itemMove != null && itemMove.StackCount >= 1)
+                {
+                    currentPatron = itemMove;
+                    return true;
+                }
+            }
+        }
+        currentPatron = null;
+        return false;
+    }
+
+    // Переопределяем расход патрона
+    private void SpendPatron()
+    {
+        if (currentPatron != null)
+        {
+            currentPatron.StackCount--;
+            if (currentPatron.StackCount == 0)
+            {
+                Destroy(currentPatron.gameObject);
+            }
+        }
     }
 
 

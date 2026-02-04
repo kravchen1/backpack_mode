@@ -53,7 +53,7 @@ public class ChestTrigger : EnvironmentTrigger
         isWasActive = true;
         isOpened = true;
 
-        buttonsController.OpenInventory();
+        buttonsController.ToggleInventoryVisibility();
         canvasShop.SetActive(true);
 
         if (string.IsNullOrEmpty(PlayerPrefs.GetString(settingsKey, "")))

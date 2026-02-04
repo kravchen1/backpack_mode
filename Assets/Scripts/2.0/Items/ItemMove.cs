@@ -677,12 +677,15 @@ public class ItemMove : MonoBehaviour
         CorrectPosition();
         MoveToInventory();
         CacheOriginallyOccupiedCells();
+
+        EquipItem();
     }
 
     private void RevertPlacement()
     {
         RestoreOriginallyOccupiedCells();
         ReturnToOriginalPosition();
+        UnequipItem();
     }
 
     private void FillCellNestedObjects()
@@ -967,42 +970,6 @@ public class ItemMove : MonoBehaviour
     }
     #endregion
 
-    #region Weight Management
-    /// <summary>
-    /// Проверить, находится ли предмет в инвентаре
-    /// </summary>
-    private bool IsPlacedInInventory()
-    {
-        return transform.parent == _playerInventory.transform || IsInInventoryArea();
-    }
-
-    private bool IsInInventoryArea()
-    {
-        // Проверяем родителя на наличие тега InventoryPlayer
-        if (transform.parent != null)
-        {
-            return transform.parent.CompareTag("InventoryPlayer");
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    /// <summary>
-    /// Теоретический метод для удаления предмета со сцены с учетом веса
-    /// </summary>
-    public void RemoveItemFromScene()
-    {
-        // Очищаем ссылки в ячейках
-        ClearAllCellReferences();
-
-        // Уничтожаем объект
-        Destroy(gameObject);
-    }
-    #endregion
-
     #region Star System
     private void FindOtherItemStarsInInventory()
     {
@@ -1126,4 +1093,30 @@ public class ItemMove : MonoBehaviour
         return null;
     }
     #endregion
+
+    private void EquipItem()
+    {
+        // Проверяем различные типы оружия
+        var rangeWeapon = GetComponent<ItemActionController>();
+
+        if (rangeWeapon != null)
+        {
+            // Экипируем оружие
+            rangeWeapon.Equip();
+            Debug.Log($"Auto weapon auto-equipped: {gameObject.name}");
+        }
+    }
+
+    private void UnequipItem()
+    {
+        // Проверяем различные типы оружия
+        var rangeWeapon = GetComponent<ItemActionController>();
+
+        if (rangeWeapon != null)
+        {
+            // Экипируем оружие
+            rangeWeapon.Unequip();
+            Debug.Log($"Auto weapon auto-unequipped: {gameObject.name}");
+        }
+    }
 }

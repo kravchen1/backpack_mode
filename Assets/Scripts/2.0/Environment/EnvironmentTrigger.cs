@@ -130,7 +130,7 @@ public class EnvironmentTrigger : MonoBehaviour
         {
             if (canvasInventory.activeSelf)
             {
-                buttonsController.CloseInventory();
+                buttonsController.ToggleInventoryVisibility();
                 //canvasInventory.SetActive(false);
             }
         }

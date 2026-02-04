@@ -4,8 +4,7 @@ using UnityEditor;
 using System.IO;
 
 public class GroundTileReplacer : EditorWindow
-{
-    [MenuItem("Tools/Replace Ground Tiles")]
+{    [MenuItem("Tools/Replace Ground Tiles")]
     public static void ShowWindow()
     {
         GetWindow<GroundTileReplacer>("Ground Tile Replacer");

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
-public class MeleeWeaponStats : ItemStats, IMeleeWeapon
+public class MeleeWeaponStats : ItemStats
 {
     [Header("Melee Weapon Stats")]
     [HideInInspector][SerializeField] private int minDamage = 1;
     [HideInInspector][SerializeField] private int maxDamage = 5;
     [HideInInspector][SerializeField] private float coolDown = 3f;
     [HideInInspector][SerializeField] private float baseStamina = 2f;
-    [HideInInspector][SerializeField] private int accuracy = 75;
     [HideInInspector][SerializeField] private int critChance = 10;
     [HideInInspector][SerializeField] private int critDamage = 150;
 
@@ -34,12 +33,6 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
     {
         get => baseStamina;
         set => baseStamina = value;
-    }
-
-    public int AccuracyMelee
-    {
-        get => accuracy;
-        set => accuracy = value;
     }
 
     public int CritChanceMelee
@@ -79,10 +72,6 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
                 $"{critDamage}%",
                 $""),
 
-            new DescriptionTriple("Accuracy",
-                $"{accuracy}",
-                $""),
-
             new DescriptionTriple("Stamina",
                 $"{baseStamina/coolDown:0.0}",
                 $""),
@@ -103,8 +92,6 @@ public class MeleeWeaponStats : ItemStats, IMeleeWeapon
                 return $"{critChance}%";
             case "Crit Damage":
                 return $"{critDamage}%";
-            case "Accuracy":
-                return $"{accuracy}";
             case "Stamina Cost":
                 return $"{baseStamina:0.0}";
             default:

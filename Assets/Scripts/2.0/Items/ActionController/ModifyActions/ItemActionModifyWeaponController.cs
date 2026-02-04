@@ -176,11 +176,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
             stat.MaxDamageMelee = ApplyPercentageModifier(stat.MaxDamageMelee, weaponModStats.damageMeleeModifierPercentage);
         }
 
-        if (weaponModStats.accuracyMeleeModifierPercentage != 0)
-        {
-            stat.AccuracyMelee = ApplyPercentageModifier(stat.AccuracyMelee, weaponModStats.accuracyMeleeModifierPercentage);
-        }
-
         if (weaponModStats.critChanceMeleeModifierPercentage != 0)
         {
             stat.CritChanceMelee = ApplyPercentageModifier(stat.CritChanceMelee, weaponModStats.critChanceMeleeModifierPercentage);
@@ -206,11 +201,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         {
             stat.MinDamageMelee = ApplyValueModifier(stat.MinDamageMelee, weaponModStats.damageMeleeModifierValue);
             stat.MaxDamageMelee = ApplyValueModifier(stat.MaxDamageMelee, weaponModStats.damageMeleeModifierValue);
-        }
-
-        if (weaponModStats.accuracyMeleeModifierValue != 0)
-        {
-            stat.AccuracyMelee = ApplyValueModifier(stat.AccuracyMelee, weaponModStats.accuracyMeleeModifierValue);
         }
 
         if (weaponModStats.critChanceMeleeModifierValue != 0)
@@ -243,11 +233,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
             stat.MaxDamageMelee = RevertPercentageModifier(stat.MaxDamageMelee, weaponModStats.damageMeleeModifierPercentage);
         }
 
-        if (weaponModStats.accuracyMeleeModifierPercentage != 0)
-        {
-            stat.AccuracyMelee = RevertPercentageModifier(stat.AccuracyMelee, weaponModStats.accuracyMeleeModifierPercentage);
-        }
-
         if (weaponModStats.critChanceMeleeModifierPercentage != 0)
         {
             stat.CritChanceMelee = RevertPercentageModifier(stat.CritChanceMelee, weaponModStats.critChanceMeleeModifierPercentage);
@@ -273,11 +258,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         {
             stat.MinDamageMelee = RevertValueModifier(stat.MinDamageMelee, weaponModStats.damageMeleeModifierValue);
             stat.MaxDamageMelee = RevertValueModifier(stat.MaxDamageMelee, weaponModStats.damageMeleeModifierValue);
-        }
-
-        if (weaponModStats.accuracyMeleeModifierValue != 0)
-        {
-            stat.AccuracyMelee = RevertValueModifier(stat.AccuracyMelee, weaponModStats.accuracyMeleeModifierValue);
         }
 
         if (weaponModStats.critChanceMeleeModifierValue != 0)
@@ -312,11 +292,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
             stat.MaxDamageRange = ApplyPercentageModifier(stat.MaxDamageRange, weaponModStats.damageRangeModifierPercentage);
         }
 
-        if (weaponModStats.accuracyRangeModifierPercentage != 0)
-        {
-            stat.AccuracyRange = ApplyPercentageModifier(stat.AccuracyRange, weaponModStats.accuracyRangeModifierPercentage);
-        }
-
         if (weaponModStats.critChanceRangeModifierPercentage != 0)
         {
             stat.CritChanceRange = ApplyPercentageModifier(stat.CritChanceRange, weaponModStats.critChanceRangeModifierPercentage);
@@ -337,16 +312,21 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
             stat.BaseStaminaRange = ApplyPercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
         }
 
+        if (weaponModStats.projectileSpeedModifierPercentage != 0)
+        {
+            stat.ProjectileSpeed = ApplyPercentageModifier(stat.ProjectileSpeed, weaponModStats.projectileSpeedModifierPercentage);
+        }
+
+        if (weaponModStats.projectileSizeModifierPercentage != 0)
+        {
+            stat.ProjectileSize = ApplyPercentageModifier(stat.ProjectileSize, weaponModStats.projectileSizeModifierPercentage);
+        }
+
         // Range Value modifiers
         if (weaponModStats.damageRangeModifierValue != 0)
         {
             stat.MinDamageRange = ApplyValueModifier(stat.MinDamageRange, weaponModStats.damageRangeModifierValue);
             stat.MaxDamageRange = ApplyValueModifier(stat.MaxDamageRange, weaponModStats.damageRangeModifierValue);
-        }
-
-        if (weaponModStats.accuracyRangeModifierValue != 0)
-        {
-            stat.AccuracyRange = ApplyValueModifier(stat.AccuracyRange, weaponModStats.accuracyRangeModifierValue);
         }
 
         if (weaponModStats.critChanceRangeModifierValue != 0)
@@ -368,6 +348,31 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         {
             stat.BaseStaminaRange = ApplyValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
         }
+
+        if (weaponModStats.projectileCountModifierValue != 0)
+        {
+            stat.ProjectileCount = ApplyValueModifier(stat.ProjectileCount, weaponModStats.projectileCountModifierValue);
+        }
+
+        if (weaponModStats.spreadAngleModifierPercentage != 0)
+        {
+            stat.SpreadAngle = ApplyPercentageModifier(stat.SpreadAngle, weaponModStats.spreadAngleModifierPercentage);
+        }
+
+        if (weaponModStats.projectileSpeedModifierValue != 0)
+        {
+            stat.ProjectileSpeed = ApplyValueModifier(stat.ProjectileSpeed, weaponModStats.projectileSpeedModifierValue);
+        }
+
+        if (weaponModStats.projectileSizeModifierValue != 0)
+        {
+            stat.ProjectileSize = ApplyValueModifier(stat.ProjectileSize, weaponModStats.projectileSizeModifierValue);
+        }
+
+        if (weaponModStats.spreadAngleModifierValue != 0)
+        {
+            stat.SpreadAngle = ApplyValueModifier(stat.SpreadAngle, weaponModStats.spreadAngleModifierValue);
+        }
     }
 
     public void RevertRangeWeapon(RangeWeaponStats stat)
@@ -377,11 +382,6 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         {
             stat.MinDamageRange = RevertPercentageModifier(stat.MinDamageRange, weaponModStats.damageRangeModifierPercentage);
             stat.MaxDamageRange = RevertPercentageModifier(stat.MaxDamageRange, weaponModStats.damageRangeModifierPercentage);
-        }
-
-        if (weaponModStats.accuracyRangeModifierPercentage != 0)
-        {
-            stat.AccuracyRange = RevertPercentageModifier(stat.AccuracyRange, weaponModStats.accuracyRangeModifierPercentage);
         }
 
         if (weaponModStats.critChanceRangeModifierPercentage != 0)
@@ -404,16 +404,31 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
             stat.BaseStaminaRange = RevertPercentageModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierPercentage);
         }
 
+        if (weaponModStats.projectileSpeedModifierPercentage != 0)
+        {
+            stat.ProjectileSpeed = RevertPercentageModifier(stat.ProjectileSpeed, weaponModStats.projectileSpeedModifierPercentage);
+        }
+
+        if (weaponModStats.projectileSizeModifierPercentage != 0)
+        {
+            stat.ProjectileSize = RevertPercentageModifier(stat.ProjectileSize, weaponModStats.projectileSizeModifierPercentage);
+        }
+
+        if (weaponModStats.projectileCountModifierValue != 0)
+        {
+            stat.ProjectileCount = RevertValueModifier(stat.ProjectileCount, weaponModStats.projectileCountModifierValue);
+        }
+
+        if (weaponModStats.spreadAngleModifierPercentage != 0)
+        {
+            stat.SpreadAngle = RevertPercentageModifier(stat.SpreadAngle, weaponModStats.spreadAngleModifierPercentage);
+        }
+
         // Range Value modifiers
         if (weaponModStats.damageRangeModifierValue != 0)
         {
             stat.MinDamageRange = RevertValueModifier(stat.MinDamageRange, weaponModStats.damageRangeModifierValue);
             stat.MaxDamageRange = RevertValueModifier(stat.MaxDamageRange, weaponModStats.damageRangeModifierValue);
-        }
-
-        if (weaponModStats.accuracyRangeModifierValue != 0)
-        {
-            stat.AccuracyRange = RevertValueModifier(stat.AccuracyRange, weaponModStats.accuracyRangeModifierValue);
         }
 
         if (weaponModStats.critChanceRangeModifierValue != 0)
@@ -435,6 +450,22 @@ public class ItemActionModifyWeaponController : ItemActionModifyController
         {
             stat.BaseStaminaRange = RevertValueModifier(stat.BaseStaminaRange, weaponModStats.staminaRangeModifierValue);
         }
+
+        if (weaponModStats.projectileSpeedModifierValue != 0)
+        {
+            stat.ProjectileSpeed = RevertValueModifier(stat.ProjectileSpeed, weaponModStats.projectileSpeedModifierValue);
+        }
+
+        if (weaponModStats.projectileSizeModifierValue != 0)
+        {
+            stat.ProjectileSize = RevertValueModifier(stat.ProjectileSize, weaponModStats.projectileSizeModifierValue);
+        }
+
+        if (weaponModStats.spreadAngleModifierValue != 0)
+        {
+            stat.SpreadAngle = RevertValueModifier(stat.SpreadAngle, weaponModStats.spreadAngleModifierValue);
+        }
+
     }
     #endregion
 }

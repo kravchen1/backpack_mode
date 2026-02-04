@@ -42,7 +42,6 @@ public class MeleeWeaponAction : WeaponActionController
         damageMin       = meleeWeaponStats.MinDamageMelee;
         damageMax       = meleeWeaponStats.MaxDamageMelee;
         critDamageMelee = meleeWeaponStats.CritDamageMelee;
-        baseAccuracy    = meleeWeaponStats.AccuracyMelee;
         baseCritChance  = meleeWeaponStats.CritChanceMelee;
 
         currentCooldown = cooldownTime;

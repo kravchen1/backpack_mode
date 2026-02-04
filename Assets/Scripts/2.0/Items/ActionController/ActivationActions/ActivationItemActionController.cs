@@ -17,6 +17,11 @@ public abstract class ActivationItemActionController : ItemActionController
         base.Awake();
     }
 
+    private void Update()
+    {
+        UpdateForBattle();
+    }
+
     public virtual void UpdateForBattle()
     {
         if (itemStats.durability > 0)

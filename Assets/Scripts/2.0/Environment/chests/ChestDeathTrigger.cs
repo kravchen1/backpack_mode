@@ -65,7 +65,7 @@ public class ChestDeathTrigger : EnvironmentTrigger
         ChestOpen.SetActive(true);
         ChestClose.SetActive(false);
 
-        buttonsController.OpenInventory();
+        buttonsController.ToggleInventoryVisibility();
         canvasShop.SetActive(true);
 
         shopData.settingsKey = settingsKey;
